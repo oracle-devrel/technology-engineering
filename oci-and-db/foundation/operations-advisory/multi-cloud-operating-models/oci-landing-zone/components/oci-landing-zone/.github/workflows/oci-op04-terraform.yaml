@@ -6,12 +6,12 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'config/projects.json'
-      - 'op04_manage_project/*/*/generated/**'
+      - 'op04_manage_project/*/*/generated/iam.json'
   push:
     branches: [main]
     paths:
       - 'config/projects.json'
-      - 'op04_manage_project/*/*/generated/**'
+      - 'op04_manage_project/*/*/generated/iam.json'
 
 permissions:
   contents: read
@@ -71,8 +71,7 @@ jobs:
               awk -F/ '
                 $1 == "op04_manage_project" &&
                 $4 == "generated" &&
-                ($5 == "iam.json" ||
-                 $5 == "project-security-zone-exception.json") &&
+                $5 == "iam.json" &&
                 NF == 5 {
                   print $1 "/" $2 "/" $3
                 }
@@ -89,7 +88,7 @@ jobs:
           test "${#project_name}" -le 30
           for path in "${changed_files[@]}"; do
             case "$path" in
-              config/projects.json|"$root/generated/iam.json"|"$root/generated/project-security-zone-exception.json")
+              config/projects.json|"$root/generated/iam.json")
                 ;;
               *)
                 echo "OP04 accepts changes for exactly one project: $path" >&2
@@ -107,7 +106,7 @@ jobs:
             all(.[]; length == (unique | length))
           ' config/projects.json >/dev/null
           case "${#changed_files[@]}" in
-            1|2)
+            1)
               for path in "${changed_files[@]}"; do
                 test "$(git ls-tree "$HEAD_SHA" -- "$path" | \
                   awk '{print $1}')" = "100644"
@@ -121,12 +120,11 @@ jobs:
                 config/projects.json >/dev/null
               operation="maintenance"
               ;;
-            3)
+            2)
               printf '%s\n' "${changed_files[@]}" | sort | diff -u - \
                 <(printf '%s\n' \
                   "config/projects.json" \
-                  "$root/generated/iam.json" \
-                  "$root/generated/project-security-zone-exception.json" | sort)
+                  "$root/generated/iam.json" | sort)
               git show "$BASE_SHA:config/projects.json" \
                 > "$RUNNER_TEMP/projects-before.json"
               jq -n \
@@ -161,14 +159,9 @@ jobs:
               ' "$RUNNER_TEMP/project-change.json" >/dev/null; then
                 test "$(git ls-tree "$HEAD_SHA" -- config/projects.json | \
                   awk '{print $1}')" = "100644"
-                for path in \
-                  "$root/generated/iam.json" \
-                  "$root/generated/project-security-zone-exception.json"
-                do
-                  test "$(git ls-tree "$BASE_SHA" -- "$path" | \
-                    awk '{print $1}')" = "100644"
-                  test -z "$(git ls-tree "$HEAD_SHA" -- "$path")"
-                done
+                test "$(git ls-tree "$BASE_SHA" -- "$root/generated/iam.json" | \
+                  awk '{print $1}')" = "100644"
+                test -z "$(git ls-tree "$HEAD_SHA" -- "$root/generated/iam.json")"
                 operation="retirement"
               else
                 echo "OP04 three-file changes must add or retire exactly one project." >&2
@@ -176,7 +169,7 @@ jobs:
               fi
               ;;
             *)
-              echo "OP04 accepts one or two maintenance artifacts, one three-file addition, or one three-file retirement." >&2
+              echo "OP04 accepts one maintenance artifact, one two-file addition, or one two-file retirement." >&2
               exit 1
               ;;
           esac
@@ -222,16 +215,11 @@ jobs:
             git -C "$GITHUB_WORKSPACE/request" show \
               "$BASE_SHA:$OP04_ROOT/generated/iam.json" \
               > "$RUNNER_TEMP/base-op04-iam.json"
-            git -C "$GITHUB_WORKSPACE/request" show \
-              "$BASE_SHA:$OP04_ROOT/generated/project-security-zone-exception.json" \
-              > "$RUNNER_TEMP/base-project-security-zone-exception.json"
             iam_input="$RUNNER_TEMP/base-op04-iam.json"
-            exception_input="$RUNNER_TEMP/base-project-security-zone-exception.json"
           else
             cp "$GITHUB_WORKSPACE/request/config/projects.json" \
               "$render_config/projects.json"
             iam_input="$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/iam.json"
-            exception_input="$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/project-security-zone-exception.json"
           fi
           mapfile -t environments < <(
             cd "$render_config"
@@ -259,9 +247,6 @@ jobs:
             diff -u \
               "$regenerated/$OP04_ROOT/generated/iam.json" \
               "$iam_input"
-            diff -u \
-              "$regenerated/$OP04_ROOT/generated/project-security-zone-exception.json" \
-              "$exception_input"
           fi
           jq -e '
             keys == [
@@ -269,30 +254,7 @@ jobs:
               "identity_domain_groups_configuration"
             ]
           ' "$iam_input" >/dev/null
-          jq -e '
-            keys == [
-              "environment_compartment_key",
-              "environment_security_zone_display_name",
-              "project_compartment_key",
-              "schema_version"
-            ] and
-            .schema_version == 2 and
-            all(
-              [
-                .environment_compartment_key,
-                .environment_security_zone_display_name,
-                .project_compartment_key
-              ][];
-              type == "string" and length > 0
-            )
-          ' "$exception_input" >/dev/null
-          jq -e --slurpfile exception \
-            "$exception_input" '
-              .compartments_configuration.compartments |
-              keys == [$exception[0].project_compartment_key]
-            ' "$iam_input" >/dev/null
-          if rg -n '__[A-Za-z0-9_]+__' \
-            "$iam_input" "$exception_input"; then
+          if rg -n '__[A-Za-z0-9_]+__' "$iam_input"; then
             echo "Unresolved OP04 placeholder." >&2
             exit 1
           fi
@@ -499,17 +461,6 @@ jobs:
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" plan \
             "${plan_args[@]}"
 
-      - name: Preview delegated project Security Zone exception
-        if: >-
-          github.event_name == 'pull_request_target' &&
-          steps.target.outputs.operation != 'retirement'
-        shell: bash
-        run: |
-          set -euo pipefail
-          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
-          Project Security Zone exception: pending post-merge removal for the delegated project compartment.
-          EOF
-
       - name: Preview OP04 project retirement
         if: >-
           github.event_name == 'pull_request_target' &&
@@ -521,72 +472,6 @@ jobs:
           Project retirement: the reviewed Terraform destroy plan targets only this project's isolated OP04 state.
           EOF
 
-      - name: Remove the detached Cloud Guard Target before retirement
-        if: >-
-          github.event_name == 'push' &&
-          github.ref == 'refs/heads/main' &&
-          steps.target.outputs.operation == 'retirement'
-        shell: bash
-        env:
-          OP04_ROOT: ${{ steps.target.outputs.root }}
-          OCI_CLI_AUTH: instance_principal
-          OCI_CLI_REGION: ${{ vars.REGION }}
-        run: |
-          set -euo pipefail
-          exception_file="$RUNNER_TEMP/base-project-security-zone-exception.json"
-          project_compartment_key="$(jq -er '.project_compartment_key' "$exception_file")"
-          project_outputs="$(
-            terraform -chdir="$GITHUB_WORKSPACE/ORCH" output -json
-          )"
-          if ! jq -e 'has("iam_resources")' <<< "$project_outputs" >/dev/null; then
-            echo "Project retirement Cloud Guard Target: already reconciled with partial state." \
-              >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          project_compartment_id="$(jq -er \
-            --arg key "$project_compartment_key" \
-            '.iam_resources.value.compartments[$key].id' \
-            <<< "$project_outputs")"
-          resources="$(
-            oci search resource structured-search \
-              --query-text "query all resources where compartmentId = '$project_compartment_id'" \
-              --limit 1000
-          )"
-          mapfile -t target_ids < <(
-            jq -r '
-              .data.items[]? |
-              select(.["resource-type"] == "CloudGuardTarget") |
-              .identifier
-            ' <<< "$resources"
-          )
-          case "${#target_ids[@]}" in
-            0)
-              echo "Project retirement Cloud Guard Target: absent." \
-                >> "$GITHUB_STEP_SUMMARY"
-              ;;
-            1)
-              target="$(
-                oci cloud-guard target get --target-id "${target_ids[0]}"
-              )"
-              jq -e --arg project_compartment_id "$project_compartment_id" '
-                .data["target-resource-id"] == $project_compartment_id and
-                .data["target-resource-type"] == "COMPARTMENT" and
-                .data["compartment-id"] == $project_compartment_id and
-                .data["lifecycle-state"] == "ACTIVE"
-              ' <<< "$target" >/dev/null
-              oci cloud-guard target delete \
-                --target-id "${target_ids[0]}" \
-                --force \
-                --wait-for-state DELETED
-              echo "Project retirement Cloud Guard Target: removed." \
-                >> "$GITHUB_STEP_SUMMARY"
-              ;;
-            *)
-              echo "Expected at most one Cloud Guard Target for the retiring project compartment." >&2
-              exit 1
-              ;;
-          esac
-
       - name: Apply the same OP04 plan after merge
         if: >-
           github.event_name == 'push' &&
@@ -595,116 +480,6 @@ jobs:
         run: |
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" apply \
             -input=false -no-color -auto-approve "$RUNNER_TEMP/op04.tfplan"
-
-      - name: Resolve delegated project Security Zone exception
-        if: >-
-          github.event_name == 'push' &&
-          github.ref == 'refs/heads/main' &&
-          steps.target.outputs.operation != 'retirement'
-        shell: bash
-        env:
-          OP04_ROOT: ${{ steps.target.outputs.root }}
-          OCI_CLI_AUTH: instance_principal
-          OCI_CLI_REGION: ${{ vars.REGION }}
-        run: |
-          set -euo pipefail
-          exception_file="$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/project-security-zone-exception.json"
-          project_compartment_key="$(jq -er '.project_compartment_key' "$exception_file")"
-          environment_key="$(jq -er '.environment_compartment_key' "$exception_file")"
-          environment_zone_name="$(jq -er '.environment_security_zone_display_name' "$exception_file")"
-          project_output="$(
-            terraform -chdir="$GITHUB_WORKSPACE/ORCH" output -json \
-              iam_resources
-          )"
-          project_compartment_id="$(jq -er \
-            --arg key "$project_compartment_key" \
-            '.compartments[$key].id' \
-            <<< "$project_output")"
-          project_compartment_ids_json="$(jq -cer \
-            --arg root_id "$project_compartment_id" '
-              [
-                .compartments[] |
-                select(.id == $root_id or .compartment_id == $root_id) | .id
-              ] |
-              unique |
-              if length >= 1 then .
-              else error("Expected the project root compartment")
-              end
-            ' <<< "$project_output")"
-          mapfile -t project_compartment_ids < <(
-            jq -r '.[]' <<< "$project_compartment_ids_json"
-          )
-          environment_compartment_id="$(jq -er \
-            --arg key "$environment_key" \
-            '.compartments[$key].id' \
-            "$RUNNER_TEMP/compartments-dependency.json")"
-          zones="$(
-            oci cloud-guard security-zone-collection list-security-zones \
-              --compartment-id "$environment_compartment_id" \
-              --display-name "$environment_zone_name" \
-              --lifecycle-state ACTIVE \
-              --all
-          )"
-          zone_id="$(jq -er \
-            --arg display_name "$environment_zone_name" \
-            --arg compartment_id "$environment_compartment_id" '
-              [
-                .data.items[]? |
-                select(
-                  .["display-name"] == $display_name and
-                  .["compartment-id"] == $compartment_id and
-                  .["lifecycle-state"] == "ACTIVE"
-                ) |
-                .id
-              ] |
-              if length == 1 then .[0]
-              else error("Expected exactly one active environment Security Zone")
-              end
-            ' <<< "$zones")"
-          result="already present"
-          for project_compartment_id in "${project_compartment_ids[@]}"; do
-            for attempt in {1..24}; do
-              zone="$(
-                oci cloud-guard security-zone get --security-zone-id "$zone_id"
-              )"
-              if ! jq -e --arg id "$project_compartment_id" \
-                '.data["inherited-by-compartments"] | index($id) != null' \
-                <<< "$zone" >/dev/null; then
-                break
-              fi
-              if remove_output="$(oci cloud-guard security-zone remove \
-                --security-zone-id "$zone_id" \
-                --compartment-id "$project_compartment_id" 2>&1)"; then
-                result="applied"
-                break
-              fi
-              if ! rg -Fq 'Security Zone not in ACTIVE state' \
-                <<< "$remove_output"; then
-                printf '%s\n' "$remove_output" >&2
-                exit 1
-              fi
-              if [ "$attempt" -lt 24 ]; then
-                sleep 5
-              fi
-            done
-          done
-          for attempt in {1..24}; do
-            verified_zone="$(
-              oci cloud-guard security-zone get --security-zone-id "$zone_id"
-            )"
-            if jq -e --argjson ids "$project_compartment_ids_json" \
-              'any(.data["inherited-by-compartments"][]?; . as $id | $ids | index($id) != null) | not' \
-              <<< "$verified_zone" >/dev/null; then
-              printf 'Project Security Zone exception: %s.\n' "$result" \
-                >> "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
-            if [ "$attempt" -lt 24 ]; then
-              sleep 5
-            fi
-          done
-          echo "Security Zone inheritance did not converge." >&2
-          exit 1
 
   handoff:
     name: Generate project handoff after OP04
