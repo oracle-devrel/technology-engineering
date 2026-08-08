@@ -20,6 +20,36 @@ administrative access and begin work only after OP04. The project handoff is the
 only contract with the Multi-Cloud Control Plane; it carries identifiers and
 network references, never credentials.
 
+## Runner and identity isolation
+
+This architecture uses two separate compute instances, not two runners on one
+VM. Each instance has its own OCI Instance Principal and belongs to a different
+dynamic group.
+
+| Boundary | Foundation runner | Project runner |
+|---|---|---|
+| Creation | Manual, in the bootstrap procedure | OP03 infrastructure stage |
+| OCI identity | Exact-instance foundation dynamic group | `dg-mccp-platform-runner`, restricted to the exact OP03 instance |
+| GitHub use | Foundation repository, operated by Cloud Operators | Only repositories selected in the project runner group after handoff |
+| State boundary | Private foundation-state bucket; OP00–OP04 isolated by state key | Separate private project-state bucket for project workload state |
+| OCI authority | Approved Landing Zone operations through OP04 | Fixed environment-scoped Compute, ADB, and project-NSG actions only |
+
+The Project Team never receives the foundation runner, its Instance Principal,
+the foundation-state bucket, or a tenancy-administrative policy. Project code
+can invoke only the APIs allowed to the Project runner's Instance Principal;
+changing a project workflow cannot expand that environment-level OCI IAM
+boundary. The project handoff contains the selected project compartment and
+network references needed within that boundary, not access to foundation state
+or Landing Zone control.
+
+The MVP deliberately uses one Project runner identity for the selected
+repositories. Its fixed policies cover the environment's `PROJECTS` subtree,
+so GitHub repository selection does not create OCI isolation between projects
+using that identity. This is sufficient to separate Project Teams from
+foundation administration. A requirement for project-to-project OCI isolation
+needs a separately designed runner identity and policy boundary per project or
+trust domain; it is outside the current MVP scope.
+
 ## State isolation
 
 All phases may share one protected OCI Object Storage bucket, but each uses a

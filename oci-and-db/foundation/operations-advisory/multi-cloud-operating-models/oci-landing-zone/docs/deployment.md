@@ -86,6 +86,12 @@ replaces it at runtime with the unique spokes route-table OCID read from
 protected OP01 state and fails closed if the dependency is missing or
 ambiguous.
 
+Before continuing, record the reviewed deployment decisions alongside the pull
+request: customer organization, foundation repository, OCI region, hub and
+environment CIDRs, foundation and project state-bucket names, first
+environment, first project, and whether MCCP is hosted in this tenancy. These
+are customer inputs; do not turn them into hand-edited generated JSON.
+
 ## 3. Create the protected GitHub repository
 
 Create the local repository while every operation remains disabled:

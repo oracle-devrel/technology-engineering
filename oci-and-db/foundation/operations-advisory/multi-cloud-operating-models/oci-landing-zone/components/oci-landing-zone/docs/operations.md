@@ -17,6 +17,17 @@ first OP02: OCI compiles the OP02 runner policies against the existing dynamic
 group. OP02 repeats per environment. OP04 accepts one project target per run
 and remains a Cloud Operator operation.
 
+## Frequency and dependency
+
+| Phase | How often | Required predecessor |
+|---|---|---|
+| Bootstrap readiness | Once before automation, and again after bootstrap changes | Private runner and state boundary |
+| OP00 | Once per tenancy; amend only when tenancy-wide IAM changes | Bootstrap readiness |
+| OP01 | Start once at `core`, then advance through `pre` and `final` as environments are promoted | OP00; a protected environment blueprint before `pre` and `final` |
+| OP03 | Once when MCCP is hosted in this tenancy; `infrastructure` then `identity` | OP01 `core`; focused OP01 Bastion update before `identity` |
+| OP02 | Once for every environment | OP03 `identity` when hosted here; otherwise OP01 `core` |
+| OP04 | Once for every project in an existing environment | Successful OP02 and OP01 `final` for that environment |
+
 The generated OP01 final security configuration intentionally omits the
 reviewed OE `master` `SZ-TGT-LZ-SHARED-NETWORK-KEY` child target. OCI requires a Compute
 instance and its subnet to belong to the same Security Zone. The shared network

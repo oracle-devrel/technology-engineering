@@ -4,6 +4,16 @@ This procedure establishes the smallest trusted boundary needed to deploy the
 official OCI Landing Zone Operating Entities blueprint. Bootstrap readiness is
 read-only; Terraform starts at OP00.
 
+## Deployment order at a glance
+
+After this bootstrap procedure and its read-only readiness check, use reviewed
+pull requests in this order: OP00, OP01 `core`, then—when MCCP is hosted in
+this tenancy—OP03 `infrastructure`, the focused OP01 Bastion network update,
+and OP03 `identity`. Only then deploy the first OP02 environment. Review and
+promote its environment blueprint, then run OP01 `pre`, OP01 `final`, and one
+OP04 project. OP02 repeats for each additional environment; OP04 repeats for
+each additional project.
+
 ## 1. Verify administrator access
 
 Use an approved OCI administrator identity only for the initial runner, state

@@ -15,8 +15,8 @@ Run the phases in order for a new tenancy:
 | Bootstrap readiness | Private foundation runner, Instance Principal, tools, and state access verified without changing OCI |
 | OP00 | Tenancy-wide administrative groups and policies |
 | OP01 | Shared landing-zone compartments, network, and security |
+| OP03 | Platform foundation, when hosted in this tenancy; complete its `infrastructure` and `identity` stages before the first OP02 |
 | OP02 | One governed environment and its project network |
-| OP03 | Platform foundation, when hosted in this tenancy |
 | OP04 | One official OE project compartment, group, policies, and handoff |
 
 OP00–OP04 have separate Terraform state and dedicated workflows under
