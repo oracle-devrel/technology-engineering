@@ -7,8 +7,8 @@ so reviewers can understand the scope of each plan.
 flowchart LR
   B[Bootstrap readiness] --> O0[OP00 global IAM]
   O0 --> O1[OP01 shared foundation]
-  O1 --> O2[OP02 environment]
-  O2 -. optional .-> O3[OP03 platform]
+  O1 --> O3[OP03 platform, when hosted here]
+  O3 --> O2[OP02 environment]
   O2 --> O4[OP04 project]
   O4 --> H[Project handoff]
 ```
@@ -43,12 +43,14 @@ has no Terraform state.
 
 ## Official blueprint boundary
 
-OE `v3.1.0` owns the hierarchy, naming, and standard IAM definitions. The local
-Jsonnet adapter projects its output into the OP00–OP04 state boundaries and
-adds only the MCCP runner policies that OE does not provide. It emits no OSMS
-service statement; OS Management Hub access uses separately scoped policies.
+The reviewed OCI Landing Zone Operating Entities `master` revision owns the
+hierarchy, naming, standard IAM definitions, and TBAC add-on semantics. The
+local Jsonnet adapter parameterizes the official TBAC example for the project
+catalogue, projects it into OP00–OP04 state boundaries, and adds only the MCCP
+runner policies that OE does not provide. It emits no OSMS service statement;
+OS Management Hub access uses separately scoped policies.
 
-OE `v3.1.0` also emits a child-specific Security Zone for the shared network
+The reviewed OE `master` revision also emits a child-specific Security Zone for the shared network
 compartment in addition to the parent CIS zone. OCI prohibits a platform
 resource in the parent zone from using a subnet in that child zone. Until the
 upstream generator places dependent resources under one common zone, the
@@ -57,18 +59,12 @@ and platform resources therefore inherit the same CIS Level 1 zone from
 `CMP-LANDINGZONE-KEY`; the environment-level zone remains unchanged.
 
 The delegated project compartment is a different MCCP ownership boundary. OP04
-creates it below the environment's `PROJECTS` compartment. Its generated,
-reviewable `project-security-zone-exception.json` declaration identifies the
-child and inherited environment zone for the protected post-apply workflow to
-reconcile. It removes only that project child from inherited Security Zone
-enforcement. The foundation, environment, shared network, and platform zones
-remain enforced. OCI retains a standard Cloud Guard target for the removed
-delegated project compartment, while the Project Team's governed pull-request
-workflow can manage the approved project NSG lifecycle, including deletion.
-This is an explicit MCCP adapter behavior; OE `v3.1.0` does not model the
-project exception.
+creates it below the environment's `PROJECTS` compartment, where it and the
+shared project network retain the same inherited Security Zone boundary. This
+keeps the project aligned with the reviewed OE topology and avoids custom
+per-project Security Zone or Cloud Guard operations.
 
-OE `v3.1.0` derives an example Bastion SSH source by adding host offset `123`
+The reviewed OE `master` revision derives an example Bastion SSH source by adding host offset `123`
 to the Hub management subnet. OCI Bastion assigns its private endpoint
 dynamically, so that example is not an executable access contract. The
 protected adapter removes the example when
@@ -80,24 +76,21 @@ The adapter derives every DRG route-distribution statement key from its owning
 distribution. This preserves the Hub E routes while satisfying the official
 networking module's globally unique flattened-statement key contract.
 
-The OE model creates one project compartment under the environment's
-`PROJECTS` compartment. Application, database, and infrastructure values in the
-handoff are logical role aliases and contain the same project
-compartment OCID. The application, database, and infrastructure *subnets*
-remain distinct because they are part of the official project-network model.
-The MCCP runner extension grants project NSG management in that exact project
-compartment. It does not grant NSG management across the shared environment
-network compartment; the project manifest combines the handed-off project
-compartment OCID with the handed-off shared VCN OCID.
+The official TBAC model creates a project root below the environment's
+`PROJECTS` compartment with Application, Database, and Infrastructure children.
+Human groups and target compartments use the `tn-lzp-proj-role` defined tags;
+the generic official TBAC policies compare principal-group and target-compartment
+tags. The schema-3 handoff exposes four distinct OCIDs: the root plus the three
+workload targets. Compute uses Application, ADB uses Database, and NSGs use
+Infrastructure. The MCCP runner extension remains a narrow dynamic-group
+exception and does not grant a human TBAC role.
 
-The adapter attaches the project-specific GitOps policy inside the exact
-project compartment, alongside the human administrator policy created by OE.
-The policy and project therefore share one OP04 lifecycle boundary. Retiring
-one project cannot alter a sibling project's policy reference. The shared
-network and security GitOps policies remain attached to the environment
-compartment because their statements target the environment's shared
-`NETWORK` and `SECURITY` child compartments. Each policy still grants access
-only to its named target.
+OP02 creates one fixed set of three GitOps runner policies for each
+environment: the `PROJECTS` subtree, shared `NETWORK`, and shared `SECURITY`.
+They cover only the MVP workload contracts—Compute, ADB, and project NSGs—and
+are not repeated for every project. The runner is a dynamic group rather than
+a human TBAC role; human access remains governed by the official TBAC
+policies. The environment-wide runner scope is intentional for this MVP.
 
 Creating or deleting a project NSG also changes its shared VCN. The network
 GitOps policy therefore adds OCI's narrowly conditioned `manage vcns` grant

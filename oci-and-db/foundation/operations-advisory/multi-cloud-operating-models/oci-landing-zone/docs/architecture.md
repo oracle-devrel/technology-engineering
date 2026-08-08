@@ -8,8 +8,8 @@ and makes approvals easier to understand.
 flowchart LR
   B[Bootstrap readiness] --> O0[OP00 tenancy IAM]
   O0 --> O1[OP01 shared landing zone]
-  O1 --> O2[OP02 environment]
-  O2 -. optional .-> O3[OP03 platform]
+  O1 --> O3[OP03 platform, when hosted here]
+  O3 --> O2[OP02 environment]
   O2 --> O4[OP04 project foundation]
   O4 --> H[Project handoff]
 ```
@@ -19,14 +19,16 @@ flowchart LR
   creates no OCI resource and has no Terraform state.
 - **OP00** configures tenancy-wide groups and policies.
 - **OP01** creates the shared landing-zone structure and network.
+- **OP03** creates the control-plane platform foundation. When it is hosted in
+  this tenancy, complete its infrastructure and identity stages before OP02.
 - **OP02** creates an environment such as production or development.
-- **OP03** creates the control-plane platform foundation.
-- **OP04** creates the official OE project compartment, group, and policies.
+- **OP04** creates the official OCI TBAC project root, role groups, and child
+  compartments.
 
-The project hierarchy follows OE `v3.1.0`: each environment has a `PROJECTS`
-container and each project has one compartment below it. The application,
-database, and infrastructure fields in the Control Plane handoff intentionally
-reference that same project compartment OCID.
+Each environment has a `PROJECTS` container. The official TBAC hierarchy places
+one project root below it with Application, Database, and Infrastructure child
+compartments. The Control Plane schema-3 handoff contains distinct OCIDs for
+each workload target.
 
 After OP04, the workflow produces `project-foundation-handoff.json` for the
 Control Plane and `environment_information.md` for your teams. The Landing Zone

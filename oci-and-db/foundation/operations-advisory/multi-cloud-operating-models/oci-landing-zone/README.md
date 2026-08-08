@@ -26,7 +26,9 @@ validators.
 - A private Git repository for your OCI foundation.
 - Reviewed Terraform plans before foundation changes are applied.
 - A read-only bootstrap readiness gate and separate state for OP00–OP04.
-- The official OE `v3.1.0` hierarchy, including one compartment per project.
+- The reviewed OCI Landing Zone OE `master` revision with the official TBAC
+  hierarchy: a project root plus Application, Database, and Infrastructure
+  child compartments.
 - JSON and Markdown handoff files after OP04.
 - An optional Codex app assistant for Cloud Operators.
 
@@ -62,6 +64,7 @@ Continue with:
 3. [Day-to-day operations](docs/operations.md)
 4. [Security](docs/security.md)
 5. [Optional Codex app assistant](docs/codex-app.md)
+6. [Customer organization adoption runbook](docs/customer-organization-runbook.md)
 
 ## License
 

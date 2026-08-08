@@ -21,7 +21,7 @@ project repository is created in [Project onboarding](#3-onboard-a-project).
 export STAGE=/tmp/control-plane
 export CUSTOMER_ORG=example-enterprise
 export PROJECT_STATE_BUCKET=example-project-state
-export OCI_ORCHESTRATOR_REF=34202e837e9df015ddaaa4fce0ab62bb6e3883de
+export OCI_ORCHESTRATOR_REF=fcf1d7f02c0b4faa1ff55f1776c396452dd51761
 export AZURE_ORCHESTRATOR_REF=mccp-v2.1.0
 export GCP_ORCHESTRATOR_REF=mccp-v2.1.0
 export PLATFORM_OWNER='@example-platform-owner'
@@ -59,7 +59,7 @@ bucket. When the Landing Zone asset creates the OP03 runner identity, its
 `PROJECT_STATE_BUCKET` repository variable and this value must match exactly.
 
 `OCI_ORCHESTRATOR_REF` pins OCI Landing Zones Orchestrator
-[`v2.1.3`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/v2.1.3).
+[`release-2.1.4`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4).
 The workflow uses that immutable commit.
 
 `AZURE_ORCHESTRATOR_REF` and `GCP_ORCHESTRATOR_REF` name the reviewed

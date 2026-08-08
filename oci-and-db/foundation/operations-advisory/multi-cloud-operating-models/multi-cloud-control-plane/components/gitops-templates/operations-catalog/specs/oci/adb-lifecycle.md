@@ -10,6 +10,10 @@ oci/<environment>/<region>/lifecycle_operations/adb-lifecycle.json
 This operation starts or stops one or more OCI Autonomous Databases already
 declared in Terraform state for the same environment and region.
 
+After the workflow has completed, clear the request by replacing the entire
+manifest with `{}`. The empty form is a governed no-op and contains no database
+target.
+
 | Field | What to provide | Allowed values or behavior |
 | --- | --- | --- |
 | `operation_type` | Operation identifier. | Always `adb-lifecycle`. |

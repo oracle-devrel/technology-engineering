@@ -104,14 +104,28 @@ def build_handoff_data(project, project_config, op04_output, blueprint):
         state_compartments,
         parent_key,
         "compartment",
-        "project compartment",
+        "project root compartment",
     )
+    parent = require_mapping(parents[parent_key], "project root compartment")
+    children = require_mapping(parent.get("children"), "project child compartments")
+    child_keys = {
+        "app": f"{parent_key[:-4]}-APP-KEY",
+        "database": f"{parent_key[:-4]}-DB-KEY",
+        "infrastructure": f"{parent_key[:-4]}-INFRA-KEY",
+    }
+    if set(children) != set(child_keys.values()):
+        raise HandoffError("generated OP04 project hierarchy is invalid")
     compartments = {
         role: {
-            "key": parent_key,
-            "ocid": project_ocid,
+            "key": child_key,
+            "ocid": require_ocid(
+                state_compartments,
+                child_key,
+                "compartment",
+                f"{role} compartment",
+            ),
         }
-        for role in ("app", "database", "infrastructure")
+        for role, child_key in child_keys.items()
     }
     network = require_mapping(blueprint.get("network"), "blueprint network")
     vcn = require_mapping(network.get("vcn"), "blueprint VCN")
@@ -122,6 +136,7 @@ def build_handoff_data(project, project_config, op04_output, blueprint):
         "project": project,
         "environment": environment,
         "region": blueprint["region"],
+        "project_root": {"key": parent_key, "ocid": project_ocid},
         "compartments": compartments,
         "vcn": vcn,
         "subnets": subnets,
@@ -130,7 +145,7 @@ def build_handoff_data(project, project_config, op04_output, blueprint):
 
 def render_markdown(data):
     _, project_name = validate_project(data["project"])
-    project_compartment = data["compartments"]["app"]
+    project_root = data["project_root"]
     subnet_labels = {
         "web": "Web subnet",
         "app": "App subnet",
@@ -154,17 +169,17 @@ validated `project-foundation-handoff.json` artifact.
 | Environment | {data['environment']} |
 | OCI region | {data['region']} |
 
-## OP04 project compartment
+## OP04 project hierarchy
 
 | Role | Logical key | OCID |
 |---|---|---|
-| App compartment | {project_compartment['key']} | {project_compartment['ocid']} |
-| DB compartment | {project_compartment['key']} | {project_compartment['ocid']} |
-| Infra compartment | {project_compartment['key']} | {project_compartment['ocid']} |
+| Project root | {project_root['key']} | {project_root['ocid']} |
+| App compartment | {data['compartments']['app']['key']} | {data['compartments']['app']['ocid']} |
+| DB compartment | {data['compartments']['database']['key']} | {data['compartments']['database']['ocid']} |
+| Infra compartment | {data['compartments']['infrastructure']['key']} | {data['compartments']['infrastructure']['ocid']} |
 
-The machine handoff's application, database, and infrastructure compartment
-fields are role aliases for this same OE project
-compartment.
+The application, database, and infrastructure fields in the machine handoff
+are distinct workload targets under the TBAC project root.
 
 ## OP02 network
 
@@ -210,11 +225,12 @@ def build_machine_handoff(
     ):
         raise HandoffError("handoff routing or provenance is invalid")
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "cloud": "oci",
         "project_slug": target_repository,
         "environment": environment,
         "region": data["region"],
+        "project_root_compartment": data["project_root"]["ocid"],
         "app_compartment": data["compartments"]["app"]["ocid"],
         "database_compartment": data["compartments"]["database"]["ocid"],
         "infrastructure_compartment":

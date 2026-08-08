@@ -8,7 +8,7 @@
   selected uppercase environment and resolve only from that environment's
   explicitly selected repository secret bundle.
 - Operate only in handed-off `nonprod-<project>` or `prod-<project>` repositories.
-- OCI, Azure, and Google support the governed Day 1 VM and ADB manifest contracts, including one-at-a-time removal. OCI also supports project NSGs and ADB start/stop in every supported environment. Refuse all Azure/GCP Day 2 requests.
+- OCI, Azure, and Google support the governed Day 1 VM and ADB manifest contracts, including one-at-a-time removal. OCI also supports project NSGs and ADB start/stop in every supported environment. Use `{}` only to clear a completed OCI ADB lifecycle request. Refuse all Azure/GCP Day 2 requests.
 - Use environment-aware aggregate paths under
   `{cloud}/{environment}/{region}/`. OCI ADB lifecycle requests use
   `oci/{environment}/{region}/lifecycle_operations/`; Google ADB-S Day 1 uses

@@ -19,8 +19,8 @@ class RetirementError(ValueError):
     """A stable, user-safe retirement validation failure."""
 
 
-def retirement_paths(project: str) -> tuple[str, str, str]:
-    """Return the only three paths a governed OP04 retirement may change."""
+def retirement_paths(project: str) -> tuple[str, str]:
+    """Return the only two paths a governed OP04 retirement may change."""
     match = PROJECT_RE.fullmatch(project)
     if match is None:
         raise RetirementError("The retirement project is invalid.")
@@ -28,7 +28,6 @@ def retirement_paths(project: str) -> tuple[str, str, str]:
     return (
         "config/projects.json",
         f"{root}/iam.json",
-        f"{root}/project-security-zone-exception.json",
     )
 
 
@@ -99,7 +98,7 @@ def _catalog(document: object) -> dict[str, list[str]]:
 
 
 def validate_retirement_change(repository: Path, base_ref: str, project: str) -> None:
-    """Require the exact catalog removal and two generated-file deletions."""
+    """Require the exact catalog removal and generated IAM-file deletion."""
     expected_paths = retirement_paths(project)
     statuses = {
         tuple(line.split("\t", 1))
@@ -117,10 +116,9 @@ def validate_retirement_change(repository: Path, base_ref: str, project: str) ->
     expected_statuses = {
         ("M", expected_paths[0]),
         ("D", expected_paths[1]),
-        ("D", expected_paths[2]),
     }
     if statuses != expected_statuses:
-        raise RetirementError("Retirement must change exactly the three governed paths.")
+        raise RetirementError("Retirement must change exactly the two governed paths.")
 
     try:
         base_catalog = _catalog(json.loads(_git(repository, "show", f"{base_ref}:{expected_paths[0]}")))

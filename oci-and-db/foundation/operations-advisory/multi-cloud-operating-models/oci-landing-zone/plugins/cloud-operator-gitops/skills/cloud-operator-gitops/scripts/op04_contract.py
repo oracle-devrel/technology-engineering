@@ -18,7 +18,7 @@ PROJECT_RE = re.compile(
 )
 REGION_RE = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 RUNTIME_CONTRACT_PATH = ".github/project-onboarding-contract.json"
-OE_REVISION = "172809932c53467ab20ec6d1b44290a487211b36"
+OE_REVISION = "dab13856ba6701c45baafc163780bb76562c039a"
 
 
 class ContractError(ValueError):
@@ -86,7 +86,7 @@ def validate_runtime_contract(
         or contract.get("project_catalog") != "config/projects.json"
         or generator.get("repository")
         != "oci-landing-zones/oci-landing-zone-operating-entities"
-        or generator.get("release") != "v3.1.0"
+        or generator.get("release") != "master"
         or generator.get("revision") != OE_REVISION
         or generator.get("adapter") != "config/render.libsonnet"
     ):
@@ -110,8 +110,11 @@ def validate_runtime_contract(
 
 def expected_paths(project: str) -> tuple[str, str]:
     identity = validate_project(project)
+    root = (
+        "op04_manage_project/"
+        f"{identity.environment}/{identity.slug}/generated"
+    )
     return (
         "config/projects.json",
-        "op04_manage_project/"
-        f"{identity.environment}/{identity.slug}/generated/iam.json",
+        f"{root}/iam.json",
     )

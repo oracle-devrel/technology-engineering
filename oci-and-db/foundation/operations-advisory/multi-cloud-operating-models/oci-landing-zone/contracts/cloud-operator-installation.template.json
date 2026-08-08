@@ -1,9 +1,19 @@
 {
-  "schema_version": 1,
+  "schema_version": 3,
   "customer_org": "__CUSTOMER_ORG__",
-  "template_revisions": {
-    "shared_nonprod_v2": "__NONPROD_TEMPLATE_REF__",
-    "production": "__PROD_TEMPLATE_REF__"
+  "foundation": {
+    "repository": "__CUSTOMER_ORG__/__FOUNDATION_REPOSITORY__",
+    "branch": "main"
+  },
+  "project_templates": {
+    "shared_nonprod_v2": {
+      "repository": "__CUSTOMER_ORG__/__NONPROD_TEMPLATE_REPOSITORY__",
+      "revision": "__NONPROD_TEMPLATE_REVISION__"
+    },
+    "production": {
+      "repository": "__CUSTOMER_ORG__/__PROD_TEMPLATE_REPOSITORY__",
+      "revision": "__PROD_TEMPLATE_REVISION__"
+    }
   },
   "environments": [
     {"name": "__ENVIRONMENT__", "region": "__OCI_REGION__"}

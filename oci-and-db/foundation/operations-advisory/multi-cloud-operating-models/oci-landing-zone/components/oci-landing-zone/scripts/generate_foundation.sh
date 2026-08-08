@@ -3,8 +3,8 @@
 set -euo pipefail
 
 OE_REPOSITORY="https://github.com/oci-landing-zones/oci-landing-zone-operating-entities.git"
-OE_RELEASE="v3.1.0"
-OE_REVISION="172809932c53467ab20ec6d1b44290a487211b36"
+OE_RELEASE="master"
+OE_REVISION="dab13856ba6701c45baafc163780bb76562c039a"
 target="${1:-all}"
 for command in git jq jsonnet rg; do
   command -v "$command" >/dev/null || {
@@ -47,7 +47,7 @@ for environment in "${environments[@]}"; do
   done < <(jq -r --arg environment "$environment" \
     '.[$environment][]' config/projects.json)
 done
-jsonnet -J "$temporary_directory/oe/gen" \
+jsonnet -J "$temporary_directory/oe/gen" -J "$temporary_directory/oe" \
   --multi "$rendered" config/render.jsonnet
 
 if rg -n '__[A-Z0-9_]+__' config/customer.jsonnet; then

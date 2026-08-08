@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 env:
-  OE_REVISION: 172809932c53467ab20ec6d1b44290a487211b36
+  OE_REVISION: dab13856ba6701c45baafc163780bb76562c039a
   ORCHESTRATOR_REVISION: fcf1d7f02c0b4faa1ff55f1776c396452dd51761
 
 jobs:
@@ -211,6 +211,8 @@ jobs:
             "$render_config/render.jsonnet"
           cp "$GITHUB_WORKSPACE/trusted/config/render.libsonnet" \
             "$render_config/render.libsonnet"
+          cp "$GITHUB_WORKSPACE/trusted/config/tbac.libsonnet" \
+            "$render_config/tbac.libsonnet"
           cp "$GITHUB_WORKSPACE/request/config/customer.jsonnet" \
             "$render_config/customer.jsonnet"
           if [ "$OPERATION" = "retirement" ]; then
@@ -251,19 +253,20 @@ jobs:
             done < <(jq -r --arg environment "$environment" \
               '.[$environment][]' "$render_config/projects.json")
           done
-          jsonnet -J "$RUNNER_TEMP/oe/gen" \
+          jsonnet -J "$RUNNER_TEMP/oe/gen" -J "$RUNNER_TEMP/oe" \
             --multi "$regenerated" "$render_config/render.jsonnet"
-          diff -u \
-            "$regenerated/$OP04_ROOT/generated/iam.json" \
-            "$iam_input"
-          diff -u \
-            "$regenerated/$OP04_ROOT/generated/project-security-zone-exception.json" \
-            "$exception_input"
+          if [ "$OPERATION" != "retirement" ]; then
+            diff -u \
+              "$regenerated/$OP04_ROOT/generated/iam.json" \
+              "$iam_input"
+            diff -u \
+              "$regenerated/$OP04_ROOT/generated/project-security-zone-exception.json" \
+              "$exception_input"
+          fi
           jq -e '
             keys == [
               "compartments_configuration",
-              "identity_domain_groups_configuration",
-              "policies_configuration"
+              "identity_domain_groups_configuration"
             ]
           ' "$iam_input" >/dev/null
           jq -e '
@@ -532,13 +535,18 @@ jobs:
           set -euo pipefail
           exception_file="$RUNNER_TEMP/base-project-security-zone-exception.json"
           project_compartment_key="$(jq -er '.project_compartment_key' "$exception_file")"
-          project_output="$(
-            terraform -chdir="$GITHUB_WORKSPACE/ORCH" output -json iam_resources
+          project_outputs="$(
+            terraform -chdir="$GITHUB_WORKSPACE/ORCH" output -json
           )"
+          if ! jq -e 'has("iam_resources")' <<< "$project_outputs" >/dev/null; then
+            echo "Project retirement Cloud Guard Target: already reconciled with partial state." \
+              >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           project_compartment_id="$(jq -er \
             --arg key "$project_compartment_key" \
-            '.compartments[$key].id' \
-            <<< "$project_output")"
+            '.iam_resources.value.compartments[$key].id' \
+            <<< "$project_outputs")"
           resources="$(
             oci search resource structured-search \
               --query-text "query all resources where compartmentId = '$project_compartment_id'" \
@@ -612,6 +620,20 @@ jobs:
             --arg key "$project_compartment_key" \
             '.compartments[$key].id' \
             <<< "$project_output")"
+          project_compartment_ids_json="$(jq -cer \
+            --arg root_id "$project_compartment_id" '
+              [
+                .compartments[] |
+                select(.id == $root_id or .compartment_id == $root_id) | .id
+              ] |
+              unique |
+              if length >= 1 then .
+              else error("Expected the project root compartment")
+              end
+            ' <<< "$project_output")"
+          mapfile -t project_compartment_ids < <(
+            jq -r '.[]' <<< "$project_compartment_ids_json"
+          )
           environment_compartment_id="$(jq -er \
             --arg key "$environment_key" \
             '.compartments[$key].id' \
@@ -639,25 +661,39 @@ jobs:
               else error("Expected exactly one active environment Security Zone")
               end
             ' <<< "$zones")"
-          zone="$(
-            oci cloud-guard security-zone get --security-zone-id "$zone_id"
-          )"
-          if jq -e --arg id "$project_compartment_id" \
-            '.data["inherited-by-compartments"] | index($id) != null' \
-            <<< "$zone" >/dev/null; then
-            oci cloud-guard security-zone remove \
-              --security-zone-id "$zone_id" \
-              --compartment-id "$project_compartment_id"
-            result="applied"
-          else
-            result="already present"
-          fi
+          result="already present"
+          for project_compartment_id in "${project_compartment_ids[@]}"; do
+            for attempt in {1..24}; do
+              zone="$(
+                oci cloud-guard security-zone get --security-zone-id "$zone_id"
+              )"
+              if ! jq -e --arg id "$project_compartment_id" \
+                '.data["inherited-by-compartments"] | index($id) != null' \
+                <<< "$zone" >/dev/null; then
+                break
+              fi
+              if remove_output="$(oci cloud-guard security-zone remove \
+                --security-zone-id "$zone_id" \
+                --compartment-id "$project_compartment_id" 2>&1)"; then
+                result="applied"
+                break
+              fi
+              if ! rg -Fq 'Security Zone not in ACTIVE state' \
+                <<< "$remove_output"; then
+                printf '%s\n' "$remove_output" >&2
+                exit 1
+              fi
+              if [ "$attempt" -lt 24 ]; then
+                sleep 5
+              fi
+            done
+          done
           for attempt in {1..24}; do
             verified_zone="$(
               oci cloud-guard security-zone get --security-zone-id "$zone_id"
             )"
-            if ! jq -e --arg id "$project_compartment_id" \
-              '.data["inherited-by-compartments"] | index($id) != null' \
+            if jq -e --argjson ids "$project_compartment_ids_json" \
+              'any(.data["inherited-by-compartments"][]?; . as $id | $ids | index($id) != null) | not' \
               <<< "$verified_zone" >/dev/null; then
               printf 'Project Security Zone exception: %s.\n' "$result" \
                 >> "$GITHUB_STEP_SUMMARY"

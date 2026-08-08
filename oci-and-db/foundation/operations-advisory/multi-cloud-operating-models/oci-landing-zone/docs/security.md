@@ -41,15 +41,14 @@ from a push to protected `main` after merge. Keep all of these controls
 together; weakening one requires a new security review of the trigger model.
 
 The project handoff contains identifiers and network references only. Under the
-OE `v3.1.0` hierarchy, its application, database, and infrastructure
-compartment fields all identify the same project compartment. Its
-workflow cannot access or write a project repository. Project repository
-creation is a separate Control Plane responsibility.
-The OP04 MCCP runner extension limits project NSG management to that exact
-project compartment. It does not authorize NSG management across the shared
-environment network compartment. Its policies are attached to the immediate
-parent of each named target compartment because OCI resolves a named policy
-location relative to the policy attachment compartment.
+official TBAC hierarchy, it identifies a project root and distinct Application,
+Database, and Infrastructure compartments. Its workflow cannot access or write
+a project repository. Project repository creation is a separate Control Plane
+responsibility.
+The OP02 MCCP runner extension creates three fixed, environment-scoped policies
+for the `PROJECTS` subtree, shared `NETWORK`, and shared `SECURITY`. They are
+limited to the MVP Compute, ADB, and project-NSG contracts; they do not grant a
+human TBAC role or general VCN administration.
 The shared-VCN policy grants `manage vcns` only when the request operation is
 `CreateNetworkSecurityGroup` or `DeleteNetworkSecurityGroup`; general VCN
 administration remains outside the project runner boundary.

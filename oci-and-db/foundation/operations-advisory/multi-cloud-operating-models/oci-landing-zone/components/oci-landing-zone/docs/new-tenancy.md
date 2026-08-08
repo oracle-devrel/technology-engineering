@@ -303,10 +303,11 @@ Only the exact OP02 dependency marker tested above may remain. It is not a
 customer value: the OP02 workflow reads the unique spokes route-table OCID from
 protected OP01 state, replaces the marker in a temporary copy, and fails closed
 before Terraform if it cannot resolve it. Do not edit generated files manually.
-The protected workflow regenerates changed phases from OE `v3.1.0` and rejects
+The protected workflow regenerates changed phases from the reviewed OE `master`
+revision and rejects
 drift.
 
-The protected adapter also omits OE `v3.1.0`'s child-specific shared-network
+The protected adapter also omits the reviewed OE `master` revision's child-specific shared-network
 Security Zone target. This is a narrow workaround for the upstream template:
 OCI rejects a platform Compute instance in the parent CIS zone when its subnet
 is in the child zone. The shared network and platform hierarchies therefore
@@ -314,17 +315,10 @@ inherit the same parent CIS Level 1 zone, while environment zones remain
 unchanged. Review the OP01 final plan to confirm that no parent or environment
 Security Zone is removed.
 
-OP04 has a separate, explicit delegated project compartment boundary. After an
-approved OP04 apply creates the project child, the protected workflow removes
-only that child from inherited environment Security Zone enforcement and verifies
-the result. The parent and environment Security Zones remain enforced. OCI keeps
-a standard Cloud Guard target for the removed delegated project compartment, so
-monitoring continues while the governed project pull-request workflow can
-create, update, and delete approved project NSGs. Do not perform this action
-manually or grant the project runner Security Zone permissions. When the Cloud
-Operator retires that project through the three-file OP04 retirement change,
-the protected workflow verifies and removes only this detached target before it
-applies the reviewed compartment destroy plan.
+OP04 creates the official TBAC project hierarchy below the environment's
+`PROJECTS` compartment. Project workloads and the shared project network retain
+the same inherited Security Zone boundary; the workflow does not add per-project
+Security Zone or Cloud Guard operations.
 
 ## 4. Configure GitHub and run readiness
 
@@ -374,32 +368,31 @@ approval, merge, and verify the apply before continuing:
 
 1. Set OP00 `operation.json` to `"enabled": true`.
 2. Set OP01 to `"enabled": true, "stage": "core"`.
-3. Set the selected OP02 environment to `"enabled": true`.
-4. Download the successful OP02
+3. If MCCP execution is hosted in this tenancy, deploy OP03 with
+   `"stage": "infrastructure"`.
+4. Create its restricted OCI Bastion, record the assigned private endpoint
+   `/32` in `platform_bastion_private_endpoint_cidr`, and apply the focused
+   OP01 network update described below.
+5. Replace the OP03 identity placeholders, using `PROJECT_STATE_BUCKET` for
+   `__STATE_BUCKET_NAME__`, move OP03 to `"stage": "identity"`, and apply the
+   focused identity request with the foundation runner. OCI must create
+   `dg-mccp-platform-runner` before OP02 compiles its runner policies.
+6. Validate the new private runner and its Instance Principal identity. Leave
+   it unregistered until the project repository exists, then register it in an
+   organization runner group restricted to the selected project repositories.
+   This GitHub Free MVP uses that selected-repository scope; a paid plan can
+   add stronger environment and reviewer controls described in the final
+   hardening guide.
+7. Set the selected OP02 environment to `"enabled": true`.
+8. Download the successful OP02
    `project-onboarding-<environment>-<commit>` artifact, review it, and commit
    it to the protected blueprint path in
    `.github/project-onboarding-contract.json`.
-5. Move OP01 to `"stage": "pre"`.
-6. Move OP01 to `"stage": "final"`.
-7. If MCCP execution is hosted in this tenancy, deploy OP03 first with
-   `"stage": "infrastructure"`.
-8. Create its restricted OCI Bastion, record the assigned private endpoint
-   `/32` in `platform_bastion_private_endpoint_cidr`, and apply the focused
-   OP01 network update described below.
-9. Replace the OP03 identity placeholders, using `PROJECT_STATE_BUCKET` for
-   `__STATE_BUCKET_NAME__`, move OP03 to
-   `"stage": "identity"`, and apply the focused identity request with the
-   foundation runner.
-10. Validate the new private runner and its Instance Principal identity. Leave
-    it unregistered until the project repository exists, then register it in an
-    organization runner group restricted to the selected project repositories.
-    This GitHub Free MVP uses that selected-repository scope; a paid plan can
-    add stronger environment and reviewer controls described in the final
-    hardening guide.
+9. Move OP01 to `"stage": "pre"`.
+10. Move OP01 to `"stage": "final"`.
 11. Add one project name to `config/projects.json`, generate
-    `op04:<environment>-<project>`, and submit the three-file OP04 request:
-    the catalog change, `generated/iam.json`, and the generated,
-    reviewable version-2 `project-security-zone-exception.json` declaration.
+    `op04:<environment>-<project>`, and submit the two-file OP04 request:
+    the catalog change and generated `iam.json`.
 12. Create and hand off the project repository. Add it to the selected-
     repository runner group; do not grant the runner group to unrelated
     repositories.
@@ -508,20 +501,17 @@ path and that the environment values are visible to a diagnostic workflow.
 Verify `oci` and Ansible only after the execution action has installed them. Do
 not put tokens or secret bundles in either file.
 
-OP04 uses the official OE `v3.1.0` project model: one project compartment,
-one administrator group, and the OE policies. The MCCP runner policies are the
-only project-IAM extension. They grant NSG management only in the exact project
-compartment, never across the shared environment network compartment. The
-resulting handoff repeats the same project compartment OCID in its three
-workload-role aliases.
+OP04 uses the official OCI TBAC add-on model: a project root and Application,
+Database, and Infrastructure child compartments. Human project groups and their
+target compartments receive the `tn-lzp-proj-role` tags; generic TBAC policies
+govern those tags. The MCCP runner policies are the only project-IAM extension
+and remain narrow dynamic-group permissions. The schema-3 handoff contains the
+root and three distinct workload OCIDs.
 
-The project-specific GitOps policy is attached inside the exact project
-compartment, alongside the OE administrator policy. This keeps the project
-compartment, its policy, and its isolated OP04 state in one lifecycle boundary.
-The network and security GitOps policies remain attached to the environment
-compartment because they target the shared `NETWORK` and `SECURITY` child
-compartments. Do not move the project policy to the shared `PROJECTS` parent or
-broaden any of these named scopes.
+OP02 creates the three fixed GitOps runner policies once per environment: the
+`PROJECTS` subtree, shared `NETWORK`, and shared `SECURITY`. They support only
+the MVP Compute, ADB, and project-NSG contracts. OP04 keeps the official TBAC
+hierarchy and does not create per-project runner policies.
 
 OCI treats NSG create/delete as changes to both the NSG and its VCN. The
 network GitOps policy must retain the generated conditional `manage vcns`
@@ -532,9 +522,8 @@ to create an NSG in a project compartment against the shared environment VCN.
 When a protected adapter change modifies an existing project's generated IAM,
 first review and merge the adapter change without running project Terraform.
 Then regenerate `op04:<environment>-<project>` and submit a second pull request
-containing only the generated artifact or artifacts that changed:
-`generated/iam.json`, `project-security-zone-exception.json`, or both. The OP04
-workflow regenerates both artifacts from the protected default branch,
+containing only the regenerated `iam.json`. The OP04 workflow regenerates the
+artifact from the protected default branch,
 validates the submitted files, and reconciles only that project's existing
 OP04 state.
 

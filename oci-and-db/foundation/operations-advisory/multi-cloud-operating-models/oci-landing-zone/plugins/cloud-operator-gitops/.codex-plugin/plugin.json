@@ -1,6 +1,6 @@
 {
   "name": "cloud-operator-gitops",
-  "version": "2.1.0",
+  "version": "4.0.0",
   "description": "Governed OCI foundation onboarding, retirement, and artifact handoff for the Codex app",
   "author": {
     "name": "Oracle Operations Advisory"

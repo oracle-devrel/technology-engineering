@@ -21,7 +21,7 @@ from op04_contract import (
 
 
 def repository(value: str) -> Path:
-    path = Path(os.path.abspath(value))
+    path = Path(os.path.abspath(value)).resolve()
     if (
         not path.is_dir()
         or Path(git_text(path, "rev-parse", "--show-toplevel").strip()) != path
@@ -48,8 +48,8 @@ def main() -> int:
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
         if identity.project_name in catalog[identity.environment]:
             raise ContractError("The OP04 project already exists.")
-        _, manifest_relative = expected_paths(identity.slug)
-        if (repo / manifest_relative).exists():
+        _, iam_relative = expected_paths(identity.slug)
+        if (repo / iam_relative).exists():
             raise ContractError("The generated OP04 target already exists.")
         original = catalog_path.read_bytes()
         catalog[identity.environment].append(identity.project_name)

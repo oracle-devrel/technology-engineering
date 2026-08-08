@@ -62,10 +62,13 @@ Dedicated Region Cloud@Customer, government, and other non-`oc1` identifiers.
 - Keep OP04 under Cloud Operator ownership. Project Teams start after handoff.
 - Do not run local applies after the permanent GitOps flow is active.
 
-The configuration pins OE `v3.1.0`, Orchestrator `release-2.1.4`, and its OCI
-database module dependency to immutable revisions. Workflows install Terraform
-`1.15.8`. OE creates one compartment per project. The three workload-role
-aliases in the handoff all reference that same compartment.
+The configuration pins the reviewed OCI Landing Zone Operating Entities
+`master` revision and Orchestrator `release-2.1.4` to immutable revisions.
+That official Orchestrator release resolves its OCI database module dependency;
+this reference does not add a separate database-module pin. Workflows install Terraform `1.15.8`. The
+official TBAC add-on creates a project root with Application, Database, and
+Infrastructure child compartments; schema-3 handoffs provide their distinct
+workload OCIDs.
 
 After OP04, download `project-foundation-handoff.json` for the Multi-Cloud
 Control Plane and `environment_information.md` for the project team. Neither file

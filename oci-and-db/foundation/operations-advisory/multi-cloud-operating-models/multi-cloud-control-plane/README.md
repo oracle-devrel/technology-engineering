@@ -1,33 +1,45 @@
 # Multi-Cloud Control Plane
 
-## Introduction.
+## Introduction
 
-Managing multiple Cloud Providers, different OCI realms or tenancies, and/or private clouds at the same time is challenging. Multiple consoles, different management interfaces and tools, multiple services with their own endless options. Complexity scales.
+Managing multiple cloud providers, different OCI realms or tenancies, and/or
+private clouds at the same time is challenging. Multiple consoles, different
+management interfaces and tools, and multiple services with their own options
+increase complexity.
 
-How to track who did what, where and when, is also a problem. Tracing in case of incidents to know the root cause of a problem, gathered evidences or revert changes, becomes very difficult.
+Tracking who did what, where, and when is also a challenge. During incidents,
+tracing the root cause, gathering evidence, or reverting changes becomes more
+difficult.
 
-The existence of the multiple interfaces, manual steps, tools, automation, versions used facilitate unpredictable results.
+Multiple interfaces, manual steps, tools, automation, and versions can produce
+unpredictable results. This complexity affects team specialisation and the
+number of people needed in an organisation. Communication and coordination are
+key, and complexity can lead to long delivery times for new projects and
+workloads.
 
-This complexity affects how teams specialize and the number of people working in the organization. Communication and coordination is key and leads to long delivery times for new projects and workloads.
-
-All the previous points limit the scalability, increase the operational risk and offers a poor control.
-
-The **Multi-Cloud Control Plane** is a response on how Multi-Cloud environments can be managed from a central place, offering different interfaces to Cloud Operations or Project Teams to manage these complex environments, offering a **self-service** platform with **versioned**, **controlled**, **automated** and **traceable** changes along the whole lifecycle of the workloads.
+The Multi-Cloud Control Plane addresses this by providing a central way to
+manage multi-cloud environments. It offers Cloud Operations and Project Teams a
+self-service platform with versioned, controlled, automated, and traceable
+changes throughout the workload lifecycle.
 
 ## What is the Multi-Cloud Control Plane?
 
-The Multi-Cloud Control Plane is a solution that uses GitOps as an Operating Model to manage all Day 1 and Day 2 Operations for workloads in multiple cloud providers and regions from a same Git repository. It offer itself the needed governance to offer to Project Teams a self-service way to consume multi-cloud resources in a secure and scalable way.
+The Multi-Cloud Control Plane uses GitOps as an operating model to manage Day 1
+and Day 2 workload operations across cloud providers and regions from a common
+Git repository. It provides governance so Project Teams can consume
+multi-cloud resources in a secure and scalable way.
 
-It brings together the Operating Model of the organization, where the different roles and ownership is defined, who is going to be governed, with required approvals and with a built-in security aligned with organizational compliance needs; with the control plane, that make it real the implementation with the required approvals, and that abstract the complexity of the different providers allowing only the approved actions and options that Project teams can use.
-
-An high level overview can be seen below: 
+It combines the organisation's operating model — roles, ownership, required
+approvals, and compliance — with the control plane that enforces those approved
+delivery paths and abstracts provider complexity.
 
 ![The operating model defines roles, governance, approval, and compliance while the control plane enforces approved patterns and execution controls.](docs/images/governed-self-service-model.png)
 
-*The operating model defines the rules; the control plane implements and enforces the approved delivery path.*
+*The operating model defines the rules; the control plane implements and
+enforces the approved delivery path.*
 
-To get more information about GitOps, the Operating Model use in this Multi-Cloud Control Plane, check [this](../gitops/README.md).
-
+For more information about GitOps and the operating model used by this control
+plane, see [GitOps](../gitops/README.md).
 
 ## What your teams can manage
 
@@ -143,8 +155,5 @@ separate [production repository model](docs/production.md).
 
 ## License
 
-Copyright (c) 2026 Oracle and/or its affiliates.
-
-Licensed under the Universal Permissive License (UPL), Version 1.0.
-
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+Copyright (c) 2026 Oracle and/or its affiliates. Licensed under the Universal
+Permissive License, Version 1.0. See [LICENSE](LICENSE).

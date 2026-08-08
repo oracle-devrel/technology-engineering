@@ -26,8 +26,8 @@
   "project_catalog": "config/projects.json",
   "op04_generator": {
     "repository": "oci-landing-zones/oci-landing-zone-operating-entities",
-    "release": "v3.1.0",
-    "revision": "172809932c53467ab20ec6d1b44290a487211b36",
+    "release": "master",
+    "revision": "dab13856ba6701c45baafc163780bb76562c039a",
     "adapter": "config/render.libsonnet"
   }
 }

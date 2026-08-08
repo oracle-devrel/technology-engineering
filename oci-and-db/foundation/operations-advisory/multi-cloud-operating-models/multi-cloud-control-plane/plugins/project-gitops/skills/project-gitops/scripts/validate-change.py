@@ -53,6 +53,8 @@ ADB_VALIDATIONS = ("repository", "one-file-diff", "strict-json", "governed-adb-c
                    "secret-placeholder")
 LIFECYCLE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "state-backed-target", "start-stop-only")
+LIFECYCLE_CLEAR_VALIDATIONS = (
+    "repository", "one-file-diff", "strict-json", "clear-lifecycle")
 COMPUTE_VALIDATIONS = (
     "repository", "one-file-diff", "strict-json", "governed-vm-change",
     "declared-nsg-references",
@@ -121,7 +123,7 @@ class ValidationFailure(Exception):
         self.code, self.message = code, message
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class RepositoryChange:
     """One validated manifest modification relative to an immutable base commit."""
 
@@ -889,6 +891,7 @@ def validate_compute_change(change: RepositoryChange) -> dict[str, object]:
         (mutation_count != 1 and not is_replacement)
         or (
             candidate_compartment is not None
+            and base_compartment is not None
             and (
                 base_compartment != candidate_compartment
                 or base_ssh_path != candidate_ssh_path
@@ -1343,6 +1346,8 @@ def _database_path(environment: str, region: str) -> str:
 def _validate_lifecycle_change(candidate: object) -> Sequence[str]:
     if _has_sensitive_value(candidate):
         _failure("INVALID_SECRET_VALUE", "The lifecycle manifest contains a rejected value.")
+    if candidate == {}:
+        return LIFECYCLE_CLEAR_VALIDATIONS
     if not isinstance(candidate, dict) or set(candidate) != LIFECYCLE_ROOT_KEYS:
         _failure("INVALID_LIFECYCLE_CHANGE", "The lifecycle manifest is invalid.")
     targets = candidate.get("targets")
@@ -1385,7 +1390,7 @@ def _render_diff(path: str, base_content: bytes, candidate_content: bytes) -> st
     return diff
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class MCCPInstallation:
     """The immutable non-secret configuration that governs one Project GitOps run."""
 
@@ -1843,19 +1848,27 @@ def main(argv: list[str] | None = None) -> int:
         elif change.kind == "lifecycle_operations/adb-lifecycle.json":
             candidate = strict_json(change.candidate_content)
             validations = _validate_lifecycle_change(candidate)
-            validate_workload_compartment(
-                change.workload_compartments,
-                "database",
-                candidate["database_compartment_id"],
-            )
-            summary = {
-                "resource_type": "oci-adb",
-                "action": "lifecycle",
-                "environment": change.environment,
-                "region": change.region,
-                "compartment_id": candidate["database_compartment_id"],
-                "targets": candidate["targets"],
-            }
+            if candidate == {}:
+                summary = {
+                    "resource_type": "oci-adb",
+                    "action": "clear-lifecycle",
+                    "environment": change.environment,
+                    "region": change.region,
+                }
+            else:
+                validate_workload_compartment(
+                    change.workload_compartments,
+                    "database",
+                    candidate["database_compartment_id"],
+                )
+                summary = {
+                    "resource_type": "oci-adb",
+                    "action": "lifecycle",
+                    "environment": change.environment,
+                    "region": change.region,
+                    "compartment_id": candidate["database_compartment_id"],
+                    "targets": candidate["targets"],
+                }
             document = _success_document(
                 change, "adb-lifecycle", validations, summary
             )

@@ -1,8 +1,12 @@
 # Operations
 
-1. Validate `cloud-operator-installation.json` and active GitHub authentication.
+1. Parse `cloud-operator-installation.json` with `jq -e`, reject unresolved
+   placeholders, verify its schema 3 foundation selection and explicit
+   `project_templates` repository/revision pairs, then validate active GitHub
+   authentication.
 2. Resolve one canonical project slug and its allowed environment without inference.
-3. Read the configured environment blueprint from exact landing-zone `main`.
+3. Read the configured environment blueprint from the exact configured
+   foundation repository at `main`; require its provenance repository to match.
 4. Create a disposable clone and branch from exact `origin/main`.
 5. Add one project to the protected catalog, generate its canonical OP04 file
    from the pinned OE release, and run `validate-onboarding.py`.
@@ -12,12 +16,14 @@
 9. Download only that successful run's JSON and Markdown artifacts and validate
    them together with `validate-handoff.py`. Derive the target repository,
    layout, and handoff path only from its output.
-   Require the three workload-role compartment values to identify the same
-   official OE `v3.1.0` project compartment.
+   Require schema 3: a TBAC project root and distinct App, DB, and
+   Infrastructure compartment OCIDs.
 10. Resolve the exact template repository and immutable revision for that
-    layout from `cloud-operator-installation.json`. If the target is absent, preview
-    and separately confirm creation of one private repository, then verify its
-    initial tree matches the pinned template. If an exact shared
+    layout from `cloud-operator-installation.json`. If the target is absent,
+    preview and separately confirm creation of one private empty repository,
+    push the exact source revision as `main`, then verify the target commit and
+    tree match that source. Never use a default branch, template redirect, or
+    SHA-only repository discovery. If an exact shared
     non-production target already exists, reuse it; never recreate or
     overwrite it.
 11. For a new repository, create a unique
@@ -30,6 +36,14 @@
     the new validated environment handoff.
 12. Push the validated branch and conditionally open one PR. Stop before merge
     and report the repository, environment, handoff path, and PR state.
+13. When reporting a merged handoff for a GitHub Free private repository,
+    state that the next mandatory action is the documented per-repository
+    secret/variable bootstrap and organization-scoped private `platform-ci`
+    Actions access before Project GitOps. Do not receive, print, or set secret
+    values. State that `PROJECT_AUTOMATION_READY` is the last readiness
+    variable to enable and that the repository-secret end-to-end verification
+    must pass before a workload request. Never instruct a deploy key, personal
+    access token, or branch reference for Platform CI source access.
 
 Discard confirmation after interruption or Git drift. Never reuse an OP04
 confirmation for repository creation or handoff publication; each write stage
@@ -55,8 +69,7 @@ incomplete. Git declarations cannot prove whether a resource is currently runnin
 1. Resolve one handed-off environment and collect the required workload, lifecycle, teardown,
    CRQ, retention, repository-preservation, and human-approval evidence.
 2. Create a disposable landing-zone clone from exact `origin/main` and remove one project name
-   from its environment in `config/projects.json` plus that project's `generated/iam.json` and
-   `generated/project-security-zone-exception.json`.
+   from its environment in `config/projects.json` plus that project's generated `iam.json`.
 3. Run `validate-retirement.py --evidence <file> --repository <clone> --base-ref <sha> --project
    <environment>-<project>`. Stop if any other path or catalog value changed.
 4. Show the semantic preview and hashes, require fresh confirmation, revalidate, then push one

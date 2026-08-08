@@ -27,7 +27,7 @@ permissions:
   contents: read
 
 env:
-  OE_REVISION: 172809932c53467ab20ec6d1b44290a487211b36
+  OE_REVISION: dab13856ba6701c45baafc163780bb76562c039a
 
 jobs:
   generated-contract:
@@ -150,6 +150,8 @@ jobs:
             "$RUNNER_TEMP/render-config/render.jsonnet"
           cp "$GITHUB_WORKSPACE/trusted/config/render.libsonnet" \
             "$RUNNER_TEMP/render-config/render.libsonnet"
+          cp "$GITHUB_WORKSPACE/trusted/config/tbac.libsonnet" \
+            "$RUNNER_TEMP/render-config/tbac.libsonnet"
           cp "$GITHUB_WORKSPACE/request/config/customer.jsonnet" \
             "$RUNNER_TEMP/render-config/customer.jsonnet"
           cp "$GITHUB_WORKSPACE/request/config/projects.json" \
@@ -175,7 +177,7 @@ jobs:
               '.[$environment][]' \
               "$RUNNER_TEMP/render-config/projects.json")
           done
-          jsonnet -J "$RUNNER_TEMP/oe/gen" \
+          jsonnet -J "$RUNNER_TEMP/oe/gen" -J "$RUNNER_TEMP/oe" \
             --multi "$RUNNER_TEMP/regenerated" \
             "$RUNNER_TEMP/render-config/render.jsonnet"
 

@@ -69,15 +69,29 @@ def validate(
     base = git(repo, "rev-parse", f"{base_ref}^{{commit}}").strip()
     if SHA_RE.fullmatch(base) is None:
         raise RepositoryContractError("The base revision is invalid.")
-    if git(repo, "rev-parse", "HEAD^{commit}").strip() != base:
-        raise RepositoryContractError(
-            "The handoff branch must start at the exact protected base."
-        )
     initialization = load_initialization(
         installation_file,
         handoff_json,
         project,
     )
+    try:
+        template_revision = git(
+            repo,
+            "rev-parse",
+            f"{initialization.template_revision}^{{commit}}",
+        ).strip()
+    except RepositoryContractError as exc:
+        raise RepositoryContractError(
+            "The handoff branch must begin at the pinned template commit."
+        ) from exc
+    if template_revision != base:
+        raise RepositoryContractError(
+            "The handoff branch must begin at the pinned template commit."
+        )
+    if git(repo, "rev-parse", "HEAD^{commit}").strip() != base:
+        raise RepositoryContractError(
+            "The handoff branch must start at the exact protected base."
+        )
     validate_origin(repo, initialization)
     validate_no_placeholders(repo)
     expected_status = sorted(
@@ -165,6 +179,8 @@ def validate(
         "summary": {
             "repository_layout": initialization.repository_layout,
             "security_profile": initialization.security_profile,
+            "template_repository": initialization.template_repository,
+            "template_revision": initialization.template_revision,
             "handoff_path": initialization.handoff_path,
         },
     }

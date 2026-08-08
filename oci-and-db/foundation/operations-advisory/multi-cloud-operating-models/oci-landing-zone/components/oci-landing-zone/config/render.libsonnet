@@ -5,9 +5,10 @@
 // adapter only separates those definitions along the product's established
 // state and ownership boundaries.
 local lz = import 'landing_zone.libsonnet';
-local platforms = import 'platforms.libsonnet';
+local publication_network = import 'lib/publication_network.libsonnet';
 local render_context = import 'render_context.libsonnet';
 local project_catalog = import 'projects.json';
+local tbac = import 'tbac.libsonnet';
 
 local global_policy_keys = [
   'PCY-AUDITING-ADMIN-KEY',
@@ -29,10 +30,11 @@ local base_group_keys = [
   'GRP-LZ-SECURITY-ADMIN-KEY',
   'GRP-SECURITY-ADMIN-KEY',
 ];
-local retired_osms_statement =
+local excluded_osms_statement =
   'allow service osms to read instances in tenancy';
 local bastion_rule_description =
   'EXAMPLE: Allow inbound traffic from the Bastion Service private endpoint IP address';
+local unmanaged_lz_role_tag = 'tagns-lz-role.tag-lz-role';
 
 local selected_policies(policies, keys) =
   policies {
@@ -42,10 +44,10 @@ local selected_policies(policies, keys) =
     },
   };
 
-local without_retired_osms_statement(policy) =
+local without_excluded_osms_statement(policy) =
   policy {
     statements: std.filter(
-      function(statement) statement != retired_osms_statement,
+      function(statement) statement != excluded_osms_statement,
       policy.statements,
     ),
   };
@@ -57,6 +59,28 @@ local selected_groups(groups, keys) =
       for key in keys
     },
   };
+
+// This MVP projects neither the full one-stack landing-zone administrator
+// policy set nor its tag namespace. Omit the corresponding unmanaged tag from
+// the OP02 child-compartment projection.
+local without_unmanaged_lz_role_tag(compartment) =
+  local defined_tags =
+    if std.objectHas(compartment, 'defined_tags')
+    then compartment.defined_tags
+    else {};
+  local retained_defined_tags = {
+    [key]: defined_tags[key]
+    for key in std.objectFields(defined_tags)
+    if key != unmanaged_lz_role_tag
+  };
+  {
+    [field]: compartment[field]
+    for field in std.objectFields(compartment)
+    if field != 'defined_tags'
+  } + (
+    if std.length(std.objectFields(retained_defined_tags)) == 0 then {}
+    else { defined_tags: retained_defined_tags }
+  );
 
 local with_notification_recipient(document, notification_email) =
   if !std.objectHas(document, 'notifications_configuration') then document
@@ -87,6 +111,19 @@ local environment_category(categories, vcn_key) =
   assert std.length(matches) == 1 :
     'expected one network category for ' + vcn_key;
   matches[0];
+
+// OE creates baseline NSGs for every configured project in the shared-project
+// VCN. In this MVP, OP04 creates project compartments and project GitOps owns
+// the NSGs, so OP02 must publish only the shared network resources.
+local without_project_network_security_groups(category) =
+  category {
+    vcns: {
+      [key]: category.vcns[key] {
+        network_security_groups: {},
+      }
+      for key in std.objectFields(category.vcns)
+    },
+  };
 
 local drg_route_statement_key(distribution_key) =
   std.strReplace(
@@ -273,12 +310,13 @@ local render(customer) =
         base_group_keys,
       ),
     policies_configuration: op00_policies {
-      supplied_policies: op00_policies.supplied_policies {
-        'PCY-SERVICES-ADMIN-KEY':
-          without_retired_osms_statement(
-            op00_policies.supplied_policies['PCY-SERVICES-ADMIN-KEY'],
-          ),
-      },
+      supplied_policies:
+        (op00_policies.supplied_policies {
+          'PCY-SERVICES-ADMIN-KEY':
+            without_excluded_osms_statement(
+              op00_policies.supplied_policies['PCY-SERVICES-ADMIN-KEY'],
+            ),
+        }) + tbac.common_policies,
     },
   };
   local op01_iam = {
@@ -299,9 +337,82 @@ local render(customer) =
     local environment_key = n.key_global('CMP', [environment]);
     local project_container_key =
       n.key_global('CMP', [environment, 'PROJECTS']);
+    local environment_name = std.asciiLower(environment);
+    local runner_principal =
+      'allow dynamic-group dg-mccp-platform-runner';
+    local runner_policies = {
+      ['PCY-LZ-%s-GITOPS-PROJECTS-KEY' % std.asciiUpper(environment)]: {
+        name: 'pcy-lz-%s-gitops-projects' % environment_name,
+        description:
+          'MVP GitOps runner access for project Compute, ADB, and NSGs.',
+        compartment_id: environment_key,
+        statements: [
+          '%s to read all-resources in compartment cmp-lz-%s-projects' %
+          [runner_principal, environment_name],
+          '%s to manage instance-family in compartment cmp-lz-%s-projects' %
+          [runner_principal, environment_name],
+          '%s to manage volume-family in compartment cmp-lz-%s-projects' %
+          [runner_principal, environment_name],
+          '%s to manage autonomous-database-family in compartment cmp-lz-%s-projects' %
+          [runner_principal, environment_name],
+          '%s to use vnics in compartment cmp-lz-%s-projects' %
+          [runner_principal, environment_name],
+          '%s to manage network-security-groups in compartment cmp-lz-%s-projects' %
+          [runner_principal, environment_name],
+        ],
+      },
+      ['PCY-LZ-%s-GITOPS-NETWORK-KEY' % std.asciiUpper(environment)]: {
+        name: 'pcy-lz-%s-gitops-network' % environment_name,
+        description:
+          'MVP GitOps runner access for shared-network workload attachment.',
+        compartment_id: environment_key,
+        statements: [
+          '%s to use virtual-network-family in compartment cmp-lz-%s-network' %
+          [runner_principal, environment_name],
+          '%s to use subnets in compartment cmp-lz-%s-network' %
+          [runner_principal, environment_name],
+          '%s to use vnics in compartment cmp-lz-%s-network' %
+          [runner_principal, environment_name],
+          '%s to manage private-ips in compartment cmp-lz-%s-network' %
+          [runner_principal, environment_name],
+          "%s to manage vcns in compartment cmp-lz-%s-network where any {request.operation = 'CreateNetworkSecurityGroup', request.operation = 'DeleteNetworkSecurityGroup'}" %
+          [runner_principal, environment_name],
+        ],
+      },
+      ['PCY-LZ-%s-GITOPS-SECURITY-KEY' % std.asciiUpper(environment)]: {
+        name: 'pcy-lz-%s-gitops-security' % environment_name,
+        description:
+          'MVP GitOps runner access for approved shared-security services.',
+        compartment_id: environment_key,
+        statements: [
+          '%s to read ons-topics in compartment cmp-lz-%s-security' %
+          [runner_principal, environment_name],
+          '%s to use vaults in compartment cmp-lz-%s-security' %
+          [runner_principal, environment_name],
+          '%s to manage instance-images in compartment cmp-lz-%s-security' %
+          [runner_principal, environment_name],
+          '%s to use vss-family in compartment cmp-lz-%s-security' %
+          [runner_principal, environment_name],
+          '%s to use bastion in compartment cmp-lz-%s-security' %
+          [runner_principal, environment_name],
+          '%s to read logging-family in compartment cmp-lz-%s-security' %
+          [runner_principal, environment_name],
+        ],
+      },
+    };
     local environment_compartment = landing_zone.children[environment_key];
+    local environment_without_unmanaged_lz_role_tags =
+      environment_compartment {
+        children: {
+          [key]:
+            without_unmanaged_lz_role_tag(
+              environment_compartment.children[key],
+            )
+          for key in std.objectFields(environment_compartment.children)
+        },
+      };
     local original_project_container =
-      environment_compartment.children[project_container_key];
+      environment_without_unmanaged_lz_role_tags.children[project_container_key];
     local project_container = {
       [field]: original_project_container[field]
       for field in std.objectFields(original_project_container)
@@ -312,7 +423,7 @@ local render(customer) =
         enable_delete: iam.compartments_configuration.enable_delete,
         compartments: {
           [environment_key]:
-            environment_compartment {
+            environment_without_unmanaged_lz_role_tags {
               parent_id: landing_zone_key,
               children+: {
                 [project_container_key]: project_container,
@@ -320,6 +431,11 @@ local render(customer) =
             },
         },
       },
+      policies_configuration:
+        iam.policies_configuration {
+          supplied_policies:
+            tbac.environment_policies(n, environment) + runner_policies,
+        },
     };
 
   local op02_network(environment) =
@@ -327,43 +443,52 @@ local render(customer) =
     local category = environment_category(categories, vcn_key);
     local attachment_key = n.key('DRGATT', [environment, 'PROJ']);
     local attachment = full_drg.drg_attachments[attachment_key];
+    local published_category = publication_network.network_category(
+      category,
+      n,
+      [],
+      false,
+    );
+    local category_with_drg =
+      published_category {
+        non_vcn_specific_gateways+: {
+          inject_into_existing_drgs+: {
+            [drg_key]+: {
+              drg_id: drg_key,
+              drg_attachments+: {
+                [attachment_key]:
+                  attachment {
+                    drg_route_table_id: '__DRG_SPOKES_ROUTE_TABLE_OCID__',
+                    drg_route_table_key: null,
+                  },
+              },
+            },
+          },
+        },
+      };
     {
       network_configuration: {
         network_configuration_categories: {
           [environment]:
-            platforms.publication_network_category(
-              category,
-              n,
-              [],
-              false,
-            ) {
-              non_vcn_specific_gateways+: {
-                inject_into_existing_drgs+: {
-                  [drg_key]+: {
-                    drg_id: drg_key,
-                    drg_attachments+: {
-                      [attachment_key]:
-                        attachment {
-                          drg_route_table_id:
-                            '__DRG_SPOKES_ROUTE_TABLE_OCID__',
-                          drg_route_table_key: null,
-                        },
-                    },
-                  },
-                },
-              },
-            },
+            without_project_network_security_groups(category_with_drg),
         },
       },
     };
 
+  // VCN/subnet flow logs are deliberately out of this operating model's
+  // observability scope. Removing them also avoids provisioning unused
+  // logging resources for each Landing Zone environment.
   local fixed_observability(document) =
     with_notification_recipient(
       document,
       customer.notification_email,
-    );
+    ) {
+      logging_configuration+: {
+        flow_logs: {},
+      },
+    };
 
-  // OE v3.1.0 creates a child-specific zone for the shared network
+  // The reviewed OE master revision creates a child-specific zone for the shared network
   // compartment. That separates its subnets from platform resources, which
   // inherit the parent CIS zone, and OCI rejects those cross-zone
   // associations. Until the upstream generator uses one zone at the common
@@ -386,73 +511,11 @@ local render(customer) =
     };
 
   local project_identity(environment, project) =
-    local environment_key = n.key_global('CMP', [environment]);
     local project_container_key =
       n.key_global('CMP', [environment, 'PROJECTS']);
     local project_key = n.key_global('CMP', [environment, project]);
-    local group_key =
-      n.key_global('GRP', [environment, project, 'ADMIN']);
-    local policy_keys = [
-      n.key_global('PCY', [environment, project, 'ADMIN']),
-      n.key_global('PCY', [environment, project, 'ADMIN', 'NET']),
-      n.key_global('PCY', [environment, project, 'ADMIN', 'SEC']),
-    ];
     local project_compartment =
-      landing_zone.children[environment_key]
-        .children[project_container_key]
-        .children[project_key];
-    local runner_principal =
-      'allow dynamic-group dg-mccp-platform-runner';
-    local group_principal =
-      "allow group 'id_lz_common'/'grp-lz-%s-%s-admin'" %
-      [std.asciiLower(environment), std.asciiLower(project)];
-    local runner_policy(policy, suffix) =
-      policy {
-        compartment_id:
-          if suffix == 'project' then project_key
-          else environment_key,
-        name: policy.name + '-gitops',
-        description:
-          'GitOps equivalent of the pinned OE project policy.',
-        statements: [
-          local converted =
-            std.strReplace(statement, group_principal, runner_principal);
-          if std.length(std.findSubstr(' where all{', converted)) > 0
-          then std.split(converted, ' where all{')[0]
-          else converted
-          for statement in policy.statements
-        ] + (
-          if suffix == 'project' then [
-            '%s to manage network-security-groups in compartment cmp-lz-%s-%s' %
-            [
-              runner_principal,
-              std.asciiLower(environment),
-              std.asciiLower(project),
-            ],
-          ] else if suffix == 'net' then [
-            "%s to manage vcns in compartment cmp-lz-%s-network where any {request.operation = 'CreateNetworkSecurityGroup', request.operation = 'DeleteNetworkSecurityGroup'}" %
-            [
-              runner_principal,
-              std.asciiLower(environment),
-            ],
-          ] else []
-        ),
-      };
-    local source_policies = {
-      [key]: iam.policies_configuration.supplied_policies[key]
-      for key in policy_keys
-    };
-
-    local runner_policies = {
-      [key + '-GITOPS']:
-        runner_policy(
-          source_policies[key],
-          if std.endsWith(key, '-NET-KEY') then 'net'
-          else if std.endsWith(key, '-SEC-KEY') then 'sec'
-          else 'project',
-        )
-      for key in policy_keys
-    };
+      tbac.project_compartment(n, environment, project);
     {
       compartments_configuration: {
         enable_delete: iam.compartments_configuration.enable_delete,
@@ -462,34 +525,18 @@ local render(customer) =
         },
       },
       identity_domain_groups_configuration:
-        selected_groups(
-          iam.identity_domain_groups_configuration,
-          [group_key],
-        ),
-      policies_configuration:
-        iam.policies_configuration {
-          supplied_policies: source_policies + runner_policies,
+        iam.identity_domain_groups_configuration {
+          groups: tbac.project_groups(n, environment, project).groups,
         },
     };
-
-  // This is protected OP04 operational intent, not an OE input. A delegated
-  // project is removed from the inherited environment Security Zone after
-  // OP04 applies, so the project GitOps contract can manage its NSGs.
-  local project_security_zone_exception(environment, project) = {
-    // Version 2 requires condition-based confirmation of OCI's asynchronous
-    // inherited-compartment update before OP04 reports success.
-    schema_version: 2,
-    project_compartment_key: n.key_global('CMP', [environment, project]),
-    environment_compartment_key: n.key_global('CMP', [environment]),
-    environment_security_zone_display_name:
-      n.display_global('sz-tgt', [environment, 'environment']),
-  };
 
   local base_outputs = {
     'op00_manage_global_landing_zone/generated/iam.json': op00_iam,
     'op01_manage_landing_zone_environment/generated/iam.json': op01_iam,
     'op01_manage_landing_zone_environment/generated/governance.json':
-      full.governance,
+      full.governance {
+        tags_configuration+: tbac.governance.tags_configuration,
+      },
     'op01_manage_landing_zone_environment/generated/network.json':
       op01_network,
     'op01_manage_landing_zone_environment/generated/observability_cis1_pre.json':
@@ -528,11 +575,6 @@ local render(customer) =
               [environment, environment, project]
             ]:
               project_identity(environment, project),
-            [
-              'op04_manage_project/%s/%s-%s/generated/project-security-zone-exception.json' %
-              [environment, environment, project]
-            ]:
-              project_security_zone_exception(environment, project),
           },
         project_names(environment),
         outputs,

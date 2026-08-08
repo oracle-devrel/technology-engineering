@@ -1,14 +1,27 @@
 # Safety boundaries
 
 - Treat `cloud-operator-installation.json` as immutable installation configuration.
+- Accept only schema 3 with one exact customer-owned foundation repository on
+  `main` and two explicit customer-owned template repository/revision pairs.
+  Never infer either repository from a prompt,
+  redirect, SHA search, or historical artifact.
+- Require blueprint and handoff source provenance to name that configured
+  repository. After any foundation identity change, require a fresh OP02 promotion.
 - Accept only one `<allowed-environment>-<dns-name>` OP04 target.
 - Derive foundation values only from the protected environment blueprint.
 - Permit only the canonical additive OP04 files in the landing-zone repository.
-- Preserve the OE `v3.1.0` single project-compartment hierarchy. Do not add
-  application, database, or infrastructure child compartments.
+- Require the official OCI TBAC hierarchy: one project root with Application,
+  Database, and Infrastructure child compartments. Any other hierarchy is unsupported.
 - Never accept secrets, raw state, or prompt-provided cloud identifiers.
+- On GitHub Free private repositories, never claim that an organization secret
+  or variable is available to a project repository. Require manual
+  repository-level bootstrap. Require organization-scoped private
+  `platform-ci` Actions access and the Platform CI `main` composite action;
+  reject a deploy key or personal access token. Workload secret bundles
+  remain repository-and-environment scoped on every GitHub plan.
 - Create a project repository only when the validated handoff target is absent,
-  using the exact contract-pinned template and private visibility. For an
+  by pushing the exact contract-selected template commit to a private target and
+  proving its commit and tree equality before the handoff branch. For an
   existing shared non-production repository, verify its identity and protected
   default-branch workflow before adding another environment handoff.
 - In a newly created project repository, the first handoff branch may change

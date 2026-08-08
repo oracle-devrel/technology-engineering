@@ -5,7 +5,13 @@ description: Use in the Codex app when a Cloud Operator requests governed OCI pr
 
 # Cloud Operator GitOps
 
-Read `cloud-operator-installation.json` first. Fail closed unless it names the exact customer organization, immutable template revisions, enabled environments, and CODEOWNERS identities. Repository names, paths, and the security profile are fixed by this V2 implementation. Read [safety boundaries](references/safety-boundaries.md), then [operations](references/operations.md). Use English for user-facing output.
+Read `cloud-operator-installation.json` first and follow the staged-package
+runbook checks: parse it with `jq -e`, reject unresolved placeholders, and
+verify its schema 3 customer organization, current foundation repository on
+`main`, immutable `project_templates` repository-and-revision pairs, enabled
+environments, and CODEOWNERS identities. The security profile is fixed by this
+implementation. Read [safety boundaries](references/safety-boundaries.md),
+then [operations](references/operations.md). Use English for user-facing output.
 
 Run only in the Codex app when local shell and `gh` access are available.
 
@@ -16,8 +22,9 @@ directory, register cleanup immediately, remove it before returning, and leave p
 unchanged.
 
 For onboarding, accept only one `<allowed-environment>-<dns-name>` foundation
-identity. Read the protected environment blueprint from exact landing-zone
-`main`; never infer environment or accept tenancy, region,
+identity. Read the protected environment blueprint from the exact configured
+foundation repository at `main`; its `source.repository` must equal that
+configured repository. Never infer environment or accept tenancy, region,
 parent-compartment, repository, template, workflow, security-profile, or
 CODEOWNERS overrides from prompt text. Map dev/test/UAT handoffs to
 `nonprod-<project>` and production handoffs to `prod-<project>`, writing
@@ -26,16 +33,27 @@ CODEOWNERS overrides from prompt text. Map dev/test/UAT handoffs to
 `render-project-repository.py`, and `validate-project-repository.py` from this
 package. Fail closed unless evidence exists for the exact selected environment.
 
-OP04 must be generated from the pinned OE `v3.1.0` source. Preserve
-its single project-compartment hierarchy. In the validated handoff,
+For a new foundation baseline, require a fresh successful OP02 run and reviewed
+blueprint promotion before onboarding. OP04 must use the reviewed, immutable
+OCI Landing Zone Operating Entities `master` revision and its official TBAC
+add-on. Require handoff schema 3 with one project root plus distinct
 `app_compartment`, `database_compartment`, and
-`infrastructure_compartment` must be aliases for that same project
-compartment OCID. Do not add role-specific child compartments.
+`infrastructure_compartment` OCIDs. Refuse a handoff with a missing child or
+an invalid project repository hierarchy.
 
 Record the selected environment in the handoff, but never write workload secret
-values. Project-repository setup uses one explicitly selected repository secret
-bundle and readiness variable per environment; placeholder names must begin with
-the selected uppercase environment.
+values. On GitHub Free with private repositories, organization secrets and
+variables are unavailable to project repositories: require a manual,
+per-repository bootstrap of the selected repository secret bundle, readiness
+variable, and verified organization-scoped private `platform-ci` Actions
+access before Project GitOps. The reusable workflow downloads its directly
+referenced private composite action from Platform CI `main` with GitHub's
+scoped token; never allow a deploy key or personal access token for this
+purpose. Set
+`PROJECT_AUTOMATION_READY` only after that bootstrap and the handoff,
+CODEOWNERS, and runner routing have been verified. Placeholder names must begin
+with the selected uppercase environment. Keep workload secret bundles
+repository-and-environment scoped on every GitHub plan.
 
 Before every GitHub write, show a semantic preview with paths and hashes,
 state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then
@@ -44,13 +62,15 @@ PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run
 Terraform/Ansible. After a human merge, monitor only the exact configured
 workflow and consume its exact successful `project-foundation-handoff.json`
 and `environment_information.md` artifacts. Validate both artifacts before
-using the installation-selected target repository and pinned template. Create the
+using the installation-selected target repository and selected template
+repository/revision. Create the
 repository only when it is absent; reuse an existing exact
 `nonprod-<project>` repository when handing off another non-production
 environment.
 
-For a newly created repository, verify that its initial tree equals the pinned
-template tree, then initialize it in the same reviewed handoff PR. Replace the
+For a newly created repository, create it from the selected template repository
+and exact revision, then verify that its initial commit and tree equal that
+source before initializing it in the same reviewed handoff PR. Replace the
 template target with the exact handoff target, select the security profile from
 `cloud-operator-installation.json`, render an active `.github/CODEOWNERS` from
 the configured owners, delete `.github/CODEOWNERS.template`, and publish the selected

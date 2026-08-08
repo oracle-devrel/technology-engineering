@@ -49,22 +49,6 @@ runs:
         mkdir -p "$WORK_TEMP"
         echo "WORK_TEMP=$WORK_TEMP" >> $GITHUB_ENV
 
-    - name: Install Ansible and OCI CLI
-      shell: bash
-      run: |
-        python3.11 -m pip install --upgrade pip
-        python3.11 -m pip install ansible==9.0.1 oci-cli
-        export PATH="$HOME/.local/bin:$PATH"
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-        collection_archive="$WORK_TEMP/oracle-oci-5.5.0.tar.gz"
-        curl --fail --location --retry 3 --proto '=https' --tlsv1.2 \
-          --output "$collection_archive" \
-          https://galaxy.ansible.com/download/oracle-oci-5.5.0.tar.gz
-        printf '%s  %s\n' \
-          '4df1187e8728a91725ebe8d2f1e4eddb6193145c1ae4312c54caba6cdad4e60e' \
-          "$collection_archive" | sha256sum --check --status
-        ansible-galaxy collection install "$collection_archive"
-
     # =====================================================================
     # Detect operation file (if not provided)
     # =====================================================================
@@ -91,11 +75,48 @@ runs:
         echo "operation_file=$OPERATION_FILE" >> $GITHUB_OUTPUT
         echo "✅ Found: $OPERATION_FILE"
 
+    - name: Recognize empty lifecycle clear
+      id: lifecycle_clear
+      shell: bash
+      run: |
+        OPERATION_FILE="${{ inputs.operation_file || steps.detect.outputs.operation_file }}"
+        FULL_PATH="${{ github.workspace }}/$OPERATION_FILE"
+        IS_CLEAR=$(python3 - "$FULL_PATH" <<'PY'
+        import json
+        import sys
+
+        with open(sys.argv[1], encoding="utf-8") as f:
+            print("true" if json.load(f) == {} else "false")
+        PY
+        )
+        echo "is_clear=$IS_CLEAR" >> "$GITHUB_OUTPUT"
+        if [ "$IS_CLEAR" = "true" ]; then
+          echo "✅ Empty lifecycle manifest accepted; no Ansible execution is required"
+        fi
+
+    - name: Install Ansible and OCI CLI
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      run: |
+        python3.11 -m pip install --upgrade pip
+        python3.11 -m pip install ansible==9.0.1 oci-cli
+        export PATH="$HOME/.local/bin:$PATH"
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        collection_archive="$WORK_TEMP/oracle-oci-5.5.0.tar.gz"
+        curl --fail --location --retry 3 --proto '=https' --tlsv1.2 \
+          --output "$collection_archive" \
+          https://galaxy.ansible.com/download/oracle-oci-5.5.0.tar.gz
+        printf '%s  %s\n' \
+          '4df1187e8728a91725ebe8d2f1e4eddb6193145c1ae4312c54caba6cdad4e60e' \
+          "$collection_archive" | sha256sum --check --status
+        ansible-galaxy collection install "$collection_archive"
+
     # =====================================================================
     # Discover operation
     # =====================================================================
     - name: Discover operation
       id: discover
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       run: |
         OPERATION_FILE="${{ inputs.operation_file || steps.detect.outputs.operation_file }}"
@@ -124,6 +145,7 @@ runs:
         echo "✅ $OPERATION_TYPE ($TARGET_COUNT targets)"
 
     - name: Resolve operation playbook
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       working-directory: ${{ github.action_path }}/../../ansible
       run: |
@@ -147,7 +169,7 @@ runs:
     # Auth & Inventory
     # =====================================================================
     - name: Authenticate Azure
-      if: inputs.cloud == 'azure'
+      if: inputs.cloud == 'azure' && steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       run: |
         az login --service-principal \
@@ -159,6 +181,7 @@ runs:
     # STATE_NAMESPACE is provided by runner environment
 
     - name: Generate inventory
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       run: |
         python3 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
@@ -168,7 +191,7 @@ runs:
           "${{ inputs.operation_file || steps.detect.outputs.operation_file }}"
 
     - name: Setup OCI config for Ansible
-      if: inputs.cloud == 'oci'
+      if: inputs.cloud == 'oci' && steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       run: |
         mkdir -p ~/.oci
@@ -184,7 +207,7 @@ runs:
     # =====================================================================
     - name: Ansible check
       id: check
-      if: inputs.mode == 'check'
+      if: inputs.mode == 'check' && steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       working-directory: ${{ github.action_path }}/../../ansible
       run: |
@@ -205,7 +228,7 @@ runs:
 
     - name: Ansible execute
       id: execute
-      if: inputs.mode == 'execute'
+      if: inputs.mode == 'execute' && steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       working-directory: ${{ github.action_path }}/../../ansible
       run: |
@@ -227,7 +250,7 @@ runs:
     # PR Comment
     # =====================================================================
     - name: Comment on PR
-      if: always() && inputs.mode == 'check' && github.event.pull_request
+      if: always() && inputs.mode == 'check' && github.event.pull_request && steps.lifecycle_clear.outputs.is_clear != 'true'
       uses: actions/github-script@v8
       env:
         OUTPUT: ${{ steps.check.outputs.check_output }}
@@ -254,7 +277,7 @@ runs:
           });
 
     - name: Upload logs
-      if: always()
+      if: always() && steps.lifecycle_clear.outputs.is_clear != 'true'
       uses: actions/upload-artifact@v7
       with:
         name: ansible-logs-${{ github.run_number }}

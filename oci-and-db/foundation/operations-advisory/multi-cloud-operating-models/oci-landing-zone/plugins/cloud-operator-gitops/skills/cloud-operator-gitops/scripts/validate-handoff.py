@@ -19,6 +19,7 @@ REGION_RE = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 OCID_PREFIXES = {
+    "project_root_compartment": "ocid1.compartment.",
     "app_compartment": "ocid1.compartment.",
     "database_compartment": "ocid1.compartment.",
     "infrastructure_compartment": "ocid1.compartment.",
@@ -26,7 +27,8 @@ OCID_PREFIXES = {
 }
 REQUIRED = {
     "schema_version", "cloud", "project_slug", "environment", "region",
-    "app_compartment", "database_compartment", "infrastructure_compartment",
+    "project_root_compartment", "app_compartment", "database_compartment",
+    "infrastructure_compartment",
     "vcn", "subnets", "source_repository", "source_workflow", "source_run",
     "source_commit", "op02_state_key", "op04_state_key", "repository_layout",
     "target_repository", "handoff_path",
@@ -63,9 +65,9 @@ def main() -> int:
         data = json.loads(args.handoff_json.read_text(encoding="utf-8"))
         markdown = args.handoff_markdown.read_text(encoding="utf-8")
         if not isinstance(data, dict) or set(data) != REQUIRED:
-            fail("handoff JSON fields do not match schema version 2")
+            fail("handoff JSON fields do not match schema version 3")
         if (
-            data["schema_version"] != 2
+            data["schema_version"] != 3
             or data["cloud"] != "oci"
             or data["environment"] != environment
             or data["project_slug"] != target
@@ -93,8 +95,8 @@ def main() -> int:
         for field, prefix in OCID_PREFIXES.items():
             if not isinstance(data[field], str) or not data[field].startswith(prefix):
                 fail(f"invalid {field}")
-        if len({data[field] for field in OCID_PREFIXES if field != "vcn"}) != 1:
-            fail("OE v3.1 project compartment aliases do not match")
+        if len({data[field] for field in OCID_PREFIXES if field != "vcn"}) != 4:
+            fail("TBAC project compartment targets must be distinct")
         if not isinstance(data["subnets"], dict) or not data["subnets"]:
             fail("handoff subnets are invalid")
         for value in data["subnets"].values():

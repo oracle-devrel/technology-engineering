@@ -80,6 +80,17 @@ def repository_slug(repo: Path) -> str:
     return match.group("repository").removesuffix(".git")
 
 
+def generated_json(path: Path) -> tuple[str, object]:
+    """Read one bounded, regular, non-sensitive generated JSON artifact."""
+    info = path.lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_size > 1_048_576:
+        raise ValidationError("A generated OP04 artifact is invalid.")
+    text = path.read_text(encoding="utf-8")
+    if "__" in text or SENSITIVE_RE.search(text):
+        raise ValidationError("A generated OP04 artifact is invalid.")
+    return text, json.loads(text)
+
+
 def validate(
     repo: Path,
     base_ref: str,
@@ -107,11 +118,14 @@ def validate(
         ).splitlines()
     )
     expected_status = sorted(
-        [f" M {catalog_relative}", f"?? {manifest_relative}"]
+        [
+            f" M {catalog_relative}",
+            f"?? {manifest_relative}",
+        ]
     )
     if status != expected_status:
         raise ValidationError(
-            "Exactly the project catalog and one generated OP04 file may change."
+            "Exactly the project catalog and generated OP04 IAM file may change."
         )
     base_catalog = load_at(repo, base, contract["project_catalog"])
     catalog_path = repo / catalog_relative
@@ -129,19 +143,13 @@ def validate(
         elif after != before:
             raise ValidationError("Another environment was modified.")
     manifest_path = repo / manifest_relative
-    info = manifest_path.lstat()
-    if not stat.S_ISREG(info.st_mode) or info.st_size > 1_048_576:
-        raise ValidationError("The generated OP04 manifest is invalid.")
-    manifest_text = manifest_path.read_text(encoding="utf-8")
-    manifest = json.loads(manifest_text)
+    manifest_text, manifest = generated_json(manifest_path)
     if (
-        sorted(manifest) != [
+        not isinstance(manifest, dict)
+        or sorted(manifest) != [
             "compartments_configuration",
             "identity_domain_groups_configuration",
-            "policies_configuration",
         ]
-        or "__" in manifest_text
-        or SENSITIVE_RE.search(manifest_text)
     ):
         raise ValidationError("The generated OP04 manifest is invalid.")
     files = {

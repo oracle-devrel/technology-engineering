@@ -46,7 +46,8 @@
    `environments/<environment>/environment_information.md` handoff.
    For OCI, use the schema-3 TBAC target from that handoff: Application for
    Compute, Database for ADB and ADB lifecycle, and Infrastructure for project
-   NSGs. A lifecycle manifest must include `database_compartment_id`. For OCI
+   NSGs. A lifecycle manifest is either `{}` to clear a completed request, or
+   includes `database_compartment_id` and one or more start/stop targets. For OCI
    Compute, one validated change contains exactly one VM; use a separate change
    and pull request for each additional VM.
 6. Show the semantic diff, destructive/replacement warnings, branch, base SHA, and content SHA-256; then stop for fresh confirmation.

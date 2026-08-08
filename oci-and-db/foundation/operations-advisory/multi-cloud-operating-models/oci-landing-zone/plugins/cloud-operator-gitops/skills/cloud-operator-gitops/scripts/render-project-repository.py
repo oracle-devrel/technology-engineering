@@ -116,6 +116,10 @@ def main() -> int:
                     "project": args.project,
                     "target_repository":
                         initialization.target_repository,
+                    "template_repository":
+                        initialization.template_repository,
+                    "template_revision":
+                        initialization.template_revision,
                     "security_profile":
                         initialization.security_profile,
                     "handoff_path": initialization.handoff_path,

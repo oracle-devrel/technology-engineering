@@ -24,6 +24,7 @@ OWNER_RE = re.compile(
     r"(?:/[A-Za-z0-9][A-Za-z0-9_.-]{0,99})?$"
 )
 ORG_RE = re.compile(r"^[A-Za-z0-9_.-]+$")
+REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 SECURITY_PROFILE = "repository-secrets"
 LAYOUT_ENVIRONMENTS = {
     "shared-nonprod-v2": ("dev", "test", "uat"),
@@ -48,6 +49,8 @@ class RepositoryInitialization:
     identity: ProjectIdentity
     customer_org: str
     target_repository: str
+    template_repository: str
+    template_revision: str
     repository_layout: str
     security_profile: str
     handoff_path: str
@@ -131,16 +134,29 @@ def load_initialization(
     installation = load_json(installation_file)
     handoff = load_json(handoff_json)
     customer_org = installation.get("customer_org")
-    template_revisions = installation.get("template_revisions")
+    foundation = installation.get("foundation")
+    project_templates = installation.get("project_templates")
     if (
-        installation.get("schema_version") != 1
+        installation.get("schema_version") != 3
         or not isinstance(customer_org, str)
         or ORG_RE.fullmatch(customer_org) is None
-        or not isinstance(template_revisions, dict)
-        or set(template_revisions) != {"shared_nonprod_v2", "production"}
+        or not isinstance(foundation, dict)
+        or set(foundation) != {"repository", "branch"}
+        or not isinstance(foundation.get("repository"), str)
+        or REPOSITORY_RE.fullmatch(foundation["repository"]) is None
+        or not foundation["repository"].startswith(f"{customer_org}/")
+        or foundation.get("branch") != "main"
+        or not isinstance(project_templates, dict)
+        or set(project_templates) != {"shared_nonprod_v2", "production"}
         or any(
-            SHA_RE.fullmatch(str(revision)) is None
-            for revision in template_revisions.values()
+            not isinstance(template, dict)
+            or set(template) != {"repository", "revision"}
+            or not isinstance(template.get("repository"), str)
+            or REPOSITORY_RE.fullmatch(template["repository"]) is None
+            or not template["repository"].startswith(f"{customer_org}/")
+            or not isinstance(template.get("revision"), str)
+            or SHA_RE.fullmatch(template["revision"]) is None
+            for template in project_templates.values()
         )
     ):
         raise RepositoryContractError(
@@ -171,25 +187,46 @@ def load_initialization(
         "environment_information.md"
     )
     if (
-        handoff.get("schema_version") != 2
+        handoff.get("schema_version") != 3
         or handoff.get("environment") != identity.environment
         or handoff.get("target_repository") != target_repository
         or handoff.get("project_slug") != target_repository
         or handoff.get("repository_layout") != layout
         or handoff.get("handoff_path") != handoff_path
+        or handoff.get("source_repository") != foundation["repository"]
+        or not all(
+            isinstance(handoff.get(field), str)
+            and handoff[field].startswith("ocid1.compartment.")
+            for field in (
+                "project_root_compartment",
+                "app_compartment",
+                "database_compartment",
+                "infrastructure_compartment",
+            )
+        )
+        or len(
+            {
+                handoff.get("project_root_compartment"),
+                handoff.get("app_compartment"),
+                handoff.get("database_compartment"),
+                handoff.get("infrastructure_compartment"),
+            }
+        ) != 4
     ):
         raise RepositoryContractError(
             "The handoff does not match the selected project repository."
         )
     template_key = "production" if layout == "production" else "shared_nonprod_v2"
-    template_revision = template_revisions[template_key]
-    if SHA_RE.fullmatch(str(template_revision)) is None:
-        raise RepositoryContractError("The pinned project template revision is invalid.")
+    template = project_templates[template_key]
+    template_repository = template["repository"]
+    template_revision = template["revision"]
     owners = validate_owner_map(layout, installation.get("codeowners"))
     return RepositoryInitialization(
         identity=identity,
         customer_org=customer_org,
         target_repository=target_repository,
+        template_repository=template_repository,
+        template_revision=template_revision,
         repository_layout=layout,
         security_profile=SECURITY_PROFILE,
         handoff_path=handoff_path,

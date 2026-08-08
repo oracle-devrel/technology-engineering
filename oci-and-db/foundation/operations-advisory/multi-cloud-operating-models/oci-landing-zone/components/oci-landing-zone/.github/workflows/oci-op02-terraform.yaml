@@ -90,7 +90,7 @@ jobs:
             .enabled == true and
             .environment == $environment
           ' "$root/operation.json" >/dev/null
-          jq -e 'keys == ["compartments_configuration"]' \
+          jq -e 'keys == ["compartments_configuration", "policies_configuration"]' \
             "$root/generated/iam.json" >/dev/null
           jq -e 'keys == ["network_configuration"]' \
             "$root/generated/network.json" >/dev/null
