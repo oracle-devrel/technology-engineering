@@ -33,6 +33,13 @@ CODEOWNERS overrides from prompt text. Map dev/test/UAT handoffs to
 `render-project-repository.py`, and `validate-project-repository.py` from this
 package. Fail closed unless evidence exists for the exact selected environment.
 
+Before running `render-op04.py`, create and switch to the canonical local
+onboarding branch from the exact `origin/main` base:
+`agent/project-onboard-<environment>-<dns-name>-<first-12-of-origin/main>`.
+This is a hard precondition: do not generate or validate an OP04 onboarding
+change from `main`, and do not infer, alter, or bypass the validator's branch
+contract.
+
 For a new foundation baseline, require a fresh successful OP02 run and reviewed
 blueprint promotion before onboarding. OP04 must use the reviewed, immutable
 OCI Landing Zone Operating Entities `master` revision and its official TBAC

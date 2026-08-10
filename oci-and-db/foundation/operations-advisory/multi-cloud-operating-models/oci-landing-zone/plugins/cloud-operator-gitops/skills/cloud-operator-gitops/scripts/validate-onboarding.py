@@ -16,6 +16,7 @@ from pathlib import Path
 
 from op04_contract import (
     ContractError,
+    canonical_onboarding_branch,
     expected_paths,
     load_at,
     validate_project,
@@ -24,7 +25,7 @@ from op04_contract import (
 
 
 BRANCH_RE = re.compile(
-    r"^agent/project-onboard-(?:crq[0-9]{1,20}-)?"
+    r"^agent/project-onboard-"
     r"(?P<project>(?:dev|test|uat|prod)-"
     r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*)-[0-9a-f]{12}$"
 )
@@ -106,6 +107,8 @@ def validate(
     base = git(repo, "rev-parse", f"{base_ref}^{{commit}}").strip()
     if SHA_RE.fullmatch(base) is None:
         raise ValidationError("The base revision is invalid.")
+    if branch != canonical_onboarding_branch(project, base):
+        raise ValidationError("The OP04 onboarding branch is invalid.")
     contract = validate_runtime_contract(repo, base, identity.environment)
     catalog_relative, manifest_relative = expected_paths(project)
     status = sorted(

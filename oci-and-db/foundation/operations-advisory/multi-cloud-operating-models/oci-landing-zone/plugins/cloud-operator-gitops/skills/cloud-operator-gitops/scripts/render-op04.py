@@ -13,6 +13,7 @@ from pathlib import Path
 
 from op04_contract import (
     ContractError,
+    canonical_onboarding_branch,
     expected_paths,
     git_text,
     validate_project,
@@ -39,9 +40,16 @@ def main() -> int:
     try:
         repo = repository(args.repo)
         identity = validate_project(args.project)
+        base = git_text(repo, "rev-parse", f"{args.base_ref}^{{commit}}").strip()
+        branch = git_text(repo, "branch", "--show-current").strip()
+        if branch != canonical_onboarding_branch(identity.slug, base):
+            raise ContractError(
+                "Create and switch to the canonical OP04 onboarding branch "
+                "from the exact origin/main base before rendering."
+            )
         contract = validate_runtime_contract(
             repo,
-            args.base_ref,
+            base,
             identity.environment,
         )
         catalog_path = repo / contract["project_catalog"]

@@ -7,7 +7,11 @@
 2. Resolve one canonical project slug and its allowed environment without inference.
 3. Read the configured environment blueprint from the exact configured
    foundation repository at `main`; require its provenance repository to match.
-4. Create a disposable clone and branch from exact `origin/main`.
+4. Create a disposable clone from exact `origin/main`, then before running
+   `render-op04.py` create and switch to
+   `agent/project-onboard-<environment>-<dns-name>-<first-12-of-origin/main>`.
+   Running the generator or `validate-onboarding.py` from `main` is invalid;
+   never bypass, modify, or infer the validator's branch contract.
 5. Add one project to the protected catalog, generate its canonical OP04 file
    from the pinned OE release, and run `validate-onboarding.py`.
 6. Show paths, semantic changes, base SHA, content hash, and `GitHub writes: none`.

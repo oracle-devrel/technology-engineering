@@ -16,6 +16,7 @@ PROJECT_RE = re.compile(
     r"^(?P<environment>dev|test|uat|prod)-"
     r"(?P<project_name>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$"
 )
+SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 REGION_RE = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 RUNTIME_CONTRACT_PATH = ".github/project-onboarding-contract.json"
 OE_REVISION = "dab13856ba6701c45baafc163780bb76562c039a"
@@ -69,6 +70,14 @@ def validate_project(project: str) -> ProjectIdentity:
         match.group("environment"),
         match.group("project_name"),
     )
+
+
+def canonical_onboarding_branch(project: str, base_sha: str) -> str:
+    """Return the only branch that may carry a new OP04 onboarding change."""
+    identity = validate_project(project)
+    if SHA_RE.fullmatch(base_sha) is None:
+        raise ContractError("The onboarding base revision is invalid.")
+    return f"agent/project-onboard-{identity.slug}-{base_sha[:12]}"
 
 
 def validate_runtime_contract(
