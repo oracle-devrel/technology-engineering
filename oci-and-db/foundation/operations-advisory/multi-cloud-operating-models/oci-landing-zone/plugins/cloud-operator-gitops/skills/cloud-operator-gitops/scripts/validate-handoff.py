@@ -10,11 +10,8 @@ import json
 import re
 from pathlib import Path
 
+from op04_contract import validate_project
 
-PROJECT_RE = re.compile(
-    r"^(?P<environment>dev|test|uat|prod)-"
-    r"(?P<name>[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$"
-)
 REGION_RE = re.compile(r"^[a-z]{2}-[a-z]+-[0-9]+$")
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
@@ -54,11 +51,9 @@ def main() -> int:
     parser.add_argument("--project", required=True)
     args = parser.parse_args()
     try:
-        match = PROJECT_RE.fullmatch(args.project)
-        if match is None or len(match.group("name")) > 30:
-            fail("invalid environment-specific foundation project")
-        environment = match.group("environment")
-        project_name = match.group("name")
+        identity = validate_project(args.project)
+        environment = identity.environment
+        project_name = identity.project_name
         target = f"prod-{project_name}" if environment == "prod" else f"nonprod-{project_name}"
         layout = "production" if environment == "prod" else "shared-nonprod-v2"
         handoff_path = f"environments/{environment}/environment_information.md"

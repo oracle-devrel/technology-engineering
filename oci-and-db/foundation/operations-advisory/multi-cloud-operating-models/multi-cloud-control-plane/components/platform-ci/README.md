@@ -31,7 +31,9 @@ Credentials. Keep all credential values outside Git.
 
 `.github/workflows/terraform-shared.yaml` accepts the mode, cloud, region,
 environment, validated manifest ref, orchestrator repository and immutable ref,
-state bucket, readiness marker, runner labels, and one explicit secret bundle.
+state bucket, runner labels, and one explicit optional secret bundle. A secret
+bundle is required only when the selected manifest contains matching
+environment-qualified placeholders.
 
 - Pull requests run validation and plan and report the result for review.
 - Merges to `main` create and apply a saved plan on the trusted runner.

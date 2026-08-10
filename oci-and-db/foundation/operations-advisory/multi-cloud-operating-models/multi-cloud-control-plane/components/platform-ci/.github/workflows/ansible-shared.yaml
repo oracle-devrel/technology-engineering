@@ -32,11 +32,6 @@ on:
         description: "Validated manifest repository commit"
         required: true
         type: string
-      readiness_marker:
-        description: "Selected repository readiness variable"
-        required: false
-        type: string
-        default: ""
       runner_labels:
         description: "Runner labels as JSON array"
         required: false
@@ -64,4 +59,3 @@ jobs:
           bucket_name: ${{ inputs.bucket_name }}
           environment_name: ${{ inputs.environment_name }}
           security_profile: ${{ inputs.security_profile }}
-          readiness_marker: ${{ inputs.readiness_marker }}

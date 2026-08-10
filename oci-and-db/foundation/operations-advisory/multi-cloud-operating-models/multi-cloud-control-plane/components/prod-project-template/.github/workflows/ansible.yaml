@@ -14,7 +14,6 @@ permissions:
 
 jobs:
   validate-path:
-    if: vars.PROJECT_AUTOMATION_READY == 'true'
     runs-on: [self-hosted, control-plane-resolver]
     outputs:
       operation_file: ${{ steps.path.outputs.operation_file }}
@@ -87,7 +86,6 @@ jobs:
       environment_name: prod
       security_profile: repository-secrets
       manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      readiness_marker: ${{ vars.CONTROL_PLANE_READY_PROD }}
       operation_file: ${{ needs.validate-path.outputs.operation_file }}
       runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
       bucket_name: __STATE_BUCKET__

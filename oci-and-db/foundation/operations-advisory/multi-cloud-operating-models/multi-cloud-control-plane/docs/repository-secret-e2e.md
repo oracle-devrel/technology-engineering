@@ -6,15 +6,15 @@ without applying infrastructure.
 Create a disposable `dev` JSON manifest containing
 `__DEV_E2E_TEST_VALUE__`. Add `DEV_E2E_TEST_VALUE` to the JSON value of the
 project repository secret `GITOPS_SECRET_VALUES_DEV`, and set
-`CONTROL_PLANE_READY_DEV` to `true`. Open a pull request limited to one
-`oci/dev/<region>` tuple. Confirm that the default-branch caller invokes the
+Open a pull request limited to one `oci/dev/<region>` tuple. Confirm that the
+default-branch caller invokes the
 pinned reusable workflow, selects the dev runner labels and state key, prepares
 the variable, and reaches Terraform plan. Do not merge this test PR.
 
 Create a second disposable `uat` manifest containing
 `__UAT_E2E_TEST_VALUE__`, but do not add `UAT_E2E_TEST_VALUE` to
-`GITOPS_SECRET_VALUES_UAT`. Set `CONTROL_PLANE_READY_UAT` to `true` and open a
-PR limited to one `oci/uat/<region>` tuple. **Prepare variables** must fail
+`GITOPS_SECRET_VALUES_UAT`. Open a PR limited to one `oci/uat/<region>`
+tuple. **Prepare variables** must fail
 closed before Terraform with an unresolved-placeholder error. Confirm that the
 run selected UAT runner labels and did not use the dev state key.
 

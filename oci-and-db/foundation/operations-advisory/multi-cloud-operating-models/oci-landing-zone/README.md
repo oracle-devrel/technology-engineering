@@ -111,7 +111,8 @@ Continue with:
 3. [Day-to-day operations](docs/operations.md)
 4. [Security](docs/security.md)
 5. [Optional Codex app assistant](docs/codex-app.md)
-6. [Customer organization adoption runbook](docs/customer-organization-runbook.md)
+6. [Install and use the Codex GitOps skills](docs/codex-skills-installation.md)
+7. [Customer organization adoption runbook](docs/customer-organization-runbook.md)
 
 ## License
 

@@ -44,7 +44,7 @@ than creating a second manifest.
         "shape": "VM.Standard.A1.Flex",
         "flex_shape_settings": { "ocpus": "1", "memory": "6" },
         "platform_image": {
-          "ocid": "<approved OCI image OCID for this region>"
+          "ocid": "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaal42ffbltq2gqeh5xlcxvszrk24hkth4vbz4cgxez5wbsqkfy6vya"
         },
         "placement": { "availability_domain": "1", "fault_domain": "1" },
         "boot_volume": {
@@ -62,9 +62,11 @@ than creating a second manifest.
 }
 ```
 
-The supplied OCI Compute catalog template carries a Frankfurt image OCID.
-For any other OCI region, use a separately platform-validated template with a
-current regional image OCID before opening the request.
+The supplied OCI Compute catalog template carries this Frankfurt image OCID as
+the default. Before approving the request, confirm manually that the selected
+image is appropriate. Keep it for a Frankfurt `VM.Standard.A1.Flex` request,
+or provide the exact regional image OCID for an override; the request is
+validated without an OCI CLI lookup.
 
 VMs are private-only. Public-IP fields are rejected. To remove the final resource from one manifest, replace the complete file with the canonical empty object:
 

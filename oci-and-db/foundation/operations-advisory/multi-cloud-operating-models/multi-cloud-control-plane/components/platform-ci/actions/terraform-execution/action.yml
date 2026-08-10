@@ -17,10 +17,6 @@ inputs:
   security_profile:
     description: Selected repository security profile
     required: true
-  readiness_marker:
-    description: Repository-profile readiness value
-    required: false
-    default: ""
   repository_layout:
     description: Protected repository layout identifier
     required: true
@@ -41,17 +37,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Verify environment readiness
+    - name: Verify repository security profile
       shell: bash
       env:
-        REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
-        REPOSITORY_SECRET_VALUES: ${{ inputs.repository_secret_values }}
         SECURITY_PROFILE: ${{ inputs.security_profile }}
       run: |
         set -euo pipefail
         test "$SECURITY_PROFILE" = repository-secrets
-        test "$REPOSITORY_READINESS_MARKER" = true
-        test -n "$REPOSITORY_SECRET_VALUES"
 
     # =====================================================================
     # Setup

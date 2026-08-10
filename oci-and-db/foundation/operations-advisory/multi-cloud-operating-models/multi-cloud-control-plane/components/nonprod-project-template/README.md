@@ -27,16 +27,16 @@ an active `.github/CODEOWNERS` file with valid existing platform and
 environment owners. Do not publish the generic template placeholders as active
 CODEOWNERS rules.
 
-New repositories are inactive by default. Set the repository variable
-`PROJECT_AUTOMATION_READY` to `true` only after the rendered workflow policy,
-CODEOWNERS, handoff, secrets, readiness markers, runner routing, and documented
-procedural review—or supported-plan branch protection—are all in place.
+New repositories can use the protected Platform CI workflows immediately after
+the rendered workflow policy, CODEOWNERS, handoff, runner routing, and
+documented procedural review—or supported-plan branch protection—are in place.
 
-Configure one JSON Actions repository secret per enabled environment:
+Configure a JSON Actions repository secret only when a workload manifest for an
+enabled environment contains a secret placeholder. Use the matching environment
+secret:
 `GITOPS_SECRET_VALUES_DEV`,
-`GITOPS_SECRET_VALUES_TEST`, or `GITOPS_SECRET_VALUES_UAT`. Configure the
-matching `CONTROL_PLANE_READY_<ENVIRONMENT>` repository variable with value
-`true`. Bundle keys and runtime placeholders must begin with the selected
+`GITOPS_SECRET_VALUES_TEST`, or `GITOPS_SECRET_VALUES_UAT`. Bundle keys and
+runtime placeholders must begin with the selected
 uppercase environment. Do not use `secrets: inherit` or combine environments.
 
 See the

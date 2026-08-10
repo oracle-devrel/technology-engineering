@@ -5,6 +5,8 @@
    `project_templates` repository/revision pairs, then validate active GitHub
    authentication.
 2. Resolve one canonical project slug and its allowed environment without inference.
+   The DNS name must omit the repository prefix derived by the skill: `nonprod-`
+   for dev/test/UAT and `prod-` for prod.
 3. Read the configured environment blueprint from the exact configured
    foundation repository at `main`; require its provenance repository to match.
 4. Create a disposable clone from exact `origin/main`, then before running
@@ -12,10 +14,12 @@
    `agent/project-onboard-<environment>-<dns-name>-<first-12-of-origin/main>`.
    Running the generator or `validate-onboarding.py` from `main` is invalid;
    never bypass, modify, or infer the validator's branch contract.
-5. Add one project to the protected catalog, generate its canonical OP04 file
+5. Require a user-provided CRQ matching `CRQ[0-9]{1,20}`, then add one
+   project to the protected catalog, generate its canonical OP04 file
    from the pinned OE release, and run `validate-onboarding.py`.
-6. Show paths, semantic changes, base SHA, content hash, and `GitHub writes: none`.
-7. Require fresh confirmation, revalidate the hashes, push, and open one PR.
+6. Show affected paths, semantic changes, the CRQ, and `GitHub writes: none`; keep
+   validator hashes and metadata internal unless the user asks for diagnostics.
+7. Require fresh confirmation, revalidate internally, push, and open one PR.
 8. Stop before merge. After human merge, monitor only the exact OP04 workflow.
 9. Download only that successful run's JSON and Markdown artifacts and validate
    them together with `validate-handoff.py`. Derive the target repository,
@@ -41,13 +45,14 @@
 12. Push the validated branch and conditionally open one PR. Stop before merge
     and report the repository, environment, handoff path, and PR state.
 13. When reporting a merged handoff for a GitHub Free private repository,
-    state that the next mandatory action is the documented per-repository
-    secret/variable bootstrap and organization-scoped private `platform-ci`
-    Actions access before Project GitOps. Do not receive, print, or set secret
-    values. State that `PROJECT_AUTOMATION_READY` is the last readiness
-    variable to enable and that the repository-secret end-to-end verification
-    must pass before a workload request. Never instruct a deploy key, personal
-    access token, or branch reference for Platform CI source access.
+    state that a repository secret bundle is required only for a workload with
+    matching environment-qualified placeholders. Organization-scoped private
+    `platform-ci` Actions access is configured once on Platform CI and
+    inherited automatically by new organization repositories. Do not receive,
+    print, or set secret values. State that the repository-secret end-to-end
+    verification must pass before a secret-backed workload request. Never
+    instruct a deploy key, personal access token, or branch reference for
+    Platform CI source access.
 
 Discard confirmation after interruption or Git drift. Never reuse an OP04
 confirmation for repository creation or handoff publication; each write stage
@@ -71,12 +76,13 @@ incomplete. Git declarations cannot prove whether a resource is currently runnin
 ## Project retirement
 
 1. Resolve one handed-off environment and collect the required workload, lifecycle, teardown,
-   CRQ, retention, repository-preservation, and human-approval evidence.
+   CRQ, retention, repository-preservation, and human-approval evidence. The
+   CRQ must match `CRQ[0-9]{1,20}`.
 2. Create a disposable landing-zone clone from exact `origin/main` and remove one project name
    from its environment in `config/projects.json` plus that project's generated `iam.json`.
 3. Run `validate-retirement.py --evidence <file> --repository <clone> --base-ref <sha> --project
    <environment>-<project>`. Stop if any other path or catalog value changed.
-4. Show the semantic preview and hashes, require fresh confirmation, revalidate, then push one
+4. Show the concise semantic preview, require fresh confirmation, revalidate internally, then push one
    branch and conditionally open one pull request. Stop before merge.
 5. After human merge, monitor the existing OP04 workflow to terminal. Disable the retired
    environment and restore its handoff placeholder only through a separate reviewed change.

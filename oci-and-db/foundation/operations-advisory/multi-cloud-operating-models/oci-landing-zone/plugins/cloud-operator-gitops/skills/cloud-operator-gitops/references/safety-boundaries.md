@@ -7,17 +7,28 @@
   redirect, SHA search, or historical artifact.
 - Require blueprint and handoff source provenance to name that configured
   repository. After any foundation identity change, require a fresh OP02 promotion.
-- Accept only one `<allowed-environment>-<dns-name>` OP04 target.
+- Accept only one `<allowed-environment>-<dns-name>` OP04 target. The DNS name
+  must omit the derived repository prefix: reject `nonprod-` for dev/test/UAT
+  and `prod-` for prod.
+- Keep this enforcement layer small. Put communication, confirmation, and
+  operator choices in the skill; add executable validation only to protect an
+  identity, artifact, provenance, path, or pending write.
+- Require a user-provided CRQ matching `CRQ[0-9]{1,20}` before any mutable
+  onboarding, handoff-publication, repository-creation, or retirement flow.
+  A CRQ is not required for inventory, status, validation, or monitoring, and
+  it never replaces explicit confirmation.
 - Derive foundation values only from the protected environment blueprint.
 - Permit only the canonical additive OP04 files in the landing-zone repository.
 - Require the official OCI TBAC hierarchy: one project root with Application,
   Database, and Infrastructure child compartments. Any other hierarchy is unsupported.
 - Never accept secrets, raw state, or prompt-provided cloud identifiers.
 - On GitHub Free private repositories, never claim that an organization secret
-  or variable is available to a project repository. Require manual
-  repository-level bootstrap. Require organization-scoped private
-  `platform-ci` Actions access and the Platform CI `main` composite action;
-  reject a deploy key or personal access token. Workload secret bundles
+  or variable is available to a project repository. Require a manual
+  repository secret bundle only for a workload manifest with a matching
+  environment-qualified placeholder. Configure organization-scoped private
+  `platform-ci` Actions access once on Platform CI; new organization
+  repositories inherit it automatically. Use the Platform CI `main` composite
+  action and reject a deploy key or personal access token. Workload secret bundles
   remain repository-and-environment scoped on every GitHub plan.
 - Create a project repository only when the validated handoff target is absent,
   by pushing the exact contract-selected template commit to a private target and

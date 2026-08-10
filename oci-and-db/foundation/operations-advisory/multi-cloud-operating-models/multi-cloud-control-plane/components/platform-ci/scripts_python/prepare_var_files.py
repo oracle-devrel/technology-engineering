@@ -33,7 +33,7 @@ def find_placeholders(value: Any) -> set[str]:
 
 
 def load_secret_values(environment: str) -> dict[str, str]:
-    raw = os.environ.get("GITOPS_SECRET_VALUES", "{}")
+    raw = os.environ.get("GITOPS_SECRET_VALUES", "").strip() or "{}"
     try:
         decoded = json.loads(raw)
     except json.JSONDecodeError as exc:

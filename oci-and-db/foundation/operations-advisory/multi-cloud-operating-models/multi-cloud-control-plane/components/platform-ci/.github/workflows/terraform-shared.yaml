@@ -23,11 +23,6 @@ on:
         description: "Fixed repository-secrets profile"
         required: true
         type: string
-      readiness_marker:
-        description: "Selected repository readiness variable"
-        required: false
-        type: string
-        default: ""
       repository_layout:
         description: "Protected repository layout identifier"
         required: true
@@ -79,7 +74,6 @@ jobs:
           region: ${{ inputs.region }}
           environment_name: ${{ inputs.environment_name }}
           security_profile: ${{ inputs.security_profile }}
-          readiness_marker: ${{ inputs.readiness_marker }}
           repository_layout: ${{ inputs.repository_layout }}
           orchestrator_repo: ${{ inputs.orchestrator_repo }}
           orchestrator_ref: ${{ inputs.orchestrator_ref }}

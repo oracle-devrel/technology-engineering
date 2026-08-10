@@ -8,22 +8,21 @@ state only after a human merges an approved change.
 
 The supplied MVP uses one fixed profile in every project repository, including
 production: `repository-secrets`. GitHub Free private repositories cannot
-access organization secrets or variables, so this is a deliberate manual
-per-repository bootstrap rather than a central secret-distribution mechanism.
-Each logical environment has one environment-qualified JSON repository secret
-and one readiness variable:
+access organization secrets or variables, so a workload that contains secret
+placeholders uses one environment-qualified JSON repository secret. A project
+with no secret placeholders requires no repository secret:
 
-| Environment | Secret | Readiness variable |
-| --- | --- | --- |
-| `dev` | `GITOPS_SECRET_VALUES_DEV` | `CONTROL_PLANE_READY_DEV` |
-| `test` | `GITOPS_SECRET_VALUES_TEST` | `CONTROL_PLANE_READY_TEST` |
-| `uat` | `GITOPS_SECRET_VALUES_UAT` | `CONTROL_PLANE_READY_UAT` |
-| `prod` | `GITOPS_SECRET_VALUES_PROD` | `CONTROL_PLANE_READY_PROD` |
+| Environment | Conditional secret |
+| --- | --- |
+| `dev` | `GITOPS_SECRET_VALUES_DEV` |
+| `test` | `GITOPS_SECRET_VALUES_TEST` |
+| `uat` | `GITOPS_SECRET_VALUES_UAT` |
+| `prod` | `GITOPS_SECRET_VALUES_PROD` |
 
 The default-branch caller rejects forks, workflow changes, mixed tuples,
 invalid JSON, and cross-environment placeholders. It passes exactly one named
-secret bundle to the Platform CI `main` reusable workflow. It
-never inherits all secrets or serializes the repository secret collection.
+secret bundle to the Platform CI `main` reusable workflow when one is needed.
+It never inherits all secrets or serializes the repository secret collection.
 Platform CI stays private and is shared with organization workflows through
 GitHub Actions access settings. The reusable workflow downloads its directly
 referenced composite action on `main` with GitHub's scoped token; no deploy

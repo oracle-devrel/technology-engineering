@@ -276,20 +276,14 @@ through the approved process.
 
 GitHub Free private repositories cannot access organization secrets or
 variables. This MVP therefore uses the fixed `repository-secrets` profile and
-requires a deliberate manual bootstrap in each handed-off project repository.
-For every enabled environment, a repository administrator must configure the
-selected `GITOPS_SECRET_VALUES_<ENVIRONMENT>` JSON secret, the matching
-`CONTROL_PLANE_READY_<ENVIRONMENT>=true` variable. The organization
-administrator must configure private `platform-ci` Actions access for
-organization repositories and verify it with `gh api
-repos/OWNER/platform-ci/actions/permissions/access`; the expected access level
-is `organization`. GitHub then downloads the directly referenced private
-composite action at its immutable SHA, never a branch. Never put secret values in
-a manifest, handoff, installation JSON, terminal history, or chat. Set
-`PROJECT_AUTOMATION_READY=true` only after the handoff, CODEOWNERS, runner
-routing, native Actions access, and all enabled-environment secret and
-readiness pairs have been verified. The project template runbook contains the
-manual commands and ordering.
+requires a deliberate secret bootstrap only for a workload manifest that has an
+environment-qualified placeholder. The organization administrator configures
+private `platform-ci` Actions access once for organization repositories; new
+project repositories inherit it automatically. GitHub then downloads the
+directly referenced private composite action at its immutable SHA, never a
+branch. Never put secret values in a manifest, handoff, installation JSON,
+terminal history, or chat. The project template runbook contains the secret
+commands and ordering.
 
 Every owner must be an existing `@user` or `@organization/team` with write
 access to the project repository. It is valid to use the same platform owner
@@ -354,11 +348,10 @@ the manual project bootstrap in the [MCCP OCI project onboarding
 runbook](../../multi-cloud-control-plane/docs/deployment.md#3-onboard-an-oci-project).
 For a non-production project, follow the focused
 [shared non-production checklist](../../multi-cloud-control-plane/docs/shared-nonproduction.md)
-for only the environments that were handed off. It requires verified
-`platform-ci` Actions access at organization scope, the selected
-`GITOPS_SECRET_VALUES_<ENVIRONMENT>` bundle, and
-`CONTROL_PLANE_READY_<ENVIRONMENT>=true`; set
-`PROJECT_AUTOMATION_READY=true` last.
+for only the environments that were handed off. A secret bundle is required
+only for a workload that contains an environment-qualified placeholder;
+`platform-ci` Actions access is inherited from its organization-wide
+configuration.
 
 Do not submit a Project GitOps workload request until this checklist has been
 completed and the repository-secret end-to-end verification has passed. On a

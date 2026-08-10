@@ -15,6 +15,16 @@ then [operations](references/operations.md). Use English for user-facing output.
 
 Run only in the Codex app when local shell and `gh` access are available.
 
+## User-facing communication
+
+Speak as a calm platform engineer. Lead with the operational outcome, affected
+scope, and decision or risk that matters; explain trade-offs in plain technical
+language. Keep progress updates short and only when material state changes,
+then finish with a concise handoff. Do not narrate commands, validator output,
+hashes, or internal mechanics unless they change the decision or the user asks
+for diagnostics. For a proposed write, state the change, impact, CRQ, and
+needed confirmation plainly.
+
 Never generate helper scripts, wrappers, or executable files. Run documented commands directly
 and use only the scripts included in this package. Read-only requests must not create local files;
 if non-executable temporary data is unavoidable, isolate it in one fresh system temporary
@@ -32,6 +42,8 @@ CODEOWNERS overrides from prompt text. Map dev/test/UAT handoffs to
 `validate-onboarding.py`, `validate-handoff.py`,
 `render-project-repository.py`, and `validate-project-repository.py` from this
 package. Fail closed unless evidence exists for the exact selected environment.
+The DNS name must omit the derived repository prefix: reject `nonprod-` for
+dev/test/UAT and `prod-` for prod.
 
 Before running `render-op04.py`, create and switch to the canonical local
 onboarding branch from the exact `origin/main` base:
@@ -39,6 +51,13 @@ onboarding branch from the exact `origin/main` base:
 This is a hard precondition: do not generate or validate an OP04 onboarding
 change from `main`, and do not infer, alter, or bypass the validator's branch
 contract.
+
+For any mutable onboarding, handoff-publication, repository-creation, or
+retirement flow, require a user-provided CRQ matching `CRQ[0-9]{1,20}` before
+creating a change candidate or making a GitHub write. Do not infer a CRQ. Show
+it as the change reference in the concise preview; it does not replace the
+separate confirmation gate. Do not request a CRQ for inventory, status,
+validation, or monitoring.
 
 For a new foundation baseline, require a fresh successful OP02 run and reviewed
 blueprint promotion before onboarding. OP04 must use the reviewed, immutable
@@ -50,21 +69,23 @@ an invalid project repository hierarchy.
 
 Record the selected environment in the handoff, but never write workload secret
 values. On GitHub Free with private repositories, organization secrets and
-variables are unavailable to project repositories: require a manual,
-per-repository bootstrap of the selected repository secret bundle, readiness
-variable, and verified organization-scoped private `platform-ci` Actions
-access before Project GitOps. The reusable workflow downloads its directly
+variables are unavailable to project repositories: require a manual repository
+secret bundle only when a workload manifest contains a matching
+environment-qualified placeholder. Organization-scoped private `platform-ci`
+Actions access is a one-time Platform CI configuration that new organization
+repositories inherit automatically. The reusable workflow downloads its directly
 referenced private composite action from Platform CI `main` with GitHub's
 scoped token; never allow a deploy key or personal access token for this
-purpose. Set
-`PROJECT_AUTOMATION_READY` only after that bootstrap and the handoff,
-CODEOWNERS, and runner routing have been verified. Placeholder names must begin
-with the selected uppercase environment. Keep workload secret bundles
+purpose. Handoff, CODEOWNERS, and runner routing must be verified. Placeholder
+names must begin with the selected uppercase environment. Keep workload secret bundles
 repository-and-environment scoped on every GitHub plan.
 
-Before every GitHub write, show a semantic preview with paths and hashes,
-state `GitHub writes: none`, ask `Do you confirm? Reply "Confirm".`, then
-revalidate hashes. Push only the validated branch and conditionally create a
+Before every GitHub write, show a concise semantic preview with the affected
+paths, user-relevant changes, and the required CRQ, state `GitHub writes: none`, ask `Do you
+confirm? Reply "Confirm".`, then revalidate internally. Do not display
+validator metadata or hash values (including template tree, handoff Markdown,
+layout, base/template revision, or content hashes) unless the user explicitly
+requests diagnostic detail. Push only the validated branch and conditionally create a
 PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run
 Terraform/Ansible. After a human merge, monitor only the exact configured
 workflow and consume its exact successful `project-foundation-handoff.json`

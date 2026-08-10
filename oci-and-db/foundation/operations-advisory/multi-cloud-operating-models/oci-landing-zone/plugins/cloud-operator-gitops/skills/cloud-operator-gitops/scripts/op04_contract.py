@@ -65,10 +65,18 @@ def validate_project(project: str) -> ProjectIdentity:
     match = PROJECT_RE.fullmatch(project)
     if match is None or len(match.group("project_name")) > 30:
         raise ContractError("The project must match <environment>-<dns-name>.")
+    environment = match.group("environment")
+    project_name = match.group("project_name")
+    repository_prefix = "prod-" if environment == "prod" else "nonprod-"
+    if project_name.startswith(repository_prefix):
+        raise ContractError(
+            "The project DNS name must not repeat the derived repository "
+            f"prefix {repository_prefix}."
+        )
     return ProjectIdentity(
         project,
-        match.group("environment"),
-        match.group("project_name"),
+        environment,
+        project_name,
     )
 
 

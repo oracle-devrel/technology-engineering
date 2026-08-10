@@ -16,6 +16,10 @@ access, authenticated GitHub CLI access, and repository permission. It validates
 the installed catalog pin before reading any schema and records the verified
 catalog provenance in its semantic preview.
 
+For the customer-adoption prerequisites, local installation, validation, and
+OP04-to-project-request example, see [Install and use the Codex GitOps
+skills](../../oci-landing-zone/docs/codex-skills-installation.md).
+
 The assistant cannot merge or approve pull requests, control workflows, call
 cloud APIs, accept raw passwords, or perform unavailable Azure or Google Day 2
 operations. Read-only work creates no persistent local files. Normal GitHub pull

@@ -9,7 +9,7 @@ handoffs are separate from `nonprod-<project>`.
 The supplied production template supports Day 1 Terraform and the same supplied
 OCI Day 2 lifecycle operations as non-production: ADB start/stop and
 `deploy-agent`. The production Ansible caller retains the PR check, human merge,
-production runner, and readiness gates. Azure and Google Day 2 operations are
+and production runner. Azure and Google Day 2 operations are
 not included in this MVP.
 
 ![MCCP V2 production repository structure: one prod project repository holds its reviewed handoff and OCI, Azure, and GCP requests; shared control-plane repositories supply execution, catalog content, and pinned adapters.](images/repository-structure-v2.svg)
@@ -66,8 +66,7 @@ The appended Azure and Google tables remain unusable until the platform team
 fills them through that reviewed pull request. External-cloud validation rejects
 blank or mismatched references.
 
-Render production CODEOWNERS with existing users or teams before enabling
-automation:
+Render production CODEOWNERS with existing users or teams:
 
 ```bash
 export PLATFORM_OWNERS='@example-platform-admin'
@@ -80,12 +79,11 @@ perl -pi -e \
 ! rg '__[A-Z_]+__' "$PROJECT_OUTPUT/.github/CODEOWNERS"
 ```
 
-Configure the production secret bundle and readiness variable only after the
-handoff and CODEOWNERS checks succeed:
+Configure the production secret bundle only when a workload manifest contains a
+`__PROD_...__` placeholder:
 
 ```bash
 gh secret set GITOPS_SECRET_VALUES_PROD --repo OWNER/prod-PROJECT
-gh variable set CONTROL_PLANE_READY_PROD --body true --repo OWNER/prod-PROJECT
 ```
 
 The secret command prompts for values; never put literal members on a command

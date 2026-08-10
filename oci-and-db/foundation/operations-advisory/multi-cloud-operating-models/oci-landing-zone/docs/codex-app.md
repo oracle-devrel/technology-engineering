@@ -17,6 +17,10 @@ reads the protected blueprint only from the installation-selected foundation
 repository on `main`; after a foundation rename, a newly promoted blueprint is
 required.
 
+For the customer-adoption prerequisites, local installation, validation, and
+OP04-to-project-request example, see [Install and use the Codex GitOps
+skills](codex-skills-installation.md).
+
 After a successful human-merged OP04 run, the assistant may create only the
 exact private target repository from the installation-selected template
 repository and immutable revision when it is absent. It reuses an existing validated shared non-production repository for

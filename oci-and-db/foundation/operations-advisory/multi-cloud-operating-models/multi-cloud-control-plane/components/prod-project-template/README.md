@@ -19,13 +19,12 @@ paid-plan hardening model when enforceable approval controls are required.
 Render the project target and `.github/CODEOWNERS.template` to an active
 `.github/CODEOWNERS` file with valid existing owners before granting project
 access.
-New repositories are inactive by default. Set the repository variable
-`PROJECT_AUTOMATION_READY` to `true` only after the rendered workflow policy,
-CODEOWNERS, handoff, secrets, readiness markers, and runner routing are all in
-place. Configure `GITOPS_SECRET_VALUES_PROD` as the JSON Actions repository secret and
-set the `CONTROL_PLANE_READY_PROD` repository variable to `true`. Bundle keys
-and runtime placeholders must begin with `PROD_`. Require independent
-production approval and passing checks; do not use `secrets: inherit`.
+New repositories can use the protected Platform CI workflows immediately after
+the rendered workflow policy, CODEOWNERS, handoff, and runner routing are in
+place. Configure `GITOPS_SECRET_VALUES_PROD` only when a workload manifest
+contains a `__PROD_...__` placeholder. Bundle keys and runtime placeholders
+must begin with `PROD_`. Require independent production approval and passing
+checks; do not use `secrets: inherit`.
 
 See the
 [production runbook](../../docs/production.md)

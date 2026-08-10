@@ -21,23 +21,17 @@ inputs:
   security_profile:
     description: Selected repository security profile
     required: true
-  readiness_marker:
-    description: Repository-profile readiness value
-    required: false
-    default: ""
 
 runs:
   using: composite
   steps:
-    - name: Verify environment readiness
+    - name: Verify repository security profile
       shell: bash
       env:
-        REPOSITORY_READINESS_MARKER: ${{ inputs.readiness_marker }}
         SECURITY_PROFILE: ${{ inputs.security_profile }}
       run: |
         set -euo pipefail
         test "$SECURITY_PROFILE" = repository-secrets
-        test "$REPOSITORY_READINESS_MARKER" = true
 
     # =====================================================================
     # Setup

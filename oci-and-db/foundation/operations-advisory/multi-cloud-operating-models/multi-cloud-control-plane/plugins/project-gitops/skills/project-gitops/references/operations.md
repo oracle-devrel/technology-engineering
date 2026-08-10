@@ -7,33 +7,14 @@
 2. Resolve the validator-returned catalog repository through GitHub API at the
    validator-returned SHA, verify its blob hash, and include repository, commit,
    and blob SHA in the semantic preview.
-3. For an explicit new OCI Compute request for Oracle Linux 9 on
-   `VM.Standard.A1.Flex`, derive `APP_COMPARTMENT_ID` and `OCI_REGION` from the
-   selected `environment_information.md` handoff, then run only this read-only
-   command:
-
-   ```bash
-   image_json=$(oci compute image list \
-     --compartment-id "$APP_COMPARTMENT_ID" \
-     --region "$OCI_REGION" \
-     --operating-system 'Oracle Linux' \
-     --operating-system-version '9' \
-     --shape 'VM.Standard.A1.Flex' \
-     --lifecycle-state AVAILABLE \
-     --sort-by TIMECREATED \
-     --sort-order DESC \
-     --limit 1 \
-     --query 'data[0].{id:id,display_name:"display-name",operating_system:"operating-system",operating_system_version:"operating-system-version",time_created:"time-created"}')
-   printf '%s\n' "$image_json"
-   printf '%s\n' "$image_json" | jq -e \
-     'type == "object" and (.id | type == "string" and length > 0) and (.display_name | type == "string" and length > 0) and .operating_system == "Oracle Linux" and .operating_system_version == "9" and (.time_created | type == "string" and length > 0)'
-   ```
-
-   Print the selected record before validation so its exact OCID remains
-   available for the semantic preview. Require non-empty `id`, `display_name`, and
-   `time_created`, and exact `Oracle Linux` / `9` metadata. Include that record
-   and the exact OCID in the semantic preview, then write only the OCID to
-   `platform_image.ocid`. Fail closed for no result or incomplete metadata.
+3. For a new OCI Compute request, offer the Frankfurt `VM.Standard.A1.Flex`
+   image already pinned in the approved OCI Compute catalog template and ask
+   whether to use it or provide another regional image OCID. The user confirms
+   the image choice manually before approval. Validate the selected OCID
+   through the manifest contract, state whether it is the catalog default or a
+   user-selected override in the preview, and write it only to
+   `platform_image.ocid`. Never use OCI CLI or call a cloud API to resolve an
+   image.
 4. Create a fresh disposable parent directory, then clone into its child named
    exactly `nonprod-<project>` or `prod-<project>` and create one
    collision-free branch from exact `origin/main`. The shared-layout validator
@@ -50,8 +31,11 @@
    includes `database_compartment_id` and one or more start/stop targets. For OCI
    Compute, one validated change contains exactly one VM; use a separate change
    and pull request for each additional VM.
-6. Show the semantic diff, destructive/replacement warnings, branch, base SHA, and content SHA-256; then stop for fresh confirmation.
-7. Revalidate hashes, stage only the validated path, commit, push, and conditionally create one PR. Stop before merge.
+6. Require a user-provided CRQ matching `CRQ[0-9]{1,20}`. Show the semantic
+   diff, destructive/replacement warnings, branch, and CRQ; keep validator
+   hashes and metadata internal unless the user requests diagnostics, then stop
+   for fresh confirmation.
+7. Revalidate internally, stage only the validated path, commit, push, and conditionally create one PR. Stop before merge.
 8. After human merge, monitor only the configured exact workflow and merge commit. Report configuration and structured workflow results without inferring cloud state.
 
 On interruption, discard stale confirmation and rebuild the preview from exact remote state.

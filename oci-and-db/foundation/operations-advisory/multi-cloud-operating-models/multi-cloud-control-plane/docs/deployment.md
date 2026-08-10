@@ -319,15 +319,14 @@ enforced CODEOWNERS review are not claimed as technical controls in this MVP.
 ### Required GitHub Free bootstrap before Project GitOps
 
 The Cloud Operator handoff is complete only after the repository administrator
-has configured the project repository. Verify that private `platform-ci`
-Actions access is available to organization repositories, then for each
-handed-off environment set the corresponding
-`GITOPS_SECRET_VALUES_<ENVIRONMENT>` repository secret and
-`CONTROL_PLANE_READY_<ENVIRONMENT>=true`. Set
-`PROJECT_AUTOMATION_READY=true` only after those values, CODEOWNERS, handoff,
-runner routing, native Actions access, and procedural review are verified. For a non-production
+has configured the project repository. Private `platform-ci` Actions access
+is configured once on the Platform CI repository for the organization; every
+new project repository inherits it automatically. A project repository needs a
+`GITOPS_SECRET_VALUES_<ENVIRONMENT>` secret only when a workload manifest
+contains a matching environment-qualified placeholder. CODEOWNERS, handoff,
+runner routing, and procedural review remain required. For a non-production
 repository, use the concise [shared non-production
-checklist](shared-nonproduction.md); configure only its enabled environments.
+checklist](shared-nonproduction.md).
 
 Do not submit a Project GitOps workload request or merge one until this
 bootstrap and the [repository-secret end-to-end verification](repository-secret-e2e.md)
@@ -381,34 +380,17 @@ scoped, temporary token to download the directly referenced private composite
 action from Platform CI `main`. Do not use a deploy key, a personal access
 token, or `secrets: inherit` for Platform CI source access.
 
-Configure repository bundles and readiness variables for enabled environments:
+Configure a repository bundle only for an environment with secret placeholders:
 
 ```bash
 gh secret set GITOPS_SECRET_VALUES_DEV --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set GITOPS_SECRET_VALUES_TEST --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 gh secret set GITOPS_SECRET_VALUES_UAT --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-gh variable set CONTROL_PLANE_READY_DEV --body true --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-gh variable set CONTROL_PLANE_READY_TEST --body true --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-gh variable set CONTROL_PLANE_READY_UAT --body true --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
 ```
 
-Only configure enabled environments. Every JSON member name must begin with
+Only configure secret-backed environments. Every JSON member name must begin with
 the corresponding uppercase environment. Never place multiple environments in
 one bundle.
-
-Project automation is disabled by default. Only after the rendered MCCP
-installation configuration,
-CODEOWNERS, handoff files, selected secret and readiness pairs, runner routing,
-and manual-review process are verified, enable it once:
-
-```bash
-gh variable set PROJECT_AUTOMATION_READY --body true \
-  --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-```
-
-Do not set this variable while publishing or rendering a generic template. A
-missing or any value other than `true` skips every project workflow before it
-can allocate a runner.
 
 ## 4. Confirm the installation
 
