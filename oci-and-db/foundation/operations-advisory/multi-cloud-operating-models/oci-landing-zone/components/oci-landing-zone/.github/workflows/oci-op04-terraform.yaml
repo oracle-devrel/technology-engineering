@@ -479,7 +479,7 @@ jobs:
         shell: bash
         run: |
           terraform -chdir="$GITHUB_WORKSPACE/ORCH" apply \
-            -input=false -no-color -auto-approve "$RUNNER_TEMP/op04.tfplan"
+            -input=false -no-color -parallelism=1 -auto-approve "$RUNNER_TEMP/op04.tfplan"
 
   handoff:
     name: Generate project handoff after OP04
