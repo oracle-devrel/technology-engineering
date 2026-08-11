@@ -70,7 +70,7 @@ openapi-pydantic==0.5.1
 openapi-schema-validator==0.6.3
 openapi-spec-validator==0.7.2
 oracledb==3.3.0
-orjson==3.11.3
+orjson==3.11.6
 ormsgpack==1.10.0
 packaging==25.0
 pandas==2.2.3
