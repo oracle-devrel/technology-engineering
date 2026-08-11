@@ -18,16 +18,10 @@ local global_policy_keys = [
   'PCY-SECURITY-ADMIN-KEY',
   'PCY-SERVICES-ADMIN-KEY',
 ];
-local landing_zone_policy_keys = [
-  'PCY-LZ-NETWORK-ADMIN-KEY',
-  'PCY-LZ-SECURITY-ADMIN-KEY',
-];
 local base_group_keys = [
   'GRP-AUDITORS-ADMIN-KEY',
   'GRP-COST-ADMIN-KEY',
   'GRP-IAM-ADMIN-KEY',
-  'GRP-LZ-NETWORK-ADMIN-KEY',
-  'GRP-LZ-SECURITY-ADMIN-KEY',
   'GRP-SECURITY-ADMIN-KEY',
 ];
 local excluded_osms_statement =
@@ -319,18 +313,20 @@ local render(customer) =
         }) + tbac.common_policies,
     },
   };
+  local shared_landing_zone_without_unmanaged_lz_role_tags =
+    shared_landing_zone {
+      children: {
+        [key]: without_unmanaged_lz_role_tag(shared_landing_zone.children[key])
+        for key in std.objectFields(shared_landing_zone.children)
+      },
+    };
   local op01_iam = {
     compartments_configuration:
       iam.compartments_configuration {
         compartments: {
-          [landing_zone_key]: shared_landing_zone,
+          [landing_zone_key]: shared_landing_zone_without_unmanaged_lz_role_tags,
         },
       },
-    policies_configuration:
-      selected_policies(
-        iam.policies_configuration,
-        landing_zone_policy_keys,
-      ),
   };
 
   local op02_identity(environment) =
@@ -488,28 +484,6 @@ local render(customer) =
       },
     };
 
-  // The reviewed OE master revision creates a child-specific zone for the shared network
-  // compartment. That separates its subnets from platform resources, which
-  // inherit the parent CIS zone, and OCI rejects those cross-zone
-  // associations. Until the upstream generator uses one zone at the common
-  // parent, retain the parent CIS zone and omit only the conflicting child
-  // target.
-  local without_shared_network_security_zone(document) =
-    local shared_network_zone_key =
-      n.key_global('SZ-TGT', ['SHARED', 'NETWORK']);
-    document {
-      security_zones_configuration+: {
-        security_zones: {
-          [key]: document.security_zones_configuration.security_zones[key]
-          for key in
-            std.objectFields(
-              document.security_zones_configuration.security_zones,
-            )
-          if key != shared_network_zone_key
-        },
-      },
-    };
-
   local project_identity(environment, project) =
     local project_container_key =
       n.key_global('CMP', [environment, 'PROJECTS']);
@@ -546,7 +520,7 @@ local render(customer) =
     'op01_manage_landing_zone_environment/generated/security_cis1_pre.json':
       active_render.security_cis1_pre,
     'op01_manage_landing_zone_environment/generated/security_cis1.json':
-      without_shared_network_security_zone(active_render.security_cis1),
+      active_render.security_cis1_pre,
   };
   local environment_outputs = std.foldl(
     function(outputs, environment)
