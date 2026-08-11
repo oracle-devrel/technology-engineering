@@ -52,6 +52,11 @@ This is a hard precondition: do not generate or validate an OP04 onboarding
 change from `main`, and do not infer, alter, or bypass the validator's branch
 contract.
 
+`render-op04.py` creates one initial
+`op04_manage_project/<environment>/<environment>-<project>/iam.json` from the
+pinned OE revision. That file is the project's editable foundation declaration
+after onboarding; subsequent OP04 maintenance changes modify only that file.
+
 For any mutable onboarding, handoff-publication, repository-creation, or
 retirement flow, require a user-provided CRQ matching `CRQ[0-9]{1,20}` before
 creating a change candidate or making a GitHub write. Do not infer a CRQ. Show
@@ -118,7 +123,7 @@ For retirement, accept exactly one handed-off project environment. Before propos
 require: empty workload declarations; no lifecycle-operation requests; successful teardown
 evidence for that environment; a CRQ; a stated state-retention decision; and the required human
 approval. Run `validate-retirement.py` against the exact base commit and proposed working tree.
-Preview and remove only that project catalog entry and its two generated OP04 artifacts.
+Preview and remove only that project's editable OP04 IAM declaration.
 Never delete a project repository or Terraform state automatically. After a human merge, monitor
 only the existing OP04 destroy workflow. Disable the retired environment and restore its handoff
 placeholder in a separate reviewed change. Retain a shared non-production repository while at

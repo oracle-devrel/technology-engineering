@@ -48,8 +48,8 @@
   branch. Never change workflows, contracts, manifests, secrets, teams, or
   permissions.
 - Never merge, approve, control workflows, call cloud APIs, or run Terraform.
-- For retirement, require the packaged validator to prove the exact catalog removal and two
-  generated-file deletions. Preserve Terraform state and the project repository automatically.
+- For retirement, require the packaged validator to prove the exact deletion of one project's
+  IAM declaration. Preserve Terraform state and the project repository automatically.
 - Keep inventory read-only and limited to declared foundation state.
 - Never generate helper scripts or executable files. Use only packaged scripts. Keep temporary
   data inside one fresh system temporary directory, clean it before returning, and leave no local

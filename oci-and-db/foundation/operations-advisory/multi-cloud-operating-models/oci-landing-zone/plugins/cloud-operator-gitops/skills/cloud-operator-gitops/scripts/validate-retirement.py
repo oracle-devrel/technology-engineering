@@ -19,16 +19,13 @@ class RetirementError(ValueError):
     """A stable, user-safe retirement validation failure."""
 
 
-def retirement_paths(project: str) -> tuple[str, str]:
-    """Return the only two paths a governed OP04 retirement may change."""
+def retirement_paths(project: str) -> tuple[str]:
+    """Return the one editable OP04 IAM path a retirement may remove."""
     match = PROJECT_RE.fullmatch(project)
     if match is None:
         raise RetirementError("The retirement project is invalid.")
-    root = f"op04_manage_project/{match.group('environment')}/{project}/generated"
-    return (
-        "config/projects.json",
-        f"{root}/iam.json",
-    )
+    root = f"op04_manage_project/{match.group('environment')}/{project}"
+    return (f"{root}/iam.json",)
 
 
 def validate_evidence(evidence: object) -> None:
@@ -81,25 +78,9 @@ def _git(repository: Path, *arguments: str) -> str:
     return result.stdout
 
 
-def _catalog(document: object) -> dict[str, list[str]]:
-    environments = {"dev", "test", "uat", "prod"}
-    if (
-        not isinstance(document, dict)
-        or set(document) != environments
-        or any(
-            not isinstance(values, list)
-            or any(not isinstance(value, str) for value in values)
-            or len(values) != len(set(values))
-            for values in document.values()
-        )
-    ):
-        raise RetirementError("The project catalog is invalid.")
-    return document
-
-
 def validate_retirement_change(repository: Path, base_ref: str, project: str) -> None:
-    """Require the exact catalog removal and generated IAM-file deletion."""
-    expected_paths = retirement_paths(project)
+    """Require the exact deletion of one project IAM file."""
+    (iam_path,) = retirement_paths(project)
     statuses = {
         tuple(line.split("\t", 1))
         for line in _git(
@@ -113,31 +94,9 @@ def validate_retirement_change(repository: Path, base_ref: str, project: str) ->
         ).splitlines()
         if line
     }
-    expected_statuses = {
-        ("M", expected_paths[0]),
-        ("D", expected_paths[1]),
-    }
+    expected_statuses = {("D", iam_path)}
     if statuses != expected_statuses:
-        raise RetirementError("Retirement must change exactly the two governed paths.")
-
-    try:
-        base_catalog = _catalog(json.loads(_git(repository, "show", f"{base_ref}:{expected_paths[0]}")))
-        current_catalog = _catalog(
-            json.loads((repository / expected_paths[0]).read_text(encoding="utf-8"))
-        )
-    except (OSError, json.JSONDecodeError) as exc:
-        raise RetirementError("The project catalog is invalid.") from exc
-
-    match = PROJECT_RE.fullmatch(project)
-    assert match is not None
-    environment = match.group("environment")
-    project_name = project.removeprefix(f"{environment}-")
-    if base_catalog[environment].count(project_name) != 1:
-        raise RetirementError("The selected project is not present exactly once.")
-    expected_catalog = {key: list(values) for key, values in base_catalog.items()}
-    expected_catalog[environment].remove(project_name)
-    if current_catalog != expected_catalog:
-        raise RetirementError("Retirement must remove exactly one project catalog entry.")
+        raise RetirementError("Retirement must delete exactly one project IAM file.")
 
 
 def main() -> int:

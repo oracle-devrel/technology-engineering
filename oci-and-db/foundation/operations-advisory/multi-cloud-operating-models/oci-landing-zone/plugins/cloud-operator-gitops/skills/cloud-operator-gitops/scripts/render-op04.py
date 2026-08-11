@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # Copyright (c) 2026 Oracle and/or its affiliates.
-"""Add one project declaration and invoke the pinned foundation generator."""
+"""Render one initial editable OP04 IAM declaration from pinned OE."""
 
 from __future__ import annotations
 
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -52,33 +53,44 @@ def main() -> int:
             base,
             identity.environment,
         )
-        catalog_path = repo / contract["project_catalog"]
+        catalog_path = repo / "config/projects.json"
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-        if identity.project_name in catalog[identity.environment]:
-            raise ContractError("The OP04 project already exists.")
-        _, iam_relative = expected_paths(identity.slug)
+        (iam_relative,) = expected_paths(identity.slug)
         if (repo / iam_relative).exists():
-            raise ContractError("The generated OP04 target already exists.")
+            raise ContractError("The OP04 project already exists.")
         original = catalog_path.read_bytes()
-        catalog[identity.environment].append(identity.project_name)
-        catalog[identity.environment].sort()
-        catalog_path.write_text(
-            json.dumps(catalog, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
+        generated_relative = (
+            f"op04_manage_project/{identity.environment}/{identity.slug}/"
+            "generated/iam.json"
         )
-        result = subprocess.run(
-            [
-                "bash",
-                "scripts/generate_foundation.sh",
-                f"op04:{identity.slug}",
-            ],
-            cwd=repo,
-            check=False,
-        )
-        if result.returncode:
+        try:
+            catalog[identity.environment].append(identity.project_name)
+            catalog[identity.environment].sort()
+            catalog_path.write_text(
+                json.dumps(catalog, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [
+                    "bash",
+                    "scripts/generate_foundation.sh",
+                    f"op04:{identity.slug}",
+                ],
+                cwd=repo,
+                check=False,
+            )
+            if result.returncode:
+                raise ContractError("The pinned OE generator failed.")
+            generated_path = repo / generated_relative
+            if not generated_path.is_file():
+                raise ContractError("The pinned OE generator did not render OP04 IAM.")
+            manifest_path = repo / iam_relative
+            manifest_path.parent.mkdir(parents=True, exist_ok=True)
+            generated_path.replace(manifest_path)
+            shutil.rmtree(generated_path.parent)
+        finally:
             catalog_path.write_bytes(original)
-            raise ContractError("The pinned OE generator failed.")
-        print(f"Rendered the canonical OP04 declaration for {identity.slug}.")
+        print(f"Rendered the initial OE OP04 IAM for {identity.slug}.")
         return 0
     except (ContractError, OSError, json.JSONDecodeError) as exc:
         print(f"render-op04: {exc}", file=sys.stderr)

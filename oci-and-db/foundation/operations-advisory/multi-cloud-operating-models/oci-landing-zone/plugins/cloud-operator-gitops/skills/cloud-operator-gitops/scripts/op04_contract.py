@@ -97,10 +97,9 @@ def validate_runtime_contract(
     allowed = ["dev", "test", "uat", "prod"]
     generator = contract.get("op04_generator", {})
     if (
-        contract.get("contract_version") != 3
+        contract.get("contract_version") != 4
         or contract.get("allowed_environments") != allowed
         or environment not in allowed
-        or contract.get("project_catalog") != "config/projects.json"
         or generator.get("repository")
         != "oci-landing-zones/oci-landing-zone-operating-entities"
         or generator.get("release") != "master"
@@ -125,13 +124,10 @@ def validate_runtime_contract(
     return contract
 
 
-def expected_paths(project: str) -> tuple[str, str]:
+def expected_paths(project: str) -> tuple[str]:
     identity = validate_project(project)
     root = (
         "op04_manage_project/"
-        f"{identity.environment}/{identity.slug}/generated"
+        f"{identity.environment}/{identity.slug}"
     )
-    return (
-        "config/projects.json",
-        f"{root}/iam.json",
-    )
+    return (f"{root}/iam.json",)

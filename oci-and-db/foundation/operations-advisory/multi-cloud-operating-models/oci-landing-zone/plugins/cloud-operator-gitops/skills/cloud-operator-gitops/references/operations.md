@@ -14,9 +14,10 @@
    `agent/project-onboard-<environment>-<dns-name>-<first-12-of-origin/main>`.
    Running the generator or `validate-onboarding.py` from `main` is invalid;
    never bypass, modify, or infer the validator's branch contract.
-5. Require a user-provided CRQ matching `CRQ[0-9]{1,20}`, then add one
-   project to the protected catalog, generate its canonical OP04 file
-   from the pinned OE release, and run `validate-onboarding.py`.
+5. Require a user-provided CRQ matching `CRQ[0-9]{1,20}`, then generate one
+   initial editable OP04 IAM file from the pinned OE release and run
+   `validate-onboarding.py`. Do not modify `config/projects.json` for OP04
+   onboarding or maintenance.
 6. Show affected paths, semantic changes, the CRQ, and `GitHub writes: none`; keep
    validator hashes and metadata internal unless the user asks for diagnostics.
 7. Require fresh confirmation, revalidate internally, push, and open one PR.
@@ -78,10 +79,10 @@ incomplete. Git declarations cannot prove whether a resource is currently runnin
 1. Resolve one handed-off environment and collect the required workload, lifecycle, teardown,
    CRQ, retention, repository-preservation, and human-approval evidence. The
    CRQ must match `CRQ[0-9]{1,20}`.
-2. Create a disposable landing-zone clone from exact `origin/main` and remove one project name
-   from its environment in `config/projects.json` plus that project's generated `iam.json`.
+2. Create a disposable landing-zone clone from exact `origin/main` and remove exactly that
+   project's `op04_manage_project/<environment>/<environment>-<project>/iam.json` file.
 3. Run `validate-retirement.py --evidence <file> --repository <clone> --base-ref <sha> --project
-   <environment>-<project>`. Stop if any other path or catalog value changed.
+   <environment>-<project>`. Stop if any other path changed.
 4. Show the concise semantic preview, require fresh confirmation, revalidate internally, then push one
    branch and conditionally open one pull request. Stop before merge.
 5. After human merge, monitor the existing OP04 workflow to terminal. Disable the retired

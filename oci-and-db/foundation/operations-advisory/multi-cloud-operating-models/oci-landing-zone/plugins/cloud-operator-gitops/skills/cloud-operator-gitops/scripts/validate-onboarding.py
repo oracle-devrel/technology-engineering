@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2026 Oracle and/or its affiliates.
-"""Fail closed on one additive, OE-generated OP04 change."""
+"""Fail closed on one additive OP04 IAM declaration."""
 
 from __future__ import annotations
 
@@ -81,14 +81,14 @@ def repository_slug(repo: Path) -> str:
     return match.group("repository").removesuffix(".git")
 
 
-def generated_json(path: Path) -> tuple[str, object]:
-    """Read one bounded, regular, non-sensitive generated JSON artifact."""
+def iam_json(path: Path) -> tuple[str, object]:
+    """Read one bounded, regular, non-sensitive editable IAM artifact."""
     info = path.lstat()
     if not stat.S_ISREG(info.st_mode) or info.st_size > 1_048_576:
-        raise ValidationError("A generated OP04 artifact is invalid.")
+        raise ValidationError("The OP04 IAM artifact is invalid.")
     text = path.read_text(encoding="utf-8")
     if "__" in text or SENSITIVE_RE.search(text):
-        raise ValidationError("A generated OP04 artifact is invalid.")
+        raise ValidationError("The OP04 IAM artifact is invalid.")
     return text, json.loads(text)
 
 
@@ -110,7 +110,7 @@ def validate(
     if branch != canonical_onboarding_branch(project, base):
         raise ValidationError("The OP04 onboarding branch is invalid.")
     contract = validate_runtime_contract(repo, base, identity.environment)
-    catalog_relative, manifest_relative = expected_paths(project)
+    (manifest_relative,) = expected_paths(project)
     status = sorted(
         line
         for line in git(
@@ -120,33 +120,11 @@ def validate(
             "--untracked-files=all",
         ).splitlines()
     )
-    expected_status = sorted(
-        [
-            f" M {catalog_relative}",
-            f"?? {manifest_relative}",
-        ]
-    )
+    expected_status = [f"?? {manifest_relative}"]
     if status != expected_status:
-        raise ValidationError(
-            "Exactly the project catalog and generated OP04 IAM file may change."
-        )
-    base_catalog = load_at(repo, base, contract["project_catalog"])
-    catalog_path = repo / catalog_relative
-    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-    for environment in ("dev", "test", "uat", "prod"):
-        before = base_catalog[environment]
-        after = catalog[environment]
-        if environment == identity.environment:
-            if (
-                set(after) - set(before) != {identity.project_name}
-                or set(before) - set(after)
-                or len(after) != len(set(after))
-            ):
-                raise ValidationError("The project catalog delta is invalid.")
-        elif after != before:
-            raise ValidationError("Another environment was modified.")
+        raise ValidationError("Exactly one new OP04 IAM file may change.")
     manifest_path = repo / manifest_relative
-    manifest_text, manifest = generated_json(manifest_path)
+    manifest_text, manifest = iam_json(manifest_path)
     if (
         not isinstance(manifest, dict)
         or sorted(manifest) != [
@@ -154,11 +132,8 @@ def validate(
             "identity_domain_groups_configuration",
         ]
     ):
-        raise ValidationError("The generated OP04 manifest is invalid.")
-    files = {
-        catalog_relative: catalog_path.read_bytes(),
-        manifest_relative: manifest_path.read_bytes(),
-    }
+        raise ValidationError("The OP04 IAM manifest is invalid.")
+    files = {manifest_relative: manifest_path.read_bytes()}
     content_hash = bundle_sha(files)
     if (expected_base is None) != (expected_content is None):
         raise ValidationError("Expected hashes must be provided together.")
@@ -168,16 +143,7 @@ def validate(
         or SHA256_RE.fullmatch(expected_content or "") is None
     ):
         raise ValidationError("The confirmed preview has changed.")
-    base_catalog_text = git(repo, "show", f"{base}:{catalog_relative}")
     diff = "".join(
-        difflib.unified_diff(
-            base_catalog_text.splitlines(keepends=True),
-            catalog_path.read_text(encoding="utf-8").splitlines(keepends=True),
-            fromfile=f"a/{catalog_relative}",
-            tofile=f"b/{catalog_relative}",
-        )
-    )
-    diff += "".join(
         difflib.unified_diff(
             [],
             manifest_text.splitlines(keepends=True),
@@ -194,7 +160,7 @@ def validate(
         "environment": identity.environment,
         "project": project,
         "base_sha": base,
-        "paths": sorted(files),
+        "paths": [manifest_relative],
         "content_sha256": content_hash,
         "summary": {
             "resource_type": "oci-project-foundation",
