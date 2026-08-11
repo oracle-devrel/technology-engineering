@@ -5,19 +5,16 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened]
     paths:
-      - 'config/projects.json'
-      - 'op04_manage_project/*/*/generated/iam.json'
+      - 'op04_manage_project/*/*/iam.json'
   push:
     branches: [main]
     paths:
-      - 'config/projects.json'
-      - 'op04_manage_project/*/*/generated/iam.json'
+      - 'op04_manage_project/*/*/iam.json'
 
 permissions:
   contents: read
 
 env:
-  OE_REVISION: dab13856ba6701c45baafc163780bb76562c039a
   ORCHESTRATOR_REVISION: fcf1d7f02c0b4faa1ff55f1776c396452dd51761
 
 jobs:
@@ -35,13 +32,6 @@ jobs:
       target_project: ${{ steps.target.outputs.project }}
       operation: ${{ steps.target.outputs.operation }}
     steps:
-      - name: Check out protected workflow and generator
-        uses: actions/checkout@v7.0.1
-        with:
-          ref: ${{ github.event.pull_request.base.sha || github.sha }}
-          path: trusted
-          fetch-depth: 0
-
       - name: Check out requested OP04 revision
         uses: actions/checkout@v7.0.1
         with:
@@ -49,7 +39,7 @@ jobs:
           path: request
           fetch-depth: 0
 
-      - name: Resolve one project declaration, maintenance update, or retirement
+      - name: Resolve one editable OP04 project change
         id: target
         shell: bash
         env:
@@ -70,9 +60,8 @@ jobs:
             printf '%s\n' "${changed_files[@]}" |
               awk -F/ '
                 $1 == "op04_manage_project" &&
-                $4 == "generated" &&
-                $5 == "iam.json" &&
-                NF == 5 {
+                $4 == "iam.json" &&
+                NF == 4 {
                   print $1 "/" $2 "/" $3
                 }
               ' | sort -u
@@ -86,93 +75,23 @@ jobs:
           test "${BASH_REMATCH[1]}" = "$environment"
           project_name="${BASH_REMATCH[2]}"
           test "${#project_name}" -le 30
-          for path in "${changed_files[@]}"; do
-            case "$path" in
-              config/projects.json|"$root/generated/iam.json")
-                ;;
-              *)
-                echo "OP04 accepts changes for exactly one project: $path" >&2
-                exit 1
-                ;;
-            esac
-          done
-          jq -e '
-            keys == ["dev", "prod", "test", "uat"] and
-            all(.[]; type == "array") and
-            all(.[][];
-              test("^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$") and
-              length <= 30
-            ) and
-            all(.[]; length == (unique | length))
-          ' config/projects.json >/dev/null
-          case "${#changed_files[@]}" in
-            1)
-              for path in "${changed_files[@]}"; do
-                test "$(git ls-tree "$HEAD_SHA" -- "$path" | \
-                  awk '{print $1}')" = "100644"
-              done
-              git diff --quiet "$BASE_SHA" "$HEAD_SHA" -- \
-                config/projects.json
-              jq -e \
-                --arg environment "$environment" \
-                --arg project "$project_name" \
-                '.[$environment] | index($project) != null' \
-                config/projects.json >/dev/null
+          test "${#changed_files[@]}" -eq 1
+          path="${changed_files[0]}"
+          test "$path" = "$root/iam.json"
+          head_mode="$(git ls-tree "$HEAD_SHA" -- "$path" | awk '{print $1}')"
+          base_mode="$(git ls-tree "$BASE_SHA" -- "$path" | awk '{print $1}')"
+          if [ "$head_mode" = "100644" ]; then
+            if [ -z "$base_mode" ]; then
+              operation="onboarding"
+            else
+              test "$base_mode" = "100644"
               operation="maintenance"
-              ;;
-            2)
-              printf '%s\n' "${changed_files[@]}" | sort | diff -u - \
-                <(printf '%s\n' \
-                  "config/projects.json" \
-                  "$root/generated/iam.json" | sort)
-              git show "$BASE_SHA:config/projects.json" \
-                > "$RUNNER_TEMP/projects-before.json"
-              jq -n \
-                --slurpfile before "$RUNNER_TEMP/projects-before.json" \
-                --slurpfile after config/projects.json \
-                --arg environment "$environment" \
-                --arg project "$project_name" '
-                  {
-                    added: ($after[0][$environment] - $before[0][$environment]),
-                    removed: ($before[0][$environment] - $after[0][$environment]),
-                    other_environments_unchanged: all(
-                      ["dev", "test", "uat", "prod"][] |
-                      select(. != $environment);
-                      $after[0][.] == $before[0][.]
-                    )
-                  }
-                ' > "$RUNNER_TEMP/project-change.json"
-              if jq -e --arg project "$project_name" '
-                .added == [$project] and
-                .removed == [] and
-                .other_environments_unchanged
-              ' "$RUNNER_TEMP/project-change.json" >/dev/null; then
-                for path in "${changed_files[@]}"; do
-                  test "$(git ls-tree "$HEAD_SHA" -- "$path" | \
-                    awk '{print $1}')" = "100644"
-                done
-                operation="onboarding"
-              elif jq -e --arg project "$project_name" '
-                .added == [] and
-                .removed == [$project] and
-                .other_environments_unchanged
-              ' "$RUNNER_TEMP/project-change.json" >/dev/null; then
-                test "$(git ls-tree "$HEAD_SHA" -- config/projects.json | \
-                  awk '{print $1}')" = "100644"
-                test "$(git ls-tree "$BASE_SHA" -- "$root/generated/iam.json" | \
-                  awk '{print $1}')" = "100644"
-                test -z "$(git ls-tree "$HEAD_SHA" -- "$root/generated/iam.json")"
-                operation="retirement"
-              else
-                echo "OP04 three-file changes must add or retire exactly one project." >&2
-                exit 1
-              fi
-              ;;
-            *)
-              echo "OP04 accepts one maintenance artifact, one two-file addition, or one two-file retirement." >&2
-              exit 1
-              ;;
-          esac
+            fi
+          else
+            test -z "$head_mode"
+            test "$base_mode" = "100644"
+            operation="retirement"
+          fi
           {
             echo "environment=$environment"
             echo "project=$project"
@@ -182,7 +101,7 @@ jobs:
             echo "operation=$operation"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Regenerate OP04 from pinned OE
+      - name: Validate the editable OP04 IAM input
         shell: bash
         env:
           OP04_ROOT: ${{ steps.target.outputs.root }}
@@ -190,63 +109,14 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           set -euo pipefail
-          git init --quiet "$RUNNER_TEMP/oe"
-          git -C "$RUNNER_TEMP/oe" remote add origin \
-            https://github.com/oci-landing-zones/oci-landing-zone-operating-entities.git
-          git -C "$RUNNER_TEMP/oe" fetch --quiet --depth 1 \
-            origin "$OE_REVISION"
-          git -C "$RUNNER_TEMP/oe" checkout --quiet --detach FETCH_HEAD
-          test "$(git -C "$RUNNER_TEMP/oe" rev-parse HEAD)" = "$OE_REVISION"
-          render_config="$RUNNER_TEMP/render-config"
-          regenerated="$RUNNER_TEMP/regenerated"
-          mkdir -p "$render_config" "$regenerated/$OP04_ROOT/generated"
-          cp "$GITHUB_WORKSPACE/trusted/config/render.jsonnet" \
-            "$render_config/render.jsonnet"
-          cp "$GITHUB_WORKSPACE/trusted/config/render.libsonnet" \
-            "$render_config/render.libsonnet"
-          cp "$GITHUB_WORKSPACE/trusted/config/tbac.libsonnet" \
-            "$render_config/tbac.libsonnet"
-          cp "$GITHUB_WORKSPACE/request/config/customer.jsonnet" \
-            "$render_config/customer.jsonnet"
           if [ "$OPERATION" = "retirement" ]; then
             git -C "$GITHUB_WORKSPACE/request" show \
-              "$BASE_SHA:config/projects.json" \
-              > "$render_config/projects.json"
-            git -C "$GITHUB_WORKSPACE/request" show \
-              "$BASE_SHA:$OP04_ROOT/generated/iam.json" \
+              "$BASE_SHA:$OP04_ROOT/iam.json" \
               > "$RUNNER_TEMP/base-op04-iam.json"
             iam_input="$RUNNER_TEMP/base-op04-iam.json"
           else
-            cp "$GITHUB_WORKSPACE/request/config/projects.json" \
-              "$render_config/projects.json"
-            iam_input="$GITHUB_WORKSPACE/request/$OP04_ROOT/generated/iam.json"
-          fi
-          mapfile -t environments < <(
-            cd "$render_config"
-            jsonnet -e '
-              std.objectFields(
-                (import "customer.jsonnet").blueprint.environments
-              )
-            ' | jq -r '.[]'
-          )
-          mkdir -p \
-            "$regenerated/op00_manage_global_landing_zone/generated" \
-            "$regenerated/op01_manage_landing_zone_environment/generated"
-          for environment in "${environments[@]}"; do
-            mkdir -p \
-              "$regenerated/op02_manage_environment/$environment/generated"
-            while IFS= read -r project_name; do
-              mkdir -p \
-                "$regenerated/op04_manage_project/$environment/$environment-$project_name/generated"
-            done < <(jq -r --arg environment "$environment" \
-              '.[$environment][]' "$render_config/projects.json")
-          done
-          jsonnet -J "$RUNNER_TEMP/oe/gen" -J "$RUNNER_TEMP/oe" \
-            --multi "$regenerated" "$render_config/render.jsonnet"
-          if [ "$OPERATION" != "retirement" ]; then
-            diff -u \
-              "$regenerated/$OP04_ROOT/generated/iam.json" \
-              "$iam_input"
+            iam_input="$GITHUB_WORKSPACE/request/$OP04_ROOT/iam.json"
+            test -f "$iam_input"
           fi
           jq -e '
             keys == [

@@ -317,18 +317,16 @@ The protected workflow regenerates changed phases from the reviewed OE `master`
 revision and rejects
 drift.
 
-The protected adapter also omits the reviewed OE `master` revision's child-specific shared-network
-Security Zone target. This is a narrow workaround for the upstream template:
-OCI rejects a platform Compute instance in the parent CIS zone when its subnet
-is in the child zone. The shared network and platform hierarchies therefore
-inherit the same parent CIS Level 1 zone, while environment zones remain
-unchanged. Review the OP01 final plan to confirm that no parent or environment
-Security Zone is removed.
+For the MVP, the protected adapter keeps only the reviewed OE `master` root CIS
+Level 1 Security Zone target. It deliberately omits the shared-network and
+environment child targets because they prohibit NSG deletion and make project
+workload lifecycle and project retirement fail. Review the OP01 final plan to
+confirm that only those child Security Zone targets are removed.
 
 OP04 creates the official TBAC project hierarchy below the environment's
-`PROJECTS` compartment. Project workloads and the shared project network retain
-the same inherited Security Zone boundary; the workflow does not add per-project
-Security Zone or Cloud Guard operations.
+`PROJECTS` compartment. The workflow does not add per-project Security Zone or
+Cloud Guard operations. A stronger project Security Zone model is a later
+feature and must first certify NSG create, update, and delete operations.
 
 ## 4. Configure GitHub and run readiness
 
@@ -400,9 +398,12 @@ approval, merge, and verify the apply before continuing:
    `.github/project-onboarding-contract.json`.
 9. Move OP01 to `"stage": "pre"`.
 10. Move OP01 to `"stage": "final"`.
-11. Add one project name to `config/projects.json`, generate
-    `op04:<environment>-<project>`, and submit the two-file OP04 request:
-    the catalog change and generated `iam.json`.
+11. On the canonical onboarding branch, use `render-op04.py` to create the
+    initial pinned-OE declaration at
+    `op04_manage_project/<environment>/<environment>-<project>/iam.json`.
+    Submit that one editable IAM file as the OP04 request. The renderer uses
+    `config/projects.json` only as a temporary internal adapter and restores it
+    before the request is created.
 12. Create and hand off the project repository. Add it to the selected-
     repository runner group; do not grant the runner group to unrelated
     repositories.
@@ -529,13 +530,13 @@ statement limited to `CreateNetworkSecurityGroup` and
 `DeleteNetworkSecurityGroup`; `use virtual-network-family` alone is not enough
 to create an NSG in a project compartment against the shared environment VCN.
 
-When a protected adapter change modifies an existing project's generated IAM,
-first review and merge the adapter change without running project Terraform.
-Then regenerate `op04:<environment>-<project>` and submit a second pull request
-containing only the regenerated `iam.json`. The OP04 workflow regenerates the
-artifact from the protected default branch,
-validates the submitted files, and reconciles only that project's existing
-OP04 state.
+The initial OP04 IAM declaration is generated from the pinned official OE
+revision, then becomes deliberately managed project configuration. For a later
+project-IAM or policy update, edit that project's
+`op04_manage_project/<environment>/<environment>-<project>/iam.json` in a
+focused pull request. The workflow validates and reconciles only that project's
+existing OP04 state. A protected adapter change does not implicitly rewrite
+existing project declarations.
 
 For a later environment, first add it to `customer.jsonnet` without activating
 it, generate and deploy its OP02 stack, commit its protected blueprint, then add

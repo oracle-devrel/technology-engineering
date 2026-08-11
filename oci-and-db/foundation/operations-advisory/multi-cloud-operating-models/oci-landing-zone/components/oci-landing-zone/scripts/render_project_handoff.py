@@ -61,16 +61,10 @@ def require_ocid(mapping, key, kind, label):
 
 
 def find_project_config(project_directory):
-    candidates = []
-    for path in sorted(Path(project_directory).glob("generated/*.json")):
-        value = load_json(path)
-        if isinstance(value, dict) and "compartments_configuration" in value:
-            candidates.append(value)
-    if len(candidates) != 1:
-        raise HandoffError(
-            "expected one generated OP04 project configuration"
-        )
-    return candidates[0]
+    value = load_json(Path(project_directory) / "iam.json")
+    if not isinstance(value, dict) or "compartments_configuration" not in value:
+        raise HandoffError("expected one OP04 IAM project configuration")
+    return value
 
 
 def build_handoff_data(project, project_config, op04_output, blueprint):
@@ -91,7 +85,7 @@ def build_handoff_data(project, project_config, op04_output, blueprint):
         "compartments_configuration.compartments",
     )
     if set(parents) != {parent_key}:
-        raise HandoffError("generated OP04 parent compartment is invalid")
+        raise HandoffError("OP04 parent compartment is invalid")
     iam_resources = require_mapping(
         op04_output.get("iam_resources"),
         "iam_resources",
@@ -114,7 +108,7 @@ def build_handoff_data(project, project_config, op04_output, blueprint):
         "infrastructure": f"{parent_key[:-4]}-INFRA-KEY",
     }
     if set(children) != set(child_keys.values()):
-        raise HandoffError("generated OP04 project hierarchy is invalid")
+        raise HandoffError("OP04 project hierarchy is invalid")
     compartments = {
         role: {
             "key": child_key,

@@ -1,5 +1,5 @@
 {
-  "contract_version": 3,
+  "contract_version": 4,
   "project_slug_pattern": "^(?:dev|test|uat|prod)-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
   "project_name_max_length": 30,
   "same_slug_repository": false,
@@ -23,7 +23,6 @@
     "prod": "production"
   },
   "handoff_path_template": "environments/{environment}/environment_information.md",
-  "project_catalog": "config/projects.json",
   "op04_generator": {
     "repository": "oci-landing-zones/oci-landing-zone-operating-entities",
     "release": "master",

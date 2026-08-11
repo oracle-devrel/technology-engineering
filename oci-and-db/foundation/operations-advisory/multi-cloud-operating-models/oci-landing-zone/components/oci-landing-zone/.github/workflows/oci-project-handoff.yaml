@@ -52,7 +52,7 @@ jobs:
           fi
           handoff_path="environments/$environment/environment_information.md"
           project_directory="op04_manage_project/$environment/$PROJECT"
-          test -f "$project_directory/generated/iam.json"
+          test -f "$project_directory/iam.json"
           for variable in \
             STATE_BUCKET STATE_NAMESPACE STATE_REGION
           do
@@ -65,7 +65,7 @@ jobs:
           blueprint="$(
             jq -er --arg environment "$environment" '
               select(
-                .contract_version == 3 and
+                .contract_version == 4 and
                 (.allowed_environments | index($environment)) != null
               ) |
               .environment_blueprints[$environment]

@@ -10,6 +10,8 @@
 /validation/
 **/tests/
 **/test_*.py
+!plugins/cloud-operator-gitops/skills/cloud-operator-gitops/tests/
+!plugins/cloud-operator-gitops/skills/cloud-operator-gitops/tests/test_validate_onboarding.py
 **/*.tftest.hcl
 
 # Local rendering and infrastructure outputs

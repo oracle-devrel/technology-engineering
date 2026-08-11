@@ -28,17 +28,17 @@ and remains a Cloud Operator operation.
 | OP02 | Once for every environment | OP03 `identity` when hosted here; otherwise OP01 `core` |
 | OP04 | Once for every project in an existing environment | Successful OP02 and OP01 `final` for that environment |
 
-The generated OP01 final security configuration intentionally omits the
-reviewed OE `master` `SZ-TGT-LZ-SHARED-NETWORK-KEY` child target. OCI requires a Compute
-instance and its subnet to belong to the same Security Zone. The shared network
-and platform hierarchies instead inherit the common parent CIS zone. Do not
-restore a child-specific network zone unless the upstream template has been
-fixed or every dependent platform resource is placed under that same zone.
+The generated OP01 final security configuration uses only the reviewed OE
+`master` root CIS Level 1 target. The shared-network and environment child
+targets are deliberately not part of this MVP: their recipes prohibit NSG
+deletion and therefore prevent a project-managed NSG lifecycle and project
+retirement. Do not add a project-specific Security Zone exception; introduce a
+stronger project-zone design only after its create, update, and delete behavior
+has been certified.
 
 OP04 creates each delegated project compartment under the environment's
-`PROJECTS` compartment. The project and shared project network retain the same
-inherited Security Zone boundary. Project Teams do not remove Security Zones
-manually or receive Security Zone permissions.
+`PROJECTS` compartment. Project Teams do not manage Security Zones or receive
+Security Zone permissions.
 
 OP02 creates the fixed MVP runner policies once per environment. They cover
 the `PROJECTS` subtree, shared `NETWORK`, and shared `SECURITY` for Compute,

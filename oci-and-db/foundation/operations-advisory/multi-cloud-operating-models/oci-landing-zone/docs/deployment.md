@@ -166,8 +166,9 @@ Use one focused pull request per transition:
    protected path declared by `.github/project-onboarding-contract.json`.
 6. OP01: change `stage` to `pre`.
 7. OP01: change `stage` to `final`.
-8. OP04: add one project to `config/projects.json` and generate its official
-   project declaration.
+8. OP04: on its canonical onboarding branch, use `render-op04.py` to create
+   the initial editable project declaration from the pinned official OE
+   revision.
 9. After the project repository exists, register the OP03 runner in an
    organization runner group restricted to the selected project repositories.
    This selected-repository scope is the GitHub Free MVP default. A paid plan
@@ -300,19 +301,21 @@ repository-and-environment scoped for least privilege.
 
 ## 7. Onboard and hand off a project
 
-Add one lowercase project name to the selected array in
-`config/projects.json`, then generate only that OP04 declaration:
+On the canonical OP04 onboarding branch, generate the initial declaration from
+the pinned official OE revision:
 
 ```bash
-scripts/generate_foundation.sh op04:dev-payments
+plugins/cloud-operator-gitops/skills/cloud-operator-gitops/scripts/render-op04.py \
+  --repo . \
+  --project dev-payments
 ```
 
-A new-project pull request is a two-file OP04 request. It must contain exactly
-`config/projects.json` and the generated OP04 `iam.json`. For a later adapter or
-policy reconciliation, leave `config/projects.json` unchanged and submit only
-the regenerated `iam.json`. The protected workflow regenerates it from the
-default-branch adapter and the pinned reviewed OE `master` revision,
-validates the submitted files, plans one separate OP04 state, applies after
+The onboarding pull request contains exactly one project declaration:
+`op04_manage_project/dev/dev-payments/iam.json`. The renderer uses
+`config/projects.json` only as a temporary internal adapter and restores it, so
+it is never part of the OP04 request. After onboarding, edit this same IAM file
+in a focused pull request for a policy or project-IAM update. The protected
+workflow validates the file, plans one separate OP04 state, applies after
 merge, and publishes:
 
 - `project-foundation-handoff.json`

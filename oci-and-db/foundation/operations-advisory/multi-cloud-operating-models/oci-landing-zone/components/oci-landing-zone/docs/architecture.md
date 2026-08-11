@@ -80,19 +80,18 @@ catalogue, projects it into OP00–OP04 state boundaries, and adds only the MCCP
 runner policies that OE does not provide. It emits no OSMS service statement;
 OS Management Hub access uses separately scoped policies.
 
-The reviewed OE `master` revision also emits a child-specific Security Zone for the shared network
-compartment in addition to the parent CIS zone. OCI prohibits a platform
-resource in the parent zone from using a subnet in that child zone. Until the
-upstream generator places dependent resources under one common zone, the
-protected adapter omits only the shared-network child target. Shared network
-and platform resources therefore inherit the same CIS Level 1 zone from
-`CMP-LANDINGZONE-KEY`; the environment-level zone remains unchanged.
+For this MVP, the protected adapter retains only OE's root CIS Level 1 Security
+Zone target. It deliberately does not emit OE's shared-network or
+environment-level targets. Those extra recipes prevent Network Security Group
+deletion, which makes a project-managed NSG lifecycle and project retirement
+impossible. The root recipe keeps the basic CIS Level 1 restrictions while
+allowing Terraform to create, update, and delete project NSGs.
 
 The delegated project compartment is a different MCCP ownership boundary. OP04
-creates it below the environment's `PROJECTS` compartment, where it and the
-shared project network retain the same inherited Security Zone boundary. This
-keeps the project aligned with the reviewed OE topology and avoids custom
-per-project Security Zone or Cloud Guard operations.
+creates it below the environment's `PROJECTS` compartment. No project-specific
+Security Zone or Cloud Guard operation is added in this MVP. A stronger
+project-level Security Zone model is deferred until its full NSG lifecycle is
+tested end to end.
 
 The reviewed OE `master` revision derives an example Bastion SSH source by adding host offset `123`
 to the Hub management subnet. OCI Bastion assigns its private endpoint
