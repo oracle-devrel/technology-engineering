@@ -89,7 +89,7 @@ pydantic_core==2.33.2
 pydeck==0.9.1
 Pygments==2.19.2
 pylint==3.3.8
-pyOpenSSL==24.3.0
+pyOpenSSL==26.0.0
 pyperclip==1.9.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
