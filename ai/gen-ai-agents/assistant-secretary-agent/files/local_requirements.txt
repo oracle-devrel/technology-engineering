@@ -71,7 +71,7 @@ pydantic-settings==2.6.1
 pydantic_core==2.27.2
 pydeck==0.9.1
 Pygments==2.18.0
-pyOpenSSL==24.2.1
+pyOpenSSL==26.0.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.2
