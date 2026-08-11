@@ -18,10 +18,16 @@ local global_policy_keys = [
   'PCY-SECURITY-ADMIN-KEY',
   'PCY-SERVICES-ADMIN-KEY',
 ];
+local landing_zone_policy_keys = [
+  'PCY-LZ-NETWORK-ADMIN-KEY',
+  'PCY-LZ-SECURITY-ADMIN-KEY',
+];
 local base_group_keys = [
   'GRP-AUDITORS-ADMIN-KEY',
   'GRP-COST-ADMIN-KEY',
   'GRP-IAM-ADMIN-KEY',
+  'GRP-LZ-NETWORK-ADMIN-KEY',
+  'GRP-LZ-SECURITY-ADMIN-KEY',
   'GRP-SECURITY-ADMIN-KEY',
 ];
 local excluded_osms_statement =
@@ -313,20 +319,18 @@ local render(customer) =
         }) + tbac.common_policies,
     },
   };
-  local shared_landing_zone_without_unmanaged_lz_role_tags =
-    shared_landing_zone {
-      children: {
-        [key]: without_unmanaged_lz_role_tag(shared_landing_zone.children[key])
-        for key in std.objectFields(shared_landing_zone.children)
-      },
-    };
   local op01_iam = {
     compartments_configuration:
       iam.compartments_configuration {
         compartments: {
-          [landing_zone_key]: shared_landing_zone_without_unmanaged_lz_role_tags,
+          [landing_zone_key]: shared_landing_zone,
         },
       },
+    policies_configuration:
+      selected_policies(
+        iam.policies_configuration,
+        landing_zone_policy_keys,
+      ),
   };
 
   local op02_identity(environment) =
@@ -509,7 +513,9 @@ local render(customer) =
     'op01_manage_landing_zone_environment/generated/iam.json': op01_iam,
     'op01_manage_landing_zone_environment/generated/governance.json':
       full.governance {
-        tags_configuration+: tbac.governance.tags_configuration,
+        tags_configuration+: {
+          namespaces+: tbac.governance.tags_configuration.namespaces,
+        },
       },
     'op01_manage_landing_zone_environment/generated/network.json':
       op01_network,

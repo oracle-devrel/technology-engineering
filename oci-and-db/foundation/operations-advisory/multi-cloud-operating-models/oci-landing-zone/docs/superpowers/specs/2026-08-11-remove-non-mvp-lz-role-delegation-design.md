@@ -1,41 +1,37 @@
-# Remove non-MVP Landing Zone role delegation
+# Preserve official One-OE and TBAC role namespaces
 
 ## Decision
 
-Remove the `tagns-lz-role.tag-lz-role` delegation completely.  The MVP keeps
-the official One-OE base, Hub E, and the OCI TBAC add-on, but does not provide
-separate human administration of the shared Network and Security compartments.
-The Instance Principal GitOps runner remains the foundation operator.
+Keep the official One-OE Landing Zone role delegation and the official OCI
+TBAC project-role add-on. They have separate purposes and must coexist in the
+MVP. The Instance Principal GitOps runner remains the foundation operator.
 
 ## Evidence
 
 - The pinned OE source is `dab13856ba6701c45baafc163780bb76562c039a`.
-- The TBAC add-on emits the separate `tn-lzp-proj-role` namespace for project
-  roles; OP04 project onboarding depends on that namespace, not on
-  `tagns-lz-role`.
-- `op01_manage_landing_zone_environment/generated/governance.json` creates
-  only `tn-lzp-proj-role`.
-- OP01 nevertheless attempted to add `tagns-lz-role.tag-lz-role` to
-  `cmp-lz-network` and `cmp-lz-security` and OCI rejected both updates because
-  that namespace does not exist.
-- The two associated identity-domain groups have no members.
+- One-OE emits `tagns-lz-role.tag-lz-role` on the shared Network and Security
+  compartments and the corresponding standard administrator groups/policies.
+- The OCI TBAC add-on emits the separate `tn-lzp-proj-role` namespace for
+  project roles; OP04 depends on that namespace.
+- The protected adapter shallow-merged the two `namespaces` maps, causing the
+  TBAC map to replace One-OE's map. OCI then rejected the One-OE compartment
+  tags because `tagns-lz-role` did not exist.
+- The pinned OE source has no supported customer configuration switch that
+  disables its Landing Zone role delegation.
 
 ## Target state
 
-- OP01 no longer emits `tagns-lz-role.tag-lz-role` on shared compartments.
-- OP01 no longer manages the two tag-conditioned Landing Zone administrator
-  policies.
-- OP00 no longer manages the two empty Landing Zone administrator groups.
+- OP01 governance emits both `TAGNS-LZ-ROLE-KEY` (`tagns-lz-role`) and
+  `TAGNS-PROJ-ROLE-KEY` (`tn-lzp-proj-role`).
+- One-OE shared-compartment tags, policies, and groups remain standard.
 - TBAC project tags, policies, project groups, One-OE, and Hub E remain
   unchanged.
 
 ## Delivery order
 
-1. Certify and apply the OP01 generated IAM change. This removes the invalid
-   tag projection and the two policies.
-2. After the OP01 apply succeeds, certify and apply the OP00 generated IAM
-   change to remove the now-unreferenced empty groups.
+1. Correct the protected adapter's namespace merge.
+2. Regenerate and certify OP01 governance. The only OCI resource addition is
+   the missing standard `tagns-lz-role` namespace and tag definition.
 
-There is deliberately no compatibility layer, migration path, or replacement
-tag namespace. Reintroducing shared Network or Security human delegation later
-is a separately designed feature.
+There is no compatibility layer, manual edit of generated IAM, overlay, or
+alternative role model.
