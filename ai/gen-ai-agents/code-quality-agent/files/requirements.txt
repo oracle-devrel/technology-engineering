@@ -31,7 +31,7 @@ multidict==6.7.0
 oci==2.164.2
 oci-openai==1.0.0
 openai==2.14.0
-orjson==3.11.5
+orjson==3.11.6
 ormsgpack==1.12.1
 packaging==25.0
 propcache==0.4.1
