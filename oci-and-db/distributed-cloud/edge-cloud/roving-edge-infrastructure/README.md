@@ -1,6 +1,6 @@
 # Roving Edge Infrastructure
 
-Updated: 29.05.2026
+Updated: 11.08.2026
 
 ## Useful Links
 
@@ -17,13 +17,11 @@ Updated: 29.05.2026
 
 # Solutions - Architecture Center
 
-Solutions
 - [Implement a cloud-native DICOM store on Oracle Cloud Infrastructure](https://docs.oracle.com/en/solutions/cloud-native-dicom-on-oci/index.html)
 - [Deploy SD-WAN in Oracle Roving Edge Infrastructure and Compute Cloud@Customer](https://docs.oracle.com/en/solutions/sd-wan-roving-edge-compute-cloud-at-customer/)
 
 ## Tutorials - Learn
 
-Tutorials
 - [Deploy Oracle Autonomous Database Free on Oracle Roving Edge Infrastructure](https://docs.oracle.com/en/learn/adb-fci-rpm/index.html)
 - [Use Open MPI on Oracle Roving Edge Infrastructure](https://docs.oracle.com/en/learn/roving-edge-openmpi/index.html)
 - [Get Started with AsterionDB on Oracle Roving Edge Infrastructure and Oracle Compute Cloud@Customer](https://docs.oracle.com/en/learn/roving-edge-oc3-asteriondb/index.html)
@@ -34,7 +32,6 @@ Tutorials
 
 ## Blogs, Press Releases, News Articles, Videos & Podcasts
 
-Blogs / Press Releases
 - [Royal Navy Expands AI-Driven Defence Capabilities with Oracle Cloud Infrastructure](https://www.oracle.com/uk/news/announcement/royal-navy-expands-ai-driven-defence-oci-2026-01-20/) (20/Jan/2026)
 - [Oracle Recognized as a Leader in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/news/announcement/oracle-recognized-as-a-leader-in-the-2025-gartner-magic-quadrant-for-distributed-hybrid-infrastructure-2025-09-10/) (10/Sep/2025)
 - [Rancher Government Solutions and Oracle to Deliver Secure Edge-to-Cloud Capabilities for Federal Agencies](https://www.businesswire.com/news/home/20250617657229/en/Rancher-Government-Solutions-and-Oracle-to-Deliver-Secure-Edge-to-Cloud-Capabilities-for-Federal-Agencies) (17/Jun/2025)
@@ -80,7 +77,6 @@ Blogs / Press Releases
 
 ## Videos
 
-Videos
 - [Deploying OpenShift on Oracle Roving Edge Device](https://videohub.oracle.com/media/Deploying+OpenShift+on+Oracle+Roving+Edge+Device/1_lcrhoui2/325424942) (19/Mar/2025)
 - [Accelerating AI at the Edge with Oracle Roving Edge Infrastructure (Intel video)](https://www.youtube.com/watch?v=sd0woibrAVo) (11/Sep/2024)
 - [Intel on AI: Accelerating AI at the Edge with Oracle Roving Edge Infrastructure (podcast)](https://open.spotify.com/episode/3Vga6QbXQC5wcDTRWTtPZL?si=BImzgCq8RUuuaCfea9vQcA) (11/Sep/2024)

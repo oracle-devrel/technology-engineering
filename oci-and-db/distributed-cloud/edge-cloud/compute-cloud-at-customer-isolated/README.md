@@ -1,6 +1,6 @@
 # Compute Cloud@Customer Isolated
 
-Reviewed: 29.05.2026
+Updated: 11.08.2026
 
 Oracle Compute Cloud@Customer Isolated is a fully air-gapped, on-premises cloud solution that delivers the same comprehensive compute, GPU, storage, and networking capabilities as Oracle Compute Cloud@Customer in a highly secure and isolated environment. Designed for organizations with strict data sovereignty and regulatory requirements, it enables rapid, single-rack deployments that can scale as needed—supporting advanced AI and digital innovation while ensuring full control over data and infrastructure within customer premises.
 
@@ -21,7 +21,6 @@ Oracle Compute Cloud@Customer Isolated is a fully air-gapped, on-premises cloud 
 
 ## Videos
 
-Videos
 - [Announcing Oracle Compute Cloud@Customer Isolated: Oracle TV Defense Tech Summit](https://www.youtube.com/watch?v=PCNifMkbx-8) (2/Jul/2025)
 
 ## License

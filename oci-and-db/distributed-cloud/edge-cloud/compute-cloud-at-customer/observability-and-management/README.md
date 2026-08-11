@@ -1,6 +1,6 @@
 # C3 OKE - Monitoring with OCI Log Analytics
 
-Reviewed: 23.03.2026
+Reviewed: 11.08.2026
 
 ## Introduction
 

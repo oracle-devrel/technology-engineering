@@ -1,6 +1,6 @@
 # Compute Cloud@Customer
 
-Updated: 29.05.2026
+Updated: 11.08.2026
 
 Oracle Compute Cloud@Customer is fully managed, rack-scale infrastructure that allows organizations to use Oracle Cloud Infrastructure (OCI) Compute anywhere. It provides the benefits of cloud automation and economics in customer data centers by running OCI Compute and GPU shapes with storage and networking services on Compute Cloud@Customer. It’s the simplest way to run applications and harness the power of AI on cloud infrastructure in customer data centesr while helping address data residency, security, and low-latency connections to local resources and real-time operations.
 
@@ -16,7 +16,6 @@ Oracle Compute Cloud@Customer is fully managed, rack-scale infrastructure that a
 
 ## Whitepapers
 
-Whitepapers
 - [Deploying Cisco Secure Firewall Threat Defense (FTD) with Cisco Firepower Management Center (FMC) on Oracle Compute Cloud@Customer (C3) or Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/deploy-cisco-ftd-with-fmc-on-oracle-c3-or-pca.pdf) (18/Mar/2026)
 - [Citrix Virtual Apps and Desktops deployment on Compute Cloud@Customer or Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/citrix-virtual-apps-and-desktop-deployment.pdf) (6/Mar/2026)
 - [Deploying Oracle Database Operator Cluster Add-on for Oracle Kubernetes Engine (OKE) on Compute Cloud@Customer or Private Cloud Appliance](https://www.oracle.com/a/ocom/docs/cloud/deploying-oke-on-compute-cloud@customer-or-pca.pdf) (28/Jan/2026)
@@ -34,7 +33,6 @@ Whitepapers
 
 ## Solutions - Architecture Center
 
-Solutions
 - [Fraud detection with NVIDIA Morpheus on Compute Cloud@Customer](https://docs.oracle.com/en/solutions/fraud-detection-nvidia-morpheus-compute-cloud/index.html) (25/Aug/2025)
 - [Deploy an end-to-end application stack with Oracle Cloud@Customer](https://docs.oracle.com/en/solutions/deploy-end-to-end-app-stack-oracle-cloud-at-customer/index.html) (7/Oct/2024)
 - [Configure backup and disaster recovery for Compute Cloud@Customer using Rackware](https://docs.oracle.com/en/solutions/backup-vm-pca-compute-cloud-at-customer/index.html) (4/Oct/2024)
@@ -49,13 +47,11 @@ Solutions
 
 ## Tutorials - Learn
 
-Tutorials
 - [Get Started with AsterionDB on Oracle Roving Edge Infrastructure and Oracle Compute Cloud@Customer](https://docs.oracle.com/en/learn/roving-edge-oc3-asteriondb/index.html) (29/Feb/2024)
 - [Use Oracle Marketplace Images on Oracle Roving Edge Infrastructure and Oracle Compute Cloud@Customer](https://docs.oracle.com/en/learn/roving-edge-oc3-marketplace-images/) (14/Dec/2023)
 
 ## Blogs and other publications
 
-Blogs / Press Releases
 - [Oracle EU Sovereign Cloud – Reflecting on the Journey and Lessons Learned](https://blogs.oracle.com/cloud-infrastructure/oracle-eu-sovereign-cloud-lessons-learned) (9/Mar/2026)
 - [Automating SR-IOV/VFIO bond creation on Oracle Compute Cloud@Customer and Private Cloud Appliance](https://blogs.oracle.com/oracle-systems/automating-sriovvfio-bond-creation-on-oracle-compute-cloudcustomer-and-private-cloud-appliance) (22/Oct/2025)
 - [Oracle Recognized as a Leader in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/news/announcement/oracle-recognized-as-a-leader-in-the-2025-gartner-magic-quadrant-for-distributed-hybrid-infrastructure-2025-09-10/) (10/Sep/2025)
@@ -88,7 +84,6 @@ Blogs / Press Releases
 
 ## Videos
 
-Videos
 - [Deploying Fortigate on Compute Cloud@Customer and Private Cloud Appliance](https://videohub.oracle.com/media/Deploying+Fortigate+on+Compute+Cloud%40Customer+and+Private+Cloud+Appliance.mp4/1_2wh7i1b2/325424942) (25/Jul/2025)
 - [Demo: Morpheus Fraud Detection Pipeline](https://videohub.oracle.com/media/Demo%3A+Morpheus+Fraud+Detection+Pipeline/1_pw2o98ox/325424942) (21/Jul/2025)
 - [Partner Training - Siebel SCM - Optimizing On-Premises Siebel CRM Deployment](https://videohub.oracle.com/media/Partner%20Training%20-%20Siebel%20SCM%20-%20Optimizing%20On-Premises%20Siebel%20CRM%20Deployment/1_kf8dtgi1) (11/Jul/2025)
