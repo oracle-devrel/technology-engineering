@@ -87,7 +87,7 @@ pydantic==2.11.7
 pydantic-settings==2.10.1
 pydantic_core==2.33.2
 pydeck==0.9.1
-Pygments==2.19.2
+Pygments==2.20.0
 pylint==3.3.8
 pyOpenSSL==24.3.0
 pyperclip==1.9.0
