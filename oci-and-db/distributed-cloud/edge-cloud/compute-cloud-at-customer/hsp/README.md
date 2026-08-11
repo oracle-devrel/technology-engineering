@@ -1,6 +1,6 @@
 # Hosting Service Provider
 
-Reviewed: 23.03.2026
+Reviewed: 11.08.2026
 
 Compute Cloud@Customer provides the option for organizations to act as Hosting Service Providers to host End-Customers / Tenants.
 This section describes security and isolation topics for this scenario.

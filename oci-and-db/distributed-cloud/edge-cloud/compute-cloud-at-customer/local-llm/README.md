@@ -1,6 +1,6 @@
 # Local LLM Serving Using the Ollama Open Source Tool
 
-Reviewed: 23.03.2026
+Reviewed: 11.08.2026
 
 <p align="center"><img align="centre" src="./images/ollama-logo.png" width="10%" style="float:right"/></p>
 

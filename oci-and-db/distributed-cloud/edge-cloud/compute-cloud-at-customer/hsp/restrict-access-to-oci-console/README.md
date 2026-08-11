@@ -1,6 +1,6 @@
 # C3 Hosting Service Provider - Restricting Access to the OCI Console
 
-Reviewed: 23.03.2026
+Reviewed: 11.08.2026
 
 In the Hosting Service Provider (HSP) scenario where end users are not employees of the rack operator it's probably not appropriate for them to be able to access the OCI console and to, possibly, create resources in the public cloud.
 

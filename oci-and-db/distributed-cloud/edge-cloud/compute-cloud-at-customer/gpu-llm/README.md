@@ -1,6 +1,6 @@
 # Compute Cloud@Customer
 
-Reviewed: 23.03.2026
+Reviewed: 11.08.2026
 
 <br><h1 align="center">GPU-Assisted Local LLM Serving<br>Using the Ollama Open Source Tool and Compute Cloud@Customer</h1>
 

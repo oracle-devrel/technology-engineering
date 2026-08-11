@@ -1,6 +1,6 @@
 # Compute Cloud@Customer Support Notes 
 
-Updated: 29.05.2026
+Reviewed: 11.08.2026
 
 Collection of My Oracle Support notes relevant to Compute Cloud@Customer (CCATC) and Private Cloud Appliance (PCA) notes that are relevant to CCATC. The collection is intended for use by CCATC administrators or anyone working on the CCATC service.
 

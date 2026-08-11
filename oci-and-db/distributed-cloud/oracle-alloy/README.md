@@ -1,6 +1,6 @@
 # Oracle Alloy
 
-Updated: 29.05.2026
+Updated: 11.08.2026
 
 Oracle Alloy is a complete cloud infrastructure platform that enables partners to become cloud providers and offer a full range of cloud services to expand their businesses. Partners control the commercial and customer experience of Oracle Alloy and can customize and extend it to address their specific market needs. Oracle Alloy is designed to give partners better control over the change management process and operations to fulfill regulatory and sovereignty requirements.
 
