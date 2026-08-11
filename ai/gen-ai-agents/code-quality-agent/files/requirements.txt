@@ -21,7 +21,7 @@ jsonpointer==3.0.0
 langchain==1.2.3
 langchain-core==1.2.6
 langchain-oci==0.2.1
-langchain-openai==1.1.7
+langchain-openai==1.1.14
 langgraph==1.0.5
 langgraph-checkpoint==3.0.1
 langgraph-prebuilt==1.0.5
