@@ -3,10 +3,14 @@
 1. Parse `mccp-installation.json` with `jq -e`, reject unresolved placeholders,
    derive its canonical catalog repository/ref, then validate `gh`
    authentication, exact private repository metadata, canonical project
-   repository name, and exact `main` SHA.
+   repository name, exact `main` SHA, and the selected environment handoff. Do
+   not require or report active `.github/CODEOWNERS`; a
+   `.github/CODEOWNERS.template` is an accepted Project Team-owned starting
+   point.
 2. Resolve the validator-returned catalog repository through GitHub API at the
-   validator-returned SHA, verify its blob hash, and include repository, commit,
-   and blob SHA in the semantic preview.
+   validator-returned SHA and verify its blob hash internally. Include only the
+   user-relevant catalog choice in the semantic preview; do not expose commit or
+   blob hashes unless the user requests diagnostics.
 3. For a new OCI Compute request, offer the Frankfurt `VM.Standard.A1.Flex`
    image already pinned in the approved OCI Compute catalog template and ask
    whether to use it or provide another regional image OCID. The user confirms
@@ -31,11 +35,14 @@
    includes `database_compartment_id` and one or more start/stop targets. For OCI
    Compute, one validated change contains exactly one VM; use a separate change
    and pull request for each additional VM.
-6. Require a user-provided CRQ matching `CRQ[0-9]{1,20}`. Show the semantic
+6. Require a user-provided CRQ matching `CRQ[0-9]{1,20}`. Show one semantic
    diff, destructive/replacement warnings, branch, and CRQ; keep validator
    hashes and metadata internal unless the user requests diagnostics, then stop
-   for fresh confirmation.
-7. Revalidate internally, stage only the validated path, commit, push, and conditionally create one PR. Stop before merge.
+   for one fresh confirmation.
+7. Revalidate the internally bound hashes, stage only the validated path,
+   commit, push, and conditionally create one PR. If the candidate drifted,
+   discard confirmation and return to step 6; never request a second
+   hash-confirmation. Stop before merge.
 8. After human merge, monitor only the configured exact workflow and merge commit. Report configuration and structured workflow results without inferring cloud state.
 
 On interruption, discard stale confirmation and rebuild the preview from exact remote state.

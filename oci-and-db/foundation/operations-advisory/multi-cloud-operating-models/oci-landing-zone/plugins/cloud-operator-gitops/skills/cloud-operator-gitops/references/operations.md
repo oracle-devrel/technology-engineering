@@ -18,9 +18,12 @@
    initial editable OP04 IAM file from the pinned OE release and run
    `validate-onboarding.py`. Do not modify `config/projects.json` for OP04
    onboarding or maintenance.
-6. Show affected paths, semantic changes, the CRQ, and `GitHub writes: none`; keep
-   validator hashes and metadata internal unless the user asks for diagnostics.
-7. Require fresh confirmation, revalidate internally, push, and open one PR.
+6. Show affected paths, semantic changes, the CRQ, and `GitHub writes: none`;
+   keep validator hashes and metadata internal unless the user asks for diagnostics.
+7. Require one fresh confirmation, revalidate the internally bound hashes,
+   then push and open one PR. If the candidate drifts, discard the confirmation
+   and show a refreshed semantic preview; never request a separate confirmation
+   for hashes.
 8. Stop before merge. After human merge, monitor only the exact OP04 workflow.
 9. Download only that successful run's JSON and Markdown artifacts and validate
    them together with `validate-handoff.py`. Derive the target repository,

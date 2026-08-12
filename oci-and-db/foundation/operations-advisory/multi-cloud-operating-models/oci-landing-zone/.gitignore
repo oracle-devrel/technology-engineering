@@ -2,6 +2,9 @@
 .env
 .secrets/
 
+# Internal agent artifacts; never publish these files.
+/docs/superpowers/
+
 **/__pycache__/
 **/*.py[cod]
 **/.pytest_cache/

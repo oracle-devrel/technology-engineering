@@ -1,6 +1,6 @@
 # OCI Landing Zone
 
-Reviewed: 2026-08-03
+Reviewed: 2026-08-11
 
 Build and govern your OCI foundation through reviewed Git changes. Cloud
 Operators establish tenancy IAM, shared networking, environments, the platform

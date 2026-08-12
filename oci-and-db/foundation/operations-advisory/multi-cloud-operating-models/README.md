@@ -28,7 +28,7 @@ We structure the Multi-Cloud Control Plane in the following areas:
 | You need both | Deploy the Landing Zone first, then pass its project handoff to the Control Plane |
 | You need Git, CI/CD, or OCI pipeline-access security guidance | [Operational Security](operational-security/README.md) |
 
-Reviewed: 2026-08-07
+Reviewed: 2026-08-11
 
 # Team Publications
 
@@ -55,6 +55,12 @@ Reviewed: 2026-08-07
 | Asset | Purpose |
 |-------|---------|
 | [Multi-Cloud Control Plane](./multi-cloud-control-plane/README.md) | Use this blueprint to set up a Multi-Cloud Control Plane that uses GitOps to operate multiple clouds or OCI realms at scale for Day 1 and Day 2 operations. |
+
+## OCI Landing Zone
+
+| Asset | Purpose |
+|-------|---------|
+| [OCI Landing Zone](./oci-landing-zone/README.md) | Establish and govern an OCI tenancy foundation, environments, and project compartments through reviewed GitOps changes. |
 
 ## License
 

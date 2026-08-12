@@ -17,6 +17,11 @@
   onboarding, handoff-publication, repository-creation, or retirement flow.
   A CRQ is not required for inventory, status, validation, or monitoring, and
   it never replaces explicit confirmation.
+- Require exactly one user confirmation for each pending GitHub write. Bind it
+  internally to the validated base and content hashes; never show hashes or
+  require a separate hash-confirmation unless the user explicitly requests
+  diagnostics. On candidate drift, discard confirmation and show one refreshed
+  semantic preview.
 - Derive foundation values only from the protected environment blueprint.
 - Permit only the canonical additive OP04 files in the landing-zone repository.
 - Require the official OCI TBAC hierarchy: one project root with Application,

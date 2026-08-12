@@ -31,6 +31,12 @@ directory, register cleanup immediately, and remove it before finishing.
 
 Accept only handed-off `nonprod-<project>` or `prod-<project>` repositories on exact `main`. Use disposable clones, but clone into a child directory whose name is the canonical repository name because the shared-layout validator verifies that name. Read schemas only from the configured catalog repository at the approved SHA and verify its repository, commit, and blob identity internally. Support OCI ADB, compute and NSG Day 1; Azure VM and ADB Day 1; Google VM and ADB-S Day 1; and OCI ADB start/stop in every supported environment. Use `{}` only to clear a completed OCI ADB lifecycle request; otherwise preserve aggregate manifest roots and canonical `lifecycle_operations` paths. Refuse Azure and Google Day 2 because those provider-specific operations are not available.
 
+Treat a valid environment handoff as the repository-initialization boundary. Do
+not require an active `.github/CODEOWNERS`: accept a template-only
+`.github/CODEOWNERS.template` and leave review-ownership configuration to the
+Project Team. Never describe the absence of active CODEOWNERS as a handoff or
+manifest-change blocker.
+
 A repository secret bundle is optional. Require it only when the selected
 manifest contains environment-qualified secret placeholders; an absent bundle
 is valid for manifests with no placeholders.
@@ -41,12 +47,15 @@ candidate. Do not infer a CRQ. Show it as the change reference in the concise
 preview; it does not replace explicit confirmation. Do not request a CRQ for
 status, validation, or monitoring.
 
-Before every branch push or PR creation, show a concise semantic preview with
-user-relevant changes and the required CRQ, state `GitHub writes: none`, ask
-`Do you confirm? Reply "Confirm".`, then revalidate internally. Do not
+Before every branch push or PR creation, show one concise semantic preview with
+user-relevant changes and the required CRQ, state `GitHub writes: none`, and ask
+`Do you confirm? Reply "Confirm".` Bind that one confirmation internally to
+the validated base and content hashes, then revalidate them after the reply. Do not
 display validator metadata or hash values (including template tree, handoff
 Markdown, layout, base/template revision, or content hashes) unless the user
-explicitly requests diagnostic detail. Never merge, approve, control workflows,
+explicitly requests diagnostic detail. If the candidate drifts, discard the
+confirmation, regenerate the semantic preview, and request one new confirmation;
+never ask for a separate hash-confirmation. Never merge, approve, control workflows,
 or run Terraform/Ansible. For a new OCI Compute request, offer the Frankfurt
 `VM.Standard.A1.Flex` image pinned in the approved catalog template as the
 default and ask whether to use it or provide another regional image OCID.

@@ -1,6 +1,6 @@
 # OCI Landing Zone
 
-Reviewed: 2026-07-25
+Reviewed: 2026-08-11
 
 Use reviewed Git changes to establish and operate your OCI foundation. A pull
 request shows the Terraform plan; an approved merge applies the change through

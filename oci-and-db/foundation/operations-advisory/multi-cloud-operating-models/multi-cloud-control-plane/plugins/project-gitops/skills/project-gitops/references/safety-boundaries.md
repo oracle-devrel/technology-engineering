@@ -9,6 +9,11 @@
   with the selected uppercase environment and resolve only from that
   environment's explicitly selected bundle.
 - Operate only in handed-off `nonprod-<project>` or `prod-<project>` repositories.
+- The valid environment handoff, not active CODEOWNERS, establishes whether a
+  project repository can receive governed manifests. Accept a template-only
+  `.github/CODEOWNERS.template`; do not report a missing
+  `.github/CODEOWNERS` as a blocker. Review ownership remains Project Team
+  controlled.
 - OCI, Azure, and Google support the governed Day 1 VM and ADB manifest contracts, including one-at-a-time removal. OCI also supports project NSGs and ADB start/stop in every supported environment. Use `{}` only to clear a completed OCI ADB lifecycle request. Refuse all Azure/GCP Day 2 requests.
 - Use environment-aware aggregate paths under
   `{cloud}/{environment}/{region}/`. OCI ADB lifecycle requests use
@@ -19,7 +24,11 @@
   manifest, lifecycle, branch-push, or pull-request flow. Do not request one
   for status, validation, or monitoring; it never replaces explicit
   confirmation.
-- Require hash-bound confirmation before branch push and conditional PR creation. Human review and merge remain mandatory.
+- Require exactly one confirmation before branch push and conditional PR creation.
+  Bind it internally to the validated base and content hashes; never display
+  hashes or request a separate hash-confirmation unless the user explicitly
+  requests diagnostics. If the candidate drifts, discard the confirmation and
+  show one refreshed semantic preview. Human review and merge remain mandatory.
 - For a new OCI Compute request, offer the Frankfurt `VM.Standard.A1.Flex`
   image pinned in the approved catalog template as the default. The user
   confirms that choice manually before approval, or provides an exact regional

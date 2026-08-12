@@ -85,12 +85,15 @@ purpose. Handoff, CODEOWNERS, and runner routing must be verified. Placeholder
 names must begin with the selected uppercase environment. Keep workload secret bundles
 repository-and-environment scoped on every GitHub plan.
 
-Before every GitHub write, show a concise semantic preview with the affected
-paths, user-relevant changes, and the required CRQ, state `GitHub writes: none`, ask `Do you
-confirm? Reply "Confirm".`, then revalidate internally. Do not display
+Before every GitHub write, show one concise semantic preview with the affected
+paths, user-relevant changes, and the required CRQ, state `GitHub writes: none`, and ask `Do you
+confirm? Reply "Confirm".` Bind that one confirmation internally to the validated
+base and content hashes, then revalidate them after the reply. Do not display
 validator metadata or hash values (including template tree, handoff Markdown,
 layout, base/template revision, or content hashes) unless the user explicitly
-requests diagnostic detail. Push only the validated branch and conditionally create a
+requests diagnostic detail. If the candidate drifts, discard the confirmation,
+regenerate the semantic preview, and request one new confirmation; never ask
+for a separate hash-confirmation. Push only the validated branch and conditionally create a
 PR. Never merge, approve, rerun, dispatch, cancel, call OCI, or run
 Terraform/Ansible. After a human merge, monitor only the exact configured
 workflow and consume its exact successful `project-foundation-handoff.json`
