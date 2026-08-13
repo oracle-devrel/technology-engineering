@@ -55,3 +55,4 @@ app-dev/app-integration-and-automation/README.pdf
 !oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/**/.gitignore
 !oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/oci-landing-zone/**/*.tfvars.json
 !oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/**/*.tfvars.json
+.worktrees/

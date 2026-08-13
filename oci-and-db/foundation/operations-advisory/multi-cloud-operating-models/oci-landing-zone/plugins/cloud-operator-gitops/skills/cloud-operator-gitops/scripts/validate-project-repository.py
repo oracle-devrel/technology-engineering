@@ -93,14 +93,6 @@ def validate(
             "The handoff branch must start at the exact protected base."
         )
     validate_origin(repo, initialization)
-    validate_no_placeholders(repo)
-    expected_status = sorted(
-        [
-            " D .github/CODEOWNERS.template",
-            "?? .github/CODEOWNERS",
-            f" M {initialization.handoff_path}",
-        ]
-    )
     status = sorted(
         git(
             repo,
@@ -109,45 +101,70 @@ def validate(
             "--untracked-files=all",
         ).splitlines()
     )
-    if status != expected_status:
-        raise RepositoryContractError(
-            "Exactly the repository contract, CODEOWNERS, and selected "
-            "handoff may change."
-        )
     codeowners_path = repo / ".github/CODEOWNERS"
+    codeowners_template_path = repo / ".github/CODEOWNERS.template"
     handoff_path = repo / initialization.handoff_path
-    for path in (codeowners_path, handoff_path):
-        if not regular_file(path):
-            raise RepositoryContractError(
-                f"Invalid initialized file: {path.name}."
-            )
     template = git(
         repo,
         "show",
         f"{base}:.github/CODEOWNERS.template",
     )
-    expected_codeowners = render_codeowners(
-        template,
-        initialization,
+    template_only_status = [f" M {initialization.handoff_path}"]
+    active_codeowners_status = sorted(
+        [
+            " D .github/CODEOWNERS.template",
+            "?? .github/CODEOWNERS",
+            f" M {initialization.handoff_path}",
+        ]
     )
-    actual_codeowners = codeowners_path.read_text(encoding="utf-8")
-    if (
-        actual_codeowners != expected_codeowners
-        or any(token in actual_codeowners for token in CODEOWNER_TOKENS.values())
-    ):
+    if status == template_only_status:
+        if (
+            not regular_file(codeowners_template_path)
+            or codeowners_path.exists()
+            or codeowners_template_path.read_text(encoding="utf-8") != template
+        ):
+            raise RepositoryContractError(
+                "The initialized CODEOWNERS.template is invalid."
+            )
+        files = {
+            ".github/CODEOWNERS.template": codeowners_template_path.read_bytes(),
+        }
+    elif status == active_codeowners_status:
+        validate_no_placeholders(repo)
+        if not regular_file(codeowners_path):
+            raise RepositoryContractError(
+                "Invalid initialized file: CODEOWNERS."
+            )
+        expected_codeowners = render_codeowners(
+            template,
+            initialization,
+        )
+        actual_codeowners = codeowners_path.read_text(encoding="utf-8")
+        if (
+            actual_codeowners != expected_codeowners
+            or any(token in actual_codeowners for token in CODEOWNER_TOKENS.values())
+        ):
+            raise RepositoryContractError(
+                "The initialized CODEOWNERS file is invalid."
+            )
+        files = {
+            ".github/CODEOWNERS": codeowners_path.read_bytes(),
+            ".github/CODEOWNERS.template": b"",
+        }
+    else:
         raise RepositoryContractError(
-            "The initialized CODEOWNERS file is invalid."
+            "Only the selected handoff and one valid CODEOWNERS layout may change."
+        )
+    if not regular_file(handoff_path):
+        raise RepositoryContractError(
+            f"Invalid initialized file: {handoff_path.name}."
         )
     source_markdown = handoff_markdown.read_bytes()
     if handoff_path.read_bytes() != source_markdown:
         raise RepositoryContractError(
             "The repository handoff differs from the validated artifact."
         )
-    files = {
-        ".github/CODEOWNERS": codeowners_path.read_bytes(),
-        ".github/CODEOWNERS.template": b"",
-        initialization.handoff_path: handoff_path.read_bytes(),
-    }
+    files[initialization.handoff_path] = handoff_path.read_bytes()
     content_hash = bundle_sha(files)
     if (expected_base is None) != (expected_content is None):
         raise RepositoryContractError(

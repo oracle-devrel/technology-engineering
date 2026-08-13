@@ -164,6 +164,7 @@ class HandoffService:
         cls._set(suggestions, references, "infra compartment ocid", [
             "__PROJ_INFRA_CMP_OCID__",
             "__PROJ_INFRA_OCID__",
+            "__NSG_COMPARTMENT_OCID__",
         ])
         cls._set(suggestions, references, "project parent compartment ocid", [
             "__PROJECT_PARENT_CMP_OCID__",

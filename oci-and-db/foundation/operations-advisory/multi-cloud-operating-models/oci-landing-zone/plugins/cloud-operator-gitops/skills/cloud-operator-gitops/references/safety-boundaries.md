@@ -45,9 +45,12 @@
   `environments/<environment>/environment_information.md`. Derive the exact
   target, fixed security profile, and owners from
   `cloud-operator-installation.json` and the
-  protected template; never accept them from a prompt. Require the rendered
-  CODEOWNERS identities to exist and have repository write access before the
-  branch is pushed.
+  protected template; never accept them from a prompt. Accept either a
+  rendered active `.github/CODEOWNERS` with valid configured owners or an
+  unchanged pinned `.github/CODEOWNERS.template`; never block handoff solely
+  because active CODEOWNERS is absent. Reject a modified template or a branch
+  that retains both files. Require rendered CODEOWNERS identities to exist and
+  have repository write access before the branch is pushed.
 - In an already initialized project repository, write only the validated
   `environments/<environment>/environment_information.md` path on a new
   branch. Never change workflows, contracts, manifests, secrets, teams, or

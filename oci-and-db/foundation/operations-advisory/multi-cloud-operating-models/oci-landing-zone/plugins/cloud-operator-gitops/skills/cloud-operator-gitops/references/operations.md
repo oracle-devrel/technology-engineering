@@ -41,11 +41,17 @@
 11. For a new repository, create a unique
     `agent/project-handoff-<project>-<base-sha-prefix>` branch and run
     `render-project-repository.py`. It must initialize the exact target,
-    contract-selected security profile, active CODEOWNERS, and selected
-    environment handoff together. Run `validate-project-repository.py`; fail
-    if any other path changes or any placeholder remains. For an existing
-    initialized shared repository, verify those protected files and write only
-    the new validated environment handoff.
+    contract-selected security profile, one valid ownership layout, and
+    selected environment handoff together. A rendered active
+    `.github/CODEOWNERS` or unchanged pinned `.github/CODEOWNERS.template` is
+    valid for both production and non-production repositories. Use
+    `--template-only` when the project team retains the template; do not treat
+    missing active CODEOWNERS as a blocker. Run
+    `validate-project-repository.py`; fail if another path changes, both
+    ownership files exist, the template changes, or a non-ownership placeholder
+    remains. For an existing initialized repository, verify the protected
+    files and one valid ownership layout, then write only the new validated
+    environment handoff.
 12. Push the validated branch and conditionally open one PR. Stop before merge
     and report the repository, environment, handoff path, and PR state.
 13. When reporting a merged handoff for a GitHub Free private repository,

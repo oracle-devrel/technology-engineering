@@ -36,6 +36,7 @@ def main() -> int:
     parser.add_argument("--handoff-json", required=True)
     parser.add_argument("--handoff-markdown", required=True)
     parser.add_argument("--project", required=True)
+    parser.add_argument("--template-only", action="store_true")
     args = parser.parse_args()
     try:
         repo = Path(os.path.abspath(args.repo)).resolve()
@@ -102,12 +103,13 @@ def main() -> int:
             raise RepositoryContractError(
                 "The pinned project template tree is invalid."
             )
-        codeowners = render_codeowners(
-            codeowners_template_path.read_text(encoding="utf-8"),
-            initialization,
-        )
-        codeowners_path.write_text(codeowners, encoding="utf-8")
-        codeowners_template_path.unlink()
+        if not args.template_only:
+            codeowners = render_codeowners(
+                codeowners_template_path.read_text(encoding="utf-8"),
+                initialization,
+            )
+            codeowners_path.write_text(codeowners, encoding="utf-8")
+            codeowners_template_path.unlink()
         handoff_path.write_bytes(handoff_markdown.read_bytes())
         print(
             json.dumps(

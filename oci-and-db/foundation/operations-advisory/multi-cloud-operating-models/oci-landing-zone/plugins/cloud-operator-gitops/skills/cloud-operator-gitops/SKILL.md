@@ -107,13 +107,15 @@ environment.
 For a newly created repository, create it from the selected template repository
 and exact revision, then verify that its initial commit and tree equal that
 source before initializing it in the same reviewed handoff PR. Replace the
-template target with the exact handoff target, select the security profile from
-`cloud-operator-installation.json`, render an active `.github/CODEOWNERS` from
-the configured owners, delete `.github/CODEOWNERS.template`, and publish the selected
-environment handoff. Fail if any repository placeholder remains. For an
-existing initialized shared non-production repository, verify its protected
-contract and active CODEOWNERS before publishing only the new environment
-handoff.
+template target with the exact handoff target and select the security profile
+from `cloud-operator-installation.json`. A rendered active
+`.github/CODEOWNERS` or an unchanged pinned `.github/CODEOWNERS.template` is
+an accepted ownership state. When retaining the template, run
+`render-project-repository.py --template-only`; do not report a missing active
+CODEOWNERS file as a handoff blocker. Fail if an ownership layout is mixed,
+the template changed, or any non-ownership repository placeholder remains.
+For an existing initialized repository, verify its protected contract and one
+valid ownership state before publishing only the new environment handoff.
 
 After a known human merge, monitor the configured exact workflow until terminal unless the user
 explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll

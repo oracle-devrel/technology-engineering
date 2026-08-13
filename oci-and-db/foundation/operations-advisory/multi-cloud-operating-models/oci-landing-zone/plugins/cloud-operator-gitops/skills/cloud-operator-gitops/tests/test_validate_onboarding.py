@@ -9,6 +9,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SCRIPTS = Path(__file__).parents[1] / "scripts"
@@ -28,6 +29,14 @@ assert RETIREMENT_SPEC is not None and RETIREMENT_SPEC.loader is not None
 RETIREMENT_MODULE = importlib.util.module_from_spec(RETIREMENT_SPEC)
 RETIREMENT_SPEC.loader.exec_module(RETIREMENT_MODULE)
 validate_retirement_change = RETIREMENT_MODULE.validate_retirement_change
+PROJECT_REPOSITORY_SPEC = importlib.util.spec_from_file_location(
+    "validate_project_repository", SCRIPTS / "validate-project-repository.py"
+)
+assert PROJECT_REPOSITORY_SPEC is not None and PROJECT_REPOSITORY_SPEC.loader is not None
+PROJECT_REPOSITORY_MODULE = importlib.util.module_from_spec(
+    PROJECT_REPOSITORY_SPEC
+)
+PROJECT_REPOSITORY_SPEC.loader.exec_module(PROJECT_REPOSITORY_MODULE)
 
 
 PROJECT = "dev-project1-demo6"
@@ -239,6 +248,118 @@ class HandoffConfigTests(unittest.TestCase):
             )
 
             self.assertEqual(find_project_config(project_directory), iam)
+
+
+class ProjectRepositoryContractTests(unittest.TestCase):
+    """Regression coverage for the project ownership handoff layouts."""
+
+    base = "a" * 40
+    handoff_path = "environments/dev/environment_information.md"
+
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory()
+        self.repo = Path(self.temp.name) / "repo"
+        self.repo.mkdir()
+        self.template = self.repo / ".github/CODEOWNERS.template"
+        self.template.parent.mkdir()
+        self.template.write_text("* @acme/platform\n", encoding="utf-8")
+        self.handoff = self.repo / self.handoff_path
+        self.handoff.parent.mkdir(parents=True)
+        self.handoff.write_text("validated handoff\n", encoding="utf-8")
+        self.installation = self.repo / "installation.json"
+        self.handoff_json = self.repo / "handoff.json"
+        self.installation.write_text("{}", encoding="utf-8")
+        self.handoff_json.write_text("{}", encoding="utf-8")
+        self.initialization = type(
+            "Initialization",
+            (),
+            {
+                "template_revision": self.base,
+                "handoff_path": self.handoff_path,
+                "customer_org": "acme",
+                "target_repository": "nonprod-project1-demo6",
+                "identity": type("Identity", (), {"environment": "dev"})(),
+                "repository_layout": "shared-nonprod-v2",
+                "security_profile": "repository-secrets",
+                "template_repository": "acme/nonprod-template",
+                "codeowners": {
+                    "platform": ("@acme/platform",),
+                    "dev": ("@acme/dev",),
+                },
+            },
+        )()
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    def validate_with(self, status: str, codeowners: str | None = None):
+        if codeowners is not None:
+            (self.repo / ".github/CODEOWNERS").write_text(
+                codeowners, encoding="utf-8"
+            )
+        git_results = iter(
+            [
+                "agent/project-handoff-dev-project1-demo6-aaaaaaaaaaaa\n",
+                f"{self.base}\n",
+                f"{self.base}\n",
+                f"{self.base}\n",
+                status,
+                "* @acme/platform\n",
+            ]
+        )
+        with (
+            patch.object(
+                PROJECT_REPOSITORY_MODULE,
+                "load_initialization",
+                return_value=self.initialization,
+            ),
+            patch.object(PROJECT_REPOSITORY_MODULE, "validate_origin"),
+            patch.object(PROJECT_REPOSITORY_MODULE, "validate_no_placeholders"),
+            patch.object(
+                PROJECT_REPOSITORY_MODULE, "git", side_effect=lambda *_: next(git_results)
+            ),
+        ):
+            return PROJECT_REPOSITORY_MODULE.validate(
+                self.repo,
+                self.installation,
+                self.handoff_json,
+                self.handoff,
+                "dev-project1-demo6",
+                "main",
+                None,
+                None,
+            )
+
+    def test_accepts_template_only_ownership(self) -> None:
+        result = self.validate_with(f" M {self.handoff_path}\n")
+        self.assertEqual(
+            result["paths"],
+            [".github/CODEOWNERS.template", self.handoff_path],
+        )
+
+    def test_accepts_rendered_active_ownership(self) -> None:
+        self.template.unlink()
+        result = self.validate_with(
+            " D .github/CODEOWNERS.template\n"
+            f" M {self.handoff_path}\n"
+            "?? .github/CODEOWNERS\n",
+            "* @acme/platform\n",
+        )
+        self.assertEqual(
+            result["paths"],
+            [
+                ".github/CODEOWNERS",
+                ".github/CODEOWNERS.template",
+                self.handoff_path,
+            ],
+        )
+
+    def test_rejects_modified_template_only_ownership(self) -> None:
+        self.template.write_text("* @acme/other\n", encoding="utf-8")
+        with self.assertRaisesRegex(
+            ValueError, "CODEOWNERS.template is invalid"
+        ):
+            self.validate_with(f" M {self.handoff_path}\n")
 
 
 if __name__ == "__main__":
