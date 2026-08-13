@@ -35,5 +35,5 @@ runbooks remain available for inspection.
 
 Before enabling requests, render the installation for the customer
 organization, complete the selected cloud handoff, and run the acceptance steps
-in [Deployment](deployment.md) and [First request](first-request.md) on the
+in [Installation](../installation/installation-runbook.md) and [First request](../usage/github-pull-requests.md) on the
 customer runners and identities.

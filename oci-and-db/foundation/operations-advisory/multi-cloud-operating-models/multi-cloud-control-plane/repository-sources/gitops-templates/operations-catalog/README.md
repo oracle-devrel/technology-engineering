@@ -72,7 +72,7 @@ display names in Terraform state for that OCI region. Add another object to the
 
 These steps are only the catalog portion of an extension. Complete every
 control and qualification requirement in the
-[extension model](../../docs/architecture.md#extension-model) before making
+[extension model](../../../docs/reference/architecture.md#extension-model) before making
 the operation available to Project Teams.
 
 ## Directory layout

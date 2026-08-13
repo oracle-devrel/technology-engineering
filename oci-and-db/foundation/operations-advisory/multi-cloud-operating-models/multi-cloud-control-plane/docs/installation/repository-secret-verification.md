@@ -5,8 +5,8 @@ without applying infrastructure.
 
 Create a disposable `dev` JSON manifest containing
 `__DEV_E2E_TEST_VALUE__`. Add `DEV_E2E_TEST_VALUE` to the JSON value of the
-project repository secret `GITOPS_SECRET_VALUES_DEV`, and set
-Open a pull request limited to one `oci/dev/<region>` tuple. Confirm that the
+project repository secret `GITOPS_SECRET_VALUES_DEV`. Open a pull request
+limited to one `oci/dev/<region>` tuple. Confirm that the
 default-branch caller invokes the
 pinned reusable workflow, selects the dev runner labels and state key, prepares
 the variable, and reaches Terraform plan. Do not merge this test PR.

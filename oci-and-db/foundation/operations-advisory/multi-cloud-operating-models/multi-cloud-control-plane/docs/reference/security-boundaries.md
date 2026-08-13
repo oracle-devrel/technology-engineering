@@ -63,4 +63,4 @@ repository-and-environment scoped workload secret bundles. It adds paired
 GitHub Environments, protected branches, required reviews, and runner groups
 where the selected GitHub plan supports them. Enable it only after testing the
 controls in the customer organization. See
-[final-environment-hardening.md](final-environment-hardening.md).
+[future-hardening.md](future-hardening.md).

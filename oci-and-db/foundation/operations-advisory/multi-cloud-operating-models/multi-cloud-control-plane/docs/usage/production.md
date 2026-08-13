@@ -1,7 +1,7 @@
 # Production repository model
 
 Production uses a dedicated `prod-<project>` repository created from
-`components/prod-project-template`. Its `production` contract permits only
+`repository-sources/prod-project-template`. Its `production` contract permits only
 the `prod` deployment environment and paths of the form
 `<cloud>/prod/<region>/...`. Terraform state, runner labels, CODEOWNERS, and
 handoffs are separate from `nonprod-<project>`.
@@ -12,7 +12,7 @@ OCI Day 2 lifecycle operations as non-production: ADB start/stop and
 and production runner. Azure and Google Day 2 operations are
 not included in this MVP.
 
-![MCCP V2 production repository structure: one prod project repository holds its reviewed handoff and OCI, Azure, and GCP requests; shared control-plane repositories supply execution, catalog content, and pinned adapters.](images/repository-structure-v2.svg)
+![MCCP V2 production repository structure: one prod project repository holds its reviewed handoff and OCI, Azure, and GCP requests; shared control-plane repositories supply execution, catalog content, and pinned adapters.](../images/repository-structure-v2.svg)
 
 Publish the prepared `prod-project-template` repository from the deployment
 runbook and create `prod-<project>` from that exact pinned template. Validate
@@ -96,11 +96,11 @@ Keep `.github` and `environments` under platform ownership. Every bundle key
 and runtime placeholder must begin with `PROD_`. Use an
 isolated production organization runner group restricted to selected production
 repositories and run the
-[repository-secret end-to-end verification](repository-secret-e2e.md) with a
+[repository-secret end-to-end verification](../installation/repository-secret-verification.md) with a
 disposable manifest before accepting a real request.
 
 The paid-platform hardening design is documented separately in
-[final-environment-hardening.md](final-environment-hardening.md). It is not a
+[future-hardening.md](../reference/future-hardening.md). It is not a
 profile switch in this MVP.
 
 The seeded OCI `lifecycle_operations/` directory is intentionally empty of

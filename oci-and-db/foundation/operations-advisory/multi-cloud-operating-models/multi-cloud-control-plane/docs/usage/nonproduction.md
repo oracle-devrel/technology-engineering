@@ -43,7 +43,7 @@ downloaded from `main` with GitHub's temporary scoped token, not a deploy key.
 
 ## Acceptance and audit
 
-Complete the mandatory [repository-secret end-to-end verification](repository-secret-e2e.md)
+Complete the mandatory [repository-secret end-to-end verification](../installation/repository-secret-verification.md)
 before allowing workload requests. It verifies environment isolation and
 fail-closed placeholder handling without applying infrastructure.
 
@@ -57,5 +57,5 @@ gh api repos/OWNER/platform-ci/actions/permissions/access
 ```
 
 For a future paid production-grade model, see
-[final-environment-hardening.md](final-environment-hardening.md). It is a
+[future-hardening.md](../reference/future-hardening.md). It is a
 separate hardened release path, not an unsupported switch in this MVP.

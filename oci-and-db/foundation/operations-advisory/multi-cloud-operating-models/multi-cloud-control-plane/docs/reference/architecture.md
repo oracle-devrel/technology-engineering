@@ -6,11 +6,11 @@ provide the deployment authority.
 
 ## Governed request journey
 
-![Cloud Operations hands off a prepared project boundary; Project Teams choose a direct pull request, optional UI, or optional Codex assistant; GitHub review and a trusted runner retain control of execution.](images/end-to-end-customer-journey.svg)
+![Cloud Operations hands off a prepared project boundary; Project Teams choose a direct pull request, optional UI, or optional Codex assistant; GitHub review and a trusted runner retain control of execution.](../images/end-to-end-customer-journey.svg)
 
 ## Control-plane components
 
-![Conceptual control-plane architecture: Git repositories hold Landing Zone and project configuration plus the operations catalog; optional UI and AI skills prepare requests for automation pipelines across current and extended clouds.](images/conceptual-control-plane-architecture.png)
+![Conceptual control-plane architecture: Git repositories hold Landing Zone and project configuration plus the operations catalog; optional UI and AI skills prepare requests for automation pipelines across current and extended clouds.](../images/conceptual-control-plane-architecture.png)
 
 The diagram includes examples of extensible cloud targets. Only the documented
 V2 baseline is supplied and qualified by this publication.
@@ -45,7 +45,7 @@ on a native runner in its target cloud without changing project manifests.
 
 The supplied baseline is a starting point, not an unrestricted service catalog.
 
-![A stable request, review, approval, execution, and evidence contract lets the implementation expand without changing the Project Team experience.](images/stable-operating-contract.png)
+![A stable request, review, approval, execution, and evidence contract lets the implementation expand without changing the Project Team experience.](../images/stable-operating-contract.png)
 
 *Cloud-specific implementations may evolve; the governed operating contract
 remains consistent for Project Teams.*

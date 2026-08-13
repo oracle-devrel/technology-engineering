@@ -1,4 +1,4 @@
-# First workload request
+# Direct GitHub pull requests
 
 Start only after the platform team has completed the selected environment's `environment_information.md`. OCI references are generated from the Landing Zone. Azure and GCP references are entered by the platform team in a separate reviewed handoff pull request. Blank handoff sections are not usable.
 

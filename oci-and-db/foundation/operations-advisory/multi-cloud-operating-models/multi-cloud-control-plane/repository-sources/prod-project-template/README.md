@@ -27,9 +27,9 @@ must begin with `PROD_`. Require independent production approval and passing
 checks; do not use `secrets: inherit`.
 
 See the
-[production runbook](../../docs/production.md)
+[production runbook](../../docs/usage/production.md)
 before enabling automation. The paid-plan enforcement model is described in
-the [final environment hardening guide](../../docs/final-environment-hardening.md).
+the [final environment hardening guide](../../docs/reference/future-hardening.md).
 
 Production supports the same supplied OCI Day 2 lifecycle operations as
 non-production: ADB start/stop and `deploy-agent`. The visible

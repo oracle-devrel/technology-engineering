@@ -1,4 +1,12 @@
-# Deployment runbook
+# Installation runbook
+
+> **Audience:** Cloud Operations<br>
+> **Before you begin:** A private GitHub organization, trusted runners, and an
+> OCI Object Storage state bucket. OCI Landing Zone OP04 handoff is required
+> later, when you onboard a project.<br>
+> **Outcome:** Prepared shared repositories, a handed-off project boundary,
+> and verified automation.<br>
+> **Next step:** [Prepare the shared repositories](#1-prepare-the-shared-repositories).
 
 This runbook uses standard file, Git, `jq`, and Perl commands. Run it from a
 clean clone of this asset; no custom deployment program is required.
@@ -29,11 +37,11 @@ export ENVIRONMENT_OWNER="$PLATFORM_OWNER"
 export PROD_OWNER="$PLATFORM_OWNER"
 
 mkdir -p "$STAGE"
-cp -R components/platform-ci "$STAGE/platform-ci"
-cp -R components/nonprod-project-template "$STAGE/nonprod-project-template"
-cp -R components/prod-project-template "$STAGE/prod-project-template"
-cp -R components/gitops-templates "$STAGE/gitops-templates"
-cp -R components/optional-ui "$STAGE/optional-ui"
+cp -R repository-sources/platform-ci "$STAGE/platform-ci"
+cp -R repository-sources/nonprod-project-template "$STAGE/nonprod-project-template"
+cp -R repository-sources/prod-project-template "$STAGE/prod-project-template"
+cp -R repository-sources/gitops-templates "$STAGE/gitops-templates"
+cp -R repository-sources/optional-ui "$STAGE/optional-ui"
 cp LICENSE "$STAGE/platform-ci/LICENSE"
 cp LICENSE "$STAGE/nonprod-project-template/LICENSE"
 cp LICENSE "$STAGE/prod-project-template/LICENSE"
@@ -91,7 +99,14 @@ done
 export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/nonprod-project-template" rev-parse HEAD)
 export PRODUCTION_PROJECT_TEMPLATE_REF=$(git -C "$STAGE/prod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
-cp installation/mccp-installation.template.json "$STAGE/mccp-installation.json"
+jq -n \
+  --arg customer_org "$CUSTOMER_ORG" \
+  --arg catalog_revision "$CATALOGS_REF" \
+  '{
+    schema_version: 1,
+    customer_org: $customer_org,
+    catalog_revision: $catalog_revision
+  }' > "$STAGE/mccp-installation.json"
 perl -pi -e \
   's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' \
   "$STAGE/mccp-installation.json"
@@ -105,11 +120,12 @@ fi
 Keep the Platform CI `main` branch private and protected. Official GitHub
 Actions use their reviewed major release tags.
 
-The MVP uses the fixed `repository-secrets` profile on GitHub Free. Each
-enabled environment receives its own repository secret bundle and readiness
-variable; the reviewed pull request remains the human deployment gate. See the
-[security model](security.md) and the separate
-[final-environment hardening guide](final-environment-hardening.md) before
+The MVP uses the fixed `repository-secrets` profile on GitHub Free. An enabled
+environment receives its own repository secret bundle only when a workload
+manifest contains matching runtime placeholders; the reviewed pull request
+remains the human deployment gate. See the
+[security model](../reference/security-boundaries.md) and the separate
+[final-environment hardening guide](../reference/future-hardening.md) before
 adding paid-plan controls.
 Owner values must be existing `@user` or `@organization/team` identities with
 write access. An isolated Free-plan acceptance test may use the same owner for
@@ -133,7 +149,7 @@ installation configuration and install that staged directory through the
 approved plugin process:
 
 ```bash
-cp -R plugins/project-gitops "$STAGE/project-gitops"
+cp -R codex-plugins/project-gitops "$STAGE/project-gitops"
 cp "$STAGE/mccp-installation.json" \
   "$STAGE/project-gitops/mccp-installation.json"
 jq -e . "$STAGE/project-gitops/mccp-installation.json" >/dev/null
@@ -235,12 +251,13 @@ must have separate key pairs.
 
 ## 3. Onboard an OCI project
 
-![Conceptual project onboarding: Cloud Operations prepares the project foundation and its repository, then Project Teams manage approved workloads through the control plane.](images/project-onboarding.png)
+![Conceptual project onboarding: Cloud Operations prepares the project foundation and its repository, then Project Teams manage approved workloads through the control plane.](../images/project-onboarding.png)
 
 Validate the handoff before copying the project template:
 
-The canonical field contract is
-`contracts/project-foundation-handoff.schema.json`.
+OCI Landing Zone owns the canonical
+[project-foundation handoff contract](../../../oci-landing-zone/contracts/project-foundation-handoff.schema.json)
+and emits the handoff artifact after OP04.
 
 ```bash
 export HANDOFF=/secure/project-foundation-handoff.json
@@ -326,10 +343,10 @@ new project repository inherits it automatically. A project repository needs a
 contains a matching environment-qualified placeholder. CODEOWNERS, handoff,
 runner routing, and procedural review remain required. For a non-production
 repository, use the concise [shared non-production
-checklist](shared-nonproduction.md).
+checklist](../usage/nonproduction.md).
 
 Do not submit a Project GitOps workload request or merge one until this
-bootstrap and the [repository-secret end-to-end verification](repository-secret-e2e.md)
+bootstrap and the [repository-secret end-to-end verification](repository-secret-verification.md)
 have completed. This manual step exists because GitHub Free private
 repositories cannot access organization secrets or variables.
 
@@ -401,6 +418,6 @@ under the expected project/cloud/environment/region key.
 
 ## 5. Verify secret isolation
 
-Complete the mandatory [repository-secret end-to-end verification](repository-secret-e2e.md).
+Complete the mandatory [repository-secret end-to-end verification](repository-secret-verification.md).
 Do not allow workload requests until it passes. The paid-plan enforcement
-model is documented separately in [final-environment-hardening.md](final-environment-hardening.md).
+model is documented separately in [future-hardening.md](../reference/future-hardening.md).

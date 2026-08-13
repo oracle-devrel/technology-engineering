@@ -1,4 +1,4 @@
-# Day-to-day operations
+# Request lifecycle
 
 Every infrastructure request follows the same governed process:
 
@@ -27,7 +27,7 @@ Use these canonical locations for the supplied baseline:
 Project Teams use only installed catalog entries and approved paths. A customer
 extension must add its reviewed path and validation before use; the required
 implementation layers are defined in the
-[architecture extension model](architecture.md#extension-model).
+[architecture extension model](../reference/architecture.md#extension-model).
 
 Azure and Google manifests contain only workload declarations and direct
 handed-off references. Their adapters never create foundation resources, and

@@ -40,6 +40,6 @@ runtime placeholders must begin with the selected
 uppercase environment. Do not use `secrets: inherit` or combine environments.
 
 See the
-[shared non-production runbook](../../docs/shared-nonproduction.md)
+[shared non-production runbook](../../docs/usage/nonproduction.md)
 before enabling automation. The paid-plan enforcement model is described in
-the [final environment hardening guide](../../docs/final-environment-hardening.md).
+the [final environment hardening guide](../../docs/reference/future-hardening.md).

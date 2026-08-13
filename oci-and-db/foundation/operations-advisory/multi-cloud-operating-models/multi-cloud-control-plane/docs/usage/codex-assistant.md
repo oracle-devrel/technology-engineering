@@ -18,7 +18,7 @@ catalog provenance in its semantic preview.
 
 For the customer-adoption prerequisites, local installation, validation, and
 OP04-to-project-request example, see [Install and use the Codex GitOps
-skills](../../oci-landing-zone/docs/codex-skills-installation.md).
+skills](../../../oci-landing-zone/docs/codex-skills-installation.md).
 
 The assistant cannot merge or approve pull requests, control workflows, call
 cloud APIs, accept raw passwords, or perform unavailable Azure or Google Day 2

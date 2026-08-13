@@ -104,4 +104,4 @@ and key values for the same reason.
 
 The UI creates only an issue, branch, commit, and pull request. GitHub review,
 the shared workflow, and the trusted runner retain control of plan, approval,
-and apply. See the parent MCCP [security guidance](../../docs/security.md).
+and apply. See the parent MCCP [security guidance](../../docs/reference/security-boundaries.md).
