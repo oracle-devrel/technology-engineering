@@ -1,8 +1,10 @@
-# Overview
-
-Reviewed: 2026.04.16
+# Customizing ADS Model Deployment Artifacts
 
 This project demonstrates how to deploy a machine learning model using the ADS SDK while customizing the default generated model artifacts, which is often required in production scenarios.
+
+Reviewed: 2026.08.13
+
+# When to use this asset?
 
 While ADS provides a standard template for model artifacts, real-world use cases frequently require additional logic. In this notebook, we focus on modifying the generated artifacts to incorporate feature engineering directly into the deployment pipeline.
 
@@ -25,5 +27,10 @@ Created: April 2026
 - Basic familiarity with Python, Pandas, and Scikit-learn
 
 # License
+ 
 Copyright (c) 2026 Oracle and/or its affiliates.
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
