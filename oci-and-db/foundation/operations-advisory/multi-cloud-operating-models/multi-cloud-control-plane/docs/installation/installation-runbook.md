@@ -1,52 +1,45 @@
 # Installation runbook
 
 > **Audience:** Cloud Operations<br>
-> **Before you begin:** A private GitHub organization, trusted runners, and an
-> OCI Object Storage state bucket. OCI Landing Zone OP04 handoff is required
-> later, when you onboard a project.<br>
-> **Outcome:** Prepared shared repositories, a handed-off project boundary,
-> and verified automation.<br>
+> **Before you begin:** Administrative access to a private GitHub organization,
+> existing trusted runner hosts, and a dedicated OCI Object Storage state
+> bucket.<br>
+> **Outcome:** Prepared shared repositories, configured execution prerequisites,
+> and verified automation controls.<br>
 > **Next step:** [Prepare the shared repositories](#1-prepare-the-shared-repositories).
 
-This runbook uses standard file, Git, `jq`, and Perl commands. Run it from a
-clean clone of this asset; no custom deployment program is required.
+This runbook uses Git, GitHub CLI (`gh`), `jq`, `rg`, and Perl. Authenticate
+`gh` to an account that can create and configure private repositories in the
+customer organization. Run the commands from a clean clone of this asset; no
+custom deployment program is required.
 
-## Installation configuration
+```bash
+gh auth status
+git status --short
+```
 
-Cloud Operations renders one small, non-secret `mccp-installation.json` for
-this customer installation. It contains only the customer GitHub organization
-and the approved immutable catalog revision. The Optional UI and Project
-GitOps skill read it before they prepare a change, so neither can be redirected
-to a different organization or mutable catalog.
-
-This is not a project handoff and it does not deploy infrastructure. OCI
-foundation handoff remains a separate per-project artifact, validated before a
-project repository is created in [Project onboarding](#3-onboard-a-project).
+`gh auth status` must confirm the intended GitHub account. `git status` must
+return no output before staging the publication.
 
 ## 1. Prepare the shared repositories
 
 ```bash
-export STAGE=/tmp/control-plane
+export STAGE="$(mktemp -d)"
 export CUSTOMER_ORG=example-enterprise
 export PROJECT_STATE_BUCKET=example-project-state
 export OCI_ORCHESTRATOR_REF=fcf1d7f02c0b4faa1ff55f1776c396452dd51761
 export AZURE_ORCHESTRATOR_REF=mccp-v2.1.0
 export GCP_ORCHESTRATOR_REF=mccp-v2.1.0
-export PLATFORM_OWNER='@example-platform-owner'
-export ENVIRONMENT_OWNER="$PLATFORM_OWNER"
-export PROD_OWNER="$PLATFORM_OWNER"
 
 mkdir -p "$STAGE"
 cp -R repository-sources/platform-ci "$STAGE/platform-ci"
 cp -R repository-sources/nonprod-project-template "$STAGE/nonprod-project-template"
 cp -R repository-sources/prod-project-template "$STAGE/prod-project-template"
 cp -R repository-sources/gitops-templates "$STAGE/gitops-templates"
-cp -R repository-sources/optional-ui "$STAGE/optional-ui"
 cp LICENSE "$STAGE/platform-ci/LICENSE"
 cp LICENSE "$STAGE/nonprod-project-template/LICENSE"
 cp LICENSE "$STAGE/prod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
-cp LICENSE "$STAGE/optional-ui/LICENSE"
 
 find "$STAGE" -type d \( -name tests -o -name __pycache__ -o -name .venv \) \
   -prune -exec rm -rf {} +
@@ -61,10 +54,10 @@ directory accessible only to the installation operator, keep credentials and
 runtime secrets outside it, and remove it after the published repositories have
 been verified.
 
-`PROJECT_STATE_BUCKET` must name a dedicated private Object Storage bucket
-with versioning enabled. Do not reuse the OCI Landing Zone foundation-state
-bucket. When the Landing Zone asset creates the OP03 runner identity, its
-`PROJECT_STATE_BUCKET` repository variable and this value must match exactly.
+`PROJECT_STATE_BUCKET` must name a dedicated private OCI Object Storage bucket
+with versioning enabled. MCCP uses this backend for project Terraform state for
+all supported target clouds. Do not reuse a foundation-state bucket. The
+value is rendered into the project workflow templates during this runbook.
 
 `OCI_ORCHESTRATOR_REF` pins OCI Landing Zones Orchestrator
 [`release-2.1.4`](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4).
@@ -77,7 +70,7 @@ and [GCP adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/tree
 Confirm that they resolve to the reviewed adapter commits before installation.
 
 Create Platform CI first. Project workflows and its composite actions use its
-protected `main` branch directly:
+review-controlled `main` branch directly:
 
 ```bash
 git -C "$STAGE/platform-ci" init -b main
@@ -99,79 +92,19 @@ done
 export PROJECT_TEMPLATE_REF=$(git -C "$STAGE/nonprod-project-template" rev-parse HEAD)
 export PRODUCTION_PROJECT_TEMPLATE_REF=$(git -C "$STAGE/prod-project-template" rev-parse HEAD)
 export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
-jq -n \
-  --arg customer_org "$CUSTOMER_ORG" \
-  --arg catalog_revision "$CATALOGS_REF" \
-  '{
-    schema_version: 1,
-    customer_org: $customer_org,
-    catalog_revision: $catalog_revision
-  }' > "$STAGE/mccp-installation.json"
-perl -pi -e \
-  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__CATALOGS_REF__/$ENV{CATALOGS_REF}/g' \
-  "$STAGE/mccp-installation.json"
-if rg -n '__[A-Z0-9_]+__' "$STAGE/mccp-installation.json"
-then
-  echo 'Unresolved MCCP installation placeholders remain' >&2
-  exit 1
-fi
 ```
 
-Keep the Platform CI `main` branch private and protected. Official GitHub
-Actions use their reviewed major release tags.
+Keep the Platform CI repository private and restrict write access to Cloud
+Operations. Protect `main` when the customer GitHub plan supports protection
+for private repositories. Official GitHub Actions use their reviewed major
+release tags.
 
 The MVP uses the fixed `repository-secrets` profile on GitHub Free. An enabled
 environment receives its own repository secret bundle only when a workload
 manifest contains matching runtime placeholders; the reviewed pull request
 remains the human deployment gate. See the
-[security model](../reference/security-boundaries.md) and the separate
-[final-environment hardening guide](../reference/future-hardening.md) before
-adding paid-plan controls.
-Owner values must be existing `@user` or `@organization/team` identities with
-write access. An isolated Free-plan acceptance test may use the same owner for
-every path; production deployments should use separate environment reviewer
-teams.
-
-After pushing the prepared template repositories to the customer organization,
-mark both of them as GitHub template repositories. Private templates remain
-private; this setting is required before a Cloud Operator can create a project
-repository from either template in the GitHub UI or API.
-
-```bash
-gh repo edit "$CUSTOMER_ORG/nonprod-project-template" --template
-gh repo edit "$CUSTOMER_ORG/prod-project-template" --template
-gh api "repos/$CUSTOMER_ORG/nonprod-project-template" --jq '.is_template'
-gh api "repos/$CUSTOMER_ORG/prod-project-template" --jq '.is_template'
-```
-
-If the Codex app assistant is required, package it with the rendered MCCP
-installation configuration and install that staged directory through the
-approved plugin process:
-
-```bash
-cp -R codex-plugins/project-gitops "$STAGE/project-gitops"
-cp "$STAGE/mccp-installation.json" \
-  "$STAGE/project-gitops/mccp-installation.json"
-jq -e . "$STAGE/project-gitops/mccp-installation.json" >/dev/null
-if rg -n '__[A-Z0-9_]+__' "$STAGE/project-gitops/mccp-installation.json"
-then
-  echo 'Unresolved MCCP installation placeholders remain' >&2
-  exit 1
-fi
-```
-
-The assistant remains optional and is not required by any workflow.
-
-If the Multi-Cloud Plane UI is required, place the same rendered MCCP
-installation configuration beside the staged UI runtime. Configure its OAuth
-and session secrets outside Git.
-The UI can only prepare a GitHub pull request; it uses the same V2 manifests,
-review gate, and runner execution path as a direct GitHub request.
-
-```bash
-cp "$STAGE/mccp-installation.json" "$STAGE/optional-ui/mccp-installation.json"
-test ! -e "$STAGE/optional-ui/.env"
-```
+[security and GitHub controls](../reference/security.md). Do not add untested
+paid-plan controls to this release.
 
 Verify that no unresolved release placeholder or local test content is present:
 
@@ -180,12 +113,34 @@ rg '__CUSTOMER_ORG__|__[A-Z_]+_REF__|__STATE_BUCKET__|__PROJECT_STATE_BUCKET__' 
 find "$STAGE" -type d -name tests
 ```
 
-Both commands must return no output. Create the matching private GitHub
-repositories and publish each prepared `main` branch through your approved Git
-process. In the published `platform-ci` repository, allow project repositories
-to call its reusable workflows at
+Both commands must return no output. Create the four private repositories and
+publish their prepared `main` branches:
+
+```bash
+for repository in platform-ci nonprod-project-template prod-project-template gitops-templates; do
+  gh repo create "$CUSTOMER_ORG/$repository" \
+    --private --source "$STAGE/$repository" --remote origin --push
+done
+```
+
+Mark both project repositories as templates, then confirm the setting:
+
+```bash
+gh repo edit "$CUSTOMER_ORG/nonprod-project-template" --template
+gh repo edit "$CUSTOMER_ORG/prod-project-template" --template
+test "$(gh api "repos/$CUSTOMER_ORG/nonprod-project-template" --jq '.is_template')" = true
+test "$(gh api "repos/$CUSTOMER_ORG/prod-project-template" --jq '.is_template')" = true
+```
+
+In the published `platform-ci` repository, allow project repositories to call
+its reusable workflows at
 **Settings → Actions → General → Access → Accessible from repositories in the
-organization**.
+organization**. Confirm the resulting access level:
+
+```bash
+test "$(gh api "repos/$CUSTOMER_ORG/platform-ci/actions/permissions/access" \
+  --jq '.access_level')" = organization
+```
 
 Record the exact prepared commits, then confirm that every published branch
 resolves to those commits:
@@ -208,17 +163,19 @@ test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/gitops-templates.git" \
 ```
 
 Each `test` command must return exit code zero. Record the commits as
-installation evidence. Runtime foundation, project, and disposable
-acceptance repositories are validated by their pinned source commits and
-handoff contracts, not by copying tenancy-specific files into this release
-bundle.
+installation evidence. This release bundle contains only the shared control
+plane sources; tenant-specific runtime artifacts remain outside it.
 
 Keep `platform-ci` private and configure its Actions access for organization
 repositories. A private reusable workflow invokes its directly referenced
 composite action on `main` with GitHub's scoped temporary token; project
-onboarding creates no deploy key or other Platform CI source credential.
+repositories do not need a deploy key or other Platform CI source credential.
 
 ## 2. Configure trusted runners
+
+This runbook configures existing self-hosted runner hosts; it does not provision
+runner machines. Register each runner with the customer GitHub organization and
+assign only the labels required by the published workflows.
 
 | Setting | Purpose |
 |---|---|
@@ -228,196 +185,54 @@ onboarding creates no deploy key or other Platform CI source credential.
 
 Resolver runners need Git, `jq`, and `rg`. Execution runners need Git and
 Python 3.11 or later; the workflow installs its pinned Terraform 1.12.1
-runtime. On GitHub Free, use an organization runner group restricted to the
-selected project repositories. Keep non-production and production in separate
-groups, and add a repository only after its handoff is complete. GitHub Team
-and Enterprise use the same model; Enterprise can also scope runner groups
-across organizations. OCI runner instances must belong to an OCI dynamic group
-with policies for Object Storage state access and only the
-compartments/services required by their workload. Azure and Google runners need
-equivalent workload-scoped identities. Azure additionally needs its approved
-service-principal environment values. Google needs `GOOGLE_CREDENTIALS`,
+runtime. Use separate runner instances and labels for non-production and
+production. When the customer GitHub plan supports additional organization
+runner groups, place those instances in separate groups restricted to the
+approved repositories.
+
+Register runner labels that match the supplied workflows:
+
+| Job boundary | Required labels |
+|---|---|
+| Request resolver | `self-hosted`, `control-plane-resolver` |
+| Non-production execution | `self-hosted`, selected cloud (`oci`, `azure`, or `gcp`), selected environment (`dev`, `test`, or `uat`) |
+| Production execution | `self-hosted`, selected cloud (`oci`, `azure`, or `gcp`), `prod` |
+
+The supplied baseline can use OCI runner instances for every selected cloud.
+Those instances must belong to an OCI dynamic group with policies for the
+Object Storage state bucket and only the compartments and services required by
+their workload. Azure additionally needs Azure CLI and its approved
+service-principal `ARM_*` values. Google needs `GOOGLE_CREDENTIALS`,
 `GOOGLE_APPLICATION_CREDENTIALS`, or Application Default Credentials. Keep
 credentials outside Git.
 
-The OP03 add-on creates one SSH key pair for each project-runner boundary. OCI
+Cloud Operations provisions one SSH key pair for each OCI runner boundary. OCI
 Compute manifests use only the public key at
 `/home/github-runner/.ssh/oci_vm_key.pub`; supported Ansible operations use the
-matching private key at `/home/github-runner/.ssh/oci_vm_key`. Project Teams do
-not create, store, or rotate this key. Before enabling project automation,
-verify as `github-runner` that both files exist and that the private key is
-readable only by that service account. Non-production and production runners
-must have separate key pairs.
+matching private key at `/home/github-runner/.ssh/oci_vm_key`. Verify as
+`github-runner` that both files exist and that the private key is readable only
+by that service account. Non-production and production runners must have
+separate key pairs.
 
-## 3. Onboard an OCI project
+## 3. Confirm the installation
 
-![Conceptual project onboarding: Cloud Operations prepares the project foundation and its repository, then Project Teams manage approved workloads through the control plane.](../images/project-onboarding.png)
+The organization installation is complete when:
 
-Validate the handoff before copying the project template:
+- the four published repository commits match the recorded values;
+- Platform CI Actions access is available to organization repositories;
+- resolver and execution runners have the required labels; and
+- each runner identity has the intended state and workload access.
 
-OCI Landing Zone owns the canonical
-[project-foundation handoff contract](../../../oci-landing-zone/contracts/project-foundation-handoff.schema.json)
-and emits the handoff artifact after OP04.
+Retain the commits, repository settings, runner labels, identity boundaries,
+and successful checks as installation evidence.
 
-```bash
-export HANDOFF=/secure/project-foundation-handoff.json
-export HANDOFF_DOCUMENT=/secure/environment_information.md
-export PROJECT_OUTPUT=/tmp/project-repository
-export PROJECT_REPOSITORY=$(jq -r .target_repository "$HANDOFF")
-export PROJECT_TOKEN=${PROJECT_REPOSITORY#nonprod-}
-export HANDOFF_ENVIRONMENT=$(jq -r .environment "$HANDOFF")
-export HANDOFF_PATH=$(jq -r .handoff_path "$HANDOFF")
+At this point the shared MCCP installation is complete. Project repository
+creation and handoff are separate Cloud Operations activities.
 
-jq -e '
-  .schema_version == 3 and .repository_layout == "shared-nonprod-v2" and .cloud == "oci" and
-  (.environment == "dev" or .environment == "test" or .environment == "uat") and
-  .project_slug == .target_repository and
-  .handoff_path == ("environments/" + .environment + "/environment_information.md") and
-  (.source_commit | test("^[0-9a-f]{40}$")) and
-  (.source_run | test("^[0-9]+$")) and
-  (.project_root_compartment | type == "string" and length > 0) and
-  ([.project_root_compartment, .app_compartment, .database_compartment, .infrastructure_compartment] | unique | length == 4) and
-  ((.subnets | keys | sort) == ["app","database","infrastructure","web"])
-' "$HANDOFF"
-test -f "$HANDOFF_DOCUMENT"
+## 4. Complete first-project acceptance
 
-cp -R "$STAGE/nonprod-project-template" "$PROJECT_OUTPUT"
-rm -rf "$PROJECT_OUTPUT/.git"
-test "$PROJECT_REPOSITORY" = "nonprod-$PROJECT_TOKEN"
-test "$HANDOFF_PATH" = \
-  "environments/$HANDOFF_ENVIRONMENT/environment_information.md"
-
-# Install the human-readable artifact emitted by the Landing Zone workflow.
-cp "$HANDOFF_DOCUMENT" "$PROJECT_OUTPUT/$HANDOFF_PATH"
-printf '\n' >> "$PROJECT_OUTPUT/$HANDOFF_PATH"
-sed -n '/^## Azure$/,$p' \
-  "$STAGE/nonprod-project-template/environments/$HANDOFF_ENVIRONMENT/environment_information.md" \
-  >> "$PROJECT_OUTPUT/$HANDOFF_PATH"
-rg -Fq '| Project |' "$PROJECT_OUTPUT/$HANDOFF_PATH"
-rg -q '^## Azure$' "$PROJECT_OUTPUT/$HANDOFF_PATH"
-rg -q '^## GCP$' "$PROJECT_OUTPUT/$HANDOFF_PATH"
-
-# Generic templates deliberately ship CODEOWNERS.template, not active rules.
-# Every owner must already exist and have repository write access.
-export PLATFORM_OWNERS='@example-platform-admin'
-export DEV_OWNERS='@example-dev-approver'
-export TEST_OWNERS='@example-test-approver'
-export UAT_OWNERS='@example-uat-approver'
-cp "$PROJECT_OUTPUT/.github/CODEOWNERS.template" \
-  "$PROJECT_OUTPUT/.github/CODEOWNERS"
-find "$PROJECT_OUTPUT/.github/CODEOWNERS" -type f -exec perl -pi -e \
-  's/__PLATFORM_OWNERS__/$ENV{PLATFORM_OWNERS}/g; s/__DEV_OWNERS__/$ENV{DEV_OWNERS}/g; s/__TEST_OWNERS__/$ENV{TEST_OWNERS}/g; s/__UAT_OWNERS__/$ENV{UAT_OWNERS}/g' {} +
-! rg '__[A-Z_]+__' "$PROJECT_OUTPUT/.github/CODEOWNERS"
-
-git -C "$PROJECT_OUTPUT" init -b main
-git -C "$PROJECT_OUTPUT" add -A
-git -C "$PROJECT_OUTPUT" -c user.name='Platform Administrator' \
-  -c user.email='platform@invalid' commit -m 'Prepare project repository'
-git -C "$PROJECT_OUTPUT" status --short
-```
-
-The final command must return no output. Repeat the verified handoff for each
-enabled environment under `environments/<environment>/environment_information.md`.
-The appended Azure and Google tables remain unusable until the platform team
-fills them through a reviewed handoff pull request; external-cloud validation
-rejects blank or mismatched references.
-Confirm the project, environment,
-region, compartments, VCN, subnets, workflow run, commit, and state keys against
-the approved onboarding record. Then create the private project repository,
-apply the same protections, and grant the Project Team access.
-
-Keep `.github` and `environments` under platform ownership; only workload
-subtrees are delegated. This GitHub Free MVP has a fixed
-`repository-secrets` profile, and runner labels are derived from the request
-cloud and environment. Record a human review and verify the plan/check on the
-current commit before merging; private-repository branch protection and
-enforced CODEOWNERS review are not claimed as technical controls in this MVP.
-
-### Required GitHub Free bootstrap before Project GitOps
-
-The Cloud Operator handoff is complete only after the repository administrator
-has configured the project repository. Private `platform-ci` Actions access
-is configured once on the Platform CI repository for the organization; every
-new project repository inherits it automatically. A project repository needs a
-`GITOPS_SECRET_VALUES_<ENVIRONMENT>` secret only when a workload manifest
-contains a matching environment-qualified placeholder. CODEOWNERS, handoff,
-runner routing, and procedural review remain required. For a non-production
-repository, use the concise [shared non-production
-checklist](../usage/nonproduction.md).
-
-Do not submit a Project GitOps workload request or merge one until this
-bootstrap and the [repository-secret end-to-end verification](repository-secret-verification.md)
-have completed. This manual step exists because GitHub Free private
-repositories cannot access organization secrets or variables.
-
-For the paid-plan enforcement model, apply this branch-protection baseline now,
-after rendering valid CODEOWNERS and creating the project repository. It
-requires independent approval, CODEOWNERS review, approval of the latest push,
-resolved conversations, and administrator enforcement:
-
-```bash
-export PROTECTED_REPOSITORY="$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-jq -n '{
-  required_status_checks: null,
-  enforce_admins: true,
-  required_pull_request_reviews: {
-    dismiss_stale_reviews: true,
-    require_code_owner_reviews: true,
-    required_approving_review_count: 1,
-    require_last_push_approval: true
-  },
-  restrictions: null,
-  allow_force_pushes: false,
-  allow_deletions: false,
-  required_conversation_resolution: true
-}' | gh api --method PUT \
-  "repos/$PROTECTED_REPOSITORY/branches/main/protection" --input -
-gh api "repos/$PROTECTED_REPOSITORY/branches/main/protection"
-```
-
-The baseline deliberately does not register a static status-check context.
-Terraform and Ansible use mutually exclusive path-filtered workflows; GitHub
-leaves a required path-filtered workflow pending when that workflow is not
-selected. Reviewers must verify the successful plan/check attached to the
-current commit before merge. An organization that requires technical status
-enforcement must first provide one stable, always-running aggregate gate and
-then add only that context to `required_status_checks`.
-
-Before handing off the first project, an organization owner must configure
-**platform-ci → Settings → Actions → General → Access** as accessible from
-repositories in the organization. Verify the native private-workflow access
-without reading a credential:
-
-```bash
-gh api repos/$CUSTOMER_ORG/platform-ci/actions/permissions/access
-```
-
-The response must contain `"access_level":"organization"`. GitHub supplies a
-scoped, temporary token to download the directly referenced private composite
-action from Platform CI `main`. Do not use a deploy key, a personal access
-token, or `secrets: inherit` for Platform CI source access.
-
-Configure a repository bundle only for an environment with secret placeholders:
-
-```bash
-gh secret set GITOPS_SECRET_VALUES_DEV --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-gh secret set GITOPS_SECRET_VALUES_TEST --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-gh secret set GITOPS_SECRET_VALUES_UAT --repo "$CUSTOMER_ORG/$PROJECT_REPOSITORY"
-```
-
-Only configure secret-backed environments. Every JSON member name must begin with
-the corresponding uppercase environment. Never place multiple environments in
-one bundle.
-
-## 4. Confirm the installation
-
-Open one non-production manifest pull request. The installation is working when
-the expected plan is tied to the current commit, a human review is recorded,
-the trusted runner completes the merged change, and state is stored
-under the expected project/cloud/environment/region key.
-
-## 5. Verify secret isolation
-
-Complete the mandatory [repository-secret end-to-end verification](repository-secret-verification.md).
-Do not allow workload requests until it passes. The paid-plan enforcement
-model is documented separately in [future-hardening.md](../reference/future-hardening.md).
+After Cloud Operations creates and hands off the first project repository,
+complete the mandatory
+[environment secret isolation test](verify-secret-isolation.md)
+before the Project Team submits workload requests. This verifies a real project
+boundary but is not part of publishing the shared repositories.

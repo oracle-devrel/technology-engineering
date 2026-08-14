@@ -1,19 +1,19 @@
 # Optional Multi-Cloud Plane UI
 
-The Multi-Cloud Plane UI is an optional form-led way to prepare a request in an
-already handed-off project repository. It creates an issue, branch, commit, and
-pull request; it does not deploy infrastructure, approve a pull request, or
-access cloud credentials.
+Use the UI when you prefer a guided form to editing JSON.
 
-Use the UI when a guided form is more convenient than editing a JSON manifest
-directly. It supports the same approved Day 1 resources and OCI Day 2
-operations as the direct GitHub route. Azure and Google Day 2 operations are
-not part of the supplied baseline.
+1. Sign in and select your handed-off project repository.
+2. Choose one supported resource or OCI lifecycle operation.
+3. Select the environment and region, then complete the requested fields using
+   the available handoff values.
+4. Review and submit the request.
+5. Follow the standard [request lifecycle](request-lifecycle.md) after the UI
+   opens the pull request.
 
-After the UI opens the pull request, follow the standard
-[request lifecycle](request-lifecycle.md). The direct GitHub path remains
-available for every supported request.
+The UI creates an issue, branch, commit, and pull request. It cannot deploy
+infrastructure, approve or merge the pull request, or access cloud credentials.
+It supports the supplied Day 1 resources and OCI Day 2 operations. Azure and
+Google Cloud Day 2 operations are not supplied.
 
-Cloud Operations installs and configures the UI separately. See the technical
-[Optional UI README](../../repository-sources/optional-ui/README.md) for its GitHub App,
-OAuth, runtime, and deployment requirements.
+If the UI is not available, use the GitHub interface. Cloud Operations installs
+it using the [optional UI setup](../installation/optional-interfaces.md#optional-multi-cloud-plane-ui).

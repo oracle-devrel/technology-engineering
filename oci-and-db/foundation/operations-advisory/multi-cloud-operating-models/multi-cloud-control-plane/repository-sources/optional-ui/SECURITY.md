@@ -2,55 +2,29 @@
 
 ## Reporting Security Vulnerabilities
 
-We take security seriously and value the independent security research community.
-
-**Please do NOT raise a GitHub Issue to report a security vulnerability.**
-
-If you believe you have found a security vulnerability, please report it responsibly by sending an email to the project maintainers. Include:
+Do not open a public GitHub issue for a suspected vulnerability. Use the
+customer organization's approved private security-reporting channel and
+include:
 
 - A description of the vulnerability
 - Steps to reproduce the issue
 - Potential impact
-- Any suggested fixes (optional)
+- Affected version or revision
 
-We ask that you:
+## Component Boundary
 
-- Give us reasonable time to respond before any public disclosure
-- Do not access or modify other users' data without permission
-- Act in good faith to avoid privacy violations and service disruptions
+The UI uses GitHub OAuth and GitHub App authorization to create issues,
+branches, commits, and pull requests on behalf of the signed-in user. It does
+not store cloud-provider credentials or execute infrastructure changes.
 
-## Security Updates
+Deploy it with:
 
-Security updates will be released as soon as possible after a vulnerability is confirmed and a fix is available. We recommend always running the latest version of the application.
+- TLS and an exact registered callback URL.
+- A strong, externally managed `SESSION_SECRET`.
+- GitHub App access limited to the catalog and served project repositories.
+- Only the GitHub permissions listed in the component README.
+- Regular credential rotation and reviewed component updates.
 
-## Security Considerations
-
-### Application Security
-
-This application follows security best practices:
-
-1. **No Cloud Credentials Stored**: The app never stores cloud provider credentials. All cloud authentication is handled by CI/CD pipelines via GitHub Secrets.
-
-2. **GitHub Credentials Only**: User login is OAuth-first. `GITHUB_TOKEN` is optional server-side fallback for catalog reads and project creation/write flows; it must not bypass user-scoped project authorization.
-
-3. **GitOps Approval Gates**: All infrastructure changes go through Pull Request review before being applied.
-
-4. **Audit Trail**: Complete change history is maintained in Git commits.
-
-### Deployment Recommendations
-
-- Run behind a reverse proxy (nginx, Caddy) with TLS
-- Set a strong random `SESSION_SECRET` in production (the app warns at startup when the dev placeholder is in use)
-- Restrict GitHub token permissions to only required repositories
-- On a plan that supports them, enable branch protection and required reviews;
-  on GitHub Free, restrict direct pushes and record independent review
-- Regularly rotate credentials
-
-## Supported Versions
-
-| Version | Supported          |
-|---------|--------------------|
-| Latest  | :white_check_mark: |
-| Older   | :x:                |
-
-We recommend always using the latest version for security updates.
+The canonical MCCP
+[security guidance](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md)
+defines the review, runner, secret, and GitHub control boundaries.

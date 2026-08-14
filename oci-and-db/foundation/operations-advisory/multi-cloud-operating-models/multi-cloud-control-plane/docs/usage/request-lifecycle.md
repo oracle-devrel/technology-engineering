@@ -1,69 +1,89 @@
 # Request lifecycle
 
-Every infrastructure request follows the same governed process:
+These rules apply whether you use the GitHub interface, optional UI, or optional
+Codex plugin.
 
-1. Choose an approved catalog entry.
-2. Update the project's regional JSON manifest on a focused branch.
-3. Open a pull request.
-4. Review the Terraform plan or Ansible check for the current change.
-5. Obtain human approval and merge; enforce independent approval on paid plans.
-6. Verify the workflow result and cloud outcome.
+## Before you begin
+
+Confirm that you have write access to the handed-off `nonprod-<project>` or
+`prod-<project>` repository and that
+`environments/<environment>/environment_information.md` is complete for the
+selected cloud. Blank handoff sections cannot be used. Azure and Google Cloud
+requests require their reviewed foundation references in that file.
+
+Check that the request appears in [what MCCP supports](../reference/support.md).
+
+## Prepare the request
+
+1. Choose a Day 1 template from the installed
+   [resource catalog](../../repository-sources/gitops-templates/resources-catalog/README.md)
+   or a Day 2 template from the
+   [operation catalog](../../repository-sources/gitops-templates/operations-catalog/README.md).
+2. Change exactly one cloud, environment, and region in each pull request.
+3. Copy compartments, networks, subnets, and other foundation references from
+   the selected environment handoff. Do not invent or replace them.
+4. Represent required secrets with an environment-qualified placeholder such
+   as `__DEV_ADB_ADMIN_PASSWORD__`. Never put a secret value in Git.
+5. For Day 1, merge the catalog entry into the existing regional file. Replace
+   `{}` for the first entry; do not create another file for the same
+   configuration group.
+6. Validate the edited JSON before opening the pull request.
+
+OCI project network security groups (NSGs) must exist before an OCI Compute
+request refers to their names.
+The supplied Day 2 operations are OCI Autonomous Database start/stop and OCI
+Compute `deploy-agent`. Azure and Google Cloud Day 2 operations are not supplied.
 
 ## Manifest paths
 
-Use these canonical locations for the supplied baseline:
-
 | Request | Location |
-|---|---|
+| --- | --- |
 | OCI project NSGs | `oci/{environment}/{region}/network/project-nsgs.json` |
 | OCI Autonomous Database | `oci/{environment}/{region}/database/database.json` |
 | OCI Compute | `oci/{environment}/{region}/compute/compute.json` |
 | Azure private VM | `azure/{environment}/{region}/compute/compute.json` |
 | Azure Autonomous Database | `azure/{environment}/{region}/database/database.json` |
 | Google private VM | `gcp/{environment}/{region}/compute/compute.json` |
-| Google ADB-S | `gcp/{environment}/{region}/workloads/adb.json` |
+| Google Autonomous Database Serverless | `gcp/{environment}/{region}/workloads/adb.json` |
 | OCI lifecycle operation | `oci/{environment}/{region}/lifecycle_operations/{operation}.json` |
 
-Project Teams use only installed catalog entries and approved paths. A customer
-extension must add its reviewed path and validation before use; the required
-implementation layers are defined in the
-[architecture extension model](../reference/architecture.md#extension-model).
+Keep one file for each configuration group in a project and region. Terraform
+does not deep-merge repeated root values across multiple files.
 
-Azure and Google manifests contain only workload declarations and direct
-handed-off references. Their adapters never create foundation resources, and
-VM manifests have no public-IP fields.
+## Review and execute
 
-Keep one file for each Terraform configuration group in a project and region.
-Splitting the same group across files can cause values to be ignored because
-Terraform does not deep-merge variable files.
+1. Create a focused branch and open a pull request.
+2. Review the Terraform plan or Ansible check for only the intended change.
+3. Obtain the required human approval.
+4. Merge through the governed process.
+5. Verify the post-merge workflow and cloud outcome.
 
-Lifecycle requests identify the operation and target resource by display name.
-The supplied, currently implemented reference examples are OCI Autonomous
-Database start/stop and OCI Compute `deploy-agent`. Azure and GCP Day 2
-operations are not included in the supplied baseline. The optional Codex
-assistant supports ADB start/stop; the Compute software-agent operation is
-available through the UI or direct GitHub pull-request route until the
-assistant is separately extended and qualified. OCI lifecycle operations use
-the same governed flow in `dev`, `test`, `uat`, and `prod`.
+Project Teams never receive deployment credentials. The trusted runner applies
+the merged change with its managed cloud identity.
 
-A lifecycle manifest records one completed request; it is not desired state.
-After verifying the operation, delete that manifest in a focused pull request.
-The workflow validates that the deleted path was one existing lifecycle
-manifest and skips Ansible on both the pull request and merge. Deleting the
-manifest does not reverse the completed cloud operation.
+## Complete or remove a request
 
-Troubleshooting: unresolved runtime placeholders mean the selected repository
-secret bundle is missing a matching key. A placeholder that does not start with
-the selected uppercase environment is rejected before Terraform. Missing
-catalog-rendering values instead indicate incomplete handoff data. Day 2
-targets must use the exact display name recorded in Terraform state. Keep one
-region per pull request; the shared resolver rejects a mixed environment or
-region request. Paths outside this table are rejected unless they belong to an
-installed, qualified extension. Missing runner labels are a platform
-configuration issue, and missing handoff data must be corrected by the platform
-team before a request is prepared.
+A Day 2 file records one completed operation; it is not desired state. Delete
+it in a focused pull request after verifying the result. Deleting the file does
+not reverse the operation.
 
-Never commit passwords or credentials. If a deployment fails, retain the logs,
-confirm the state of the resource and Terraform state, and submit a reviewed
-corrective change. Do not edit state manually or retry with a personal cloud
-account.
+For a Day 1 deletion, remove only the selected entry. If it is the final entry,
+replace the entire regional file with:
+
+```json
+{}
+```
+
+Confirm that the plan deletes only the intended resource. Never edit Terraform
+state manually or retry with a personal cloud account.
+
+## Troubleshooting
+
+| Problem | Action |
+| --- | --- |
+| Unresolved secret placeholder | Ask Cloud Operations to add the matching key to the selected environment bundle. Do not commit the value. |
+| Incomplete handoff value | Ask Cloud Operations to correct the environment handoff. |
+| Day 2 target not found | Use the exact resource display name recorded in Terraform state. |
+| Mixed environment or region rejected | Keep one cloud/environment/region tuple in the pull request. |
+| Missing runner label | Ask Cloud Operations to correct the runner configuration. |
+| Deployment failure | Retain the logs, check the resource and state outcome, and submit a reviewed corrective change. |

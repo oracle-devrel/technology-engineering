@@ -1,17 +1,23 @@
 # Platform CI
 
-These reusable GitHub Actions workflows run reviewed project changes. Project
-repositories call them for Terraform plan/apply and supported Ansible checks or
-operations.
+This Cloud Operations-owned repository contains the reusable GitHub Actions
+workflows that validate and execute reviewed project changes. Project
+repositories call its Cloud Operations-controlled `main` branch with GitHub's
+scoped temporary token; they do not need a deploy key or personal access token
+for Platform CI.
 
-Project workflows call the organization's protected `platform-ci` `main`
-branch directly. GitHub grants the temporary scoped token required to download
-the private reusable workflow and composite actions; no deploy key or personal
-access token is required. The deployment runbook records the initial Platform
-CI commit as installation evidence and pins each cloud orchestrator to its
-approved immutable revision.
+## Published workflows
 
-## Required runner
+| Workflow | Purpose |
+| --- | --- |
+| `.github/workflows/terraform-shared.yaml` | Validate and plan Day 1 requests on pull requests; apply the saved plan after merge |
+| `.github/workflows/ansible-shared.yaml` | Check supported Day 2 requests on pull requests; execute them after merge |
+
+The workflows receive an explicit cloud, environment, region, runner boundary,
+state location, manifest reference, and pinned orchestrator revision from the
+project caller.
+
+## Runner contract
 
 Use a trusted Linux self-hosted runner with:
 
@@ -27,20 +33,15 @@ Azure additionally needs Azure CLI and `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`,
 `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS`, or Application Default
 Credentials. Keep all credential values outside Git.
 
-## Terraform workflow
+Use separate runner instances, labels, identities, and SSH keys for
+non-production and production. Runner identities must have access only to the
+required state bucket, compartments, networks, and target-cloud services.
 
-`.github/workflows/terraform-shared.yaml` accepts the mode, cloud, region,
-environment, validated manifest ref, orchestrator repository and immutable ref,
-state bucket, runner labels, and one explicit optional secret bundle. A secret
-bundle is required only when the selected manifest contains matching
-environment-qualified placeholders.
+## Terraform contract
 
-- Pull requests run validation and plan and report the result for review.
-- Merges to `main` create and apply a saved plan on the trusted runner.
-- The region normally comes from the changed
-  `{cloud}/{environment}/{region}/` path.
-- State is isolated by GitHub repository, cloud, environment, and region in
-  OCI Object Storage.
+State is isolated by GitHub repository, cloud, environment, and region in OCI
+Object Storage. The selected region comes from the changed
+`{cloud}/{environment}/{region}/` path.
 
 Before Terraform runs, JSON files are copied to the runner's temporary
 directory. Environment-qualified tokens such as
@@ -54,10 +55,11 @@ configuration in one regional file, including OCI project NSGs in
 `oci/{environment}/{region}/network/project-nsgs.json` and Google ADB-S
 resources in `gcp/{environment}/{region}/workloads/adb.json`.
 
-## Ansible workflow
+## Ansible contract
 
-`.github/workflows/ansible-shared.yaml` runs check mode on pull requests and
-executes after approval and merge. Current end-to-end operations are:
+The workflow accepts only explicitly supported operation types and maps each
+one to an allow-listed playbook. Project input cannot select a playbook path or
+Ansible tag. The supplied operations are:
 
 - OCI Autonomous Database start or stop.
 - OCI Compute `deploy-agent` over SSH.
@@ -67,38 +69,23 @@ Operation manifests belong under
 must resolve an exact display name in Terraform state. Azure and Google Day 2
 are not available.
 
-## Operation playbook structure
+Each operation playbook uses explicit `precheck`, `apply`, and `verify` phases.
+Common tasks live under `ansible/playbooks/common/oci/<operation>/`.
 
-The execution action maps each validated `operation_type` to one supported
-operation playbook. There is no aggregate master playbook and no dynamic file
-path from a project manifest. Each operation playbook is a small facade over
-the same explicit phases:
-
-```text
-operation playbook
-├── precheck — read and validate the target before a change
-├── apply    — run only after merge with execution mode `execute`
-└── verify   — read back and report the result
-```
-
-Common tasks live under `ansible/playbooks/common/oci/<operation>/`. Add a new
-operation only through the extension model: catalog and manifest validation,
-inventory extraction, an allow-listed action mapping, these phases, and
-qualification evidence. Do not add a generic task runner or accept a playbook
-path from project input.
-
-For `deploy-agent`, the default SSH user is `opc` and the default private key is
-`/home/github-runner/.ssh/oci_vm_key`. OP03 creates and protects this key for
-the `github-runner` service account; project repositories never contain it.
-Override the defaults with
+For `deploy-agent`, the default SSH user is `opc` and the default private key
+is `/home/github-runner/.ssh/oci_vm_key`. Cloud Operations creates and protects
+this key for the `github-runner` service account; project repositories never
+contain it. Override the defaults with
 `COMPUTE_ANSIBLE_USER` and `COMPUTE_SSH_PRIVATE_KEY_FILE` on the runner. Verify
 SSH host trust and protect the private key.
 
-## Project boundary
+## Change boundary
 
-Project repositories contain workloads, project NSGs, and supported operation
-manifests only. OCI compartments, groups, and IAM policies are created before
-handoff and must not be recreated from a project repository.
+Do not add a generic task runner, accept executable paths from project input,
+or enable a resource or operation by changing only this repository. An
+extension must update the catalog, validation, execution mapping, permissions,
+documentation, and qualification evidence together. See the canonical
+[extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model).
 
 ## License
 

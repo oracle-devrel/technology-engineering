@@ -68,13 +68,13 @@ same mechanics, but live production requires a customer security review and an
 isolated production runner. GitHub Free relies on restricted roles and recorded
 independent review in every environment; use the paid-plan hardening model when
 enforceable GitHub approval controls are required. See
-[Security](docs/reference/security-boundaries.md) and
-[Final-environment hardening](docs/reference/future-hardening.md).
+[Security](docs/reference/security.md) and
+[Final-environment hardening](docs/reference/security.md#additional-controls-for-paid-github-plans).
 
 Azure and GCP qualification uses provider-schema validation and
 credential-free mocked Terraform lifecycle tests. No live target-cloud apply
 was performed for this publication; do not represent either adapter as
-live-cloud certified. See [Qualification](docs/reference/qualification.md) for the
+live-cloud certified. See [Qualification](docs/reference/support.md#what-has-been-tested) for the
 evidence boundary.
 
 ![One control plane gives teams one workflow, governed delivery, and a stable operator contract as provider implementations evolve.](docs/images/one-control-plane.png)
@@ -91,7 +91,7 @@ Installation prepares four private repositories for your organization:
 
 GitHub pull requests are the standard path. The optional
 [Multi-Cloud Plane UI](repository-sources/optional-ui/README.md) and optional
-[Project GitOps skill](docs/usage/codex-assistant.md) prepare the same governed artifacts;
+[Codex plugin](docs/usage/codex-plugin.md) prepare the same governed artifacts;
 neither is required by a workflow or can deploy resources itself. Both support
 the supplied Day 1 requests and OCI ADB start/stop. The UI and direct GitHub
 flow also expose the supplied OCI Compute software-agent operation; the Codex
@@ -103,9 +103,9 @@ qualified.
 | Role | Starting point | Result |
 | --- | --- | --- |
 | Cloud Operations | [Install and hand over a project](docs/installation/README.md) | A ready project boundary for OCI, Azure, or GCP workloads. |
-| Project Team | [Direct GitHub pull request](docs/usage/github-pull-requests.md) | The standard path, always available. |
+| Project Team | [GitHub interface](docs/usage/github-interface.md) | The standard path, always available. |
 | Project Team | [Optional Multi-Cloud Plane UI](docs/usage/optional-ui.md) | A form-led issue, branch, commit, and pull request. |
-| Project Team | [Optional Codex assistant](docs/usage/codex-assistant.md) | A confirmation-gated, conversational pull request. |
+| Project Team | [Optional Codex plugin](docs/usage/codex-plugin.md) | A confirmation-gated, conversational pull request. |
 | Reviewer and trusted runner | [Review and execute a request](docs/usage/request-lifecycle.md) | Review the plan or check; the runner executes only after merge. |
 
 Every request interface produces the same manifest and pull-request contract.
@@ -126,16 +126,16 @@ the four repositories with standard file, Git, `jq`, and Perl commands. No
 custom installation program is required.
 
 Platform administrators: [architecture](docs/reference/architecture.md),
-[installation](docs/installation/installation-runbook.md), and [security](docs/reference/security-boundaries.md).
+[installation](docs/installation/installation-runbook.md), and [security](docs/reference/security.md).
 
-Project Teams: [first request](docs/usage/github-pull-requests.md),
+Project Teams: [first request](docs/usage/github-interface.md),
 [day-to-day operations](docs/usage/request-lifecycle.md), and the
 [Multi-Cloud Plane UI](repository-sources/optional-ui/README.md) or
-[Project GitOps skill](docs/usage/codex-assistant.md).
+[Codex plugin](docs/usage/codex-plugin.md).
 
 This initial-installation package supports the
-[shared non-production repository model](docs/usage/nonproduction.md) and the
-separate [production repository model](docs/usage/production.md).
+[shared non-production repository model](docs/usage/README.md#1-identify-your-repository) and the
+separate [production repository model](docs/usage/README.md#1-identify-your-repository).
 
 ## Glossary
 

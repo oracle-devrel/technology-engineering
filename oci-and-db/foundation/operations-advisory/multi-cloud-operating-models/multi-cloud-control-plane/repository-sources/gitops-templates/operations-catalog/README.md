@@ -27,7 +27,7 @@ project input never selects a playbook path or Ansible tag.
 - `operation_type` — must be an operation explicitly supported by Platform CI:
   `adb-lifecycle` or `deploy-agent`.
 - `database_compartment_id` — required for `adb-lifecycle`; it must be the
-  Database child-compartment OCID from the schema-3 project handoff.
+  Database child-compartment OCID from the approved project handoff.
 - `targets[].display_name` — must match the resource in Terraform state.
 - `targets[].action` — is operation-specific. `adb-lifecycle` accepts only
   lowercase `start` or `stop`; `restart` and every other value are unsupported.
@@ -62,18 +62,14 @@ display names in Terraform state for that OCI region. Add another object to the
 | `oci/adb-lifecycle.json` | `adb-lifecycle` | OCI | Start or stop an Autonomous Database |
 | `oci/deploy-agent.json` | `deploy-agent` | OCI | Deploy an agent to a compute instance via SSH |
 
-## Adding a new operation
+## Extension boundary
 
-1. Add one operation playbook under `platform-ci/ansible/playbooks/operations/`.
-2. Add its explicit `operation_type` to the allow-list in Platform CI's Ansible
-   execution action.
-3. Create the JSON manifest here under the right provider directory.
-4. Add the required manifest validation and qualification evidence.
-
-These steps are only the catalog portion of an extension. Complete every
-control and qualification requirement in the
-[extension model](../../../docs/reference/architecture.md#extension-model) before making
-the operation available to Project Teams.
+Adding a JSON template here does not enable an operation. A supported extension
+also requires manifest validation, inventory extraction, an explicitly
+allow-listed Platform CI playbook, permissions, documentation, and
+qualification evidence. Follow the canonical
+[extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model)
+before publishing it to Project Teams.
 
 ## Directory layout
 

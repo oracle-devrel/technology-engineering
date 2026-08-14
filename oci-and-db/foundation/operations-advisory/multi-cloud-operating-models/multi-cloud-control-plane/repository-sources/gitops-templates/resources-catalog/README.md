@@ -1,9 +1,9 @@
 # Resources Catalog (Day 1)
 
-Terraform variable templates consumed by the GitOps control plane. A project
-operator or the optional Codex app assistant renders these catalog files into
-project repository manifests; `platform-ci` then passes those manifests to the
-selected orchestrator as Terraform `-var-file` inputs.
+Terraform variable templates consumed by MCCP. Project Teams render these
+catalog files into project repository manifests; `platform-ci` passes the
+reviewed manifests to the selected orchestrator as Terraform `-var-file`
+inputs.
 
 ## Directory layout
 
@@ -79,7 +79,7 @@ contracts for the supported Day 1 manifest shapes:
 - [`gcp/adb.schema.json`](schemas/gcp/adb.schema.json)
 - [`gcp/compute.schema.json`](schemas/gcp/compute.schema.json)
 
-They are intentionally **reference-only** in the supplied MVP. They are not
+They are intentionally **reference-only** in the supplied release. They are not
 loaded by GitHub Actions, `platform-ci`, or Terraform, so adding or updating
 them does not change deployment behaviour. The authoritative runtime validation
 remains the protected control-plane code and the pinned Terraform module
@@ -90,7 +90,9 @@ schema change as a deployment change.
 ## Security notes
 
 - Don't commit real passwords. The `admin_password` fields are environment-qualified double-underscore placeholders resolved by `platform-ci` from exactly one explicitly selected project-repository secret bundle.
-- Store OP04 handoff references in `environments/<environment>/environment_information.md`, not as Terraform credentials.
+- Copy foundation references from the approved
+  `environments/<environment>/environment_information.md` handoff; do not use
+  them as Terraform credentials.
 
 ## Warranty disclaimer
 

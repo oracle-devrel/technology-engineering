@@ -1,15 +1,10 @@
 # Reference
 
-Use these documents to understand the control plane's design, support boundary,
-and security model.
+Use these pages when you need more than the installation or request steps:
 
-- [Architecture](architecture.md) explains the governed delivery model and how
-  it can be extended.
-- [Support matrix](support-matrix.md) shows the resources, operations,
-  interfaces, and qualification boundary for the supplied baseline.
-- [Support and qualification](qualification.md) defines what was qualified and
-  the explicit exclusions.
-- [Security boundaries](security-boundaries.md) describes roles, secrets,
-  runner authority, and the GitHub Free baseline.
-- [Future paid-environment hardening](future-hardening.md) describes a future
-  release path; it is not an installable MVP option.
+- [How the Control Plane works](architecture.md) explains roles, repositories,
+  execution, and extensions.
+- [What MCCP supports](support.md) lists supplied resources and operations and
+  explains what has been tested.
+- [Security and GitHub controls](security.md) explains credentials, secrets,
+  runner authority, GitHub Free limitations, and additional paid-plan controls.

@@ -1,69 +1,90 @@
 # How the Control Plane works
 
-Project Teams describe the infrastructure they need in approved JSON manifests.
-GitHub provides the change record, review, and approval gate. Trusted runners
-provide the deployment authority.
+MCCP is a GitOps control plane. Project Teams describe approved changes in JSON
+manifests, GitHub records and reviews those changes, and trusted runners execute
+them with cloud identities managed by Cloud Operations.
 
-## Governed request journey
+## Operating model and control plane
 
-![Cloud Operations hands off a prepared project boundary; Project Teams choose a direct pull request, optional UI, or optional Codex assistant; GitHub review and a trusted runner retain control of execution.](../images/end-to-end-customer-journey.svg)
+![The operating model defines roles, governance, approvals, and compliance; the control plane encodes approved patterns and execution controls.](../images/governed-self-service-model.png)
 
-## Control-plane components
+Customer governance remains the authority. MCCP encodes it into a repeatable
+request, review, and execution process.
 
-![Conceptual control-plane architecture: Git repositories hold Landing Zone and project configuration plus the operations catalog; optional UI and AI skills prepare requests for automation pipelines across current and extended clouds.](../images/conceptual-control-plane-architecture.png)
+## Governed request flow
 
-The diagram includes examples of extensible cloud targets. Only the documented
-V2 baseline is supplied and qualified by this publication.
+```mermaid
+flowchart LR
+    CO[Cloud Operations<br/>prepare repository and handoff] --> R[Project repository]
+    R --> I{Project Team interface}
+    I --> G[GitHub interface]
+    I --> U[Optional UI]
+    I --> C[Optional Codex plugin]
+    G --> PR[Pull request]
+    U --> PR
+    C --> PR
+    PR --> V[Plan or check<br/>and human review]
+    V --> M[Merge]
+    M --> T[Trusted runner]
+    T --> O[Cloud result<br/>and execution evidence]
+```
 
-Each project has its own repository and separate Terraform state for every
-cloud, environment, and region. Project repositories contain configuration
-only. Shared workflows generate the provider and backend settings, run
-Terraform or Ansible, and record the result.
+All three interfaces prepare the same manifests and pull requests. The optional
+UI and Codex plugin do not bypass GitHub review, merge changes, or hold cloud
+deployment authority.
 
-For OCI, onboarding starts with the handoff created after Landing Zone OP04. The
-Control Plane checks the project name, environment, region, compartments,
-network references, and source workflow before preparing the project repository.
+## Repository model
 
-For Azure and Google Cloud (GCP), the platform team adds direct foundation references to
-the same environment handoff through a reviewed pull request. Workload adapters
-consume those values without creating resource groups, projects, IAM, networks,
-subnets, NSGs, service accounts, ODB Networks, or ODB Subnets.
+The shared control plane contains four private repositories:
+
+- `platform-ci` supplies the reusable workflows and validation actions;
+- `gitops-templates` supplies the approved resource and operation catalogs;
+- `nonprod-project-template` seeds shared non-production repositories; and
+- `prod-project-template` seeds isolated production repositories.
+
+Each project receives one `nonprod-<project>` repository for `dev`, `test`, and
+`uat`. A project enabled for production also receives a separate
+`prod-<project>` repository for `prod`. Terraform state is isolated by
+repository, cloud, environment, and region.
+
+Project repositories contain configuration and handoff metadata, not cloud
+credentials. Before a Project Team receives a repository, Cloud Operations
+records its approved project name, environments, regions, compartments,
+networks, and execution settings in the environment handoff. MCCP validates
+requests against that boundary.
+
+For Azure and Google Cloud, the handoff contains direct references to existing
+foundation resources. The workload adapters consume those references; they do
+not create resource groups, projects, IAM, networks, subnets, NSGs, service
+accounts, ODB Networks, or ODB Subnets.
 
 ## Execution and trust boundary
 
-Project Teams propose changes. Reviewers approve them. Runner identities hold
-the cloud permissions. The optional Multi-Cloud Plane UI and Codex assistant
-can prepare the same Git changes but cannot deploy resources themselves.
+Project Teams propose changes and reviewers approve them. Runner identities
+hold cloud permissions. Project repository workflows call the private shared
+workflow, select the correct state and runner boundary, and record the plan,
+check, and execution result in GitHub.
 
-The initial installation may route OCI, Azure, and GCP jobs to one OCI-hosted
-runner with all three cloud labels. OCI uses Instance Principal, Azure uses
-runner-local `ARM_*` service-principal context, and Google uses runner-local
-Application Default Credentials. The final operating model places each workload
-on a native runner in its target cloud without changing project manifests.
+The supplied baseline may route OCI, Azure, and Google Cloud jobs to trusted
+OCI-hosted runners carrying the required labels and workload identities.
+Non-production and production retain separate runner boundaries.
 
 ## Extension model
 
-The supplied baseline is a starting point, not an unrestricted service catalog.
+The supplied baseline is a governed starting point, not an unrestricted service
+catalog. A new resource is available only after Cloud Operations implements and
+qualifies the complete delivery chain:
 
-![A stable request, review, approval, execution, and evidence contract lets the implementation expand without changing the Project Team experience.](../images/stable-operating-contract.png)
-
-*Cloud-specific implementations may evolve; the governed operating contract
-remains consistent for Project Teams.*
-
-An installation-specific resource extension is ready only when the platform
-team implements and qualifies the complete delivery chain:
-
-- foundation references, permissions, and the reviewed handoff contract;
-- an approved catalog template plus schema and semantic validation;
+- foundation references, permissions, and the handoff contract;
+- an approved catalog template, schema, and semantic validation;
 - a cloud adapter or execution implementation and explicit workflow routing;
-- isolated state, an appropriately scoped runner identity, and required secrets;
+- isolated state, a scoped runner identity, and required secrets; and
 - customer documentation, security review, and qualification evidence.
 
-An operation extension also requires inventory extraction for its targets and a
-provider-specific playbook or execution action. Until every required layer is
-implemented and qualified, the extension is not part of the installed baseline.
+A new operation also requires inventory extraction for its targets and a
+provider-specific playbook or execution action. Adding only a template or
+Terraform module does not authorize a new request path.
 
-Extensions preserve the same governance boundaries: private-by-default
-workloads, one resource in one cloud, environment, and region per pull request,
-human approval, least privilege, and separation of duties. Adding a template or
-Terraform module alone does not authorize a new request path.
+Extensions preserve the operating contract: private-by-default workloads, one
+cloud/environment/region tuple per pull request, human approval, least
+privilege, and separation of duties.

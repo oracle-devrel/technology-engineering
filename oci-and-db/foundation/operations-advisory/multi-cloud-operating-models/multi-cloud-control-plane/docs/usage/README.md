@@ -1,19 +1,34 @@
-# Use the Multi-Cloud Control Plane
+# Project Team guide
 
-This guide is for Project Teams working in a project repository already handed
-over by Cloud Operations. Choose one request interface; every interface creates
-the same reviewed Git change and uses the same trusted execution path.
+Use this guide after Cloud Operations gives you a prepared project repository.
+You manage approved resources through pull requests; Cloud Operations retains
+the cloud credentials, runners, repository controls, and foundation setup.
 
-| I want to... | Start here |
-| --- | --- |
-| Submit a standard infrastructure request | [Direct GitHub pull request](github-pull-requests.md) |
-| Prepare a request through a web form | [Optional Multi-Cloud Plane UI](optional-ui.md) |
-| Prepare a request conversationally | [Optional Codex assistant](codex-assistant.md) |
-| Understand review, merge, and execution | [Request lifecycle](request-lifecycle.md) |
-| Work in `dev`, `test`, or `uat` | [Shared non-production](nonproduction.md) |
-| Work in `prod` | [Production](production.md) |
+## 1. Identify your repository
 
-Use only the resources and operations in the installed catalog. The
-[support matrix](../reference/support-matrix.md) shows what is currently
-available; the [qualification boundary](../reference/qualification.md)
-provides the evidence and exclusions.
+| Repository | Environments | Secret placeholder prefix |
+| --- | --- | --- |
+| `nonprod-<project>` | `dev`, `test`, `uat` | `DEV_`, `TEST_`, `UAT_` |
+| `prod-<project>` | `prod` only | `PROD_` |
+
+State is isolated by repository, cloud, environment, and region. Production
+also has a separate handoff, review ownership, secret bundle, and runner
+boundary. Cloud Operations prepares those controls; Project Teams use only the
+handoff and environment-qualified placeholders.
+
+## 2. Choose an interface
+
+Each interface prepares the same Git change and pull request. It cannot approve,
+merge, or deploy the request.
+
+| Interface | Use it when | Guide |
+| --- | --- | --- |
+| GitHub interface | You want to edit JSON through GitHub or GitHub CLI. | [GitHub interface](github-interface.md) |
+| Optional UI | You prefer a guided form. | [Multi-Cloud Plane UI](optional-ui.md) |
+| Optional Codex plugin | You prefer a conversational request. | [Codex plugin](codex-plugin.md) |
+
+## 3. Follow the request lifecycle
+
+The [request lifecycle](request-lifecycle.md) is the single source for request
+rules, manifest paths, review, merge, deletion, and troubleshooting. Check
+[what MCCP supports](../reference/support.md) before preparing a request.
