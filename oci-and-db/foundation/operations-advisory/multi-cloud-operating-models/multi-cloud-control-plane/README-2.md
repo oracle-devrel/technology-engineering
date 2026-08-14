@@ -49,7 +49,7 @@ It provides:
 Standard patterns and trusted automation make this scale possible without
 changing the operating model for every new provider, service, or project.
 
-![Scaling without increasing complexity: one workflow, one operating model, automated delivery, a complete audit trail, and platform expertise once.](multi-cloud-control-plane/docs/images/scaling.png)
+![Scaling without increasing complexity: one workflow, one operating model, automated delivery, a complete audit trail, and platform expertise once.](docs/images/scaling.png)
 
 ## WHAT — One governed delivery model
 
@@ -68,7 +68,7 @@ through the GitHub interface, an optional web form, or an optional Codex plugin.
 All three routes create the same pull request and follow the same controls. They
 cannot approve, merge, or deploy it.
 
-![The operating model defines the rules and the control plane enforces the approved delivery path.](multi-cloud-control-plane/docs/images/governed-self-service-model.png)
+![The operating model defines the rules and the control plane enforces the approved delivery path.](docs/images/governed-self-service-model.png)
 
 ## HOW — Establish the boundary, then enable self-service
 
@@ -117,14 +117,14 @@ The implementation connects four parts:
 
 | Part | What it provides |
 | --- | --- |
-| [GitOps delivery model](multi-cloud-control-plane/docs/reference/architecture.md) | A common way to manage infrastructure and operations through reviewed Git changes. |
-| [OCI Landing Zone](oci-landing-zone/README.md) | A governed OCI foundation with environments, shared controls, and project boundaries. Existing foundations can also be used. |
-| Multi-Cloud Control Plane | Supplied automation for governed requests. See [Cloud Operations installation](multi-cloud-control-plane/docs/installation/README.md) and the [Project Team guide](multi-cloud-control-plane/docs/usage/README.md). |
-| [Operational Security](operational-security/README.md) | Guidance for protecting Git, CI/CD automation, identities, and programmatic cloud access. |
+| [GitOps delivery model](docs/reference/architecture.md) | A common way to manage infrastructure and operations through reviewed Git changes. |
+| [OCI Landing Zone](../oci-landing-zone/README.md) | A governed OCI foundation with environments, shared controls, and project boundaries. Existing foundations can also be used. |
+| Multi-Cloud Control Plane | Supplied automation for governed requests. See [Cloud Operations installation](docs/installation/README.md) and the [Project Team guide](docs/usage/README.md). |
+| [Operational Security](../operational-security/README.md) | Guidance for protecting Git, CI/CD automation, identities, and programmatic cloud access. |
 
 The supplied MVP can create selected resource types in OCI, Azure, and Google
 Cloud. It also supports selected OCI lifecycle operations. The
-[support page](multi-cloud-control-plane/docs/reference/support.md) defines the
+[support page](docs/reference/support.md) defines the
 exact catalog and testing evidence.
 
 The catalog can grow through reviewed provider integrations, resources, and
@@ -140,11 +140,11 @@ production use.
 
 | Your need | Start here |
 | --- | --- |
-| Establish or govern an OCI foundation | [OCI Landing Zone](oci-landing-zone/README.md) |
-| Install MCCP for a GitHub organisation | [Cloud Operations installation](multi-cloud-control-plane/docs/installation/README.md) |
-| Use an already prepared project repository | [Project Team guide](multi-cloud-control-plane/docs/usage/README.md) |
-| Review the MVP resources, operations, and testing evidence | [MCCP support](multi-cloud-control-plane/docs/reference/support.md) |
-| Improve Git and CI/CD security | [Operational Security](operational-security/README.md) |
+| Establish or govern an OCI foundation | [OCI Landing Zone](../oci-landing-zone/README.md) |
+| Install MCCP for a GitHub organisation | [Cloud Operations installation](docs/installation/README.md) |
+| Use an already prepared project repository | [Project Team guide](docs/usage/README.md) |
+| Review the MVP resources, operations, and testing evidence | [MCCP support](docs/reference/support.md) |
+| Improve Git and CI/CD security | [Operational Security](../operational-security/README.md) |
 
 ## License
 
