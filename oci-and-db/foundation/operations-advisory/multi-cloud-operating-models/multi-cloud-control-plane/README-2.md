@@ -127,18 +127,17 @@ permissions. The [installation guide](docs/installation/README.md) explains how
 Cloud Operations connects these prerequisites to the supplied package.
 
 The supplied MVP can create selected resource types in OCI, Azure, and Google
-Cloud. It also supports selected OCI lifecycle operations. The
-[support page](docs/reference/support.md) defines the
-exact catalog and testing evidence.
+Cloud. It also supports selected OCI lifecycle operations. See
+[MVP capabilities](docs/reference/support.md) for the complete set.
 
 The catalog can grow through reviewed provider integrations, resources, and
-operations. Each extension must complete the same governance, security, and
-testing process before Project Teams can use it.
+operations. Each extension must follow the same governance, security, and
+approval process before Project Teams can use it.
 
-The scale described earlier is the potential of the operating model, not a
-performance test result for this MVP. Customers must qualify their extensions,
-runners, provider limits, and installation for their intended scale before
-production use.
+The scale described earlier is the potential of the operating model. The
+supplied MVP demonstrates the governed workflow with a deliberately small
+catalog. Customers size their runners and installation according to provider
+limits and their intended scale.
 
 ## Choose where to start
 
@@ -147,7 +146,7 @@ production use.
 | Understand how MCCP works | [Architecture](docs/reference/architecture.md) |
 | Install MCCP for a GitHub organisation | [Cloud Operations installation](docs/installation/README.md) |
 | Use an already prepared project repository | [Project Team guide](docs/usage/README.md) |
-| Review the MVP resources, operations, and testing evidence | [MCCP support](docs/reference/support.md) |
+| Review the supplied resources and operations | [MVP capabilities](docs/reference/support.md) |
 | Review MCCP security controls | [Security](docs/reference/security.md) |
 
 ## Related guidance
