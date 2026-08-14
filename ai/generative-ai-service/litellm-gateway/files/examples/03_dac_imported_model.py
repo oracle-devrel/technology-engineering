@@ -5,7 +5,7 @@ Imported model on a Dedicated AI Cluster (DAC).
 Models imported into OCI GenAI (e.g. Qwen 3 from Hugging Face) and hosted
 on a DAC are served behind OCI's OpenAI-compatible endpoint. Two ways in:
 
-  A) Through the gateway (recommended) - the `qwen3-dac` entry in
+  A) Through the gateway (recommended) - the `gpt-oss-120b-dac` entry in
      config.yaml maps to the DAC endpoint; clients don't need to know
      any OCIDs or OCI keys.
 
@@ -28,14 +28,14 @@ gateway = OpenAI(
 )
 
 response = gateway.chat.completions.create(
-    model="qwen3-dac",
+    model="gpt-oss-120b-dac",
     messages=[{"role": "user", "content": "Say hello from a Dedicated AI Cluster."}],
     max_tokens=100,
 )
 print("[via gateway]", response.choices[0].message.content)
 
 # --- B) Direct against the OCI OpenAI-compatible endpoint --------------------
-# (this is exactly what the gateway's `qwen3-dac` entry does internally)
+# (this is exactly what the gateway's `gpt-oss-120b-dac` entry does internally)
 if os.getenv("OCI_GENAI_API_KEY"):
     direct = OpenAI(
         base_url=os.environ["OCI_COMPAT_API_BASE"],
