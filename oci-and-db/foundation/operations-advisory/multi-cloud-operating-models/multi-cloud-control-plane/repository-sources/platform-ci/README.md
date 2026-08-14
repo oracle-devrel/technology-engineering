@@ -10,8 +10,8 @@ for Platform CI.
 
 | Workflow | Purpose |
 | --- | --- |
-| `.github/workflows/terraform-shared.yaml` | Validate and plan Day 1 requests on pull requests; apply the saved plan after merge |
-| `.github/workflows/ansible-shared.yaml` | Check supported Day 2 requests on pull requests; execute them after merge |
+| `.github/workflows/terraform-shared.yaml` | Validate and plan resource requests on pull requests; apply the saved plan after merge |
+| `.github/workflows/ansible-shared.yaml` | Check supported lifecycle requests on pull requests; execute them after merge |
 
 The workflows receive an explicit cloud, environment, region, runner boundary,
 state location, manifest reference, and pinned orchestrator revision from the
@@ -64,10 +64,10 @@ Ansible tag. The supplied operations are:
 - OCI Autonomous Database start or stop.
 - OCI Compute `deploy-agent` over SSH.
 
-Operation manifests belong under
+Lifecycle operation manifests belong under
 `oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Operations
-must resolve an exact display name in Terraform state. Azure and Google Day 2
-are not available.
+must resolve an exact display name in Terraform state. Azure and Google Cloud
+lifecycle operations are not available.
 
 Each operation playbook uses explicit `precheck`, `apply`, and `verify` phases.
 Common tasks live under `ansible/playbooks/common/oci/<operation>/`.

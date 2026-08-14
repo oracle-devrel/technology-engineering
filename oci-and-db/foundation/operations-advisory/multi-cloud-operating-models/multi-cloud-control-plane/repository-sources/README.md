@@ -9,7 +9,7 @@ publication.
 | Source | Purpose |
 | --- | --- |
 | `platform-ci/` | Shared approved Terraform and Ansible execution workflows |
-| `gitops-templates/` | Approved Day 1 resource and Day 2 operation catalog |
+| `gitops-templates/` | Approved resource and lifecycle operation catalog |
 | `nonprod-project-template/` | Shared `dev`, `test`, and `uat` project repository template |
 | `prod-project-template/` | Isolated production project repository template |
 | `optional-ui/` | Optional UI runtime artifact; not one of the four shared repositories |

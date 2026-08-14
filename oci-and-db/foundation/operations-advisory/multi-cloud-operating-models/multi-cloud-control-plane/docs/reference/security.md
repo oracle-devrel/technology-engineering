@@ -45,7 +45,7 @@ or check, and then merge. Do not describe this as GitHub-enforced approval.
   project manifests or secret bundles.
 - Resolve passwords from the selected secret bundle; never commit them or add
   them to handoff or Codex configuration.
-- Complete the [environment secret isolation test](../installation/verify-secret-isolation.md)
+- Complete the [environment secret isolation test](verify-secret-isolation.md)
   before the first workload request.
 
 ## Additional controls for paid GitHub plans

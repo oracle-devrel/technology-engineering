@@ -1,10 +1,22 @@
 # Project Team guide
 
 Use this guide after Cloud Operations gives you a prepared project repository.
-You manage approved resources through pull requests; Cloud Operations retains
-the cloud credentials, runners, repository controls, and foundation setup.
+You can create, change, or remove approved resources and run supported lifecycle
+operations without deployment credentials or a different process for each
+cloud. Every request follows the same reviewed pull-request workflow.
 
-## 1. Identify your repository
+## 1. Choose an interface
+
+Each interface prepares the same Git change and pull request. It cannot approve,
+merge, or deploy the request.
+
+| Interface | Use it when | Guide |
+| --- | --- | --- |
+| GitHub interface | You want to edit JSON through the GitHub website or GitHub CLI. | [GitHub interface](github-interface.md) |
+| Optional UI | You prefer a guided form. | [Optional UI](optional-ui.md) |
+| Optional Codex plugin | You prefer a conversational request. | [Codex plugin](codex-plugin.md) |
+
+## 2. Identify your repository
 
 | Repository | Environments | Secret placeholder prefix |
 | --- | --- | --- |
@@ -12,23 +24,19 @@ the cloud credentials, runners, repository controls, and foundation setup.
 | `prod-<project>` | `prod` only | `PROD_` |
 
 State is isolated by repository, cloud, environment, and region. Production
-also has a separate handoff, review ownership, secret bundle, and runner
-boundary. Cloud Operations prepares those controls; Project Teams use only the
-handoff and environment-qualified placeholders.
+also has a separate handoff, secret bundle, and runner boundary. Cloud
+Operations prepares those controls. Project Teams manage resource manifests and
+their review ownership, using only the approved handoff and
+environment-qualified placeholders.
 
-## 2. Choose an interface
+## 3. Follow the request flow
 
-Each interface prepares the same Git change and pull request. It cannot approve,
-merge, or deploy the request.
+1. Check that MCCP [supports the resource or operation](../reference/support.md).
+2. Choose the approved catalog template and use only the foundation references
+   from your environment handoff.
+3. Open a pull request through your chosen interface.
+4. Review the planned result and obtain human approval.
+5. Merge through the governed process and verify the result.
 
-| Interface | Use it when | Guide |
-| --- | --- | --- |
-| GitHub interface | You want to edit JSON through GitHub or GitHub CLI. | [GitHub interface](github-interface.md) |
-| Optional UI | You prefer a guided form. | [Multi-Cloud Plane UI](optional-ui.md) |
-| Optional Codex plugin | You prefer a conversational request. | [Codex plugin](codex-plugin.md) |
-
-## 3. Follow the request lifecycle
-
-The [request lifecycle](request-lifecycle.md) is the single source for request
-rules, manifest paths, review, merge, deletion, and troubleshooting. Check
-[what MCCP supports](../reference/support.md) before preparing a request.
+The [request lifecycle](request-lifecycle.md) contains the detailed rules,
+manifest paths, removal steps, and troubleshooting guidance.

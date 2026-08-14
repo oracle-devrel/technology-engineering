@@ -3,9 +3,9 @@
 This page defines the supplied MCCP baseline. All requests still require a
 completed environment handoff and the standard pull-request lifecycle.
 
-## Day 1 resources
+## Resource requests (Day 1)
 
-The GitHub interface, optional UI, and optional Codex plugin support every Day 1
+The GitHub interface, optional UI, and optional Codex plugin support every
 resource in this table.
 
 | Cloud | Resources | Testing evidence |
@@ -18,7 +18,7 @@ Azure and Google Cloud adapters consume existing foundation references. They do
 not create projects, resource groups, IAM, networks, subnets, NSGs, service
 accounts, ODB Networks, or ODB Subnets.
 
-## Day 2 operations
+## Lifecycle operations (Day 2)
 
 | Operation | GitHub interface | Optional UI | Optional Codex plugin | Testing evidence |
 | --- | --- | --- | --- | --- |
@@ -50,11 +50,11 @@ Maintainer qualification covered:
 - live OCI smoke tests for the supplied OCI resources and operations.
 
 The publication does not certify every customer environment. Azure and Google
-Cloud were not applied to live target clouds, and their Day 2 operations are
-not supplied. Customer extensions are unqualified until the complete
+Cloud were not applied to live target clouds, and their lifecycle operations
+are not supplied. Customer extensions are unqualified until the complete
 [extension model](architecture.md#extension-model) is implemented and tested.
 
 Before enabling requests, complete the customer installation, cloud handoff,
-and first-project acceptance, then run a request through the
-[GitHub interface](../usage/github-interface.md) on the customer runners and
-identities.
+and [first-project acceptance](verify-secret-isolation.md), then run a request
+through the [GitHub interface](../usage/github-interface.md) on the customer
+runners and identities.

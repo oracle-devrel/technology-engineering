@@ -1,6 +1,8 @@
 # Development environment handoff
 
-Platform administrators publish OCI references automatically. They complete the Azure and Google sections in a separate reviewed handoff pull request. Blank values are not valid workload references.
+Cloud Operations publishes OCI references automatically and completes the Azure
+and Google Cloud sections in a separate reviewed handoff pull request. Blank
+values are not valid workload references.
 
 ## Azure
 
@@ -14,7 +16,7 @@ Platform administrators publish OCI references automatically. They complete the 
 | NSG ID | |
 | VNet ID | |
 
-## GCP
+## Google Cloud
 
 | Reference | Value |
 |---|---|

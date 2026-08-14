@@ -16,10 +16,10 @@ catalog entry, and resulting manifest before writing to GitHub.
 Read-only status and monitoring requests do not need a CRQ and do not create
 Git changes.
 
-The plugin supports all supplied Day 1 resources and OCI Autonomous Database
+The plugin supports the resource requests listed in
+[what MCCP supports](../reference/support.md) and OCI Autonomous Database
 start/stop. OCI Compute `deploy-agent` remains available through the GitHub
-interface or optional UI. Azure and Google Cloud Day 2 operations are not
-supplied.
+interface or optional UI.
 
 The plugin cannot approve or merge pull requests, control workflows, call cloud
 APIs, accept raw passwords, or deploy infrastructure. If it is not available,

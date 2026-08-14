@@ -23,6 +23,8 @@ return no output before staging the publication.
 
 ## 1. Prepare the shared repositories
 
+### Stage the repository sources
+
 ```bash
 export STAGE="$(mktemp -d)"
 export CUSTOMER_ORG=example-enterprise
@@ -66,8 +68,10 @@ The workflow uses that immutable commit.
 `AZURE_ORCHESTRATOR_REF` and `GCP_ORCHESTRATOR_REF` name the reviewed
 `mccp-v2.1.0` releases published by the external
 [Azure adapter](https://github.com/oci-clickops/clickops-orchestrator-azure/tree/mccp-v2.1.0)
-and [GCP adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/tree/mccp-v2.1.0).
+and [Google Cloud adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/tree/mccp-v2.1.0).
 Confirm that they resolve to the reviewed adapter commits before installation.
+
+### Create the prepared commits
 
 Create Platform CI first. Project workflows and its composite actions use its
 review-controlled `main` branch directly:
@@ -106,6 +110,8 @@ remains the human deployment gate. See the
 [security and GitHub controls](../reference/security.md). Do not add untested
 paid-plan controls to this release.
 
+### Verify and publish the repositories
+
 Verify that no unresolved release placeholder or local test content is present:
 
 ```bash
@@ -132,6 +138,8 @@ test "$(gh api "repos/$CUSTOMER_ORG/nonprod-project-template" --jq '.is_template
 test "$(gh api "repos/$CUSTOMER_ORG/prod-project-template" --jq '.is_template')" = true
 ```
 
+### Configure Platform CI access
+
 In the published `platform-ci` repository, allow project repositories to call
 its reusable workflows at
 **Settings → Actions → General → Access → Accessible from repositories in the
@@ -141,6 +149,8 @@ organization**. Confirm the resulting access level:
 test "$(gh api "repos/$CUSTOMER_ORG/platform-ci/actions/permissions/access" \
   --jq '.access_level')" = organization
 ```
+
+### Record installation evidence
 
 Record the exact prepared commits, then confirm that every published branch
 resolves to those commits:
@@ -165,11 +175,6 @@ test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/gitops-templates.git" \
 Each `test` command must return exit code zero. Record the commits as
 installation evidence. This release bundle contains only the shared control
 plane sources; tenant-specific runtime artifacts remain outside it.
-
-Keep `platform-ci` private and configure its Actions access for organization
-repositories. A private reusable workflow invokes its directly referenced
-composite action on `main` with GitHub's scoped temporary token; project
-repositories do not need a deploy key or other Platform CI source credential.
 
 ## 2. Configure trusted runners
 
@@ -225,14 +230,3 @@ The organization installation is complete when:
 
 Retain the commits, repository settings, runner labels, identity boundaries,
 and successful checks as installation evidence.
-
-At this point the shared MCCP installation is complete. Project repository
-creation and handoff are separate Cloud Operations activities.
-
-## 4. Complete first-project acceptance
-
-After Cloud Operations creates and hands off the first project repository,
-complete the mandatory
-[environment secret isolation test](verify-secret-isolation.md)
-before the Project Team submits workload requests. This verifies a real project
-boundary but is not part of publishing the shared repositories.

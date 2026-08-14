@@ -38,4 +38,4 @@ gh pr create --fill
 
 Do not merge until the plan or check and required approval are complete. The
 [request lifecycle](request-lifecycle.md#complete-or-remove-a-request) explains
-how to clear an operation or remove a Day 1 resource.
+how to clear a completed operation or remove a resource.

@@ -8,10 +8,11 @@ Project manifests use `<cloud>/<environment>/<region>/...`. The approved
 foundation references for each environment are recorded in
 `environments/<environment>/environment_information.md`.
 
-Project Teams change only supported manifests through reviewed pull requests.
-Cloud Operations owns the handoff, workflows, CODEOWNERS, runner configuration,
-and deployment credentials. Terraform state and secret values never belong in
-this repository.
+Project Teams change only supported manifests through reviewed pull requests
+and configure their review ownership from `.github/CODEOWNERS.template`. Cloud
+Operations owns the handoff, protected workflows, runner configuration, and
+deployment credentials. Terraform state and secret values never belong in this
+repository.
 
 Use the organization's
 [approved catalog](https://github.com/__CUSTOMER_ORG__/gitops-templates) and

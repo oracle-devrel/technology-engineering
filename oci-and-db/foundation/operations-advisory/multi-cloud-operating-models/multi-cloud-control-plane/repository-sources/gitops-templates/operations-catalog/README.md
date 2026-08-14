@@ -1,8 +1,8 @@
-# Operations Catalog (Day 2)
+# Lifecycle operations catalog
 
-Day 2 operations are post-provisioning actions executed by Ansible through the
-shared `ansible-shared.yaml` workflow. Each JSON file is an approved manifest
-template for one operation.
+Lifecycle operations are post-provisioning actions executed by Ansible through
+the shared `ansible-shared.yaml` workflow. Each JSON file is an approved
+manifest template for one operation.
 
 The protected project caller validates exactly one changed operation file and
 passes its path explicitly to the shared workflow. Platform CI parses

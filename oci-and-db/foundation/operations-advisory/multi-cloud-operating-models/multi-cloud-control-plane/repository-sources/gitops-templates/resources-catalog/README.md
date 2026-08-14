@@ -1,4 +1,4 @@
-# Resources Catalog (Day 1)
+# Resource catalog
 
 Terraform variable templates consumed by MCCP. Project Teams render these
 catalog files into project repository manifests; `platform-ci` passes the
@@ -69,7 +69,7 @@ Cross-template dependency: NSG/security-group placeholders in workload templates
 ## Reference specifications
 
 The JSON Schemas under [`schemas/`](schemas/README.md) are human-readable reference
-contracts for the supported Day 1 manifest shapes:
+contracts for the supported resource manifest shapes:
 
 - [`adb.schema.json`](schemas/oci/adb.schema.json)
 - [`compute.schema.json`](schemas/oci/compute.schema.json)

@@ -8,3 +8,5 @@ Use these pages when you need more than the installation or request steps:
   explains what has been tested.
 - [Security and GitHub controls](security.md) explains credentials, secrets,
   runner authority, GitHub Free limitations, and additional paid-plan controls.
+- [First-project acceptance](verify-secret-isolation.md) verifies environment
+  secret isolation before the first workload request.

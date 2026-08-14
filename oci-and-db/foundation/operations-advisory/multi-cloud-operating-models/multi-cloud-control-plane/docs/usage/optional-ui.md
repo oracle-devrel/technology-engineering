@@ -12,8 +12,8 @@ Use the UI when you prefer a guided form to editing JSON.
 
 The UI creates an issue, branch, commit, and pull request. It cannot deploy
 infrastructure, approve or merge the pull request, or access cloud credentials.
-It supports the supplied Day 1 resources and OCI Day 2 operations. Azure and
-Google Cloud Day 2 operations are not supplied.
+Check [what MCCP supports](../reference/support.md) for the current resources
+and lifecycle operations available through this interface.
 
 If the UI is not available, use the GitHub interface. Cloud Operations installs
 it using the [optional UI setup](../installation/optional-interfaces.md#optional-multi-cloud-plane-ui).
