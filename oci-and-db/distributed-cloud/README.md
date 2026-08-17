@@ -4,6 +4,7 @@ Updated: 11.08.2026
 
 Oracle’s distributed cloud delivers the benefits of cloud with greater control and flexibility. Oracle’s distributed cloud lineup includes:
 
+- [Native and Secured Remote Desktop on OCI instance running Oracle Linux 10 : Gnome Desktop and Open Source sdl-freerdp] (https://github.com/m21conjunction/solutions/blob/main/OL10GnodeDesktopSecuredAccess.pdf)
 - Public cloud: Hyperscale public cloud regions serve any size of organization, including those requiring strict EU sovereignty controls. See the full list of regions here.
 - Sovereign cloud: Enables commercial and public sector organizations to place sensitive data and applications in the cloud—in alignment with regional data privacy and sovereignty requirements.
 - Government cloud: Provides governments with a range of deployment models to meet local data residency, classification, operational, and security requirements.
