@@ -4,7 +4,7 @@ This repository contains the solution definition material for Oracle Database@AW
 
 Oracle Database@AWS combines Oracle Exadata Database Service and Oracle database capabilities with AWS networking, identity, and operational services. The solution is designed for mission-critical workloads that require enterprise performance, security, availability, and cloud-native integration.
 
-Reviewed: 03.08.2026
+Reviewed: 18.08.2026
 
 ## Purpose
 
@@ -70,13 +70,13 @@ The exact scope of an engagement may vary by customer, but the solution definiti
 
 ## Landing Zone Requirements
 
-Before deployment, the Azure and OCI landing zones should be validated for:
+Before deployment, the AWS and OCI landing zones should be validated for:
 
 - Subscription and resource group design
 - Resource naming and tagging standards
 - AWS RBAC and OCI IAM model
-- Network segmentation and delegated subnets
-- ExpressRoute or VPN connectivity
+- Network segmentation
+- DirectConnect or VPN connectivity
 - DNS and private name resolution
 - Security controls and key management
 - Logging, monitoring, and alerting
@@ -99,10 +99,12 @@ Security design should account for:
 
 The solution may use a combination of:
 
-- AWS Monitor
-- AWS Log Analytics
-- OCI Monitoring
+- AWS CloudWatch
+- AWS CloudTrail
+- AWS EventBridge
+- OCI Database Management
 - OCI Logging
+- OCI Ops Insights
 - Oracle Data Safe
 - Oracle Enterprise Manager
 - Third-party SIEM and observability tools
