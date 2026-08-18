@@ -1,4 +1,5 @@
 # Converged Database
+Review Date: 04.08.2026
 
 Oracle AI Database is a converged database. It provides native support for modern data types, analytics, and the latest development paradigms within a single product—including spatial data for location awareness, JSON for flexibility, IoT data for device integration, and in-memory technologies for real-time analytics, alongside traditional relational data.
 
