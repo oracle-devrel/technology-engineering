@@ -1,21 +1,12 @@
 # ExaDB-C@C Key Management Using an External Key Store
 
-- [1. Introduction](#ExaDBC@CKeyManagementUsinganExternalKeyStore-Introduction)
-- [2. Supported Operations](#ExaDBC@CKeyManagementUsinganExternalKeyStore-SupportedOperations)
-- [3. Requirements](#ExaDBC@CKeyManagementUsinganExternalKeyStore-Requirements)
-- [4. How-To: dbaascli](#ExaDBC@CKeyManagementUsinganExternalKeyStore-How-To:dbaascli)
-- [5. How-To: Cloud UI/RestAPI](#ExaDBC@CKeyManagementUsinganExternalKeyStore-How-To:CloudUI/RestAPI)
-  - [5.1. Create Database](#ExaDBC@CKeyManagementUsinganExternalKeyStore-CreateDatabase)
-  - [5.2. Migrate TDE Keys to HSM](#ExaDBC@CKeyManagementUsinganExternalKeyStore-MigrateTDEKeystoHSM)
-  - [5.3. Dataguard](#ExaDBC@CKeyManagementUsinganExternalKeyStore-Dataguard)
-  - [5.4. RestAPIs](#ExaDBC@CKeyManagementUsinganExternalKeyStore-RestAPIs)
-
-## 1. Introduction
-
 The ExaDB-C@C service now supports natively storing the TDE Encryption Keys in the 3rd party HSM (Thales fully tested).
 
 **The External HSM, is as of now, only supported on Non-Autonomous VM Cluster.**
 
+Reviewed: 30/07/26
+
+# When to use this asset?
 Before the release of this feature, the only possibility to store TDE Keys outside the VMs was using OKV.
 
 There are now 3 possibilities for storing TDE Keys in the ExaDB-C@C service:
@@ -33,7 +24,7 @@ There are lots of reasons why the OKV solution should be the preferred one:
 - New features are released over time by the OKV development team. 
 - ER can be raised for specific customer requirements and they do not have any external dependencies.
 
-Anyway, with the new release, the support of 3rd Party HSM allows the customer to use FIPS 140-2 Level 3 protected Hardware Security Modules (HSM) to securely store the TDE MEKs.
+With the new release, the support of 3rd Party HSM allows the customer to use FIPS 140-2 Level 3 protected Hardware Security Modules (HSM) to securely store the TDE MEKs.
 
 There are deployments where storing the MEKs on FIPS 140-2 Level 3 HSM is a requirement: now also those deployments are fully supported with the ExaDB-C@C deployment model.
 
@@ -51,7 +42,7 @@ The following pictures summarise all the options available:
 Thales is starting Certifying their KMS with ExaDB-C@C, for example, for the CipherTrust Manager, here is the link: [Thales ExaDB-C@C integration](https://thalesdocs.com/ctp/con/cakm/cakm-oracle-tde/latest/admin/tde-integrating_exadata/index.html)
 
 
-## 2. Supported Operations
+# How to use this asset?
 
 The tested operations are:
 
@@ -160,7 +151,7 @@ The tested operations are:
 
 - *Apply Grid Infrastructure update*
 
-## 3. Requirements
+## Requirements
 
 To proceed with the configuration of the External HSM using the Cloud UI/API/dbaascli, the following requirements should be satisfied:
 
@@ -185,7 +176,7 @@ The PKCS#11 Library will allow communication between the DomU and the KMS, the k
 
 **<NOTE**: when a database is protected by an external keystore, while you should be able to add the virtual machine to the existing VM cluster, the database instance will not be extended to the newly created VM. This is because one or more databases on this VM cluster are configured with an external keystore. You must configure the external keystore on the newly created VM, then run the dbaascli command to extend the database instances to the new VM.
 
-## 4. How-To: dbaascli
+## How-To: dbaascli
 
 Starting from version 24.2.1.0.0, the dbaascli tolling adds the possibility to use the new parameter **EXTERNAL_HSM** for the **tdeConfigMethod** switch.
 
@@ -244,7 +235,7 @@ This is the user that has the grants to connect to the Thales KMS, and read the 
 
 **NOTE**: *As of now, the possibility to integrate ExaCC with third-party KMS is limited to dbaascli. It should be planned to extend the integration also to the other tooling mechanisms (cloud console, APIs, etc).*
 
-## 5. How-To: Cloud UI/RestAPI
+## How-To: Cloud UI/RestAPI
 
 It is now supported to configure an External HSM via Cloud UI or using the RestAPIs.
 
@@ -253,26 +244,26 @@ It is now supported to configure an External HSM via Cloud UI or using the RestA
 - [Creating a DB](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-manage-databases.html#GUID-A15DB87F-5B4D-477A-9417-83862C3D3004)
 - [Migrate Keys, Rotate Keys](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-manage-databases.html#GUID-D8B1B750-CBFD-4474-A047-2EC7E1B29A2C)
 
-### 5.1. Create Database
+### Create Database
 
 During the creation of a database, a new Option is available in the Cloud UI: "External HSM".\
 Choosing this option will also be requested the TDE Wallet Password (this is the wallet that will contain the user to connect to the KMS), and the HSM Credential.
 
 <img src="./images/key-create-db.png" width="450" alt="DB creation">
 
-### 5.2. Migrate TDE Keys to HSM
+### Migrate TDE Keys to HSM
 
 It is possible to migrate the Keys from an Oracle Wallet to an External HSM.
 
 <img src="./images/key-migrate.png" width="450" alt="Key Migration">
 
-### 5.3. Dataguard
+### Dataguard
 
 It is possible to create a dataguard association, adding a standby for a DB configured using External HSM
 
 <img src="./images/key-dg.png" width="450" alt="Dataguard Association">
 
-### 5.4. RestAPIs
+### RestAPIs
 
 Below is the list of the APIs the customer can use to manage the External HSM configuration.
 
@@ -300,8 +291,6 @@ Below is the list of the APIs the customer can use to manage the External HSM co
 
 - [ExaDB-C@C REST API Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/rest.html)
 - [How to change Encryption Key Locations](https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/Database/ChangeEncryptionKeyLocation)
-
-Reviewed: 06/26/26
 
 # License
 

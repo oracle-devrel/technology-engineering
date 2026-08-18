@@ -7,7 +7,7 @@ With spatial features included for free with all editions and services of Oracle
 
 You can use the free tool Spatial Studio, to a visualize, explore, and analyze geospatial data stored in and managed by Oracle Spatial. Spatial Studio is a multiuser Java EE application that can be used as a standalone tool (Quick Start) or deployed to WebLogic Server.
 
-Review Date: 2026.01.12
+Review Date: 2026.03.21
 </br></br>
 
 # Table of Contents
@@ -32,6 +32,7 @@ Review Date: 2026.01.12
 # Team Publications
 - [Oracle Spatial Presentations](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-spatial/oracle-spatial-presentations)
 - [GeoRaster Using GDAL using Spatial Studio](https://medium.com/@maryam.oracle2025/georaster-using-gdal-using-spatial-studio-4a04013d1947)
+- [Best Practices for Parquet File Ingestion with Geospatial Data on Autonomous AI Lakehouse](https://blogs.oracle.com/autonomous-ai-database/best-practices-for-parquet-file-ingestion-with-geospatial-data-on-autonomous-ai-lakehouse)
 </br></br>
 
 # License

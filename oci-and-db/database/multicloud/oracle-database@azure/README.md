@@ -2,7 +2,7 @@
  
 Oracle has significantly expanded its partnership with Microsoft to launch a new service called Oracle Database@Azure. With this service, Microsoft and Oracle will deliver the same Oracle database services running on OCI in Microsoft Azure data centers. Oracle database services in Azure are designed to offer high levels of performance, scale, security, and availability — at par with what we offer in OCI today.
  
-Reviewed: 22.10.2025
+Reviewed: 03.08.2026
  
 # Useful Links
 

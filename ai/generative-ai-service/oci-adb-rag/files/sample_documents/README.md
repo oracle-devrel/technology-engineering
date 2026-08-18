@@ -2,6 +2,8 @@
 
 Place the PDF, DOCX, or TXT files that you want to index in this folder.
 
+Reviewed: 04.08.2026
+
 Then either update `DOCUMENT_PATHS` at the top of `ingest_documents.py`, or run:
 
 ```bash

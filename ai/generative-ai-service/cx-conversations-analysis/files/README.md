@@ -9,6 +9,8 @@ If you want to use the example dataset, and not your own, you can do it in 2 way
    - [notebook 1](1_check_dataset.ipynb): downloads the dataset, makes statistics (you can edit the methodology) and picks up some samples.
    - [notebook 2](2_prepare_files.ipynb): generates the sampled dataset in a folder `dataset`, including mixed audios (agent&caller in a single audio).
 
+Reviewed: 04.08.2026
+
 # How to run the app
 Install requirements:
 
