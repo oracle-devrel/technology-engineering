@@ -16,9 +16,9 @@ Also make sure to check the dedicated pages of the main technology areas of Data
 * [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migration-to-oci-database-with-postgresql)
 * [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/translate-sql-code)
 * [Migrate to Autonomous Database using DBMS_CLOUD_IMPORT](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-to-adb-with-dbms-cloud-import)
-* [Migrate to legacy character set to Unicode with DMU](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-legacy-characterset-to-unicode)
+* [Migrate legacy character set to Unicode with Database Migration Assistant for Unicode (DMU)](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-legacy-characterset-to-unicode)
 
-Reviewed: 18.08.2026
+Reviewed: 19.08.2026
 
 # Team Publications
  
