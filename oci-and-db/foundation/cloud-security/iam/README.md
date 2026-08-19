@@ -54,8 +54,47 @@ Reviewed: 20.10.2025
       
 - [OCI IAM Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=624&clear=RR,180&session=109961295889018)
     - OCI IAM Live Lab
+- [OpenID Connect support in OCI API Gateway](https://blogs.oracle.com/cloud-infrastructure/openid-connect-support-oci-api-gateway)
+    - OpenID Connect support in OCI API Gateway
+- [OCI API Gateway and Custom Authentication without FN](https://blogs.oracle.com/coretec/oci-api-gateway-and-custom-authentication-without-fn)
+    - OCI API Gateway and Custom Authentication without FN
+- [Protect Apis with API Gateway using IDCS/IAM JWT with Scopes and Claims](https://blogs.oracle.com/coretec/protect-apis-with-api-gateway-using-idcsiam-jwt-with-scopes-and-claims)
+    - Protect Apis with API Gateway using IDCS/IAM JWT with Scopes and Claims
+ - [SSO/Federation with keycloak and IDCS and/or OCI IAM-Domains
+](https://blogs.oracle.com/coretec/ssofederation-with-keycloak-and-idcs-andor-oci-iam-domains)
+    - SSO/Federation with keycloak and IDCS and/or OCI IAM-Domains
+- [Federating with SAML 2.0 Identity Providers
+](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/federatingSAML.htm)
+    - Federating with SAML 2.0 Identity Providers
+- [Custom Application Roles in IAM Domain/IDCS
+](https://blogs.oracle.com/coretec/using-roles-in-iam-domainidcs-for-custom-applications)
+    - Custom Application Roles in IAM Domain/IDCS
+- [SAML JIT and multiple IDCS Instances or IAM Domains](https://blogs.oracle.com/coretec/saml-jit-and-multiple-idcsiam-domain-instances)
+    - SAML JIT and multiple IDCS Instances or IAM Domains
+- [SAML with Just in Time Provisioning to setup an Identity Broker or Identity Hub](https://blogs.oracle.com/coretec/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
+    - SAML with Just in Time Provisioning to setup an Identity Broker or Identity Hub
+- [OCI IAM and IDCS - Common Use Cases](https://www.youtube.com/watch?v=RiaPB8PaEjA)
+    - OCI IAM and IDCS - Common Use Cases
+- [OCI API Gateway and OpenID Connect Authentication with IAM Domain, IDCS and Azure AD/B2C](https://blogs.oracle.com/coretec/oci-api-gateway-and-openid-connect-authentication-with-iam-domain-idcs-and-azure-btoc)
+    - OCI API Gateway and OpenID Connect Authentication with IAM Domain, IDCS and Azure AD/B2C
+- [Cloud Coaching - OCI IAM Services](https://www.oracle.com/europe/cloud/events/developer-coaching/on-demand/#security)
+    - Cloud Coaching - OCI IAM Services
+- [OCI SSO – Check/Validation and Renew of IDP’s SAML Signing Certificate](https://blogs.oracle.com/coretec/oci-sso-checkvalidation-and-renew-of-idps-saml-signing-certificate)
+    - OCI SSO – Check/Validation and Renew of IDP’s SAML Signing Certificate
+- [OCI IAM - Workload Identity Federation](https://blogs.oracle.com/cloud-infrastructure/oci-iam-workload-identity-federation)
+    - OCI IAM - Workload Identity Federation
+- [OCI IAM - Deny Policies ](https://blogs.oracle.com/cloud-infrastructure/announcing-support-for-iam-deny-policies-in-oci?source=:so:ch:or:awr::::IAMDeny&SC=:so:ch:or:awr::::IAMDeny&pcode=)
+    - OCI IAM - Deny Policies
+- [Validating Fusion–IAM Trust for API Integrations](https://blogs.oracle.com/coretec/validating-fusion-iam-trust-for-api-integrations)
+    - Validating Fusion–IAM Trust for API Integrations
+- [Accessing and Using OCI: From API Keys to Workload Identity Federation](https://blogs.oracle.com/coretec/accessing-and-using-oci-from-api-keys-to-workload-identity-federation)
+    - Accessing and Using OCI: From API Keys to Workload Identity Federation
+- [OCI Workload Identity Federation (WIF) with Microsoft Entra ID Applications and Keycloak](https://blogs.oracle.com/coretec/oci-workload-identity-federation-wif-with-microsoft-entra-id-applications-and-keycloak)
+    - OCI Workload Identity Federation (WIF) with Microsoft Entra ID Applications and Keycloak
+- [Behaviour of OCI IDP Policies in different IAM Domains
+](https://blogs.oracle.com/coretec/behaviour-of-oci-idp-policies-in-different-iam-domains)
+    - Behaviour of OCI IDP Policies in different IAM Domains
 
-      
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
