@@ -1,4 +1,4 @@
-# Overview
+# Operational Research Use Cases in OCI Data Science
 
 This project presents three operational research use cases with different levels of complexity:
 
@@ -6,7 +6,7 @@ This project presents three operational research use cases with different levels
 2. **Flight scheduling using integer linear programming.**
 3. **Individual pricing optimization with global and individual constraints** – an advanced use case that also showcases the use of different resources and features in the OCI Data Science Platform.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
 
 # What You’ll Learn
 
