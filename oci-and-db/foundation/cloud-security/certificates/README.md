@@ -21,7 +21,17 @@ Reviewed: 12.11.2025
  
 - [OCI Load Balancer & Certificates](https://docs.public.content.oci.oraclecloud.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm)
     - This is part of the documentation for managing certificates on OCI Load Balancer
- 
+
+- [Introducing Bring Your Own Certificate Authority
+](https://blogs.oracle.com/cloud-infrastructure/intro-bring-your-own-certificate-authority)
+    - Blog about Bring Your Own Certificate Authority
+
+- [Free SSL Certificates In The Oracle Cloud Using CertBot And Let’s Encrypt](https://blogs.oracle.com/developers/free-ssl-certificates-in-the-oracle-cloud-using-certbot-and-lets-encrypt)
+    - Blog about Certificates In The Oracle Cloud Using CertBot And Let’s Encrypt
+
+- [Automatic Certificate Renewal in OCI Load Balancer](https://www.ateam-oracle.com/automatic-certificate-renewal-in-oci-load-balancer)
+    - Blog about Automatic Certificate Renewal in OCI Load Balancer
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
