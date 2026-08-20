@@ -17,7 +17,19 @@ Reviewed: 20.10.2025
 - [OCI IAM and IDCS Common Use Cases](https://www.youtube.com/watch?v=RiaPB8PaEjA)
     - Video about common use cases of OCI IAM
 
-- [SAML with JIT provisioning to setup an identity broker or identity hub](  https://blogs.oracle.com/coretec/post/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
+- [Validating Fusion–IAM Trust for API Integrations](https://blogs.oracle.com/coretec/validating-fusion-iam-trust-for-api-integrations)
+    - Blog post showing how to check the Fusion integration in an OCI IAM Domain with the help of rest calls
+
+- [Accessing and Using OCI: From API Keys to Workload Identity Federation](https://blogs.oracle.com/coretec/accessing-and-using-oci-from-api-keys-to-workload-identity-federation)
+    - Blog post with an overview of the different options with keys, tokens and principals to manage OCI resources from CLI
+
+- [OCI Workload Identity Federation (WIF) with Microsoft Entra ID Applications and keycloak](https://blogs.oracle.com/coretec/oci-workload-identity-federation-wif-with-microsoft-entra-id-applications-and-keycloak)
+    - Practical blog post about using WIF (Token Exchange) with EntraID or keycloak
+
+- [Behavior of OCI IDP Policies in different IAM Domains](https://blogs.oracle.com/coretec/behaviour-of-oci-idp-policies-in-different-iam-domains)
+    - Blog post about the different behavior of OCI IDP Policies in different IAM Domains
+
+- [SAML with JIT provisioning to setup an identity broker or identity hub](https://blogs.oracle.com/coretec/post/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
     - Blog post about SAML with JIT Provisioning to set up an Identity Broker
 
 - [OCI SSO with OpenID Connect Integration](https://blogs.oracle.com/coretec/post/oci-sso-with-openid-connect-integration)
