@@ -2,7 +2,7 @@
  
 This document covers the topic of creating embeddings for Vector Search using OCI GenAI Embedding Model.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?
