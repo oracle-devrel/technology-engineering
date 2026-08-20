@@ -1,10 +1,10 @@
 
-# Overview
+# Your First Data Science Project
 
 Your First Data Science Project demonstrates how to build a complete end-to-end data science workflow using Oracle Cloud Infrastructure (OCI) Data Science Platform.
 The project walks through the main stages of a typical machine learning lifecycle — from data preparation to model deployment and inference — using practical examples.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
 
 # What You’ll Learn
 

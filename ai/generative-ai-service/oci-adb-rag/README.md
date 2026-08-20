@@ -2,6 +2,8 @@
 
 A reference application for building a grounded enterprise chatbot with OCI Generative AI, Autonomous AI Database, and `langchain-oracle`.
 
+Reviewed: 04.08.2026
+
 The application retrieves relevant document chunks from Oracle AI Vector Search and asks an OCI Generative AI model to answer only from that context.
 
 ![Architecture](files/assets/architecture.svg)
