@@ -32,14 +32,23 @@ Reviewed: 20.10.2025
  
 - [Oracle Cloud Guard](https://www.oracle.com/uk/security/cloud-security/)
     - Oracle Cloud Guard Overview
+- [Oracle Cloud Guard Introduction](https://www.youtube.com/watch?v=_F6sEAhCeMU)
+    - Oracle Cloud Guard Introduction
 - [Integrating Cloud Guard with SIEM](https://docs.oracle.com/en-us/iaas/Content/cloud-adoption-framework/siem-integration.htm)
     - Documentation showing how you can integrate Cloud Guard with your SIEM
-- [Cloud Guard and Security Zone Video]( https://www.youtube.com/watch?v=aYmKk5-FJJk)
+- [Cloud Guard and Security Zone Video](https://www.youtube.com/watch?v=aYmKk5-FJJk)
     - Video by Clay Magouyrk showing Cloud Guard and Security Zones
 - [Oracle Cloud Guard Instance Security](https://www.oracle.com/security/cloud-security/cloud-guard/instance-security/)
     - Oracle Cloud Guard Instance Security Overview
+- [Cloud Guard Instance Security Video](https://www.youtube.com/watch?v=nrpYcb8syGI)
+    - Cloud Guard Instance Security Video
 - [Securing Oracle Cloud Guard](https://docs.oracle.com/en-us/iaas/Content/Security/Reference/cloud-guard_security.htm)
     - Securing Oracle Cloud Guard Overview
+- [Cloud Security using Cloud Guard](https://www.youtube.com/watch?v=D5L0Hy8h9aY)
+    - Cloud Security using Cloud Guard
+- [Cloud Guard Instance Security: Monitoring On-Premise Hosts](https://www.youtube.com/watch?v=LFhcto3mid8)
+    - Cloud Guard Instance Security: Monitoring On-Premise Hosts
+
 
 
 # License
