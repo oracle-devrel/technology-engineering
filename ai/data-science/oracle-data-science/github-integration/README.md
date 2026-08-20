@@ -2,7 +2,7 @@
  
 This document covers the topic of GitHub integration for OCI Data Science.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?
