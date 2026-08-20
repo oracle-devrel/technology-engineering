@@ -37,6 +37,15 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Integration: Analyzing Documents Using the OpenAI Adapter [Responses API]](https://www.linkedin.com/pulse/oracle-integration-analyzing-documents-using-openai-adapter-qureshi-r8spf/)
+
+    This article demonstrates the OpenAI Adapter in Oracle Integration:
+
+    - Configure the connection, select the API, and an LLM call becomes a standard step within an integration flow
+    - In addition to OIC's native connectivity to OCI Generative AI, the adapter extends support to external providers (OpenAI, and via Chat Completions, Anthropic and Azure)
+    - All calls are governed and orchestrated within the platform, alongside existing integrations and monitoring
+    - Includes a short demo video walking through the flow end to end
+
 - [Developer Coaching - Unlocking AI-Driven Automation with Oracle Integration Cloud](https://youtu.be/uXpIVhgdvDA?si=RSbBr4XS-ep0jUrC)
 
     In this session we have explored how developers can build intelligent, real-world AI workflows using Oracle Integration Cloud together with OCI AI Services, with minimal custom code. Key theme is around Customer Support.
