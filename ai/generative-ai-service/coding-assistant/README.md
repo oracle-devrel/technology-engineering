@@ -2,6 +2,8 @@
 
 A practical guide for configuring Cline to call OCI Generative AI models through OCI's OpenAI-compatible API.
 
+Reviewed: 04.08.2026
+
 Cline is an AI coding assistant that works inside your IDE and can help with day-to-day development tasks such as explaining unfamiliar code, generating new files, refactoring existing logic, writing tests, debugging errors, and summarizing repository structure. By connecting Cline to OCI Generative AI, developers can use OCI-hosted models directly from their coding environment while keeping model access, deployment choices, and enterprise controls within Oracle Cloud Infrastructure.
 
 This setup is useful when teams want AI-assisted development workflows that can use either on-demand OCI Generative AI models for quick setup or Dedicated AI Cluster (DAC)-hosted models for production-grade isolation, performance, and customization.

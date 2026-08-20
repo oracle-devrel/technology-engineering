@@ -1,4 +1,4 @@
-# Overview
+# Model Catalog Fundamentals and Automation
 
 This project demonstrates the fundamentals of using the OCI Data Science Model Catalog and shows how to automate model registration workflows using jobs.
 
@@ -6,7 +6,7 @@ It contains two examples with increasing levels of sophistication:
 1. Model Catalog Fundamentals – introduces core Model Catalog concepts and operations.
 2. Automated Model Registration – demonstrates how to automate model registration using Data Science Jobs and model version sets.
 
-Reviewed: 2026.01.19
+Reviewed: 2026.08.13
 
 # Project Scope
 
