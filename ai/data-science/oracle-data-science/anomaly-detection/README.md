@@ -1,4 +1,4 @@
-# Overview
+# Anomaly Detection
 
 This repository contains end-to-end anomaly detection projects demonstrating both supervised and unsupervised approaches using OCI Data Science and the ADS SDK.
 
@@ -8,6 +8,8 @@ The repository currently includes:
 
 * **Fraud Classification** – supervised fraud detection using classification models.
 * **Sales Unlabeled Anomaly Detection** – time-series anomaly detection using SARIMAX forecasting and prediction intervals.
+
+Reviewed: 2026.08.13
 
 ---
 
@@ -52,7 +54,9 @@ Created: 2026
 ---
 
 # License
-
+ 
 Copyright (c) 2026 Oracle and/or its affiliates.
-
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
