@@ -27,19 +27,24 @@ client = OpenAI(
 
 GUARDRAILS = {"guardrails": ["oci-guardrails"]}  # opt-in per request
 
-# 1) PII gets masked before the model ever sees it
+# 1) PII gets masked before the model ever sees it. Asking the model to
+#    repeat the contact details back makes the masking *visible*: the reply
+#    contains [EMAIL_REDACTED] / [TELEPHONE_NUMBER_REDACTED] where the real
+#    data was, proving the model never received it.
 response = client.chat.completions.create(
     model="grok-4-fast",
     messages=[
         {
             "role": "user",
-            "content": "Draft a short meeting invite and send it to anna.svensson@example.com, "
-                       "phone +46 70 123 45 67.",
+            "content": "First, quote verbatim the email address and phone number exactly as "
+                       "they appear in this message, each on its own line labelled 'Email:' "
+                       "and 'Phone:'. Do this before anything else. Then draft a one-line "
+                       "meeting invite. Contact: anna.svensson@example.com, +46 70 123 45 67.",
         }
     ],
     extra_body=GUARDRAILS,
 )
-print("[pii-mask] model saw the masked prompt; reply:")
+print("[pii-mask] model repeats what it received (note the redacted placeholders):")
 print(response.choices[0].message.content[:300], "\n")
 
 # 2) Prompt injection gets blocked with HTTP 400

@@ -6,7 +6,8 @@ Clients send model="auto" and the gateway's complexity router picks the
 tier per request - token count, code presence, reasoning markers and
 multi-step patterns are scored in sub-millisecond time (see the `auto`
 entry in config/config.yaml). The model that actually served the request
-comes back in the `x-litellm-model` response header.
+comes back in the `x-litellm-model-name` response header (the body's
+`model` field echoes the alias "auto").
 
     python 02_auto_routing.py
 """
@@ -20,18 +21,29 @@ client = OpenAI(
     api_key=os.getenv("GATEWAY_API_KEY", "sk-change-me-admin-key"),
 )
 
+# Prompts verified against the classifier's default weights/boundaries
+# (litellm 1.95.0) so each one lands in its intended tier: the scorer keys on
+# keyword signals (code terms, technical terms, explicit reasoning markers),
+# not on how hard the task *feels* — a prompt with no keyword signals scores
+# SIMPLE no matter how elaborate it reads.
 PROMPTS = {
     "simple": "What is the capital of Sweden?",
+    "medium": (
+        "Write a SQL query that returns the top ten customers by total order "
+        "value in the last quarter."
+    ),
     "complex": (
-        "Design a multi-region disaster recovery architecture for a bank on OCI. "
-        "Cover RPO/RTO targets, data replication between Frankfurt and Zurich, "
-        "failover automation, and how you would test it quarterly. "
-        "Then write Terraform pseudocode for the DNS failover piece."
+        "Implement a Python function that queries our orders database with SQL, "
+        "handles connection errors with retry logic, and exposes the result "
+        "through a REST API endpoint. The architecture is distributed "
+        "microservices on Kubernetes with strict latency and throughput "
+        "requirements. Refactor for performance and optimize the query."
     ),
     "reasoning": (
-        "A farmer has 17 sheep. All but 9 run away, then he buys twice as many as "
-        "remain, and sells a third of the total. Reason step by step: how many "
-        "sheep does he have?"
+        "Think through this step by step and explain your reasoning: "
+        "A farmer has 17 sheep. All but 9 run away, then he buys twice as many "
+        "as remain, and sells a third of the total. Analyze this carefully, "
+        "break down each stage, and conclude with the final count."
     ),
 }
 
@@ -41,9 +53,10 @@ for label, prompt in PROMPTS.items():
         messages=[{"role": "user", "content": prompt}],
         max_tokens=200,
     )
-    routed_to = raw.headers.get("x-litellm-model", "?")
+    routed_to = raw.headers.get("x-litellm-model-name", "?")
+    cost = raw.headers.get("x-litellm-response-cost", "?")
     response = raw.parse()
-    print(f"[{label:9s}] routed to: {routed_to}")
+    print(f"[{label:9s}] routed to: {routed_to}  (cost ${cost})")
     print(f"            {response.choices[0].message.content[:120]!r}...\n")
 
 # You can also pin deployments with tags instead of full auto-routing
