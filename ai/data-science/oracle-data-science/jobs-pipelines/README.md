@@ -6,7 +6,7 @@ This package provides examples for creating and managing OCI Data Science Jobs a
 2. Advanced Job – job using a source folder, custom variables, and flexible configuration
 3. Pipeline Creation – multi-step workflows using jobs as pipeline steps
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
 
 # Prerequisites
 
