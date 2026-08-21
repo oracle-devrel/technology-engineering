@@ -12,7 +12,8 @@ Use this asset as support material when wanting to showcase Oracle AI Vector Sea
 3. Running hybrid search (keyword + vector similarity)
 4. Applying rerankers to improve retrieved context
 
-# Prerequisites
+# How to use this asset?
+## Prerequisites
 
 To use this package, you need:
 - Basic Python knowledge
@@ -21,7 +22,7 @@ To use this package, you need:
 - Required IAM permissions for Data Science and Database access
 - A configured database wallet or secure connection details
 
-# Environment
+## Environment
 
 Run the examples in a Jupyter Notebook inside an OCI Data Science Notebook Session.
 

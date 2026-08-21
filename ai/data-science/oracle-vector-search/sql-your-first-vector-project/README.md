@@ -12,8 +12,6 @@ Use the scripts to learn basics about AI Vector Search.
 
 Please use the posting [Getting started with vectors in 26ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai) for information about the scripts.
 
-# Useful Links
-
 ## Documentation
 
 - [Oracle AI Vector Search User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/23/vecse/overview-ai-vector-search.html)

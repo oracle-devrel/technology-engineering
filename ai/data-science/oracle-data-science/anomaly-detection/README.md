@@ -11,9 +11,8 @@ The repository currently includes:
 
 Reviewed: 2026.08.13
 
----
 
-# Projects
+# When to use this asset?
 
 ## Fraud Classification
 
@@ -26,7 +25,6 @@ The project also demonstrates production-oriented concepts such as:
 
 The deployed model can support both real-time and batch fraud monitoring workflows. The batch implementation is also covered in this project, the real time use case requires streaming tool, and not covered here.
 
----
 
 ## Sales Unlabeled Anomaly Detection
 
@@ -35,23 +33,20 @@ This project demonstrates anomaly detection for a continuous unlabeled target va
 The workflow includes exploratory analysis, time-series modeling and validation, anomaly detection using prediction intervals, custom model deployment, and production monitoring workflows integrated with OCI Monitoring.
 
 
----
 
-# Environment
+# How to use this asset?
+## Environment
 
 Conda environment: `generalml_p311_cpu_x86_64_v1`
 
-Created: 2026
 
----
-
-# Prerequisites
+## Prerequisites
 
 * Access to OCI Data Science
 * Required IAM permissions
 * Familiarity with Python and machine learning workflows
 
----
+
 
 # License
  
