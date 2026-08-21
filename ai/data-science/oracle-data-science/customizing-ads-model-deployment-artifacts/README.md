@@ -16,12 +16,13 @@ Specifically, the notebook covers:
 3. Customizing the generated artifact to include feature engineering in score.py
 4. Registering, deploying, and invoking the model
 
-# Environment
+# How to use this asset?
+## Environment
 
 Conda environment: generalml_p311_cpu_x86_64_v1
 Created: April 2026
 
-# Prerequisites
+## Prerequisites
 - Access to OCI Data Science
 - Required IAM permissions for model registration and deployment
 - Basic familiarity with Python, Pandas, and Scikit-learn

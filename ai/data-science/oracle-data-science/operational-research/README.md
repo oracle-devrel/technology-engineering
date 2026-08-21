@@ -8,7 +8,7 @@ This project presents three operational research use cases with different levels
 
 Reviewed: 2026.08.13
 
-# What You’ll Learn
+# When to use this asset?
 
 This project covers the following topics:
 
@@ -22,17 +22,18 @@ This project covers the following topics:
    - Endpoint invocation for predictions
    - Data Science Jobs
 
-# Prerequisites
-
-- Access to the OCI Data Science Platform
-- Basic familiarity with Python and machine learning concepts
-- A valid OCI compartment, resource principal, and policies configured for Data Science services
 
 # How to Use this asset?
 
 1. Open the provided notebook in your OCI Data Science Notebook Session.
 2. Select the following conda environment: generalml_p311_cpu_x86_64_v1
 3. Run the notebook cells in sequence to reproduce the complete workflow.
+
+## Prerequisites
+
+- Access to the OCI Data Science Platform
+- Basic familiarity with Python and machine learning concepts
+- A valid OCI compartment, resource principal, and policies configured for Data Science services
 
 # License
 
