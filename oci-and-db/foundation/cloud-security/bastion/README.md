@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Bastion provides restricted and time-limited access to target resources that don't have public endpoints.
  
-Reviewed: 16.10.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  
@@ -27,6 +27,9 @@ Reviewed: 16.10.2025
  
 - [OCI Bastion Reference Architecture](https://docs.oracle.com/en/solutions/use-bastion-service/index.html#GUID-E30EE335-0EFD-4212-BD47-171203160723)
     - This is the reference architecture for OCI bastion service
+ 
+- [Simplifying Secure Access: OCI Bastion Connector]([https://www.youtube.com/watch?v=MkM_fJbFjJg](https://blogs.oracle.com/cloud-infrastructure/oci-bastion-connector-private-access))
+    - This is a blog about OCI bastion service secure SSH connectivity
  
 # License
 
