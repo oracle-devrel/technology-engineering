@@ -1,5 +1,12 @@
 # Exadata Cloud@Customer Supported Database versions
 
+
+Reviewed: 30/07/06
+# When to use this asset?
+To check if a database version is supported to run on ExaDB-C@C.
+
+# How to use this asset?
+
 Currently supported versions:
 
 - Oracle AI Database 26ai
@@ -34,8 +41,6 @@ We don’t yet have confirmed dates, but this is expected to occur at some point
 - [Release Schedule of Current Database Releases (Doc ID 742060.1) MOS note](https://support.oracle.com/epmos/faces/DocContentDisplay?id=742060.1)
 
 - [Patching Guidelines for 18c and lower Database versions on ExaDB-C@C (Doc ID 2997504.1) MOS note](https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=461464200650747&id=2997504.1&_adf.ctrl-state=cpak90hw7_252)
-
-Reviewed: 06/29/26
 
 # License
 
