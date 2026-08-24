@@ -8,6 +8,10 @@ In this repository we are going to provision all the components one by one (netw
 
 NOTE: If you want to create an OKE cluster with GPU and RDMA, then the stack that creates everything is public and available [here](https://github.com/oracle-quickstart/oci-hpc-oke)
 
+# Architecture
+
+![Architecture](images/architecture.png)
+
 ## Step 1: Create the network infrastructure for OKE
 
 This stack is used to create the initial network infrastructure for OKE. When configuring it, pay attention to some details:
