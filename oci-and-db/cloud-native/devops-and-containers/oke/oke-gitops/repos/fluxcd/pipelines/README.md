@@ -2,14 +2,61 @@
 
 This repository contains OCI DevOps build specifications and shared scripts used to mirror external artifacts into OCIR.
 
+## First run after creating the stack
+
+The stack creates `bootstrap-gitops-agent` for the first installation and
+`mirror-gitops-agent` for later mirroring. Start `bootstrap-gitops-agent` from
+the OCI DevOps Console. It runs `mirror_flux_operator.yaml`, mirrors the Flux
+Operator chart and images, and automatically triggers
+`install-gitops-agent`. That deployment prepares the namespace and Vault-backed
+credentials and installs Flux Operator. It deliberately stops there. Clone
+`cluster-config` and run
+`kubectl apply -f bootstrap/flux-bootstrap.yml` to start Git reconciliation.
+
+Create two OCI Vault secrets before starting the build. The Git secret must
+contain a dedicated read-only OCI DevOps repository identity:
+
+```json
+{"username":"<tenancy>/<domain>/<gitops-reader>","password":"<git-reader-auth-token>"}
+```
+
+The OCIR secret must contain a different pull-only registry identity:
+
+```json
+{"username":"<tenancy-namespace>/<domain>/<ocir-reader>","password":"<ocir-reader-auth-token>"}
+```
+
+Set `git_read_credentials_secret_ocid` and
+`registry_pull_secret_ocid` to their respective Secret OCIDs. The
+build passes only the OCIDs to `install-gitops-agent`; the deployment reads the
+values directly from Vault. `auth_token_secret_ocid` is a deprecated
+one-release fallback for existing stacks and must not be used for new
+installations. Leave `chart_version` at its `LATEST` default, or provide the
+exact chart version to bootstrap.
+
+Wait for the build and deployment runs to succeed; do not manually start a
+duplicate deployment. Each build exports its build-run OCID as
+`deployment_nonce`. The Helm stage passes this harmless value to the chart and
+uses a forced upgrade so a reinstall cannot be skipped merely because OCI
+DevOps previously deployed the same chart version.
+
 The mirroring build specs included here are examples. They are intended to show the pattern for common use cases, not to be the only pipelines used in a real platform.
 
 Included examples:
-- `mirror_flux_operator.yaml`: mirrors the Flux Operator Helm chart and required Flux images.
+- `mirror_flux_operator.yaml`: mirrors the selected Flux Operator Helm chart and required Flux images.
 - `mirror_helm.yaml`: mirrors a Helm chart and the images rendered by that chart.
 - `mirror_images.yaml`: mirrors a list of container images.
 - `mirror_git_dr.yaml`: mirrors this Git repository to a secondary repository for DR scenarios.
 - `script/`: shared helper scripts used by the build specs.
+
+For an upgrade, run `mirror-gitops-agent`. Its only parameter is
+`chart_version`: leave `LATEST` to resolve the current upstream release or set
+an exact version. It publishes the selected chart and required images to OCIR
+and stops; it never triggers `install-gitops-agent`. The self-managed Flux
+Operator ResourceSet consumes the newest chart available in that private
+repository. This parameter does not change Git. To pin or roll back, first
+mirror the exact version, then commit that version in the self-management
+ResourceSet.
 
 ## Recommended Layout for Custom Mirroring
 When creating mirroring pipelines for infrastructure applications, create a dedicated folder:
