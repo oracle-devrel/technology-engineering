@@ -14,6 +14,8 @@ Reviewed: 20.10.2025
  
 - [Import your key into OCI Vault](https://blogs.oracle.com/coretec/post/import-your-own-key-in-oci-vault-with-cloud-console-ui)
    - This is a blog showcasing the process of importing your key into the OCI Vault
+- [Strengthen key sovereignty on OCI with Fortanix DSM and External Key Management](https://blogs.oracle.com/cloud-infrastructure/strenghthen-key-sovereignty)
+   - This blog is about the key sovereignty on OCI by using encryption keys in Fortanix DSM for data encryption on OCI resources
  
 # Useful Links
  
