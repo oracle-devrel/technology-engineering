@@ -48,8 +48,8 @@ Without Postgres, comment out `database_url` in `general_settings` — the gatew
 
 `model_list` exposes three kinds of models behind identical OpenAI semantics:
 
-1. **OCI on-demand models** (`oci/xai.grok-4`, `oci/meta.llama-4-scout...`) through LiteLLM's native OCI provider, signed with your API key.
-2. **Imported models on a Dedicated AI Cluster.** OCI serves these behind its OpenAI-compatible endpoint (`.../20231130/actions/v1`), authenticated with a plain OCI GenAI API key (`sk-...`) where the *model name is the DAC endpoint OCID*. The `qwen3-dac` entry shows the pattern — swap in your own endpoint OCID via `OCI_DAC_MODEL`. Run `examples/03_dac_imported_model.py` to see both the gateway route and the direct call.
+1. **OCI on-demand models** (`oci/xai.grok-4`, `oci/meta.llama-3.3-70b-instruct`, ...) through LiteLLM's native OCI provider, signed with your API key.
+2. **Imported models on a Dedicated AI Cluster.** OCI serves these behind its OpenAI-compatible endpoint (`.../20231130/actions/v1`), authenticated with a plain OCI GenAI API key (`sk-...`) where the *model name is the DAC endpoint OCID*. The `gpt-oss-120b-dac` entry shows the pattern — swap in your own endpoint OCID via `OCI_DAC_MODEL`. Run `examples/03_dac_imported_model.py` to see both the gateway route and the direct call.
 3. **External providers** (OpenAI, Anthropic) — uncomment the entries and set keys.
 
 Mint a virtual key for a team (works for **all** models, with budget and rate limits):
@@ -58,7 +58,7 @@ Mint a virtual key for a team (works for **all** models, with budget and rate li
 curl -X POST http://localhost:4000/key/generate \
   -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"key_alias": "team-alpha", "max_budget": 50.0, "rpm_limit": 100, "models": ["auto", "grok-4-fast", "llama-4-scout", "qwen3-dac"]}'
+  -d '{"key_alias": "team-alpha", "max_budget": 50.0, "rpm_limit": 100, "models": ["auto", "grok-4-fast", "llama-3.3-70b", "gpt-oss-120b-dac"]}'
 ```
 
 Try it: `python examples/01_basic_chat.py`
@@ -69,12 +69,12 @@ Applications call `model="auto"`. The complexity router (LiteLLM ≥ 1.94) score
 
 | Tier | Routed to | Typical request |
 |------|-----------|-----------------|
-| SIMPLE | `llama-4-scout` | short factual questions |
+| SIMPLE | `llama-3.3-70b` | short factual questions |
 | MEDIUM | `grok-4-fast` | everyday tasks |
 | COMPLEX | `grok-4` | long, multi-part, code-heavy |
 | REASONING | `grok-4-fast-reasoning` | step-by-step logic |
 
-The serving model is returned in the `x-litellm-model` response header. Requests can also *constrain* routing with tags (`enable_tag_filtering`), e.g. `tags: ["oci"]` to guarantee data never leaves OCI even when external providers are configured.
+The serving model is returned in the `x-litellm-model-name` response header (the response body's `model` field echoes the alias, e.g. `auto`). Requests can also *constrain* routing with tags (`enable_tag_filtering`), e.g. `tags: ["oci"]` to guarantee data never leaves OCI even when external providers are configured.
 
 Try it: `python examples/02_auto_routing.py`
 
