@@ -20,10 +20,10 @@ import oracledb
 
 from config import settings
 from database import get_db_connection
-from web_search_agent import WebSearchAgent
-from sentiment_agent import SentimentAgent
-from analytics_agent import AnalyticsAgent
-from action_agent import ActionAgent
+from agents.web_search_agent import WebSearchAgent
+from agents.sentiment_agent import SentimentAgent
+from agents.analytics_agent import AnalyticsAgent
+from agents.action_agent import ActionAgent
 
 logger = logging.getLogger(__name__)
 

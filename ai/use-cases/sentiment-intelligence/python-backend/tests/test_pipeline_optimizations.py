@@ -5,11 +5,11 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, Mock, patch
 
-import web_search_agent
+from agents import web_search_agent
 from config import settings
 from orchestrator import SentimentOrchestrator
-from sentiment_agent import SentimentAgent
-from web_search_agent import WebSearchAgent
+from agents.sentiment_agent import SentimentAgent
+from agents.web_search_agent import WebSearchAgent
 
 
 class SentimentConcurrencyTests(unittest.IsolatedAsyncioTestCase):

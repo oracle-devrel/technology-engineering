@@ -19,10 +19,10 @@ from pydantic import BaseModel, Field
 from config import settings
 from database import connect_to_database, close_connection, is_connected, get_db_connection
 from orchestrator import SentimentOrchestrator
-from analytics_agent import AnalyticsAgent
-from action_agent import ActionAgent
-from sentiment_agent import SentimentAgent
-from campaign_agent import CampaignAgent
+from agents.analytics_agent import AnalyticsAgent
+from agents.action_agent import ActionAgent
+from agents.sentiment_agent import SentimentAgent
+from agents.campaign_agent import CampaignAgent
 
 # ---------------------------------------------------------------------------
 # Logging

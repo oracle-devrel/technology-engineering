@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 from ddgs import DDGS
 
 from config import settings
-from web_source_agent import WebSourceAgent
+from agents.web_source_agent import WebSourceAgent
 
 logger = logging.getLogger(__name__)
 

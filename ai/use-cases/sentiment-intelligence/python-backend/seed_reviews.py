@@ -15,7 +15,7 @@ import oracledb
 
 from config import settings
 from database import connect_to_database, get_db_connection
-from sentiment_agent import SentimentAgent
+from agents.sentiment_agent import SentimentAgent
 
 BRAND = sys.argv[1] if len(sys.argv) > 1 else "Nike"
 TOPIC = "customer sentiment"
