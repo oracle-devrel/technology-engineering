@@ -44,6 +44,22 @@ mode.
   [Argo CD fleet guide](repos/fleet-config/argocd/README.md) or
   [Flux CD fleet guide](repos/fleet-config/fluxcd/README.md).
 
+## AI agent skills
+
+The stack includes portable skills that teach an AI agent how to administer an
+OKE cluster through this repository model:
+
+- [Manage OKE with Argo CD](repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
+- [Manage OKE with Flux](repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
+
+Resource Manager places the skill for the selected GitOps engine in the seeded
+`cluster-config/skills/` directory. This keeps the operating instructions next
+to the repository the agent will manage. Install or load that directory using
+the mechanism supported by the chosen agent. For Codex, follow the
+[Argo CD installation guide](repos/argocd/cluster-config/docs/install-agent-skill.md)
+or the
+[Flux installation guide](repos/fluxcd/cluster-config/docs/install-agent-skill.md).
+
 ## What the stack creates
 
 - One OCI DevOps project.
