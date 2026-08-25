@@ -120,8 +120,8 @@ a dedicated profile so the fleet has one consistent payload model.
 
 Finish this cluster's normal bootstrap first. Then follow the README in the
 cloned `fleet-config` repository to register private managed-cluster endpoints
-as Argo CD cluster Secrets and activate descriptors. Do not install Sveltos on
-an Argo CD hub. Managed clusters run neither Argo CD nor Flux CD.
+as Argo CD cluster Secrets and activate descriptors. Managed clusters run
+neither Argo CD nor Flux CD.
 
 Keep hub-local configuration in this repository. Put only desired state
 delivered to managed clusters in `fleet-config`. If fleet support was disabled

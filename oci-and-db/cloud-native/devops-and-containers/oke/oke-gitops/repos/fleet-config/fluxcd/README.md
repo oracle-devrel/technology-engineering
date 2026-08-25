@@ -2,7 +2,7 @@
 
 Every participating cluster runs its own Flux controllers and reconciles one
 explicit activation root below `clusters/`. There is no central Flux hub,
-remote kubeconfig, hub-to-spoke API connection, or Sveltos installation.
+remote kubeconfig, or hub-to-spoke API connection.
 
 ```text
 bootstrap/                 generated member template; copy once per additional cluster

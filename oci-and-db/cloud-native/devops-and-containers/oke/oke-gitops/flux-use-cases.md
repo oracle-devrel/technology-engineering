@@ -5,8 +5,7 @@ variant of the stack. Use it to decide which generated repository owns a
 change before editing files. Paths are relative to the named repository.
 
 Every participating cluster runs its own Flux controllers and pulls Git
-independently. There is no Flux hub, remote spoke kubeconfig, or Sveltos
-control plane.
+independently. There is no Flux hub or remote spoke kubeconfig.
 
 ## Repository ownership
 

@@ -10,7 +10,7 @@ selectors, or multi-cluster abstractions by default. With
 repository and activates its selected cluster. Administrators install Flux on
 each additional member through a manually created private OCI DevOps
 environment and dedicated deployment pipeline. Every cluster reconciles its
-own activation root; there is no Flux hub or Sveltos dependency.
+own activation root; there is no Flux hub.
 
 Operating documentation:
 

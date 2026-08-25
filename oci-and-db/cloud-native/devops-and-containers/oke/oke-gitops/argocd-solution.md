@@ -8,7 +8,6 @@ repository for that cluster. There are no fleet types, cluster selectors, or
 multi-cluster abstractions by default. With `enable_multicluster = true`, the
 hub uses Argo CD's native cluster registration and ApplicationSets to deliver
 descriptors from the optional `fleet-config` repository directly to spokes.
-Sveltos is not used in this path.
 
 ## What the stack creates
 

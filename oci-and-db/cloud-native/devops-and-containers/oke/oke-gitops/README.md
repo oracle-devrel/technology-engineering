@@ -12,7 +12,9 @@ installs Flux only on its selected OKE cluster. Administrators add another
 member by manually creating a private OCI DevOps OKE environment and a
 dedicated installation pipeline; every member then pulls only its own
 activation root from the shared `fleet-config` repository. Flux has no hub
-mode and does not use Sveltos.
+mode.
+
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.0.0/stack.zip)
 
 ## Documentation
 
@@ -276,7 +278,3 @@ Expected Kustomizations include `flux-platform`, `platform`,
 Removing a resource from a referenced `kustomization.yml` is a deletion:
 pruning is enabled for normal platform and application reconciliation.
 Review deletions with the same care as infrastructure changes.
-
-## Deploy the stack
-
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.0.0/stack.zip)
