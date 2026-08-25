@@ -1,0 +1,52 @@
+# =============================================================================
+# Sentiment Intelligence — Terraform Variables
+# Copy this file to terraform.tfvars and fill in your values.
+# =============================================================================
+
+# --- OCI Provider ---
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxx"
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaaaxxxxxxxxxxxxxxxxxxxxxxxx"
+region           = "eu-frankfurt-1"
+# home_region    = "eu-frankfurt-1"  # Uncomment if different from region
+
+# --- General ---
+app_name    = "sentiment-intel"
+environment = "prod"
+
+# --- Networking ---
+# vcn_cidr_block      = "10.0.0.0/16"
+# public_subnet_cidr  = "10.0.1.0/24"
+# private_subnet_cidr = "10.0.2.0/24"
+# db_subnet_cidr      = "10.0.3.0/24"
+
+# --- OKE ---
+# kubernetes_version = "v1.28.2"
+# node_pool_size     = 2
+# node_shape         = "VM.Standard.E4.Flex"
+# node_ocpus         = 2
+# node_memory_in_gbs = 32
+
+# --- Autonomous Database ---
+adb_admin_password = "YourStr0ngPassw0rd!"  # CHANGE THIS
+# adb_display_name            = "SentimentDB"
+# adb_db_name                 = "SENTIMENTDB"
+# adb_cpu_core_count          = 2
+# adb_data_storage_size_in_gb = 20
+# adb_db_workload             = "OLTP"
+# adb_is_free_tier            = false
+# adb_license_model           = "LICENSE_INCLUDED"
+
+# --- Select AI ---
+# select_ai_profile = "SENTIMENT_PROFILE"
+
+# --- OCI Generative AI ---
+# genai_region   = "eu-frankfurt-1"
+# genai_model_id = "cohere.command-a-03-2025"
+# genai_endpoint = ""  # Leave empty to auto-construct
+
+# --- Container Registry ---
+# ocir_repo_name = "sentiment-intel"
+
+# --- Application ---
+# backend_image_tag  = "latest"
+# frontend_image_tag = "latest"

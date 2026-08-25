@@ -1,0 +1,337 @@
+# =============================================================================
+# OCI Resource Manager Stack Schema
+# This file defines the UI form shown when deploying via OCI Resource Manager
+# =============================================================================
+title: "Sentiment Intelligence Application"
+description: "Deploy the Sentiment Intelligence application with OKE, Autonomous AI Database (Select AI), and OCI Generative AI"
+schemaVersion: 1.1.0
+version: "1.0.0"
+locale: "en"
+
+variableGroups:
+  - title: "General Configuration"
+    visible: true
+    variables:
+      - compartment_ocid
+      - region
+      - app_name
+      - environment
+
+  - title: "Network Configuration"
+    visible: true
+    variables:
+      - vcn_cidr_block
+      - public_subnet_cidr
+      - private_subnet_cidr
+      - db_subnet_cidr
+
+  - title: "Kubernetes (OKE) Configuration"
+    visible: true
+    variables:
+      - kubernetes_version
+      - node_pool_size
+      - node_shape
+      - node_ocpus
+      - node_memory_in_gbs
+
+  - title: "Autonomous Database Configuration"
+    visible: true
+    variables:
+      - adb_display_name
+      - adb_db_name
+      - adb_admin_password
+      - adb_cpu_core_count
+      - adb_data_storage_size_in_gb
+      - adb_db_workload
+      - adb_is_free_tier
+      - adb_license_model
+      - select_ai_profile
+
+  - title: "OCI Generative AI Configuration"
+    visible: true
+    variables:
+      - genai_region
+      - genai_model_id
+      - genai_endpoint
+
+  - title: "Container Registry & Application"
+    visible: true
+    variables:
+      - ocir_repo_name
+      - backend_image_tag
+      - frontend_image_tag
+
+  - title: "Hidden"
+    visible: false
+    variables:
+      - tenancy_ocid
+      - home_region
+      - freeform_tags
+      - node_pool_image_type
+
+variables:
+  # General
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "Select the compartment where resources will be created"
+    required: true
+
+  region:
+    type: oci:identity:region:name
+    title: "Deployment Region"
+    description: "OCI region for deployment"
+    required: true
+
+  app_name:
+    type: string
+    title: "Application Name"
+    description: "Name prefix used for all resources"
+    default: "sentiment-intel"
+    required: true
+
+  environment:
+    type: enum
+    title: "Environment"
+    description: "Deployment environment"
+    default: "prod"
+    required: true
+    enum:
+      - "dev"
+      - "staging"
+      - "prod"
+
+  # Network
+  vcn_cidr_block:
+    type: string
+    title: "VCN CIDR Block"
+    description: "CIDR block for the Virtual Cloud Network"
+    default: "10.0.0.0/16"
+    required: true
+    pattern: "^(\\d{1,3}\\.){3}\\d{1,3}/\\d{1,2}$"
+
+  public_subnet_cidr:
+    type: string
+    title: "Public Subnet CIDR"
+    description: "CIDR block for the public subnet (load balancers)"
+    default: "10.0.1.0/24"
+    required: true
+
+  private_subnet_cidr:
+    type: string
+    title: "Private Subnet CIDR"
+    description: "CIDR block for the private subnet (OKE workers)"
+    default: "10.0.2.0/24"
+    required: true
+
+  db_subnet_cidr:
+    type: string
+    title: "Database Subnet CIDR"
+    description: "CIDR block for the database subnet"
+    default: "10.0.3.0/24"
+    required: true
+
+  # OKE
+  kubernetes_version:
+    type: enum
+    title: "Kubernetes Version"
+    description: "Kubernetes version for the OKE cluster"
+    default: "v1.28.2"
+    required: true
+    enum:
+      - "v1.28.2"
+      - "v1.29.1"
+      - "v1.30.1"
+
+  node_pool_size:
+    type: integer
+    title: "Node Pool Size"
+    description: "Number of worker nodes"
+    default: 2
+    minimum: 1
+    maximum: 10
+    required: true
+
+  node_shape:
+    type: oci:core:instanceshape:name
+    title: "Worker Node Shape"
+    description: "Compute shape for OKE worker nodes"
+    default: "VM.Standard.E4.Flex"
+    required: true
+    dependsOn:
+      compartmentId: compartment_ocid
+
+  node_ocpus:
+    type: integer
+    title: "Node OCPUs"
+    description: "Number of OCPUs per worker node (for flex shapes)"
+    default: 2
+    minimum: 1
+    maximum: 64
+    required: true
+
+  node_memory_in_gbs:
+    type: integer
+    title: "Node Memory (GB)"
+    description: "Memory in GB per worker node (for flex shapes)"
+    default: 32
+    minimum: 1
+    maximum: 1024
+    required: true
+
+  # Autonomous Database
+  adb_display_name:
+    type: string
+    title: "Database Display Name"
+    description: "Display name for the Autonomous Database"
+    default: "SentimentDB"
+    required: true
+
+  adb_db_name:
+    type: string
+    title: "Database Name"
+    description: "Database name (alphanumeric, max 14 characters)"
+    default: "SENTIMENTDB"
+    required: true
+    maxLength: 14
+    pattern: "^[a-zA-Z][a-zA-Z0-9]*$"
+
+  adb_admin_password:
+    type: password
+    title: "Database Admin Password"
+    description: "Admin password (min 12 chars, must include uppercase, lowercase, and number)"
+    required: true
+    minLength: 12
+    pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$"
+
+  adb_cpu_core_count:
+    type: integer
+    title: "Database ECPU Count"
+    description: "Number of ECPU cores for the Autonomous Database"
+    default: 2
+    minimum: 2
+    maximum: 128
+    required: true
+
+  adb_data_storage_size_in_gb:
+    type: integer
+    title: "Data Storage Size (GB)"
+    description: "Data storage size for the Autonomous Database"
+    default: 20
+    minimum: 20
+    maximum: 393216
+    required: true
+
+  adb_db_workload:
+    type: enum
+    title: "Database Workload Type"
+    description: "Autonomous Database workload type"
+    default: "OLTP"
+    required: true
+    enum:
+      - "OLTP"
+      - "DW"
+      - "AJD"
+      - "APEX"
+
+  adb_is_free_tier:
+    type: boolean
+    title: "Use Always Free?"
+    description: "Use Always Free Autonomous Database (limited resources)"
+    default: false
+
+  adb_license_model:
+    type: enum
+    title: "License Model"
+    description: "Database license model"
+    default: "LICENSE_INCLUDED"
+    required: true
+    enum:
+      - "LICENSE_INCLUDED"
+      - "BRING_YOUR_OWN_LICENSE"
+
+  select_ai_profile:
+    type: string
+    title: "Select AI Profile Name"
+    description: "Name of the Select AI profile the backend expects (create it in the database after deployment)"
+    default: "SENTIMENT_PROFILE"
+    required: true
+
+  # GenAI
+  genai_region:
+    type: enum
+    title: "Generative AI Region"
+    description: "OCI region where the Generative AI service is available"
+    default: "eu-frankfurt-1"
+    required: true
+    enum:
+      - "eu-frankfurt-1"
+      - "us-chicago-1"
+      - "ap-osaka-1"
+      - "ap-melbourne-1"
+      - "us-ashburn-1"
+      - "uk-london-1"
+      - "sa-saopaulo-1"
+      - "ca-montreal-1"
+      - "ap-tokyo-1"
+      - "eu-amsterdam-1"
+      - "ap-singapore-1"
+      - "ap-seoul-1"
+      - "me-jeddah-1"
+
+  genai_model_id:
+    type: string
+    title: "Generative AI Model"
+    description: "Model name or OCID for the Generative AI service"
+    default: "cohere.command-a-03-2025"
+    required: true
+
+  genai_endpoint:
+    type: string
+    title: "Generative AI Endpoint (optional)"
+    description: "Custom endpoint URL — leave empty to auto-construct from the selected region"
+    default: ""
+    required: false
+
+  # OCIR
+  ocir_repo_name:
+    type: string
+    title: "Container Repository Name"
+    description: "Name for the OCIR repository"
+    default: "sentiment-intel"
+    required: true
+
+  backend_image_tag:
+    type: string
+    title: "Backend Image Tag"
+    description: "Docker image tag for the backend service"
+    default: "latest"
+    required: true
+
+  frontend_image_tag:
+    type: string
+    title: "Frontend Image Tag"
+    description: "Docker image tag for the frontend service"
+    default: "latest"
+    required: true
+
+  # Hidden
+  tenancy_ocid:
+    type: string
+    title: "Tenancy OCID"
+    visible: false
+
+  home_region:
+    type: string
+    title: "Home Region"
+    visible: false
+    default: ""
+
+  freeform_tags:
+    type: string
+    visible: false
+
+  node_pool_image_type:
+    type: string
+    visible: false
+    default: "OKE"
