@@ -26,7 +26,7 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Set up PgBouncer for Connection Pooling with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/pgbouncer-setup)
 - [Use PostgreSQL MCP Pro with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/postgres-mcp)
 - [Automate Switchover/Failover operations with OCI PostgreSQL Warm-Standby DR](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/crr-automation)
-
+- [OCI PostgreSQL Showcase - Demo Presentation](https://github.com/phantompete/OCIPostgreSQLShowcase)
 
 ### Oracle Learn & Architecture Center
 - [Automate Cold Disaster Recovery for OCI Database with PostgreSQL using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/full-stack-dr-pgsql-cold-dr/#introduction)
