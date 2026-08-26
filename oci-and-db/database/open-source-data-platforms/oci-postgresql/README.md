@@ -1,6 +1,6 @@
 # OCI PostgreSQL 
 
-Reviewed: 10.06.2026
+Reviewed: 28.07.2026
 
 OCI Database with PostgreSQL is a fully managed PostgreSQL-compatible service with intelligent sizing, tuning, and high durability.
 
@@ -18,18 +18,21 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 # Team Publications
 
 ### Github
-- [Create a connection between OCI PostgreSQL and Oracle Analytics Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/connect-to-oac)
+- [Create a connection between OCI PostgreSQL and Oracle Analytics Cloud](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/connect-to-oac)
 - [Send notifications based on pg_stat_activity in OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_stat_activity)
 - [GitLab & Standalone Managed PostgreSQL on OCI](https://github.com/andreumdorokhinum/oci_pg_with_gitlab)
 - [Use CRON as scheduler for OCI PostgreSQL](https://github.com/andreumdorokhinum/oci_pg_with_unix_cron)
-- [Integrate Geoserver and PostGIS using OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/postgis-geoserver)
+- [Integrate Geoserver and PostGIS using OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/postgis-geoserver)
 - [Set up PgBouncer for Connection Pooling with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/pgbouncer-setup)
-- [Use PostgreSQL MCP Pro with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/postgres-mcp)
+- [Use PostgreSQL MCP Pro with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/postgres-mcp)
+- [Automate Switchover/Failover operations with OCI PostgreSQL Warm-Standby DR](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/crr-automation)
+
 
 ### Oracle Learn & Architecture Center
 - [Automate Cold Disaster Recovery for OCI Database with PostgreSQL using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/full-stack-dr-pgsql-cold-dr/#introduction)
 - [Monitor an OCI Database with PostgreSQL using Prometheus and Grafana](https://docs.oracle.com/en/learn/ocipgsql-promgra/#introduction)
 - [Modernize your application development with OCI-managed PostgreSQL, Redis, and OpenSearch](https://docs.oracle.com/en/solutions/modernize-app-dev-oci-postgresql-redis-opensearch/#GUID-DA0594DA-D549-481E-9CBD-46735766CA82)
+- [Deploy Atlassian Bitbucket Data Center on OCI with Managed OpenSearch and PostgreSQL](https://docs.oracle.com/en/solutions/deploy-bitbucket-oci/#GUID-D5ADF584-AFB8-4087-97F3-4EC8FF5E687D)
 
 ### Blogs
 - [OCI PostgreSQL to OCI PostgreSQL cross-region replication with OCI GoldenGate — Part 1](https://medium.com/@devpiotrekk/oci-postgresql-to-oci-postgresql-cross-region-replication-with-oci-goldengate-introduction-e0492fc37b92)
@@ -41,6 +44,7 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Migrate PostgreSQL to OCI PostgreSQL using OCI Object Storage and Rclone](https://medium.com/@sylwekdec/migrate-postgresql-to-oci-postgresql-using-oci-object-storage-and-rclone-a61ef97c5b96)
 - [Does Postgres need the Boyer-Moore-Horspool search algorithm for LIKE operator?](https://medium.com/@andreumdorokhinum/does-postgres-need-the-boyer-moore-horspool-search-algorithm-for-like-operator-00b43e4b115c)
 - [Integration of OCI Database with PostgreSQL and Oracle Audit Vault and Database Firewall](https://medium.com/@andreumdorokhinum/integration-of-oci-database-with-postgresql-and-oracle-audit-vault-and-database-firewall-f98236b980bd)
+- [Setting up Kerberos Auth for OCI Database with PostgreSQL](https://medium.com/@andreumdorokhinum/setting-up-kerberos-auth-for-oci-database-with-postgresql-51e9a235975b)
 
 ### LiveLabs
 - [LiveLabs: Accelerating IoT applications with OCI Cache and OCI PostgreSQ](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=4383&p210_wec=&session=119324071827764)
@@ -52,7 +56,6 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Seamless Integration of OCI PostgreSQL Logs with Grafana](https://www.youtube.com/watch?v=gM9xJAmE0kY)
 
 # Useful Links
-
 - [OCI PostgreSQL Documentation](https://docs.oracle.com/en-us/iaas/Content/postgresql/home.htm)
 - [OCI PostgreSQL features](https://blogs.oracle.com/cloud-infrastructure/post/first-principles-optimizing-postgresql-for-the-cloud)
 - [Terraform to deploy OCI PostgreSQL database](https://blogs.oracle.com/cloud-infrastructure/post/deploy-managed-oci-database-with-postgresql-service-with-terraform)

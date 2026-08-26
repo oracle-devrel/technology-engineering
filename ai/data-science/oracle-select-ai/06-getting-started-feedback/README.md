@@ -2,7 +2,7 @@
  
 Use this asset as a reference for getting started with the Select AI Feedback capabilities available within the Oracle AI Database.
 
-Reviewed: 2026.04.30
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

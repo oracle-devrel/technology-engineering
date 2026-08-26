@@ -14,15 +14,15 @@ Reviewed: 2026.06.17
 
 # Topics
 
-## APEX
+### APEX
 
 Oracle APEX is a low-code application development platform for building scalable, secure enterprise apps with Oracle Database.
 
-## Generative Development
+### Generative Development
 
 Generative Development covers patterns, examples, and assets that use generative AI to support application development, automation, and user experiences with Oracle technologies.
 
-## Forms Modernization
+### Forms Modernization
 
 Forms Modernization covers approaches and reusable assets for evolving Oracle Forms applications into modern application architectures, including Oracle APEX-based modernization paths.
 

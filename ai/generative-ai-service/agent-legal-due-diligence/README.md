@@ -2,6 +2,8 @@
 
 A multi-step agentic application that performs M&A contract due diligence using **OCI Generative AI Responses API**. The agent autonomously parses contracts, extracts key clauses, compares them against market standards, identifies cross-contract conflicts, and produces a structured risk register, all orchestrated through a single API call with client-side tool execution.
 
+Reviewed: 04.08.2026
+
 ---
 
 ## When to Use This Asset

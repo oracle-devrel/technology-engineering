@@ -2,7 +2,7 @@
  
 Autonomous Database on Dedicated Exadata Infrastructure provides you with a private database cloud in the public cloud. With your database, you get a completely dedicated compute, storage, network, and database service, providing the highest security, isolation, and governance levels.
 
-Reviewed: 28.10.2025
+Reviewed: 29.07.2026
  
 # Table of Contents
  
