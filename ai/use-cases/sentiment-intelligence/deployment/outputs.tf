@@ -82,12 +82,12 @@ output "select_ai_profile" {
 # ---------- Application ----------
 output "app_namespace" {
   description = "Kubernetes namespace for the application"
-  value       = kubernetes_namespace.app.metadata[0].name
+  value       = kubernetes_namespace_v1.app.metadata[0].name
 }
 
 output "frontend_load_balancer" {
   description = "Public IP of the frontend load balancer (available after deployment)"
-  value       = "Run: kubectl get svc frontend-service -n ${kubernetes_namespace.app.metadata[0].name} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'"
+  value       = "Run: kubectl get svc frontend-service -n ${kubernetes_namespace_v1.app.metadata[0].name} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'"
 }
 
 # ---------- Deployment Commands ----------

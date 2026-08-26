@@ -7,8 +7,9 @@ resource "oci_database_autonomous_database" "adb" {
   display_name                = "${var.resource_prefix}-${var.db_display_name}"
   db_name                     = var.db_name
   admin_password              = var.admin_password
-  cpu_core_count              = var.cpu_core_count
-  data_storage_size_in_gbs    = var.data_storage_size_in_gb
+  compute_model               = "ECPU"
+  compute_count               = var.cpu_core_count
+  data_storage_size_in_gb     = var.data_storage_size_in_gb
   db_workload                 = var.db_workload
   is_free_tier                = var.is_free_tier
   license_model               = var.license_model

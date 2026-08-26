@@ -7,7 +7,8 @@ resource "oci_core_vcn" "main" {
   compartment_id = var.compartment_ocid
   display_name   = "${var.resource_prefix}-vcn"
   cidr_blocks    = [var.vcn_cidr_block]
-  dns_label      = replace(var.resource_prefix, "-", "")
+  # dns_label must be alphanumeric, start with a letter, and be 1-15 characters.
+  dns_label      = substr(lower(replace(var.resource_prefix, "-", "")), 0, 15)
   freeform_tags  = var.freeform_tags
 }
 

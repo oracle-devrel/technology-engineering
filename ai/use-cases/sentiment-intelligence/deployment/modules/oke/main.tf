@@ -35,13 +35,27 @@ data "oci_containerengine_node_pool_option" "node_pool_option" {
 }
 
 locals {
-  # Find the latest OKE image for the selected Kubernetes version
+  # OKE image source names embed the Kubernetes version without the leading "v"
+  # (e.g. "Oracle-Linux-8.9-...-OKE-1.30.1-..."), so strip it before matching.
+  kubernetes_version_number = trimprefix(var.kubernetes_version, "v")
+
+  # Ampere (A1/A2) shapes are ARM (aarch64); everything else here is x86_64.
+  # The node image architecture must match the node shape or OKE rejects the
+  # node pool with "Node shape and image are not compatible".
+  node_is_arm = length(regexall("\\.A[0-9]+\\.", var.node_shape)) > 0
+
+  # OKE images matching the selected Kubernetes version and node architecture,
+  # excluding GPU images (incompatible with the standard flex shapes here).
   oke_images = [
     for src in data.oci_containerengine_node_pool_option.node_pool_option.sources :
     src if(
       src.source_type == "IMAGE" &&
       length(regexall("Oracle-Linux-[0-9]", src.source_name)) > 0 &&
-      length(regexall(var.kubernetes_version, src.source_name)) > 0
+      length(regexall("OKE-${local.kubernetes_version_number}(-|$)", src.source_name)) > 0 &&
+      length(regexall("GPU", src.source_name)) == 0 &&
+      (local.node_is_arm ?
+        length(regexall("aarch64", src.source_name)) > 0 :
+        length(regexall("aarch64", src.source_name)) == 0)
     )
   ]
 }

@@ -20,7 +20,7 @@ environment = "prod"
 # db_subnet_cidr      = "10.0.3.0/24"
 
 # --- OKE ---
-# kubernetes_version = "v1.28.2"
+# kubernetes_version = "v1.34.2"
 # node_pool_size     = 2
 # node_shape         = "VM.Standard.E4.Flex"
 # node_ocpus         = 2
@@ -41,7 +41,7 @@ adb_admin_password = "YourStr0ngPassw0rd!"  # CHANGE THIS
 
 # --- OCI Generative AI ---
 # genai_region   = "eu-frankfurt-1"
-# genai_model_id = "cohere.command-a-03-2025"
+# genai_model_id = "openai.gpt-oss-120b"
 # genai_endpoint = ""  # Leave empty to auto-construct
 
 # --- Container Registry ---

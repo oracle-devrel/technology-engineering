@@ -70,7 +70,7 @@ module "registry" {
 }
 
 # ---------- Kubernetes Deployments ----------
-resource "kubernetes_namespace" "app" {
+resource "kubernetes_namespace_v1" "app" {
   depends_on = [module.oke]
 
   metadata {
@@ -82,12 +82,12 @@ resource "kubernetes_namespace" "app" {
   }
 }
 
-resource "kubernetes_secret" "app_config" {
-  depends_on = [kubernetes_namespace.app]
+resource "kubernetes_secret_v1" "app_config" {
+  depends_on = [kubernetes_namespace_v1.app]
 
   metadata {
     name      = "${local.resource_prefix}-config"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    namespace = kubernetes_namespace_v1.app.metadata[0].name
   }
 
   data = {
@@ -108,12 +108,12 @@ resource "kubernetes_secret" "app_config" {
 }
 
 # --- Backend Deployment ---
-resource "kubernetes_deployment" "backend" {
-  depends_on = [kubernetes_secret.app_config]
+resource "kubernetes_deployment_v1" "backend" {
+  depends_on = [kubernetes_secret_v1.app_config]
 
   metadata {
     name      = "backend"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    namespace = kubernetes_namespace_v1.app.metadata[0].name
     labels = {
       app  = "backend"
       tier = "api"
@@ -148,7 +148,7 @@ resource "kubernetes_deployment" "backend" {
 
           env_from {
             secret_ref {
-              name = kubernetes_secret.app_config.metadata[0].name
+              name = kubernetes_secret_v1.app_config.metadata[0].name
             }
           }
 
@@ -210,10 +210,10 @@ resource "kubernetes_deployment" "backend" {
   }
 }
 
-resource "kubernetes_service" "backend" {
+resource "kubernetes_service_v1" "backend" {
   metadata {
     name      = "backend-service"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    namespace = kubernetes_namespace_v1.app.metadata[0].name
   }
 
   spec {
@@ -232,12 +232,12 @@ resource "kubernetes_service" "backend" {
 }
 
 # --- Frontend Deployment ---
-resource "kubernetes_deployment" "frontend" {
-  depends_on = [kubernetes_service.backend]
+resource "kubernetes_deployment_v1" "frontend" {
+  depends_on = [kubernetes_service_v1.backend]
 
   metadata {
     name      = "frontend"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    namespace = kubernetes_namespace_v1.app.metadata[0].name
     labels = {
       app  = "frontend"
       tier = "web"
@@ -308,10 +308,10 @@ resource "kubernetes_deployment" "frontend" {
   }
 }
 
-resource "kubernetes_service" "frontend" {
+resource "kubernetes_service_v1" "frontend" {
   metadata {
     name      = "frontend-service"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    namespace = kubernetes_namespace_v1.app.metadata[0].name
     annotations = {
       "oci.oraclecloud.com/load-balancer-type" = "lb"
     }

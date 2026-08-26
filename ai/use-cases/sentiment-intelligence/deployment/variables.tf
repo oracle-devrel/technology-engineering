@@ -85,9 +85,9 @@ variable "db_subnet_cidr" {
 # =============================================================================
 
 variable "kubernetes_version" {
-  description = "Kubernetes version for OKE cluster"
+  description = "Kubernetes version for OKE cluster (must be a currently supported OKE version)"
   type        = string
-  default     = "v1.28.2"
+  default     = "v1.34.2"
 }
 
 variable "node_pool_size" {
@@ -199,7 +199,7 @@ variable "genai_region" {
 variable "genai_model_id" {
   description = "OCID or model name of the OCI Generative AI model to use"
   type        = string
-  default     = "cohere.command-a-03-2025"
+  default     = "openai.gpt-oss-120b"
 }
 
 variable "genai_endpoint" {
