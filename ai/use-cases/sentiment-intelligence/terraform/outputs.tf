@@ -103,7 +103,7 @@ output "build_push_images_command" {
     docker login ${local.region_key}.ocir.io
 
     # Build and push backend
-    docker build -t ${local.ocir_url}/backend:${var.backend_image_tag} ../python-backend/
+    docker build -t ${local.ocir_url}/backend:${var.backend_image_tag} ../backend/
     docker push ${local.ocir_url}/backend:${var.backend_image_tag}
 
     # Build and push frontend

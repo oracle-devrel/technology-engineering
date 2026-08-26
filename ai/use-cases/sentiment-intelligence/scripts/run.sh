@@ -10,7 +10,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BACKEND_DIR="$ROOT_DIR/python-backend"
+BACKEND_DIR="$ROOT_DIR/backend"
 FRONTEND_DIR="$ROOT_DIR/frontend"
 VENV_DIR="$BACKEND_DIR/.venv"
 
@@ -55,7 +55,7 @@ command -v npm >/dev/null 2>&1 || die "npm is not installed or not on PATH (Node
 # ---------------------------------------------------------------------------
 # Backend setup
 # ---------------------------------------------------------------------------
-log "Setting up backend (python-backend)..."
+log "Setting up backend..."
 
 if [ ! -d "$VENV_DIR" ]; then
     log "Creating virtual environment at $VENV_DIR"
@@ -74,7 +74,7 @@ log "Verifying Python dependencies..."
     || die "Backend dependency verification failed (fastapi/uvicorn not importable)."
 
 if [ ! -f "$BACKEND_DIR/.env" ]; then
-    log "Creating python-backend/.env from .env.example (edit it with real credentials)."
+    log "Creating backend/.env from .env.example (edit it with real credentials)."
     cp "$BACKEND_DIR/.env.example" "$BACKEND_DIR/.env"
 fi
 

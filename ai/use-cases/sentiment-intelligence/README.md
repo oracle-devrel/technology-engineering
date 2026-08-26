@@ -32,7 +32,7 @@ independently deployed autonomous agents.
 ```text
 sentiment-intelligence/
 |-- frontend/          React 19, TypeScript, Vite, Tailwind and Chart.js (+ Dockerfile, nginx.conf)
-|-- python-backend/    FastAPI, python-oracledb, Select AI and OCI SDK (+ Dockerfile)
+|-- backend/    FastAPI, python-oracledb, Select AI and OCI SDK (+ Dockerfile)
 |-- rag-documents/     Optional sample documents for a separately configured RAG index
 |-- scripts/           Developer helper scripts (run.sh starts both services locally)
 |-- terraform/         OCI infrastructure as code (OKE, Autonomous DB, OCIR) + Resource Manager schema
@@ -66,11 +66,11 @@ Create local files from them and never commit the resulting `.env` files.
 ### Backend
 
 ```powershell
-cd python-backend
+cd backend
 Copy-Item .env.example .env
 ```
 
-Edit `python-backend/.env` with the target environment's values.
+Edit `backend/.env` with the target environment's values.
 
 For wallet-based mTLS, unzip the wallet outside the repository and set
 `WALLET_LOCATION` to that directory. Do not copy the wallet into the project.
@@ -92,7 +92,7 @@ The default `/api` value uses the Vite proxy and requires no credentials.
 ### Quickstart (macOS or Linux)
 
 From the repository root, one command installs dependencies for both services,
-creates `python-backend/.env` from the example if it is missing, and starts the
+creates `backend/.env` from the example if it is missing, and starts the
 backend and frontend together:
 
 ```bash
@@ -102,7 +102,7 @@ backend and frontend together:
 The script resolves the project root from its own location, so it also works
 when launched from inside `scripts/` (`cd scripts && ./run.sh`). It starts the
 backend on `http://localhost:4060` and the frontend on `http://localhost:3060`,
-and stops both on `Ctrl+C`. Edit `python-backend/.env` with real credentials
+and stops both on `Ctrl+C`. Edit `backend/.env` with real credentials
 before relying on database or OCI features.
 
 To run the services individually, or on Windows, use the manual steps below.
@@ -110,7 +110,7 @@ To run the services individually, or on Windows, use the manual steps below.
 ### Backend on Windows PowerShell
 
 ```powershell
-cd python-backend
+cd backend
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
@@ -121,7 +121,7 @@ python main.py
 ### Backend on macOS or Linux
 
 ```bash
-cd python-backend
+cd backend
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
@@ -145,7 +145,7 @@ the backend on port `4060`.
 
 ## Tests and build
 
-After configuring `python-backend/.env`, run the backend unit tests from that
+After configuring `backend/.env`, run the backend unit tests from that
 directory:
 
 ```bash
@@ -255,7 +255,7 @@ images and complete the post-deploy steps below.
    and region, are in the `build_push_images_command` Terraform output):
    ```bash
    docker login <region-key>.ocir.io
-   docker build -t <ocir-url>/backend:latest ../python-backend/
+   docker build -t <ocir-url>/backend:latest ../backend/
    docker push <ocir-url>/backend:latest
    docker build -t <ocir-url>/frontend:latest --build-arg VITE_API_BASE_URL=/api ../frontend/
    docker push <ocir-url>/frontend:latest
@@ -300,11 +300,11 @@ The Terraform provisions infrastructure only; it does not seed the application
 schema or Select AI profiles (consistent with this repository's model that those
 resources already exist). After the database is up, connect as `ADMIN` and:
 
-1. Create the application schema and tables (`python-backend/schema.sql`).
+1. Create the application schema and tables (`backend/schema.sql`).
 2. Create the Select AI profile named by the `select_ai_profile` variable
    (default `SENTIMENT_PROFILE`) and, if the Knowledge Base mode is used, the
    `OCI_SELECTAI_RAG` RAG profile.
-3. Optionally load sample data with `python-backend/seed_reviews.py`.
+3. Optionally load sample data with `backend/seed_reviews.py`.
 4. Grant the database/OCI policies required by `DBMS_CLOUD_AI` and OCI
    Generative AI. For pods to call OCI GenAI without embedding keys, configure
    OKE **instance principals**: create a dynamic group for the worker nodes and

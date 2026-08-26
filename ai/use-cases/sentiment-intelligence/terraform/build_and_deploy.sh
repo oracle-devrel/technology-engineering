@@ -66,7 +66,7 @@ cmd_build() {
   get_ocir_info
 
   log "Building backend image..."
-  docker build -t "${OCIR_URL}/backend:${IMAGE_TAG}" "${PROJECT_ROOT}/python-backend/"
+  docker build -t "${OCIR_URL}/backend:${IMAGE_TAG}" "${PROJECT_ROOT}/backend/"
 
   log "Building frontend image..."
   docker build -t "${OCIR_URL}/frontend:${IMAGE_TAG}" \
