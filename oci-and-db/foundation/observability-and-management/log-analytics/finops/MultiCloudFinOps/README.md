@@ -70,7 +70,7 @@ Normalized field model in OCI_Focus Source
 
 ## Deploy on Oracle Cloud
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/esciunzi/projects/raw/refs/heads/finOpsMC/FinopsMlticloud/files/finops-mc-oci-stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/tree/MultiCloudFinOps_Sciunzi/oci-and-db/foundation/observability-and-management/log-analytics/finops/MultiCloudFinOps/files/finops-mc-oci-stack.zip)
 
 
 ### Actions performed by the stack
