@@ -24,6 +24,7 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 
 ## Distributed Cloud - Common Assets
 
+- [Native and Secured Gnome Desktop Access for Oracle Linux 10.x GUI](https://github.com/m21conjunction/solutions/blob/main/OL10GnodeDesktopSecuredAccess.pdf). (18/Aug/2026) 
 - [Announcing: Accelerating Enterprise AI with OCI Dedicated Cloud Customer-Owned GPU](https://blogs.oracle.com/cloud-infrastructure/oci-dedicated-cloud-customer-owned-gpu) (24/Jul/2026)
 - [Announcing Enterprise AI for OCI Dedicated Cloud: Run AI where your data resides](https://blogs.oracle.com/cloud-infrastructure/enterprise-ai-oci-dedicated-cloud) (17/Jul/2026)
 - [Sovereign AI: Building AI Where Data, Infrastructure, and Control Stay Aligned](https://blogs.oracle.com/cloud-infrastructure/sovereign-ai) (16/Jul/2026)
