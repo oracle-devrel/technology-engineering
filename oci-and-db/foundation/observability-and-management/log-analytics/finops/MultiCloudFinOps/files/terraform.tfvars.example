@@ -1,0 +1,9 @@
+oci_region             = "eu-frankfurt-1"
+tenancy_ocid           = "ocid1.tenancy.oc1..example"
+compartment_ocid       = "ocid1.compartment.oc1..example"
+aws_ingest_bucket_name = "finops-aws-focus"
+aws_ingest_prefix      = "aws-focus"
+oci_ingest_bucket_name = "finops-oci-focus"
+oci_ingest_prefix      = "oci-focus"
+oci_admin_group_name   = "FinOpsAdministrators"
+onboard_log_analytics  = false
