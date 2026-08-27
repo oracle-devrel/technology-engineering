@@ -2,7 +2,7 @@
  
 OCI KMS lets you centrally manage and control the use of keys and secrets across a wide range of OCI services and applications. OCI KMS is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
  
-Reviewed: 20.10.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  
