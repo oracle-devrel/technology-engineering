@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Certificates lets you create and manage TLS certificates, certificate authorities (CAs), and CA bundles.
  
-Reviewed: 12.11.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  

@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Web Application Firewall (WAF) is a cloud-based, PCI-compliant, global security service that protects applications from malicious and unwanted internet traffic. Oracle Cloud Infrastructure WAF can protect any internet-facing endpoint, providing consistent rule enforcement across a customer's applications. 
 
-Reviewed: 20.10.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  
