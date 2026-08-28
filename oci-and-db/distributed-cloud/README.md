@@ -1,6 +1,6 @@
 # Distributed Cloud
 
-Updated: 11.08.2026
+Updated: 28.08.2026
 
 Oracle’s distributed cloud delivers the benefits of cloud with greater control and flexibility. Oracle’s distributed cloud lineup includes:
 
@@ -22,9 +22,13 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 - [Oracle Compute Cloud@Customer on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer/)
 - [Oracle Compute Cloud@Customer Isolated on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer-isolated/)
 
+## Team Publications
+
+- [Native and Secured Gnome Desktop Access for Oracle Linux 10.x GUI](https://github.com/m21conjunction/solutions/blob/main/OL10GnodeDesktopSecuredAccess.pdf) (18/Aug/2026)
+
+
 ## Distributed Cloud - Common Assets
 
-- [Native and Secured Gnome Desktop Access for Oracle Linux 10.x GUI](https://github.com/m21conjunction/solutions/blob/main/OL10GnodeDesktopSecuredAccess.pdf). (18/Aug/2026) 
 - [Announcing: Accelerating Enterprise AI with OCI Dedicated Cloud Customer-Owned GPU](https://blogs.oracle.com/cloud-infrastructure/oci-dedicated-cloud-customer-owned-gpu) (24/Jul/2026)
 - [Announcing Enterprise AI for OCI Dedicated Cloud: Run AI where your data resides](https://blogs.oracle.com/cloud-infrastructure/enterprise-ai-oci-dedicated-cloud) (17/Jul/2026)
 - [Sovereign AI: Building AI Where Data, Infrastructure, and Control Stay Aligned](https://blogs.oracle.com/cloud-infrastructure/sovereign-ai) (16/Jul/2026)
@@ -46,6 +50,9 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 - [Oracle sovereign cloud solutions: Using realms for enhanced cloud isolation](https://blogs.oracle.com/cloud-infrastructure/post/sovereign-cloud-realms-enhanced-isolation) (10/Apr/2023)
 - [Oracle sovereign cloud solutions: Choose where your data is located](https://blogs.oracle.com/cloud-infrastructure/post/oracle-sovereign-cloud-choose-where-data-located) (2/Mar/2023)
 - [OCI’s distributed cloud: meeting customer needs beyond the public cloud](https://blogs.oracle.com/cloud-infrastructure/post/oci-distributed-cloud-meeting-customer-needs) (18/Oct/2022)
+
+## Distributed Cloud - Industry Assets
+- [Oracle Cloud Deployment Models for Government Leaders](https://www.oracle.com/a/ocom/docs/industries/government/digital-gov-suite-cloud-deployment.pdf)
 
 ## License
 
