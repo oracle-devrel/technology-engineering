@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Vulnerability Scanning Service eliminates risk from new, unpatched vulnerabilities and open ports by assessing and monitoring cloud hosts.
  
-Reviewed: 20.10.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  
