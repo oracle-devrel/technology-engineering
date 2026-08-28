@@ -1,11 +1,5 @@
 # Alerts setup for OCI Database environment
 
-[![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https%3A%2F%2Fgithub.com%2Foracle-devrel%2Ftechnology-engineering%2Farchive%2Frefs%2Fheads%2Fsciunzi_Db_alerts.zip)
-
-> The button pre-loads the public `sciunzi_Db_alerts` branch of the
-> `oracle-devrel/technology-engineering` repository into OCI Resource Manager.
-> In the Create stack page, set the working directory to
-> `oci-and-db/foundation/observability-and-management/database-observability/database_alerts/files`, then review and apply the stack. OCI requires this review and apply step; the button does not bypass it.
 
 ## 1. Scope
 
@@ -151,3 +145,11 @@ topics, and subscriptions in every selected compartment.
 The button uses the public ZIP archive of the `sciunzi_Db_alerts` branch.
 [Oracle's deploy-button documentation](https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Tasks/deploybutton.htm)
 describes the `zipUrl` parameter used to pre-load a configuration into Resource Manager.
+
+[![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https%3A%2F%2Fgithub.com%2Foracle-devrel%2Ftechnology-engineering%2Farchive%2Frefs%2Fheads%2Fsciunzi_Db_alerts.zip)
+
+> The button pre-loads the public `sciunzi_Db_alerts` branch of the
+> `oracle-devrel/technology-engineering` repository into OCI Resource Manager.
+> In the Create stack page, set the working directory to
+> `oci-and-db/foundation/observability-and-management/database-observability/database_alerts/files`, then review and apply the stack. OCI requires this review and apply step; the button does not bypass it.
+
