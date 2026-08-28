@@ -10,7 +10,7 @@ reviewing its contents.
 | Local external Helm chart | `assets/platform-helm-repository/` | `cluster-config/platform/applications/<app>/` |
 | Developer Kustomize component | `assets/application-kustomize/` | `apps-config/applications/<app>/kustomize/components/<component>/` |
 | Developer umbrella Helm app | `assets/application-helm/` | `apps-config/applications/<app>/helm/` |
-| Local logical application placement | `assets/logical-application-local/` | `cluster-config/platform/applications/<app>/` |
+| Local logical application placement | `assets/app-local/` | `cluster-config/platform/applications/<app>/` |
 | Fleet cluster object | `assets/fleet-cluster/cluster.yaml.tpl` | `fleet-config/clusters/<cluster>/cluster.yaml` |
 | Fleet namespaced Kustomize binding | `assets/fleet-kustomize/kustomize.application.yaml.tpl` | `fleet-config/clusters/<cluster>/applications/<binding>/` |
 
