@@ -1,6 +1,7 @@
 # Target discovery intentionally searches DbmgmtManagedDatabase resources, rather
 # than all Database resources. A result exists only after Database Management has
-# been enabled. This prevents creation of alarms with no Database Management data.
+# been enabled. Database Management metrics are therefore conditional, but the
+# baseline Database Service critical-event rule is not.
 locals {
   tag_conditions = [
     for key, value in var.tags :
@@ -36,6 +37,12 @@ locals {
   }
 
   target_compartments = toset([for database in values(local.targets) : database.compartment_id])
+
+  # With compartment_id, an ONS topic and critical Database Service event rule
+  # are always created, even if none of the optional observability services is
+  # enabled. Tag-only targeting can determine a compartment only from a matched
+  # managed database.
+  baseline_compartments = var.compartment_id != null ? toset([var.compartment_id]) : local.target_compartments
 
   common_alarm_fields = {
     is_enabled                   = true
@@ -108,11 +115,39 @@ locals {
 }
 
 resource "oci_ons_notification_topic" "database_alerts" {
-  for_each       = local.target_compartments
+  for_each       = local.baseline_compartments
   compartment_id = each.value
   name           = "database-alerts"
-  description    = "Database Management critical alerts"
+  description    = "Database Service critical events and conditional database observability alerts"
   freeform_tags  = var.freeform_tags
+}
+
+# Database Service critical events are emitted through OCI Events and can notify
+# the customer without Database Management, Ops Insights, or Log Analytics.
+resource "oci_events_rule" "database_service_critical" {
+  for_each       = oci_ons_notification_topic.database_alerts
+  compartment_id = each.value.compartment_id
+  display_name   = "database-service-critical-events"
+  description    = "Routes Database, DB Node, and DB System critical events to the database-alerts notification topic."
+  is_enabled     = true
+
+  condition = jsonencode({
+    eventType = [
+      "com.oraclecloud.databaseservice.database.critical",
+      "com.oraclecloud.databaseservice.dbnode.critical",
+      "com.oraclecloud.databaseservice.dbsystem.critical",
+    ]
+  })
+
+  actions {
+    action {
+      action_type = "ONS"
+      is_enabled  = true
+      topic_id    = each.value.id
+    }
+  }
+
+  freeform_tags = var.freeform_tags
 }
 
 resource "oci_ons_subscription" "email" {

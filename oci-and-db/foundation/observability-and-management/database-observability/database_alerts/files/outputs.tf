@@ -1,7 +1,7 @@
 output "database_management_not_enabled_warning" {
-  description = "Warning emitted instead of creating alarms when the selection contains no Database Management managed databases."
+  description = "Warning emitted when the selection contains no Database Management managed databases. The baseline event rule and notification channel are still created when compartment_id is set."
   value = length(local.targets) == 0 ? (
-    "WARNING: No Database Management managed databases matched the selection. No notification topic, subscription, or alarms were created. Enable Database Management on the database(s), then apply again."
+    "WARNING: No Database Management managed databases matched the selection. Database Management metric alarms, Ops Insights reports, and Log Analytics rules were not created. The baseline Database Service critical-event rule and notification channel were created only when compartment_id was set."
   ) : null
 }
 
@@ -16,8 +16,13 @@ output "selected_managed_databases" {
 }
 
 output "notification_topic_ids" {
-  description = "OCI Notifications topics created per target compartment."
+  description = "OCI Notifications topics created per baseline compartment."
   value       = { for compartment_id, topic in oci_ons_notification_topic.database_alerts : compartment_id => topic.id }
+}
+
+output "database_service_critical_event_rule_ids" {
+  description = "Always-on OCI Events rules that route Database, DB Node, and DB System critical events to the Notifications topic."
+  value       = { for compartment_id, rule in oci_events_rule.database_service_critical : compartment_id => rule.id }
 }
 
 output "email_subscription_status" {
