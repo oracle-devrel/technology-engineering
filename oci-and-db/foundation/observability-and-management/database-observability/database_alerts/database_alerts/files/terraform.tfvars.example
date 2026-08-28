@@ -1,0 +1,22 @@
+# Compartment takes precedence over tags when both are supplied.
+compartment_id = "ocid1.compartment.oc1..replace_me"
+
+# Used only when compartment_id is null. These are free-form tags on
+# Database Management managed database resources; every tag must match.
+tags = {
+  environment = "production"
+  service     = "finance"
+}
+
+freeform_tags = {
+  managed_by = "terraform"
+  service    = "database-alerts"
+}
+
+# Replace this with the customer's RPO.
+dataguard_apply_lag_critical_seconds = 900
+
+# Optional service-dependent resources are created only after their service
+# preflight check passes; neither flag enables an OCI service.
+enable_ops_insights_reports  = true
+enable_log_analytics_alerts  = true
