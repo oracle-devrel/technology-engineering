@@ -7,7 +7,7 @@ Launched in November 2024 by Anthropic, it can be considered as a "USB-C" port f
 MCP has three primary constructs:
 - Resources: provide data that an MCP server wants to make available to clients like documents, Database records, API responses, screenshots and images and more;
 
-- Tools: essentially function calls (with input/output arguments) in the MCP which enable servers to expose executable functionality to clients. Through tools, LLMs can interact with external systems, perform computations and take actions in a real world context.  
+- Tools: essentially function calls (with input/output arguments) in the MCP which enable servers to expose executable functionality to clients. Through tools, LLMs can interact with external systems, perform computations and take actions in a real world context.
 
 - Prompts:  define reusable prompt templates than can be surfaced by clients to LLMs provide a powerful way to standardize and share common LLM interactions.
 
@@ -21,28 +21,25 @@ SQLcl MCP Mode:
   - <i><b>disconnect</b></i>: terminates the current DB connection
   - <i><b>run-sql</b></i>: runs standard SQL queries/DDLs/DMLs and PL/SQL code against DB
   - <i><b>run-sqlcl</b></i>: runs specific SQLcl commands
-  - <i><b>schema-information</b></i>: provides insight metadata details about currently connected schema enriching info returned by query executions (from 25.3.1 version)  
+  - <i><b>schema-information</b></i>: provides insight metadata details about currently connected schema enriching info returned by query executions (from 25.3.1 version)
 
 The SQL Developer Extension for VS Code 25.2 offers Oracle SQLcl MCP Server Integration. The extension when install auto-registers our MCP Server for Copilot, making your SQL Developer database connections available for agentic chat requests, including running SQL and PL/SQL against your database.
 
-
-Reviewed: 15.05.2026
-
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
-1. [Latest SQLcl Version](#latest-version)
-2. [Team Publications](#team-publications)
-3. [Useful Links](#useful-links)
 
-# Latest Version
-- [SQLcl 26.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.1/sqcug/changes-release-26.1-oracle-sqlcl.html)
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
+
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
 - [Unlocking EM and RMAN Catalog data with SQLcl Oracle MCP Server AI Bridge - Medium article](https://medium.com/@umutnazlica/unlocking-oracle-enterprise-manager-and-rman-catalog-data-with-oracle-mcp-servers-ai-bridge-sqlcl-e05dd4aa01d9)
 
 # Useful Links
+
 - [OCI Managed MCP Service for Oracle AI Database](https://blogs.oracle.com/database/gain-agentic-access-to-any-oracle-database-in-the-cloud-with-native-enterprise-grade-managed-mcp-servers-in-oci)
 - [Oracle SQLcl MCP Page](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.1/sqcug/using-oracle-sqlcl-mcp-server.html)
 - [Model Context Protocol - Overview](https://modelcontextprotocol.io/docs/getting-started/intro)
@@ -57,10 +54,15 @@ Reviewed: 15.05.2026
 - [Having a go with 100+ new AI Skills for Oracle AI Database](https://www.thatjeffsmith.com/archive/2026/03/having-a-go-with-100-new-ai-skills-for-oracle-ai-database/)
 - [Oracle github mcp repo](https://github.com/oracle/mcp/tree/main/src)
 
+# Reusable Assets Overview
+
+## Latest Version
+- [SQLcl 26.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.1/sqcug/changes-release-26.1-oracle-sqlcl.html)
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
