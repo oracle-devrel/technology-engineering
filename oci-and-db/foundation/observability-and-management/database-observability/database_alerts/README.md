@@ -14,6 +14,8 @@ or changes Database Management, Operations Insights, or Log Analytics. Those
 services can require database credentials, private endpoints, IAM policy,
 network access, and licensing decisions that must be approved separately.
 
+![Workflow architecture](files/database-alerts-architecture.png)
+
 ## 2. Target
 
 Provide one target selector in `terraform.tfvars`:
