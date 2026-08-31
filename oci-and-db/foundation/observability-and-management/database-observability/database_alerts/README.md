@@ -4,15 +4,15 @@
 
 This Terraform configuration creates a production-focused notification channel
 and baseline Database Service critical-event rule for the selected compartment,
-even when Database Management, Operations Insights, and Log Analytics are not
-enabled. It also creates OCI Monitoring alarms, conditional Operations Insights
+even when Database Management, OpsInsights, and Log Analytics are not
+enabled. It also creates OCI Monitoring alarms, conditional OpsInsights
 reports, and conditional Log Analytics critical-event alarms when their source
 service is available. It creates one Notifications topic per selected
 compartment and subscribes `test@acme.com` using the `EMAIL` protocol. If an
 active topic with the configured name already exists, Terraform reuses it.
 
 The configuration creates only alerting resources. It never enables, onboards,
-or changes Database Management, Operations Insights, or Log Analytics. Those
+or changes Database Management, OpsInsights, or Log Analytics. Those
 services can require database credentials, private endpoints, IAM policy,
 network access, and licensing decisions that must be approved separately.
 
@@ -22,7 +22,7 @@ network access, and licensing decisions that must be approved separately.
 The diagram shows the always-on baseline path: Terraform creates an OCI Events
 rule for Database Service critical events, routes them to the
 `database-alerts` Notifications topic, and delivers the notification by email.
-Database Management metric alarms, Operations Insights reports, and Log
+Database Management metric alarms, OpsInsights reports, and Log
 Analytics detection rules join the same topic only after their respective
 service check succeeds. A failed check is reported in Terraform outputs and
 does not enable or configure the missing service.
@@ -89,8 +89,8 @@ selected database. Terraform reports an unavailable service in
 | Invalid objects or unusable indexes | Database Management Full Management and OCI Monitoring | `InvalidObjects` or `UnusableIndexes` >0 | `database-alerts` | Warning | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
 | Database, DB node, or DB system critical condition | Database Service Events, OCI Events, and OCI Notifications | Database Critical, DB Node Critical, or DB System Critical event | `database-alerts` | Critical | Created now, even without Database Management, Ops Insights, or Log Analytics |
 | DB node error / warning | Database Service Events, OCI Events, and OCI Notifications | DB Node Error or DB Node Warning event | `database-alerts` | Warning | Created now when `enable_recommended_alarms = true` |
-| Capacity and inventory digest | Operations Insights News Reports | Weekly capacity-planning, actionable-insight, and top-database summary | `database-alerts` | Info | Created conditionally when a selected OpsInsights is `ENABLED` |
-| AWR ingestion delay | Operations Insights reporting and OCI Monitoring | `AwrIngestionLag` ≥ `awr_ingestion_lag_warning_seconds` | `database-alerts` | Warning | Created conditionally when a selected OpsInsights is `ENABLED` and `enable_recommended_alarms = true` |
+| Capacity and inventory digest | OpsInsights News Reports | Weekly capacity-planning, actionable-insight, and top-database summary | `database-alerts` | Info | Created conditionally when a selected OpsInsights is `ENABLED` |
+| AWR ingestion delay | OpsInsights reporting and OCI Monitoring | `AwrIngestionLag` ≥ `awr_ingestion_lag_warning_seconds` | `database-alerts` | Warning | Created conditionally when a selected OpsInsights is `ENABLED` and `enable_recommended_alarms = true` |
 | Database crash | Log Analytics, Database Alert Logs, and ingest-time detection rule | Label `Abnormal Termination` | `database-alerts` | Critical | Created conditionally when Log Analytics is onboarded and the target has an active entity with sources |
 | Internal Oracle incident | Log Analytics, Database Alert/Trace Logs, and ingest-time detection rule | Label `Internal Error`; e.g. ORA-00600 or ORA-07445 | `database-alerts` | Critical | Created conditionally |
 | Data corruption | Log Analytics, Database Alert Logs, and ingest-time detection rule | Label `Data Corruption` | `database-alerts` | Critical | Created conditionally |
@@ -104,7 +104,7 @@ selected database. Terraform reports an unavailable service in
 
 | Channel | Intended recipients and transport | Use |
 |---|---|---|
-| `database-alerts` | OCI Notifications `EMAIL` subscription to `test@acme.com` | The channel created or reused by this Terraform deployment. It receives Database Service events, all Database Management alarms, conditional Log Analytics events, and conditional Operations Insights reports. Critical alarms repeat hourly while firing. |
+| `database-alerts` | OCI Notifications `EMAIL` subscription to `test@acme.com` | The channel created or reused by this Terraform deployment. It receives Database Service events, all Database Management alarms, conditional Log Analytics events, and conditional OpsInsights reports. Critical alarms repeat hourly while firing. |
 | `db-prod-critical` | DBA/on-call pager, incident-management webhook, and optionally email | Immediate action for outages, Data Guard RPO breach, data corruption, FRA exhaustion, and monitoring blindness. Acknowledge and investigate 24×7. |
 | `db-prod-operations` | DBA operations queue, ticketing integration, and email/Teams | Action during operational support hours for capacity pressure, failed jobs, blocking sessions, listener error bursts, and configuration problems. |
 | `db-capacity-reports` | Capacity planner, service owner, and DBA distribution list | Scheduled weekly report rather than a pager. Covers Ops Insights forecasts, top consumers, utilization changes, and inventory changes. |
