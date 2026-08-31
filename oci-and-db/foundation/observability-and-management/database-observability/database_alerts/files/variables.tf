@@ -17,6 +17,12 @@ variable "email_endpoint" {
   default     = "test@acme.com"
 }
 
+variable "notification_topic_name" {
+  description = "Name of the OCI Notifications topic. If an active topic with this name already exists in a selected compartment, Terraform reuses it instead of creating a duplicate."
+  type        = string
+  default     = "database-alerts"
+}
+
 variable "freeform_tags" {
   description = "Tags applied to the Terraform-managed notification topics and alarms."
   type        = map(string)
@@ -39,6 +45,36 @@ variable "enable_log_analytics_alerts" {
   description = "Create Log Analytics ingest-time rules and OCI Monitoring alarms only for selected databases with an active Log Analytics entity and one or more associated sources."
   type        = bool
   default     = true
+}
+
+variable "enable_recommended_alarms" {
+  description = "Create the additional Database Management, Database Service Events, Ops Insights, and Log Analytics alert rules documented in the README. Service-dependent rules are created only after their preflight check passes."
+  type        = bool
+  default     = true
+}
+
+variable "tablespace_warning_percent" {
+  description = "Warning threshold for Database Management tablespace utilization."
+  type        = number
+  default     = 80
+}
+
+variable "session_warning_percent" {
+  description = "Warning threshold for Database Management session utilization."
+  type        = number
+  default     = 75
+}
+
+variable "process_warning_percent" {
+  description = "Warning threshold for Database Management process utilization."
+  type        = number
+  default     = 75
+}
+
+variable "awr_ingestion_lag_warning_seconds" {
+  description = "Warning threshold for Operations Insights AWR ingestion lag."
+  type        = number
+  default     = 3600
 }
 
 variable "cpu_critical_percent" {

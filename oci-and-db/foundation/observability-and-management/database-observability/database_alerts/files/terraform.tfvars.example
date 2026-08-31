@@ -20,3 +20,10 @@ dataguard_apply_lag_critical_seconds = 900
 # preflight check passes; neither flag enables an OCI service.
 enable_ops_insights_reports  = true
 enable_log_analytics_alerts  = true
+enable_recommended_alarms    = true
+
+# Additional alert thresholds.
+tablespace_warning_percent          = 80
+session_warning_percent             = 75
+process_warning_percent             = 75
+awr_ingestion_lag_warning_seconds   = 3600

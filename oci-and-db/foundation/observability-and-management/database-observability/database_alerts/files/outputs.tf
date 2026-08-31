@@ -16,8 +16,13 @@ output "selected_managed_databases" {
 }
 
 output "notification_topic_ids" {
-  description = "OCI Notifications topics created per baseline compartment."
-  value       = { for compartment_id, topic in oci_ons_notification_topic.database_alerts : compartment_id => topic.id }
+  description = "OCI Notifications topics used per baseline compartment, including matching existing topics that Terraform reuses."
+  value       = local.notification_topic_ids
+}
+
+output "reused_notification_topic_ids" {
+  description = "Existing active topics with notification_topic_name that Terraform reused instead of creating."
+  value       = { for compartment_id, topic in local.existing_notification_topics : compartment_id => topic.topic_id }
 }
 
 output "database_service_critical_event_rule_ids" {
