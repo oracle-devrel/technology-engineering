@@ -16,6 +16,7 @@ or changes Database Management, Operations Insights, or Log Analytics. Those
 services can require database credentials, private endpoints, IAM policy,
 network access, and licensing decisions that must be approved separately.
 
+
 ### Architecture
 
 The diagram shows the always-on baseline path: Terraform creates an OCI Events
@@ -29,6 +30,8 @@ does not enable or configure the missing service.
 The editable source is available in [Draw.io format](files/database-alerts-architecture.drawio).
 
 ![OCI Database Alerts architecture](files/database-alerts-architecture.png)
+
+[![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https%3A%2F%2Fgithub.com%2Foracle-devrel%2Ftechnology-engineering%2Farchive%2Frefs%2Fheads%2Fsciunzi_Db_alerts.zip)
 
 ## 2. Target
 
@@ -111,68 +114,11 @@ capacity, or security recipients.
 OCI sends a subscription confirmation email to `test@acme.com`; the channel is
 not active until the recipient confirms it.
 
-## 4. Deploy workflow
 
-1. Change to the Terraform directory, then copy the example input file and set
-   the target, thresholds, and resource tags.
-
-   ```bash
-   cd files
-   cp terraform.tfvars.example terraform.tfvars
-   ```
-
-2. Use the **Deploy to OCI** button to pre-load the published branch in
-   Resource Manager. Set the working directory to
-   `oci-and-db/foundation/observability-and-management/database-observability/database_alerts/files`, then review and apply the stack. Or deploy with the CLI from `files`:
-
-   ```bash
-   terraform init
-   terraform plan
-   terraform apply
-   ```
-
-3. During planning, the configuration discovers only Database Management managed
-   databases. When none are found, it reports
-   `database_management_not_enabled_warning` and makes no alerting changes.
-   It does not attempt to enable Database Management.
-
-4. Terraform performs a per-target service preflight without enabling any
-   service:
-
-   - **Database Management:** only `DbmgmtManagedDatabase` targets are selected.
-   - **Operations Insights:** an `ENABLED` Database Insight is required before a
-     weekly News Report is created for its compartment.
-   - **Log Analytics:** the tenancy must be onboarded and the target must have
-     an active Log Analytics entity with at least one source association before
-     critical-label detection rules and the corresponding alarm are created.
-
-   Review `service_preflight_report` for targets that did not pass one of these
-   checks. They are reported, skipped, and never enabled by this configuration.
-
-5. Confirm the email subscription. Review the selected databases and topic IDs
-   with the outputs below before relying on the alerts:
-
-   - `selected_managed_databases`
-   - `notification_topic_ids`
-   - `email_subscription_status`
-   - `database_management_not_enabled_warning`
-   - `service_preflight_report`
-   - `ops_insights_news_report_ids`
-   - `log_analytics_alert_database_ids`
-
-The Terraform principal requires permission to search Database Management
-resources, read database metrics, and manage Monitoring alarms, Notifications
-topics, and subscriptions in every selected compartment.
-
-## 5. References
+## 4. References
 
 - [Database Management tagging and Search](https://docs.oracle.com/en-us/iaas/database-management/doc/tags-and-search-database-management.html) documents the `DbmgmtManagedDatabase` OCI Search resource type and query examples.
 - [OCI Search overview](https://docs.oracle.com/en-us/iaas/Content/Search/Concepts/queryoverview.htm) documents resource-query scope and supported resource types.
 - [OCI Resource Manager deploy button](https://docs.oracle.com/en-us/iaas/Content/ResourceManager/Tasks/deploybutton.htm) documents pre-loading a stack with a public ZIP URL.
 
-[![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https%3A%2F%2Fgithub.com%2Foracle-devrel%2Ftechnology-engineering%2Farchive%2Frefs%2Fheads%2Fsciunzi_Db_alerts.zip)
 
-> The button pre-loads the public `sciunzi_Db_alerts` branch of the
-> `oracle-devrel/technology-engineering` repository into OCI Resource Manager.
-> In the Create stack page, set the working directory to
-> `oci-and-db/foundation/observability-and-management/database-observability/database_alerts/files`, then review and apply the stack. OCI requires this review and apply step; the button does not bypass it.
