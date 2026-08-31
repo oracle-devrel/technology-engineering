@@ -29,9 +29,11 @@ does not enable or configure the missing service.
 
 The editable source is available in [Draw.io format](files/database-alerts-architecture.drawio).
 
-[Enabling Flow](files/database-alerts-architecture1.png).
+![OCI Database Alerts architecture](files/database-alerts-architecture1.png)
 
 [![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https%3A%2F%2Fgithub.com%2Foracle-devrel%2Ftechnology-engineering%2Farchive%2Frefs%2Fheads%2Fsciunzi_Db_alerts.zip)
+
+
 
 ## 2. Target
 
