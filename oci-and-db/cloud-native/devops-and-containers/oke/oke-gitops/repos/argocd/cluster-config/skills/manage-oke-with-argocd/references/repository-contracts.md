@@ -1,5 +1,18 @@
 # Repository contracts
 
+## Cluster resources
+
+`cluster-config/platform/cluster-resources/` owns both cluster-scoped objects
+and every namespaced object rendered into `kube-system`. Put `kube-system`
+manifests below `platform/cluster-resources/<group>/` and reference that group
+from `platform/cluster-resources/kustomization.yml`, alongside the other
+cluster-wide resources.
+
+Never create a platform application descriptor, application infrastructure
+folder, or Namespace manifest for `kube-system`. For a managed spoke, apply the
+same rule below the selected profile's `cluster-resources/` root referenced by
+the cluster's `clusterResourcesPath`.
+
 ## Local cluster descriptors
 
 Store all descriptors under `cluster-config/platform/applications/<name>/`.
