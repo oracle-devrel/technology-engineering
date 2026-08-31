@@ -8,7 +8,7 @@ even when Database Management, Operations Insights, and Log Analytics are not
 enabled. It also creates OCI Monitoring alarms, conditional Operations Insights
 reports, and conditional Log Analytics critical-event alarms when their source
 service is available. It creates one Notifications topic per selected
-compartment and subscribes `test@acme.com` using the `EMAIL` protocol. If an
+compartment and subscribes <email_endpoint> using the `EMAIL` protocol. If an
 active topic with the configured name already exists, Terraform reuses it.
 
 The configuration creates only alerting resources. It never enables, onboards,
@@ -131,9 +131,9 @@ enable the missing service.
 
 | Channel | Intended recipients and transport | Use |
 |---|---|---|
-| `database-alerts` | OCI Notifications `EMAIL` subscription to `test@acme.com` | The channel created or reused by this Terraform deployment. It receives Database Service events, all Database Management alarms, conditional Log Analytics events, and conditional Operations Insights reports. Critical alarms repeat hourly while firing. |
+| `database-alerts` | OCI Notifications `EMAIL` subscription to <email_endpoint> | The channel created or reused by this Terraform deployment. It receives Database Service events, all Database Management alarms, conditional Log Analytics events, and conditional Operations Insights reports. Critical alarms repeat hourly while firing. |
 | `db-prod-critical` | DBA/on-call pager, incident-management webhook, and optionally email | Immediate action for outages, Data Guard RPO breach, data corruption, FRA exhaustion, and monitoring blindness. Acknowledge and investigate 24×7. |
-| `db-prod-operations` | DBA operations queue, ticketing integration, and email/Teams | Action during operational support hours for capacity pressure, backup failures, failed jobs, blocking sessions, listener error bursts, SQL performance degradation, and configuration problems. This Terraform configuration creates or reuses this topic for the Backup Failure event rule and the daily SQL performance-degradation report, and subscribes `test@acme.com`. |
+| `db-prod-operations` | DBA operations queue, ticketing integration, and email/Teams | Action during operational support hours for capacity pressure, backup failures, failed jobs, blocking sessions, listener error bursts, SQL performance degradation, and configuration problems. This Terraform configuration creates or reuses this topic for the Backup Failure event rule and the daily SQL performance-degradation report, and subscribes <email_endpoint>. |
 | `db-capacity-reports` | Capacity planner, service owner, and DBA distribution list | Scheduled weekly report rather than a pager. Covers Ops Insights forecasts, top consumers, utilization changes, and inventory changes. |
 | `db-security` | Security Operations Center and DBA security owner | Security and audit events: privileged logons, failed-login bursts, grants/revokes, user changes, and audit-policy changes. |
 
@@ -141,7 +141,7 @@ The Terraform module currently creates or reuses the `database-alerts` topic
 as its physical delivery destination. The **Notification channel** column
 identifies the recommended operational routing class; create and map the
 separate listed channels when the customer needs distinct recipients.
-OCI sends a subscription confirmation email to `test@acme.com`; the channel is
+OCI sends a subscription confirmation email to <email_endpoint>; the channel is
 not active until the recipient confirms it.
 
 
