@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Codex">
   <diagram id="database-alerts-architecture" name="Database Alerts Architecture">
-    <mxGraphModel dx="1753" dy="1176" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+    <mxGraphModel dx="1483" dy="995" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -10,11 +10,19 @@
         <mxCell id="tf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#a9bfca;strokeWidth=2;fontColor=#233746;fontSize=18;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Terraform module&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;compartment_id or tags&lt;br&gt;service preflight checks&lt;/font&gt;" vertex="1">
           <mxGeometry height="125" width="200" x="90" y="175" as="geometry" />
         </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-1" edge="1" parent="1" source="outputs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="363" y="627" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="outputs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#a9bfca;strokeWidth=2;fontColor=#233746;fontSize=17;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Terraform outputs&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;service status and warnings&lt;/font&gt;" vertex="1">
-          <mxGeometry height="95" width="200" x="90" y="510" as="geometry" />
+          <mxGeometry height="95" width="200" x="90" y="580" as="geometry" />
         </mxCell>
         <mxCell id="ociContainer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#cbd5df;strokeWidth=2;fontColor=#233746;fontSize=24;align=left;verticalAlign=top;spacingTop=20;spacingLeft=24;" value="&lt;b&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Oracle Cloud Infrastructure&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; Target compartment / observability services&lt;/font&gt;" vertex="1">
           <mxGeometry height="860" width="1120" x="390" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-6" edge="1" parent="1" source="events" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="dbmCheck" value="">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="events" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#a9bfca;strokeWidth=2;fontColor=#244f5d;fontSize=18;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;OCI Events&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;Database, DB Node and&lt;br&gt;DB System critical events&lt;/font&gt;" vertex="1">
           <mxGeometry height="125" width="225" x="465" y="175" as="geometry" />
@@ -27,10 +35,13 @@
         </mxCell>
         <mxCell id="qEkvJCbicobOWoNWb-49-1" edge="1" parent="1" source="dbmCheck" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="360" y="560" as="targetPoint" />
+            <mxPoint x="360" y="624" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="qEkvJCbicobOWoNWb-49-8" edge="1" parent="1" source="dbmCheck" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="dbmAlarms" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-7" edge="1" parent="1" source="dbmCheck" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="opsiCheck" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="dbmCheck" parent="1" style="shape=rhombus;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#e67e22;strokeWidth=3;fontColor=#8a4711;fontSize=15;align=center;verticalAlign=middle;rounded=1;" value="&lt;b&gt;Database Management&lt;/b&gt;&lt;br&gt;enabled?" vertex="1">
@@ -39,18 +50,18 @@
         <mxCell id="dbmAlarms" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#a9bfca;strokeWidth=2;fontColor=#244f5d;fontSize=17;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Database Management&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;Monitoring metric alarms&lt;br&gt;CPU, storage, collection&lt;br&gt;FRA and Data Guard&lt;/font&gt;" vertex="1">
           <mxGeometry height="145" width="250" x="720" y="385" as="geometry" />
         </mxCell>
-        <mxCell id="qEkvJCbicobOWoNWb-49-3" edge="1" parent="1" source="opsiCheck" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="360" y="560" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="qEkvJCbicobOWoNWb-49-6" edge="1" parent="1" source="opsiCheck" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="opsiReports" value="">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-2" edge="1" parent="1" source="opsiCheck" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="363.36363636363603" y="622.181818181818" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="opsiCheck" parent="1" style="shape=rhombus;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#e67e22;strokeWidth=3;fontColor=#8a4711;fontSize=15;align=center;verticalAlign=middle;rounded=1;" value="&lt;b&gt;Ops Insights&lt;/b&gt;&lt;br&gt;enabled?" vertex="1">
           <mxGeometry height="105" width="150" x="505" y="570" as="geometry" />
         </mxCell>
-        <mxCell id="opsiReports" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#a9bfca;strokeWidth=2;fontColor=#244f5d;fontSize=17;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;Operations Insights&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;Weekly capacity and&lt;br&gt;actionable-insights reports&lt;/font&gt;" vertex="1">
+        <mxCell id="opsiReports" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#a9bfca;strokeWidth=2;fontColor=#244f5d;fontSize=17;align=center;verticalAlign=middle;shadow=1;" value="&lt;b&gt;OpsInsights&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:13px&quot;&gt;Weekly capacity and&lt;br&gt;actionable-insights reports&lt;/font&gt;" vertex="1">
           <mxGeometry height="130" width="250" x="720" y="557" as="geometry" />
         </mxCell>
         <mxCell id="qEkvJCbicobOWoNWb-49-4" edge="1" parent="1" source="logCheck" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;">
@@ -85,13 +96,32 @@
         <mxCell id="eLogTopic" edge="1" parent="1" source="logAlarms" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#d14836;strokeWidth=3;" target="topic" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="eChecksOutputs" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#8c9da7;strokeWidth=2;dashed=1;fontColor=#627681;fontSize=13;" target="outputs" value="Warnings">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="370" y="558" as="sourcePoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="qEkvJCbicobOWoNWb-49-61" parent="1" style="shape=stencil(fZbdcgIhDIWfZm8zQAg/17Z9j85U606tdqz9e/tmZ0c0uJ47xP0I5JwEBl59bp8/1kNwn6fj4W39M76ctgM/DCGM++36OJ50NPDjwKvN4bh+PR6+9i/z74/n6ctp9H74nlb4nbmSKZeJCu5vngmZ6jzzNAO7cX8FVKEsBuBKrgKg9oAE8gkCbLeUhEoEQKSUDZDLeWYRKIl8MEDRmHwfyBrBG6Amyu4+kDxxMoB3jhwgYu7TVAsVkFcWCs4CTBEoF4RctKeOxHIf8IXYpikHikAIf+MNUW94AGSSaoAoFIE3AlOyeWU+p2E5S9yfQZcQILVuQOwZdJNoS9Ls3wA5u2XZTIHECqeJ9kDpSaauRiNVcAY1QhdBzeLBli5WazpkSsBLV25uRaqWRyFawTQzRRIQYirJzq5atkBqLfouwqUxLBepthWb10vrWZY6UOAeyKCCtDV625mm9gmUC4Wc3VLJMMIE1BsA2FW9JraVlQB7n3c9oMKhCLEvIM1zBPZ25/umNQ1tVEC2G+fFCC8g398O2hNQuQlVu752DBfA+q0ptnqO5JFmeuIuo9DY7KjY71UxdJV4EntifPWorW++R/dC4t7V3DlIB5cHx2bc7eb3yvX//QNFp+bHDT/+Aw==);lineShape=1;strokeColor=default;rounded=1;" value="" vertex="1">
           <mxGeometry height="8.482247666104078" width="8.4955268583913" x="752.2144742590467" y="1100.1369317427625" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;YES&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="650" y="409" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;YES&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="655" y="737" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;YES&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="648" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-9" edge="1" parent="1" style="edgeStyle=none;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="579.57" y="665" as="sourcePoint" />
+            <mxPoint x="579.57" y="725" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;NO&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="410" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;NO&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="410" y="735" as="geometry" />
+        </mxCell>
+        <mxCell id="_an44K3p4gyco40KHS2x-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;&lt;font style=&quot;font-size: 15px;&quot;&gt;NO&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="410" y="409" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
