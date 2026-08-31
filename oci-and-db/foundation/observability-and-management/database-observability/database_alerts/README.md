@@ -37,12 +37,31 @@ The editable source is available in [Draw.io format](files/database-alerts-archi
 
 ## 2. Target
 
-Provide one target selector in `terraform.tfvars`:
+In the OCI Resource Manager **Configure variables** screen, provide at least one
+target selector. `compartment_id` takes precedence over `tags`.
 
-| Selector | Behaviour |
-|---|---|
-| `compartment_id` | Selects all Database Management managed databases in that compartment. This takes precedence over `tags`. |
-| `tags` | Used only if `compartment_id` is null. Selects Database Management managed databases with all supplied free-form tag key/value pairs. |
+| Input | Required | Default | Description |
+|---|---|---|---|
+| `compartment_id` | One target selector is required | `null` | OCI compartment OCID to monitor. Selects Database Management managed databases in that compartment and enables baseline Database Service event and native-metric alarms for the compartment. When set, `tags` is ignored. |
+| `tags` | One target selector is required when `compartment_id` is empty | `{}` | Free-form tag key/value pairs for selecting Database Management managed databases. Every supplied tag must match. |
+| `email_endpoint` | No | `test@acme.com` | Email address subscribed to created or reused Notifications topics. OCI requires recipient confirmation before delivery starts. |
+| `notification_topic_name` | No | `database-alerts` | Baseline topic name for critical Database Service events and default alarm delivery. An active matching topic is reused. |
+| `operations_notification_topic_name` | No | `db-prod-operations` | Operational topic name for Backup Failure alarms and the daily SQL performance-degradation report. An active matching topic is reused. |
+| `freeform_tags` | No | `{}` | Free-form tags applied to resources created by the module. |
+| `enable_database_service_metric_alarms` | No | `true` | Creates native Database Service alarms for `oci_database`, `oci_database_cluster`, and `oci_autonomous_database`; Database Management is not required. |
+| `enable_full_management_alarms` | No | `true` | Creates FRA utilization and Data Guard apply-lag alarms; these require Database Management Full Management metrics. |
+| `enable_recommended_alarms` | No | `true` | Creates the additional Database Management alarms and Database Service operational-event rule. Service-dependent resources are skipped when their source service is inactive. |
+| `enable_ops_insights_reports` | No | `true` | Creates the weekly Operations Insights capacity and inventory report when a selected Database Insight is enabled. |
+| `enable_ops_insights_sql_degradation_report` | No | `true` | Creates the daily Operations Insights SQL performance-degradation report and sends it to `db-prod-operations` when Ops Insights is enabled. |
+| `enable_log_analytics_alerts` | No | `true` | Creates Log Analytics label-detection rules and Monitoring alarms only for active entities with associated sources. |
+| `cpu_critical_percent` | No | `90` | Critical CPU utilization threshold used by Database Management and native Database Service alarms. |
+| `storage_critical_percent` | No | `90` | Critical storage or disk utilization threshold used by Database Management and native Database Service alarms. |
+| `fra_critical_percent` | No | `90` | Critical Flash Recovery Area utilization threshold. |
+| `dataguard_apply_lag_critical_seconds` | No | `900` | Approved RPO threshold, in seconds, for Data Guard apply and transport lag alarms. |
+| `tablespace_warning_percent` | No | `80` | Warning threshold for Database Management tablespace utilization. |
+| `session_warning_percent` | No | `75` | Warning threshold for Database Management session-limit utilization. |
+| `process_warning_percent` | No | `75` | Warning threshold for Database Management process-limit utilization. |
+| `awr_ingestion_lag_warning_seconds` | No | `3600` | Warning threshold, in seconds, for Operations Insights AWR ingestion lag. |
 
 `notification_topic_name` defaults to `database-alerts`. Set it to a different
 name if the existing topic is not the intended notification channel.
@@ -90,7 +109,8 @@ enable the missing service.
 | Data Guard apply lag | Database Management Full Management, Data Guard, and OCI Monitoring | `db-prod-critical` | `oracle_oci_database.oracle_dataguard/ApplyLag` ≥ `dataguard_apply_lag_critical_seconds` | Critical | Created now when `enable_full_management_alarms = true` |
 | Tablespace utilization | Database Management and OCI Monitoring | `db-prod-operations` / `db-prod-critical` | `oracle_oci_database/StorageUtilizationByTablespace` ≥ `tablespace_warning_percent` / `storage_critical_percent` | Warning / Critical | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
 | Data Guard transport lag | Database Management Full Management, Data Guard, and OCI Monitoring | `db-prod-critical` | `oracle_oci_database.oracle_dataguard/TransportLag` ≥ `dataguard_apply_lag_critical_seconds` | Critical | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
-| Backup failure or recovery breach | Database Management Full Management and OCI Monitoring | `db-prod-critical` | `oracle_oci_database/BackupJobFailure` or `oracle_oci_database/RecoveryWindow` reports a value | Critical | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
+| Backup failure | Database Management Full Management and OCI Monitoring | `db-prod-operations` | `oracle_oci_database/BackupJobFailure` reports a value | Critical | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true`; delivered to the `db-prod-operations` topic |
+| Recovery-window breach | Database Management Full Management and OCI Monitoring | `db-prod-critical` | `oracle_oci_database/RecoveryWindow` reports a value | Critical | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
 | Database Management job failure | Database Management and OCI Monitoring | `db-prod-operations` | `oracle_oci_database/dbmgmtJobExecutionsCount` with `status = Failed` | Warning | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
 | Session or process exhaustion | Database Management Full Management and OCI Monitoring | `db-prod-operations` / `db-prod-critical` | `oracle_oci_database/SessionLimitUtilization` or `oracle_oci_database/ProcessLimitUtilization` ≥ warning / critical threshold | Warning / Critical | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
 | Persistent blocking sessions | Database Management Full Management and OCI Monitoring | `db-prod-operations` | `oracle_oci_database/BlockingSessions` >0 for 15 minutes | Warning | Created conditionally when Database Management is enabled and `enable_recommended_alarms = true` |
@@ -98,6 +118,7 @@ enable the missing service.
 | Database, DB node, or DB system critical condition | Database Service Events, OCI Events, and OCI Notifications | `db-prod-critical` | Database Critical, DB Node Critical, or DB System Critical event | Critical | Created now, even without Database Management, Ops Insights, or Log Analytics |
 | DB node error / warning | Database Service Events, OCI Events, and OCI Notifications | `db-prod-operations` | DB Node Error or DB Node Warning event | Warning | Created now when `enable_recommended_alarms = true` |
 | Capacity and inventory digest | Operations Insights News Reports | `db-capacity-reports` | Weekly capacity-planning, actionable-insight, and top-database summary | Info | Created conditionally when a selected OpsInsights is `ENABLED` |
+| Daily SQL performance degradation report | Operations Insights SQL Insights News Reports | `db-prod-operations` | SQL Insights performance-degradation content for `DATABASE` resources, sent daily | Warning | Created conditionally when a selected OpsInsights is `ENABLED` and `enable_ops_insights_sql_degradation_report = true`; delivered to the `db-prod-operations` topic |
 | AWR ingestion delay | Operations Insights reporting and OCI Monitoring | `db-prod-operations` | `oracle_oci_database/AwrIngestionLag` ≥ `awr_ingestion_lag_warning_seconds` | Warning | Created conditionally when a selected OpsInsights is `ENABLED` and `enable_recommended_alarms = true` |
 | Database crash | Log Analytics, Database Alert Logs, and ingest-time detection rule | `db-prod-critical` | Label `Abnormal Termination` | Critical | Created conditionally when Log Analytics is onboarded and the target has an active entity with sources |
 | Internal Oracle incident | Log Analytics, Database Alert/Trace Logs, and ingest-time detection rule | `db-prod-critical` | Label `Internal Error`; e.g. ORA-00600 or ORA-07445 | Critical | Created conditionally |
@@ -114,7 +135,7 @@ enable the missing service.
 |---|---|---|
 | `database-alerts` | OCI Notifications `EMAIL` subscription to `test@acme.com` | The channel created or reused by this Terraform deployment. It receives Database Service events, all Database Management alarms, conditional Log Analytics events, and conditional Operations Insights reports. Critical alarms repeat hourly while firing. |
 | `db-prod-critical` | DBA/on-call pager, incident-management webhook, and optionally email | Immediate action for outages, Data Guard RPO breach, data corruption, FRA exhaustion, and monitoring blindness. Acknowledge and investigate 24×7. |
-| `db-prod-operations` | DBA operations queue, ticketing integration, and email/Teams | Action during operational support hours for capacity pressure, failed jobs, blocking sessions, listener error bursts, and configuration problems. |
+| `db-prod-operations` | DBA operations queue, ticketing integration, and email/Teams | Action during operational support hours for capacity pressure, backup failures, failed jobs, blocking sessions, listener error bursts, SQL performance degradation, and configuration problems. This Terraform configuration creates or reuses this topic for Backup Failure alarms and the daily SQL performance-degradation report, and subscribes `test@acme.com`. |
 | `db-capacity-reports` | Capacity planner, service owner, and DBA distribution list | Scheduled weekly report rather than a pager. Covers Ops Insights forecasts, top consumers, utilization changes, and inventory changes. |
 | `db-security` | Security Operations Center and DBA security owner | Security and audit events: privileged logons, failed-login bursts, grants/revokes, user changes, and audit-policy changes. |
 
