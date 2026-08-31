@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output (will be rebuilt in container)
+dist/
+
+# Development files
+.git/
+.gitignore
+*.md
+README.md
+
+# IDE
+.vscode/
+.idea/
+
+# Environment files (will be injected via K8s secrets)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+coverage/
+*.test.ts
+*.spec.ts
+
+# Demo files (optional - remove if needed in container)
+# demo/
+
+# Error screenshots
+error/
+
+# Architecture diagrams
+architecture/

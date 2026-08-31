@@ -1,0 +1,10 @@
+# ============================================================================
+# CuOPT Frontend - Kubernetes Namespace
+# ============================================================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cuopt
+  labels:
+    app.kubernetes.io/name: cuopt
+    app.kubernetes.io/component: route-optimization

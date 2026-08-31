@@ -1,0 +1,78 @@
+# ============================================================================
+# CuOPT Frontend - Kubernetes Ingress
+# For use with NGINX Ingress Controller or OCI Native Ingress Controller
+# ============================================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cuopt-frontend-ingress
+  namespace: cuopt
+  labels:
+    app.kubernetes.io/name: cuopt-frontend
+    app.kubernetes.io/component: frontend
+  annotations:
+    # NGINX Ingress annotations
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+
+    # SSL/TLS (uncomment and configure for HTTPS)
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+    # OCI Native Ingress Controller annotations (alternative)
+    # oci-native-ingress.oraclecloud.com/backend-health-check: "enabled"
+spec:
+  # TLS configuration (uncomment for HTTPS)
+  # tls:
+  #   - hosts:
+  #       - cuopt.yourdomain.com
+  #     secretName: cuopt-tls-secret
+  rules:
+    - host: cuopt.yourdomain.com  # Replace with your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cuopt-frontend
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: cuopt-frontend
+                port:
+                  number: 80
+
+---
+# ============================================================================
+# CuOPT Frontend - Ingress without host (for IP-based access)
+# Use this for testing without a domain name
+# ============================================================================
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cuopt-frontend-ingress-ip
+  namespace: cuopt
+  labels:
+    app.kubernetes.io/name: cuopt-frontend
+    app.kubernetes.io/component: frontend
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cuopt-frontend
+                port:
+                  number: 80

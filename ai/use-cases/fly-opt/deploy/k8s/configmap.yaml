@@ -1,0 +1,28 @@
+# ============================================================================
+# CuOPT Frontend - ConfigMap
+# Non-sensitive configuration values
+# ============================================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cuopt-frontend-config
+  namespace: cuopt
+  labels:
+    app.kubernetes.io/name: cuopt-frontend
+    app.kubernetes.io/component: frontend
+data:
+  # cuOPT Backend Endpoint (internal K8s service or external URL)
+  # Update this to point to your cuOPT backend service
+  CUOPT_ENDPOINT: "http://cuopt-server:80"
+
+  # OCI GenAI Endpoint
+  OCI_GENAI_ENDPOINT: "https://inference.generativeai.us-phoenix-1.oci.oraclecloud.com"
+
+  # OCI Config Profile
+  OCI_CONFIG_PROFILE: "DEFAULT"
+
+  # Node Environment
+  NODE_ENV: "production"
+
+  # Server Port
+  PORT: "3001"

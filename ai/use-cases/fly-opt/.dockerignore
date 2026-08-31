@@ -1,0 +1,19 @@
+# Dependencies and generated output
+**/node_modules
+**/dist
+**/build
+
+# Local credentials and environment configuration
+app/.env
+app/.env.local
+app/.env.*.local
+**/*.pem
+**/*.key
+
+# Development and repository metadata
+.git
+.gitignore
+.vscode
+.idea
+**/.DS_Store
+**/*.log
