@@ -45,6 +45,7 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Does Postgres need the Boyer-Moore-Horspool search algorithm for LIKE operator?](https://medium.com/@andreumdorokhinum/does-postgres-need-the-boyer-moore-horspool-search-algorithm-for-like-operator-00b43e4b115c)
 - [Integration of OCI Database with PostgreSQL and Oracle Audit Vault and Database Firewall](https://medium.com/@andreumdorokhinum/integration-of-oci-database-with-postgresql-and-oracle-audit-vault-and-database-firewall-f98236b980bd)
 - [Setting up Kerberos Auth for OCI Database with PostgreSQL](https://medium.com/@andreumdorokhinum/setting-up-kerberos-auth-for-oci-database-with-postgresql-51e9a235975b)
+- [Setting Up a Time-Series Node for OCI Database with PostgreSQL](https://medium.com/@andreumdorokhinum/setting-up-a-time-series-node-for-oci-database-with-postgresql-db1283a6fec8)
 
 ### LiveLabs
 - [LiveLabs: Accelerating IoT applications with OCI Cache and OCI PostgreSQ](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=4383&p210_wec=&session=119324071827764)

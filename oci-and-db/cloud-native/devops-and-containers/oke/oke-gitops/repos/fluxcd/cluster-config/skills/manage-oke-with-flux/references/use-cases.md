@@ -5,6 +5,7 @@
 | Start primary reconciliation | `cluster-config` | Apply `bootstrap/flux-bootstrap.yml` once after pipeline success |
 | Configure, upgrade, or pin Flux Operator | `cluster-config` | Operator values and ResourceSet; mirror first, then Git reconciles |
 | Add cluster-wide YAML | `cluster-config` | `platform/cluster-resources/<group>/` plus root Kustomization |
+| Add YAML rendered into `kube-system` | `cluster-config` | `platform/cluster-resources/<group>/` plus root Kustomization; never `platform/applications/` |
 | Add namespaced administrator YAML | `cluster-config` | Application ResourceSet plus `resources/` |
 | Add repository/OCI Helm chart | `cluster-config` | ResourceSet, source, ordered values, HelmRelease |
 | Add Git-hosted Helm chart | `cluster-config` | ResourceSet, `chart/`, ordered `values/`, existing Git source |
@@ -21,6 +22,7 @@
 | Add decentralized member | `fleet-config` plus OCI DevOps | Cluster root, private pipeline, bootstrap copy |
 | Activate/share/dedicate profile | `fleet-config` | Explicit cluster-root Kustomization reference |
 | Add fleet cluster resources or tool | `fleet-config` | Profile ResourceSet and payload |
+| Add member YAML rendered into `kube-system` | `fleet-config` | An activated profile's `cluster-resources/`; never its `applications/` tree |
 | Place developer app on member | `fleet-config` | Infrastructure and component ResourceSets |
 | Stop one deployment | placement repo | Remove one input/activation; review pruning |
 | Diagnose or roll back | desired-state repo | Observe local Flux, fix or Git revert |

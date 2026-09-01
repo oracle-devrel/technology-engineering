@@ -28,7 +28,8 @@ observation surfaces. Do not repair managed objects directly.
 ## Repository ownership
 
 - `cluster-config`: one primary cluster's bootstrap, Flux self-management,
-  cluster resources, namespace infrastructure, and local placement.
+  cluster resources (including every resource rendered into `kube-system`),
+  namespace infrastructure, and local placement.
 - `apps-config`: reusable developer components and exactly `dev`, `staging`,
   and `production` variants. It never selects a cluster.
 - `fleet-config`: optional shared profiles and explicit per-cluster activation.

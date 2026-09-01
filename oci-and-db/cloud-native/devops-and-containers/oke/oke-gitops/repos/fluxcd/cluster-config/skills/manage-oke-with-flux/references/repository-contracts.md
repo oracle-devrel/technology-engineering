@@ -1,5 +1,18 @@
 # Repository contracts
 
+## Cluster resources
+
+`cluster-config/platform/cluster-resources/` owns both cluster-scoped objects
+and every namespaced object rendered into `kube-system`. Put `kube-system`
+manifests below `platform/cluster-resources/<group>/` and reference that group
+from `platform/cluster-resources/kustomization.yml`, alongside the other
+cluster-wide resources.
+
+Never create an application ResourceSet, application infrastructure folder, or
+Namespace manifest for `kube-system`. On a decentralized fleet member, apply
+the same rule below an activated profile's `cluster-resources/` root rather
+than its `applications/` tree.
+
 ## Local platform application
 
 Store one logical tool below `cluster-config/platform/applications/<name>/`:

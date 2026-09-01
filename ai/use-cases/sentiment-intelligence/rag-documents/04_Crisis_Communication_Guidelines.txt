@@ -1,0 +1,195 @@
+Brand Crisis Communication Guidelines
+=======================================
+
+1. PURPOSE
+
+This document provides a structured framework for managing brand reputation crises detected through AI-powered sentiment monitoring. A "crisis" is defined as any event that causes a sudden, significant negative shift in brand sentiment that threatens brand reputation, customer trust, or business continuity.
+
+
+2. CRISIS SEVERITY CLASSIFICATION
+
+Level 1 — Critical Crisis (Immediate Response Required)
+Indicators:
+- Negative sentiment spikes >30% within 4 hours
+- Product safety or health concern reported by multiple customers
+- Viral social media post (>10K shares) with negative brand mention
+- Major media outlet coverage of brand failure
+- Data breach or privacy violation
+- Regulatory action or legal proceedings made public
+
+Response timeline: First public statement within 2 hours
+Team activation: Full Crisis Response Team (CRT) including CEO, Legal, PR, Product, Customer Service
+
+Level 2 — High Severity (Same-Day Response)
+Indicators:
+- Negative sentiment increase of 15-30% over 24 hours
+- Cluster of similar complaints (10+) about a specific issue
+- Influencer (100K+ followers) posting negative brand experience
+- Competitor capitalizing on your brand weakness
+- Employee misconduct gaining public attention
+
+Response timeline: Action plan within 4 hours, public response within 8 hours
+Team activation: PR Lead, Customer Service Director, relevant Department Head
+
+Level 3 — Moderate Severity (48-Hour Response)
+Indicators:
+- Negative sentiment increase of 5-15% over one week
+- Recurring complaint pattern emerging across multiple channels
+- Negative press coverage in niche/industry publication
+- Product comparison reviews trending unfavorably
+- Service quality decline detected through review analysis
+
+Response timeline: Assessment within 24 hours, action plan within 48 hours
+Team activation: Customer Service Manager, Product Manager, Marketing Lead
+
+Level 4 — Low Severity (Weekly Review Cycle)
+Indicators:
+- Minor negative sentiment fluctuation within normal range
+- Isolated negative reviews without pattern
+- Seasonal dip in satisfaction scores
+- Single negative press mention without viral potential
+
+Response timeline: Include in weekly sentiment review meeting
+Team activation: Standard monitoring team
+
+
+3. CRISIS RESPONSE PROTOCOL
+
+Phase 1: Detection and Assessment (0-30 minutes)
+a) AI monitoring system detects sentiment anomaly and triggers alert
+b) On-call analyst reviews alert details:
+   - Number and velocity of negative mentions
+   - Source channels and geographic spread
+   - Key phrases and topics identified
+   - Influencer involvement assessment
+c) Classify crisis severity level (1-4)
+d) Notify appropriate stakeholders based on severity
+
+Phase 2: Containment (30 minutes - 2 hours)
+a) Assemble response team (virtual or in-person based on severity)
+b) Gather all available facts — do NOT speculate
+c) Prepare initial holding statement if Level 1 or 2:
+   "We are aware of [issue description] and are actively investigating. Customer safety/satisfaction is our top priority. We will provide an update by [specific time]."
+d) Pause any scheduled marketing campaigns that could appear tone-deaf
+e) Brief customer-facing teams (support, retail, social media) with talking points
+f) Monitor for escalation in real-time
+
+Phase 3: Response (2-24 hours)
+a) Issue official statement through appropriate channels:
+   - Level 1: Press release + CEO social media statement + website banner
+   - Level 2: Social media statement + email to affected customers + FAQ page
+   - Level 3: Blog post + customer service script update + social monitoring
+b) Statement must include:
+   - Acknowledgment of the issue
+   - What you know so far (facts only)
+   - What you're doing about it
+   - How affected customers can get help
+   - When the next update will be provided
+c) Activate customer service escalation path for related inquiries
+d) Document all actions taken with timestamps
+
+Phase 4: Resolution (24 hours - 2 weeks)
+a) Implement corrective actions
+b) Communicate progress updates at promised intervals
+c) Provide individual resolution to affected customers
+d) Monitor sentiment for recovery signals
+e) Conduct root cause analysis
+f) Update processes to prevent recurrence
+
+Phase 5: Recovery (2 weeks - 3 months)
+a) Launch reputation recovery campaign
+b) Share improvements made as a result of the crisis
+c) Engage advocates and loyal customers to amplify positive messages
+d) Track sentiment recovery trajectory
+e) Conduct post-crisis retrospective with all stakeholders
+f) Update crisis playbook with lessons learned
+
+
+4. COMMUNICATION CHANNEL STRATEGY
+
+4.1 Social Media
+- Respond to the original viral post/thread directly
+- Pin an official response to your brand profile
+- Monitor and respond to follow-up comments
+- Do NOT delete negative comments (this always backfires)
+- Do NOT get into arguments with individual commenters
+- Use consistent messaging across all social platforms
+
+4.2 Email Communication
+- Proactive email to affected customers within 24 hours
+- Include: What happened, what you're doing, what they should do
+- Provide direct support contact (not generic support queue)
+- Follow up email when resolution is achieved
+
+4.3 Website
+- Update homepage with banner for Level 1 crises
+- Create dedicated FAQ page for Level 1 and 2 crises
+- Ensure support contact information is prominently displayed
+- Update status page if service-related
+
+4.4 Media Relations
+- Designate single spokesperson for consistency
+- Prepare media brief with key messages and approved quotes
+- Schedule press conference for Level 1 crises if warranted
+- Provide written statements to media inquiries
+- Monitor coverage and correct factual errors promptly
+
+4.5 Internal Communication
+- Brief all employees before public announcement when possible
+- Provide talking points for customer-facing staff
+- Update internal FAQ daily during active crisis
+- Acknowledge team efforts and provide psychological support
+
+
+5. DO's AND DON'Ts
+
+DO:
+- Respond quickly, even if you don't have all the answers yet
+- Be transparent about what you know and don't know
+- Show empathy for affected customers
+- Take responsibility where appropriate
+- Provide concrete next steps and timelines
+- Follow through on every promise made
+- Learn from the crisis and improve
+
+DON'T:
+- Ignore the crisis hoping it will go away
+- Delete negative posts or reviews
+- Blame customers, partners, or employees publicly
+- Make promises you can't keep
+- Use legal language in customer-facing communications
+- Argue with critics on social media
+- Launch promotional campaigns during an active crisis
+- Claim the issue is isolated before investigation is complete
+
+
+6. SENTIMENT RECOVERY BENCHMARKS
+
+After a crisis, track these recovery metrics:
+- Time to sentiment baseline: Average 2-6 weeks for Level 2, 1-3 months for Level 1
+- Review volume normalization: Negative review spike should return to baseline within 2 weeks
+- Social mention sentiment: Should show consistent positive trend within 30 days
+- Customer retention rate: Compare 90-day post-crisis retention to pre-crisis baseline
+- NPS recovery: Typically takes 2-4 months to reach pre-crisis levels
+
+Red flags indicating insufficient recovery:
+- Sentiment score remains 10%+ below baseline after 30 days
+- Negative review keywords still appearing in new reviews
+- Competitors referencing the crisis in their marketing
+- Media still covering the story after initial news cycle
+
+
+7. ANNUAL CRISIS PREPAREDNESS
+
+7.1 Quarterly Activities
+- Review and update crisis contact list
+- Test alert notification system
+- Update response templates
+- Review social media monitoring keywords
+
+7.2 Annual Activities
+- Full crisis simulation exercise (tabletop or live)
+- Media training for spokespersons
+- Review insurance coverage for reputation incidents
+- Update this crisis communication plan
+- Benchmark against industry crisis response best practices

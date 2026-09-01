@@ -26,8 +26,9 @@ observation surfaces. Do not repair managed objects directly.
 
 ## Repository ownership
 
-- `cluster-config`: bootstrap, Argo configuration, cluster resources, namespace
-  infrastructure, and local placement. Owned by cluster administrators.
+- `cluster-config`: bootstrap, Argo configuration, cluster resources (including
+  every resource rendered into `kube-system`), namespace infrastructure, and
+  local placement. Owned by cluster administrators.
 - `apps-config`: reusable developer components and `dev`, `staging`, and
   `production` variants. It never selects a cluster.
 - `fleet-config`: optional registered-spoke objects, profiles, and per-cluster
