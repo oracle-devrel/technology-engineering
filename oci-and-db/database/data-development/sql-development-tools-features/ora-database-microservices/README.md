@@ -7,8 +7,25 @@ This site includes solutions designed to address the unique challenges of micros
 - **Oracle Database in Kubernetes**: Harness the power of containerized Oracle Databases using the **Oracle Database Operator for Kubernetes**, simplifying deployment, scaling, and management in modern cloud-native environments.
 Perfect for developers and architects building robust, distributed microservices ecosystems.
 
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
+# Table of Contents
+
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
+
+# Team Publications
+
+- No team publications are currently listed.
+
+# Useful Links
+
+- No additional useful links are currently listed.
+
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
 
 # License
 
@@ -16,4 +33,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -34,14 +34,16 @@ Here a high-level description of how an Oracle True Cache workflow activity:
 
 Reviewed: 01.09.2026
 
-# Table of Contents 
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
+
 N/A
 
 # Useful Links
+
 - [Oracle True Cache](https://www.oracle.com/database/truecache/)
 - [Oracle True Cache Technical Architectures](https://docs.oracle.com/en/database/oracle/oracle-database/26/tciad/tc_genarch.html)
 - [True Cache AI World 2025](https://www.oracle.com/database/truecache/)
@@ -51,10 +53,14 @@ N/A
 - [LiveLabs-Improve application performance with True Cache](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3933&clear=RR%2C180&session=103853267931988)
 - [YouTube - Application Acceleration with Oracle True Cache: Oracle DatabaseWorld 2025](https://www.youtube.com/watch?v=akCz6tskFLU)
 
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
