@@ -4,9 +4,41 @@ This asset demonstrates a repeatable, AI-assisted workflow for generating Oracle
 
 The included example generates a Data Product Governance application for managing data products, datasets, access requests, approvals, quality issues, delivery tasks, and audit history.
 
-Reviewed: 27.07.2026
+Reviewed: 26.08.2026
 
-# When to use this asset?
+# Table of Contents
+
+
+1. [Useful Links](#useful-links)
+2. [Reusable Assets Overview](#reusable-assets-overview)
+
+
+
+# Useful Links
+
+* [Oracle APEX](https://apex.oracle.com/)
+
+  * Oracle APEX product information, resources, and workspace access.
+
+* [Oracle APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/)
+
+  * Official Oracle APEX documentation.
+
+* [Oracle APEXlang Skill](https://github.com/oracle/skills/blob/main/apex/apexlang/README.md)
+
+  * Guidance for generating schema-aware and validation-safe Oracle APEX application artifacts.
+
+* [Oracle Skills Repository](https://github.com/oracle/skills)
+
+  * Public repository containing reusable Oracle AI assistant skills.
+
+* [Oracle SQLcl](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/)
+
+  * Command-line interface for Oracle Database development and automation.
+
+# Reusable Assets Overview
+
+## When to use this asset?
 
 Use this asset when you want to:
 
@@ -19,7 +51,7 @@ Use this asset when you want to:
 
 This asset is intended for APEX developers, solution engineers, architects, and teams evaluating AI-assisted application development.
 
-# How to use this asset?
+## How to use this asset?
 
 ## Prerequisites
 
@@ -187,31 +219,10 @@ The example application may include the following roles:
 * Approver
 * Administrator
 
-# Useful Links
-
-* [Oracle APEX](https://apex.oracle.com/)
-
-  * Oracle APEX product information, resources, and workspace access.
-
-* [Oracle APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/)
-
-  * Official Oracle APEX documentation.
-
-* [Oracle APEXlang Skill](https://github.com/oracle/skills/blob/main/apex/apexlang/README.md)
-
-  * Guidance for generating schema-aware and validation-safe Oracle APEX application artifacts.
-
-* [Oracle Skills Repository](https://github.com/oracle/skills)
-
-  * Public repository containing reusable Oracle AI assistant skills.
-
-* [Oracle SQLcl](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/)
-
-  * Command-line interface for Oracle Database development and automation.
-
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
