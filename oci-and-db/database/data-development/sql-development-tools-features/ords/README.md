@@ -5,7 +5,7 @@ Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 
 Oracle Database Actions is a web-based interface that uses Oracle REST Data Services to provide development, data studio, administration and monitoring features for Oracle Autonomous Database, Oracle Database Cloud Services and on-premises Oracle Database. Database Actions comes already configured, via ORDS, on Autonomous Database.
 
-Reviewed: 10.06.2026
+Reviewed: 26.08.2026
 
 # Table of Contents
 
