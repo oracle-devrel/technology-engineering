@@ -2,6 +2,8 @@
 
 Generates branded employee recognition cards, plus a web UI to upload employee CSV data, generate previews, download PNGs, and compose email drafts.
 
+Reviewed: 04.08.2026
+
 All application source and assets live in **`files/`**. This README stays at the repository root so the repo is easy to browse on GitHub.
 
 ---

@@ -9,6 +9,18 @@ Oracle Backend for Firebase is designed to run wherever Oracle AI Database runs,
 
 ---
 
+Reviewed: 26.08.2026
+
+# Table of Contents
+
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
+
+# Team Publications
+
+- No team publications are currently listed.
+
 # Useful Links
 
 - Oracle Backend for Firebase Documentation
@@ -24,6 +36,10 @@ Oracle Backend for Firebase is designed to run wherever Oracle AI Database runs,
   - Open-source JavaScript SDK and examples for Oracle Backend for Firebase. :contentReference[oaicite:2]{index=2}
 
 ---
+
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
 
 # License
 

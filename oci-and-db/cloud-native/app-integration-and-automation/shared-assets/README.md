@@ -37,6 +37,26 @@ This section contains various examples related to Application Integration: demo 
 
 ## Demos
 
+- [Oracle Integration: Using OCI Generative AI's OpenAI-Compatible Endpoints [Responses & Chat Completions]](https://www.linkedin.com/pulse/oracle-integration-using-oci-generative-ais-endpoints-harris-qureshi-qqlzf/)
+
+    This article demonstrates calling OCI Generative AI's OpenAI-compatible APIs from Oracle Integration:
+
+    - Configure a REST connection, pick your endpoint, and the LLM call becomes a standard step within an integration flow — no OpenAI SDK required
+    - Supports both the Responses and Chat Completions APIs, with authentication, execution, and data all governed inside OCI
+    - Covers the one header everyone gets wrong — opc-compartment-id is mandatory and must go in the header, not the request body
+    - The same connection extends beyond text to image input, tools, and function calling by swapping in the matching payload structure
+    - For most cases the native OCI Generative AI action in OIC remains the right default; use the OpenAI-compatible APIs when a specific requirement calls for their relaxed limitations
+    - Includes a short demo video walking through the flow end to end
+
+- [Oracle Integration: Analyzing Documents Using the OpenAI Adapter [Responses API]](https://www.linkedin.com/pulse/oracle-integration-analyzing-documents-using-openai-adapter-qureshi-r8spf/)
+
+    This article demonstrates the OpenAI Adapter in Oracle Integration:
+
+    - Configure the connection, select the API, and an LLM call becomes a standard step within an integration flow
+    - In addition to OIC's native connectivity to OCI Generative AI, the adapter extends support to external providers (OpenAI, and via Chat Completions, Anthropic and Azure)
+    - All calls are governed and orchestrated within the platform, alongside existing integrations and monitoring
+    - Includes a short demo video walking through the flow end to end
+
 - [Developer Coaching - Unlocking AI-Driven Automation with Oracle Integration Cloud](https://youtu.be/uXpIVhgdvDA?si=RSbBr4XS-ep0jUrC)
 
     In this session we have explored how developers can build intelligent, real-world AI workflows using Oracle Integration Cloud together with OCI AI Services, with minimal custom code. Key theme is around Customer Support.

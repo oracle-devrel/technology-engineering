@@ -7,11 +7,17 @@
 
 It allows for automated testing of Packages, Functions, Procedures, Triggers, Views, and anything else that can be executed and observed from PL/SQL.
 
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
-1. [Useful Links](#useful-links)
+
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
+
+# Team Publications
+
+- No team publications are currently listed.
 
 # Useful Links
 
@@ -29,8 +35,14 @@ Reviewed: 01.12.2025
 - [The Robot Framework Documentation](https://docs.robotframework.org/docs)
 - [TRF - Database Library](https://docs.robotframework.org/docs/different_libraries/database "Database Library is a Robot Framework library that provides keywords for interacting with databases.")
 
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
