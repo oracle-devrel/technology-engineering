@@ -1,22 +1,21 @@
 # Oracle Rest Data Services (ORDS)
 
-Oracle REST Data Services (ORDS) is a Java application that enables developers with SQL and database skills to develop REST APIs for Oracle Database, 
+Oracle REST Data Services (ORDS) is a Java application that enables developers with SQL and database skills to develop REST APIs for Oracle Database,
 Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database.
 
 Oracle Database Actions is a web-based interface that uses Oracle REST Data Services to provide development, data studio, administration and monitoring features for Oracle Autonomous Database, Oracle Database Cloud Services and on-premises Oracle Database. Database Actions comes already configured, via ORDS, on Autonomous Database.
 
-Reviewed: 10.06.2026
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-<br>
-<br>
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 
-- [ORDS version 26.1 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
+- [ORDS version 26.2 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
 
 - [JSON & Customer Managed ORDS with ADB](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
@@ -27,7 +26,7 @@ Reviewed: 10.06.2026
 
 ## Team Member Blog Sites
 
-[Paolo Paolucci](https://medium.com/@ppaolucc) 
+[Paolo Paolucci](https://medium.com/@ppaolucc)
 <br>
 [Victor Mendo](https://medium.com/@vmendo/)
 <br>
@@ -35,7 +34,7 @@ Reviewed: 10.06.2026
 
 # Useful Links
 
-- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-relnotes-26.1.0.html)
+- [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-changelog.html#tab-id-84383ebb-2b68-42e5-95e4-e4ba2456ad70)
 - [SQL Developer Web/Database Actions](https://docs.oracle.com/en/database/oracle/sql-developer-web/)
 - [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [High Availability (HA) with ORDS](https://docs.oracle.com/en/solutions/deploy-ords-ha-oci/index.html)
@@ -45,9 +44,13 @@ Reviewed: 10.06.2026
 - [REST APIs for Oracle Database, everything you need to know](https://www.thatjeffsmith.com/oracle-database-rest-apis/)
 - [Jeff Smith ORDS Main Page](https://www.thatjeffsmith.com/archive/tag/ords/)
    - Main reference page on Oracle REST Data Services curated by Product Manager Jeff Smith
-- [Follow The Coffee - Chris Hoina Blog](https://followthecoffee.com/)   
+- [Follow The Coffee - Chris Hoina Blog](https://followthecoffee.com/)
 <br>
 <br>
+
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
 
 # License
 
@@ -55,4 +58,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

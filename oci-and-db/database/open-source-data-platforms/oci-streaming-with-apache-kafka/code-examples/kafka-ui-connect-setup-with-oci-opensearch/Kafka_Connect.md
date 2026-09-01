@@ -1,5 +1,7 @@
 # Kafka UI & Kafka Connect Setup with OCI OpenSearch
 
+Reviewed: 28.07.2026
+
 This guide documents how to set up **Kafka UI** and **Apache Kafka Connect** on an OCI instance, configure it to run as a service, and use the **OpenSearch Sink Connector** to stream Kafka topic data into an OCI OpenSearch index.
 
 ---

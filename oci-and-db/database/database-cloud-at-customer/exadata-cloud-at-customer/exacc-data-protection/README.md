@@ -2,13 +2,32 @@
 
 Exadata Cloud@Customer provides secure connectivity between the Exadata infrastructure, your local data center, and Oracle Cloud Infrastructure (OCI). Dedicated client and backup networks enable seamless integration with enterprise applications and backup services, while a secure control plane connection to OCI allows Oracle to deliver cloud-based management, monitoring, and lifecycle operations. For business continuity and disaster recovery, the platform supports Oracle Data Guard and other replication technologies to protect critical workloads across geographically separated sites.
 
+Reviewed: 30/07/26
+
 <img src="./../images/exadb-data-protection.png" alt="Data Protection"> 
 
-# ExaDB-C@C Backup Approaches
+# Table of Contents
+- [Team Publications](#team-publications)
+  - [ExaDB-C@C Backup Approaches](#exadb-cc-backup-approaches)
+    - [Oracle Managed Backup](#oracle-managed-backup)
+    - [User Configured Backup](#user-configured-backup)
+    - [Backup destinations](#backup-destinations)
+      - [ExaDB-C@C Local Exadata Storage](#exadb-cc-local-exadata-storage)
+      - [Zero Data Loss Recovery Appliance (ZDLRA)](#zero-data-loss-recovery-appliance-zdlra)
+      - [OCI Object Store](#oci-object-store)
+      - [NFS Platform](#nfs-platform)
+      - [3rd Party Backup solution (Only for User Configure Backups)](#3rd-party-backup-solution-only-for-user-configure-backups)
+- [Useful Links](#useful-links)
+- [License](#license)
+
+
+# Team Publications
+
+## ExaDB-C@C Backup Approaches
 
 Below is a summary of the backup and recovery approaches, target platforms and benefits and considerations for each approach. Please also refer to the "Additional Information" section for links to the documentation and MOS Notes pertinent to this area.
 
-## Oracle Managed Backup
+### Oracle Managed Backup
 
 Oracle's recommended approach. 
 
@@ -20,16 +39,16 @@ Oracle's recommended approach.
 - Simple restore management process
 - Utilises RMAN capabilities embedded within the database
 
-## User Configured Backup
+### User Configured Backup
 
 - More control and flexibility
 - Customer choice for retention periods
 - Wider choice of backup targets
 - Customer can use existing 3rd party backup solution
 
-## Backup destinations
+### Backup destinations
 
-### ExaDB-C@C Local Exadata Storage
+#### ExaDB-C@C Local Exadata Storage
 - Fastest backup & recovery
 - Not physically separate to the primary database
 - Limited capacity
@@ -37,7 +56,7 @@ Oracle's recommended approach.
 - Needs to be incorporated at VM Cluster creation
 - Maximum 14-day retention
 
-### Zero Data Loss Recovery Appliance (ZDLRA)
+#### Zero Data Loss Recovery Appliance (ZDLRA)
 - Real time database protection
 - Space efficient backups of encrypted databases
 - Highly configurable
@@ -47,7 +66,7 @@ Oracle's recommended approach.
 - Protects only the Oracle database content
 - Virtual machine O/S backups are not catered for by the ZDLRA, so an alternate solution will be required by the customer
 
-### OCI Object Store
+#### OCI Object Store
 - Low cost
 - Auto-Tiering
 - TDE Keystore protected
@@ -57,12 +76,12 @@ Oracle's recommended approach.
 - Data residency considerations
 - OCI Object Storage bucket is managed by Oracle and not visible to the customer
 
-### NFS Platform
+#### NFS Platform
 - Customer choice of supplier
 - Normally can utilise an existing platform
 - Backup and recovery of the TDE Keystore and virtual machine O/S backup would need to be configured separately by the customer.
 
-### 3rd Party Backup solution (Only for User Configure Backups)
+#### 3rd Party Backup solution (Only for User Configure Backups)
 - Customer choice of supplier
 - Enterprise wide backup solution
 - Likely to be the existing backup solution for Oracle databases
@@ -84,8 +103,6 @@ Oracle's recommended approach.
 - [Using Autonomous Data Guard with Autonomous Database on Exadata Cloud@Customer - Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/adb-using-adg-with-adb.html)
 - [Backup from ExaDB-C@C to C3 Object Storage](./backup-from-exacc-to-c3-object-store)
 - [ExaDB-C@C with Dedicated Backup Network to connect ZDLRA](./exacc-zdlra-backup)
-
-Reviewed: 06/24/26
 
 # License
 
