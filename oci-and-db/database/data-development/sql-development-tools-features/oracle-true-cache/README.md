@@ -19,7 +19,20 @@ Oracle True Cache provides several business benefits related to application deve
 
 Oracle True Cache is available starting from Oracle AI Database 26ai release (not supported in 19c).
 
-Reviewed: 06.05.2026
+<b>How True Cache works</b>
+
+Here a high-level description of how an Oracle True Cache workflow activity:
+
+- A given application decides whether to query data from Primary Database or from True Cache depending on the [Application Usage Models](https://docs.oracle.com/en/database/oracle/oracle-database/26/odbtc/overview-oracle-true-cache.html#GUID-516B11EB-A48F-4682-A203-B80BED778CC7) in use;
+- Queries to True Cache returns data that is cached in its memory. When the data isn’t in the cache, True Cache fetches the data from the primary database (Cache miss);
+- When True Cache starts (ie: instance, flush buffer cache, etc) it is empty: it needs to read large chunks of data to populate the cache. Once a block is cached, it’s updated automatically through redo apply from the primary database, similarly to the update mechanism used in Oracle Active Data Guard;
+- Data queried from True Cache are always consistent, hence returning committed data only;
+- As in general Caching solutions, True Cache data might not be the most current data as it exists in the primary database;
+- When multiple True Cache exist and serve same database service, automatic session distribution load balancing , by the listener, is performed to each cache ([Uniform Configuration](https://docs.oracle.com/en/database/oracle/oracle-database/26/tciad/tc_genarch.html)).  
+  
+<i><b>Note</i></b>: If an object is pinned as KEEP in the proper buffer pool each time new data is inserted into the object on the primary database, that new data is automatically propagated to the KEEP buffer pool on True Cache via redo apply mechanism.  
+
+Reviewed: 01.09.2026
 
 # Table of Contents 
 1. [Team Publications](#team-publications)
