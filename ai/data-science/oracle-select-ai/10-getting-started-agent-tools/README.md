@@ -2,7 +2,7 @@
  
 Use this asset as a reference for getting started with the Select AI Agent Tools available within the Oracle AI Database. More specifically, we will take a look at how to create the following tools; PL/SQL Tool, NL2SQL Tool, RAG Tool, Web Search Tool, Email Notification Tool and Slack Notification Tool.
 
-Reviewed: 2026.04.30
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

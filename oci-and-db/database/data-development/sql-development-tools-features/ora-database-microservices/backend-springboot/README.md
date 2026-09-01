@@ -23,15 +23,16 @@ Oracle Backend for Spring Boot is a powerful platform designed to streamline the
 
 Oracle Backend for Spring Boot empowers developers to build, deploy, and manage modern applications with enhanced performance, reliability, and scalability, utilizing the comprehensive capabilities of Oracle's ecosystem.
 
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
 3. [Reusable Assets Overview](#reusable-assets-overview)
- 
+
 # Team Publications
+
 - [Oracle Backend for Spring Boot - Intro and demo](https://otube.oracle.com/playlist/dedicated/262835242/1_owmwlbyd/1_s20krpat)
 - [Oracle Developer Tech Days](https://go.oracle.com/LP=138674?elqCampaignId=500067&src1=:se:lw:ie:pt:::SEO400308921SW&evite=WWMK230914P00011:se:lw:ie:pt:::SEO400308921SW) Developing Microservices Applications with Oracle (Registration Required)
 
@@ -45,6 +46,7 @@ Reviewed: 01.12.2025
 - Video: [Oracle Developers - Oracle’s Backend as a Service for Spring Cloud](https://www.youtube.com/watch?v=qhYTiBjql_c)
 
 # Reusable Assets Overview
+
 - [Tutorials / How To's]: [Oracle LiveLabs: CloudBank - Building an App with Spring Boot and Mobile APIs with Oracle Database and Kubernetes](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3607)
 
 # License
@@ -53,4 +55,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
