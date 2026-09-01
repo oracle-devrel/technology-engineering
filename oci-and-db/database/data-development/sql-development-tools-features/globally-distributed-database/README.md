@@ -25,22 +25,29 @@ Oracle Globally Distributed Database relies on replication for availability. Ora
 - Raft Replication (new in 23ai/26ai).
 
 
-Replication provides high availability, disaster recovery, and additional scalability for reads. 
-A unit of replication can be a shard, a part of a shard, or a group of shards. You can choose either Oracle Data Guard or Raft replication to replicate your data. 
+Replication provides high availability, disaster recovery, and additional scalability for reads.
+A unit of replication can be a shard, a part of a shard, or a group of shards. You can choose either Oracle Data Guard or Raft replication to replicate your data.
 Oracle Globally Distributed Database automatically deploys the specified replication topology to the procured systems, and enables data replication. Replication is declaratively specified using GDSCTL command syntax.
 
-Reviewed: 12.12.2025
-
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
-1. [Useful Links](#useful-links)
 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
+
+# Team Publications
+
+- No team publications are currently listed.
 
 # Useful Links
 
 1. [Globally Distributed Database in 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/shard/index.html)
 
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
 
 # License
 
@@ -48,4 +55,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
