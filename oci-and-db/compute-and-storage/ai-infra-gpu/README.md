@@ -14,7 +14,7 @@ Who support customers across various industries and geographies in EMEA (local s
     - PoCs/benchmarks
     - Architecture designs & sizing
 
-Reviewed: 16.10.2025
+Reviewed: 17 Aug 2026
 
 # Useful Links
 

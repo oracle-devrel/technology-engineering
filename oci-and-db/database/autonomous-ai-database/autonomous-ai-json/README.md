@@ -2,7 +2,7 @@
  
 Oracle Autonomous JSON Database is a cloud document database service that makes it simple to develop JSON-centric applications. It features NoSQL-style document APIs (Oracle SODA and Oracle Database API for MongoDB), serverless scaling, high-performance ACID transactions, comprehensive security, and low pay-per-use pricing.
 
-Reviewed: 28.10.2025
+Reviewed: 29.07.2026
  
 # Table of Contents
  
@@ -24,7 +24,7 @@ Reviewed: 28.10.2025
 - [Unleash the power of Autonomous JSON and MongoDB API](https://www.oracle.com/uk/events/data-infrastructure-forum/)
     - In this session, you will learn how easy is to combine Cloud Native JSON data with transactional Data Warehouse information.
 
-- [Mastering 23c Developer free: SQL Domains and JSON schema](https://medium.com/@javidelatorre/mastering-23c-developer-free-sql-domains-and-json-schema-3611dbe879b9)
+- [Mastering 26ai Developer free: SQL Domains and JSON schema](https://medium.com/@javidelatorre/mastering-23c-developer-free-sql-domains-and-json-schema-3611dbe879b9)
     - Learn about the new features in 23c, covering SQL Domains and JSON schema.
 
 - [Cloud Scalability using Customer Managed Oracle REST Data Service with Autonomous JSON](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
@@ -33,7 +33,7 @@ Reviewed: 28.10.2025
 - [Python Developer Track for Oracle JSON and Duality Views](https://dev.to/javierdelatorre/python-developer-track-for-oracle-json-and-duality-views-2b9h)
     - Workshop overview.
 
-- [Python Developer Track for Oracle JSON and Duality Views - Part 1: Create and configure your Oracle 23cs](https://dev.to/javierdelatorre/python-developer-track-for-oracle-json-and-duality-views-part-1-create-and-configure-your-oracle-23c-13hl)
+- [Python Developer Track for Oracle JSON and Duality Views - Part 1: Create and configure your Oracle 26ai](https://dev.to/javierdelatorre/python-developer-track-for-oracle-json-and-duality-views-part-1-create-and-configure-your-oracle-26ai-13hl)
     - Configure developer free database.
 
 - [Python Developer Track for Oracle JSON and Duality Views - Part 2: First steps with Oracle and Python](https://dev.to/javierdelatorre/python-developer-track-for-oracle-json-and-duality-views-part-2-first-steps-with-oracle-and-python-2c0m)
@@ -62,8 +62,8 @@ Reviewed: 28.10.2025
  
 # Useful Links
  
-- [JSON Developer Guide for 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/#Oracle%C2%AE-Database)
-    - Documentation for developing over JSON at 19c.
+- [JSON Developer Guide for 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/adjsn/)
+    - Documentation for developing over JSON a26ai.
 
 - [JSON Relational Duality examples](https://github.com/oracle-samples/oracle-db-examples/tree/main/json-relational-duality)
     - Examples for Duality Views.
@@ -77,11 +77,9 @@ Reviewed: 28.10.2025
 - [Why Oracle Autonomous JSON is faster than MongoDB? You need to know about Oracle OSON](https://blogs.oracle.com/database/post/autonomous-json-database-under-the-covers-oson-format )
     - Learn how Oracle OSON works.
 
-- [JSON, what is new in 21c?](https://blogs.oracle.com/database/post/json-type-and-other-cool-new-json-features-in-oracle-database-release-21c )
-    - JSON new features for 21c.
 
-- [JSON and PL/SQL: what's new in 23c?](https://www.youtube.com/watch?v=ICNDwGkAzBg )
-    - JSON new features for 23c.
+- [JSON and PL/SQL: what's new in 26ai?](https://www.youtube.com/watch?v=ICNDwGkAzBg )
+    - JSON new features for 26ai.
 
 - [JSON Tutorial for Oracle Database](https://blogs.oracle.com/sql/post/how-to-store-query-and-create-json-documents-in-oracle-database )
     - Tutorial for Oracle JSON.

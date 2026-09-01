@@ -2,9 +2,15 @@
 
 A number of customers have expressed a requirement that ALL traffic between the ExaC@C and Oracle be tunneled using IPSec VPN.
 
+Reviewed: 30/07/26
+
+# When to use this asset?
+
 While the actual CPS connection uses secure mTLS web socket tunnels, as this does not adhere to the security standards of some customers, it is possible to tunnel these tunnels using standard OCI connectivity methods. 
 
 We can use either IPSec Site-to-Site VPN or Fastconnect to establish a permanent secure tunnel between the customer DC and OCI. Then we simply route the CPS traffic via this connection. As far as the ExaC@C CPS servers are concerned, it is simply an IP route it uses to get to the Internet and access the OCI services.  It connects and communicates with the OCI Service endpoints in exactly the same way, except that all traffic is routed through the Site-to-site VPN tunnel.
+
+# How to use this asset?
 
 If you want to do this, then you must raise a Technical Exception to ensure that Cloud Ops and Engineering are aware of any special setup required.
 
@@ -27,8 +33,6 @@ End result is that ALL traffic to and from the CPS to Oracle is tunneled in the 
 - [Steps to create](https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/settingupIPsec.htm)
 
 - [Troubleshooting](https://www.ateam-oracle.com/post/oracle-cloud-vpn-connect-troubleshooting)
-
-Reviewed: 06/23/26
 
 # License
 

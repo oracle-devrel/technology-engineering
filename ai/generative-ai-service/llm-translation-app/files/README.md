@@ -4,6 +4,8 @@ Translates between multiple language pairs using OCI Generative AI models, with 
 pluggable domain-specific glossary (the included example glossary covers online
 gaming / finance terminology — swap it for your own domain).
 
+Reviewed: 04.08.2026
+
 ## Deployment
 
 The service is a **FastAPI** app providing sync and streaming (SSE) translation.

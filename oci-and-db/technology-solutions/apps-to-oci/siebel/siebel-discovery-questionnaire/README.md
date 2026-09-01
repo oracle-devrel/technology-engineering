@@ -3,7 +3,7 @@
 
 This document serves as a standard questionnaire designed to gather crucial information necessary for the execution of Siebel application migration projects. It captures specific data that aids in estimating the effort required for a successful migration.
 
-Reviewed: 25.11.2025
+Review Date: 28.07.2026
 
 # When to use this asset?
 
