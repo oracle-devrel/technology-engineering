@@ -6,14 +6,15 @@ We use this asset when we want to explore the various SQL IDE development tools 
 
 An additional managed offering in Oracle Cloud Infrastructure (OCI) called <b>Oracle Database Tools Service</b> enables the creation of multiple connections to oracle databases which can be reused by multiple users. This OCI service has been introduced in 2021 and ehnanced over the years.
 You establish the connection and then access your database resources via web-based SQL Worksheet or use the SQLcl connection via OCI Cloud Shell.
-Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource. 
+Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource.
 
-Reviewed: 14.07.2026
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 
@@ -23,10 +24,9 @@ Reviewed: 14.07.2026
 
 - Application Continuity - [Does your Database really know your application - Part 3](https://medium.com/@paulbrad71/application-continuity-on-adb-does-your-database-know-your-application-376e44d8a30) - Published on [Medium](http://www.medium.com) on 31st May 2023.
 
-- SQL and ADB - [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.  
+- SQL and ADB - [SQL on Autonomous Database - a Rockin' Experience](https://www.youtube.com/watch?v=jcrPvP4SKLQ) - Published on [YouTube](http://www.youtube.com) on 23th November 2023.
 
-- SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025. 
-
+- SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025.
 
 # Useful Links
 
@@ -37,7 +37,7 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 - **Learn and share SQL**: the new [Livesql Portal](https://livesql.oracle.com/landing/) including Scripts, Tutorials, Tips and a Live SQL Developer Web environment to quickly get hands on practice. You can start coding straight away or access the useful Scripts and Tutorial Library section from the landing page.
 
 - **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
-  
+
 - **SQL Developer for VS Code**: Microsoft Visual Studio Code (VS Code) extension which brings the ability to execute your SQL queries and scripts, perform PL/SQL development, and interact with your database schema objects. SQL Developer for VS Code is the evolution of our popular SQL Developer desktop application embracing, thus, the familiar richness of our desktop version, reimagined into a lighter and more flexible tool that adapts to your needs. Including our SQLcl as a modern command-line interface.
 
 - **sqlplus**: Master the command-line interface for Oracle Database with sqlplus. Learn essential commands and best practices for efficient SQL execution.
@@ -61,19 +61,19 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 - [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
 
-## Dev Gyms 
-- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
+## Dev Gyms
+- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::)
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
 
 - [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
- 
-- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::) 
+
+- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::)
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
 
 - [Dev Gym Workout Class Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q)
-    - Learn SQL in this FREE 12-part boot camp. It will help you get started with Oracle Database and SQL. The course is a series of videos to teach you database concepts,   interactive SQL tutorials, and quizzes to reinforce the ideas. 
+    - Learn SQL in this FREE 12-part boot camp. It will help you get started with Oracle Database and SQL. The course is a series of videos to teach you database concepts,   interactive SQL tutorials, and quizzes to reinforce the ideas.
 - [Database For Developers: Next Level](https://devgym.oracle.com/pls/apex/dg/class/databases-for-developers-next-level.html)
     - Complete the course to get your free certificate. This course continues where Databases for Developers: Foundations left off, taking you further on your SQL journey. The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
 
@@ -94,6 +94,9 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 - [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
 - [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude) -->
 
+# Reusable Assets Overview
+
+No reusable assets are currently listed.
 
 # License
 
@@ -101,5 +104,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
-
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
