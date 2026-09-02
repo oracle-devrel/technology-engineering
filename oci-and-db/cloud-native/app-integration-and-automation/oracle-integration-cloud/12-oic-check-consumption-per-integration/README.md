@@ -6,6 +6,8 @@ Understanding message consumption at the integration level can help you identify
 
 This guide shows how to view the number of billed messages consumed by each integration using the **Consumed Messages for Integration** metric.
 
+Reviewed: 02.09.2026
+
 ---
 
 ## Prerequisites
