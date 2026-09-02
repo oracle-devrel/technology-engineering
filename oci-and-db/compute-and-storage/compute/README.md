@@ -23,8 +23,8 @@ Some of the topics covered on this page:
 # Team Publications
 
 The links below contain publications from the OCI Compute team:
-- [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware)
-- [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software)
+- [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/compute-and-storage/compute/compute-hardware)
+- [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/compute-and-storage/compute/compute-software)
 
 # License
 
