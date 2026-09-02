@@ -361,3 +361,8 @@ resources already exist). After the database is up, connect as `ADMIN` and:
 - Use a least-privileged application database account.
 - Review sample documents before publishing them to a public repository.
 
+
+## License
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+See [`License`](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) file for details.
