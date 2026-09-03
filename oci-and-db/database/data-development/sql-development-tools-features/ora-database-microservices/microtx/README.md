@@ -16,7 +16,7 @@ Reviewed: 26.08.2026
 
 # Oracle Transaction Manager for Microservices Enterprise main Features
 
-##Advanced Monitoring and Diagnostics
+## Advanced Monitoring and Diagnostics
 MicroTx Enterprise includes advanced monitoring and diagnostic tools that provide deep insights into transaction processing, helping identify and resolve issues quickly.
 
 ## Enhanced Security Features
