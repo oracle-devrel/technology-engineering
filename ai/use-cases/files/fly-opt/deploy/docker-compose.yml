@@ -1,0 +1,41 @@
+# ============================================================================
+# CuOPT Frontend - Docker Compose for Local Development & Testing
+# ============================================================================
+# Usage (run from deploy folder):
+#   Build:  docker-compose build
+#   Run:    docker-compose up -d
+#   Logs:   docker-compose logs -f
+#   Stop:   docker-compose down
+# ============================================================================
+
+services:
+  cuopt-frontend:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: cuopt-frontend
+    env_file:
+      - ../app/.env
+    ports:
+      - "8080:80"      # Frontend (Nginx)
+      - "3001:3001"    # API Server (Express)
+    environment:
+      # Node environment
+      - NODE_ENV=production
+      - PORT=3001
+    volumes:
+      # Mount OCI config for authentication (development only)
+      - ~/.oci:/root/.oci:ro
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - cuopt-network
+
+networks:
+  cuopt-network:
+    driver: bridge

@@ -1,0 +1,60 @@
+# ============================================================================
+# CuOPT Frontend - Kubernetes Service
+# ============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: cuopt-frontend
+  namespace: cuopt
+  labels:
+    app.kubernetes.io/name: cuopt-frontend
+    app.kubernetes.io/component: frontend
+  annotations:
+    # OCI Load Balancer annotations (optional)
+    # service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    # service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    # service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+    - name: api
+      port: 3001
+      targetPort: 3001
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: cuopt-frontend
+
+---
+# ============================================================================
+# CuOPT Frontend - LoadBalancer Service (External Access)
+# Use this if you want direct external access without Ingress
+# ============================================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: cuopt-frontend-lb
+  namespace: cuopt
+  labels:
+    app.kubernetes.io/name: cuopt-frontend
+    app.kubernetes.io/component: frontend
+  annotations:
+    # OCI Load Balancer configuration
+    service.beta.kubernetes.io/oci-load-balancer-shape: "flexible"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+    service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+    # SSL/TLS (optional - configure with your certificate)
+    # service.beta.kubernetes.io/oci-load-balancer-ssl-ports: "443"
+    # service.beta.kubernetes.io/oci-load-balancer-tls-secret: "tls-secret"
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: cuopt-frontend
