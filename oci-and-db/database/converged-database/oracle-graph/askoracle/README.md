@@ -5,11 +5,11 @@ This folder keeps the AskOracle chatbot-viz version 3.
 03.09.2026
 
 # When to use this asset?
-
+Use this asset as a reference for setting up the AskOracle chatbot-viz (version 3) and exploring property graph capabilities using Select AI for Graph within your Autonomous Oracle AI Database.
+This setup enables users to interact with banking graph schemas using natural language queries, combining Select AI capabilities with interactive visualization tools and customized notebooks.
 
 # How to use this asset?
-
-## Check the demo_Bank_AI_Queries notebook in 4-SELECTAIforGraph and set up your profile
+Note - Please check the demo_Bank_AI_Queries notebook located in 4-SELECTAIforGraph to set up and configure your profile before deploying the application.converged-database/oracle-graph/graphselectai
 
 ## Working App
 
