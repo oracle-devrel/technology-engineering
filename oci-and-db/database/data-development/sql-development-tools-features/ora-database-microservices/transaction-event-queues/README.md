@@ -4,21 +4,23 @@
 
 TxEventQs are compatible with Kafka (via the Kafka API for TxEventQ) and support TxEventQ - Kafka integration, providing flexibility for those architectures where kafka is already been using or in scenarios where message transactionality is not needed.
 
-### Key Concepts
+Reviewed: 26.08.2026
 
-##### Event-driven architecture (EDA)
+# Key Concepts
+
+## Event-driven architecture (EDA)
 
 Event-driven architecture (EDA) is a software design pattern that promotes the production, detection, consumption, and reaction to events. Events are significant changes in state or conditions that an application needs to respond to. TxEventQs enable EDA by providing a robust infrastructure for event handling and processing.
 
-##### Message Queues
+## Message Queues
 
 Message queues are essential in distributed systems, allowing different parts of an application to communicate and process operations asynchronously. TxEventQs provide a high-performance, transactional messaging system that ensures messages (events) are reliably delivered and processed in the correct order.
 
-##### Transactions
+## Transactions
 
 In databases and messaging, a transaction is a sequence of operations performed as a single logical unit of work. Transactions ensure that a series of operations either complete successfully as a whole or fail without affecting the system state. TxEventQs integrate with Oracle's transaction management to guarantee that messages are processed reliably within transactions. **This message transactionality helps developers reduce the effort needed to develop EDA**, as it avoids the need for compensation code to ensure data consistency in case of failures.
 
-### Features of Oracle Transaction Event Queues
+# Features of Oracle Transaction Event Queues
 
 **High Performance**
 
@@ -42,7 +44,7 @@ TxEventQs can be easily integrated with other Oracle database features and exter
 
 Also, TxEventQ can be integrated with Kafka in a transparent way for applications.
 
-### Use Cases
+# Use Cases
 
 **Microservices Communication**
 
@@ -61,14 +63,6 @@ TxEventQs can be used to collect and process events in real-time, enabling appli
 TxEventQs can manage and coordinate workflows by routing events between different components of a workflow system, ensuring that each step in the workflow is executed in the correct order.
 
 Oracle Transaction Event Queues provide a robust, high-performance solution for managing transactional events in event-driven architectures. By integrating seamlessly with Oracle's database and transaction management systems, TxEventQs offer reliable, scalable, and flexible event processing capabilities, making them a powerful tool for modern applications.
-
-Reviewed: 26.08.2026
-
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 
