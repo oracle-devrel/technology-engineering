@@ -13,19 +13,13 @@ Providing links to public useful documentation and articles/blogs written by Ora
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-
 # Team Publications
 
 - [YouTube Oracle Developer Channels - Cloud Coaching - Modernize your Oracle Forms apps using APEX!](https://www.youtube.com/watch?v=MYzSgnzUOjA&ab_channel=OracleDevelopers)
-[Paolo Paolucci](https://medium.com/@ppaolucc)
-<br>
-[Victor Mendo](https://medium.com/@vmendo/)
-<br>
-<br>
+
+## Team Member Blog Sites
+- [Paolo Paolucci](https://medium.com/@ppaolucc)
+- [Victor Mendo](https://medium.com/@vmendo/)
 
 # Useful Links
 
@@ -38,16 +32,6 @@ Reviewed: 26.08.2026
 - [Modernize Oracle Forms applications to Oracle APEX and an autonomous database](https://docs.oracle.com/en/solutions/migrate-apps-to-apex/index.html#GUID-222A3DF2-390A-47B8-9377-BB5D1E41A60A)
 - [MCP+AI: Helping You Modernize Oracle Forms Apps to APEX](https://blogs.oracle.com/apex/mcp-ai-helping-you-modernize-your-oracle-forms-apps-to-oracle-apex)
 - [Transforming Oracle Forms to APEX in the AI Era: AI Agent](https://blogs.oracle.com/apex/transforming-f2a-agent)
-<br>
-<br>
-
-
-## Team Member Blog Sites
-[Paolo Paolucci](https://medium.com/@ppaolucc)
-<br>
-[Victor Mendo](https://medium.com/@vmendo/)
-<br>
-<br>
 
 # License
 
