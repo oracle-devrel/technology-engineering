@@ -1,9 +1,11 @@
 # Oracle Graph Getting Started - Bank Graph
 
 Use this asset as a reference for getting started with Property Graph capabilities using Select AI and the AskOracle application to query graphs in natural language within the Oracle AI Database.
-Reviewed: 2026.09.01
+
+Reviewed: 01.09.2026
 
 ## When to use this asset?
+
 Use this asset as a reference for setting up the AskOracle chatbot-viz (version 3) and exploring property graph capabilities using Select AI for Graph within your Autonomous Oracle AI Database.
 This setup enables users to interact with banking graph schemas using natural language queries, combining Select AI capabilities with interactive visualization tools and customized notebooks.
 
