@@ -1,6 +1,14 @@
 # AskOracle chatbot-viz Graph Setup
 
 This folder keeps the AskOracle chatbot-viz version 3.
+
+03.09.2026
+
+# When to use this asset?
+
+
+# How to use this asset?
+
 ## Check the demo_Bank_AI_Queries notebook in 4-SELECTAIforGraph and set up your profile
 
 ## Working App
@@ -156,3 +164,10 @@ Show transfers from account 406 as a graph
 Show transfers from account 934 as a graph
 ```
 
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
