@@ -1,0 +1,12 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: apps-config
+  namespace: flux-system
+spec:
+  interval: 3m
+  url: "${git_repo_url}"
+  ref:
+    branch: main
+  secretRef:
+    name: git-token-auth
