@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitoring-rules
+data:
+  rules.yml: |
+    groups: []
