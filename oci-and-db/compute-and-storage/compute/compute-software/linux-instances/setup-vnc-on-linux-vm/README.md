@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual for the installation and Setup of the GUI on an OCI Linux VM with a VNC Server.
 
-Reviewed: 16.10.2025
+Reviewed: 04.09.2026
 
 # When to use this asset?
 
