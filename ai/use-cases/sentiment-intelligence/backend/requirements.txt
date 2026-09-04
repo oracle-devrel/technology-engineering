@@ -1,0 +1,11 @@
+fastapi>=0.115.0
+uvicorn>=0.34.0
+python-dotenv>=1.1.0
+oracledb>=3.1.0
+select-ai>=1.2.0
+oci>=2.149.0
+ddgs>=7.0.0
+httpx>=0.28.0
+beautifulsoup4>=4.13.0
+lxml>=5.4.0
+pydantic-settings>=2.9.0

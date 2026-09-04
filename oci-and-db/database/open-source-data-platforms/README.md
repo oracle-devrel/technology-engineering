@@ -4,7 +4,7 @@ Open Source Data Platforms continue to extend the Oracle Data Platform with Key 
 
 - OCI Big Data Service
 - OCI PostgreSQL
-- OCI MySQL
+- OCI MySQL HeatWave
 - OCI Cache (Redis, Valkey)
 - OCI Data Flow (Apache Spark)
 - OCI Streaming

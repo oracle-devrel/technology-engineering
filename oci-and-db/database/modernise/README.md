@@ -6,18 +6,19 @@ Check out the links below to detailed videos, technical demonstrations, blog art
 
 Also make sure to check the dedicated pages of the main technology areas of Database Migration, Upgrade & Patching:
 
-* [Zero Downtime Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/zero-downtime-migration)
-* [OCI Database Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/oci-database-migration)
-* [Oracle Data Pump](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/data-pump)
-* [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/database-patching)
-* [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/cloud-premigration-advisor-tool)
-* [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/transportable-tablespace)
-* [Real Application Testing](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/real-application-testing)
-* [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/migration-to-oci-database-with-postgresql)
-* [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/modernise/translate-sql-code)
+* [Zero Downtime Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/zero-downtime-migration)
+* [OCI Database Migration](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/oci-database-migration)
+* [Oracle Data Pump](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/data-pump)
+* [Database Patching](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/database-patching)
+* [Cloud Premigration Advisor Tool](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/cloud-premigration-advisor-tool)
+* [Transportable Tablespace](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/transportable-tablespace)
+* [Real Application Testing](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/real-application-testing)
+* [Migration to OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migration-to-oci-database-with-postgresql)
+* [Translate SQL Code](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/translate-sql-code)
+* [Migrate to Autonomous Database using DBMS_CLOUD_IMPORT](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-to-adb-with-dbms-cloud-import)
+* [Migrate legacy character set to Unicode with Database Migration Assistant for Unicode (DMU)](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/modernise/migrate-legacy-characterset-to-unicode)
 
-
-Reviewed: 15.06.2026
+Reviewed: 19.08.2026
 
 # Team Publications
  
