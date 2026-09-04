@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OCI LLM Gateway — Playground</title>
+<style>
+  :root {
+    --bg: #16141a;
+    --bg-panel: #1f1c24;
+    --bg-input: #29252f;
+    --border: #3a3542;
+    --text: #f1efed;
+    --text-dim: #a9a4b0;
+    --oracle-red: #c74634;
+    --oracle-red-hover: #e05a47;
+    --accent: #f3b53f;
+    --ok: #5fb98a;
+    --radius: 10px;
+    font-size: 15px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    display: flex; height: 100vh; overflow: hidden;
+  }
+
+  /* ---------- Sidebar ---------- */
+  aside {
+    width: 300px; min-width: 300px; background: var(--bg-panel);
+    border-right: 1px solid var(--border); padding: 20px;
+    display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .mark {
+    width: 34px; height: 22px; border: 3px solid var(--oracle-red);
+    border-radius: 11px;
+  }
+  .brand h1 { font-size: 1.02rem; font-weight: 600; letter-spacing: .02em; }
+  .brand small { display: block; color: var(--text-dim); font-weight: 400; font-size: .72rem; }
+
+  label { font-size: .74rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; display: block; margin-bottom: 5px; }
+  input[type=text], input[type=password], select {
+    width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+    color: var(--text); padding: 9px 11px; border-radius: var(--radius); font-size: .88rem;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--oracle-red); }
+
+  .toggle { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px;
+    background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius); }
+  .toggle span { font-size: .86rem; }
+  .toggle input { accent-color: var(--oracle-red); width: 16px; height: 16px; }
+
+  button.primary {
+    background: var(--oracle-red); color: #fff; border: none; padding: 10px 14px;
+    border-radius: var(--radius); font-size: .9rem; font-weight: 600; cursor: pointer;
+  }
+  button.primary:hover { background: var(--oracle-red-hover); }
+  button.ghost {
+    background: none; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 8px 12px; border-radius: var(--radius); font-size: .82rem; cursor: pointer;
+  }
+  button.ghost:hover { color: var(--text); border-color: var(--text-dim); }
+  .status { font-size: .78rem; color: var(--text-dim); min-height: 1.2em; }
+  .status.ok { color: var(--ok); }
+  .status.err { color: var(--oracle-red-hover); }
+  .sidebar-footer { margin-top: auto; font-size: .7rem; color: var(--text-dim); line-height: 1.5; }
+
+  /* ---------- Main ---------- */
+  main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  #chat { flex: 1; overflow-y: auto; padding: 26px 8%; display: flex; flex-direction: column; gap: 14px; }
+  .msg { max-width: 78%; padding: 12px 16px; border-radius: 14px; line-height: 1.55;
+    font-size: .93rem; white-space: pre-wrap; word-wrap: break-word; }
+  .msg.user { align-self: flex-end; background: var(--oracle-red); color: #fff; border-bottom-right-radius: 4px; }
+  .msg.assistant { align-self: flex-start; background: var(--bg-panel); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .msg.error { align-self: center; background: rgba(199,70,52,.12); border: 1px solid var(--oracle-red);
+    color: var(--oracle-red-hover); font-size: .84rem; max-width: 90%; }
+  .meta { align-self: flex-start; font-size: .72rem; color: var(--text-dim); margin: -8px 0 0 6px; }
+  .meta b { color: var(--accent); font-weight: 600; }
+  .empty { margin: auto; text-align: center; color: var(--text-dim); }
+  .empty .mark { width: 60px; height: 39px; border: 5px solid var(--oracle-red); border-radius: 20px; margin: 0 auto 16px; opacity: .6; }
+
+  /* ---------- Composer ---------- */
+  #composer { padding: 16px 8% 22px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+  #prompt { flex: 1; background: var(--bg-input); border: 1px solid var(--border); color: var(--text);
+    border-radius: var(--radius); padding: 12px 14px; font-size: .93rem; font-family: inherit;
+    resize: none; height: 52px; }
+  #prompt:focus { outline: none; border-color: var(--oracle-red); }
+  #send { align-self: stretch; min-width: 90px; }
+</style>
+</head>
+<body>
+
+<aside>
+  <div class="brand">
+    <div class="mark"></div>
+    <h1>OCI LLM Gateway<small>LiteLLM &middot; Generative AI &middot; playground</small></h1>
+  </div>
+
+  <div>
+    <label for="baseUrl">Gateway URL</label>
+    <input type="text" id="baseUrl" value="http://localhost:4000">
+  </div>
+  <div>
+    <label for="apiKey">API key</label>
+    <input type="password" id="apiKey" placeholder="sk-...">
+  </div>
+  <button class="primary" id="connect">Connect</button>
+  <div class="status" id="status"></div>
+
+  <div>
+    <label for="model">Model</label>
+    <select id="model"><option value="auto">auto (complexity routing)</option></select>
+  </div>
+  <div class="toggle">
+    <span>OCI Guardrails</span>
+    <input type="checkbox" id="guardrails">
+  </div>
+  <div>
+    <label for="tags">Tags (comma separated)</label>
+    <input type="text" id="tags" placeholder="oci, medium">
+  </div>
+  <button class="ghost" id="clear">Clear conversation</button>
+
+  <div class="sidebar-footer">
+    Model <b>auto</b> lets the gateway route by task complexity.<br>
+    Guardrails: moderation &middot; PII masking &middot; injection defense.
+  </div>
+</aside>
+
+<main>
+  <div id="chat">
+    <div class="empty" id="empty">
+      <div class="mark"></div>
+      <div>Connect to the gateway, pick a model (or <b>auto</b>) and start chatting.</div>
+    </div>
+  </div>
+  <div id="composer">
+    <textarea id="prompt" placeholder="Ask anything… (Enter to send, Shift+Enter for newline)"></textarea>
+    <button class="primary" id="send">Send</button>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let history = [];
+
+// Persist connection settings locally
+["baseUrl", "apiKey"].forEach(k => {
+  const saved = localStorage.getItem("gw_" + k);
+  if (saved) $(k).value = saved;
+  $(k).addEventListener("change", () => localStorage.setItem("gw_" + k, $(k).value));
+});
+
+function setStatus(text, cls) { const s = $("status"); s.textContent = text; s.className = "status " + (cls || ""); }
+function headers() {
+  return { "Content-Type": "application/json", "Authorization": "Bearer " + $("apiKey").value.trim() };
+}
+
+async function connect() {
+  setStatus("Connecting…");
+  try {
+    const res = await fetch($("baseUrl").value.replace(/\/$/, "") + "/v1/models", { headers: headers() });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    const select = $("model");
+    const current = select.value;
+    select.innerHTML = "";
+    const auto = data.data.find(m => m.id === "auto");
+    if (auto) select.add(new Option("auto (complexity routing)", "auto"));
+    data.data.filter(m => m.id !== "auto").sort((a, b) => a.id.localeCompare(b.id))
+      .forEach(m => select.add(new Option(m.id, m.id)));
+    if ([...select.options].some(o => o.value === current)) select.value = current;
+    setStatus(`Connected — ${data.data.length} models`, "ok");
+  } catch (e) {
+    setStatus("Connection failed: " + e.message, "err");
+  }
+}
+
+function addMsg(cls, text) {
+  $("empty")?.remove();
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.textContent = text;
+  $("chat").appendChild(div);
+  $("chat").scrollTop = $("chat").scrollHeight;
+  return div;
+}
+function addMeta(html) {
+  const div = document.createElement("div");
+  div.className = "meta";
+  div.innerHTML = html;
+  $("chat").appendChild(div);
+  $("chat").scrollTop = $("chat").scrollHeight;
+}
+
+async function send() {
+  const text = $("prompt").value.trim();
+  if (!text) return;
+  $("prompt").value = "";
+  addMsg("user", text);
+  history.push({ role: "user", content: text });
+
+  const body = { model: $("model").value, messages: history, stream: true,
+                 stream_options: { include_usage: true } };
+  const tags = $("tags").value.split(",").map(t => t.trim()).filter(Boolean);
+  if (tags.length) body.tags = tags;
+  if ($("guardrails").checked) body.guardrails = ["oci-guardrails"];
+
+  const bubble = addMsg("assistant", "…");
+  const t0 = performance.now();
+  let served = null, usage = null, answer = "";
+
+  try {
+    const res = await fetch($("baseUrl").value.replace(/\/$/, "") + "/v1/chat/completions",
+                            { method: "POST", headers: headers(), body: JSON.stringify(body) });
+    served = res.headers.get("x-litellm-model");
+    if (!res.ok) {
+      const err = await res.text();
+      bubble.remove();
+      let detail = err;
+      try { detail = JSON.stringify(JSON.parse(err).error?.message ?? JSON.parse(err), null, 0); } catch {}
+      addMsg("error", "Request failed (" + res.status + "): " + detail);
+      return;
+    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith("data: ") || line.includes("[DONE]")) continue;
+        try {
+          const chunk = JSON.parse(line.slice(6));
+          const delta = chunk.choices?.[0]?.delta?.content;
+          if (delta) { answer += delta; bubble.textContent = answer; }
+          if (chunk.usage) usage = chunk.usage;
+          if (chunk.model) served = served || chunk.model;
+        } catch {}
+      }
+      $("chat").scrollTop = $("chat").scrollHeight;
+    }
+    history.push({ role: "assistant", content: answer });
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    const tok = usage ? `${usage.prompt_tokens}+${usage.completion_tokens} tok` : "";
+    addMeta(`served by <b>${served || body.model}</b> &middot; ${secs}s ${tok ? "&middot; " + tok : ""}` +
+            ($("guardrails").checked ? " &middot; guardrails ✓" : ""));
+  } catch (e) {
+    bubble.remove();
+    addMsg("error", "Request failed: " + e.message);
+  }
+}
+
+$("connect").addEventListener("click", connect);
+$("send").addEventListener("click", send);
+$("prompt").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+});
+$("clear").addEventListener("click", () => {
+  history = [];
+  $("chat").innerHTML = "";
+  addMsg("assistant", "Conversation cleared.").className = "meta";
+});
+if ($("apiKey").value) connect();
+</script>
+</body>
+</html>
