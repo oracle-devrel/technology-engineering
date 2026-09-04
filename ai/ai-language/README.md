@@ -2,7 +2,7 @@
 
 OCI Language is a cloud-based AI service for performing sophisticated text analysis at scale. Use this service to build intelligent applications by leveraging REST APIs and SDKs to process unstructured text for sentiment analysis, entity recognition, translation, and more.
 
-Reviewed: 09.03.2026
+Reviewed: 04.08.2026
 
 # Table of Contents
  

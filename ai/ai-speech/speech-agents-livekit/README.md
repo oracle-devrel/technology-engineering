@@ -2,7 +2,7 @@
 
 The following asset is a tool designed to display how the LiveKit plugin can be used on top of OCI Generative AI, OCI Speech, and Oracle Autonomous Database to enable a real-time voice-powered hotel reservation assistant. The agent supports natural language room availability queries via NL2SQL, hotel document search via OCI vector store, live web search, and booking creation.
 
-Reviewed: 17.06.2026
+Reviewed: 04.08.2026
 
 Author: David Attia.
 

@@ -1,6 +1,6 @@
 # Use PostgreSQL MCP Pro with OCI Database with PostgreSQL
 
-Reviewed: 26.03.2026
+Reviewed: 28.07.2026
 
 # When to use this asset?
 
