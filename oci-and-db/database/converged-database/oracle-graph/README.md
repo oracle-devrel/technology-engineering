@@ -22,7 +22,7 @@ Reviewed: 21.08.2026
 # Team Publications
 
 - [Oracle Graph - Presentations](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-graph/oracle-graph-presentations)
-- [Developing a Java application using Oracle Graph Server]([https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-graph/prepare-data-for-graph](https://blogs.oracle.com/coretec/developing-a-java-application-working-on-top-of-oracle-property-graph-server).
+- [Developing a Java application using Oracle Graph Server](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-graph/prepare-data-for-graph)
 - [Getting Started: RDF Knowledge Graphs for Pursuing Hidden Data Connections](https://blogs.oracle.com/coretec/post/getting-started-rdf-knowledge-graphs-for-pursuing-hidden-connections)
 - [Different Approaches for Importing RDF Graphs into a Converged Database](https://blogs.oracle.com/coretec/different-approaches-for-importing-rdf-graphs-into-a-converged-database)
 
