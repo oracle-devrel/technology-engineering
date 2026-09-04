@@ -1,14 +1,12 @@
-# Sentinel
-
-Reviewed: 2026-09-04
+# Building a Complete Exadata FinOps Model Workshop
 
 ## What is this asset?
 
-This asset provides guidance for integrating OCI logging with Sentinel.
+This workshop explains how to build a FinOps model for Exadata cost attribution.
 
 ## How to use this asset?
 
-Read the integration guide in the files folder: [Integrating Logging with Sentinel](./files/IntegratingLoggingwithSentinel.pdf).
+Read the workshop PDF in the files folder: [Building a Complete Exadata FinOps Model](./files/Public_FinOps_ExadataCostAttribution_v0.1.pdf).
 
 # License
 

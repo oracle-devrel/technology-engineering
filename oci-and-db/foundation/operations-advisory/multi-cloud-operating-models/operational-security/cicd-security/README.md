@@ -1,6 +1,14 @@
 # CI/CD Security <!-- omit in toc --> 
 
-Reviewed: 2026-07-08
+Reviewed: 2026-09-04
+
+# What is this asset?
+
+This asset describes CI/CD security practices for GitOps multi-cloud automation pipelines.
+
+# How to use this asset?
+
+Use this guide to assess pipeline stages, runner controls, review evidence, and third-party integration practices before operating a workload lifecycle pipeline.
 
 Continuing with the Operational Security considerations from Git Security, the next step in the runtime automation is to check the different CI/CD security best practices to adopt for Landing Zone and workloads lifecycle management in GitOps Multi-Cloud Operationg Model. These practices falls in the DevSecOps and implies to follow some best practices on the CI/CD platform side, that might be dependant on the vendors solution.
 
@@ -43,7 +51,6 @@ A more detailed description of these best practices:
 6) **Use of local tenancy runners:** improve the performance and overall security, avoiding to use API signing keys and reducing the network ports to be opened against automation platforms central instances. It also allows to connect locally in the tenancy to end workloads for Procedural IaC (as SSH, SQLnet, etc.).
    
 7) **3rd party integration for IT systems reconciliation:** Many platforms support REST APIs webhook integrations (as ServiceNow), where it unlocks the power to interact with these platforms with another IT systems and workflows. Typical examples are CMDBs, ITSM, Monitoring platforms, etc.
-
 
 # License
 

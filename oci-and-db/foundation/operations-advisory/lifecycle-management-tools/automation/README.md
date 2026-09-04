@@ -1,11 +1,8 @@
-# Integration Patterns 
-
-This chapter highlights the most common patterns for Audit Logs Integrations.
+# Automation
 
 # Team Publications
 
-- [OCI Audit Logs and Exabeam Webhook Integration](./Exabeam/README.md)
-- [Integrating Logging with Sentinel](./sentinel/README.md)
+- [Infrastructure as Code](./infrastructure-as-code/README.md)
 
 # License
 

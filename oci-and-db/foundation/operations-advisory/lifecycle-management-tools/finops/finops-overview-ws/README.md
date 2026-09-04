@@ -1,14 +1,12 @@
-# Sentinel
-
-Reviewed: 2026-09-04
+# How OCI Can Support FinOps Workshop
 
 ## What is this asset?
 
-This asset provides guidance for integrating OCI logging with Sentinel.
+This workshop introduces the FinOps framework and how OCI can support cloud financial management practices.
 
 ## How to use this asset?
 
-Read the integration guide in the files folder: [Integrating Logging with Sentinel](./files/IntegratingLoggingwithSentinel.pdf).
+Read the workshop PDF in the files folder: [How OCI Can Support FinOps Workshop](./files/Public_Finops%20Overview%20feb%202026_v0.2.pdf).
 
 # License
 

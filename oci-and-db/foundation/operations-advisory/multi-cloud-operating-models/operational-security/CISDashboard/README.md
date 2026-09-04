@@ -1,25 +1,33 @@
-# CIS Compliance Dashboard
+# CIS Compliance Dashboard <!-- omit from toc-->
 
-Last update: 2026-05-25.
+Last update: 2026-09-04.
 
-## Table of Contents
-
-- [CIS Compliance Dashboard](#cis-compliance-dashboard)
-  - [Table of Contents](#table-of-contents)
-  - [1. Overview](#1-overview)
-  - [2. Pre-requisites](#2-pre-requisites)
-  - [3. Setup](#3-setup)
-    - [Step 1: Create Log Group in Log Analytics](#step-1-create-log-group-in-log-analytics)
-    - [Step 2: Import Logsources and Dashboard using Terraform](#step-2-import-logsources-and-dashboard-using-terraform)
-    - [Step 3: Create IAM Policies for log upload and run CIS Script](#step-3-create-iam-policies-for-log-upload-and-run-cis-script)
-    - [Step 4: Upload CSV to Log Analytics](#step-4-upload-csv-to-log-analytics)
-    - [Step 5: Analyze Data using the CIS Compliance Dashboard](#step-5-analyze-data-using-the-cis-compliance-dashboard)
-  - [4. Purging Logs](#4-purging-logs)
-  - [5. Known Issues](#5-known-issues)
+# Table of Contents <!-- omit from toc-->
+- [CIS Compliance Dashboard ](#cis-compliance-dashboard-)
+- [Table of Contents ](#table-of-contents-)
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
+- [1. Overview](#1-overview)
+- [2. Pre-requisites](#2-pre-requisites)
+- [3. Setup](#3-setup)
+  - [Step 1: Create Log Group in Log Analytics](#step-1-create-log-group-in-log-analytics)
+  - [Step 2: Import Logsources and Dashboard using Terraform](#step-2-import-logsources-and-dashboard-using-terraform)
+  - [Step 3: Create IAM Policies for log upload and run CIS Script](#step-3-create-iam-policies-for-log-upload-and-run-cis-script)
+  - [Step 4: Upload CSV to Log Analytics](#step-4-upload-csv-to-log-analytics)
+  - [Step 5: Analyze Data using the CIS Compliance Dashboard](#step-5-analyze-data-using-the-cis-compliance-dashboard)
+- [4. Purging Logs](#4-purging-logs)
+- [5. Known Issues](#5-known-issues)
     - [5.1. Failed to upload xxxx.csv: upload\_log\_file() missing 1 required positional argument… 'upload\_name'](#51-failed-to-upload-xxxxcsv-upload_log_file-missing-1-required-positional-argument-upload_name)
 - [License](#license)
+# What is this asset?
 
-## 1. Overview
+This asset provides an OCI Log Analytics dashboard solution for importing, visualizing, and acting on OCI CIS Compliance Script results.
+
+# How to use this asset?
+
+Follow the setup steps in this guide to create the Log Analytics content, import the dashboard, upload compliance results, and analyze findings.
+
+# 1. Overview
 
 The [**Center of Internet Security (CIS)**](https://www.cisecurity.org) is a global IT community that safeguards public and private organizations against cyber threats. They create different benchmarks, consisting in different secure configuration guidelines recommended to protect your IT assets and data.
 
@@ -120,19 +128,19 @@ You can see an example of how the CIS Dashboard looks like below:
 
 To create the CIS Compliance Dashboard in your own tenancy, follow the steps below.
 
-## 2. Pre-requisites
+# 2. Pre-requisites
 
 OCI Log Analytics should be enabled in the desired region. Please refer to this [doc](https://docs.oracle.com/en-us/iaas/log-analytics/doc/enable-access-logging-analytics-and-its-resources.html) to get details on how to enable it.
 
-## 3. Setup
+# 3. Setup
 
 To Setup this solution, follow the steps below:
 
-### Step 1: Create Log Group in Log Analytics
+## Step 1: Create Log Group in Log Analytics
 
 Create a [log group](https://docs.oracle.com/en-us/iaas/Content/Logging/Task/create-logging-log-group.htm) in Log Analytics in the desired compartment. This log group will be used to store the CIS compliance data. Restrict the access of this log group to only necessary users.
 
-### Step 2: Import Logsources and Dashboard using Terraform
+## Step 2: Import Logsources and Dashboard using Terraform
 
 Use the terraform code [here](./files/terraform/) to import logsources. Use the dashboard JSON to import via console. While importing select *"Specify a compartment for all dashboards"* and for *"Specify a compartment for all saved searches"* as well. 
 
@@ -140,7 +148,7 @@ Use the terraform code [here](./files/terraform/) to import logsources. Use the 
   <img src="./files/images/import_dashboard.png" alt="Import dashboard" width="50%">
 </p>
 
-### Step 3: Create IAM Policies for log upload and run CIS Script
+## Step 3: Create IAM Policies for log upload and run CIS Script
 
 1. Create the necessary [IAM policies](https://docs.oracle.com/en-us/iaas/log-analytics/doc/upload-logs-demand.html) to allow log upload:
    
@@ -163,7 +171,7 @@ Example on how to run CIS script in Cloud Shell with redact option:
 $ python3 cis_reports.py -dt --region eu-frankfurt-1 --report-directory CISRESULTS --redact-output
 ```
 
-### Step 4: Upload CSV to Log Analytics
+## Step 4: Upload CSV to Log Analytics
 
 1. Once the CIS script has run successfully, use the [cisla_upload.py](./files/python/cisla_upload.py) python script to upload the CSV data to Log Analytics.
    
@@ -214,15 +222,15 @@ $ python3 cis_reports.py -dt --region eu-frankfurt-1 --report-directory CISRESUL
     'cis_Storage_Object_Storage_5-1-2.csv',  
     'cis_Storage_Object_Storage_5-1-3.csv'.  
    
-### Step 5: Analyze Data using the CIS Compliance Dashboard
+## Step 5: Analyze Data using the CIS Compliance Dashboard
 
 Use the imported CIS Compliance dashboard to analyze the CIS data uploaded to Log Analytics.
 
-## 4. Purging Logs
+# 4. Purging Logs
 
 If you want to remove the logs sent to Log Analytics you can follow the steps documented [here](https://docs.oracle.com/en-us/iaas/log-analytics/doc/manage-storage.html).
 
-## 5. Known Issues
+# 5. Known Issues
 
 Here you can find some information about error messages you may find and what to do.
 
