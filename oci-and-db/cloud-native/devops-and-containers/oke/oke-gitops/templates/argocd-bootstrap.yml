@@ -1,17 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-bootstrap-example
+  name: argocd-bootstrap
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: ${git_repo_url}.git
+    repoURL: ${git_repo_url}
     targetRevision: HEAD
-    path: gitops/types/example
+    path: gitops/argocd
     directory:
       recurse: true
-      exclude: "*.json"
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

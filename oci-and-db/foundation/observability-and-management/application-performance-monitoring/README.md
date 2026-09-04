@@ -2,7 +2,7 @@
 
 Application Performance Monitoring service provides deep visibility into the performance of applications and provides the ability to diagnose issues quickly to deliver a consistent level of service. This includes the monitoring of the multiple components and application logic spread across clients, third-party services, and back-end computing tiers, on-premises or on the cloud.
 
-Reviewed: 12.03.2026
+Reviewed: 27.07.2026
 
 # Table of Contents
 
@@ -16,7 +16,6 @@ Reviewed: 12.03.2026
 |APM Asset| Asset page|
 |---|---|
 | OCI APM and Log Analytics improve stack visibility with continuous workflows|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
-| Create dynamic links from OCI APM to other services for efficient workflows|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
 | OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services|[Link](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)|
 
 

@@ -1,10 +1,12 @@
 # Exadata Cloud@Customer MOS Note List
 
-## Collecting all ExaDB-C@C relevant My Oracle Support (MOS) notes
+Reviewed: 30/07/26
+
+# When to use this asset?
 
 We are providing an easily accessible repository pointing to MOS notes related to the ExaDB-C@C service. Please note that that list is not comprehensive you should always check MOS as well. 
 
-The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as necessary. 
+# How to use this asset?
 
 - [2333222.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2333222.1)- Exadata Cloud Service Software Versions: Grid, OS and DB versions
   
@@ -39,8 +41,6 @@ The ExaDB-C@C Specialist Team is updating the list manually and refreshing it as
 - [2828699.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2828699.1) - (ODyS) Oracle Dynamic Scaling on Podman: Setting up Dynamic Scaling on Podman
 
 - [2940064.1](https://support.oracle.com/epmos/faces/DocumentDisplay?id=2940064.1) - (ODyS) Oracle Dynamic Scaling on Kubernetes: Setting up Dynamic Scaling on Kubernetes
-
-Reviewed: 06/28/26
 
 # License
 
