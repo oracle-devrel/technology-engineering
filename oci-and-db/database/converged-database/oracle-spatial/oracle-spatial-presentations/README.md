@@ -1,7 +1,7 @@
 ## Oracle Spatial Presentations
 These folder provides information about SPATIAL in the Oracle Database, and the new features in 23ai.
 
-Reviewed: 2026.08.05
+Reviewed: 05.08.2026
 
 # When to use this asset?
 

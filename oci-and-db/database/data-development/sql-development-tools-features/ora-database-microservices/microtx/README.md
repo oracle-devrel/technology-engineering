@@ -12,31 +12,25 @@ MicroTx is available in two editions:
 
 Additionally, MicroTx provides libraries for the most popular development languages and frameworks, making it easy for developers to integrate and use MicroTx in their existing projects.
 
-#### Oracle Transaction Manager for Microservices Enterprise main Features
-
-##### Advanced Monitoring and Diagnostics
-MicroTx Enterprise includes advanced monitoring and diagnostic tools that provide deep insights into transaction processing, helping identify and resolve issues quickly.
-
-##### Enhanced Security Features
-MicroTx Enterprise offers enhanced security features, including advanced encryption and access control mechanisms, to protect sensitive transaction data and ensure compliance with industry standards.
-
-##### High Availability and Disaster Recovery
-MicroTx Enterprise supports high availability and disaster recovery configurations, like transaction status persistence, ensuring that transaction processing can continue uninterrupted in the event of hardware failures or other disruptions.
-
-##### Scalability
-MicroTx Enterprise can handle a large number of transactions and scale horizontally to accommodate growing workloads, making it ideal for applications with high transaction volumes.
-
-##### Dedicated Support
-MicroTx Enterprise includes dedicated support from Oracle, offering expert assistance and quicker resolution of issues to ensure smooth operation of mission-critical applications.
-Oracle Transaction Manager for Microservices provides a robust, high-performance solution for managing distributed transactions in a microservices architecture. By ensuring transactional integrity and offering flexible transaction models, MicroTx simplifies the development and operation of complex business processes, making it a powerful tool for modern applications.
-
 Reviewed: 26.08.2026
 
-# Table of Contents
+# Oracle Transaction Manager for Microservices Enterprise main Features
 
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
+## Advanced Monitoring and Diagnostics
+MicroTx Enterprise includes advanced monitoring and diagnostic tools that provide deep insights into transaction processing, helping identify and resolve issues quickly.
+
+## Enhanced Security Features
+MicroTx Enterprise offers enhanced security features, including advanced encryption and access control mechanisms, to protect sensitive transaction data and ensure compliance with industry standards.
+
+## High Availability and Disaster Recovery
+MicroTx Enterprise supports high availability and disaster recovery configurations, like transaction status persistence, ensuring that transaction processing can continue uninterrupted in the event of hardware failures or other disruptions.
+
+## Scalability
+MicroTx Enterprise can handle a large number of transactions and scale horizontally to accommodate growing workloads, making it ideal for applications with high transaction volumes.
+
+## Dedicated Support
+MicroTx Enterprise includes dedicated support from Oracle, offering expert assistance and quicker resolution of issues to ensure smooth operation of mission-critical applications.
+Oracle Transaction Manager for Microservices provides a robust, high-performance solution for managing distributed transactions in a microservices architecture. By ensuring transactional integrity and offering flexible transaction models, MicroTx simplifies the development and operation of complex business processes, making it a powerful tool for modern applications.
 
 # Team Publications
 
