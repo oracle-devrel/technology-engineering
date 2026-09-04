@@ -8,7 +8,7 @@ When performing real-world testing, there is the risk of exposing sensitive data
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 15.06.2026
+Reviewed: 21.07.2026
 
  
 # Table of Contents
