@@ -1,5 +1,7 @@
 # How to enable a Public Endpoint Add-on for OCI Streaming with Apache Kafka
 
+Reviewed: 28.07.2026
+
 OCI Streaming with Apache Kafka(OSAK), is Oracle Cloud Infrastructure’s managed Kafka service. 
 It provides Oracle managed Apache Kafka clusters on OCI and exposes Kafka 100% APIs, so Kafka applications and tools can connect without code rewrites.
 The most recent OSAK update provdes **Public Endpoint**, which can expose your cluster to public network and allow external application to connect to your cluster. 
