@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "oke_lb_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name   = "oke-lb-backend"
+  display_name   = "oke-lb-backend-${var.network_resource_suffix}"
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
 }
