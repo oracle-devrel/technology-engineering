@@ -18,10 +18,12 @@ import {
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { withBase } from "@/lib/withBase";
 import { Check, Copy, ChevronDown as ChevronDownIcon, Code, FileText, X, Brain, Terminal, RotateCcw, ShieldAlert, ShieldCheck, ShieldX } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import JsonView from "@uiw/react-json-view";
+import { MCPService } from "../../services/mcpService";
 
 import Sources from "../agent/Sources";
 import DotMatrixLoader from "../ui/DotMatrixLoader";
@@ -298,11 +300,15 @@ function CollapsibleUserMessage({ text, fontSize, isLatest }) {
   const [hasAnimated, setHasAnimated] = useState(false);
   const isLongMessage = text.length > 150;
 
+  // lineHeight stays constant — toggling it on isLatest transitions caused
+  // the previous user-message to instantly shrink vertically when the next
+  // turn started, which propagated as a layout bounce on every subsequent
+  // exchange. Visual de-emphasis is handled via opacity/scale on the wrapper.
   const textStyles = {
     color: "inherit",
     fontSize: fontSize,
     fontWeight: "100",
-    lineHeight: isLatest ? 2 : 1.6,
+    lineHeight: 1.6,
   };
 
   // Mark animation as complete after initial render
@@ -916,12 +922,7 @@ const ChatMessage = memo(function ChatMessage({
   const contentReady = !showIndicator || hasContent;
 
   // Compute grouping at render time instead of storing in state
-  const groupedResponses = useMemo(() => {
-    const groups = groupMessages(exchange.responses);
-    const sourcesGroups = groups.filter(g => g.type === 'sources');
-    if (sourcesGroups.length > 0) console.log('[ChatMessage] Sources groups found:', sourcesGroups.length, sourcesGroups);
-    return groups;
-  }, [exchange.responses]);
+  const groupedResponses = useMemo(() => groupMessages(exchange.responses), [exchange.responses]);
 
   const getRawContent = () => {
     return groupedResponses.map(group => {
@@ -953,8 +954,13 @@ const ChatMessage = memo(function ChatMessage({
       indicatorStartRef.current = Date.now();
       setShowIndicator(true);
     } else if (!shouldShowIndicator && showIndicator) {
-      // Calling chips skip MIN_DISPLAY_TIME — the chip IS the progress indicator
-      if (hasCallingChips) {
+      // Skip MIN_DISPLAY_TIME when there's a better progress signal already on
+      // screen — the user does NOT need a spinner held up after content has
+      // arrived. MIN_DISPLAY_TIME only exists to prevent a flash for short
+      // initial-loading cases.
+      //   - hasCallingChips: the chip itself is the progress indicator
+      //   - hasContent: the response text/widget is now visible, no need to wait
+      if (hasCallingChips || hasContent) {
         setShowIndicator(false);
         return;
       }
@@ -967,7 +973,7 @@ const ChatMessage = memo(function ChatMessage({
         setShowIndicator(false);
       }
     }
-  }, [shouldShowIndicator, showIndicator, hasCallingChips]);
+  }, [shouldShowIndicator, showIndicator, hasCallingChips, hasContent]);
 
   return (
     <Box
@@ -975,7 +981,10 @@ const ChatMessage = memo(function ChatMessage({
       sx={{
         width: "100%",
         overflow: "visible",
-        mb: exchange.isLatest ? 0 : 6,
+        // Constant mb across turns. Toggling 0 → 6 (48px) on isLatest=false
+        // injected a jump on the previous exchange the moment a new turn
+        // started, shifting all content below it.
+        mb: 6,
         "&:hover .copy-button": { opacity: 1 },
       }}
     >
@@ -983,8 +992,13 @@ const ChatMessage = memo(function ChatMessage({
       <Box sx={{ marginBottom: "0.5rem", "&:hover .copy-button": { opacity: 1 } }}>
         <motion.div
           initial={false}
-          animate={{ opacity: 1, scale: exchange.isLatest ? 1 : 0.85 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          // Scale stays at 1 — the previous animation (1 → 0.85 over 400ms)
+          // ran on the old exchange in parallel with the new exchange's
+          // entrance animations, producing a perceptible "bounce" across the
+          // whole conversation. Visual de-emphasis is still applied via
+          // opacity below and the larger mb on past exchanges.
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           style={{ transformOrigin: "left center" }}
         >
           {exchange.widgetResponse ? null : (
@@ -1142,8 +1156,10 @@ const ChatMessage = memo(function ChatMessage({
         </motion.div>
       </Box>
 
-      {/* Response */}
-      <Box sx={{ marginTop: exchange.isLatest ? 2 : 1 }}>
+      {/* Response — marginTop kept constant; toggling it on isLatest caused
+          the previous exchange to vertically squeeze when the next turn
+          started, contributing to the perceived UI bounce. */}
+      <Box sx={{ marginTop: 1.5 }}>
         <Box>
         {groupedResponses
           .filter(group => {
@@ -1158,7 +1174,9 @@ const ChatMessage = memo(function ChatMessage({
               <Box>
                 <Stack direction="row" spacing={2} sx={{ minHeight: "40px", justifyContent: "flex-start" }}>
                   {group.chips.map((chip) => {
-                    const chipKey = `${exchangeIndex}-${groupIndex}-${chip.messageIndex}`;
+                    // Stable: group.messageIndex (set in messageUtils) doesn't
+                    // shift across filter flips like the filtered groupIndex does.
+                    const chipKey = `${exchangeIndex}-${group.messageIndex ?? `g${groupIndex}`}-${chip.messageIndex}`;
                     return (
                       <DynamicChip
                         key={chipKey}
@@ -1226,7 +1244,10 @@ const ChatMessage = memo(function ChatMessage({
                   sx={{
                     fontFamily: "var(--font-oracle-sans), sans-serif",
                     lineHeight: 1.6,
-                    fontSize: exchange.isLatest ? "inherit" : { xs: "0.95rem", sm: "1rem", md: "1.05rem" },
+                    // fontSize stays constant — the old conditional toggled
+                    // size on isLatest transition, re-flowing the assistant
+                    // text and shifting every line below it.
+                    fontSize: { xs: "0.95rem", sm: "1rem", md: "1.05rem" },
                     color: "inherit",
                     opacity: exchange.isLatest ? 1 : 0.7,
                     "& *": { fontFamily: "var(--font-oracle-sans), sans-serif !important", lineHeight: "inherit !important", color: "inherit" },
@@ -1368,6 +1389,15 @@ const ChatMessage = memo(function ChatMessage({
               if (!server && enabled.length === 1) {
                 server = enabled[0];
               }
+              // OracleDB is the native Text-to-SQL pseudo-server — it never lives in
+              // mcpServers, so synthesize it from env. Without this, clicking
+              // Authorize crashed on buildAuthorizeUrl(null).
+              if (!server) {
+                const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
+                if (nl2sqlUrl && (group.serverLabel === 'Nl2Sql' || group.serverEndpoint === nl2sqlUrl)) {
+                  server = { name: 'Nl2Sql', endpoint: nl2sqlUrl, authType: 'oauth2.1' };
+                }
+              }
               if (typeof window !== 'undefined' && !window.__mcp_banner_logged) {
                 window.__mcp_banner_logged = true;
                 console.log('[mcp banner]', {
@@ -1389,10 +1419,10 @@ const ChatMessage = memo(function ChatMessage({
               let buttonLabel;
               let onClickAction;
               const returnTo = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/';
-              const openOAuth = () => { window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`; };
-              const openSettings = () => { window.location.href = server ? `/settings/tools?focus=${encodeURIComponent(server.id)}` : '/settings/tools'; };
+              const openOAuth = () => { window.location.href = MCPService.buildAuthorizeUrl(server, returnTo); };
+              const openSettings = () => { window.location.href = withBase(server ? `/settings/tools?focus=${encodeURIComponent(server.id)}` : '/settings/tools'); };
 
-              if (authType === 'oauth2.1') {
+              if (authType === 'oauth2.1' || authType === 'oauth2-user') {
                 title = `Authorization needed — ${displayName}`;
                 description = `Sign in to "${displayName}" to grant access. After authorizing you'll return here.`;
                 buttonLabel = 'Authorize';
@@ -1501,7 +1531,7 @@ const ChatMessage = memo(function ChatMessage({
                       </Typography>
                       <Typography component="div" sx={{ mt: 0.75, pl: 1.5, fontSize: "0.85rem", color: "rgba(0,0,0,0.7)", lineHeight: 2 }}>
                         • Switch to an {friendlyMsg.providers} model<br />
-                        • Disable <strong>{friendlyMsg.tools}</strong> in <Box component="a" href="/settings/tools" sx={{ fontWeight: 600, color: "#92400E", textDecoration: "underline", cursor: "pointer", "&:hover": { color: "#78350F" } }}>Settings → Tools</Box>
+                        • Disable <strong>{friendlyMsg.tools}</strong> in <Box component="a" href={withBase("/settings/tools")} sx={{ fontWeight: 600, color: "#92400E", textDecoration: "underline", cursor: "pointer", "&:hover": { color: "#78350F" } }}>Settings → Tools</Box>
                       </Typography>
                     </>
                   ) : (
@@ -1571,7 +1601,10 @@ const ChatMessage = memo(function ChatMessage({
             )}
 
             {group.type === "mcp_chip_row" && (() => {
-              const rowKey = `mcp-row-${exchangeIndex}-${groupIndex}`;
+              // Stable row id keyed off the FIRST chip's messageIndex (set in
+              // messageUtils). Falls back to groupIndex only if missing —
+              // groupIndex is unstable across the contentReady filter flip.
+              const rowKey = `mcp-row-${exchangeIndex}-${group.messageIndex ?? `g${groupIndex}`}`;
               const selectedChipIndex = activeChips[rowKey]?.chipIndex;
               const selectedChip = selectedChipIndex !== undefined ? group.chips[selectedChipIndex] : null;
               const hasError = selectedChip?.status === "failed";
@@ -1684,7 +1717,7 @@ const ChatMessage = memo(function ChatMessage({
                               : "var(--dm-muted, rgba(0, 0, 0, 0.6))",
                             transition: "all 0.2s ease",
                             cursor: isClickable ? "pointer" : "default",
-                            userSelect: "none",
+                            userSelect: "text",
                             "&:hover": isClickable
                               ? {
                                   backgroundColor: chipHasError ? "rgba(211, 47, 47, 0.12)" : "rgba(76, 175, 80, 0.12)",
@@ -1876,7 +1909,10 @@ const ChatMessage = memo(function ChatMessage({
                                   wordBreak: "break-word",
                                   mb: 1,
                                 }}>
-                                  {selectedChip.error || selectedChip.output || "Tool execution failed"}
+                                  {(() => {
+                                    const e = selectedChip.error || selectedChip.output || "Tool execution failed";
+                                    return typeof e === "string" ? e : JSON.stringify(e, null, 2);
+                                  })()}
                                 </Box>
                                 {exchange.trace && (
                                   <Box
@@ -1946,9 +1982,14 @@ const ChatMessage = memo(function ChatMessage({
                                     No output returned
                                   </Typography>
                                 ) : (() => {
-                                  // Try to parse as JSON for nice rendering
+                                  // Try to parse as JSON for nice rendering.
+                                  // output may already be an object (e.g. an MCP content-block
+                                  // reloaded from history) — in that case skip JSON.parse and
+                                  // render it directly with JsonView so React never gets an object child.
                                   try {
-                                    const parsed = JSON.parse(selectedChip.output);
+                                    const parsed = typeof selectedChip.output === 'string'
+                                      ? JSON.parse(selectedChip.output)
+                                      : selectedChip.output;
                                     if (typeof parsed === 'object' && parsed !== null) {
                                       return (
                                         <JsonView
@@ -1980,10 +2021,11 @@ const ChatMessage = memo(function ChatMessage({
                                       </ReactMarkdown>
                                     );
                                   } catch {
-                                    // Not JSON, render as markdown
+                                    // Not JSON, render as markdown. Coerce non-string output
+                                    // so React never receives an object as a child.
                                     return (
                                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                                        {selectedChip.output}
+                                        {typeof selectedChip.output === 'string' ? selectedChip.output : JSON.stringify(selectedChip.output, null, 2)}
                                       </ReactMarkdown>
                                     );
                                   }

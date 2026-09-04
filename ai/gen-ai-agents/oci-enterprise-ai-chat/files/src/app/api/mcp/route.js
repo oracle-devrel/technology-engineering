@@ -1,12 +1,16 @@
 import { NextResponse } from 'next/server';
 import { createLogger } from '../../lib/logger';
-import { verifyPayload, signPayload, refreshAccessToken, tokenCookieName } from '../../lib/mcp-oauth';
+import { verifyPayload, signPayload, mintAccessToken, tokenCookieName, basePrefix } from '../../lib/mcp-oauth';
 
 // Store session IDs per endpoint (in production, use Redis or similar)
 const sessionIds = new Map();
 
 // Cache OAuth tokens per token URL + client ID
 const oauthTokenCache = new Map();
+
+// Monotonic small int for JSON-RPC `id`. Some MCP servers (e.g. Oracle Analytics)
+// reject large int ids (e.g. Date.now()) as "Invalid JSON-RPC message format".
+let jsonRpcIdCounter = 0;
 
 async function getOAuthToken(tokenUrl, clientId, clientSecret, scope) {
   const cacheKey = `${tokenUrl}:${clientId}`;
@@ -62,7 +66,7 @@ export async function POST(request) {
     // Build JSON-RPC request
     const jsonRpcRequest = {
       jsonrpc: '2.0',
-      id: Date.now(),
+      id: ++jsonRpcIdCounter,
       method: method,
       params: params
     };
@@ -75,8 +79,9 @@ export async function POST(request) {
     // Add auth headers if provided
     let updatedTokenCookie = null; // set if oauth2.1 token was refreshed
 
-    if (authType === 'oauth2.1') {
-      // Read tokens from httpOnly cookie set by /api/mcp/oauth/callback
+    if (authType === 'oauth2.1' || authType === 'oauth2-user') {
+      // Read tokens from httpOnly cookie set by /api/mcp/oauth/callback.
+      // Both interactive authTypes share the same callback + cookie storage.
       const cookieName = tokenCookieName(endpoint);
       const tokenCookie = request.cookies.get(cookieName)?.value;
       const tokens = await verifyPayload(tokenCookie);
@@ -84,26 +89,41 @@ export async function POST(request) {
       if (!tokens) {
         return NextResponse.json({
           error: 'needs_auth',
-          authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+          authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
         }, { status: 401 });
       }
 
-      // Refresh if token expires within 30s
-      if (tokens.expiresAt < Date.now() + 30000) {
+      // The cookie normally stores ONLY the refresh token (the IDCS access JWT is
+      // ~3KB and would blow the 4KB cookie limit), so mint an access token whenever
+      // we don't have one — not just when it's about to expire. Without the
+      // !tokens.accessToken arm, a freshly-authorized cookie (expiresAt ~1h away)
+      // skipped the refresh and sent literally "Bearer undefined" upstream.
+      const tokenExpiring = tokens.expiresAt < Date.now() + 30000;
+      if (tokens.refreshToken && (!tokens.accessToken || tokenExpiring)) {
         try {
-          const refreshed = await refreshAccessToken(
+          // mintAccessToken caches + single-flights: IDCS rotation invalidates a
+          // consumed refresh token, and this route plus /api/mcp/oauth/token both
+          // mint per message — uncoordinated mints killed the grant.
+          const minted = await mintAccessToken(
             tokens.tokenEndpoint, tokens.refreshToken, tokens.clientId, tokens.clientSecret
           );
-          tokens.accessToken = refreshed.access_token;
-          tokens.refreshToken = refreshed.refresh_token || tokens.refreshToken;
-          tokens.expiresAt = Date.now() + (refreshed.expires_in || 3600) * 1000;
+          tokens.accessToken = minted.accessToken;
+          tokens.refreshToken = minted.refreshToken;
+          tokens.expiresAt = minted.expiresAt;
           updatedTokenCookie = { name: cookieName, value: await signPayload(tokens) };
         } catch {
           return NextResponse.json({
             error: 'needs_auth',
-            authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+            authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
           }, { status: 401 });
         }
+      } else if (!tokens.accessToken || tokenExpiring) {
+        // No refresh token (provider never issued one) and no usable access token —
+        // re-authorizing is the only way forward.
+        return NextResponse.json({
+          error: 'needs_auth',
+          authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+        }, { status: 401 });
       }
 
       headers['Authorization'] = `Bearer ${tokens.accessToken}`;
@@ -144,11 +164,11 @@ export async function POST(request) {
     if (!response.ok) {
       log.error('MCP server error', { status: response.status, body: responseText.slice(0, 500) });
 
-      // If the MCP server rejects our OAuth 2.1 token, clear it and ask for re-auth
-      if (authType === 'oauth2.1' && response.status === 401) {
+      // If the MCP server rejects our OAuth token, clear it and ask for re-auth
+      if ((authType === 'oauth2.1' || authType === 'oauth2-user') && response.status === 401) {
         const clearResponse = NextResponse.json({
           error: 'needs_auth',
-          authorizeUrl: `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
+          authorizeUrl: `${basePrefix()}/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(endpoint)}`,
         }, { status: 401 });
         clearResponse.cookies.delete(tokenCookieName(endpoint));
         return clearResponse;
@@ -165,19 +185,20 @@ export async function POST(request) {
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      // Response might be in a different format (e.g., "id: xxx\ndata: {...}")
-      // Try to extract JSON from SSE-like format
-      const lines = responseText.split('\n');
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          try {
-            data = JSON.parse(line.slice(6));
-            break;
-          } catch (e2) {
-            // Continue trying
-          }
-        }
+      // SSE (MCP Streamable HTTP): the stream may carry several `data:` events —
+      // server notifications, request echoes/acks, and finally the JSON-RPC
+      // RESPONSE. Taking the first parseable line returned the echo instead of
+      // the result (seen live with the DBTools NL2SQL server: the chip "output"
+      // was just the tool's own arguments). Prefer the event that is an actual
+      // JSON-RPC response to OUR request: matching id and a result/error field.
+      const candidates = [];
+      for (const line of responseText.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        try { candidates.push(JSON.parse(line.slice(6))); } catch { /* keep scanning */ }
       }
+      data = candidates.find(c => c && c.id === jsonRpcRequest.id && ('result' in c || 'error' in c))
+        || candidates.find(c => c && ('result' in c || 'error' in c))
+        || candidates[0];
       if (!data) {
         // Return raw text if can't parse
         data = { raw: responseText };
@@ -207,7 +228,7 @@ export async function POST(request) {
 
   } catch (error) {
     const log = createLogger('mcp-proxy');
-    log.error('MCP proxy error', { error: error.message });
+    log.error('MCP proxy error', { error: error.message, endpoint: (typeof endpoint === 'string' ? endpoint.slice(0, 80) : null) });
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

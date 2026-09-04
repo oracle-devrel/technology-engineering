@@ -296,14 +296,17 @@ export const groupMessages = (messages) => {
 
   const flushChips = () => {
     if (currentChipGroup.length > 0) {
-      groups.push({ type: "chipRow", chips: currentChipGroup });
+      // Use the first chip's messageIndex as the row's stable id — without it
+      // the React key falls back to the filtered groupIndex, which shifts when
+      // visibility filters flip and triggers a spurious unmount+remount.
+      groups.push({ type: "chipRow", chips: currentChipGroup, messageIndex: currentChipGroup[0]?.messageIndex });
       currentChipGroup = [];
     }
   };
 
   const flushMcpChips = () => {
     if (currentMcpChipGroup.length > 0) {
-      groups.push({ type: "mcp_chip_row", chips: currentMcpChipGroup });
+      groups.push({ type: "mcp_chip_row", chips: currentMcpChipGroup, messageIndex: currentMcpChipGroup[0]?.messageIndex });
       currentMcpChipGroup = [];
     }
   };
