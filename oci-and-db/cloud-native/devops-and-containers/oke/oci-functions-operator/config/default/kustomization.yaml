@@ -1,0 +1,14 @@
+namespace: oci-functions-operator-system
+
+namePrefix: oci-functions-operator-
+
+resources:
+- namespace.yaml
+- ../crd
+- ../rbac
+- ../manager
+
+images:
+- name: controller
+  newName: controller
+  newTag: latest
