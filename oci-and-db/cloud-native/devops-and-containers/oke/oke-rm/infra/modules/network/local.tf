@@ -4,6 +4,7 @@ locals {
   create_cp_subnet                = var.create_cp_subnet && var.create_vcn
   create_bastion_subnet           = var.create_bastion_subnet && var.create_vcn
   create_fss_subnet               = var.create_fss && var.create_vcn
+  create_pod_fss_rules            = local.is_npn && var.create_fss
   create_worker_subnet            = var.create_worker_subnet && var.create_vcn
   create_external_lb_subnet       = var.create_external_lb_subnet && var.create_vcn
   create_internal_lb_subnet       = var.create_internal_lb_subnet && var.create_vcn
@@ -19,22 +20,53 @@ locals {
   service_gateway_id      = local.create_gateways ? oci_core_service_gateway.service_gateway.0.id : null
   nat_gateway_id          = local.create_nat_gateway ? oci_core_nat_gateway.nat_gateway.0.id : null
 
-  create_drg            = var.enable_drg && var.create_drg
+  create_drg            = var.enable_drg && var.create_vcn && var.create_drg
   create_drg_attachment = var.enable_drg && var.create_drg_attachment && var.create_vcn
-  drg_id                = var.create_drg ? try(oci_core_drg.vcn_drg.0.id, null) : var.drg_id
+  drg_id                = local.create_drg ? try(oci_core_drg.vcn_drg.0.id, null) : var.drg_id
 
-  create_db_subnet  = var.create_db_subnet && var.create_vcn && length(var.db_service_list) > 0
+  create_db_subnet  = var.create_db_subnet && var.create_vcn
   create_db_nsg     = var.create_database_nsgs && length(var.db_service_list) > 0
   create_app_db_nsg = local.create_db_nsg && var.separate_db_nsg
 
   create_msg_subnet = var.create_msg_subnet && var.create_vcn
 
   karpenter_role_tag_key          = "karpenter-oci/role"
-  karpenter_worker_role_tag_value = "worker"
-  karpenter_pod_role_tag_value    = "pod"
+  karpenter_worker_role_tag_value = "worker-${var.network_resource_suffix}"
+  karpenter_pod_role_tag_value    = "pod-${var.network_resource_suffix}"
 
   karpenter_worker_role_freeform_tag = { (local.karpenter_role_tag_key) = local.karpenter_worker_role_tag_value }
   karpenter_pod_role_freeform_tag    = { (local.karpenter_role_tag_key) = local.karpenter_pod_role_tag_value }
+
+  fss_tcp_port_ranges = {
+    portmapper = {
+      min         = 111
+      max         = 111
+      description = "NFS portmapper"
+    }
+    nfs = {
+      min         = 2048
+      max         = 2050
+      description = "NFS"
+    }
+    encrypted_nfs = {
+      min         = 2051
+      max         = 2051
+      description = "NFS with in-transit encryption"
+    }
+  }
+
+  fss_udp_port_ranges = {
+    portmapper = {
+      min         = 111
+      max         = 111
+      description = "NFS portmapper"
+    }
+    nfs = {
+      min         = 2048
+      max         = 2048
+      description = "NFS"
+    }
+  }
 
   vcn_cidr_blocks     = var.create_additional_pod_cidr ? distinct(concat(var.vcn_cidr_blocks, var.additional_pod_cidr)) : var.vcn_cidr_blocks
   pod_ipv4cidr_blocks = var.create_additional_pod_cidr && length(var.additional_pod_cidr) > 0 ? concat([var.pod_subnet_cidr], var.additional_pod_cidr) : [var.pod_subnet_cidr]
