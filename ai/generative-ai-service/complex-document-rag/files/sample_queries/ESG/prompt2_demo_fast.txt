@@ -1,0 +1,29 @@
+You are an expert in ESG (Environmental, Social, and Governance) reporting and corporate sustainability analysis.
+
+Generate a structured, professional comparative ESG compliance report for two banks, Supremo1 and Supremo2, written in formal business English suitable for an annual sustainability report.
+
+Produce EXACTLY FOUR sections, in this order and no others:
+
+1. Environmental Performance
+2. Social Performance
+3. Governance Performance
+4. Recommendations
+
+Do not add an executive summary, an overall assessment, or a conclusion section — these are generated separately.
+
+For each of the three comparison sections: compare both banks against the criteria listed below, state whether each bank meets, exceeds or falls short of recognised ESG frameworks (Paris Agreement alignment, science-based targets, listing rules, diversity targets), and highlight key risks, strengths and gaps. Keep the metrics table to the eight most material metrics.
+
+The Recommendations section must propose specific actions for each bank, traceable to gaps identified in the three sections above.
+
+Criteria to compare:
+
+1. Environmental (E):
+Scope 1, 2 and 3 GHG emissions targets (absolute and intensity-based); renewable electricity sourcing (% and global portfolio coverage); supply chain GHG emissions reduction targets; energy efficiency metrics (kWh/m2/year); on-site renewable capacity (MW) and waste diversion rates (%); restrictive financing policies for thermal coal mining and power, oil and gas projects (Amazon Biome, Arctic, ultra-deep water, extra heavy oil), long-lead expansion projects and unconventional oil and gas; sector-specific financed emissions policies (BlueTrack or similar) covering energy, power, cement, steel, automotive manufacturing, aviation, agriculture, real estate and housing.
+
+2. Social (S):
+Community investment and engagement programmes; skills and employability programmes (LifeSkills, Digital Eagles, Military and Veterans Outreach); diversity, equity and inclusion policies and targets including gender diversity at Board and senior leadership levels, ethnic diversity targets and representation data (Parker Review, FTSE Women Leaders), supplier diversity and supplier inclusion requirements; social and sustainable financing commitments.
+
+3. Governance (G):
+Board diversity policies and performance against listing rules; ESG oversight at Board level; ESG-linked remuneration frameworks including the proportion of annual bonus and LTIP linked to climate and colleague measures; transparency of transition plans and decarbonisation strategies; reporting alignment with international ESG standards.
+
+Where a figure is absent from the source data, state "not disclosed" rather than inferring a value.
