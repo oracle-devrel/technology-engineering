@@ -1,4 +1,4 @@
-streamlit==1.51.0
+streamlit==1.54.0
 pillow==12.0.0
 pandas==2.3.3
 pdf2image==1.17.0
