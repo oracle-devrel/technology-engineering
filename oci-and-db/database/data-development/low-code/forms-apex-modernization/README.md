@@ -11,26 +11,18 @@ Recently, with the introduction of the <b>MCP Server for Oracle AI Database</b>,
 
 Providing links to public useful documentation and articles/blogs written by Oracle APEX  Advocates and Product Managers.
 
-Reviewed: 12.06.2026
-
-# Table of Contents
-- [Team Publications](#team-publications);
-- [Useful Links](#useful-links).
-<br>
-<br>
+Reviewed: 26.08.2026
 
 # Team Publications
+
 - [YouTube Oracle Developer Channels - Cloud Coaching - Modernize your Oracle Forms apps using APEX!](https://www.youtube.com/watch?v=MYzSgnzUOjA&ab_channel=OracleDevelopers)
 
-
-# Team Member Blog Sites
-[Paolo Paolucci](https://medium.com/@ppaolucc) 
-<br>
-[Victor Mendo](https://medium.com/@vmendo/)
-<br>
-<br>
+## Team Member Blog Sites
+- [Paolo Paolucci](https://medium.com/@ppaolucc)
+- [Victor Mendo](https://medium.com/@vmendo/)
 
 # Useful Links
+
 - [APEX Solutions: Modernizing Oracle Forms](https://apex.oracle.com/en/solutions/oracle-forms/)
 - [FAQs Oracle Forms to APEX Modernization](https://apex.oracle.com/go/forms-faq)
 - [Modernizing Oracle Forms APEX Site](https://apex.oracle.com/en/solutions/oracle-forms/)
@@ -40,8 +32,6 @@ Reviewed: 12.06.2026
 - [Modernize Oracle Forms applications to Oracle APEX and an autonomous database](https://docs.oracle.com/en/solutions/migrate-apps-to-apex/index.html#GUID-222A3DF2-390A-47B8-9377-BB5D1E41A60A)
 - [MCP+AI: Helping You Modernize Oracle Forms Apps to APEX](https://blogs.oracle.com/apex/mcp-ai-helping-you-modernize-your-oracle-forms-apps-to-oracle-apex)
 - [Transforming Oracle Forms to APEX in the AI Era: AI Agent](https://blogs.oracle.com/apex/transforming-f2a-agent)
-<br>
-<br>
 
 # License
 
@@ -49,4 +39,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
