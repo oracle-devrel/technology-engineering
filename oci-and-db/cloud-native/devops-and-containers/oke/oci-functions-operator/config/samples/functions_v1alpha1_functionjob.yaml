@@ -1,0 +1,19 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionJob
+metadata:
+  name: hello-job
+  labels:
+    app.kubernetes.io/part-of: oci-functions-operator
+    app.kubernetes.io/component: sample
+spec:
+  functionRef:
+    name: existing-hello
+  payloads:
+  - message: hello from kubernetes
+    requestId: sample-001
+  - message: hello again
+    requestId: sample-002
+  - message: final hello
+    requestId: sample-003
+  parallelism: 2
+  retryLimit: 2
