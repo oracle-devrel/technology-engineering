@@ -1,12 +1,31 @@
-# **Integrations for OCI Audit Logs and Exabeam Webhook**
+# Integrations for OCI Audit Logs and Exabeam Webhook <!-- omit in toc --> 
+
+## Table of Contents <!-- omit in toc --> 
+
+- [Integrations for OCI Audit Logs and Exabeam Webhook](#integrations-for-oci-audit-logs-and-exabeam-webhook)
+  - [Table of Contents](#table-of-contents)
+  - [What is this asset?](#what-is-this-asset)
+  - [How to use this asset?](#how-to-use-this-asset)
+  - [1. What Is This Integration](#1-what-is-this-integration)
+  - [2. Architecture](#2-architecture)
+  - [3. How It Works](#3-how-it-works)
+  - [4. Design Considerations](#4-design-considerations)
+  - [5. Security Considerations](#5-security-considerations)
+  - [6. How To Start](#6-how-to-start)
+  - [7. Function Sample](#7-function-sample)
+- [License](#license)
 
 &nbsp;
+
+## What is this asset?
 
 This asset describes a reference integration for forwarding **Oracle Cloud Infrastructure (OCI) Audit Logs** to **Exabeam** through an OCI Function. It can be used to extend day-two operations by making OCI control-plane and identity activity available for Exabeam search, detection, investigation, and SOC workflows.
 
 The integration connects **OCI Audit Logs**, **Connector Hub**, **OCI Functions**, **OCI Vault**, and the **Exabeam JSON Webhook Cloud Collector**.
 
-&nbsp;
+## How to use this asset?
+
+Read through the following points in this page. Implementation is on [How To Start](#6-how-to-start) steps to deploy and configure the integration. The deployable OCI Function sample is in the [function](./function/README.md) folder.
 
 ## 1. What Is This Integration
 

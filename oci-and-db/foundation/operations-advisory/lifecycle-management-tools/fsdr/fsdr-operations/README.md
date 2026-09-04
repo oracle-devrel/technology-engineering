@@ -1,9 +1,14 @@
+# Full Stack Disaster Recovery (FSDR) Operations Workshop <!-- omit from toc-->
 
-# Full Stack Disaster Recovery (FSDR) Operations Workshop
+Reviewed: 2026-09-04
 
-Reviewed: 08.10.2024
+# What is this asset?
 
-## Objectives
+This workshop provides an overview of OCI Full Stack Disaster Recovery Service, its components and interfaces, and common provisioning and disaster-recovery plan operations.
+
+The Full Stack Disaster Recovery Service is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery capabilities for application stacks at all layers, including infrastructure, middleware, database, and applications. It automates role changes between primary and standby environments and supports customized user-defined steps through scripts or OCI Functions alongside Oracle built-in DR plan steps.
+
+**Objectives**
 
 * Overview of OCI Full Stack Disaster Recovery Service
 * Gain knowledge on DR concepts and terminology and FSDR components
@@ -14,33 +19,21 @@ Reviewed: 08.10.2024
 * Shows how the DR plan executions operations can be done with the Console/OCI CLI
 * Provided OCI CLI Cheat Sheets
 
-## Pre-requirements
+**Pre-requirements**
 
 * Basic knowledge of OCI Compute, Storage and DB Services
 * Knowledge on Disaster Recovery practices are desired
 
-## Inputs
-
-N/A
-
-## Outputs
-
-[WorkshopFSDROperations_v0.2.pdf](./files/EXP#01o_WorkshopFSDROperations_v0.2.pdf)
-
-## Stakeholders
+**Stakeholders**
 
 * Architect teams
 * Operation teams
 * Development teams
-  
-## Guidelines
 
-N/A
+# How to use this asset?
 
-# Release notes
+Read the workshop PDF in the files folder: [Full Stack Disaster Recovery Operations Workshop](./files/EXP%2301o_WorkshopFSDROperations_v0.2.pdf).
 
-2023-07-12 (version 0.2). Initial public release.
-  
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
