@@ -8,31 +8,24 @@ A SQL Clue Card is also provided.
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
 # Team Publications
 
 - [Subqueries, Scalar Subqueries, IN and EXISTS and CTEs WITH clause- Linkedin Post](https://www.linkedin.com/posts/ppaolucci_devgym-chrissaxon-activity-7333117804474216449-uwul?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAAKKqcBMGaLM24oFc1jnB_Fhe5AkpZfpu4)
 
 # Useful Links
 
-### SQL Tips
+## SQL Tips
 
 Stay updated with fortnightly SQL tips to sharpen your SQL skills and discover new techniques for database querying and management.
 
 - Tip 1: [3 Tips to Help You Write Better SQL](https://www.youtube.com/watch?v=Hjfvf8VqY9E&list=WL) -
         A chance to improve SQL skills, as an important knowledge backbone for Developers, by learning three ways to refactor your SQL and showing the pros and cons of all of them (WITH Clause, Views, Table Macros) and more! By Chris Saxon youtube videos.
 
-### SQL Clue Card
+## SQL Clue Card
 
 Get quick access to essential SQL commands, syntax, and tips with the SQL Clue Card. Print it out or keep it handy for reference during your SQL scripting sessions.
 
 - [Download SQL Clue Card](./images/SQL_Cheat_Sheet_Version1.1.png)
-
 
 ## SQLcl
 
@@ -50,20 +43,15 @@ Ready to explore SQLcl? Follow these steps to install SQLcl and start leveraging
 3. Explore SQLcl commands and features to familiarize yourself with its capabilities.
 4. Start scripting and executing SQL commands with ease using SQLcl's intuitive interface.
 
-
-##  SQL Data Modeler
+## SQL Data Modeler
 Oracle SQL Developer Data Modeler is a data modeling and database design tool that provides an environment for capturing, modeling, managing, and exploiting metadata.
 It can be integrated in the existing SQL Developer or it can be downloaded as standalone.
 - [Oracle SQL Developer Data Modeler](https://docs.oracle.com/en/database/oracle/sql-developer-data-modeler/index.html)
 
+## DevGym DIY workout classes
 
-## 4. DevGym DIY workout classes
+- [Databases for Developers: Next Level](https://devgym.oracle.com/pls/apex/f?p=10001:29:15932218738087:::29:P29_CLASS_ID:4063&cs=1_nEHG6GUd1XcC6iF7c9h6qOm91c7J7kbUnsfGwr0G7UUnUNhmQZff1nYX9YxqGuI7fvPcyjdHo5OIO8tWsnhzw) - SQL tutorial to help you improve your Oracle SQL skills. This follows "the Databases for Developers: Foundations"
 
-1. [Databases for Developers: Next Level](https://devgym.oracle.com/pls/apex/f?p=10001:29:15932218738087:::29:P29_CLASS_ID:4063&cs=1_nEHG6GUd1XcC6iF7c9h6qOm91c7J7kbUnsfGwr0G7UUnUNhmQZff1nYX9YxqGuI7fvPcyjdHo5OIO8tWsnhzw) - SQL tutorial to help you improve your Oracle SQL skills. This follows "the Databases for Developers: Foundations"
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

@@ -14,6 +14,7 @@ ADB free container image comes pre-built with the following components exactly l
 Autonomous Database Free Container Image is now available on [Oracle Container Registry](https://container-registry.oracle.com/ords/f?p=113:4:110784766203219:::RP,4:P4_REPOSITORY,AI_REPOSITORY,P4_REPOSITORY_NAME,AI_REPOSITORY_NAME:2223,2223,Oracle%20Autonomous%20Database%20Free,Oracle%20Autonomous%20Database%20Free&cs=3iytyP0Ctunr3v0-nv7dCZfzaGtZqSixvp3qYkAgNzNQ1JCtVBaBA_eK_z3EK1p272JeUVOsEGVfeSXev4b1QEg), you can perform local development with an ADB-free container image and have the ability to merge your work later in a cloud instance.
 
 For information about running Oracle Database on Kubernetes, see the [Oracle Database Operator for Kubernetes](../ora-kubernetes/README.md) resources.
+
 Reviewed: 26.08.2026
 
 # Table of Contents
@@ -39,9 +40,6 @@ Reviewed: 26.08.2026
 - [Introducing ADB Free Container Image (PM Blog)](https://blogs.oracle.com/datawarehousing/post/autonomous-database-free-container-image)
 - [Deploy Oracle Autonomous Database Free Container Image on Mac with Apple Silicon](https://medium.com/oracledevs/deploy-oracle-autonomous-database-free-container-image-on-mac-with-apple-silicon-7857004c84)
 
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

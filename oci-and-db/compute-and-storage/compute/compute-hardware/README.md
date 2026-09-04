@@ -3,7 +3,7 @@
 This page has information about Oracle Cloud Infrastructure (OCI) Compute hardware components such as Intel, AMD, ARM, Dedicated Virtual Host, HPC, and Confidential Compute.
 
 
-<i>Review date: 17 Aug 2026</i>
+<i>Review date: 01 Sept 2026</i>
 
 
 # Useful Links
