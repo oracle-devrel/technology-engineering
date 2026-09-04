@@ -1,5 +1,7 @@
 # Fraud Detection Kafka Demo
 
+Reviewed: 28.07.2026
+
 This project demonstrates a real-time fraud detection pipeline using Kafka, OCI Object Storage, OCI Data Science model deployment and OCI Monitoring. A producer replays sample transaction data into Kafka, while a consumer scores each transaction with a deployed model, publishes detected fraud events, writes scored results to Object Storage and emits operational metrics.
 
 Two services are included:

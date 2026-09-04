@@ -2,7 +2,7 @@
 
 Oracle Integration (OIC) is an enterprise connectivity and automation platform for quickly modernizing applications, business processes, APIs, and data. Developers and cloud architects can connect SaaS and on-premises applications six times faster with a visual development experience, prebuilt integrations, and embedded best practices. Oracle Integration gives you native access to events in Oracle Cloud ERP, HCM, and CX. Connect app-specific analytic silos to simplify requisition-to-receipt, recruit-to-pay, lead-to-invoice, and other critical processes. Finally, give your IT and business leaders end-to-end visibility.
 
-Review Date: 03.11.2023
+Review Date: 02.09.2026
 
 # Team Publications
 

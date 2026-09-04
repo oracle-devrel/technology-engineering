@@ -29,7 +29,7 @@ spec:
     annotations:
       fluxcd.controlplane.io/prune: disabled      # Avoid pruning these resources
   inputs:
-    - bootstrap_path: "./gitops/types/example"
+    - bootstrap_path: "./gitops/fluxcd"
   dependsOn:
     - apiVersion: fluxcd.controlplane.io/v1
       kind: FluxInstance
@@ -57,7 +57,7 @@ spec:
     - apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
-        name: flux-resourcesets
+        name: flux-platform
         namespace: << inputs.provider.namespace >>
       spec:
         interval: 5m
