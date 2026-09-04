@@ -1,0 +1,4 @@
+interface:
+  display_name: Autonomous AI Lakehouse Ops Watch
+  short_description: Inspect SQL-observable operations evidence for one connected Oracle Autonomous AI Lakehouse.
+  primary_color: "#C74634"
