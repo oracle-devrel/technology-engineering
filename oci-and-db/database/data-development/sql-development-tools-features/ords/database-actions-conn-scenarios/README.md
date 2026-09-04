@@ -5,6 +5,12 @@ Oracle Database Actions is formerly known as SQL Developer Web and is a web-base
 
 Database Actions, (here also abbreviated as DB Actions), runs in Oracle REST Data Services and access to it is provided through schema-based authentication. To access Database Actions, you must sign in as a database user whose schema has been enabled for Database Actions.
 
+Reviewed: 26.08.2026
+
+# When to use this asset?
+
+# How to use this asset?
+
 ## User Authentication - prerequisites
 
 User access to Database Actions is described as follows
@@ -26,31 +32,11 @@ To connect to a given database in a multiple database pool scenario, when Databa
     <i><database_pool_name>/<schema_name></i>
 
     then schema name and password in the login-password portion.
-<br>
-<br>
-
-Reviewed: 26.08.2026
-
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-- No team publications are currently listed.
 
 # Useful Links
 
 - [Signing-in to Database Actions](https://docs.oracle.com/en/database/oracle/sql-developer-web/25.4/sdweb/signing-database-actions.html)
 - [Jeff Smith PM's Blog - SQL Developer Web](https://www.thatjeffsmith.com/sql-developer-web/)
-<br>
-<br>
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 
