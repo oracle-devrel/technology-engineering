@@ -1,0 +1,12 @@
+---
+- name: Validate the software-agent request
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - agent_type is defined
+      - agent_type is string
+      - agent_type | length > 0
+    fail_msg: agent_type must be provided for software-agent installation.
+
+- name: Confirm SSH access to the instance
+  ansible.builtin.ping:

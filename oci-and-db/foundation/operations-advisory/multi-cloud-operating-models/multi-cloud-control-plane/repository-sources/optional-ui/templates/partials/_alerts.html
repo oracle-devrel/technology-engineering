@@ -1,0 +1,31 @@
+{% macro loading_error(context) -%}
+<div class="alert alert-error mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span><strong>Error loading {{ context }}</strong> - Please try again</span>
+</div>
+{%- endmacro %}
+
+{% macro error_alert(message, title="Error", retry_url="", retry_target="#main", retry_label="Retry") -%}
+<div class="alert alert-error mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <div class="flex-1">
+        <h3 class="font-bold">{{ title }}</h3>
+        <p class="text-sm">{{ message }}</p>
+    </div>
+    {% if retry_url %}
+    <button class="btn btn-sm btn-ghost"
+        hx-get="{{ retry_url }}"
+        hx-target="{{ retry_target }}">{{ retry_label }}</button>
+    {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro empty_state(message) -%}
+<p class="text-base-content/40 text-sm py-2">{{ message }}</p>
+{%- endmacro %}

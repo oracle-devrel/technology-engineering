@@ -1,0 +1,26 @@
+---
+- name: Read the ADB after the lifecycle action
+  oracle.oci.oci_database_autonomous_database_facts:
+    autonomous_database_id: "{{ oci_ocid }}"
+    auth_type: instance_principal
+  register: adb_post_state
+  delegate_to: localhost
+  check_mode: false
+
+- name: Verify the requested ADB lifecycle state
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - adb_post_state.autonomous_databases | length == 1
+      - >-
+        (action == 'start' and
+         adb_post_state.autonomous_databases[0].lifecycle_state == 'AVAILABLE') or
+        (action == 'stop' and
+         adb_post_state.autonomous_databases[0].lifecycle_state == 'STOPPED')
+    fail_msg: The ADB did not reach the requested lifecycle state.
+  check_mode: false
+
+- name: Report the verified ADB state
+  ansible.builtin.debug:
+    msg: >-
+      {{ inventory_hostname }}: {{ adb_post_state.autonomous_databases[0].lifecycle_state }}

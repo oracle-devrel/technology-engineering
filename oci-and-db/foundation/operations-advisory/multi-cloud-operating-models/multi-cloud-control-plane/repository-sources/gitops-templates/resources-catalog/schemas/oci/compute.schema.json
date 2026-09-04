@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/__CUSTOMER_ORG__/gitops-templates/resources-catalog/schemas/oci/compute.schema.json",
+  "title": "OCI Compute project manifest",
+  "description": "Reference-only schema for the supported OCI VM project manifest. It is not consumed at runtime.",
+  "x-mccp-contract-status": "reference-only",
+  "x-mccp-runtime-source": "platform-ci governed Compute validator and the pinned OCI Orchestrator Compute contract",
+  "type": "object",
+  "required": ["instances_configuration"],
+  "additionalProperties": false,
+  "properties": {
+    "instances_configuration": {
+      "type": "object",
+      "required": ["default_compartment_id", "default_ssh_public_key_path", "instances"],
+      "additionalProperties": false,
+      "properties": {
+        "default_compartment_id": {"$ref": "#/$defs/ocidOrPlaceholder"},
+        "default_ssh_public_key_path": {
+          "type": "string",
+          "anyOf": [
+            {"const": "/home/github-runner/.ssh/oci_vm_key.pub"},
+            {"$ref": "#/$defs/placeholder"}
+          ]
+        },
+        "instances": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^(?:[A-Z0-9][A-Z0-9_-]{0,127}|__[A-Z][A-Z0-9_]{2,99}__)$": {"$ref": "#/$defs/instance"}
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "placeholder": {"type": "string", "pattern": "^__[A-Z][A-Z0-9_]{2,99}__$"},
+    "ocidOrPlaceholder": {
+      "type": "string",
+      "anyOf": [
+        {"pattern": "^ocid1\\.[a-z0-9]+\\.oc1\\.[A-Za-z0-9.-]+\\.[A-Za-z0-9_-]+$"},
+        {"$ref": "#/$defs/placeholder"}
+      ]
+    },
+    "positiveDecimal": {"type": "string", "pattern": "^[1-9][0-9]*$"},
+    "resourceNameOrPlaceholder": {
+      "type": "string",
+      "anyOf": [
+        {"pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$"},
+        {"$ref": "#/$defs/placeholder"}
+      ]
+    },
+    "instance": {
+      "type": "object",
+      "required": ["compartment_id", "cis_level", "name", "shape", "flex_shape_settings", "platform_image", "placement", "boot_volume", "networking"],
+      "additionalProperties": false,
+      "properties": {
+        "compartment_id": {"$ref": "#/$defs/ocidOrPlaceholder"},
+        "cis_level": {"enum": ["1", "2"]},
+        "name": {"$ref": "#/$defs/resourceNameOrPlaceholder"},
+        "shape": {"type": "string", "pattern": "^VM\\.[A-Za-z0-9][A-Za-z0-9.]{1,126}$"},
+        "flex_shape_settings": {
+          "type": "object",
+          "required": ["ocpus", "memory"],
+          "additionalProperties": false,
+          "properties": {"ocpus": {"$ref": "#/$defs/positiveDecimal"}, "memory": {"$ref": "#/$defs/positiveDecimal"}}
+        },
+        "platform_image": {
+          "type": "object",
+          "required": ["ocid"],
+          "additionalProperties": false,
+          "properties": {"ocid": {"$ref": "#/$defs/ocidOrPlaceholder"}}
+        },
+        "placement": {
+          "type": "object",
+          "required": ["availability_domain", "fault_domain"],
+          "additionalProperties": false,
+          "properties": {"availability_domain": {"$ref": "#/$defs/positiveDecimal"}, "fault_domain": {"$ref": "#/$defs/positiveDecimal"}}
+        },
+        "boot_volume": {
+          "type": "object",
+          "required": ["size", "preserve_on_instance_deletion"],
+          "additionalProperties": false,
+          "properties": {"size": {"$ref": "#/$defs/positiveDecimal"}, "preserve_on_instance_deletion": {"enum": ["true", "false"]}}
+        },
+        "networking": {
+          "type": "object",
+          "required": ["hostname", "subnet_id", "network_security_groups"],
+          "additionalProperties": false,
+          "properties": {
+            "hostname": {"$ref": "#/$defs/resourceNameOrPlaceholder"},
+            "subnet_id": {"$ref": "#/$defs/ocidOrPlaceholder"},
+            "network_security_groups": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "anyOf": [
+                  {"pattern": "^[A-Z0-9][A-Z0-9_-]{0,127}$"},
+                  {"$ref": "#/$defs/placeholder"}
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

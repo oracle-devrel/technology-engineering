@@ -1,0 +1,271 @@
+name: Ansible execution
+description: Run the pinned Ansible check or execute sequence for one validated project tuple.
+
+inputs:
+  mode:
+    description: check or execute
+    required: true
+  cloud:
+    description: Selected target cloud
+    required: true
+  operation_file:
+    description: Validated lifecycle-operation manifest path
+    required: true
+  bucket_name:
+    description: OCI Object Storage state bucket
+    required: true
+  environment_name:
+    description: Selected logical environment
+    required: true
+  security_profile:
+    description: Selected repository security profile
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Verify repository security profile
+      shell: bash
+      env:
+        SECURITY_PROFILE: ${{ inputs.security_profile }}
+      run: |
+        set -euo pipefail
+        test "$SECURITY_PROFILE" = repository-secrets
+
+    # =====================================================================
+    # Setup
+    # =====================================================================
+    - name: Setup work directory
+      shell: bash
+      run: |
+        WORK_TEMP="${{ runner.temp }}/ansible-work"
+        mkdir -p "$WORK_TEMP"
+        echo "WORK_TEMP=$WORK_TEMP" >> $GITHUB_ENV
+
+    # =====================================================================
+    # Detect operation file (if not provided)
+    # =====================================================================
+    - name: Recognize empty lifecycle clear
+      id: lifecycle_clear
+      shell: bash
+      run: |
+        OPERATION_FILE="${{ inputs.operation_file }}"
+        FULL_PATH="${{ github.workspace }}/$OPERATION_FILE"
+        IS_CLEAR=$(python3 - "$FULL_PATH" <<'PY'
+        import json
+        import sys
+
+        with open(sys.argv[1], encoding="utf-8") as f:
+            print("true" if json.load(f) == {} else "false")
+        PY
+        )
+        echo "is_clear=$IS_CLEAR" >> "$GITHUB_OUTPUT"
+        if [ "$IS_CLEAR" = "true" ]; then
+          echo "✅ Empty lifecycle manifest accepted; no Ansible execution is required"
+        fi
+
+    - name: Validate operation manifest
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      env:
+        OPERATION_FILE: ${{ github.workspace }}/${{ inputs.operation_file }}
+      run: |
+        set -euo pipefail
+        python3 "${{ github.action_path }}/../../scripts_python/validate_operation_manifest.py" \
+          "$OPERATION_FILE"
+
+    - name: Install Ansible and OCI CLI
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      run: |
+        python3.11 -m pip install --upgrade pip
+        python3.11 -m pip install ansible==9.0.1 oci-cli
+        export PATH="$HOME/.local/bin:$PATH"
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        collection_archive="$WORK_TEMP/oracle-oci-5.5.0.tar.gz"
+        curl --fail --location --retry 3 --proto '=https' --tlsv1.2 \
+          --output "$collection_archive" \
+          https://galaxy.ansible.com/download/oracle-oci-5.5.0.tar.gz
+        printf '%s  %s\n' \
+          '4df1187e8728a91725ebe8d2f1e4eddb6193145c1ae4312c54caba6cdad4e60e' \
+          "$collection_archive" | sha256sum --check --status
+        ansible-galaxy collection install "$collection_archive"
+
+    # =====================================================================
+    # Discover operation
+    # =====================================================================
+    - name: Discover operation
+      id: discover
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      run: |
+        OPERATION_FILE="${{ inputs.operation_file }}"
+        FULL_PATH="${{ github.workspace }}/$OPERATION_FILE"
+
+        # Read the manifest through argv, as the preceding step does, so the
+        # path is never interpolated into Python source.
+        # Assign first: a failing command substitution aborts the step under -e,
+        # whereas `read` from an empty here-string would succeed with empty values.
+        MANIFEST_FACTS=$(python3 - "$FULL_PATH" <<'PY'
+        import json
+        import sys
+
+        with open(sys.argv[1], encoding="utf-8") as handle:
+            manifest = json.load(handle)
+        print(manifest["operation_type"], len(manifest.get("targets", [])))
+        PY
+        )
+        read -r OPERATION_TYPE TARGET_COUNT <<<"$MANIFEST_FACTS"
+
+        # Shared layout is cloud/environment/region.
+        CONFIG_SUBPATH=$(echo "$OPERATION_FILE" | cut -d/ -f1-3)
+        REGION=$(echo "$CONFIG_SUBPATH" | cut -d/ -f3)
+        test "$(echo "$CONFIG_SUBPATH" | cut -d/ -f2)" = "${{ inputs.environment_name }}"
+
+        echo "operation_type=$OPERATION_TYPE" >> $GITHUB_OUTPUT
+        echo "config_subpath=$CONFIG_SUBPATH" >> $GITHUB_OUTPUT
+        echo "target_count=$TARGET_COUNT" >> $GITHUB_OUTPUT
+        echo "DETECTED_REGION=$REGION" >> $GITHUB_ENV
+        echo "OPERATION_TYPE=$OPERATION_TYPE" >> $GITHUB_ENV
+        echo "✅ $OPERATION_TYPE ($TARGET_COUNT targets)"
+
+    - name: Resolve operation playbook
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      working-directory: ${{ github.action_path }}/../../ansible
+      run: |
+        case "$OPERATION_TYPE" in
+          adb-lifecycle)
+            OPERATION_PLAYBOOK="playbooks/operations/adb-lifecycle.yml"
+            ;;
+          deploy-agent)
+            OPERATION_PLAYBOOK="playbooks/operations/deploy-agent.yml"
+            ;;
+          *)
+            echo "❌ Unsupported operation type: $OPERATION_TYPE" >&2
+            exit 1
+            ;;
+        esac
+
+        test -f "$OPERATION_PLAYBOOK"
+        echo "OPERATION_PLAYBOOK=$OPERATION_PLAYBOOK" >> "$GITHUB_ENV"
+
+    # =====================================================================
+    # Auth & Inventory
+    # =====================================================================
+    - name: Authenticate Azure
+      if: inputs.cloud == 'azure' && steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      run: |
+        az login --service-principal \
+          --username "$ARM_CLIENT_ID" \
+          --password "$ARM_CLIENT_SECRET" \
+          --tenant "$ARM_TENANT_ID"
+        az account set --subscription "$ARM_SUBSCRIPTION_ID"
+
+    # STATE_NAMESPACE is provided by runner environment
+
+    - name: Generate inventory
+      if: steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      run: |
+        python3 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
+          "${{ inputs.cloud }}" \
+          "${{ inputs.bucket_name }}" \
+          "${{ steps.discover.outputs.config_subpath }}" \
+          "${{ inputs.operation_file }}"
+
+    - name: Setup OCI config for Ansible
+      if: inputs.cloud == 'oci' && steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      run: |
+        mkdir -p ~/.oci
+        cat > ~/.oci/config << EOF
+        [DEFAULT]
+        auth = instance_principal
+        EOF
+        chmod 600 ~/.oci/config
+        echo "✅ OCI config created for Instance Principal"
+
+    # =====================================================================
+    # Execute Ansible
+    # =====================================================================
+    - name: Ansible check
+      id: check
+      if: inputs.mode == 'check' && steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      working-directory: ${{ github.action_path }}/../../ansible
+      run: |
+        set +e
+        ansible-playbook \
+          -i $WORK_TEMP/inventory.json \
+          --check --diff \
+          -e "@${{ github.workspace }}/${{ inputs.operation_file }}" \
+          -e "operation_execution_mode=precheck" \
+          "$OPERATION_PLAYBOOK" \
+          2>&1 | tee $WORK_TEMP/ansible.log
+        ANSIBLE_STATUS=${PIPESTATUS[0]}
+
+        DELIMITER="ghout_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+        echo "check_output<<$DELIMITER" >> $GITHUB_OUTPUT
+        head -100 $WORK_TEMP/ansible.log >> $GITHUB_OUTPUT
+        echo "$DELIMITER" >> $GITHUB_OUTPUT
+        exit "$ANSIBLE_STATUS"
+
+    - name: Ansible execute
+      id: execute
+      if: inputs.mode == 'execute' && steps.lifecycle_clear.outputs.is_clear != 'true'
+      shell: bash
+      working-directory: ${{ github.action_path }}/../../ansible
+      run: |
+        set +e
+        ansible-playbook \
+          -i $WORK_TEMP/inventory.json \
+          -e "@${{ github.workspace }}/${{ inputs.operation_file }}" \
+          -e "operation_execution_mode=execute" \
+          "$OPERATION_PLAYBOOK" \
+          2>&1 | tee $WORK_TEMP/ansible.log
+        ANSIBLE_STATUS=${PIPESTATUS[0]}
+
+        if [ "$ANSIBLE_STATUS" -eq 0 ]; then
+          echo "✅ Execution completed"
+        fi
+        exit "$ANSIBLE_STATUS"
+
+    # =====================================================================
+    # PR Comment
+    # =====================================================================
+    - name: Comment on PR
+      if: always() && inputs.mode == 'check' && github.event.pull_request && steps.lifecycle_clear.outputs.is_clear != 'true'
+      uses: actions/github-script@v8
+      env:
+        OUTPUT: ${{ steps.check.outputs.check_output }}
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `#### Ansible Check
+
+          **Operation:** \`${{ steps.discover.outputs.operation_type }}\`
+          **Targets:** \`${{ steps.discover.outputs.target_count }}\`
+
+          <details><summary>Show Output</summary>
+
+          \`\`\`yaml
+          ${process.env.OUTPUT}
+          \`\`\`
+
+          </details>
+
+          *By @${{ github.actor }}*`
+          });
+
+    - name: Upload logs
+      if: always() && steps.lifecycle_clear.outputs.is_clear != 'true'
+      uses: actions/upload-artifact@v7
+      with:
+        name: ansible-logs-${{ github.run_number }}
+        path: ${{ env.WORK_TEMP }}/*.log
+        if-no-files-found: ignore

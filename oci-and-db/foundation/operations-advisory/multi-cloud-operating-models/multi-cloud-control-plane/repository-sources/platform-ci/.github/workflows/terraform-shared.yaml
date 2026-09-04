@@ -1,0 +1,83 @@
+name: Shared Terraform Workflow
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: "pr or apply"
+        required: true
+        type: string
+      cloud:
+        description: "oci, azure, or gcp"
+        required: true
+        type: string
+      region:
+        description: "Config region folder name"
+        required: true
+        type: string
+      environment_name:
+        description: "Selected deployment environment"
+        required: true
+        type: string
+      security_profile:
+        description: "Fixed repository-secrets profile"
+        required: true
+        type: string
+      repository_layout:
+        description: "Protected repository layout identifier"
+        required: true
+        type: string
+      manifest_ref:
+        description: "Validated manifest repository commit"
+        required: true
+        type: string
+      orchestrator_repo:
+        description: "Repository for Terraform modules"
+        required: true
+        type: string
+      orchestrator_ref:
+        description: "Approved immutable orchestrator commit"
+        required: true
+        type: string
+      bucket_name:
+        description: "Bucket name for Terraform state"
+        required: true
+        type: string
+      runner_labels:
+        description: "Runner labels as JSON array"
+        required: false
+        type: string
+        default: '["self-hosted","oci"]'
+    secrets:
+      repository_secret_values:
+        description: "Selected repository JSON secret map"
+        required: true
+
+jobs:
+  terraform:
+    name: "Terraform ${{ inputs.mode }}"
+    runs-on: ${{ fromJSON(inputs.runner_labels) }}
+    concurrency:
+      # State is isolated by repository, cloud, environment and region, so the
+      # lock names the same four things.
+      group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-${{ inputs.region }}-terraform-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout validated manifest
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.manifest_ref }}
+          fetch-depth: 0
+      - name: Execute Terraform
+        uses: __CUSTOMER_ORG__/platform-ci/actions/terraform-execution@main
+        with:
+          mode: ${{ inputs.mode }}
+          cloud: ${{ inputs.cloud }}
+          region: ${{ inputs.region }}
+          environment_name: ${{ inputs.environment_name }}
+          security_profile: ${{ inputs.security_profile }}
+          repository_layout: ${{ inputs.repository_layout }}
+          orchestrator_repo: ${{ inputs.orchestrator_repo }}
+          orchestrator_ref: ${{ inputs.orchestrator_ref }}
+          bucket_name: ${{ inputs.bucket_name }}
+          repository_secret_values: ${{ secrets.repository_secret_values }}
