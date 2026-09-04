@@ -66,6 +66,15 @@ def process_pdf_file(
             for i, chunk in enumerate(chunks)
         ]
 
+        # Replace any previous ingest of this same file/entity before adding, so
+        # re-ingesting during a demo updates the corpus instead of duplicating it.
+        replaced = 0
+        if hasattr(rag_system.vector_store, "delete_document_chunks"):
+            progress(0.7, desc="Replacing previous version of this file...")
+            replaced = rag_system.vector_store.delete_document_chunks(
+                'pdf_documents', entity, file_path.name
+            )
+
         # ✅ Add chunks
         if hasattr(rag_system.vector_store, "add_pdf_chunks"):
             rag_system.vector_store.add_pdf_chunks(converted_chunks, doc_id)
