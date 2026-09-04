@@ -6,7 +6,7 @@ Oracle Private Agent Factory allows you to build and deploy no-code AI agents in
 
 Oracle Private Agent Factory includes pre-built, enterprise-ready agents and workflows, including the Knowledge Agent for retrieval-augmented generation (RAG) from unstructured enterprise data, and the Data Analysis Agent for exploring structured datasets. Additionally developers can access a wide range of pre-built templates or build custom agent workflows using our Agent Builder with plently of pre-built tools and connectors to choose from.
 
-Reviewed: 2026.04.23
+Reviewed: 2026.08.13
 </br></br>
 
 # Table of Contents
@@ -31,6 +31,7 @@ Reviewed: 2026.04.23
 # Team Publications
 
 - [Getting Started: Oracle AI Database Private Agent Factory - OCI Marketplace](https://medium.com/@harrysnart/oracle-private-ai-agent-studio-9c8adfd7057c)
+- [Usage Tracking in Oracle AI Database Private Agent Factory](https://medium.com/@harrysnart/usage-tracking-in-oracle-ai-database-private-agent-factory-cb5d82b8d7fd)
 
 </br></br>
 

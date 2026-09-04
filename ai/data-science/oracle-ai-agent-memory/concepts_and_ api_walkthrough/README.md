@@ -1,6 +1,10 @@
-# Overview
+# Oracle AI Agent Memory - Concepts and API Walkthrough
 
 This notebook demonstrates how to use **Oracle Agent Memory** for managing and retrieving conversational memory in AI applications.
+
+Reviewed: 2026.08.13
+
+# When to use this asset?
 
 The notebook includes:
 
@@ -10,13 +14,9 @@ The notebook includes:
 
 This notebook does not cover agent creation. Instead, it focuses on using Large Language Models (LLMs) to explore and demonstrate Oracle Agent Memory capabilities and API usage.
 
-Reviewed: 2026.05.15
 
-# Environment
+# How to use this asset?
 
-Conda environment: python3 (ipykernel)
-
-# Prerequisites
 * Access to an Oracle Database 26ai instance with Oracle Agent Memory enabled
 * Installation of the oracleagentmemory Python package
 * Access to at least one LLM model and one embedding model from the supported model list: https://docs.oracle.com/en/database/oracle/agent-memory/26.4/agmea/get-started.html#GUID-1DC2BEC9-4CAF-4668-BBBB-E9FC57C7E71E
@@ -26,7 +26,9 @@ Conda environment: python3 (ipykernel)
     - OCI configuration file when running from a local environment and accessing OCI-hosted models
 
 # License
-
+ 
 Copyright (c) 2026 Oracle and/or its affiliates.
-
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

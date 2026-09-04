@@ -1,6 +1,6 @@
 # OCI Data Flow Reading files from Object Storage in Streaming mode
 
-Reviewed: 11.11.2025
+Reviewed: 28.07.2026
 
 Sometimes you would like to continously monitor a Object Storage (S3 compatible) location and incrementally process new incoming data.</br>
 With Spark we can create a StreamingQuery using ObjectStorage source and process data from files in streaming mode .... without streaming platform.
