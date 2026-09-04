@@ -1,0 +1,67 @@
+wget https://www.python.org/ftp/python/3.12.6/Python/3.12.6.tgz
+
+mkdir -p $HOME/python
+
+tar -xvzf Python-3.12.6.tgz --strip-components=1 -C $HOME/python
+
+sudo yum install libffi-devel openssl openssl-devel tk-devel xz-devel zlib-devel bzip2-devel readline-devel libuuid-devel ncurses-devel libaio
+
+./configure --enable-shared --prefix=$HOME/python
+
+export PYTHONHOME=$HOME/python
+
+export PATH=$PYTHONHOME/bin:$PATH
+
+export LD_LIBRARY_PATH=$PYTHONHOME/lib:$LD_LIBRARY_PATH
+
+cd $HOME/python/bin
+
+ln -s python3.12 python3
+
+ln -s pip3.12 pip3
+
+wget https://download.oracle.com/otn_software/linux/instantclient/2340000/instantclient-basic-linux.x64-23.4.0.24.05.zip
+
+unzip instantclient-basic-linux.x64-23.4.0.24.05.zip
+
+export LD_LIBRARY_PATH=$HOME/instantclient_23_4:$LD_LIBRARY_PATH
+
+vi requirements.txt
+
+pip3 install --upgrade pip
+
+pip3 install -r requirements.txt
+
+scp -i <private-key-file> <location-of-downloaded-zip> opc@<public-ip>:/home/opc
+
+pip3 install client/oml-2.1-cp312-cp312-linux_x86_64.whl
+
+scp -i <private-key-file> <location-of-wallet-file> opc@<public-ip>:/home/opc
+
+mkdir <new-wallet-directory>
+
+unzip <zipped-wallet> -d <new-wallet-directory>
+
+cp <new-wallet-directory>/tnsnames.ora instantclient_23_4/network/admin
+
+Wallet_DataScienceDemosADB
+
+cp <new-wallet-directory>/sqlnet.ora instantclient_23_4/network/admin
+
+cd instantclient_23_4/network/admin
+
+from oml.utils import ONNXPipeline, ONNXPipelineConfig
+
+ONNXPipelineConfig.show_preconfigured()
+
+pipeline = ONNXPipeline(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+pipeline.export2file("all-MiniLM-L6-v2",output_dir=".")
+
+oml.connect(user="username", password="password",dsn="dsn");
+
+config = ONNXPipelineConfig.from_template("multimodal_clip")
+
+pipeline = ONNXPipeline(model_name="openai/clip-vit-base-patch16", config=config, settings={"ignore_safetensors_error": True})
+
+pipeline.export2file("clip-vit-base-patch16",output_dir=".")
