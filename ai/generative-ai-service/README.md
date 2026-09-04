@@ -12,7 +12,7 @@ Explore below assets that can transform your business worflows across your depar
 
 [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/) - Here you can access a variety of other solutions from the GenAI team
 
-Reviewed: 22.09.2025
+Reviewed: 04.08.2026
 
 ## Team Publications
 ### Github Solution Assets
