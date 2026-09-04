@@ -41,7 +41,7 @@ locals {
   ]
 
   oke_kms_statements = [
-    var.cluster_kms_key_id != null ? "Allow any-user to use keys in compartment id ${var.kms_compartment_id} where ALL {request.principal.type = 'cluster', target.key.id = '${var.cluster_kms_key_id}', request.principal.cluster_id = '${module.oke.cluster_id}'}" : ""
+    var.cluster_kms_key_id != null ? "Allow any-user to use keys in compartment id ${var.kms_compartment_id} where ALL {request.principal.type = 'cluster', target.key.id = '${var.cluster_kms_key_id}'}" : ""
   ]
 
 

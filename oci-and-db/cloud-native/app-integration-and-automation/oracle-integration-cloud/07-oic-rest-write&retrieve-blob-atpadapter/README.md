@@ -7,7 +7,7 @@ This simple template project reflects some real use cases. E.g. customer/partner
 ## OIC poc-RESTwithAttachment-tofrom-DB Project
 The template project demonstrates how you can send multipart mixed content payload through Oracle Integration to an Autonomous Database and then later retrieve the attachment from DB. All this can be invoked/consumed from an external application through REST API
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # When to use these assets?
 

@@ -1,9 +1,9 @@
 # NOTE: OKE often requires some policies to work with depending on the use case. You can find a complete list at this link:
-# https://github.com/oracle-devrel/technology-engineering/blob/main/app-dev/devops-and-containers/oke/oke-policies/policies.md
+# https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/cloud-native/devops-and-containers/oke/oke-policies/policies.md
 
 module "oke" {
   source         = "oracle-terraform-modules/oke/oci"
-  version        = "5.5.0"
+  version        = "5.5.1"
   compartment_id = var.oke_compartment_id
   # Network module - VCN
   create_vcn                        = false
@@ -227,4 +227,5 @@ module "oke" {
   providers = {
     oci.home = oci.home
   }
+  depends_on = [oci_identity_policy.oke_policy_kms]
 }

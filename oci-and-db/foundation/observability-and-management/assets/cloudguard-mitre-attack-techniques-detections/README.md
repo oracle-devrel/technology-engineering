@@ -18,7 +18,7 @@ github.com
 
 As seen in this picture you can go and do your mapping manually:
 
-![Picture 27](./images/image-01.png)
+![Picture 27](./files/image-01.png)
 
 In my auditd custom rules, I only have enabled this rules:
 
@@ -28,33 +28,33 @@ as this rules are mapped as keys, I will use them in the OCI Logging Search.
 
 Now if we go to OCI Logging, and look at the Auditd generated logs, we can go and drill down on more specific searches by clicking Filter matching:
 
-![Picture 26](./images/image-02.png)
+![Picture 26](./files/image-02.png)
 
 If we select Show Advanced Mode, we will see a simular query, and in there we will see that the selected query will not return anything.
 
-![Picture 25](./images/image-03.png)
+![Picture 25](./files/image-03.png)
 
-![Picture 24](./images/image-04.png)
+![Picture 24](./files/image-04.png)
 
-![Picture 23](./images/image-05.png)
+![Picture 23](./files/image-05.png)
 
 Now, in the Advanced Mode, we can change the format from:
 
-![Picture 22](./images/image-06.png)
+![Picture 22](./files/image-06.png)
 
 to
 
 data.”body.key”=’ ”T1043_Commonly_Used_Port”’
 
-![Picture 21](./images/image-07.png)
+![Picture 21](./files/image-07.png)
 
 We need to do this, as the proper log field is “body.key” not key.
 
 With this format you will be able to see the proper logs and save the searches:
 
-![Picture 20](./images/image-08.png)
+![Picture 20](./files/image-08.png)
 
-![Picture 19](./images/image-09.png)
+![Picture 19](./files/image-09.png)
 ```text
 search “ocid1.compartment.oc1..xxxxxxxx” “ocid1.compartment.oc1..xxxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxxx” | data.”body.key”=’”T1078_Valid_Accounts”’ | sort by datetime desc
 ```
@@ -62,7 +62,7 @@ In this query I have removed the exclusion of VCN Flow Logs, as this was used by
 
 Using this search, and changing the filed value I have created multiple searches based on MITRE ATT&CK Techiques:
 
-![Picture 17](./images/image-10.png)
+![Picture 17](./files/image-10.png)
 
 Next step will be to set up Cloud Guard to use Insight logging as described in my first blog entry from this series and will use the saved Searches for detection.
 
@@ -74,58 +74,61 @@ learnoci.cloud
 
 Go to Data Sourrces and create a new Query:
 
-![Picture 16](./images/image-11.png)
+![Picture 16](./files/image-11.png)
 
 Give the Query the proper name and Press Import Saved Search Query:
 
-![Picture 15](./images/image-12.png)
+![Picture 15](./files/image-12.png)
 
-![Picture 14](./images/image-13.png)
+![Picture 14](./files/image-13.png)
 
 Select the Saved Search and press Import:
 
-![Picture 13](./images/image-14.png)
+![Picture 13](./files/image-14.png)
 
 After the import map the body.jey field with the Cloud Guard key
 
-![Picture 12](./images/image-15.png)
+![Picture 12](./files/image-15.png)
 
 search “ocid1.compartment.oc1..xxxxx” “ocid1.compartment.oc1..xxxxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxxxx” | data.”body.key”=’”T1215_Kernel_Modules_and_Extensions”’ | select data.”body.key” as cgkey01
 
 and select the trigger time:
 
-![Picture 11](./images/image-16.png)
+![Picture 11](./files/image-16.png)
 
 If you want to decrease the number of detected events, you can remove additional fields in the OCI Logging search, like removing the body.euid for Oracle-cloud-agent:
 
-![Picture 10](./images/image-17.png)
+![Picture 10](./files/image-17.png)
 ```text
 search “ocid1.compartment.oc1..xxxxx” “ocid1.compartment.oc1..xxxxx/ocid1.loggroup.oc1.eu-frankfurt-1.xxxxxxx” | data.”body.key”=’”T1166_Seuid_and_Setgid”’ and data.”body.EUID”!= ‘“oracle-cloud-agent”’ | sort by datetime desc
 ```
 After the Query is created, you need to attach it to a new Detector or you can attach it to an existing one.
 
-![Picture 9](./images/image-18.png)
+![Picture 9](./files/image-18.png)
 
-![Picture 8](./images/image-19.png)
+![Picture 8](./files/image-19.png)
 
 Now Press Create Rule and select the created techniques:
 
-![Picture 7](./images/image-20.png)
+![Picture 7](./files/image-20.png)
 
-![Picture 6](./images/image-21.png)
+![Picture 6](./files/image-21.png)
 
-![Picture 5](./images/image-22.png)
+![Picture 5](./files/image-22.png)
 
 Please note that some of the Techniques had their number changes, so it’s better to use the Navigator [https://attack.mitre.org/techniques/enterprise/](https://attack.mitre.org/techniques/enterprise/) .
 
-![Picture 4](./images/image-23.png)
+![Picture 4](./files/image-23.png)
 
 Last step is to create a new target and attach the detector recipes and enable the queries. You can also reuse existing ones.
 
-![Picture 3](./images/image-24.png)
+![Picture 3](./files/image-24.png)
 
 If you select any of the Queries, and you see that you have green checks on all steps, Congratulations, you have finished configuring the Cloud Guard detection.
 
-![Picture 2](./images/image-25.png)
+![Picture 2](./files/image-25.png)
 
-![Picture 1](./images/image-26.png)
+![Picture 1](./files/image-26.png)
+
+
+Reviewed: 01.07.2026
