@@ -1,0 +1,5 @@
+apiVersion: v2
+name: api
+description: API component of the reference Helm application
+type: application
+version: 0.1.0

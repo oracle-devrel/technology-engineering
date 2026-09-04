@@ -1,0 +1,22 @@
+Nutze die bereitgestellten (getaggten) Datenquellen allianz_2023 und allianz_2024, um die Geschäftsberichte der Allianz Versicherungs-AG für 2023 und 2024 miteinander zu vergleichen, und erstelle einen professionellen, Word-fertigen Vergleichsbericht zur Geschäftsentwicklung. Der Bericht soll in sachlichem, analytischem Ton verfasst sein und sich für Management, Analyse oder interne Entscheidungsgrundlagen eignen.
+
+Strukturiere den Bericht anhand der folgenden Elemente:
+
+Executive Summary
+Zentrale Kennzahlen auf einen Blick (At-a-Glance KPIs)
+Hinweis: Eine einzelne KPI-Sektion mit nur einer Kennzahl: Bruttobeitragseinnahmen Jahr X vs. Jahr Y.
+Geschäftsentwicklung & Beitragsanalyse (nach Sparten / Geschäftsbereichen)
+Schadenentwicklung & Combined Ratio
+Kosten- und Effizienzanalyse
+Versicherungstechnisches Ergebnis
+Kapitalanlageergebnis
+Finanzergebnis & Jahresüberschuss
+Bilanz- und Finanzlagenvergleich
+Cashflow- und Liquiditätsbetrachtung (sofern ableitbar)
+Risikobericht & Solvenz
+Mitarbeitende & Organisation
+Nachhaltigkeit / ESG-Aspekte
+Managementaussagen & Tonalität
+Risiken & kritische Entwicklungen
+Fazit & Ausblick
+Anhang (Quellen, Annahmen, Mapping der Kennzahlen, methodische Hinweise)
