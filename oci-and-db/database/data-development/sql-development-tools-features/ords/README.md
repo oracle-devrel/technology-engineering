@@ -7,12 +7,6 @@ Oracle Database Actions is a web-based interface that uses Oracle REST Data Serv
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
 # Team Publications
 
 - [ORDS version 26.2 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
@@ -21,16 +15,11 @@ Reviewed: 26.08.2026
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
  - [How ORDS help with DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
  - [Scalability with Customer Managed ORDS on ADB](https://medium.com/oracledevs/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
-<br>
-<br>
 
 ## Team Member Blog Sites
 
-[Paolo Paolucci](https://medium.com/@ppaolucc)
-<br>
-[Victor Mendo](https://medium.com/@vmendo/)
-<br>
-<br>
+- [Paolo Paolucci](https://medium.com/@ppaolucc)
+- [Victor Mendo](https://medium.com/@vmendo/)
 
 # Useful Links
 
@@ -45,12 +34,6 @@ Reviewed: 26.08.2026
 - [Jeff Smith ORDS Main Page](https://www.thatjeffsmith.com/archive/tag/ords/)
    - Main reference page on Oracle REST Data Services curated by Product Manager Jeff Smith
 - [Follow The Coffee - Chris Hoina Blog](https://followthecoffee.com/)
-<br>
-<br>
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

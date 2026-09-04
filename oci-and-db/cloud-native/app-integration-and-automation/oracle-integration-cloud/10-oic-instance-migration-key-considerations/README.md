@@ -5,6 +5,8 @@ Planning an OIC instance migration? Whether driven by compliance or business con
 
 This article highlights some of the key areas you should address when planning your migration strategy. 
 
+Reviewed: 02.09.2026
+
 ---
 
 ## 1. Migrating Integrations
@@ -95,6 +97,12 @@ While the technical migration of design artifacts is straightforward, the true c
 
 > **Important Note**: This article is intended as a guidance document to help plan your OIC migration and is not an exhaustive list of all possible considerations. The specific steps and requirements for your migration may vary depending on your environment, configurations, and business needs. Always refer to the official Oracle documentation and validate your approach in a non-production environment.
 
----
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
 
