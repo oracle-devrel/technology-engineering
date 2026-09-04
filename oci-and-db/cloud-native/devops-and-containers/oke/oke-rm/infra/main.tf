@@ -80,5 +80,6 @@ module "network" {
   create_drg_attachment = var.create_drg_attachment
   peer_vcns             = var.peer_vcns
   # Tagging
-  tag_value = local.tag_value
+  tag_value               = local.tag_value
+  network_resource_suffix = local.network_resource_suffix
 }
