@@ -52,6 +52,13 @@ const ChatSidebar = memo(function ChatSidebar({
   const inputWrapperRef = useRef(null);
   const dragCounterRef = useRef(0);
 
+  // Warm up the settings route while the user is still chatting — router.push
+  // from a click has no automatic prefetch (unlike <Link>), so without this the
+  // gear icon paid the full RSC + chunk download on click.
+  useEffect(() => {
+    router.prefetch?.("/settings");
+  }, [router]);
+
   const isValidFile = useCallback((file) => {
     return file.type.startsWith('image/') ||
       file.type.startsWith('text/') ||
