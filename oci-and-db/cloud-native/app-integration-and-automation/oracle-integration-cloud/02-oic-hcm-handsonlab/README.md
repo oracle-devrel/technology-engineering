@@ -6,7 +6,7 @@ This workshop shows you how to design and develop a Get Worker Details integrati
 
 Estimated Time: 120 minutes
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # OracleIntegration GetWorkerDetails HCM HandsonLab
 

@@ -8,7 +8,7 @@ Assets that contain oic adapters configuration and implementation practice for t
 - EBS Adapter
 - Oracle CX Sales Cloud and B2B Adapter 
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # When to use these assets?
 
