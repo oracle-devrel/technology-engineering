@@ -2,6 +2,8 @@
 
 A chat interface and agent hub for [Oracle Cloud Infrastructure Enterprise AI](https://www.oracle.com/artificial-intelligence/enterprise-ai/). Streaming responses, MCP tool integration, OAuth2 SSO, and a full settings workbench to tailor the assistant to each deployment.
 
+Reviewed: 04.08.2026
+
 Built with **Next.js 16**, **React 19**, and **MUI v7**.
 
 ![Chat home](images/01-chat-home.png)
