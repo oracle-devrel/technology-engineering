@@ -2,11 +2,11 @@
 
 In this blog we will talk about Multi cloud monitoring using prometheus and OCI management agent. We will take GCP(Google Cloud Platform) as an example but this applies to all other cloud as well.
 
-![Picture 14](./images/image-01.png)
+![Picture 14](./files/image-01.png)
 
 Two VM instances has been created in GCP as an example.
 
-![Picture 13](./images/image-02.png)
+![Picture 13](./files/image-02.png)
 
 1. Install prometheus node-exporter in those VM instances by following the steps outlined [here](https://prometheus.io/docs/guides/node-exporter/) .Below is an example code.You can configure it to run as a system service as well. Open the firewall for the port if its blocked.
 
@@ -29,7 +29,7 @@ cd node_exporter-*.*-amd64
 
 You can see the agent in OCI after successful installation.
 
-![Picture 12](./images/image-03.png)
+![Picture 12](./files/image-03.png)
 
 This agent should have access to the node-exporter endpoint running in all other VM’s.
 
@@ -52,20 +52,20 @@ Its suggested to allow only required metrics instead of * by specifying metric n
 
 By default these metrics are collected every 5 mins to change it please set the parameter scheduleMins=<minutes> .
 
-![Picture 10](./images/image-04.png)
+![Picture 10](./files/image-04.png)
 
 I have added another datasource using the agents Manage datasource page in OCI console. You can edit the properties later if needed.
 
-![Picture 9](./images/image-05.png)
+![Picture 9](./files/image-05.png)
 
-![Picture 8](./images/image-06.png)
+![Picture 8](./files/image-06.png)
 
 Now all the node metrics of the GCP VM will be available in OCI monitoring and we can build dashboard with these metrics.
 
 You can take a look at the metrics explorer to see the metrics flowing in.
 For example : filesystem_free_bytes.
 
-![Picture 7](./images/image-07.png)
+![Picture 7](./files/image-07.png)
 
 You could install OCI management agent on all the GCP VM instances instead of prometheus node exporter to monitor as well . But with prometheus you will get the freedom to monitor not only the VM metrics and also other infrastructure hosted on top of the VM as well which may not be supported directly in OCI Observability services yet.
 
@@ -115,3 +115,6 @@ for ip in list_of_vms:
                     name="nodeName",
                     value=node_name)]))
 ```
+
+
+Reviewed: 25.07.2026

@@ -3,6 +3,8 @@
 Scripts and instructions for collecting data on existing workloads with AWR Miner and EMCC extracts. The EMCC sizing extract distribution contains both the EMCC extract and AWR miner scripts and READMEs. 
 The AWR Miner script are also distributed as a standalone package. 
 
+Reviewed: 30/07/26
+
 # When to use this asset?
  
 See the instruction document within the .zip file in the [/files](./files) folder.
@@ -10,8 +12,6 @@ See the instruction document within the .zip file in the [/files](./files) folde
 # How to use this asset?
  
 See the instruction document within the .zip file in the [/files](./files) folder.
-
-Reviewed: 06/15/26
 
 # License
  
