@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: reference-app-components-${cluster}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app.kubernetes.io/name: reference-app
+    app.kubernetes.io/component: workloads
+    fleet.oke.oracle.com/cluster: ${cluster}
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - list:
+        elements:
+          - component: frontend
+            environment: dev
+            resourcesPath: applications/reference-app/kustomize/components/frontend/environments/dev
+          - component: api
+            environment: dev
+            resourcesPath: applications/reference-app/kustomize/components/api/environments/dev
+  template:
+    metadata:
+      name: 'reference-app-{{ .component }}-{{ .environment }}-${cluster}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+      labels:
+        app.kubernetes.io/name: reference-app
+        app.kubernetes.io/component: '{{ .component }}'
+        app.kubernetes.io/environment: '{{ .environment }}'
+        fleet.oke.oracle.com/cluster: ${cluster}
+    spec:
+      project: applications
+      source:
+        repoURL: ${apps_config_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        name: ${cluster}
+        namespace: reference-app
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
