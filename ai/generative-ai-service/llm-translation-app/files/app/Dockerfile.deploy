@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+WORKDIR /code
+
+COPY app/requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY core/ /code/core/
+COPY app/ /code/app/
+
+# OCI API key auth generated at runtime by the container entrypoint
+RUN chmod 755 /code/app/docker-entrypoint.sh
+
+EXPOSE 8000
+
+ENTRYPOINT ["/code/app/docker-entrypoint.sh"]

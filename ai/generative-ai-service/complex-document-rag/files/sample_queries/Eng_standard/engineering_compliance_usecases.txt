@@ -1,0 +1,4 @@
+Usecase1
+Compliance Checking & AI Detection – An AI tool that can read standard requirements, documents, tables, and specifications, and highlight any discrepancies.
+Usecase2
+Database & Lessons Learned Insights – AI capabilities to check against an internal database and lessons learned repository to provide actionable insights.
