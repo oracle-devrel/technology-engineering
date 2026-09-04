@@ -1,0 +1,3 @@
+# Fleet administrators own this file after the repository is seeded.
+# Add Flux Operator chart overrides here; later files win.
+{}
