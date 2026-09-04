@@ -2,6 +2,8 @@
 
 The SQL Development Tools and Features specialization provides technical resources, examples, and solution patterns for developing, deploying, and managing applications with Oracle Database. It covers SQL and PL/SQL development, Oracle developer tools, database DevOps, ORDS, distributed database capabilities, microservices, caching, and AI-assisted database development.
 
+Review Date: 03.09.2026
+
 # Useful Links
 
 - [SQL Development](sql/README.md)
