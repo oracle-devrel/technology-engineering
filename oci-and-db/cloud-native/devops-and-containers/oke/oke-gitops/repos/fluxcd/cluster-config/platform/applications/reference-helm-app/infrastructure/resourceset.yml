@@ -1,0 +1,27 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: reference-helm-app-infrastructure
+  namespace: flux-system
+spec:
+  resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: reference-helm-app
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: reference-helm-app-infrastructure
+        namespace: flux-system
+      spec:
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+        path: ./platform/applications/reference-helm-app/infrastructure/resources
+        targetNamespace: reference-helm-app
+        prune: true
+        wait: true
+        timeout: 3m
