@@ -1,0 +1,80 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+spec:
+  distribution:
+    version: "2.x"
+    registry: "${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}"
+    variant: "upstream-alpine"
+    imagePullSecret: "ocirsecret"
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+  cluster:
+    type: kubernetes
+    size: medium
+
+---
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: flux-fleet-bootstrap
+  namespace: flux-system
+spec:
+  commonMetadata:
+    annotations:
+      fluxcd.controlplane.io/prune: disabled
+  dependsOn:
+    - apiVersion: fluxcd.controlplane.io/v1
+      kind: FluxInstance
+      name: flux
+      namespace: flux-system
+    - apiVersion: v1
+      kind: Secret
+      name: git-token-auth
+      namespace: flux-system
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      metadata:
+        name: fleet-config
+        namespace: flux-system
+      spec:
+        interval: 3m
+        url: "${fleet_repo_url}"
+        ref:
+          branch: main
+        secretRef:
+          name: git-token-auth
+
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      metadata:
+        name: apps-config
+        namespace: flux-system
+      spec:
+        interval: 3m
+        url: "${apps_repo_url}"
+        ref:
+          branch: main
+        secretRef:
+          name: git-token-auth
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: fleet-${cluster_name}
+        namespace: flux-system
+      spec:
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: fleet-config
+        path: ./clusters/${cluster_name}
+        prune: true
+        wait: true
+        timeout: 5m
