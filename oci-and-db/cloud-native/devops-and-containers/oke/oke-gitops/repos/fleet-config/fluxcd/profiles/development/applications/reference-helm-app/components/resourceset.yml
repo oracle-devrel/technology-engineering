@@ -1,0 +1,47 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: fleet-reference-helm-app-components
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: apps-config
+      namespace: flux-system
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      name: fleet-reference-helm-app-infrastructure
+      namespace: flux-system
+      ready: true
+  inputs:
+    - component: frontend
+      environment: dev
+    - component: api
+      environment: dev
+  resources:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: fleet-reference-helm-app-<< inputs.component >>-<< inputs.environment >>
+        namespace: flux-system
+      spec:
+        interval: 5m
+        releaseName: reference-helm-app-<< inputs.component >>-<< inputs.environment >>
+        targetNamespace: reference-helm-app
+        chart:
+          spec:
+            chart: ./applications/reference-helm-app/helm
+            reconcileStrategy: Revision
+            sourceRef:
+              kind: GitRepository
+              name: apps-config
+            valuesFiles:
+              - applications/reference-helm-app/helm/values.yaml
+              - applications/reference-helm-app/helm/values/<< inputs.environment >>/<< inputs.component >>.yml
+        install:
+          remediation:
+            retries: 3
+        upgrade:
+          remediation:
+            retries: 3
