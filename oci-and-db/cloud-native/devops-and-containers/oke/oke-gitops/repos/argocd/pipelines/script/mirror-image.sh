@@ -45,7 +45,7 @@ require_cmd docker
 require_cmd sed
 require_cmd tr
 
-SKOPEO_IMAGE="quay.io/skopeo/stable:latest"
+REGCTL_IMAGE="regclient/regctl:latest"
 
 log_info "Starting image mirroring workflow"
 log_info "Target OCIR registry: ${REMOTE_REGISTRY}"
@@ -107,21 +107,22 @@ create_repo(){
   fi
 }
 
-run_skopeo_copy() {
+run_regctl_copy() {
   local src_image="$1"
   local dst_image="$2"
   local token="$3"
 
-  docker run --rm "$SKOPEO_IMAGE" \
-    copy --all \
-    --dest-creds "BEARER_TOKEN:${token}" \
-    "docker://${src_image}" \
-    "docker://${dst_image}"
+  docker run --rm "$REGCTL_IMAGE" \
+    --host "reg=${REMOTE_REGISTRY},user=BEARER_TOKEN,pass=${token}" \
+    index create "$dst_image" \
+    --ref "$src_image" \
+    --platform linux/amd64 \
+    --platform linux/arm64
 }
 
-# Ensure the skopeo container image is available before starting the loop.
-log_info "Ensuring skopeo helper image is available: ${SKOPEO_IMAGE}"
-docker image inspect "$SKOPEO_IMAGE" >/dev/null 2>&1 || docker pull "$SKOPEO_IMAGE" >/dev/null
+# Ensure the regctl container image is available before starting the loop.
+log_info "Ensuring regctl helper image is available: ${REGCTL_IMAGE}"
+docker image inspect "$REGCTL_IMAGE" >/dev/null 2>&1 || docker pull "$REGCTL_IMAGE" >/dev/null
 
 log_info "Requesting OCIR bearer token"
 TOKEN="$(oci raw-request --http-method GET --target-uri "https://${REMOTE_REGISTRY}/20180419/docker/token" | tr -d '\n' | sed -E 's/.*"token"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')"
@@ -142,7 +143,7 @@ for image in $IMAGES; do
   fi
 
   log_info "Processing source image: ${image}"
-  base_image="${image#*/}"
+  base_image="${image##*/}"
   image_name="${base_image%%:*}"
   image_tag="${base_image#*:}"
 
@@ -151,9 +152,9 @@ for image in $IMAGES; do
 
   create_repo "$image_name"
 
-  # Copy all manifests/platforms to preserve digest references used by Flux.
+  # Copy only the platforms used by our clusters, keeping the original tag unchanged.
   log_info "Mirroring image to ${REMOTE_REGISTRY}/${REPO_NAMESPACE}/${image_name}:${image_tag}"
-  run_skopeo_copy "$image" "$REMOTE_REGISTRY/$REPO_NAMESPACE/$image_name:$image_tag" "$TOKEN"
+  run_regctl_copy "$image" "$REMOTE_REGISTRY/$REPO_NAMESPACE/$image_name:$image_tag" "$TOKEN"
 
   log_info "Mirrored $image to $REMOTE_REGISTRY/$REPO_NAMESPACE/$image_name:$image_tag"
 

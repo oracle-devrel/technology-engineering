@@ -17,8 +17,8 @@ Reviewed: 22.06.2026
 | Landing Zone Add-on  | [Link](./LZ-addons/README.md) |
 | Ops Insights Demo|[Link](https://www.youtube.com/watch?v=Y45kPRn_c7s)|
 | Tag Exadata and Its Members in OCI Ops Insights with API|[Link](/oci-and-db/foundation/observability-and-management/assets/tag-exadata-members-oci-ops-insights-api/README.md)|
-| Automated Observability Enablement for External Oracle Databases| [Link](/oci-and-db/foundation/observability-and-management/assets/external-database-enablement/README.md) | 
-| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](/oci-and-db/foundation/observability-and-management/assets/oci-dbman-opsi/README.md) | 
+| Automated Observability Enablement for External Oracle Databases| [Link](https://github.com/oracle-devrel/technology-engineering/tree/Alex-feedback/oci-and-db/foundation/observability-and-management/database-observability/external-database-enablement) | 
+| Automated Observability Enablement for OCI Cloud-Native Databases| [Link](https://github.com/adibirzu/oci-dbman-opsi) | 
 
 
 

@@ -1,13 +1,13 @@
 # ExaDB-C@C with Dedicated Backup Network to connect ZDLRA
 
-## Introduction
-
 To improve the ZDLRA attach rate to Exadata customers, we must make the joint engagement process as smooth as possible. According to sales teams, one of the impediments to these deals is the additional complexity introduced when discussing backup and recovery network requirements. This area is usually the responsibility of storage and networking teams, outside of the DBA team.
 
+Reviewed: 30/07/26
+
+# When to use this asset?
 For some historical perspective, ZFS was able to achieve a high attach rate to Exadata, driven in part by the ability to use the InfiniBand fabric to create a dedicated backup network between the two architectures and keep the whole infrastructure under the control of the DBA team, without much involvement of the storage and networking teams. With the discontinuation of InfiniBand-based Exadata systems, the ZFS team introduced the ability to add two switches (Cisco 9336C) when configuring a ZFS rack to create a similar, dedicated backup network.
 
 We are proposing to create a similar option for creating a dedicated backup network between ExaDB-C@C and ZDLRA RA23.  Its purpose is to relieve the need for additional networking discussions and effort during pre-sales on how ZDLRA would connect into a corporate backup network. It is not necessarily aimed at increasing network bandwidth for backup and restore traffic to ZDLRA, though that can be a benefit with dedicated network. 
-
 ExaDB-C@C X11M can be connected to a RA23 (former named ZDLRA) but there are some specific considerations to keep in mind : 
 
 1. ExaDB-C@C supports either 25GbE or 100GbE backup network configurations, depending on the Exadata generation and selected network option. Verify the deployed backup network configuration before designing connectivity to RA23.
@@ -18,6 +18,8 @@ ExaDB-C@C X11M can be connected to a RA23 (former named ZDLRA) but there are som
 
 <img src="./images/exacc-zdlra.png" alt="ExaDB-C@C ZDLRA connectivity"> 
 
+
+# How to use this asset?
 ## Connectivity Options for ExaDB-C@C and RA23
 
 - Connection: 100GE on RA23 / 25GE on ExaDB-C@C - Direct connection using RA23 TOR Switches
@@ -100,8 +102,6 @@ Example of parts used for the architecture in the diagrams above:
 - [KB196696 Set Up and Configure Exadata X9M Backup with ZFS Storage ZS9-2 Using Dedicated 100Gb Top of Rack (ToR) Switches](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?anchorId=&kmContentId=2905622&page=sptemplate&sptemplate=km-article))
 - [KB784377 How to upgrade a 9336 TOR Switches in an Oracle ZFS Storage Rack ZS7-2 - ZS11-2](https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-portal/?anchorId=&kmContentId=2782115&page=sptemplate&sptemplate=km-article)
 - [Cisco Nexus 9336C-FX2 DataSheet](https://www.cisco.com/c/en/us/products/collateral/switches/nexus-9000-series-switches/datasheet-c78-742282.html)
-
-Reviewed: 06/26/26
 
 # License
 

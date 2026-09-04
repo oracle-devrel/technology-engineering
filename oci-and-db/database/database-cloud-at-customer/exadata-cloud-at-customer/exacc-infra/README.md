@@ -2,7 +2,19 @@
 
 Exadata Database Service on Cloud@Customer infrastructure brings Oracle's industry-leading Exadata platform directly into your data center, providing a dedicated, high-performance foundation for mission-critical database workloads. Fully engineered, integrated, and managed by Oracle, it combines the scalability and automation of cloud services with the security, compliance, and data sovereignty benefits of on-premises deployment.
 
+Reviewed: 30/07/26
+
 <img src="./../images/exadb-infra.png" alt="Infrastructure">
+
+# Table of Contents
+- [Team Publications](#team-publications)
+  - [Infrastructure options](#infrastructure-options)
+  - [ECPU metric](#ecpu-metric)
+- [Useful Links](#useful-links)
+  - [Documentation links](#documentation-links)
+- [License](#license)
+
+# Team Publications
 
 ## Infrastructure options
 
@@ -75,7 +87,7 @@ ECPUs provide similar or better price-performance than OCPUs because
 
 - [VM serial consol history and Cloud Shell integration](./vm-serial-consol-history-and-cloud-shell-integration)
 
-## Useful Documentation
+## Documentation links
 - [Managing VM Clusters](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-manage-vm-clusters.html)
 
 - [Creating DB Homes](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-create-db-homes.html)
@@ -99,8 +111,6 @@ ECPUs provide similar or better price-performance than OCPUs because
 - [Managing Exadata Cloud@Customer Resources with Oracle Enterprise Manager Cloud Control)](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-managing-resources-with-emcc.html)
 
 - [OCI Ops Insights - Cloud native support for Exadata Cloud@Customer Databases)](https://blogs.oracle.com/observability/post/oci-ops-insights-cloud-native-support-for-exadata-cloudcustomer-databases)
-
-Reviewed: 06/29/26
 
 # License
 

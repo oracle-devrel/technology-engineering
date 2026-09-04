@@ -18,7 +18,7 @@ resource "oci_devops_deploy_artifact" "flux_operator_chart" {
 resource "oci_devops_deploy_artifact" "flux_operator_values" {
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_source {
-    base64encoded_content       = filebase64("${path.root}/templates/flux-operator-values.yaml")
+    base64encoded_content       = file("${path.root}/templates/flux-operator-values.yaml")
     deploy_artifact_source_type = "INLINE"
   }
   deploy_artifact_type = "GENERIC_FILE"
@@ -48,7 +48,7 @@ resource "oci_devops_deploy_artifact" "argocd_operator_chart" {
 resource "oci_devops_deploy_artifact" "argocd_operator_values" {
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_source {
-    base64encoded_content       = filebase64("${path.root}/templates/argocd-values.yaml")
+    base64encoded_content       = file("${path.root}/templates/argocd-values.yaml")
     deploy_artifact_source_type = "INLINE"
   }
   deploy_artifact_type = "GENERIC_FILE"
@@ -56,4 +56,29 @@ resource "oci_devops_deploy_artifact" "argocd_operator_values" {
   display_name         = "argo-cd-values"
   project_id           = oci_devops_project.devops_project.id
   count                = var.gitops_agent == "argocd" ? 1 : 0
+}
+
+resource "oci_devops_deploy_artifact" "gitops_bootstrap_prepare" {
+  argument_substitution_mode = "NONE"
+  deploy_artifact_source {
+    base64encoded_content = templatefile("${path.root}/templates/gitops-bootstrap-prepare.yaml.tpl", {
+      region                  = var.region
+      oke_cluster_id          = "$${target_cluster_id}"
+      kube_endpoint           = local.kube_endpoint
+      gitops_agent            = var.gitops_agent
+      gitops_namespace        = local.gitops_namespace
+      ocir_registry           = "${local.region_key}.ocir.io"
+      ocir_chart_repository   = "${local.region_key}.ocir.io/${local.namespace}/${var.ocir_repo_path_prefix}/charts"
+      legacy_git_username     = var.git_username
+      legacy_ocir_username    = local.legacy_ocir_username
+      cluster_config_repo_url = var.gitops_agent == "fluxcd" ? oci_devops_repository.cluster_config_repo_flux[0].http_url : oci_devops_repository.cluster_config_repo_argocd[0].http_url
+      apps_config_repo_url    = var.gitops_agent == "fluxcd" ? oci_devops_repository.apps_config_repo_flux[0].http_url : oci_devops_repository.apps_config_repo_argocd[0].http_url
+      fleet_config_repo_url   = var.enable_multicluster ? oci_devops_repository.fleet_config_repo[0].http_url : ""
+    })
+    deploy_artifact_source_type = "INLINE"
+  }
+  deploy_artifact_type = "COMMAND_SPEC"
+  description          = "Reusable command spec that prepares an explicitly selected OKE cluster with Vault-backed Git and OCIR credentials"
+  display_name         = "gitops-bootstrap-prepare"
+  project_id           = oci_devops_project.devops_project.id
 }
