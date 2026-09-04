@@ -1,7 +1,7 @@
 resource "oci_core_service_gateway" "service_gateway" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name   = "SG"
+  display_name   = "SG-${var.network_resource_suffix}"
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
   services {
@@ -13,7 +13,7 @@ resource "oci_core_service_gateway" "service_gateway" {
 resource "oci_core_nat_gateway" "nat_gateway" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name   = "NAT"
+  display_name   = "NAT-${var.network_resource_suffix}"
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
   count          = local.create_nat_gateway ? 1 : 0
@@ -22,7 +22,7 @@ resource "oci_core_nat_gateway" "nat_gateway" {
 resource "oci_core_internet_gateway" "internet_gateway" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name   = "IGW"
+  display_name   = "IGW-${var.network_resource_suffix}"
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
   count          = local.create_internet_gateway ? 1 : 0

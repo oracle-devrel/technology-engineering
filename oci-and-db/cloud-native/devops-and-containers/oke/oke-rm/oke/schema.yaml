@@ -54,13 +54,14 @@ variableGroups:
 
   - title: "Policies"
     variables:
-      - home_region
       - enable_policies
       - policies_dry_run
       - create_karpenter_policies
       - iam_domain_compartment_id
       - karpenter_iam_domain_id
       - karpenter_dynamic_group_name
+      - karpenter_namespace
+      - karpenter_service_account
       - create_karpenter_cluster_placement_group_policy_optional
       - create_karpenter_tag_policy_optional
       - tag_compartment_id
@@ -291,20 +292,14 @@ variables:
 
 # POLICIES
 
-  home_region:
-    title: "Home Region"
-    type: oci:identity:region:name
-    default: ${region}
-    required: true
-
   enable_policies:
     title: "Enable policies"
-    description: "Let this stack create or display policies for OKE and tools"
+    description: "Create or display the policies derived from this cluster configuration, including cross-compartment VCN-native networking when required"
     type: boolean
 
   policies_dry_run:
     title: "Enable policy dry-run"
-    description: "Only output the needed policies, without creating them"
+    description: "Output the required statements without creating IAM policies or Karpenter identity resources"
     type: boolean
     visible: ${enable_policies}
 
@@ -312,7 +307,12 @@ variables:
     title: "Create Karpenter policies"
     description: "Policies will be created for Karpenter using Workload Identity authentication mode"
     type: boolean
-    visible: ${enable_policies}
+    visible:
+      and:
+        - ${enable_policies}
+        - eq:
+            - ${cluster_type}
+            - enhanced
 
   iam_domain_compartment_id:
     title: "Domain Compartment"
@@ -335,6 +335,22 @@ variables:
     title: "Karpenter Dynamic Group Name"
     description: "Name of the Karpenter Dynamic Group - MUST be unique across all groups in the tenancy (dynamic groups and user groups). You can't change the name later"
     type: string
+    required: true
+    visible: ${create_karpenter_policies}
+
+  karpenter_namespace:
+    title: "Karpenter namespace"
+    description: "Kubernetes namespace where Karpenter runs"
+    type: string
+    default: "karpenter"
+    required: true
+    visible: ${create_karpenter_policies}
+
+  karpenter_service_account:
+    title: "Karpenter service account"
+    description: "Kubernetes service account used by Karpenter"
+    type: string
+    default: "karpenter"
     required: true
     visible: ${create_karpenter_policies}
 
@@ -389,7 +405,12 @@ variables:
     title: "Create cluster autoscaler policies"
     description: "Policies will be created for the cluster autoscaler using Workload Identity authentication mode"
     type: boolean
-    visible: ${enable_policies}
+    visible:
+      and:
+        - ${enable_policies}
+        - eq:
+            - ${cluster_type}
+            - enhanced
 
 # OIDC
 
@@ -458,6 +479,9 @@ outputGroups:
       - cluster_id
       - worker_pools
       - oidc_discovery_endpoint
+      - policy_statements
+      - policy_statements_by_feature
+      - policy_resources
 
 outputs:
   cluster_id:
@@ -475,3 +499,11 @@ outputs:
   policy_statements:
     type: array
     title: Required policies
+
+  policy_statements_by_feature:
+    type: map
+    title: Required policies by feature
+
+  policy_resources:
+    type: map
+    title: Created policy resources

@@ -8,7 +8,7 @@ resource "oci_core_network_security_group" "worker_db" {
   vcn_id         = local.vcn_id
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
-  display_name   = "worker-${each.value}"
+  display_name   = "worker-${each.value}-${var.network_resource_suffix}"
 }
 
 

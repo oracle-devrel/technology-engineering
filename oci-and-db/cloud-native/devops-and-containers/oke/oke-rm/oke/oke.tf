@@ -227,5 +227,7 @@ module "oke" {
   providers = {
     oci.home = oci.home
   }
-  depends_on = [oci_identity_policy.oke_policy_kms]
+  depends_on = [
+    time_sleep.await_precluster_policies
+  ]
 }
