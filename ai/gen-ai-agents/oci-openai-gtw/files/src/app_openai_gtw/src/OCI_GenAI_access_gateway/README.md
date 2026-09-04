@@ -20,6 +20,8 @@ Oracle已经发布了SDK，可以方便地调用OCI生成式AI服务。但是对
 
 # Change log
 
+Reviewed: 04.08.2026
+
 - 20251011: Add circuit breaker and exponential backoff. Thanks [@munger1985](https://github.com/jin38324/OCI_GenAI_access_gateway/pull/26)
 - 20251009: Deploy the app on to OCI OKE, [Refer here for more](deployments/readme.md). Thanks [@RahulMR42](https://github.com/jin38324/OCI_GenAI_access_gateway/pull/25)
 - 20250925: Add **Easy mode**, where you can use environment variables to set the models without `models.yaml`
