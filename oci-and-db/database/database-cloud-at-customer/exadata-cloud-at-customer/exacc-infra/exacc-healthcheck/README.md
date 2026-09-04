@@ -1,9 +1,10 @@
 # Exadata Cloud@Customer - Health Check
 
-## Introduction
-
 The Health Check is an assessment that can be requested by the Customers to review the ExaDB-C@C deployments.
 
+Reviewed: 30/07/26
+
+# When to use this asset?
 The main reasons that may motivate the request of an ExaDB-C@C Health Check are: 
 
 * Check ExaDB-C@C deployment best-practices application, to verify any drift in the configurations that may lead to unexpected behaviours.
@@ -18,7 +19,7 @@ The goals of the Health Check are the following:
 * Verify the ExaDB-C@C configurations, identify any issues that may be caused by non compliant systems
 * Offer the customer the possibility to get a consolidated report of the health of its overall infrastructure
 
-## How-To
+# How to use this asset?
 
 To request the ExaDB-C@C Health Check, Please reach out to your Oracle Account Team.
 
@@ -37,8 +38,6 @@ Below is a list with the instructions on how to retrieve the solution data usefu
 
 * [AHF Reports](./healthcheck-ahf-report)
 * [AWR Dumps](./healthcheck-awr-dump)
-
-Reviewed: 06/11/26
 
 # License
 

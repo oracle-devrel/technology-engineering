@@ -4,7 +4,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "OCI Enterprise AI Agents — OAC MCP Server",
+  title: "OCI Enterprise AI Agents - OAC MCP Server",
   description:
     "React assistant that queries governed Oracle Analytics Cloud data through MCP and renders charts.",
 };
