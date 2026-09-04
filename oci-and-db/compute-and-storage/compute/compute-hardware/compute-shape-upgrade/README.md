@@ -7,7 +7,7 @@ https://support.oracle.com/ic/builder/rt/customer_portal/live/webApps/customer-p
 https://support.oracle.com/support/?anchorId=&amp;documentId=KB82990&amp;page=sptemplate&amp;sptemplate=km-article
 This Youtube Video prepared by OCI Compute Black Belt team is useful to get more understanding of method described in the document : https://www.youtube.com/watch?v=mXr5sosWdvI 
 
-Reviewed: 25.03.2026
+Reviewed: 1 Sept 2026
 
 # When to use this asset?
 

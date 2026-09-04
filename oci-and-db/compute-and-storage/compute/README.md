@@ -4,7 +4,7 @@ This area is focused on the core Compute Service of Oracle Cloud Infrastructure 
 
 
 
-<i>Review date: 16 Oct 2025</I>
+<i>Review date: 01 Sep 2026</I>
 
 # Useful Links
 
@@ -23,8 +23,8 @@ Some of the topics covered on this page:
 # Team Publications
 
 The links below contain publications from the OCI Compute team:
-- [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware)
-- [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software)
+- [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/compute-and-storage/compute/compute-hardware)
+- [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/compute-and-storage/compute/compute-software)
 
 # License
 
