@@ -1,11 +1,11 @@
 # Building Pipelines for APEX and the Oracle Database
 
-## DevOps Toolbox for managing and executing CICD pipelines
 In typical DevOps environments, tools are used to aide Development & Operation team automate the synchronization of code changes through development, testing and deployment of Software systems.
 
 The tools in the DevOps toolbox can automate the complilation of source code, provisioning of resources, configuration, and deployment of applications is a coordinated and repeateable manner.
 
-### A typical DevOps Toolbox:
+A typical DevOps Toolbox contains:
+
 - [Jenkins](https://www.jenkins.io/)
 Jenkins is a self-contained, open source automation server which can be used to automate all sorts of tasks related to building, testing, and delivering or deploying software.
 
@@ -20,16 +20,6 @@ Puppet enables you to deploy and manage infrastructure.
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-- No team publications are currently listed.
-
 # Useful Links
 
 - [Jenkins - Oracle Cloud Infrastructure Compute Plugin](https://plugins.jenkins.io/oracle-cloud-infrastructure-compute/)
@@ -37,15 +27,11 @@ The Jenkins Oracle Cloud Infrastructure Compute Plugin allows users to access an
 - [Jenkins - SQLPlus Script Runner Plugin](https://plugins.jenkins.io/sqlplus-script-runner/)
 The Jenkins SQLPlus Script Runner plugin enables you run Oracle SQL*Plus scripts on your Jenkins jobs and requires the Oracle SQL*Plus to be installed.
 
-
 ## Tutorials / How To's
 - [Oracle LiveLabs - DevOps and CI/CD for Microservices Deployments with Oracle Database Cloud](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3314)
 - [Oracle LiveLabs - Oracle Database Operator for Kubernetes + DevOps](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3393)
 - [Oracle LiveLabs - Build MultiCloud DevOps using Azure CI/CD Pipelines with Kubernetes and Oracle Database Cloud Services](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3914)
 
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

@@ -6,12 +6,6 @@ The list of New Features will be periodically updated and adjusted.
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
 # Team Publications
 
 - [23ai New Features Series - Part 1](https://www.linkedin.com/posts/sonnemeyer_23aispecialists-23ainewsabrpart1-developer-activity-7196221427056889856-3HF2?utm_source=share&utm_medium=member_desktop)

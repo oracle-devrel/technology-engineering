@@ -7,16 +7,10 @@ With spatial features included for free with all editions and services of Oracle
 
 You can use the free tool Spatial Studio, to a visualize, explore, and analyze geospatial data stored in and managed by Oracle Spatial. Spatial Studio is a multiuser Java EE application that can be used as a standalone tool (Quick Start) or deployed to WebLogic Server.
 
-Review Date: 2026.08.21
-</br></br>
-
-# Table of Contents
-
-1. [Useful Links](#useful-links)
-2. [Team Publications](#team-publications) 
-</br></br>
+Review Date: 21.08.2026
 
 # Useful Links
+
 - [Oracle Spatial Homepage](https://www.oracle.com/uk/database/spatial-database/)
 - [Oracle Spatial Features](https://www.oracle.com/uk/database/spatial-database/features/)
 - [Oracle Spatial Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/23/spatl/index.html)
@@ -27,13 +21,12 @@ Review Date: 2026.08.21
 - [Oracle Spatial Blogs](https://blogs.oracle.com/database/category/db-spatial)
 - [Oracle Spatial Office Hours](https://asktom.oracle.com/ords/r/tech/catalog/series-landing-page?p5_oh_id=7761)
 - [Oracle Spatial YouTube](https://www.youtube.com/@oraclespatialandoraclegraph)
-</br></br>
 
 # Team Publications
+
 - [Oracle Spatial Presentations](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-spatial/oracle-spatial-presentations)
 - [GeoRaster Using GDAL using Spatial Studio](https://medium.com/@maryam.oracle2025/georaster-using-gdal-using-spatial-studio-4a04013d1947)
 - [Best Practices for Parquet File Ingestion with Geospatial Data on Autonomous AI Lakehouse](https://blogs.oracle.com/autonomous-ai-database/best-practices-for-parquet-file-ingestion-with-geospatial-data-on-autonomous-ai-lakehouse)
-</br></br>
 
 # License
 
