@@ -1,4 +1,4 @@
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 """
 By Omar Salem
 state.py - stores the state that tools update and maintain.
