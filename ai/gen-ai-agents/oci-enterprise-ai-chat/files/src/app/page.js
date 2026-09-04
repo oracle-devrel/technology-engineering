@@ -21,7 +21,8 @@ import {
 } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { LogOut, Settings, Building2, Users } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { withBase } from "@/lib/withBase";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 import { useEffect, useState, useRef, useCallback } from "react";
 import Header from "./components/ui/Header";
 import ChatMessage from "./components/chat/ChatMessage";
@@ -274,9 +275,7 @@ export default function Home({ initialConversationId = null }) {
     if (savedIsAvailable) {
       setSelectedModel(savedModel);
     } else if (STATIC_MODELS.length > 0) {
-      const defaultModel = INTERNAL_MODE_AVAILABLE
-        ? "xai.grok-4-1-fast-reasoning"
-        : "google.gemini-2.5-pro";
+      const defaultModel = "google.gemini-2.5-pro";
       setSelectedModel(defaultModel);
       localStorage.setItem("selectedModel", defaultModel);
     }
@@ -592,7 +591,7 @@ export default function Home({ initialConversationId = null }) {
                   </MenuItem>
                   <Divider />
                   <MenuItem
-                    onClick={() => { window.location.href = '/api/auth/logout'; }}
+                    onClick={() => { window.location.href = withBase('/api/auth/logout'); }}
                     sx={{ fontSize: "0.85rem", color: "error.main" }}
                   >
                     <ListItemIcon sx={{ minWidth: 28 }}>

@@ -34,45 +34,16 @@ function formatModelName(model) {
   return model.replace(/^[a-z]+\./, "");
 }
 
-// Extract model family from a full model id (without provider prefix)
-// Each point release is its own family:
-//   "gpt-5-mini" → "gpt-5", "gpt-5.1-codex" → "gpt-5.1", "gpt-5.2-pro" → "gpt-5.2"
-//   "gpt-4o-mini" → "gpt-4o", "gpt-4.1" → "gpt-4.1"
-//   "grok-3-mini-fast" → "grok-3", "grok-4-1-fast-reasoning" → "grok-4-1"
-//   "o1" → "o-series", "o3-mini" → "o-series", "o4-mini" → "o-series"
+// Extract model family from a full model id (without provider prefix).
+// gpt-oss-20b / gpt-oss-120b → "gpt-oss". Anything else (e.g. gemini-2.5-pro,
+// gemini-2.5-flash) is treated as its own family.
 function getFamily(modelName) {
-  // o-series: o1, o3-mini, o4-mini → "o-series"
-  if (/^o\d/.test(modelName)) return "o-series";
-  // gpt-oss special case
   if (modelName.startsWith("gpt-oss")) return "gpt-oss";
-  // gpt-X.Y (e.g. gpt-5.1, gpt-5.2, gpt-4.1) → family "gpt-X.Y"
-  const gptDotMatch = modelName.match(/^(gpt-\d+\.\d+)/);
-  if (gptDotMatch) return gptDotMatch[1];
-  // gpt-Xo (e.g. gpt-4o, gpt-4o-mini) → family "gpt-4o"
-  const gptOMatch = modelName.match(/^(gpt-\d+o)/);
-  if (gptOMatch) return gptOMatch[1];
-  // gpt-X (e.g. gpt-5, gpt-5-mini) → family "gpt-X"
-  const gptMatch = modelName.match(/^(gpt-\d+)/);
-  if (gptMatch) return gptMatch[1];
-  // grok-X-Y (e.g. grok-4-1-fast-reasoning) → family "grok-X-Y" where Y is a single digit
-  const grokSubMatch = modelName.match(/^(grok-\d+-\d+)/);
-  if (grokSubMatch) return grokSubMatch[1];
-  // grok-X (e.g. grok-3, grok-4) → family "grok-X"
-  const grokMatch = modelName.match(/^(grok-\d+)/);
-  if (grokMatch) return grokMatch[1];
-  // fallback
   return modelName;
 }
 
 function formatFamilyLabel(family) {
-  if (family === "o-series") return "o-series";
   if (family === "gpt-oss") return "OSS";
-  // gpt-5.1 → "GPT-5.1", gpt-4o → "GPT-4o", grok-4-1 → "Grok 4.1"
-  if (family.startsWith("gpt-")) return "GPT-" + family.slice(4);
-  if (family.startsWith("grok-")) {
-    const ver = family.slice(5).replace("-", ".");
-    return "Grok " + ver;
-  }
   return family;
 }
 

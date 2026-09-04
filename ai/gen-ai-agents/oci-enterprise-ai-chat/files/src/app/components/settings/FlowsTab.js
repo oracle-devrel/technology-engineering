@@ -2,7 +2,7 @@
 
 import { Plus, Trash2 } from "lucide-react";
 import { Box, IconButton, List, ListItem, ListItemText, Typography, Button, Switch, FormControlLabel } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 
 export default function FlowsTab({ flows, onDeleteFlow, onToggleFlow }) {
   const router = useRouter();
