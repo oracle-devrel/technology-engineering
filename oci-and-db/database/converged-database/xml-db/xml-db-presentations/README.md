@@ -1,14 +1,17 @@
 ## XML DB Presentations
 
-Reviewed: 2.05.2024
+Reviewed: 31.07.2026
 
 # When to use this asset?
 
-To present or to learn about Oracle XML DB basics and about release 23 feature Transportable Binary XML.
+To present or to learn about Oracle XML DB basics, and release 23c new XML features:
+    - Transportable Binary XML
+    - XML sharding
+    - XML search index
 
 # How to use this asset?
 
-Use PDF as a presentation.
+Use these PDF as a presentation.
 
 # License
 
