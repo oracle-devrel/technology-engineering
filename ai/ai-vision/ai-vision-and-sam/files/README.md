@@ -4,6 +4,8 @@
 
 In this demo, you will see how you can segment objects in images by combining **OCI AI Vision** with **Meta’s SAM2 (Segment Anything Model 2)**.
 
+Reviewed: 04.08.2026
+
 **Segmenting objects in images has never been this easy!**
 You can combine both OCI AI Vision to handle image analysis and SAM2 to provide high-precision segmentation, you can quickly identify and isolate objects in any image using just a few clicks or simple prompts. This integration demonstrates how cloud-based vision services and cutting-edge AI models can work together to streamline complex computer vision tasks.
 
@@ -97,4 +99,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](../LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
