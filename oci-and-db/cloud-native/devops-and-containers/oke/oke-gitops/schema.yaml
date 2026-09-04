@@ -19,6 +19,8 @@ variableGroups:
   - title: "GitOps Agent"
     variables:
       - gitops_agent
+      - enable_multicluster
+      - flux_fleet_member_name
 
   - title: Create policies
     variables:
@@ -53,7 +55,6 @@ variableGroups:
       - oke_environment_description
       - oke_compartment_id
       - oke_cluster_id
-      - is_oke_cluster_private
       - notice_oke_cluster_private
       - network_compartment_id
       - oke_vcn_id
@@ -70,6 +71,27 @@ variables:
       - fluxcd
       - argocd
     required: true
+
+  enable_multicluster:
+    title: "Enable optional multi-cluster repository"
+    description: "Create fleet-config. Argo CD uses native centralized management. Flux CD activates the selected cluster for decentralized reconciliation; administrators manually create an OCI DevOps environment and installation pipeline for every additional member."
+    type: boolean
+    default: false
+    required: true
+
+  flux_fleet_member_name:
+    title: "Primary Flux fleet member name"
+    description: "Stable lowercase name used for this stack's primary OKE cluster below fleet-config/clusters/."
+    type: string
+    default: "primary"
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    required: true
+    visible:
+      and:
+        - eq:
+            - ${gitops_agent}
+            - "fluxcd"
+        - ${enable_multicluster}
 
   devops_compartment_id:
     title: "DevOps Compartment"
@@ -147,8 +169,8 @@ variables:
     required: true
 
   auth_token:
-    title: "Auth Token"
-    description: "Authentication Token of the user who is running this stack"
+    title: "Repository seeding auth token"
+    description: "Bootstrap-only token used by Resource Manager to seed OCI DevOps Git repositories. It is never installed in Kubernetes."
     type: password
     sensitive: true
     required: true
@@ -180,55 +202,45 @@ variables:
     dependsOn:
       compartmentId: ${oke_compartment_id}
 
-  is_oke_cluster_private:
-    title: "OKE Cluster private"
-    description: "Flag this if your OKE cluster has a private Control Plane subnet"
-    type: boolean
-
   notice_oke_cluster_private:
     title: "NOTE"
     type: text
     multiline: true
-    default: "NOTE that DNS MUST be enabled for the target subnet, otherwise OKE Environment creation will fail.\nAlso, NOTE that IPv6 enabled subnets are not supported."
+    default: "GitOps bootstrap always uses the OKE private API endpoint. The runner subnet must resolve and reach it; DNS must be enabled and IPv6-enabled subnets are not supported by the OCI DevOps private endpoint channel."
     required: false
-    visible: ${is_oke_cluster_private}
 
   network_compartment_id:
     title: "Network Compartment"
-    description: "Compartments where network resources for the OKE cluster are located"
+    description: "Compartment containing the subnet used by the OCI DevOps bootstrap runner"
     type: oci:identity:compartment:id
     default: ${compartment_ocid}
     required: true
-    visible: ${is_oke_cluster_private}
 
   oke_vcn_id:
     title: "VCN id"
-    description: "VCN where the OKE cluster has been provisioned"
+    description: "VCN containing the subnet used by the OCI DevOps bootstrap runner"
     type: oci:core:vcn:id
     dependsOn:
       compartmentId: ${network_compartment_id}
     required: true
-    visible: ${is_oke_cluster_private}
 
   oke_worker_subnet_id:
-    title: "Worker Subnet"
-    description: "Subnet that will be used by the OCI DevOps service to deploy applications on the private OKE cluster"
+    title: "Bootstrap runner subnet"
+    description: "Subnet used by the OCI DevOps Shell stages. It needs connectivity to the selected OKE API endpoint and OCI services."
     type: oci:core:subnet:id
     dependsOn:
       compartmentId: ${network_compartment_id}
       vcnId: ${oke_vcn_id}
     required: true
-    visible: ${is_oke_cluster_private}
 
   oke_worker_nsg_id:
-    title: "Worker NSG"
-    description: "Existing NSG to attach to the OCI DevOps subnet so that they can communicate with the private OKE Control Plane"
+    title: "Bootstrap runner NSG"
+    description: "Optional NSG attached to the OCI DevOps bootstrap runner"
     type: oci:core:nsg:id
     dependsOn:
       compartmentId: ${network_compartment_id}
       vcnId: ${oke_vcn_id}
     required: false
-    visible: ${is_oke_cluster_private}
 
   create_iam:
     title: "Create DevOps IAM policies and dynamic group"

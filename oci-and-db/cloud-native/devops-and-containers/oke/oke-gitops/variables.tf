@@ -8,6 +8,33 @@ variable "gitops_agent" {
   default = "fluxcd"
 }
 
+variable "enable_multicluster" {
+  description = "Create fleet-config; Argo CD uses a central hub, while Flux CD activates this stack's selected member and documents manual onboarding for additional clusters"
+  type        = bool
+  default     = false
+}
+
+variable "flux_fleet_member_name" {
+  description = "Name of the primary OKE cluster in the decentralized Flux fleet"
+  type        = string
+  default     = "primary"
+
+  validation {
+    condition     = can(regex("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$", var.flux_fleet_member_name))
+    error_message = "flux_fleet_member_name must be a Kubernetes-compatible lowercase name."
+  }
+}
+
+# Hidden maintainer switch. It is intentionally absent from schema.yaml.
+# Customer stacks preserve every Git change after the initial seed. Stack
+# developers may set this only in controlled test environments to reset all
+# generated repositories to the current local templates on every apply.
+variable "development_overwrite_repositories" {
+  type        = bool
+  default     = false
+  description = "DEVELOPMENT ONLY: overwrite generated Git repositories on every apply"
+}
+
 # DEVOPS PROJECT
 variable "devops_compartment_id" {}
 variable "devops_project_name" {
@@ -52,7 +79,8 @@ variable "ocir_repo_path_prefix" {
   default = "acme/helm"
 }
 variable "auth_token" {
-  sensitive = true
+  description = "Bootstrap-only auth token used by Resource Manager to seed OCI DevOps repositories; never installed in Kubernetes"
+  sensitive   = true
 }
 
 # OKE ENVIRONMENT
@@ -75,12 +103,9 @@ variable "oke_environment_name" {
 variable "oke_environment_description" {
   default = null
 }
-variable "is_oke_cluster_private" {
-  type    = bool
-  default = false
-}
 variable "oke_worker_subnet_id" {
-  default = null
+  description = "Subnet used by the OCI DevOps Container Instance stages that bootstrap the OKE cluster"
+  type        = string
 }
 variable "oke_worker_nsg_id" {
   default = null
@@ -110,4 +135,3 @@ variable "devops_policy_name" {
 variable "kms_compartment_id" {
   default = null
 }
-
