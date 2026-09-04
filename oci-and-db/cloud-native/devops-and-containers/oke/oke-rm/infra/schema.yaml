@@ -16,6 +16,7 @@ variableGroups:
 
   - title: "Network"
     variables:
+      - network_security_notice
       - network_compartment_id
       - create_vcn
       - vcn_id
@@ -73,6 +74,7 @@ variableGroups:
       - create_internet_gateway
 
   - title: "DRG"
+    visible: ${create_vcn}
     variables:
       - enable_drg
       - create_drg
@@ -96,6 +98,13 @@ variableGroups:
       - create_streaming_nsg
 
 variables:
+
+  network_security_notice:
+    title: "SECURITY NOTICE"
+    type: text
+    multiline: true
+    default: "The default control-plane source CIDR is 0.0.0.0/0, and a public bastion subnet permits SSH from 0.0.0.0/0. Restrict the control-plane CIDR to trusted networks. Prefer a private bastion subnet with OCI Bastion, or customize its security rules before placing hosts in it."
+    required: false
 
   region:
     title: "Region"
@@ -430,7 +439,7 @@ variables:
 
   create_db_subnet:
     title: "Create Database Subnet"
-    description: "Create a subnet for all databases"
+    description: "Create a subnet for databases. This is independent from the optional database NSGs."
     type: boolean
     visible: ${create_vcn}
 
@@ -497,7 +506,7 @@ variables:
 
   enable_drg:
     title: "Enable DRG"
-    description: "Enable DRG support for this VCN"
+    description: "Enable DRG support for the VCN created by this stack"
     type: boolean
 
   create_drg:
@@ -571,6 +580,11 @@ outputGroups:
       - worker_nsg_id
       - pod_nsg_id
       - lb_nsg_id
+      - fss_nsg_id
+      - network_resource_suffix
+      - karpenter_worker_role_tag_value
+      - karpenter_pod_role_tag_value
+      - nsg_names
 
   - title: "Database"
     outputs:
@@ -627,6 +641,26 @@ outputs:
   lb_nsg_id:
     type: copyableString
     title: Load Balancer NSG OCID
+
+  fss_nsg_id:
+    type: copyableString
+    title: FSS Mount Target NSG OCID
+
+  network_resource_suffix:
+    type: copyableString
+    title: Network Resource UUID Suffix
+
+  karpenter_worker_role_tag_value:
+    type: copyableString
+    title: Karpenter Worker Role Tag Value
+
+  karpenter_pod_role_tag_value:
+    type: copyableString
+    title: Karpenter Pod Role Tag Value
+
+  nsg_names:
+    type: map
+    title: Generated NSG Names
 
   db_subnet_id:
     type: copyableString
