@@ -6,6 +6,8 @@ Understanding message consumption at the integration level can help you identify
 
 This guide shows how to view the number of billed messages consumed by each integration using the **Consumed Messages for Integration** metric.
 
+Reviewed: 02.09.2026
+
 ---
 
 ## Prerequisites
@@ -113,4 +115,22 @@ Using this approach provides a clear view of Oracle Integration message consumpt
 ### Reference
 
 [Track Billing Metrics](https://docs.oracle.com/en/cloud/paas/application-integration/oracle-integration-oci/viewing-message-metrics.html#GUID-1C1539D5-EE73-4F2E-9087-59466E534A61)
+
+# When to use these assets?
+
+This asset should be used when you wish to check OIC consumption per integration.
+
+# How to use these asset?
+
+The information is generic in nature and not specified for a particular customer. You can follow the instructions in the asset to get OIC consumption per integration. 
+
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+
 

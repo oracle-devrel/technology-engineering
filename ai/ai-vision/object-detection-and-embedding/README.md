@@ -2,7 +2,7 @@
 
 The following asset is a tool designed to display how Embedding models can be used with OCI vision Object Detection to detect and identify different objects within an image.
 
-Reviewed: 17.02.2026
+Reviewed: 04.08.2026
 
 Author: David Attia.
 

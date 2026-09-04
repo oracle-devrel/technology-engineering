@@ -6,17 +6,17 @@ Dashboard is very important in Observability to visualize and monitor the perfor
 
 The below image is an empty dashboard .There are widgets available out of the box created by oracle and user can create their own widget as well. Once the widget is created you can drag and drop into the dashboard.
 
-![Picture 10](./images/image-01.png)
+![Picture 10](./files/image-01.png)
 
 You can create a widget either by using Create widget or Create query-based widget
 
-![Picture 9](./images/image-02.png)
+![Picture 9](./files/image-02.png)
 
 I would suggest using Create query-based widget through which more customisation is possible.
 
 For example the below image show how you can create a widget for monitoring metric ClientErrorCount as part of oci_generativeai namespace. The Query can be edited as needed and visualization chart type can be chosen from the available options .
 
-![Picture 7](./images/image-03.png)
+![Picture 7](./files/image-03.png)
 
 This is the way saved search will be created via UI.
 
@@ -294,3 +294,5 @@ if len(dashboard_list) == 0:
 Once the dashboard and saved search is created we can simply drag and drop the required widgets. You can also update the saved search if any changes needed later.
 
 The above automation though is a starting point in saving time it’s not a perfect solution for all requirements. The idea is to show how easy it can be automated using python SDK and you can make small changes as per the requirements instead of writing from scratch.
+
+Reviewed: 25.07.2026
