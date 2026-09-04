@@ -1,5 +1,7 @@
 # OCI GenAI Video Analysis Studio
 
+Reviewed: 04.08.2026
+
 ## Publication Status
 
 - Confidentiality: Public

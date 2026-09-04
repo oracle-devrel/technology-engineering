@@ -283,3 +283,6 @@ As it is the first time you ingest log you can get large “Directory errors”.
     [root@exa ~]# systemctl stop mgmt_agent
     [root@exa ~]# systemctl start mgmt_agent
     [root@exa ~]#
+
+
+Reviewed: 25.07.2026

@@ -2,7 +2,7 @@
  
 Oracle Cloud provides a set of data management services built on self-driving Oracle Autonomous Database technology to deliver automated patching, upgrades, and tuning, including performing all routine database maintenance tasks while the system is running, without human intervention.
 
-Reviewed: 28.10.2025
+Reviewed: 29.07.2026
  
 # Table of Contents
  

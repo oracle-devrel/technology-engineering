@@ -6,11 +6,11 @@ In this guide I will show you how to set up your Dynatrace enviornment to collec
 
 1- Login in Dynatrace
 
-![Picture 35](./images/image-01.png)
+![Picture 35](./files/image-01.png)
 
 2- Press Start collecting Data:
 
-![Picture 34](./images/image-02.png)
+![Picture 34](./files/image-02.png)
 
 3- For OCI monitoring, you will need to use Active Gate. OCI is supported as Dynatrace states.
 
@@ -18,33 +18,33 @@ ActiveGate is a multi-purpose remote data acquisition, pre-processing and forwar
 
 Go down on page and click on it:
 
-![Picture 33](./images/image-03.png)
+![Picture 33](./files/image-03.png)
 
 4- Press setup
 
-![Picture 32](./images/image-04.png)
+![Picture 32](./files/image-04.png)
 
 5- Select the OS. I will go with Linux:
 
-![Picture 31](./images/image-05.png)
+![Picture 31](./files/image-05.png)
 
 6- Generate the token, and select the architecture x86/64
 
-![Picture 30](./images/image-06.png)
+![Picture 30](./files/image-06.png)
 
 7- Select the purpose to Route OneAgent traffic to Dynatrace
 
-![Picture 29](./images/image-07.png)
+![Picture 29](./files/image-07.png)
 
 8- Now you need to provision a linux instance in OCI(It can be anywhere, but I am using OCI), and you will install the agent and configure the connection to OCI. For testing purposes, I created my instance in a public subnet.
 
-![Picture 28](./images/image-08.png)
+![Picture 28](./files/image-08.png)
 
 9-Run the commands from the page:
 
-![Picture 27](./images/image-09.png)
+![Picture 27](./files/image-09.png)
 
-![Picture 26](./images/image-10.png)
+![Picture 26](./files/image-10.png)
 
 10- Install running and wait for Installation finished Successfully.
 
@@ -52,15 +52,15 @@ Go down on page and click on it:
 sudo /bin/bash Dynatrace-ActiveGate-Linux-x86–1.293.34.sh
 ```
 
-![Picture 25](./images/image-11.png)
+![Picture 25](./files/image-11.png)
 
-![Picture 24](./images/image-12.png)
+![Picture 24](./files/image-12.png)
 
 11- Click Show Deployment Status:
 
-![Picture 23](./images/image-13.png)
+![Picture 23](./files/image-13.png)
 
-![Picture 22](./images/image-14.png)
+![Picture 22](./files/image-14.png)
 
 12-
 
@@ -82,25 +82,25 @@ for each endpoint you are about to monitor on your OCI.
 
 Note: Because the configuration requires the Compartment ID & region, a new endpoint or monitoring configuration will need to be created to monitor a new region or compartment. The User account provided in the configuration must also have permissions to read all OCI settings & resources.
 
-![Picture 21](./images/image-15.png)
+![Picture 21](./files/image-15.png)
 
 13- Go to hub, search for Oracle and click on Oracle Cloud Infrastructure and press Install:
 
-![Picture 20](./images/image-16.png)
+![Picture 20](./files/image-16.png)
 
 14 — Select the Active Gate and press next:
 
-![Picture 19](./images/image-17.png)
+![Picture 19](./files/image-17.png)
 
 15 — Go to OCI → You monitoring User and create an API key. From there copy the relevant OCID’s(Click View Configuration file):
 
-![Picture 18](./images/image-18.png)
+![Picture 18](./files/image-18.png)
 
-![Picture 17](./images/image-19.png)
+![Picture 17](./files/image-19.png)
 
-![Picture 16](./images/image-20.png)
+![Picture 16](./files/image-20.png)
 
-![Picture 15](./images/image-21.png)
+![Picture 15](./files/image-21.png)
 
 16 —Go to Active Gate and add the private key :
 
@@ -108,28 +108,31 @@ Note: Because the configuration requires the Compartment ID & region, a new endp
 sudo vi /var/lib/dynatrace/remotepluginmodule/agent/conf/certificates/abirzu.pem
 ```
 
-![Picture 14](./images/image-22.png)
+![Picture 14](./files/image-22.png)
 
 17 — Press next , Give a name to the extension and select what you want to monitor in OCI and press Save:
 
-![Picture 13](./images/image-23.png)
+![Picture 13](./files/image-23.png)
 
 18 — Wait for the activation to finish:
 
-![Picture 12](./images/image-24.png)
+![Picture 12](./files/image-24.png)
 
 You need to have patience until all data is collected.(I have pasted the wrong Key Fingerprint, but after I put the correct key, data started to be collected.)
 
-![Picture 11](./images/image-25.png)
+![Picture 11](./files/image-25.png)
 
-![Picture 10](./images/image-26.png)
+![Picture 10](./files/image-26.png)
 
-![Picture 9](./images/image-27.png)
+![Picture 9](./files/image-27.png)
 
 Go to Dashboards - Search App — Extensions →and check the views:
 
-![Picture 8](./images/image-28.png)
+![Picture 8](./files/image-28.png)
 
-![Picture 7](./images/image-29.png)
+![Picture 7](./files/image-29.png)
 
 Congratulations! You have configured Dynatrace to collect logs from OCI.
+
+
+Reviewed: 27.07.2026
