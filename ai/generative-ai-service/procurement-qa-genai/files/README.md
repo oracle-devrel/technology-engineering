@@ -1,6 +1,6 @@
 # GenAI-based Procurement Q&A App using Text-to-SQL and Low-Code Integration
 
-Reviewed: 23.09.2025
+Reviewed: 04.08.2026
 
 # Introduction
 
