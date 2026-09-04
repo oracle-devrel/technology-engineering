@@ -2,7 +2,7 @@
 
 Oracle Backend for Spring Boot is a powerful platform designed to streamline the development and deployment of Spring Boot applications, leveraging the advanced capabilities of Oracle's cloud and database technologies. This platform integrates key Oracle features with open source technologies to enhance application performance, reliability, and scalability.
 
-### Key Features
+## Key Features
 
 **Oracle TRansaction Manager for Microservices  (MicroTx)** ensures reliable distributed transactions across microservices. It manages complex transactions spanning multiple services, maintaining data consistency and reliability in microservices architectures.
 
@@ -10,9 +10,9 @@ Oracle Backend for Spring Boot is a powerful platform designed to streamline the
 
 **Transaction Event Queues (TxEventQ)** is available as part of Oracle Database and it enable asynchronous event processing and communication between microservices. This feature supports building event-driven architectures by providing reliable message queues for handling high volumes of transactional events, ensuring efficient data flow between services.
 
-**OBaaS (Oracle Backend as a Service) Command Line** is a powerful tool for managing and deploying your Spring Boot applications on Oracle Cloud. It provides a simplified and efficient command-line interface for interacting with Oracle Backend services, automating deployment processes, and managing application lifecycles.
+**OBaaS (Oracle Backend as a Service) Command Line** is a powerful tool for managing and deploying your Spring Boot applications on Oracle Cloud. It provides a simplified and efficient command-line interface for interacting with Oracle Backend services, automating deployment processes, and managing application lifecycle.
 
-### Benefits
+## Benefits
 
 - **Seamless Integration**: Easily integrate Oracle database features with Spring Boot applications.
 - **Scalability**: Leverage Oracle’s cloud infrastructure to dynamically scale applications.
@@ -24,12 +24,6 @@ Oracle Backend for Spring Boot is a powerful platform designed to streamline the
 Oracle Backend for Spring Boot empowers developers to build, deploy, and manage modern applications with enhanced performance, reliability, and scalability, utilizing the comprehensive capabilities of Oracle's ecosystem.
 
 Reviewed: 26.08.2026
-
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 
