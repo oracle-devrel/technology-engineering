@@ -1,7 +1,7 @@
 # Decode Images and Videos with OCI GenAI
 Unlock insights from images and videos using Oracle Cloud Infrastructure (OCI) Generative AI. This app analyzes images and video frames to produce detailed, multi-language summaries with customizable processing options.
 
-Reviewed: 29.01.2026
+Reviewed: 04.08.2026
 
 # When to use this asset?
 Content creators, researchers, solution engineers, and media analysts can use this asset to:
