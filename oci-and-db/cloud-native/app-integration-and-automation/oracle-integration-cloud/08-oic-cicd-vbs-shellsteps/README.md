@@ -6,7 +6,7 @@ Assets that contain oic related elementary commands and API interactions to achi
 ## OIC CICD - Files
 Collection of the atomic steps implementing the OIC Management API requests calls from the unix shell. Outh2 Authorization is the auth schema and Integratged Application for the Authorization Code or Client Credentials with OIC management API scope is needed(clientId, clientSecret). OCI user key and OCIDs needed to build the OCI V1 signature for the OCI commands for the start/stop OIC service instance.
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # When to use these assets?
 

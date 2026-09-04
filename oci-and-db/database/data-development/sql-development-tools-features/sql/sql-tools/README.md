@@ -94,10 +94,6 @@ Periodical sharing of Standard Query Language Best Practices links and blog, vid
 - [The Magic of SQL by Chris Saxon - YouTube Channel](https://www.youtube.com/c/TheMagicofSQL)
 - [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude) -->
 
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
-
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.

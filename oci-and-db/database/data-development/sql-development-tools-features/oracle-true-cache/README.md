@@ -2,7 +2,7 @@
 
 <b>Oracle True Cache</b> is an in-memory, consistent, and automatically managed SQL and key-value (object or JSON) read-only cache in front of an Oracle AI Database.
 
-Like Oracle Active Data Guard, True Cache is a fully functional, read-only replica of the primary database, except that it's mostly diskless.
+Like Oracle Active Data Guard, True Cache is a fully functional, read-only replica of the primary database, except that it's mostly disk-less.
 
 Modern applications often require a high number of connections and fast, low-latency access to the data. A popular approach is to place caches in front of the database because applications typically perform many more reads than updates, and they can read from the cache without affecting the database performance (business scenarios like airline reservation system).
 
@@ -34,14 +34,6 @@ Here a high-level description of how an Oracle True Cache workflow activity:
 
 Reviewed: 01.09.2026
 
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-N/A
-
 # Useful Links
 
 - [Oracle True Cache](https://www.oracle.com/database/truecache/)
@@ -52,10 +44,6 @@ N/A
 - [Blog - True Cache and Active Data Guard Transparent JDBC Redirection](https://blogs.oracle.com/maa/true-cache-and-active-data-guard-jdbc-redirection)
 - [LiveLabs-Improve application performance with True Cache](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=3933&clear=RR%2C180&session=103853267931988)
 - [YouTube - Application Acceleration with Oracle True Cache: Oracle DatabaseWorld 2025](https://www.youtube.com/watch?v=akCz6tskFLU)
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 
