@@ -5,7 +5,7 @@ Terraform creates everything from scratch: Agent, Knowledge Base, API Gateway, c
 
 The OCI Agent orchestrates two tools — a RAG tool for knowledge base search and an API endpoint tool for report generation — to produce multi-page DOCX reports from natural language requests.
 
-Reviewed: 25.02.2026
+Reviewed: 04.08.2026
 
 ## When to use this asset
 
@@ -91,4 +91,4 @@ python files/server.py
 
 This asset is licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](LICENSE).
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt).
