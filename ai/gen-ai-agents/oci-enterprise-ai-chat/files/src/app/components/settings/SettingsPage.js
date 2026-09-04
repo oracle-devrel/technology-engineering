@@ -1,21 +1,31 @@
 "use client";
 
 import { ArrowLeft, Settings, Building2, Users } from "lucide-react";
+import dynamic from "next/dynamic";
 import Header from "../ui/Header";
 import { darkModeOverrides, darkCssVars, lightCssVars, DARK_BG } from "../../config/darkMode";
-import { Box, IconButton, Typography, ThemeProvider, createTheme, useTheme } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography, ThemeProvider, createTheme, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import VerticalTabs from "../ui/VerticalTabs";
-import GeneralTab from "./GeneralTab";
-import PromptsTab from "./PromptsTab";
-import ToolsTab from "./ToolsTab";
-import MemoryTab from "./MemoryTab";
-import ObservabilityTab from "./ObservabilityTab";
 import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 import { withBase } from "@/lib/withBase";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { APP_VERSION } from "../../config/version";
 import { INTERNAL_MODELS } from "../../config/models-internal";
+
+// Each tab is its own chunk: ToolsTab alone is ~1.4k lines plus its dialogs, and
+// statically importing all five made the first paint of /settings pay for all of
+// them. The active tab streams in behind a small spinner; the rest load on click.
+const tabLoading = () => (
+  <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
+    <CircularProgress size={22} sx={{ color: "var(--dm-muted, rgba(0,0,0,0.3))" }} />
+  </Box>
+);
+const PromptsTab = dynamic(() => import("./PromptsTab"), { loading: tabLoading });
+const ToolsTab = dynamic(() => import("./ToolsTab"), { loading: tabLoading });
+const MemoryTab = dynamic(() => import("./MemoryTab"), { loading: tabLoading });
+const ObservabilityTab = dynamic(() => import("./ObservabilityTab"), { loading: tabLoading });
+const GeneralTab = dynamic(() => import("./GeneralTab"), { loading: tabLoading });
 
 const INTERNAL_MODE_AVAILABLE = INTERNAL_MODELS.length > 0;
 
@@ -55,16 +65,21 @@ export default function SettingsPage({ defaultTab = 'prompts' }) {
     return () => window.removeEventListener('uiSettingsChanged', handleUiSettingsChanged);
   }, []);
 
-  const darkTheme = uiSettings.darkMode ? createTheme({
-    ...parentTheme,
-    palette: {
-      ...parentTheme.palette,
-      mode: "dark",
-      background: { default: DARK_BG, paper: "#242424" },
-      text: { primary: "#e5e5e5", secondary: "rgba(255,255,255,0.5)" },
-      divider: "rgba(255,255,255,0.08)",
-    },
-  }) : parentTheme;
+  // Memoized: createTheme is expensive and this ran on EVERY render of the
+  // settings tree (each keystroke in a settings field rebuilt the theme and
+  // re-rendered every ThemeProvider consumer below).
+  const darkTheme = useMemo(() => (
+    uiSettings.darkMode ? createTheme({
+      ...parentTheme,
+      palette: {
+        ...parentTheme.palette,
+        mode: "dark",
+        background: { default: DARK_BG, paper: "#242424" },
+        text: { primary: "#e5e5e5", secondary: "rgba(255,255,255,0.5)" },
+        divider: "rgba(255,255,255,0.08)",
+      },
+    }) : parentTheme
+  ), [uiSettings.darkMode, parentTheme]);
 
   const handleToggleAppMode = () => {
     const newMode = appMode === "internal" ? "client" : "internal";
