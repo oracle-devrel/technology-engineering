@@ -73,7 +73,7 @@ jupyterlab_widgets==3.0.15
 kiwisolver==1.4.8
 lab==8.4
 langchain==0.3.25
-langchain-community==0.3.24
+langchain-community==0.3.27
 langchain-core==0.3.80
 langchain-text-splitters==0.3.8
 langgraph==0.4.5
