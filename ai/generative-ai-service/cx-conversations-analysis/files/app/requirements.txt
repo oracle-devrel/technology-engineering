@@ -1,4 +1,4 @@
 oci==2.165.1
 pandas==2.3.3
-python-dotenv==1.2.1
+python-dotenv==1.2.2
 streamlit==1.53.0
