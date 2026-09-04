@@ -2,7 +2,7 @@
 
 This page contains information and useful links regarding Compute services that are mostly related to OS and Licenses Management on top of OCI Compute. You can also find resources about BYOI, BYOH and Autoscaling.
 
-<i>Review date: 16 OCT 2025</i>
+<i>Review date: 01 Sept 2026</i>
 
 # Table of Contents
 
@@ -52,10 +52,6 @@ This page contains information and useful links regarding Compute services that 
 - [Marius Github: Cockpit – Web console to manage Oracle Linux](https://github.com/mariusscholtz/Oracle-Cloud-Infrastructure-resources/tree/main/cockpit)
 - [Marius Gitlab: Mount a boot volume from one compute instance (or VM) onto another compute instance in order to replace lost ssh keys](https://gitlab.com/ms76152/system-administration)
 
-- [Sharath Github: Troubleshoot Windows VM console connection via SAC](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Troubleshooting-OCI-Win-VM-Console-Connection.pdf)
-- [Sharath Github: Set up a console connection to an OCI Windows instance](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/Windows-Instance-Console-Creation.pdf)
-- [Sharath Github: Troubleshooting OCI Windows VM console Fatal network error](https://github.com/skbkkl/sharkuma/blob/main/Oracle-Cloud-Infrastructure-resources/Oracle-OCI-Troubleshooting/OCI-Win-Instance-Console-Connection-FATAL%20ERROR-Network-error.pdf)
-  
 # Useful Links
 
 - [Managing Custom Images](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/managingcustomimages.htm)

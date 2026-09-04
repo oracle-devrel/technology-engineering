@@ -2,7 +2,7 @@
  
 OCI IAM is a native service of OCI that provides enterprise-class identity and access management features such as strong, adaptive authentication, user Lifecycle Management (LCM), and Single Sign-On (SSO) to enterprise applications. OCI IAM is deployed as an identity domain(s) in OCI. Included domain(s) allow organizations to manage access to their Oracle Cloud services (network, compute, storage, etc.) and Oracle SaaS applications. Customers can choose to upgrade or create additional identity domains to accommodate other use cases such as managing workforce access to non-Oracle applications, enabling consumer access to customer-facing applications, or embedding IAM into custom-developed applications.
  
-Reviewed: 20.10.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  
@@ -17,7 +17,19 @@ Reviewed: 20.10.2025
 - [OCI IAM and IDCS Common Use Cases](https://www.youtube.com/watch?v=RiaPB8PaEjA)
     - Video about common use cases of OCI IAM
 
-- [SAML with JIT provisioning to setup an identity broker or identity hub](  https://blogs.oracle.com/coretec/post/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
+- [Validating Fusion–IAM Trust for API Integrations](https://blogs.oracle.com/coretec/validating-fusion-iam-trust-for-api-integrations)
+    - Blog post showing how to check the Fusion integration in an OCI IAM Domain with the help of rest calls
+
+- [Accessing and Using OCI: From API Keys to Workload Identity Federation](https://blogs.oracle.com/coretec/accessing-and-using-oci-from-api-keys-to-workload-identity-federation)
+    - Blog post with an overview of the different options with keys, tokens and principals to manage OCI resources from CLI
+
+- [OCI Workload Identity Federation (WIF) with Microsoft Entra ID Applications and keycloak](https://blogs.oracle.com/coretec/oci-workload-identity-federation-wif-with-microsoft-entra-id-applications-and-keycloak)
+    - Practical blog post about using WIF (Token Exchange) with EntraID or keycloak
+
+- [Behavior of OCI IDP Policies in different IAM Domains](https://blogs.oracle.com/coretec/behaviour-of-oci-idp-policies-in-different-iam-domains)
+    - Blog post about the different behavior of OCI IDP Policies in different IAM Domains
+
+- [SAML with JIT provisioning to setup an identity broker or identity hub](https://blogs.oracle.com/coretec/post/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
     - Blog post about SAML with JIT Provisioning to set up an Identity Broker
 
 - [OCI SSO with OpenID Connect Integration](https://blogs.oracle.com/coretec/post/oci-sso-with-openid-connect-integration)
@@ -33,10 +45,44 @@ Reviewed: 20.10.2025
     - Blog post about OCI APIGW and OIDC Auth with OCI IAM Domain and IDCS
 
   - [Correlation between OCI native IAM, IDCS, and Service Console](https://blogs.oracle.com/coretec/post/correlation-between-oci-native-iam-idcs-and-service-console)
-    - Blog about the correlation between OCI native IAM, IDCS and Service Console
+    - Blog post about the correlation between OCI native IAM, IDCS and Service Console
 
   - [Identity Lifecycle Management Between OCI IAM and Entra ID](https://github.com/oracle-devrel/technology-engineering/blob/a11ecf1dafeef1d00491ba575befc48e891377f8/cloud-infrastructure/infrastructure-security/iam/Identity%20Lifecycle%20Management%20Between%20OCI%20IAM%20and%20Entra%20ID.pdf)
     - Guidelines slides about Identity Lifecycle Management Between OCI IAM and Entra ID
+
+  - [OCI API Gateway and Custom Authentication without FN](https://blogs.oracle.com/coretec/oci-api-gateway-and-custom-authentication-without-fn)
+    - Blog post about OCI API Gateway and Custom Authentication without FN
+ 
+- [Protect Apis with API Gateway using IDCS/IAM JWT with Scopes and Claims](https://blogs.oracle.com/coretec/protect-apis-with-api-gateway-using-idcsiam-jwt-with-scopes-and-claims)
+    - Blog post on how to protect Apis with API Gateway using IDCS/IAM JWT with Scopes and Claims
+ 
+ - [SSO/Federation with keycloak and IDCS and/or OCI IAM-Domains
+](https://blogs.oracle.com/coretec/ssofederation-with-keycloak-and-idcs-andor-oci-iam-domains)
+    - Blog post about SSO/Federation with keycloak and IDCS and/or OCI IAM-Domains
+ 
+ - [Custom Application Roles in IAM Domain/IDCS](https://blogs.oracle.com/coretec/using-roles-in-iam-domainidcs-for-custom-applications)
+    - Blog post about Custom Application Roles in IAM Domain/IDCS
+
+- [SAML JIT and multiple IDCS Instances or IAM Domains](https://blogs.oracle.com/coretec/saml-jit-and-multiple-idcsiam-domain-instances)
+    - Blog post about SAML JIT and multiple IDCS Instances or IAM Domains
+
+- [SAML with Just in Time Provisioning to setup an Identity Broker or Identity Hub](https://blogs.oracle.com/coretec/saml-with-just-in-time-provisioning-to-setup-an-identity-broker-or-identity-hub)
+    - Blog post about SAML with Just in Time Provisioning to setup an Identity Broker or Identity Hub
+
+- [OCI SSO – Check/Validation and Renew of IDP’s SAML Signing Certificate](https://blogs.oracle.com/coretec/oci-sso-checkvalidation-and-renew-of-idps-saml-signing-certificate)
+    - Blog post about OCI SSO – Check/Validation and Renew of IDP’s SAML Signing Certificate
+
+- [Validating Fusion–IAM Trust for API Integrations](https://blogs.oracle.com/coretec/validating-fusion-iam-trust-for-api-integrations)
+    - Blog post about validating Fusion–IAM Trust for API Integrations
+
+- [Accessing and Using OCI: From API Keys to Workload Identity Federation](https://blogs.oracle.com/coretec/accessing-and-using-oci-from-api-keys-to-workload-identity-federation)
+    - Blog post about accessing and Using OCI: From API Keys to Workload Identity Federation
+
+- [OCI Workload Identity Federation (WIF) with Microsoft Entra ID Applications and Keycloak](https://blogs.oracle.com/coretec/oci-workload-identity-federation-wif-with-microsoft-entra-id-applications-and-keycloak)
+    - Blog post about OCI Workload Identity Federation (WIF) with Microsoft Entra ID Applications and Keycloak
+
+- [Behaviour of OCI IDP Policies in different IAM Domains](https://blogs.oracle.com/coretec/behaviour-of-oci-idp-policies-in-different-iam-domains)
+    -Blog post about the behaviour of OCI IDP Policies in different IAM Domains
  
 # Useful Links
  
@@ -55,11 +101,31 @@ Reviewed: 20.10.2025
 - [OCI IAM Live Lab](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=624&clear=RR,180&session=109961295889018)
     - OCI IAM Live Lab
 
-      
+- [OpenID Connect support in OCI API Gateway](https://blogs.oracle.com/cloud-infrastructure/openid-connect-support-oci-api-gateway)
+    - OpenID Connect support in OCI API Gateway
+
+- [Federating with SAML 2.0 Identity Providers](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/federatingSAML.htm)
+    - Federating with SAML 2.0 Identity Providers
+
+- [OCI IAM and IDCS - Common Use Cases](https://www.youtube.com/watch?v=RiaPB8PaEjA)
+    - OCI IAM and IDCS - Common Use Cases
+
+- [OCI API Gateway and OpenID Connect Authentication with IAM Domain, IDCS and Azure AD/B2C](https://blogs.oracle.com/coretec/oci-api-gateway-and-openid-connect-authentication-with-iam-domain-idcs-and-azure-btoc)
+    - OCI API Gateway and OpenID Connect Authentication with IAM Domain, IDCS and Azure AD/B2C
+
+- [Cloud Coaching - OCI IAM Services](https://www.oracle.com/europe/cloud/events/developer-coaching/on-demand/#security)
+    - Cloud Coaching - OCI IAM Services
+
+- [OCI IAM - Workload Identity Federation](https://blogs.oracle.com/cloud-infrastructure/oci-iam-workload-identity-federation)
+    - OCI IAM - Workload Identity Federation
+
+- [OCI IAM - Deny Policies ](https://blogs.oracle.com/cloud-infrastructure/announcing-support-for-iam-deny-policies-in-oci?source=:so:ch:or:awr::::IAMDeny&SC=:so:ch:or:awr::::IAMDeny&pcode=)
+    - OCI IAM - Deny Policies
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

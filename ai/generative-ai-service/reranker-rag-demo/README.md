@@ -2,6 +2,8 @@
 
 A lightweight demo that shows the practical difference between using only a vector store and adding OCI Reranker on top of retrieval.
 
+Reviewed: 04.08.2026
+
 The app uses a small leave-policy knowledge base derived from `Vision Corp Leave policy.pdf`. A user asks a policy question, the backend retrieves candidate passages with OCI embeddings and FAISS, and the UI lets you switch between:
 
 - **Vector store only:** answer from the highest cosine-similarity document.
