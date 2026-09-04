@@ -2,7 +2,7 @@
 
 The following asset is a tool designed to showcase the full pipeline from creating an OCI vision streaming job to deleting it in order to consume frames from RTSP live streams to extract key insights.
 
-Reviewed: 19.01.2026
+Reviewed: 04.08.2026
 
 Author: David Attia.
 
@@ -19,6 +19,6 @@ See the full setup and usage guide in [`files/README.md`](./files/README.md).
 
 ---
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.  
-See [`License`](./LICENSE) file for details.
+See [`License`](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) file for details.
