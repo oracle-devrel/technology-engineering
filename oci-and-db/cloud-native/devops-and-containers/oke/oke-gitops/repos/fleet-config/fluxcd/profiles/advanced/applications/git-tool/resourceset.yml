@@ -1,0 +1,40 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: fleet-git-tool
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: v1
+      kind: ConfigMap
+      name: fleet-git-tool-values
+      namespace: flux-system
+  resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: git-tool
+
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: git-tool
+        namespace: flux-system
+      spec:
+        interval: 5m
+        releaseName: git-tool
+        targetNamespace: git-tool
+        chart:
+          spec:
+            chart: ./profiles/advanced/applications/git-tool/chart
+            reconcileStrategy: Revision
+            sourceRef:
+              kind: GitRepository
+              name: fleet-config
+        valuesFrom:
+          - kind: ConfigMap
+            name: fleet-git-tool-values
+            valuesKey: 00-base.yaml
+          - kind: ConfigMap
+            name: fleet-git-tool-values
+            valuesKey: 90-overrides.yaml
