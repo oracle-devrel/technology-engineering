@@ -1,21 +1,10 @@
 # Backup from ExaDB-C@C to C3 Object Storage
-
-- [Use case](#BackupfromExaDBC@CtoC3ObjectStorage-Usecase)
-- [Manual Backups on ExaDB-C@C](#BackupfromExaDBC@CtoC3ObjectStorage-ManualBackupsonExaDB-C@C)
-  - [Objective](#BackupfromExaDBC@CtoC3ObjectStorage-Objective)
-  - [Testing](#BackupfromExaDBC@CtoC3ObjectStorage-Testing)
-  - [Result](#BackupfromExaDBC@CtoC3ObjectStorage-Result)
-- [Automatic / User Configured Backups on ExaDB-C@C](#BackupfromExaDBC@CtoC3ObjectStorage-Automatic/UserConfiguredBackupsonExaDB-C@C)
-  - [Objective](#BackupfromExaDBC@CtoC3ObjectStorage-Objective.1)
-  - [Testing](#BackupfromExaDBC@CtoC3ObjectStorage-Testing.1)
-  - [Result](#BackupfromExaDBC@CtoC3ObjectStorage-Result.1)
-- [Summary](#BackupfromExaDBC@CtoC3ObjectStorage-Summary)
-
-## Use case
-
 An Exadata Cloud@Customer customer with requirements to run applications on-premises for data residency and/or latency reasons will likely appreciate the consumption model of the Compute Cloud@Customer (C3).\
 If said customer also has database backup infrastructure limitations and require a consumption based backup/recovery solution, the C3 could potentially deliver resources for the ExaDB-C@C backups and recovery. This document does not discuss the merits of such solution, but will validate the technical feasibility.
 
+Reviewed: 30/07/26
+
+# When to use this asset?
 This use case focuses on the provisioning of object storage from the C3 as a backup destination to the ExaDB-C@C platform. NFS that is provisioned from the C3 may also be used as a standard backup destination and is known to function as described in the ExaDB-C@C documentation.
 
 Some of the advantages of the use case that combine Compute Cloud@Customer (C3) with Exadata Cloud@Customer (ExaDB-C@C):
@@ -32,18 +21,19 @@ Be aware of the following considerations:
 
 Due to the pricing of the Storage Services in C3 (Object Storage, Block Storage and File Storage) the testing is focused only on C3 Object Storage Service.
 
-# Manual Backups on ExaDB-C@C
+# How to use this asset?
+## Manual Backups on ExaDB-C@C
 
 Performing manual backups on ExaDB-C@C means installing software (Oracle and/or 3rd party) and configuration for RMAN backups through said software and operating system using SSH to the ExaDB-C@C VM's.
 
-## Objective
+### Objective
 
 To verify if manual backups can be performed from ExaDB-C@C to C3 Object Storage Service.\
 The objective of this test is to verify functionality and potentially uncover any specifics in the installation and configuration to serve as a guide towards a successful implementation.
 
-## Testing
+### Testing
 
-### High level overview of the steps
+#### High level overview of the steps
 
 - C3 prerequisites
   - C3 User OCID and username (email)
@@ -350,25 +340,25 @@ Check the contents of the C3 bucket:
 "name": "sbt_catalog/dn4i520q_10679_1_1/metadata.xml",
 ```
 
-## Result
+### Result
 
 As shown in the above testing we can successfully backup Exadata Cloud@Customer databases to Compute Cloud@Customer object storage service by using manual backup procedure.\
 This makes the use case described earlier confirmed from a technical point of view. The validity of said use case is a different discussion that includes more considerations than covered here.
 
 It is important to note that storage capacity planning and monitoring on the C3 will require careful consideration and implementation.
 
-# Automatic / User Configured Backups on ExaDB-C@C
+## Automatic / User Configured Backups on ExaDB-C@C
 
 Automatic/User Configured Backups on ExaDB-C@C means configuring backups using OCI Cloud Tooling (UI, CLI, API) and/or `dbaascli` towards an OCI defined Backup Destination (ZDLRA, NFS or OCI Object Storage).
 
-## Objective
+### Objective
 
 Verify if we can run Automatic / User Configured Backups from ExaDB-C@C to C3 Object Storage Service.
 The objective of this test is to verify functionality and discover any specifics in installation and configuration to guide towards a succesful implementation.
 
-## Testing
+### Testing
 
-### High level overview of the steps
+#### High level overview of the steps
 
 The testing of Automatic/User Configured Backups from ExaDB-C@C to C3 Object Storage Service requires the procedure described on this documentation:
 
@@ -383,12 +373,12 @@ In the testing we changed these parameters, including the authentication informa
 Unfortunately the Automatic/User Configured backup testing indicates that a SWIFT Object Storage endpoint is required.
 C3 only supports OCI Object Storage endpoints, neither SWIFT nor S3 endpoints can be provided by C3.
 
-## Result
+### Result
 
 The testing of Automatic/User Configured Backups from ExaDB-C@C to C3 Object Storage Service failed.
 This backup method is not available.
 
-## Summary
+### Summary
 
 As shown in the above testing we can succesfully backup Exadata Cloud@Customer databases to Compute Cloud@Customer Object Storage service. This makes the Use Case described earlier confirmed from a technical point of view. The validity of said Use Case is a different discussion that includes more considerations than covered here.
 
@@ -404,8 +394,6 @@ For Autonomous Databases on ExaDB-C@C that can not use the Manual Backup method 
 - Autonomous Database on ExaDB-C@C using NFS Backup Destination
 
 Using the File Storage Service on C3 is an option that is likely to be too expensive.
-
-Reviewed: 06/26/2026
 
 # License
 

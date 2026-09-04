@@ -2,7 +2,7 @@
  
 Use this asset as a reference for getting started with the Select AI Agent capabilities available within the Oracle AI Database. More specifically, we will take a look at building a Database Log Analyser Agent.
 
-Reviewed: 2026.04.30
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

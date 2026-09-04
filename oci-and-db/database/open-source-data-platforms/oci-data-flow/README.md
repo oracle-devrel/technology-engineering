@@ -15,9 +15,9 @@ Reviewed: 10.06.2026
 - [Load data from OCI Data Flow into Autonomous Database](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/load-data-to-adw)
 - [Connect to Salesforce using OCI Data Flow](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/connect-to-salesforce)
 - [Run OCI Data Flow from OCI Functions](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/run-from-functions)
-- [Connect to AWS SR](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/connect-to-AWS-S3)
+- [Connect to AWS SR](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/connect-to-aws-s3)
 - [Connect to PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/connect-to-postgresql)
-- [Connect to Snowflake](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/connect-to-Snowflake)
+- [Connect to Snowflake](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-data-flow/code-examples/connect-to-snowflake)
 - [Apache Spark with OCI Data Flow and Oracle Autonomous Database](https://medium.com/@sylwekdec/apache-spark-with-oci-data-flow-and-oracle-autonomous-database-bd96055445ee)
 - [Extracting data from Salesforce in near real-time using OCI Data Flow — Part 1](https://medium.com/@eloi-lopes29/extracting-data-from-salesforce-in-near-real-time-using-oci-data-flow-part-1-f096886b9fcd)
 

@@ -2,6 +2,10 @@
 
 Operator Access Control (OpCtl) is a security feature designed to manage and restrict what Oracle Cloud Operators (Cloud Ops) can do when accessing a customer’s Exadata Cloud@Customer infrastructure.
 
+Reviewed: 30/07/26
+
+# When to use this asset?
+
 OpCtl allows the customer to perform the following:
 
 - Control when and how much access Oracle staff have to ExaDB-C@C infrastructure
@@ -10,7 +14,7 @@ OpCtl allows the customer to perform the following:
 
 Oracle Cloud Ops may occasionally need to access the ExaDB-C@C system to perform maintenance, troubleshooting, or updates. However, some customers might not want them to have unrestricted access to sensitive data or certain administrative functions. This functionality can be switched on at any point during the subscribtion. 
 
-## OpCtl Operational Workflow
+# How to use this asset?
 
 1. Oracle internal process creates a Jira ticket for a Cloud Ops staff to perform a task on a specific ExaDB-C@C infrastructure, identified by OCID. Tasks could be either accessing the system for applying patches or performing diagnostics.
 2. The Oracle Cloud Ops staff assigned to the Jira ticket creates an OpCtl Access request for a specific profile (chroot jail configuration) using FIPS 140-2 hardware MFA device (Yubikey)
@@ -30,8 +34,6 @@ Oracle Cloud Ops may occasionally need to access the ExaDB-C@C system to perform
     - Any other customer SIEM integrated with the OCI streaming service
 
 Customers can revoke access any time via OpCtl interfaces, such as web UI and REST API.
-
-
 
 **Note:** Customers using OpCtl must be aware that any access Oracle operators require must be explicitly approved by the customer or their organization, as they control when and how Cloud Ops can access the system. Using OpCtl may have an impact on SLAs/SLOs depending on OpCtl pre-approval settings and customer’s reaction time.
 
@@ -103,8 +105,6 @@ Note that there is no Oracle override for this access request, so it’s very im
 - [OpCtl configuration video](https://www.youtube.com/watch?v=nZaWa2Mfv_s)
 - [OpCtl Access Control Request Processing Overview Video](https://www.youtube.com/watch?v=kExIxocLBJs)
 - [OpCtl Access Request Processing Demo Video)](https://www.youtube.com/watch?v=ajz-gySXTHo)
-
-Reviewed: 06/26/26
 
 # License
 
