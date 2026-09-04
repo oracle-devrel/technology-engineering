@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useReducer } from "react";
 import {
   Box,
   TextField,
@@ -10,13 +10,16 @@ import {
   InputLabel,
   Button,
   Chip,
+  Switch,
   IconButton,
   InputAdornment,
   CircularProgress,
   Typography,
   Tooltip,
+  FormControlLabel,
 } from "@mui/material";
-import { Plug, Eye, EyeOff, X, Check, Wand2, Wrench } from "lucide-react";
+import { Plug, Eye, EyeOff, X, Check, Wand2, Wrench, ShieldAlert } from "lucide-react";
+import { Icon } from "@iconify/react";
 import mcpService from "../../services/mcpService";
 
 function makeInitial(initial) {
@@ -26,6 +29,7 @@ function makeInitial(initial) {
     authType: initial?.authType || "none",
     authKey: initial?.authKey || "",
     oauthTokenUrl: initial?.oauth?.tokenUrl || "",
+    oauthAuthorizeUrl: initial?.oauth?.authorizeUrl || "",
     oauthClientId: initial?.oauth?.clientId || "",
     oauthClientSecret: initial?.oauth?.clientSecret || "",
     oauthScope: initial?.oauth?.scope || "",
@@ -36,8 +40,43 @@ function makeInitial(initial) {
     showSecret: false,
     detecting: false,
     detectMsg: null,
+    // Server-level human approval. OCI only supports per-server granularity for
+    // `require_approval`, so we use a single boolean. Legacy configs may have
+    // `requireApprovalTools` (array) — treat any non-empty array as "on".
+    requireApproval: initial?.requireApproval === true
+      || (Array.isArray(initial?.requireApprovalTools) && initial.requireApprovalTools.length > 0),
   };
 }
+
+// Presets: one-click filler for popular OAuth providers that don't support dynamic
+// client registration. User still has to paste their own clientId/clientSecret from
+// the provider's developer console, but URLs and scopes are auto-populated.
+const OAUTH_USER_PRESETS = [
+  {
+    id: 'google-gmail',
+    label: 'Google Gmail',
+    icon: 'logos:google-icon',
+    authorizeUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+    tokenUrl:     'https://oauth2.googleapis.com/token',
+    scope:        'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.compose',
+  },
+  {
+    id: 'github',
+    label: 'GitHub',
+    icon: 'logos:github-icon',
+    authorizeUrl: 'https://github.com/login/oauth/authorize',
+    tokenUrl:     'https://github.com/login/oauth/access_token',
+    scope:        'repo read:user',
+  },
+  {
+    id: 'slack',
+    label: 'Slack',
+    icon: 'logos:slack-icon',
+    authorizeUrl: 'https://slack.com/oauth/v2/authorize',
+    tokenUrl:     'https://slack.com/api/oauth.v2.access',
+    scope:        'channels:read chat:write',
+  },
+];
 
 function reducer(state, action) {
   switch (action.type) {
@@ -58,7 +97,7 @@ function formatTestError(err) {
   if (/MCP request failed:\s*403/i.test(raw)) return "Forbidden (403). Credentials valid but lack permission.";
   if (/MCP request failed:\s*404/i.test(raw)) return "Endpoint not found (404). Check the URL.";
   if (/MCP request failed:\s*5\d\d/i.test(raw)) return `Server error: ${raw.replace(/MCP request failed:\s*/i, "")}`;
-  if (/Failed to fetch|NetworkError|ERR_NETWORK/i.test(raw)) return "Network error — endpoint unreachable, CORS blocked, or DNS issue.";
+  if (/Failed to fetch|NetworkError|ERR_NETWORK/i.test(raw)) return "Network error: endpoint unreachable, CORS blocked, or DNS issue.";
   if (/needs_auth/i.test(raw)) return "OAuth flow required. Use authType OAuth 2.1 (interactive) for this endpoint.";
   return raw.length > 240 ? raw.slice(0, 240) + "…" : raw;
 }
@@ -72,7 +111,7 @@ function formatTestError(err) {
  *   - onSave: (serverData, testTools) => void   — receives the data to persist
  *   - onCancel: () => void
  */
-export default function ToolForm({ mode = "add", initialValues = null, onSave, onCancel }) {
+function ToolFormInner({ mode = "add", initialValues = null, onSave, onCancel, onStateChange }, ref) {
   const isEdit = mode === "edit";
   const [s, d] = useReducer(reducer, initialValues, makeInitial);
 
@@ -104,8 +143,20 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
         clientSecret: s.oauthClientSecret.trim(),
         scope: s.oauthScope.trim() || undefined,
       };
+    } else if (s.authType === "oauth2-user") {
+      // OAuth 2.0 authorization_code + PKCE with a pre-registered client.
+      // Used for providers (Google, GitHub, Slack…) that do not implement
+      // RFC 7591 dynamic client registration.
+      server.oauth = {
+        authorizeUrl: s.oauthAuthorizeUrl.trim(),
+        tokenUrl:     s.oauthTokenUrl.trim(),
+        clientId:     s.oauthClientId.trim(),
+        clientSecret: s.oauthClientSecret.trim(),
+        scope:        s.oauthScope.trim() || undefined,
+      };
     }
     // oauth2.1 is handled by the OAuth flow (no creds in form)
+    server.requireApproval = !!s.requireApproval;
     return server;
   };
 
@@ -118,6 +169,10 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
     }
     if (s.authType === "oauth2") {
       if (!s.oauthTokenUrl.trim() || !s.oauthClientId.trim()) return false;
+      if (!s.oauthClientSecret.trim() && !(isEdit && initialValues?.oauth?.clientSecret)) return false;
+    }
+    if (s.authType === "oauth2-user") {
+      if (!s.oauthAuthorizeUrl.trim() || !s.oauthTokenUrl.trim() || !s.oauthClientId.trim()) return false;
       if (!s.oauthClientSecret.trim() && !(isEdit && initialValues?.oauth?.clientSecret)) return false;
     }
     return true;
@@ -141,11 +196,32 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
     // Save first; the user authorizes from the chat banner or explicitly.
     let tools = s.testTools;
     if (s.authType !== "oauth2.1" && s.testStatus !== "connected") {
+      // Best-effort test so we capture tools when possible, but don't block
+      // save on failure — the user can refresh tools later from ToolsTab.
       tools = await handleTest();
-      if (!tools) return;
     }
     onSave(buildServer(), tools || []);
   };
+
+  // Expose imperative handles so a parent (e.g. a Dialog rendering its own
+  // DialogActions footer) can trigger save/test without owning the buttons.
+  useImperativeHandle(ref, () => ({
+    save: handleSave,
+    test: handleTest,
+  }), [handleSave, handleTest]);
+
+  // Notify the parent about state changes that should drive button
+  // enabled/loading states. Only emits primitive snapshots, no handlers,
+  // so the dependency list stays simple and there is no risk of loops.
+  useEffect(() => {
+    onStateChange?.({
+      isValid,
+      isLoading: s.testLoading,
+      authType: s.authType,
+      testStatus: s.testStatus,
+      testToolsCount: s.testTools?.length || 0,
+    });
+  }, [isValid, s.testLoading, s.authType, s.testStatus, s.testTools, onStateChange]);
 
   // Auto-discovery: try /.well-known/oauth-authorization-server on the endpoint origin
   const handleDetect = async () => {
@@ -177,13 +253,13 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
           patch: {
             authType: "oauth2.1",
             oauthTokenUrl: meta.token_endpoint || s.oauthTokenUrl,
-            detectMsg: "OAuth 2.1 metadata detected — switched auth type to OAuth 2.1 (interactive). Click Add to register, then Authorize from the chat.",
+            detectMsg: "OAuth 2.1 metadata detected, switched auth type to OAuth 2.1 (interactive). Click Add to register, then Authorize from the chat.",
             detecting: false,
           },
         });
         return;
       }
-      d({ type: "patch", patch: { detecting: false, detectMsg: "No OAuth metadata at this URL — keep current auth type." } });
+      d({ type: "patch", patch: { detecting: false, detectMsg: "No OAuth metadata at this URL. Keep current auth type." } });
     } catch (e) {
       d({ type: "patch", patch: { detecting: false, detectMsg: `Detect failed: ${e.message || e}` } });
     }
@@ -200,12 +276,6 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      {mode === "add" && (
-        <Typography variant="subtitle2" sx={{ fontWeight: 500 }}>
-          Add MCP Tool
-        </Typography>
-      )}
-
       {mode === "add" && (
         <TextField
           label="Tool Name"
@@ -263,14 +333,15 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
       )}
 
       <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start" }}>
-        <FormControl size="small" sx={{ minWidth: 220 }}>
+        <FormControl size="small" sx={{ minWidth: 320 }}>
           <InputLabel>Authentication</InputLabel>
           <Select value={s.authType} label="Authentication" onChange={setAuthType}>
-            <MuiMenuItem value="none">None</MuiMenuItem>
-            <MuiMenuItem value="api-key">API Key (X-API-KEY)</MuiMenuItem>
-            <MuiMenuItem value="bearer">Bearer Token</MuiMenuItem>
-            <MuiMenuItem value="oauth2">OAuth 2.0 (Client Credentials)</MuiMenuItem>
-            <MuiMenuItem value="oauth2.1">OAuth 2.1 (Interactive / PKCE)</MuiMenuItem>
+            <MuiMenuItem value="none">None: public MCP server</MuiMenuItem>
+            <MuiMenuItem value="api-key">API Key: static header</MuiMenuItem>
+            <MuiMenuItem value="bearer">Bearer Token: static token</MuiMenuItem>
+            <MuiMenuItem value="oauth2">OAuth 2.0: Service (Client Credentials)</MuiMenuItem>
+            <MuiMenuItem value="oauth2.1">OAuth 2.1: User Sign-in (Auto-discovery)</MuiMenuItem>
+            <MuiMenuItem value="oauth2-user">OAuth 2.0: User Sign-in (Manual setup)</MuiMenuItem>
           </Select>
         </FormControl>
 
@@ -287,6 +358,16 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
           />
         )}
       </Box>
+
+      {/* Inline guidance: which authType for what scenario */}
+      <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.55))", mt: -1, ml: 0.5, lineHeight: 1.55 }}>
+        {s.authType === "none" && "No credentials required. The MCP server is publicly reachable."}
+        {s.authType === "api-key" && "The MCP server validates a fixed API key sent on every request as X-API-KEY."}
+        {s.authType === "bearer" && "The MCP server validates a fixed bearer token sent as Authorization: Bearer <token>."}
+        {s.authType === "oauth2" && "Server-to-server. No user login. You provide a client_id + client_secret, we fetch a short-lived token from the token URL on every request. Use for back-office connectors (e.g. IDCS, OIC) where the principal is the application itself."}
+        {s.authType === "oauth2.1" && "User sign-in, fully automatic. The MCP server publishes /.well-known/oauth-authorization-server and supports RFC 7591 dynamic client registration. You only paste the endpoint, we register and run the PKCE flow."}
+        {s.authType === "oauth2-user" && "User sign-in, manual setup. For providers that do NOT support dynamic registration (Google, GitHub, Slack, Microsoft). You pre-create an OAuth client in the provider's developer console, paste client_id + client_secret + the authorize/token URLs here, and we run the PKCE flow against them."}
+      </Typography>
 
       {s.authType === "oauth2" && (
         <Box
@@ -347,9 +428,110 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
             lineHeight: 1.5,
           }}
         >
-          OAuth 2.1 is interactive. After saving, click <strong>Authorize</strong> from the chat banner the first time
-          a tool from this server is invoked. PKCE + dynamic client registration is performed automatically using the
-          server&apos;s discovery metadata.
+          After saving, click <strong>Authorize</strong> from the chat to sign in. PKCE and client registration are handled automatically.
+        </Box>
+      )}
+
+      {s.authType === "oauth2-user" && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            borderLeft: "3px solid var(--dm-border, rgba(0,0,0,0.08))",
+            paddingLeft: 2,
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", alignItems: "center" }}>
+            <Typography sx={{ fontSize: "0.75rem", color: "var(--dm-muted, rgba(0,0,0,0.55))", mr: 0.5 }}>
+              Preset:
+            </Typography>
+            {OAUTH_USER_PRESETS.map(p => (
+              <Chip
+                key={p.id}
+                icon={<Icon icon={p.icon} width={14} height={14} />}
+                label={p.label}
+                size="small"
+                onClick={() => d({
+                  type: "patch",
+                  patch: {
+                    oauthAuthorizeUrl: p.authorizeUrl,
+                    oauthTokenUrl: p.tokenUrl,
+                    oauthScope: p.scope,
+                  },
+                })}
+                sx={{ fontSize: "0.72rem", cursor: "pointer", "& .MuiChip-icon": { ml: "8px", mr: "-4px" } }}
+              />
+            ))}
+          </Box>
+          <TextField
+            label="Authorize URL"
+            value={s.oauthAuthorizeUrl}
+            onChange={set("oauthAuthorizeUrl")}
+            placeholder="https://accounts.google.com/o/oauth2/v2/auth"
+            size="small"
+            fullWidth
+          />
+          <TextField
+            label="Token URL"
+            value={s.oauthTokenUrl}
+            onChange={set("oauthTokenUrl")}
+            placeholder="https://oauth2.googleapis.com/token"
+            size="small"
+            fullWidth
+          />
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <TextField
+              label="Client ID"
+              value={s.oauthClientId}
+              onChange={set("oauthClientId")}
+              placeholder="From provider's developer console"
+              size="small"
+              fullWidth
+            />
+            <TextField
+              label="Client Secret"
+              value={s.oauthClientSecret}
+              onChange={set("oauthClientSecret")}
+              size="small"
+              fullWidth
+              type={s.showSecret ? "text" : "password"}
+              slotProps={{ input: { endAdornment: showSecretAdornment } }}
+            />
+          </Box>
+          <TextField
+            label="Scopes (space-separated)"
+            value={s.oauthScope}
+            onChange={set("oauthScope")}
+            placeholder="e.g. https://www.googleapis.com/auth/gmail.readonly"
+            size="small"
+            fullWidth
+          />
+          <Box sx={{
+            p: 1.5,
+            borderRadius: 1,
+            backgroundColor: "rgba(14, 165, 233, 0.06)",
+            border: "1px solid rgba(14, 165, 233, 0.2)",
+            fontSize: "0.78rem",
+            color: "rgba(0,0,0,0.7)",
+            lineHeight: 1.5,
+          }}>
+            Set your OAuth redirect URI in the provider's console to:{" "}
+            <Box
+              component="span"
+              sx={{
+                fontWeight: 600,
+                fontFamily: "inherit",
+                px: 0.5,
+                py: 0.25,
+                borderRadius: 0.5,
+                backgroundColor: "var(--dm-subtle, rgba(0,0,0,0.06))",
+              }}
+            >
+              {typeof window !== "undefined" ? `${window.location.origin}/api/mcp/oauth/callback` : "<your-origin>/api/mcp/oauth/callback"}
+            </Box>
+            <br />After saving, click <strong>Authorize</strong> from the chat banner to sign in the first time.
+          </Box>
         </Box>
       )}
 
@@ -369,86 +551,104 @@ export default function ToolForm({ mode = "add", initialValues = null, onSave, o
         </Box>
       )}
 
-      <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end", alignItems: "center" }}>
-        {s.testStatus === "connected" && (
-          <Chip
-            icon={<Plug size={14} />}
-            label={s.testTools ? `Connected · ${s.testTools.length} tools` : "Connected"}
-            size="small"
-            color="success"
-            variant="outlined"
-            sx={{ mr: 1 }}
-          />
-        )}
-        <Button variant="outlined" size="small" onClick={onCancel} startIcon={<X size={14} />}>
-          Cancel
-        </Button>
-        {s.authType !== "oauth2.1" && (
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={handleTest}
-            disabled={!isValid || s.testLoading}
-            startIcon={s.testLoading ? <CircularProgress size={14} /> : <Plug size={14} />}
-          >
-            Test Connection
-          </Button>
-        )}
-        <Button
-          variant="contained"
+      {/* Server-level human approval. OCI Responses API only supports per-server
+          granularity for require_approval, so this is a single switch. */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1.5,
+          p: 1.5,
+          borderRadius: 1.5,
+          border: `1px solid ${s.requireApproval ? "rgba(240, 162, 59, 0.45)" : "var(--dm-border, rgba(0,0,0,0.08))"}`,
+          backgroundColor: s.requireApproval ? "rgba(240, 162, 59, 0.06)" : "transparent",
+        }}
+      >
+        <ShieldAlert size={18} style={{ color: s.requireApproval ? "#b26a00" : "var(--dm-muted, rgba(0,0,0,0.35))", flexShrink: 0 }} />
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography sx={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--dm-text, #1a1a1a)" }}>
+            Require user approval
+          </Typography>
+          <Typography sx={{ fontSize: "0.72rem", color: "var(--dm-muted, rgba(0,0,0,0.55))", lineHeight: 1.4 }}>
+            Ask the user to confirm before any tool from this server runs. Applies to all tools. OCI does not support per-tool granularity.
+          </Typography>
+        </Box>
+        <Switch
           size="small"
-          onClick={handleSave}
-          disabled={!isValid || s.testLoading}
-          startIcon={s.testLoading ? <CircularProgress size={14} /> : <Check size={14} />}
-        >
-          {isEdit ? "Save" : "Add Tool"}
-        </Button>
+          checked={!!s.requireApproval}
+          onChange={(e) => d({ type: "set", field: "requireApproval", value: e.target.checked })}
+          sx={{
+            "& .MuiSwitch-switchBase.Mui-checked": { color: "#b26a00" },
+            "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { backgroundColor: "#b26a00" },
+          }}
+        />
       </Box>
 
-      {/* Test results — list discovered tools so the user can verify */}
-      {s.testStatus === "connected" && s.testTools && s.testTools.length > 0 && (
-        <Box
-          sx={{
-            mt: 1,
-            p: 2,
-            backgroundColor: "rgba(46, 125, 50, 0.04)",
-            borderRadius: 1.5,
-            border: "1px solid rgba(46, 125, 50, 0.15)",
-          }}
-        >
-          <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: "#2e7d32", mb: 1.5 }}>
-            {s.testTools.length} function{s.testTools.length !== 1 ? "s" : ""}
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            {s.testTools.map((tool) => (
-              <Box
-                key={tool.name}
-                sx={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: 1.5,
-                  p: 1.5,
-                  backgroundColor: "var(--dm-surface)",
-                  borderRadius: 1,
-                  border: "1px solid var(--dm-border, rgba(0,0,0,0.06))",
-                }}
-              >
-                <Wrench size={15} style={{ color: "var(--dm-muted, rgba(0,0,0,0.35))", marginTop: 2, flexShrink: 0 }} />
-                <Box sx={{ flex: 1, minWidth: 0 }}>
-                  <Typography sx={{ fontWeight: 500, fontSize: "0.85rem" }}>{tool.name}</Typography>
-                  {tool.description && (
-                    <Typography
-                      sx={{ fontSize: "0.75rem", color: "var(--dm-muted, rgba(0,0,0,0.5))", lineHeight: 1.5, mt: 0.25 }}
-                    >
-                      {tool.description}
-                    </Typography>
-                  )}
+      {/* Test results — list discovered tools so the user can verify the connection. */}
+      {(() => {
+        const toolsList = (s.testStatus === "connected" && s.testTools)
+          ? s.testTools
+          : (Array.isArray(initialValues?.tools) ? initialValues.tools : null);
+        if (!toolsList || toolsList.length === 0) return null;
+        return (
+          <Box
+            sx={{
+              mt: 1,
+              p: 2,
+              backgroundColor: "rgba(46, 125, 50, 0.04)",
+              borderRadius: 1.5,
+              border: "1px solid rgba(46, 125, 50, 0.15)",
+            }}
+          >
+            <Typography sx={{ fontSize: "0.8rem", fontWeight: 600, color: "#2e7d32", mb: 1.5 }}>
+              {toolsList.length} function{toolsList.length !== 1 ? "s" : ""}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              {toolsList.map((tool) => (
+                <Box
+                  key={tool.name}
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 1.5,
+                    p: 1.5,
+                    backgroundColor: "var(--dm-surface)",
+                    borderRadius: 1,
+                    border: "1px solid var(--dm-border, rgba(0,0,0,0.06))",
+                  }}
+                >
+                  <Wrench size={15} style={{ color: "var(--dm-muted, rgba(0,0,0,0.35))", marginTop: 2, flexShrink: 0 }} />
+                  <Box sx={{ flex: 1, minWidth: 0 }}>
+                    <Typography sx={{ fontWeight: 500, fontSize: "0.85rem" }}>{tool.name}</Typography>
+                    {tool.description && (
+                      <Typography
+                        title={tool.description}
+                        sx={{
+                          fontSize: "0.75rem",
+                          color: "var(--dm-muted, rgba(0,0,0,0.5))",
+                          lineHeight: 1.5,
+                          mt: 0.25,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {tool.description}
+                      </Typography>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
-        </Box>
-      )}
+        );
+      })()}
+
     </Box>
   );
 }
+
+const ToolForm = forwardRef(ToolFormInner);
+export default ToolForm;

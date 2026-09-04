@@ -48,8 +48,6 @@ const WidgetV2Node = memo(function WidgetV2Node({ node, onSubmit, disabled }) {
  * Shows fade indicators when content overflows horizontally.
  */
 function WidgetV2({ tree, isComplete, onSubmit, disabled }) {
-  if (!tree) return null;
-
   const scrollRef = useRef(null);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -70,6 +68,11 @@ function WidgetV2({ tree, isComplete, onSubmit, disabled }) {
     observer.observe(el);
     return () => observer.disconnect();
   }, [checkScroll]);
+
+  // After the hooks — an early return above them breaks the Rules of Hooks: if
+  // `tree` flips null → non-null on a mounted component, React throws
+  // "Rendered more hooks than during the previous render".
+  if (!tree) return null;
 
   return (
     <motion.div
@@ -96,7 +99,7 @@ function WidgetV2({ tree, isComplete, onSubmit, disabled }) {
           ref={scrollRef}
           onScroll={checkScroll}
           sx={{
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
             width: "100%",
             maxWidth: "100%",
             overflowX: "auto",

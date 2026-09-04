@@ -70,7 +70,7 @@ export default function CitationCard({ citation, index }) {
             color: "rgba(0,0,0,0.8)",
             whiteSpace: "pre-wrap",
             lineHeight: 1.6,
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
           }}
         >
           {isExpanded
@@ -91,7 +91,7 @@ export default function CitationCard({ citation, index }) {
               textTransform: "none",
               backgroundColor: theme.palette.primary.main,
               color: "white",
-              fontFamily: "var(--font-exo2), sans-serif",
+              fontFamily: "var(--font-oracle-sans), sans-serif",
               fontWeight: 500,
               boxShadow: "none",
               "&:hover": {
@@ -117,7 +117,7 @@ export default function CitationCard({ citation, index }) {
               color: theme.palette.primary.main,
               textDecoration: "none",
               fontWeight: 500,
-              fontFamily: "var(--font-exo2), sans-serif",
+              fontFamily: "var(--font-oracle-sans), sans-serif",
               "&:hover": {
                 textDecoration: "underline",
               },
