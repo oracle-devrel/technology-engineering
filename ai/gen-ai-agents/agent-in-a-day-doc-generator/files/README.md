@@ -2,6 +2,8 @@
 
 Standalone server that generates professional DOCX reports using OCI Generative AI. Fully self-contained — Terraform creates everything: Agent, Knowledge Base, API Gateway, compute, networking, IAM.
 
+Reviewed: 04.08.2026
+
 Registers as an **API endpoint tool** on OCI Agent Hub. The agent orchestrates KB search (RAG tool) and report generation (HTTP endpoint tool) to produce multi-page DOCX reports from natural language requests.
 
 ## Architecture
