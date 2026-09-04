@@ -25,25 +25,25 @@ About Queries | [Link](https://docs.oracle.com/en-us/iaas/cloud-guard/using/quer
 
 3- Go to Cloud Guard →Configuration →Create new target → Point it to your compartment:
 
-![Picture 34](./images/image-01.png)
+![Picture 34](./files/image-01.png)
 
-![Picture 33](./images/image-02.png)
+![Picture 33](./files/image-02.png)
 
 Select the recieps:
 
-![Picture 32](./images/image-03.png)
+![Picture 32](./files/image-03.png)
 
 I have attached all this receips and saved:
 
-![Picture 31](./images/image-04.png)
+![Picture 31](./files/image-04.png)
 
 Check the Instance to have Cloud Guard Workload Protection(Paid feature) enabled.
 
-![Picture 30](./images/image-05.png)
+![Picture 30](./files/image-05.png)
 
 4- Go to Cloud Guard → Queries and run the needed queries
 
-![Picture 29](./images/image-06.png)
+![Picture 29](./files/image-06.png)
 
 Some examples:
 
@@ -70,71 +70,71 @@ ORDER BY
 LIMIT 10;
 ```
 
-![Picture 28](./images/image-07.png)
+![Picture 28](./files/image-07.png)
 
 Now we have the results, we can get this data and use it for additional computations. At this point I will download the CSV with the results, but you can also use the OCI logging to collect this queries as Query Results(WIP to enable it):
 
-![Picture 27](./images/image-08.png)
+![Picture 27](./files/image-08.png)
 
 You need to go to Past Queries and click Download results(csv format)
 
-![Picture 26](./images/image-09.png)
+![Picture 26](./files/image-09.png)
 
 Extract the file:
 
-![Picture 25](./images/image-10.png)
+![Picture 25](./files/image-10.png)
 
 Go to Logging Analytics →Administration →Click Upload Files:
 
-![Picture 24](./images/image-11.png)
+![Picture 24](./files/image-11.png)
 
-![Picture 23](./images/image-12.png)
+![Picture 23](./files/image-12.png)
 
-![Picture 22](./images/image-13.png)
+![Picture 22](./files/image-13.png)
 
 At this point I see I don’t have a valid Source for this, so I need to create it:
 
-![Picture 21](./images/image-14.png)
+![Picture 21](./files/image-14.png)
 
 Before this, I also need a parser for this file(Create XML Type → Copy paste the file content to ):
 
-![Picture 20](./images/image-15.png)
+![Picture 20](./files/image-15.png)
 
-![Picture 19](./images/image-16.png)
+![Picture 19](./files/image-16.png)
 
-![Picture 18](./images/image-17.png)
+![Picture 18](./files/image-17.png)
 
 Now map the fields and create new fields.
 
-![Picture 17](./images/image-18.png)
+![Picture 17](./files/image-18.png)
 
 After mapping run a parser test:
 
-![Picture 16](./images/image-19.png)
+![Picture 16](./files/image-19.png)
 
 Click on the ! sign and change the parser to the right format.
 
-![Picture 15](./images/image-20.png)
+![Picture 15](./files/image-20.png)
 
-![Picture 14](./images/image-21.png)
+![Picture 14](./files/image-21.png)
 
 Based on the OSQuery created, you can have different fields. In my case I had this ones created as STRING.
 
-![Picture 13](./images/image-22.png)
+![Picture 13](./files/image-22.png)
 
 Next create the source with the new parser:
 
-![Picture 12](./images/image-23.png)
+![Picture 12](./files/image-23.png)
 
-![Picture 11](./images/image-24.png)
+![Picture 11](./files/image-24.png)
 
 With the source created, we can restart the file upload wizard:
 
-![Picture 10](./images/image-25.png)
+![Picture 10](./files/image-25.png)
 
 Next we can see the OSQuery in the Log Explorer, and we can start playing with the numbers:
 
-![Picture 9](./images/image-26.png)
+![Picture 9](./files/image-26.png)
 
 ```text
 ‘Log Source’ = OSQuery | fields ‘CPU Usage (%)’, ‘Process CPU Time’, ‘Action User’, ‘OS Process ID’ | timestats count as logrecords by ‘Log Source’ | sort -logrecords
@@ -142,13 +142,13 @@ Next we can see the OSQuery in the Log Explorer, and we can start playing with t
 
 Based on your usecase you can monitor the user/groups.
 
-![Picture 8](./images/image-27.png)
+![Picture 8](./files/image-27.png)
 
-![Picture 7](./images/image-28.png)
+![Picture 7](./files/image-28.png)
 
 Now with the logs in Logging Analytics sky is the limit. One use case is to map the usage per groups:
 
-![Picture 6](./images/image-29.png)
+![Picture 6](./files/image-29.png)
 
 ```text
 ‘Log Source’ = OSQuery | where result.total_memory_usage != ‘null’ | eval clean_memory_usage = replace(result.total_memory_usage, ‘“‘, ‘’) | eval numeric_memory_usage = toNumber(clean_memory_usage) | stats sum(numeric_memory_usage) as total_memory_usage_sum by Group
@@ -160,11 +160,11 @@ If you want to use see in MB, you can use another query like this:
 ‘Log Source’ = OSQuery | where result.total_memory_usage != ‘null’ | eval clean_memory_usage = replace(result.total_memory_usage, ‘“‘, ‘’) | eval numeric_memory_usage = toNumber(clean_memory_usage) / 1000000 | stats sum(numeric_memory_usage) as total_memory_usage_sum_MB by Group
 ```
 
-![Picture 5](./images/image-30.png)
+![Picture 5](./files/image-30.png)
 
 For CPU Usage you can try something like this:
 
-![Picture 4](./images/image-31.png)
+![Picture 4](./files/image-31.png)
 
 ```text
 ‘Log Source’ = OSQuery | where result.total_cpu_time != ‘null’ | eval clean_CPU_usage = replace(result.total_cpu_time, ‘“‘, ‘’) | eval numeric_CPU_usage = toNumber(clean_CPU_usage) | eval cost_rate_per_second = 0.001 | eval total_cost = numeric_CPU_usage * cost_rate_per_second | stats sum(total_cost) as total_CPU_cost_sum by Group
@@ -180,14 +180,17 @@ Preview of Part 2 — Adding automation:
 
 1. Create a Scheduled Query
 
-![Picture 3](./images/image-32.png)
+![Picture 3](./files/image-32.png)
 
 1. Create and enable logging for it
 
-![Picture 2](./images/image-33.png)
+![Picture 2](./files/image-33.png)
 
-![Picture 1](./images/image-34.png)
+![Picture 1](./files/image-34.png)
 
 1. Send the Logs to Logging Analytics
 
 2. Create queries on collected data.
+
+
+Reviewed: 24.07.2026

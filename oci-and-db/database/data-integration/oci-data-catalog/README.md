@@ -23,6 +23,9 @@ Reviewed: 03.06.2026
  
 - [Building Meaningful Catalogs For Data Lakes](https://blogs.oracle.com/dataintegration/post/building-meaningful-catalogs-for-data-lakes)
    - How to use a Data Catalog to avoid a Data Swamp
+ 
+- [OCI Data Catalog Workshop](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=877)
+   - Use a step-by-step workshop for an initial start of implementing and use of OCI Data Catalog 
      
 - [Fast Track data discovery with OCI Data Catalog](https://blogs.oracle.com/cloud-infrastructure/post/fast-track-data-discovery-with-new-release-of-oci-data-catalog)
     - Automated discovery and creation of Data Assets
