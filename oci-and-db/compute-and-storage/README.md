@@ -1,35 +1,37 @@
-# Compute (Including HPC)
+# Compute and Storage
 
-This area is focused on the core Compute Service of Oracle Cloud Infrastructure (OCI) which includes and covers High Performance Computing (HPC), [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware), and [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software) residing on several CPU architectures.
+Oracle Cloud Infrastructure (OCI) Compute and Storage services provide the infrastructure foundation for cloud workloads—from virtual machines, bare metal, and high performance computing (HPC) to block, object, file, local, and archive storage.
 
+Use this area to explore guidance, examples, and resources for OCI Compute and OCI Storage.
 
+## Explore this area
 
-<i>Review date: 16 Oct 2025</I>
+| Area | Description |
+| --- | --- |
+| [Compute](./compute/) | OCI Compute services, including HPC, compute hardware, and compute software. |
+| [Storage](./storage/) | OCI storage services and guidance for block, object, file, local, and archive storage. |
 
-# Useful Links
+## Compute
 
-Some of the topics covered on this page:
+OCI Compute provides flexible virtual machine and bare metal capacity across Intel, AMD, and Arm-based architectures. It also supports HPC workloads and capabilities such as autoscaling, OS Management, confidential computing, and custom images.
 
-- Oracle Cloud Infrastructure (OCI) Compute [capabilities](https://www.oracle.com/cloud/compute/) on Intel, AMD, ARM processing architecture
-- [OCI Bare Metal](https://www.oracle.com/cloud/compute/bare-metal/) - an isolated, dedicated physical server
-- Compute on [HPC](https://www.oracle.com/cloud/hpc/) - capabilities to solve complex mathematical and scientific problems across industries
-- VM Compute [shape](https://docs.oracle.com/en-us/iaas/Content/Compute/References/computeshapes.htm) is a template that determines the number of OCPUs, amount of memory, and other resources that are allocated to an instance
-- Compute Licensing
-- [OS Management](https://docs.oracle.com/en-us/iaas/os-management/home.htm) - allows you to manage and monitor updates and patches for the operating system
-- Bring Your Own Hypervisor [BYOH](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm) and Bring Your Own Image [BYOI](https://docs.oracle.com/en-us/iaas/Content/Compute/References/bringyourownimage.htm) to Oracle Cloud Infrastructure (OCI)
-- [Autoscaling](https://docs.oracle.com/en-us/iaas/Content/Compute/Tasks/autoscalinginstancepools.htm) - add more compute instances during periods of high demand 
-- [Confidential Computing](https://docs.oracle.com/en-us/iaas/Content/Compute/References/confidential_compute.htm) - encrypts and isolates in-use data and the applications processing that data.
+- [Compute Hardware](./compute/compute-hardware/)
+- [Compute Software](./compute/compute-software/)
+- [OCI Compute](https://www.oracle.com/cloud/compute/)
+- [OCI Compute documentation](https://docs.oracle.com/en-us/iaas/Content/Compute/home.htm)
 
-# Team Publications
+## Storage
 
-The links below contain publications from the OCI Compute team:
-- [Compute Hardware](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-hardware)
-- [Compute Software](https://github.com/oracle-devrel/technology-engineering/tree/main/cloud-infrastructure/compute-including-hpc/compute-software)
+OCI Storage provides scalable, durable storage options for a variety of workload requirements. Use block, object, file, local, and archive storage services to store data efficiently and securely.
 
-# License
+- [Storage resources](./storage/)
+- [OCI Storage](https://www.oracle.com/cloud/storage/)
+- [OCI Storage documentation](https://docs.oracle.com/en-us/iaas/Content/Storage/home.htm)
+
+## License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
+See [LICENSE](../../../LICENSE.txt) for more details.
