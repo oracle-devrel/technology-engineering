@@ -1,0 +1,26 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: Function
+metadata:
+  name: managed-hello-cleanup
+  namespace: default
+spec:
+  mode: Managed
+  # Destructive cleanup option. Deleting this Kubernetes Function deletes the
+  # managed OCI Function after the controller finalizer runs. The OCI Functions
+  # application is retained.
+  deletionPolicy: Delete
+  config:
+    region: me-jeddah-1
+    compartmentId: <COMPARTMENT_OCID>
+    applicationName: oke-functions-operator-sample
+    subnetIds:
+    - <SUBNET_OCID>
+    # Optional: attach NSGs to the OCI Functions application.
+    # nsgIds:
+    # - <NSG_OCID>
+    displayName: managed-hello-cleanup
+    image: jed.ocir.io/<TENANCY_NAMESPACE>/hello-function:<tag>
+    memoryInMBs: 256
+    timeoutInSeconds: 120
+    config:
+      GREETING: "hello from oke functions operator"

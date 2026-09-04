@@ -9,6 +9,8 @@ If you want to use the example dataset, and not your own, you can do it in 2 way
    - [notebook 1](1_check_dataset.ipynb): downloads the dataset, makes statistics (you can edit the methodology) and picks up some samples.
    - [notebook 2](2_prepare_files.ipynb): generates the sampled dataset in a folder `dataset`, including mixed audios (agent&caller in a single audio).
 
+Reviewed: 04.08.2026
+
 # How to run the app
 Install requirements:
 
@@ -53,6 +55,24 @@ Create a .config file with the following variables:
 
 # About the App
 Built using Streamlit and OCI Python SDK, it allows the user to upload a list of audio files (recordings of a call center) to be analysed.
+
+```mermaid
+flowchart TD
+    A[User Uploads Audio Files] --> B[Upload to OCI Object Storage]
+    B --> C[OCI Speech Service<br/>Transcription]
+    C --> D[Transcription Text]
+    D --> E[OCI Language Service<br/>Sentiment Analysis]
+    D --> F[OCI Generative AI<br/>Summary & Insights]
+    E --> G[Sentiment Score]
+    F --> H[Call Summary<br/>Reason, Issue Status, Info Requested]
+    G --> I[Per-Call View]
+    H --> I
+    H --> J[Batch Categorization]
+    J --> K[Batch Analytics Dashboard<br/>Metrics & Reports]
+    I --> L[Display Results]
+    K --> L
+```
+
 Process:
 1. Files are sent to a bucket.
 2. Speech processes them and gets a transcription in JSON format.
@@ -80,8 +100,8 @@ Process:
 We welcome contributions to improve and expand the capabilities of this demo. Please fork the repository and submit a pull request with your changes.
 
 # License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](../LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
