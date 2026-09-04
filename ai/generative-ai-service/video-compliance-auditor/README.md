@@ -2,6 +2,8 @@
 
 A Streamlit demo that audits video recordings against documented Standard Operating Procedures using **NVIDIA Nemotron 3 Nano Omni 30B (Reasoning)**, deployed on OCI Generative AI as a Dedicated AI Cluster.
 
+Reviewed: 04.08.2026
+
 ## Why this asset
 
 Nemotron 3 Nano Omni's headline architectural claim is that a single 30B-A3B hybrid Mamba-Transformer MoE model handles all four input modalities natively - text, image, video, and audio - within one perception loop. A compliance audit forces every modality to matter:

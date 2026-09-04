@@ -1389,6 +1389,15 @@ const ChatMessage = memo(function ChatMessage({
               if (!server && enabled.length === 1) {
                 server = enabled[0];
               }
+              // OracleDB is the native Text-to-SQL pseudo-server — it never lives in
+              // mcpServers, so synthesize it from env. Without this, clicking
+              // Authorize crashed on buildAuthorizeUrl(null).
+              if (!server) {
+                const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
+                if (nl2sqlUrl && (group.serverLabel === 'Nl2Sql' || group.serverEndpoint === nl2sqlUrl)) {
+                  server = { name: 'Nl2Sql', endpoint: nl2sqlUrl, authType: 'oauth2.1' };
+                }
+              }
               if (typeof window !== 'undefined' && !window.__mcp_banner_logged) {
                 window.__mcp_banner_logged = true;
                 console.log('[mcp banner]', {
@@ -1900,7 +1909,10 @@ const ChatMessage = memo(function ChatMessage({
                                   wordBreak: "break-word",
                                   mb: 1,
                                 }}>
-                                  {selectedChip.error || selectedChip.output || "Tool execution failed"}
+                                  {(() => {
+                                    const e = selectedChip.error || selectedChip.output || "Tool execution failed";
+                                    return typeof e === "string" ? e : JSON.stringify(e, null, 2);
+                                  })()}
                                 </Box>
                                 {exchange.trace && (
                                   <Box
@@ -1970,9 +1982,14 @@ const ChatMessage = memo(function ChatMessage({
                                     No output returned
                                   </Typography>
                                 ) : (() => {
-                                  // Try to parse as JSON for nice rendering
+                                  // Try to parse as JSON for nice rendering.
+                                  // output may already be an object (e.g. an MCP content-block
+                                  // reloaded from history) — in that case skip JSON.parse and
+                                  // render it directly with JsonView so React never gets an object child.
                                   try {
-                                    const parsed = JSON.parse(selectedChip.output);
+                                    const parsed = typeof selectedChip.output === 'string'
+                                      ? JSON.parse(selectedChip.output)
+                                      : selectedChip.output;
                                     if (typeof parsed === 'object' && parsed !== null) {
                                       return (
                                         <JsonView
@@ -2004,10 +2021,11 @@ const ChatMessage = memo(function ChatMessage({
                                       </ReactMarkdown>
                                     );
                                   } catch {
-                                    // Not JSON, render as markdown
+                                    // Not JSON, render as markdown. Coerce non-string output
+                                    // so React never receives an object as a child.
                                     return (
                                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                                        {selectedChip.output}
+                                        {typeof selectedChip.output === 'string' ? selectedChip.output : JSON.stringify(selectedChip.output, null, 2)}
                                       </ReactMarkdown>
                                     );
                                   }
