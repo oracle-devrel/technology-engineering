@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Building2, Check, ChevronDown, ClipboardCopy, Download, LogOut, Menu as MenuIcon, Share2, SquarePen, Users, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import BubbleModelSelector from "./BubbleModelSelector";
+import { withBase } from "@/lib/withBase";
 
 const BrainFreezeIcon = ({ size = 16, color = "currentColor" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
@@ -36,6 +37,7 @@ export default function Header({
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [authEnabled, setAuthEnabled] = useState(null); // null until we know
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -94,9 +96,10 @@ export default function Header({
     fetch('/api/auth/session')
       .then(res => res.json())
       .then(data => {
+        setAuthEnabled(data.authEnabled !== false);
         if (data.authenticated) setUser(data.user);
       })
-      .catch(() => {})
+      .catch(() => setAuthEnabled(false))
       .finally(() => setLoadingUser(false));
   }, []);
 
@@ -167,7 +170,7 @@ export default function Header({
                 lineHeight: 1.3,
               }}
             >
-              {appTitle || (<><Box component="span" sx={{ fontWeight: 600 }}>OCI</Box>{" "}Enterprise AI Agents</>)}
+              {appTitle || (<><Box component="span" sx={{ fontWeight: 600 }}>OCI</Box>{" "}Enterprise AI</>)}
             </Typography>
             {showLabChip && (
               <Chip
@@ -329,8 +332,8 @@ export default function Header({
           </IconButton>
         </Tooltip>
 
-        {/* User avatar - desktop only */}
-        {!isMobile && loadingUser && (
+        {/* User avatar - desktop only. Skeleton only when auth is on. */}
+        {!isMobile && loadingUser && authEnabled !== false && (
           <IconButton disabled sx={{ ml: 0.5 }}>
             <Skeleton variant="circular" width={36} height={36} />
           </IconButton>
@@ -386,7 +389,7 @@ export default function Header({
               </MenuItem>
               <Divider />
               <MenuItem
-                onClick={() => { window.location.href = '/api/auth/logout'; }}
+                onClick={() => { window.location.href = withBase('/api/auth/logout'); }}
                 sx={{ fontSize: "0.85rem", color: "error.main" }}
               >
                 <ListItemIcon sx={{ minWidth: 28 }}>

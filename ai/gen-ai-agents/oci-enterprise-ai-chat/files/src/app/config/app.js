@@ -26,7 +26,7 @@ export const APP_CONFIG = {
     color: "#3a3632",
     image: "/backgrounds/imac-blue.jpg",
     backgroundColor: "#F5F5F5",
-    name: "OCI Enterprise AI Agents",
+    name: "OCI Enterprise AI",
     logoUrl: "",
     speechProvider: "browser",
   },

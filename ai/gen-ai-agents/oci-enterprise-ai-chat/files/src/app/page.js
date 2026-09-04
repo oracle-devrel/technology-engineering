@@ -21,7 +21,8 @@ import {
 } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { LogOut, Settings, Building2, Users } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { withBase } from "@/lib/withBase";
+import { useBaseRouter as useRouter } from "@/lib/useBaseRouter";
 import { useEffect, useState, useRef, useCallback } from "react";
 import Header from "./components/ui/Header";
 import ChatMessage from "./components/chat/ChatMessage";
@@ -54,7 +55,7 @@ export default function Home({ initialConversationId = null }) {
 
   // UI Settings from localStorage
   const [uiSettings, setUiSettings] = useState({
-    appTitle: "OCI Enterprise AI Agents",
+    appTitle: "OCI Enterprise AI",
     appLogo: "",
     welcomeMessage: "Welcome back!",
     inputPlaceholder: "Type anything...",
@@ -161,6 +162,7 @@ export default function Home({ initialConversationId = null }) {
     inputRef,
     handleSubmit,
     handleRetry,
+    handleApprovalSubmit,
     stopGeneration,
     handleWidgetSubmit,
     handleOptionSelect,
@@ -233,7 +235,7 @@ export default function Home({ initialConversationId = null }) {
         try {
           const parsedSettings = JSON.parse(stored);
           setUiSettings(parsedSettings);
-          document.title = parsedSettings.appTitle || "OCI Enterprise AI Agents";
+          document.title = parsedSettings.appTitle || "OCI Enterprise AI";
         } catch (e) {
           console.error("Error parsing UI settings:", e);
         }
@@ -242,7 +244,7 @@ export default function Home({ initialConversationId = null }) {
 
     const handleUiSettingsChanged = (e) => {
       setUiSettings(e.detail);
-      document.title = e.detail.appTitle || "OCI Enterprise AI Agents";
+      document.title = e.detail.appTitle || "OCI Enterprise AI";
     };
     window.addEventListener('uiSettingsChanged', handleUiSettingsChanged);
 
@@ -273,9 +275,7 @@ export default function Home({ initialConversationId = null }) {
     if (savedIsAvailable) {
       setSelectedModel(savedModel);
     } else if (STATIC_MODELS.length > 0) {
-      const defaultModel = INTERNAL_MODE_AVAILABLE
-        ? "xai.grok-4-1-fast-reasoning"
-        : "google.gemini-2.5-pro";
+      const defaultModel = "google.gemini-2.5-pro";
       setSelectedModel(defaultModel);
       localStorage.setItem("selectedModel", defaultModel);
     }
@@ -591,7 +591,7 @@ export default function Home({ initialConversationId = null }) {
                   </MenuItem>
                   <Divider />
                   <MenuItem
-                    onClick={() => { window.location.href = '/api/auth/logout'; }}
+                    onClick={() => { window.location.href = withBase('/api/auth/logout'); }}
                     sx={{ fontSize: "0.85rem", color: "error.main" }}
                   >
                     <ListItemIcon sx={{ minWidth: 28 }}>
@@ -821,6 +821,7 @@ export default function Home({ initialConversationId = null }) {
                 onWidgetSubmit={handleWidgetSubmit}
                 onOptionSelect={handleOptionSelect}
                 onRetry={handleRetry}
+                onApprovalSubmit={handleApprovalSubmit}
                 isLoading={isLoading}
         
               />

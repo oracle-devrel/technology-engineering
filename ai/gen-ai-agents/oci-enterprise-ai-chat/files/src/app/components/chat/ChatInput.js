@@ -54,7 +54,6 @@ const DrawioLogoSmall = ({ size = 14, color = "#F08705" }) => (
 
 const ADDON_TOOLS_META = {
   addon_drawio: { name: "OCI Draw.io", color: "#F08705", LogoComponent: DrawioLogoSmall },
-  addon_sdd: { name: "OCI SDD Generator", color: "#0EA5E9", icon: FileText },
   addon_ppt: { name: "OCI PPT Generator", color: "#EF4444", icon: Presentation },
 };
 
@@ -104,7 +103,7 @@ const ChatInput = memo(forwardRef(function ChatInput({
   });
 
   // Reasoning-capable model detection
-  const REASONING_PATTERNS = ['o4-mini', 'gpt-5.4', 'grok-4-reasoning', 'o3', 'o4'];
+  const REASONING_PATTERNS = []; // no client-safe model (gpt-oss / gemini) exposes a reasoning toggle
   const isReasoningModel = selectedModel && REASONING_PATTERNS.some(p => selectedModel.includes(p));
 
   // Persist reasoning effort
@@ -124,8 +123,8 @@ const ChatInput = memo(forwardRef(function ChatInput({
       try {
         const stored = localStorage.getItem('nativeToolsEnabled');
         const state = stored ? JSON.parse(stored) : {};
-        // Filter out coming-soon tools (native_text_to_sql)
-        const comingSoon = new Set(['native_text_to_sql']);
+        // Filter out coming-soon tools (Web Search is still coming soon)
+        const comingSoon = new Set(['native_web_search']);
         setNativeTools(Object.entries(state).filter(([id, v]) => v && !comingSoon.has(id)).map(([id]) => id));
       } catch { setNativeTools([]); }
     };
@@ -720,7 +719,7 @@ const ChatInput = memo(forwardRef(function ChatInput({
                         sx={{ fontSize: "0.95rem", pl: 3, display: "flex", alignItems: "center", gap: 1, fontWeight: selectedModel === m ? 600 : 400 }}
                       >
                         {m.replace(/^[a-z]+\./, "")}
-                        {m === "xai.grok-4-1-fast-reasoning" && (
+                        {m === "google.gemini-2.5-pro" && (
                           <Chip
                             label="Recommended"
                             size="small"
@@ -1035,7 +1034,7 @@ const ChatInput = memo(forwardRef(function ChatInput({
             <MenuItem
               onClick={() => {
                 setToolsMenuAnchor(null);
-                window.location.href = '/settings/tools';
+                window.location.href = withBase('/settings/tools');
               }}
               sx={{
                 fontSize: "0.8rem",
