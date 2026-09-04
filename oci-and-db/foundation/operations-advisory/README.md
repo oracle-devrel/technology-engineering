@@ -2,7 +2,7 @@
 
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day 2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
   
-Reviewed: 2026-07-30
+Reviewed: 2026-09-04
 
 # Table of Contents <!-- omit in toc --> 
 
@@ -31,6 +31,7 @@ Reviewed: 2026-07-30
 
 - [Landing Zone Deep Dive - Operations workshop session video.](https://www.youtube.com/watch?v=Kqp0i42ds7Y&t=2825s)
 - [What is GitOps and why it's needed.](./multi-cloud-operating-models/gitops/README.md)
+- [Multi-Cloud Control Plane: An universal Control Plane to manage any cloud.](./multi-cloud-operating-models/multi-cloud-control-plane/README.md)
 
 ### Operational Security
 
