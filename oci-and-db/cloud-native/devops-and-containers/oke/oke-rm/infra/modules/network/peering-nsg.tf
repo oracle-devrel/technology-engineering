@@ -9,7 +9,7 @@ resource "oci_core_network_security_group" "peering" {
   vcn_id         = local.vcn_id
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
-  display_name   = "peering"
+  display_name   = "peering-${var.network_resource_suffix}"
   count          = local.create_drg_attachment && length(var.peer_vcns) > 0 ? 1 : 0
 }
 
