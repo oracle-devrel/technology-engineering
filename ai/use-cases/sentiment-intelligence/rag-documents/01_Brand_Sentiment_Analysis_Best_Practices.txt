@@ -1,0 +1,127 @@
+Brand Sentiment Analysis Best Practices Guide
+=============================================
+
+1. INTRODUCTION
+
+Brand sentiment analysis is the process of systematically identifying, extracting, and quantifying subjective information from customer feedback across multiple channels. This guide provides a comprehensive framework for implementing an effective sentiment analysis program using AI and in-database analytics.
+
+Effective sentiment analysis goes beyond simple positive/negative classification. It encompasses aspect-based sentiment detection, emotion recognition, trend identification, and actionable insight generation.
+
+
+2. DATA COLLECTION STRATEGY
+
+2.1 Source Diversification
+A robust sentiment program must collect feedback from multiple channels:
+- E-commerce review platforms (Amazon, Best Buy, Walmart)
+- Social media (Twitter/X, Instagram, Facebook, Reddit, TikTok)
+- App store reviews (Apple App Store, Google Play)
+- Dedicated review sites (Trustpilot, G2, Capterra)
+- Customer support transcripts and survey responses
+- News articles and blog posts
+
+2.2 Collection Frequency
+- Real-time monitoring for social media mentions
+- Daily batch collection for review platforms
+- Weekly aggregation for trend analysis
+- Monthly deep-dive reports for strategic planning
+
+2.3 Data Quality
+- Remove duplicate reviews across platforms
+- Filter out bot-generated or incentivized reviews
+- Normalize rating scales (e.g., 1-5 stars vs. 1-10 scale)
+- Handle multilingual content with translation or multilingual models
+
+
+3. SENTIMENT CLASSIFICATION FRAMEWORK
+
+3.1 Three-Tier Sentiment Scale
+- Positive (score 0.6 to 1.0): Customer expresses satisfaction, praise, or recommendation
+- Neutral (score 0.4 to 0.6): Factual statement, mixed feelings, or balanced review
+- Negative (score 0.0 to 0.4): Customer expresses dissatisfaction, complaint, or warning
+
+3.2 Aspect-Based Sentiment Analysis (ABSA)
+Rather than assigning a single sentiment to an entire review, ABSA extracts sentiment for specific aspects:
+- Product Quality: materials, durability, performance, reliability
+- Customer Service: responsiveness, helpfulness, resolution speed
+- Pricing: value for money, competitiveness, hidden costs
+- Delivery: speed, packaging, tracking accuracy
+- User Experience: ease of use, design, functionality
+
+3.3 Emotion Detection
+Beyond positive/negative, identify specific emotions:
+- Joy / Excitement / Satisfaction (positive engagement)
+- Frustration / Anger / Disappointment (negative engagement)
+- Trust / Confidence (brand loyalty indicators)
+- Surprise (unexpected experiences, both good and bad)
+- Fear / Anxiety (concern about product safety or reliability)
+
+
+4. IN-DATABASE AI PROCESSING
+
+4.1 Why In-Database AI?
+Processing sentiment analysis inside the database (e.g., Oracle Autonomous Database with DBMS_CLOUD_AI) offers significant advantages:
+- Zero data movement: Reviews stay in the database, reducing latency and security risk
+- SQL integration: Sentiment scores become queryable columns alongside business data
+- Scalability: The database handles concurrent analysis of thousands of reviews
+- Consistency: A single model version ensures uniform scoring across all reviews
+
+4.2 Oracle Select AI Integration
+Select AI enables natural language queries over sentiment data:
+- "Show me negative trends for Nike this month"
+- "Which products have the lowest customer satisfaction?"
+- "Compare sentiment scores between Q3 and Q4"
+
+This democratizes data access — business users can query sentiment data without writing SQL.
+
+4.3 Vector Search for RAG
+Oracle's vector search capabilities enable Retrieval Augmented Generation (RAG):
+- Documents are chunked and embedded using models like Cohere Embed Multilingual v3.0
+- Vector indexes enable semantic similarity search across document collections
+- DBMS_CLOUD_AI.GENERATE with RAG action combines retrieval with generation
+- This enables natural language Q&A over corporate knowledge bases
+
+
+5. ALERT AND ESCALATION FRAMEWORK
+
+5.1 Severity Levels
+- Critical: Sudden spike in negative sentiment (>20% increase in 24 hours), viral negative post, product safety concern
+- High: Sustained negative trend over 7+ days, competitor gaining positive momentum, key aspect scoring below threshold
+- Medium: Moderate negative shift in specific aspect, increasing neutral-to-negative migration, seasonal pattern deviation
+- Low: Minor fluctuation within normal range, isolated negative reviews, expected seasonal variation
+
+5.2 Response Time Targets
+- Critical alerts: Acknowledge within 1 hour, action plan within 4 hours
+- High alerts: Review within 4 hours, action plan within 24 hours
+- Medium alerts: Review within 24 hours, action plan within 1 week
+- Low alerts: Include in weekly review cycle
+
+5.3 Automated Alert Triggers
+Configure automated monitoring for:
+- Sentiment score dropping below rolling 30-day average by more than 10%
+- Negative review volume exceeding 2x normal daily average
+- Specific keywords appearing in clusters (e.g., "recall", "dangerous", "broken")
+- Competitor sentiment improving while yours declines
+
+
+6. KEY PERFORMANCE INDICATORS (KPIs)
+
+6.1 Core Metrics
+- Overall Sentiment Score: Weighted average across all sources (target: >0.65)
+- Net Sentiment: (Positive% - Negative%) / Total reviews (target: >40%)
+- Aspect Satisfaction Matrix: Score per aspect per product line
+- Response Rate: Percentage of negative reviews addressed within SLA
+- Sentiment Velocity: Rate of change in sentiment over rolling periods
+
+6.2 Benchmarking
+- Compare against industry averages (retail: 0.62, tech: 0.58, food: 0.67)
+- Track relative performance vs. top 3 competitors
+- Monitor category-level trends for market context
+
+
+7. CONTINUOUS IMPROVEMENT
+
+- Retrain models quarterly with new labeled data
+- Review and update aspect taxonomies as product lines evolve
+- Conduct monthly accuracy audits comparing AI predictions to human labels
+- Gather feedback from business users on insight relevance and actionability
+- Update alert thresholds based on historical false positive/negative rates
