@@ -2,8 +2,8 @@
  
 This file covers code snippets for Oracle Property Graph, for the Explore Graph Model step.
 
-Reviewed: 2026.08.21
- 
+Reviewed: 21.08.2026
+
 
 # When to use this asset?
 

@@ -4,13 +4,10 @@ Discover how Oracle APEX and AI Vector Search can transform your document manage
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Reusable Assets Overview](#reusable-assets-overview)
-
-
-
-# #reusable-assets-overview
+# When to use this asset?
+ 
+ 
+# How to use this asset?
 
 1. First, you'll need to upload your documents on the Document Management page.
 

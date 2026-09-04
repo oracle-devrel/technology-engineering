@@ -2,6 +2,8 @@
 
 The Low Code specialization covers Oracle technologies and solution patterns that help teams build applications, automate workflows, modernize existing systems, and extend enterprise data with faster development cycles. This area focuses on Oracle APEX, generative development, and Oracle Forms modernization.
 
+Review Date: 03.09.2026
+
 # Useful Links
 
 - [Oracle APEX](apex/README.md)

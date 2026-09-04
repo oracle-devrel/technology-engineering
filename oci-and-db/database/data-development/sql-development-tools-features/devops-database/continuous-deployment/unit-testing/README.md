@@ -9,16 +9,6 @@ It allows for automated testing of Packages, Functions, Procedures, Triggers, Vi
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-- No team publications are currently listed.
-
 # Useful Links
 
 ## utPLSQL
@@ -34,10 +24,6 @@ Reviewed: 26.08.2026
 ## The Robot Framework (TRF)
 - [The Robot Framework Documentation](https://docs.robotframework.org/docs)
 - [TRF - Database Library](https://docs.robotframework.org/docs/different_libraries/database "Database Library is a Robot Framework library that provides keywords for interacting with databases.")
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

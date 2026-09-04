@@ -12,16 +12,6 @@ Below you'll find an index to all the sections available in this repository, alo
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-- No team publications are currently listed.
-
 # Useful Links
 
 To support your development journey, here are some valuable resources related to SQL and Oracle:
@@ -39,11 +29,7 @@ To support your development journey, here are some valuable resources related to
 - [SQL and Database explained! By Connor McDonald - YouTube Channel](https://www.youtube.com/@DatabaseDude)
 - [Learning is not a Spectator Sport - Connor McDonald Blog](https://connor-mcdonald.com)
 
-We hope you find these resources helpful in your SQL journey. If you have any questions or suggestions, please feel free to contribute or reach out to the team. Happy querying!
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
+We hope you find these resources helpful in your SQL journey. If you have any questions or suggestions, please feel free to contribute or create an issue in GitHub. Happy querying!
 
 # License
 

@@ -1,34 +1,18 @@
-# Globally Distributed Database Schema Design
-
-## Data Distribution Schema Design - Creating Sharded Tables
+# Globally Distributed Database Schema Design - Data Distribution and Creating Sharded Tables
 
 Sharded tables can be created in the following distribution methods:
 
 - <b>System-Managed Data Distribution</b>: data is automatically distributed across the shards using partitioning by consistent hash;
 
-- <b>User-Defined Data Distribution</b>: User explicitly maps data to individual shards. A sharded table in a user-defined distributed database can be partitioned by range or list and no tablespace sets are created;
+- <b>User-Defined Data Distribution</b>: User explicitly maps data to individual shards. A sharded table in a user-defined distributed database can be partitioned by range or list and no table space sets are created;
 
 - <b>Composite Data Distribution</b>: is a combining of the two previous methods. Composite data distribution method allows you to partition subsets of data that correspond to a range or list of key values in a table partitioned by consistent hash.
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-- No team publications are currently listed.
-
 # Useful Links
 
 - [Globally Distributed Database Schema Design](https://docs.oracle.com/en/database/oracle/oracle-database/23/shard/schema-design1.html)
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

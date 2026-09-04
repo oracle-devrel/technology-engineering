@@ -10,7 +10,7 @@ Key benefits of Oracle Globally Distributed Database:
 
 - Extreme Availability and Fault Isolation: The failure or slow-down of one shard does not affect the performance or availability of other shards. An unplanned outage or planned maintenance of a shard impacts only the availability of the data on that shard;
 
-- Geographical Distribution of Data:  Globally Distributed Database enables you to deploy a global database, where a single logical db could be distributed over multiple geographies, making it possible to satisfy data privacy regulatory requirements (Data Sovreignity) as well as allows to store particular data close to its consumers (Data Proximity).
+- Geographical Distribution of Data:  Globally Distributed Database enables you to deploy a global database, where a single logical db could be distributed over multiple geographies, making it possible to satisfy data privacy regulatory requirements (Data Sovereignty) as well as allows to store particular data close to its consumers (Data Proximity).
 
 Globally Distributed Database has a flexible deployment model, embracing the Shared-Nothing architecture. Because the database shards do not share any resources, the shards can exist anywhere on a variety of on-premises and cloud systems.
 
@@ -31,23 +31,9 @@ Oracle Globally Distributed Database automatically deploys the specified replica
 
 Reviewed: 26.08.2026
 
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
-# Team Publications
-
-- No team publications are currently listed.
-
 # Useful Links
 
 1. [Globally Distributed Database in 26ai](https://docs.oracle.com/en/database/oracle/oracle-database/26/shard/index.html)
-
-# Reusable Assets Overview
-
-No reusable assets are currently listed.
 
 # License
 

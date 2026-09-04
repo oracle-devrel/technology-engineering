@@ -1,9 +1,9 @@
-# Oracle Database @ Azure Cloud Operations
+# Oracle Database @ AWS Cloud Operations
 
-Reviewed: 2026-07-30
+Reviewed: 2026-09-03
 
 # Table of Contents  <!-- omit in toc --> 
-- [Oracle Database @ Azure Cloud Operations](#oracle-database--azure-cloud-operations)
+- [Oracle Database @ AWS Cloud Operations](#oracle-database--aws-cloud-operations)
 - [Team Publications](#team-publications)
 - [License](#license)
 

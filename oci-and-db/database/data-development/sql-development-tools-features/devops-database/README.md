@@ -6,7 +6,7 @@ The development lifecycle is the process of periodically: (Development)
 - Testing the result before releasing it to end users
 
 Every development team's goal: (Operations)
-- Steady, incremental progress against prioretized list of issues and ideas
+- Steady, incremental progress against prioritized list of issues and ideas
 - Delivering a few change requests at a time to end users
 - Through a series of high-quality releases on a regular cadence
 
