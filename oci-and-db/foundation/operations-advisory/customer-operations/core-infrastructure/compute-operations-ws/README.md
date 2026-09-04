@@ -2,19 +2,17 @@
 
 Reviewed: 2026-09-04
 
-# What is this asset
+# What is this asset?
 
 This workshop enables OCI users to run Compute Operations@Scale, related to Provisioning, Change, Maintenance, and Backup & Recovery.
-
-# When to use it
 
 For Cloud Operators, Admins, Architects, DevOps and Center of Excellence teams.
 
 Use it to know more about OCI Compute instances characteristics and typical Day 1 and Day 2 operations.
 
-# Team Publications
+# How to use this asset?
 
-- [OCI Compute Operations](./files/Public_Compute_Operations_v0.1.pdf)
+Read the workshop from the files folder [OCI Compute Operations.](./files/Public_Compute_Operations_v0.1.pdf)
   
 # License
 
