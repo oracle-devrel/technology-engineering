@@ -241,3 +241,8 @@ variable "tag_value" {
     definedTags  = map(string)
   })
 }
+
+variable "network_resource_suffix" {
+  type        = string
+  description = "Persistent eight-character UUID suffix used to make generated names and Karpenter network role tags unique to this stack."
+}
