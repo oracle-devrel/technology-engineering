@@ -1,3 +1,5 @@
+import { withBase } from '@/lib/withBase';
+
 const API_URL = '/api/mcp';
 
 /**
@@ -22,6 +24,14 @@ const API_URL = '/api/mcp';
 
 class MCPService {
   servers = new Map(); // serverId -> { config, sessionId, tools, initialized }
+
+  /**
+   * Drop cached runtime state for a server (e.g. after the user edits its
+   * endpoint or auth). Next listToolsFromServer will re-initialize from scratch.
+   */
+  resetServerState(serverId) {
+    this.servers.delete(serverId);
+  }
 
   /**
    * Build auth fields for the proxy request body
@@ -92,7 +102,7 @@ class MCPService {
       }
       throw new Error(data.error?.message || 'Unknown error');
     } catch (error) {
-      console.error(`[MCP] Initialize error for ${server.name}:`, error);
+      console.warn(`[MCP] Initialize error for ${server.name}:`, error.message);
       throw error;
     }
   }
@@ -104,8 +114,21 @@ class MCPService {
     try {
       let serverState = this.servers.get(server.id);
 
+      // Some MCP servers (e.g. Oracle Analytics) reject `initialize` with a
+      // -32700 / HTTP 400 even when their token is valid — they accept
+      // `tools/list` directly. So treat init as best-effort: if it fails, we
+      // still try tools/list. Real auth/transport problems will resurface there.
       if (!serverState?.initialized) {
-        await this.initializeServer(server);
+        try {
+          await this.initializeServer(server);
+        } catch (initErr) {
+          console.warn(`[MCP] initialize failed for ${server.name}, falling through to tools/list:`, initErr.message);
+          // Make sure subsequent calls don't re-attempt init endlessly.
+          const fallback = this.servers.get(server.id) || { config: server };
+          fallback.initialized = true;
+          fallback.sessionId = null;
+          this.servers.set(server.id, fallback);
+        }
         serverState = this.servers.get(server.id);
       }
 
@@ -126,7 +149,7 @@ class MCPService {
       }
       throw new Error(data.error?.message || 'No tools found');
     } catch (error) {
-      console.error(`[MCP] List tools error for ${server.name}:`, error);
+      console.warn(`[MCP] List tools error for ${server.name}:`, error.message);
       throw error;
     }
   }
@@ -178,7 +201,7 @@ class MCPService {
       }
       return data;
     } catch (error) {
-      console.error(`[MCP] Call tool error:`, error);
+      console.warn(`[MCP] Call tool error:`, error.message);
       throw error;
     }
   }
@@ -255,6 +278,36 @@ ${toolDescriptions}
    */
   static setServers(servers) {
     localStorage.setItem(this.STORAGE_KEYS.SERVERS, JSON.stringify(servers));
+  }
+
+  /**
+   * Build the `/api/mcp/oauth/authorize` URL for a given server, including the
+   * static OAuth params when the server uses `oauth2-user` (no dynamic
+   * registration). For `oauth2.1` only the endpoint is needed — the backend
+   * discovers everything from the MCP server's metadata.
+   *
+   * @param {MCPServer} server
+   * @param {string} returnTo Where to send the user once the flow completes
+   * @returns {string} Full URL ready for `window.location.href = ...`
+   */
+  static buildAuthorizeUrl(server, returnTo) {
+    // Defensive: callers resolve the server from localStorage and may come up
+    // empty (e.g. pseudo-servers). Land on Settings → Tools instead of crashing.
+    if (!server?.endpoint) return withBase('/settings/tools');
+    const qs = new URLSearchParams();
+    qs.set('endpoint', server.endpoint);
+    qs.set('returnTo', returnTo);
+    if (server.authType === 'oauth2-user' && server.oauth) {
+      if (server.oauth.clientId)     qs.set('clientId',     server.oauth.clientId);
+      if (server.oauth.clientSecret) qs.set('clientSecret', server.oauth.clientSecret);
+      if (server.oauth.authorizeUrl) qs.set('authorizeUrl', server.oauth.authorizeUrl);
+      if (server.oauth.tokenUrl)     qs.set('tokenUrl',     server.oauth.tokenUrl);
+      if (server.oauth.scope)        qs.set('scope',        server.oauth.scope);
+    }
+    // withBase: this URL drives window.location (not fetch), so it needs the
+    // deployment prefix to stay routable. The server-side needs_auth path in
+    // /api/mcp/route.js prefixes its own copy via basePrefix() instead.
+    return withBase(`/api/mcp/oauth/authorize?${qs.toString()}`);
   }
 
   /**
