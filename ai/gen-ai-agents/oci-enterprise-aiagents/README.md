@@ -2,6 +2,8 @@
 
 Build, orchestrate, and run **production-grade AI agents** on Oracle Cloud Infrastructure (OCI).
 
+Reviewed: 04.08.2026
+
 OCI Enterprise AI Agents (formerly *Agent Hub*) is Oracle’s fully managed platform for designing, deploying, and operating **enterprise-ready, tool-using, multi-step AI agents** with built-in orchestration, memory, governance, and observability.
 
 ---
