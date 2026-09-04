@@ -1,4 +1,3 @@
-import base64
 import time
 from datetime import datetime
 
@@ -6,6 +5,13 @@ import backend.backend as backend
 import backend.config as config
 import streamlit as st
 
+# Page Config
+st.set_page_config(
+    page_title="Oracle LLM Comparison",
+    page_icon="🏛️",
+    layout="wide",
+    # initial_sidebar_state="expanded",
+)
 
 # Load external CSS
 def local_css(file_name):
@@ -14,25 +20,6 @@ def local_css(file_name):
 
 
 local_css("static/styles.css")
-
-
-# Convert image to base64
-def get_base64_of_image(path):
-    try:
-        with open(path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode()
-    except FileNotFoundError:
-        st.error(f"Logo file not found: {path}")
-        return ""
-
-
-# Page Config
-st.set_page_config(
-    page_title="Oracle LLM Comparison",
-    page_icon="🏛️",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
 
 # Session State Initialization
 if "responses" not in st.session_state:
@@ -48,11 +35,9 @@ if "prev_finetuned_model" not in st.session_state:
     st.session_state.prev_finetuned_model = None
 
 # Header
-logo_image = "data:image/png;base64,{}".format(get_base64_of_image("static/oracle.png"))
 st.markdown(
-    f"""
+"""
 <div class="main-header">
-    <img src="{logo_image}" class="oracle-logo" alt="Oracle Logo">
     <h1>LLM Performance Comparator</h1>
     <p>From base to tuned - measure, compare, decide.</p>
 </div>

@@ -5,7 +5,8 @@ A Streamlit-based multimodal application that analyzes **vehicle images or video
 This tool allows insurance professionals and adjusters to upload accident images or a short video clip, and receive a concise, expert-style report summarizing vehicle condition, visible damages, and safety concerns — all generated through a single multimodal LLM call.
 
 **Author:** Ali Ottoman  
-**Reviewed date:** 19.01.2026
+
+**Reviewed date:** 04.08.2026
 
 ---
 
