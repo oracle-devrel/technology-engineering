@@ -1,5 +1,7 @@
 # OCI GenAI Video Analysis Studio
 
+Reviewed: 04.08.2026
+
 ## Publication Status
 
 - Confidentiality: Public
@@ -30,4 +32,4 @@ OCI GenAI Video Analysis Studio is an example local web application for analyzin
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
-Released under the Universal Permissive License v1.0. See [LICENSE](./LICENSE).
+Released under the Universal Permissive License v1.0. See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt).
