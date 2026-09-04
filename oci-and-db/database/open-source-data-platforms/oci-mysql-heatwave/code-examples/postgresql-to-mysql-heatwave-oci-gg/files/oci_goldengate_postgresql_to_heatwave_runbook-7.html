@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OCI GoldenGate: PostgreSQL to MySQL HeatWave - Initial Load and CDC Runbook</title>
+<style>
+:root { --ink:#17202a; --muted:#5d6d7e; --line:#d5d8dc; --bg:#f7f9fb; --card:#fff; --accent:#8b1a1a; --ok:#176b3a; --warn:#8a5a00; }
+*{box-sizing:border-box} body{font-family:Arial,Helvetica,sans-serif;margin:0;color:var(--ink);background:var(--bg);line-height:1.5}
+header{background:#1f2933;color:white;padding:34px 7vw 28px;border-bottom:5px solid #c74634}
+header h1{margin:0 0 8px;font-size:30px} header p{margin:4px 0;color:#e5e7eb}
+main{max-width:1180px;margin:24px auto;padding:0 22px 50px}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;margin:18px 0}
+h2{border-bottom:2px solid #eee;padding-bottom:8px;margin-top:0} h3{margin-top:24px}
+code,pre{font-family:Consolas,Menlo,monospace} pre{background:#111827;color:#f3f4f6;padding:15px;border-radius:7px;overflow:auto;white-space:pre-wrap}
+table{width:100%;border-collapse:collapse;margin:12px 0 18px} th,td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top} th{background:#eef2f5}
+.ok{color:var(--ok);font-weight:bold}.warn{color:var(--warn);font-weight:bold}
+.flow{background:#f4f6f7;border-left:5px solid #c74634;padding:15px;font-family:Consolas,monospace;white-space:pre-wrap}
+.note{background:#fff8e7;border:1px solid #efd38a;padding:12px 14px;border-radius:7px}
+.good{background:#eef9f1;border:1px solid #a9d7b5;padding:12px 14px;border-radius:7px}
+.small{font-size:13px;color:var(--muted)}
+ol li,ul li{margin:6px 0}
+</style>
+</head>
+<body>
+<header>
+<h1>OCI GoldenGate: PostgreSQL → MySQL HeatWave</h1>
+<p>Implementation Runbook — Clone/Bulk Initial Load + GoldenGate Change Data Capture (CDC)</p>
+<p>Environment validated during the August 2026 POC</p>
+</header>
+<main>
+
+<section>
+<h2>1. Mandatory Implementation Sequence</h2>
+<p>This section defines the required execution order for the PostgreSQL → OCI GoldenGate → MySQL HeatWave migration. The main procedure uses a PostgreSQL clone/snapshot for the bulk Initial Load and OCI GoldenGate for CDC.</p>
+<div class="flow">1. Initialize source PostgreSQL application objects
+2. Complete mandatory PostgreSQL logical-replication, access, publication and replica-identity configuration
+3. Prepare GoldenGate administrative schemas
+4. Create OCI GoldenGate deployments
+4. Create and assign PostgreSQL/MySQL DB connections
+5. Prepare HeatWave target DDL and checkpoint table
+6. Prepare PostgreSQL publication + replica identity
+7. Establish CDC and clone baseline during brief write pause
+8. Resume writes; CDC accumulates changes
+9. Export clone and bulk-load HeatWave in FK order
+10. Validate Initial Load
+11. Start CDC Replicat at the baseline
+12. Catch up, test INSERT/UPDATE/DELETE, validate
+13. Cut over</div>
+</section>
+
+<section>
+<h2>2. Mandatory Step 1 — Initialize Source PostgreSQL</h2>
+<p>Run the application initialization against <code>mydb01</code> before GoldenGate setup. The complete executable script is provided in <b>Appendix A</b>.</p>
+<p>The required source application structure is:</p>
+<div class="flow">ggdemo.customers
+      |
+      | customer_id
+      v
+ggdemo.orders
+      |
+      | order_id
+      v
+ggdemo.order_items</div>
+<p>Baseline test data: 5 customers, 5 orders and 6 order items.</p>
+</section>
+
+<section>
+<h2>3. Mandatory Step 2 — Prepare GoldenGate Administrative Namespace</h2>
+<p>The deployment <code>GLOBALS</code> file uses:</p>
+<pre>GGSCHEMA ggadmin</pre>
+<p><code>GGSCHEMA</code> identifies the namespace used by GoldenGate; it does not create it automatically.</p>
+<h3>PostgreSQL</h3>
+<pre>CREATE SCHEMA IF NOT EXISTS ggadmin;
+GRANT USAGE, CREATE ON SCHEMA ggadmin TO admin;</pre>
+<h3>MySQL HeatWave</h3>
+<pre>CREATE DATABASE IF NOT EXISTS ggadmin;</pre>
+<p>Grant the database user behind the <code>mysql01</code> GoldenGate connection the required privileges on <code>ggadmin</code> and the target application database.</p>
+</section>
+
+
+<section>
+<h2>3A. Mandatory PostgreSQL Configuration Requirements</h2>
+<p>Complete these PostgreSQL prerequisites <b>before creating or starting the CDC Extract</b>. They are required so OCI GoldenGate can connect, use logical decoding, identify the replicated tables, and retain/process the required WAL.</p>
+
+<h3>3A.1 Database and network prerequisites</h3>
+<ul>
+<li>The application database (for this POC, <code>mydb01</code>) must exist and be reachable from the GoldenGate PostgreSQL connection on TCP/5432.</li>
+<li>Configure PostgreSQL access controls so the GoldenGate connection/private endpoint address is permitted. The POC initially failed with <code>no pg_hba.conf entry</code> until the GoldenGate source address was allowed.</li>
+<li>Use TLS/SSL as required by OCI PostgreSQL. The validated POC connection used <code>sslmode=require</code>.</li>
+</ul>
+
+<h3>3A.2 Logical replication / WAL requirements</h3>
+<p>GoldenGate PostgreSQL CDC uses PostgreSQL logical replication and the <code>pgoutput</code> plugin. Verify the database/service is configured to support logical replication and has sufficient replication-slot/WAL-sender capacity for the GoldenGate Extract.</p>
+<pre>SHOW wal_level;
+SHOW max_replication_slots;
+SHOW max_wal_senders;</pre>
+<p>Expected intent:</p>
+<table>
+<tr><th>Parameter</th><th>Requirement</th></tr>
+<tr><td><code>wal_level</code></td><td>Must support logical replication (normally <code>logical</code>).</td></tr>
+<tr><td><code>max_replication_slots</code></td><td>Must have capacity for the GoldenGate logical replication slot.</td></tr>
+<tr><td><code>max_wal_senders</code></td><td>Must have capacity for logical replication/GoldenGate streaming.</td></tr>
+</table>
+
+<h3>3A.3 GoldenGate administrative schema</h3>
+<p>The deployment <code>GLOBALS</code> file contains <code>GGSCHEMA ggadmin</code>, but that parameter does not create the PostgreSQL schema. Create it explicitly:</p>
+<pre>CREATE SCHEMA IF NOT EXISTS ggadmin;
+GRANT USAGE, CREATE ON SCHEMA ggadmin TO admin;</pre>
+
+<h3>3A.4 Application tables must have stable keys</h3>
+<p>Each replicated table should have a primary key or another appropriate unique key that GoldenGate can use to identify rows. The POC tables use:</p>
+<table>
+<tr><th>Table</th><th>Primary key</th></tr>
+<tr><td><code>ggdemo.customers</code></td><td><code>customer_id</code></td></tr>
+<tr><td><code>ggdemo.orders</code></td><td><code>order_id</code></td></tr>
+<tr><td><code>ggdemo.order_items</code></td><td><code>order_item_id</code></td></tr>
+</table>
+
+<h3>3A.5 Create the PostgreSQL publication</h3>
+<pre>CREATE PUBLICATION gg_pub
+FOR TABLE
+    ggdemo.customers,
+    ggdemo.orders,
+    ggdemo.order_items;</pre>
+<p>Verify:</p>
+<pre>SELECT pubname, puballtables
+FROM pg_publication;
+
+SELECT schemaname, tablename
+FROM pg_publication_tables
+WHERE pubname = 'gg_pub'
+ORDER BY schemaname, tablename;</pre>
+
+<h3>3A.6 Configure replica identity / GoldenGate TRANDATA requirements</h3>
+<p>The POC received <code>OGG-25513</code> when <code>ggdemo.customers</code> used <code>REPLICA IDENTITY DEFAULT</code>. For the POC, configure full replica identity for the replicated tables before testing UPDATE/DELETE:</p>
+<pre>ALTER TABLE ggdemo.customers REPLICA IDENTITY FULL;
+ALTER TABLE ggdemo.orders REPLICA IDENTITY FULL;
+ALTER TABLE ggdemo.order_items REPLICA IDENTITY FULL;</pre>
+<p>Verify:</p>
+<pre>SELECT
+    n.nspname AS schema_name,
+    c.relname AS table_name,
+    c.relreplident AS replica_identity
+FROM pg_class c
+JOIN pg_namespace n
+  ON n.oid = c.relnamespace
+WHERE n.nspname = 'ggdemo'
+  AND c.relname IN ('customers','orders','order_items')
+ORDER BY c.relname;</pre>
+<p>For this query, <code>relreplident = 'f'</code> indicates FULL replica identity.</p>
+
+<h3>3A.7 Verify GoldenGate logical replication slot after Extract registration/start</h3>
+<p>After the CDC Extract is registered/started, verify that PostgreSQL shows the GoldenGate logical replication slot:</p>
+<pre>SELECT
+    slot_name,
+    plugin,
+    slot_type,
+    database,
+    active,
+    restart_lsn,
+    confirmed_flush_lsn
+FROM pg_replication_slots
+ORDER BY slot_name;</pre>
+<p>The GoldenGate slot should use the logical slot type and <code>pgoutput</code> plugin and should be associated with <code>mydb01</code>.</p>
+
+<h3>3A.8 Mandatory pre-CDC validation</h3>
+<table>
+<tr><th>Check</th><th>Required result</th></tr>
+<tr><td>GoldenGate DB connection</td><td>Application-level connectivity test succeeds</td></tr>
+<tr><td>TLS</td><td>Connection succeeds with required SSL mode</td></tr>
+<tr><td>Logical replication</td><td>Enabled/sufficient capacity</td></tr>
+<tr><td><code>ggadmin</code></td><td>Schema exists and GoldenGate user has required access</td></tr>
+<tr><td>Primary/unique keys</td><td>Available for replicated tables</td></tr>
+<tr><td><code>gg_pub</code></td><td>Contains all replicated tables</td></tr>
+<tr><td>Replica identity</td><td>Configured for required UPDATE/DELETE capture</td></tr>
+<tr><td>Replication slot</td><td>Created/active when CDC Extract is running</td></tr>
+</table>
+<div class="good"><b>Do not proceed to the clone/CDC baseline until these PostgreSQL prerequisites pass.</b></div>
+</section>
+
+<section>
+<h2>4. Mandatory Step 3 — Create OCI GoldenGate Deployments</h2>
+<ol>
+<li>Create the source deployment with deployment type <b>PostgreSQL</b>.</li>
+<li>Create the target deployment with deployment type <b>MySQL</b>.</li>
+<li>Place the deployments in the required VCN/private subnet and ensure sufficient free subnet IP addresses for managed endpoints.</li>
+<li>Verify console access and TCP/443 connectivity according to the selected private-network design.</li>
+</ol>
+<div class="note"><b>POC lesson:</b> a /25 subnet exhausted all 125 usable addresses and prevented creation of another private endpoint. Size the subnet before creating deployments/connections.</div>
+</section>
+
+<section>
+<h2>5. Mandatory Step 4 — Create and Assign Database Connections</h2>
+<h3>PostgreSQL source connection</h3>
+<table>
+<tr><th>Setting</th><th>Value</th></tr>
+<tr><td>Type</td><td>OCI PostgreSQL</td></tr>
+<tr><td>Database</td><td>mydb01</td></tr>
+<tr><td>Port</td><td>5432</td></tr>
+<tr><td>Security</td><td>TLS / SSL mode Require</td></tr>
+<tr><td>Deployment DB alias</td><td>pg</td></tr>
+</table>
+<p>Assign the connection to the PostgreSQL GoldenGate deployment and verify application-level connectivity.</p>
+
+<h3>MySQL HeatWave target connection</h3>
+<table>
+<tr><th>Setting</th><th>Value</th></tr>
+<tr><td>Endpoint</td><td>10.21.149.103:3306</td></tr>
+<tr><td>Database</td><td>mydb01</td></tr>
+<tr><td>Deployment DB alias</td><td>mysql01</td></tr>
+</table>
+<p>Assign the connection to the MySQL GoldenGate deployment and verify connectivity.</p>
+
+<h3>Path credential</h3>
+<p>In the GoldenGate deployment console create/use the Path Connection credential in the <code>Network</code> domain for deployment-to-deployment WSS authentication.</p>
+</section>
+
+<section>
+<h2>6. Mandatory Step 5 — Prepare HeatWave Target Objects</h2>
+<p>Create the target <code>ggdemo</code> database and compatible tables before bulk loading. Keep the PK/FK constraints in place for the recommended clone/bulk-load approach.</p>
+<h3>HeatWave table creation script used for the POC</h3>
+<p>Create the target application database and tables before running the Initial Load or importing the clone/snapshot data. The definitions below match the PostgreSQL test tables used in this runbook.</p>
+<pre>CREATE DATABASE IF NOT EXISTS ggdemo;
+USE ggdemo;
+
+CREATE TABLE customers (
+    customer_id     BIGINT NOT NULL,
+    customer_name   VARCHAR(100) NOT NULL,
+    email           VARCHAR(200),
+    city            VARCHAR(100),
+    country         VARCHAR(100),
+    status          VARCHAR(20) DEFAULT 'ACTIVE',
+    created_at      TIMESTAMP(6) NULL,
+    updated_at      TIMESTAMP(6) NULL,
+    PRIMARY KEY (customer_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE orders (
+    order_id        BIGINT NOT NULL,
+    customer_id     BIGINT NOT NULL,
+    order_date      TIMESTAMP(6) NULL,
+    amount          DECIMAL(12,2) NOT NULL,
+    currency        VARCHAR(3) DEFAULT 'GBP',
+    status          VARCHAR(30) DEFAULT 'NEW',
+    description     VARCHAR(500),
+    PRIMARY KEY (order_id),
+    CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customers(customer_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE order_items (
+    order_item_id   BIGINT NOT NULL,
+    order_id        BIGINT NOT NULL,
+    product_name    VARCHAR(200) NOT NULL,
+    quantity        INT NOT NULL,
+    unit_price      DECIMAL(12,3) NOT NULL,
+    PRIMARY KEY (order_item_id),
+    CONSTRAINT fk_order_items_order
+        FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+) ENGINE=InnoDB;</pre>
+
+<p>Verify the target structure:</p>
+<pre>USE ggdemo;
+SHOW TABLES;
+SHOW CREATE TABLE customers;
+SHOW CREATE TABLE orders;
+SHOW CREATE TABLE order_items;</pre>
+
+<h3>Create the Replicat checkpoint table in the GoldenGate console</h3>
+<ol>
+<li>Launch the <b>MySQL GoldenGate deployment console</b>.</li>
+<li>Open <b>DB Connections</b>.</li>
+<li>Locate/open <code>mysql01</code>.</li>
+<li>Click the <b>+</b> control for <b>Checkpoint Table</b>.</li>
+<li>Create <code>ggadmin.checkpoint</code>.</li>
+<li>Verify the checkpoint table is listed under the DB connection.</li>
+</ol>
+<p>Do not manually create the GoldenGate checkpoint-table structure with SQL.</p>
+</section>
+
+<section>
+<h2>7. Mandatory Step 6 — Validate PostgreSQL CDC Readiness</h2>
+<p>Create the publication after the application tables exist:</p>
+<pre>CREATE PUBLICATION gg_pub
+FOR TABLE
+    ggdemo.customers,
+    ggdemo.orders,
+    ggdemo.order_items;</pre>
+<p>Configure replica identity for reliable UPDATE/DELETE capture:</p>
+<pre>ALTER TABLE ggdemo.customers REPLICA IDENTITY FULL;
+ALTER TABLE ggdemo.orders REPLICA IDENTITY FULL;
+ALTER TABLE ggdemo.order_items REPLICA IDENTITY FULL;</pre>
+<p>Verify:</p>
+<pre>SELECT schemaname, tablename
+FROM pg_publication_tables
+WHERE pubname = 'gg_pub'
+ORDER BY schemaname, tablename;</pre>
+</section>
+
+<section>
+<h2>8. Mandatory Step 7 — Establish the Clone and CDC Baseline</h2>
+<p>This is the synchronization point between Initial Load and CDC.</p>
+<ol>
+<li>Briefly stop application writes to production PostgreSQL.</li>
+<li>Create/start the CDC Extract and verify that its logical replication slot and trail are active.</li>
+<li>Create the PostgreSQL clone/snapshot while writes remain paused.</li>
+<li>Record the clone/snapshot point and retain the GoldenGate CDC state.</li>
+<li>Resume production writes immediately after the clone baseline is established.</li>
+</ol>
+<p>After writes resume, GoldenGate continues capturing every new committed change while the Initial Load is performed from the stable clone.</p>
+<div class="flow">PAUSE WRITES
+   |
+Start/verify CDC
+   |
+Create PG clone baseline
+   |
+RESUME WRITES
+   |
+   +---- production changes -> WAL -> CDC trail
+   |
+PG clone -> bulk export/import -> HeatWave baseline</div>
+</section>
+
+<section>
+<h2>9. Mandatory Step 8 — Create the CDC Extract and Distribution Path</h2>
+<h3>CDC Extract</h3>
+<pre>EXTRACT EXTCDC
+USERIDALIAS pg DOMAIN OracleGoldenGate
+EXTTRAIL dirdat/c1
+TRANLOGOPTIONS STREAMINGOPTIONS (publication_names="gg_pub";)
+TABLE ggdemo.*;</pre>
+<p>The publication defines the participating tables; PostgreSQL WAL contains the changes; the logical replication slot tracks the consumer position; GoldenGate writes those changes into trail <code>C1</code>.</p>
+
+<h3>CDC Distribution Path</h3>
+<table>
+<tr><th>Setting</th><th>Value</th></tr>
+<tr><td>Source trail</td><td>dirdat/c1</td></tr>
+<tr><td>Target protocol</td><td>WSS</td></tr>
+<tr><td>Target</td><td>MySQL GoldenGate Receiver Service</td></tr>
+<tr><td>Target trail</td><td>dirdat/c1</td></tr>
+<tr><td>Authentication</td><td>Network Path Connection</td></tr>
+</table>
+<p>Verify the path remains Running and that the target trail is being received.</p>
+</section>
+
+<section>
+<h2>10. Mandatory Step 9 — Perform the Initial Load from the PostgreSQL Clone</h2>
+<p>Export from the clone, not the live production source. For the POC schema, CSV is sufficient.</p>
+<pre>\copy (SELECT * FROM ggdemo.customers ORDER BY customer_id)
+TO '/tmp/customers.csv' CSV HEADER;
+
+\copy (SELECT * FROM ggdemo.orders ORDER BY order_id)
+TO '/tmp/orders.csv' CSV HEADER;
+
+\copy (SELECT * FROM ggdemo.order_items ORDER BY order_item_id)
+TO '/tmp/order_items.csv' CSV HEADER;</pre>
+<p>Load into HeatWave using MySQL Shell <code>util.importTable()</code> in mandatory FK dependency order:</p>
+<div class="flow">1. customers
+      |
+      v
+2. orders
+      |
+      v
+3. order_items</div>
+<p>This allows the foreign keys to remain enabled.</p>
+</section>
+
+<section>
+<h2>11. Mandatory Step 10 — Validate the Initial Load</h2>
+<p>Compare source-clone and HeatWave counts and representative records:</p>
+<pre>SELECT COUNT(*) FROM ggdemo.customers;
+SELECT COUNT(*) FROM ggdemo.orders;
+SELECT COUNT(*) FROM ggdemo.order_items;</pre>
+<p>Also validate that no orphaned orders or order items exist before proceeding to CDC apply.</p>
+</section>
+
+<section>
+<h2>12. Mandatory Step 11 — Create and Start the CDC Replicat</h2>
+<p>Create a Classic Apply Replicat such as <code>REPCDC</code>, select the CDC target trail <code>C1</code>, DB alias <code>mysql01</code>, and checkpoint table <code>ggadmin.checkpoint</code>.</p>
+<pre>REPLICAT REPCDC
+USERIDALIAS mysql01 DOMAIN OracleGoldenGate
+MAP ggdemo.*, TARGET ggdemo.*;</pre>
+<p>Start the Replicat from the CDC baseline/instantiation position corresponding to the clone point. Let it catch up until lag is acceptable/zero.</p>
+</section>
+
+<section>
+<h2>13. Mandatory Step 12 — Validate CDC</h2>
+<p>Execute a controlled INSERT, UPDATE and DELETE on PostgreSQL and verify the same operations are applied in HeatWave.</p>
+<table>
+<tr><th>Validated table</th><th>Insert</th><th>Update</th><th>Delete</th><th>Discards</th></tr>
+<tr><td>ggdemo.customers</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>ggdemo.orders</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>ggdemo.order_items</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+</table>
+<p class="good"><b>POC result:</b> the CDC Replicat successfully applied INSERT, UPDATE and DELETE for all three tables with zero discards.</p>
+</section>
+
+<section>
+<h2>14. Mandatory Step 13 — Final Operating State</h2>
+<div class="flow">Production PostgreSQL
+   |
+   | gg_pub / pgoutput
+   v
+EXTCDC
+   |
+   v
+C1
+   |
+   v
+CDC Distribution Path
+   |
+   v
+C1 on MySQL GG
+   |
+   v
+REPCDC
+   |
+   v
+MySQL HeatWave</div>
+<p>The clone is temporary and can be removed after migration validation and the rollback window. The permanent GoldenGate processes are the CDC Extract, CDC Distribution Path and CDC Replicat.</p>
+</section>
+
+<section>
+<h2>15. Mandatory Validation Checklist</h2>
+<ol>
+<li>Source <code>ggdemo</code> tables and baseline data exist.</li>
+<li>PostgreSQL logical replication/WAL settings have sufficient capacity for GoldenGate.</li>
+<li>PostgreSQL network/access control permits the GoldenGate source connection.</li>
+<li>Replicated tables have appropriate primary/unique keys.</li>
+<li><code>ggadmin</code> exists on PostgreSQL and HeatWave.</li>
+<li>PG and MySQL GoldenGate deployments are Active.</li>
+<li>DB connections <code>pg</code> and <code>mysql01</code> pass connectivity tests.</li>
+<li><code>ggadmin.checkpoint</code> was created from the MySQL GoldenGate console.</li>
+<li><code>gg_pub</code> contains all three source tables.</li>
+<li>Replica identity/TRANDATA is suitable for UPDATE/DELETE.</li>
+<li>CDC Extract and Distribution Path are Running.</li>
+<li>Clone baseline was established before source writes resumed.</li>
+<li>Clone data was loaded to HeatWave in FK order.</li>
+<li>Initial Load counts and referential integrity match.</li>
+<li>REPCDC is Running and caught up.</li>
+<li>INSERT/UPDATE/DELETE tests pass with zero discards.</li>
+</ol>
+</section>
+
+<section>
+<h2>Appendix A — PostgreSQL First-Start Application Initialization Script</h2>
+<p>This appendix contains the standalone source initialization script for the POC application schema. Run it against PostgreSQL database <code>mydb01</code> before configuring the GoldenGate publication and CDC Extract. It creates only the <code>ggdemo</code> application schema, the three related tables, and the baseline sample data.</p>
+
+<h3>A.1 Complete PostgreSQL initialization script</h3>
+<pre>-- ============================================================
+-- PostgreSQL Source Initialization
+-- Database: mydb01
+-- Schema:   ggdemo
+--
+-- Tables:
+--   1. customers
+--   2. orders
+--   3. order_items
+-- ============================================================
+
+-- 1. Create application schema
+CREATE SCHEMA IF NOT EXISTS ggdemo;
+
+
+-- ============================================================
+-- 2. CUSTOMERS
+-- Parent table
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS ggdemo.customers (
+    customer_id     BIGINT PRIMARY KEY,
+    customer_name   VARCHAR(100) NOT NULL,
+    email           VARCHAR(200),
+    city            VARCHAR(100),
+    country         VARCHAR(100),
+    status          VARCHAR(20) DEFAULT 'ACTIVE',
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- ============================================================
+-- 3. ORDERS
+-- Child of customers
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS ggdemo.orders (
+    order_id        BIGINT PRIMARY KEY,
+    customer_id     BIGINT NOT NULL,
+    order_date      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount          NUMERIC(12,2) NOT NULL,
+    currency        VARCHAR(3) DEFAULT 'GBP',
+    status          VARCHAR(30) DEFAULT 'NEW',
+    description     VARCHAR(500),
+
+    CONSTRAINT fk_orders_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES ggdemo.customers(customer_id)
+);
+
+
+-- ============================================================
+-- 4. ORDER_ITEMS
+-- Child of orders
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS ggdemo.order_items (
+    order_item_id   BIGINT PRIMARY KEY,
+    order_id        BIGINT NOT NULL,
+    product_name    VARCHAR(200) NOT NULL,
+    quantity        INTEGER NOT NULL,
+    unit_price      NUMERIC(12,3) NOT NULL,
+
+    CONSTRAINT fk_order_items_order
+        FOREIGN KEY (order_id)
+        REFERENCES ggdemo.orders(order_id)
+);
+
+
+-- ============================================================
+-- 5. Sample Customers
+-- ============================================================
+
+INSERT INTO ggdemo.customers
+(
+    customer_id,
+    customer_name,
+    email,
+    city,
+    country,
+    status
+)
+VALUES
+    (1001, 'Alice Smith',
+     'alice@example.com',
+     'London', 'UK', 'ACTIVE'),
+
+    (1002, 'Bob Johnson',
+     'bob@example.com',
+     'Manchester', 'UK', 'ACTIVE'),
+
+    (1003, 'Carol Brown',
+     'carol@example.com',
+     'Edinburgh', 'UK', 'ACTIVE'),
+
+    (1004, 'David Wilson',
+     'david@example.com',
+     'Birmingham', 'UK', 'ACTIVE'),
+
+    (1005, 'Emma Davis',
+     'emma@example.com',
+     'Leeds', 'UK', 'ACTIVE')
+ON CONFLICT (customer_id) DO NOTHING;
+
+
+-- ============================================================
+-- 6. Sample Orders
+-- ============================================================
+
+INSERT INTO ggdemo.orders
+(
+    order_id,
+    customer_id,
+    amount,
+    currency,
+    status,
+    description
+)
+VALUES
+    (5001, 1001, 125.50, 'GBP',
+     'NEW', 'Laptop bag'),
+
+    (5002, 1002, 250.00, 'GBP',
+     'PROCESSING', 'Monitor'),
+
+    (5003, 1003, 75.25, 'GBP',
+     'SHIPPED', 'Keyboard and mouse'),
+
+    (5004, 1004, 999.99, 'GBP',
+     'NEW', 'Laptop'),
+
+    (5005, 1005, 49.95, 'GBP',
+     'DELIVERED', 'Headset')
+ON CONFLICT (order_id) DO NOTHING;
+
+
+-- ============================================================
+-- 7. Sample Order Items
+-- ============================================================
+
+INSERT INTO ggdemo.order_items
+(
+    order_item_id,
+    order_id,
+    product_name,
+    quantity,
+    unit_price
+)
+VALUES
+    (6001, 5001, 'Laptop Bag',
+     1, 125.500),
+
+    (6002, 5002, 'Monitor',
+     1, 250.000),
+
+    (6003, 5003, 'Keyboard',
+     1, 45.250),
+
+    (6004, 5003, 'Mouse',
+     1, 30.000),
+
+    (6005, 5004, 'Laptop',
+     1, 999.990),
+
+    (6006, 5005, 'Headset',
+     1, 49.950)
+ON CONFLICT (order_item_id) DO NOTHING;
+
+
+-- ============================================================
+-- 8. Validation
+-- ============================================================
+
+SELECT COUNT(*) AS customer_count
+FROM ggdemo.customers;
+
+SELECT COUNT(*) AS order_count
+FROM ggdemo.orders;
+
+SELECT COUNT(*) AS order_item_count
+FROM ggdemo.order_items;
+
+
+SELECT *
+FROM ggdemo.customers
+ORDER BY customer_id;
+
+SELECT *
+FROM ggdemo.orders
+ORDER BY order_id;
+
+SELECT *
+FROM ggdemo.order_items
+ORDER BY order_item_id;</pre>
+
+<h3>A.2 Expected baseline</h3>
+<table>
+<tr><th>Table</th><th>Expected rows</th></tr>
+<tr><td><code>ggdemo.customers</code></td><td>5</td></tr>
+<tr><td><code>ggdemo.orders</code></td><td>5</td></tr>
+<tr><td><code>ggdemo.order_items</code></td><td>6</td></tr>
+</table>
+
+<h3>A.3 Referential hierarchy</h3>
+<div class="flow">ggdemo.customers
+      |
+      | customer_id
+      v
+ggdemo.orders
+      |
+      | order_id
+      v
+ggdemo.order_items</div>
+
+<p class="note"><b>Next step:</b> after this application initialization is complete, create the GoldenGate administrative schema separately, configure the PostgreSQL publication/replica identity, and then create the CDC Extract. Those steps are documented in the main body of this runbook.</p>
+</section>
+
+<section>
+<h2>Appendix B — Alternative Initial Load Approaches</h2>
+<h3>B.1 GoldenGate SOURCEISTABLE Initial Load</h3>
+<p>This approach was successfully demonstrated in the POC but is not the primary procedure in this runbook because FK-dependent child rows can be encountered before parent rows.</p>
+<pre>EXTRACT EXTIL
+USERIDALIAS pg DOMAIN OracleGoldenGate
+EXTFILE dirdat/I1, PURGE
+TABLE ggdemo.*;</pre>
+<p>Typical flow:</p>
+<div class="flow">EXTIL -> I1 -> IL Distribution Path -> I1 -> REPIL -> HeatWave</div>
+<p>POC result: 6 customers, 5 orders and 6 order_items were eventually applied with zero discards after resolving checkpoint/FK-order issues.</p>
+
+<h3>B.2 Dependency-ordered GoldenGate Initial Load</h3>
+<p>If GoldenGate must perform the Initial Load while foreign keys remain enabled, split the load into dependency levels:</p>
+<div class="flow">customers complete
+      |
+orders complete
+      |
+order_items complete</div>
+<p>This preserves FK ordering but increases operational complexity compared with clone + bulk load.</p>
+
+<h3>B.3 Direct export from production PostgreSQL</h3>
+<p>CSV can be exported directly from production instead of a clone, but a transactionally consistent snapshot and CDC handoff must be engineered carefully. The clone approach isolates bulk export workload and provides a stable baseline.</p>
+</section>
+
+<section>
+<h2>Appendix C — Troubleshooting Observed During the POC</h2>
+<ul>
+<li><b>OGG-30582:</b> pgoutput Extract requires <code>publication_names</code>.</li>
+<li><b>OGG-10141:</b> <code>STREAMINGOPTIONS</code> must be nested under <code>TRANLOGOPTIONS</code>.</li>
+<li><b>OGG-10400:</b> deployment hostname/DNS or WSS endpoint issue.</li>
+<li><b>OGG-10388:</b> WSS connection timeout.</li>
+<li><b>Moved Temporarily:</b> endpoint returned an HTTP redirect instead of direct WebSocket upgrade.</li>
+<li><b>Subnet 409:</b> no free IP address for a required private endpoint.</li>
+<li><b>OGG-02603:</b> configured checkpoint table did not exist.</li>
+<li><b>OGG-02468:</b> local Replicat checkpoint file was missing after process manipulation.</li>
+<li><b>MySQL 1452:</b> FK parent row was not present when a child Initial Load row was applied.</li>
+<li><b>OGG-25513:</b> PostgreSQL replica identity configuration needed attention for UPDATE/DELETE before images.</li>
+</ul>
+</section>
+
+</main>
+</body>
+</html>
