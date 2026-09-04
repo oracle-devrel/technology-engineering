@@ -1,0 +1,1110 @@
+[
+  {
+    "name" : "Graph_algorithms_git",
+    "description" : "Github",
+    "tags" : null,
+    "version" : "7",
+    "layout" : "zeppelin",
+    "type" : "medium",
+    "snapshot" : false,
+    "isEditable" : true,
+    "isRunnable" : true,
+    "template" : "dsrgmn3y",
+    "templateConfig" : "{\"visualization\":{\"filters\":[{\"_id\":1583324064459,\"type\":\"styling\",\"enabled\":true,\"conditions\":{\"operator\":\"and\",\"conditions\":[{\"property\":\"hiddenConnection\",\"operator\":\"*\",\"value\":\"\"}]},\"component\":\"edge\",\"target\":\"edge\",\"properties\":{\"colors\":[\"rgba(0, 0, 0, 0.1)\"],\"style\":[\"dashed\"],\"legendTitle\":[\"Hidden Connection\"]}},{\"_id\":1590499315755,\"type\":\"aggregation\",\"enabled\":true,\"conditions\":{\"operator\":\"and\",\"conditions\":[]},\"component\":\"vertex\",\"target\":\"vertex\",\"properties\":{},\"aggregation\":[{\"source\":\"\",\"type\":\"average\"}]}],\"version\":4}}",
+    "paragraphs" : [
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%md\r",
+          "\r",
+          "***Goal***\r",
+          "\r",
+          "This notebook uses Oracle Machine Learning for Python (OML4Py) to segment bank accounts based on the **already normalized** graph metrics in `BANK_GRAPH_FEATURES_NORMALIZED`.\r",
+          "\r",
+          "It trains two K-Means models, assigns each account to behaviour groups, and saves the results from the five clusters for use in the enriched clustered graph.\r",
+          "**Questions**\r",
+          "\r",
+          "-How can we divide all accounts into five reusable behaviour segments?\r",
+          "-Which accounts have similar cycle behaviour, and which have similar importance behaviour across the whole network?\r",
+          "In this notebook, it groups every account using cycle metrics or centrality metrics.\r",
+          "\r",
+          "**You will learn how to:**\r",
+          "\r",
+          "- Load `BANK_GRAPH_FEATURES_NORMALIZED` from Oracle Database.\r",
+          "- Train a cycle-behaviour K-Means model using `CYCLE_2_NORM`, `CYCLE_3_NORM`, and `CYCLE_4_NORM`.\r",
+          "- Train an importance K-Means model using `PAGERANK_NORM`, `BETWEENNESS_NORM`, and `CLOSENESS_NORM`.\r",
+          "- Review model centroids to understand the typical metric values in each group.\r",
+          "- Assign a cycle cluster ID and an importance cluster ID to every account.\r",
+          "- Save the combined results in `BANK_GRAPH_CLUSTER_RESULTS`.\r",
+          "\r",
+          "**Note:** K-Means groups accounts with similar metric values. It does not identify graph communities or calculate PageRank, betweenness, closeness, or cycles.\r"
+        ],
+        "selectedVisualization" : "html",
+        "visualizationConfig" : null,
+        "hideCode" : true,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787927702952,
+          "endTime" : 1787927703032,
+          "interpreter" : "md.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "<p><em><strong>Goal</strong></em></p>\n<p>This notebook uses Oracle Machine Learning for Python (OML4Py) to segment bank accounts based on the <strong>already normalized</strong> graph metrics in <code>BANK_GRAPH_FEATURES_NORMALIZED</code>.</p>\n<p>It trains two K-Means models, assigns each account to behaviour groups, and saves the results from the five clusters for use in the enriched clustered graph.\n<strong>Questions</strong></p>\n<p>-How can we divide all accounts into five reusable behaviour segments?\n-Which accounts have similar cycle behaviour, and which have similar importance behaviour across the whole network?\nIn this notebook, it groups every account using cycle metrics or centrality metrics.</p>\n<p><strong>You will learn how to:</strong></p>\n<ul>\n<li>Load <code>BANK_GRAPH_FEATURES_NORMALIZED</code> from Oracle Database.</li>\n<li>Train a cycle-behaviour K-Means model using <code>CYCLE_2_NORM</code>, <code>CYCLE_3_NORM</code>, and <code>CYCLE_4_NORM</code>.</li>\n<li>Train an importance K-Means model using <code>PAGERANK_NORM</code>, <code>BETWEENNESS_NORM</code>, and <code>CLOSENESS_NORM</code>.</li>\n<li>Review model centroids to understand the typical metric values in each group.</li>\n<li>Assign a cycle cluster ID and an importance cluster ID to every account.</li>\n<li>Save the combined results in <code>BANK_GRAPH_CLUSTER_RESULTS</code>.</li>\n</ul>\n<p><strong>Note:</strong> K-Means groups accounts with similar metric values. It does not identify graph communities or calculate PageRank, betweenness, closeness, or cycles.</p>\n",
+              "type" : "HTML"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%python\r",
+          "import oml\r",
+          "print(oml.__version__)"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787738719635,
+          "endTime" : 1787738719791,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "2.1.1\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Creates an OML table proxy for BANK_GRAPH_FEATURES_NORMALIZED",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "bank_features = oml.sync(table=\"BANK_GRAPH_FEATURES_NORMALIZED\")\r",
+          "bank_features.head()"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787738770282,
+          "endTime" : 1787738770818,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "   ACCOUNT_ID  CYCLE_2_NORM  ...  BETWEENNESS_NORM  CLOSENESS_NORM\n0         487             0  ...          3.372872       28.386749\n1         488             0  ...          0.000000       20.621175\n2         489             0  ...          0.000000       15.386717\n3         490             0  ...          3.692865       25.290931\n4         491             0  ...         22.172542       38.780200\n\n[5 rows x 7 columns]\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 0,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "We train and save two models:\r",
+          "1. BANK_CYCLE_KMEANS_MODEL\r",
+          "   Uses the three cycle metrics.\r",
+          "2. BANK_IMPORTANCE_KMEANS_MODEL\r",
+          "   Uses PageRank, betweenness, and closeness.\r",
+          "\r",
+          "\r",
+          "\r",
+          " \r",
+          "   \r",
+          "Centroid analysis is not a separate model—it is an output of each trained K-Means mode1"
+        ],
+        "selectedVisualization" : "html",
+        "visualizationConfig" : null,
+        "hideCode" : true,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787919105472,
+          "endTime" : 1787919105551,
+          "interpreter" : "md.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "<p>We train and save two models:</p>\n<ol>\n<li>BANK_CYCLE_KMEANS_MODEL\nUses the three cycle metrics.</li>\n<li>BANK_IMPORTANCE_KMEANS_MODEL\nUses PageRank, betweenness, and closeness.</li>\n</ol>\n<p>Centroid analysis is not a separate model—it is an output of each trained K-Means mode1</p>\n",
+              "type" : "HTML"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%md\r",
+          "ACCOUNT_ID is only the unique identifier; it is not used to calculate clusters.\r",
+          "K-Means uses only:\r",
+          "- CYCLE_2_NORM\r",
+          "- CYCLE_3_NORM\r",
+          "- CYCLE_4_NORM\r",
+          "It starts with five initial centroids, assigns each account to the nearest centroid, recalculates each centroid as the mean of its assigned accounts’ three cycle values, and repeats until the groups stabilize.\r",
+          "So each cluster represents accounts with similar cycle behaviour."
+        ],
+        "selectedVisualization" : "html",
+        "visualizationConfig" : null,
+        "hideCode" : true,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787736532241,
+          "endTime" : 1787736532367,
+          "interpreter" : "md.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "<p>ACCOUNT_ID is only the unique identifier; it is not used to calculate clusters.\nK-Means uses only:</p>\n<ul>\n<li>CYCLE_2_NORM</li>\n<li>CYCLE_3_NORM</li>\n<li>CYCLE_4_NORM\nIt starts with five initial centroids, assigns each account to the nearest centroid, recalculates each centroid as the mean of its assigned accounts’ three cycle values, and repeats until the groups stabilize.\nSo each cluster represents accounts with similar cycle behaviour.</li>\n</ul>\n",
+              "type" : "HTML"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Drop model ",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "import oml\r",
+          "\r",
+          "oml.drop(model=\"BANK_CYCLE_KMEANS_MODEL\")\r",
+          "print(\"Cycle K-Means model dropped\")"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739008858,
+          "endTime" : 1787739010097,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "Cycle K-Means model dropped\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : true,
+        "message" : [
+          "%md\r",
+          "The first cell creates and saves your cycle-clustering model.\r",
+          "- cycle_input selects the account ID and three normalized cycle measures.\r",
+          "- oml.km(n_clusters=5) selects Oracle’s built-in K-Means and requests five groups.\r",
+          "- .fit(...) trains it on the accounts’ cycle values.\r",
+          "- case_id=\"ACCOUNT_ID\" uses the account ID only to identify each account, not as a cycle measure.\r",
+          "- model_name=\"BANK_CYCLE_KMEANS_MODEL\" saves the trained model in Oracle Database.\r",
+          "- cycle_model is the Python name you use to access that saved model in the notebook.\r",
+          "\r",
+          "BANK_CYCLE_KMEANS_MODEL is trained on:\r",
+          "- CYCLE_2_NORM\r",
+          "- CYCLE_3_NORM\r",
+          "- CYCLE_4_NORM\r",
+          "ACCOUNT_ID only identifies each account.\r",
+          "\r",
+          "The model groups the accounts into five clusters based on those three normalized cycle measures\r",
+          "\r",
+          "ACCOUNT_ID tells us which account belongs to each resulting cluster"
+        ],
+        "selectedVisualization" : "html",
+        "visualizationConfig" : null,
+        "hideCode" : true,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787738142871,
+          "endTime" : 1787738142963,
+          "interpreter" : "md.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "<p>The first cell creates and saves your cycle-clustering model.</p>\n<ul>\n<li>cycle_input selects the account ID and three normalized cycle measures.</li>\n<li>oml.km(n_clusters=5) selects Oracle’s built-in K-Means and requests five groups.</li>\n<li>.fit(...) trains it on the accounts’ cycle values.</li>\n<li>case_id=&quot;ACCOUNT_ID&quot; uses the account ID only to identify each account, not as a cycle measure.</li>\n<li>model_name=&quot;BANK_CYCLE_KMEANS_MODEL&quot; saves the trained model in Oracle Database.</li>\n<li>cycle_model is the Python name you use to access that saved model in the notebook.</li>\n</ul>\n<p>BANK_CYCLE_KMEANS_MODEL is trained on:</p>\n<ul>\n<li>CYCLE_2_NORM</li>\n<li>CYCLE_3_NORM</li>\n<li>CYCLE_4_NORM\nACCOUNT_ID only identifies each account.</li>\n</ul>\n<p>The model groups the accounts into five clusters based on those three normalized cycle measures</p>\n<p>ACCOUNT_ID tells us which account belongs to each resulting cluster</p>\n",
+              "type" : "HTML"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Train and Save the Cycle-Behaviour K-Means Model (Five Clusters)",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "# It trains the model and saves it as BANK_CYCLE_KMEANS_MODEL.\r",
+          "\r",
+          "cycle_input = bank_features[\r",
+          "    [\"ACCOUNT_ID\", \"CYCLE_2_NORM\", \"CYCLE_3_NORM\", \"CYCLE_4_NORM\"]\r",
+          "]\r",
+          "\r",
+          "cycle_settings = {\r",
+          "    \"KMNS_ITERATIONS\": 50,\r",
+          "    \"KMNS_DISTANCE\": \"KMNS_EUCLIDEAN\",\r",
+          "    \"KMNS_DETAILS\": \"KMNS_DETAILS_ALL\",\r",
+          "    \"PREP_AUTO\": \"OFF\"\r",
+          "}\r",
+          "\r",
+          "cycle_model = oml.km(n_clusters=5, **cycle_settings).fit(\r",
+          "    cycle_input,\r",
+          "    model_name=\"BANK_CYCLE_KMEANS_MODEL\",\r",
+          "    case_id=\"ACCOUNT_ID\"\r",
+          ")\r",
+          "\r",
+          "print(\"ok\")"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739021167,
+          "endTime" : 1787739027994,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "ok\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "View Cycle-Cluster Centroid Means (Five Clusters: IDs 5–9)",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "# ---A K-Means cluster is defined by its centroid means\r",
+          "# It shows the centroid values that K-Means uses to group accounts closest to each cluster\r",
+          "centroids = cycle_model.centroids.pull()\r",
+          "\r",
+          "centroids[\r",
+          "    (centroids[\"CLUSTER_ID\"] >= 5)\r",
+          "    & (centroids[\"ATTRIBUTE_NAME\"].isin(\r",
+          "        [\"CYCLE_2_NORM\", \"CYCLE_3_NORM\", \"CYCLE_4_NORM\"]\r",
+          "    ))\r",
+          "][[\"CLUSTER_ID\", \"ATTRIBUTE_NAME\", \"MEAN\"]]\r",
+          "\r",
+          "# It shows each cluster ID and the average value of each cycle metric in that cluster.\r",
+          "# for example: Each cluster ID has a different average value for CYCLE_2_NORM.\r"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739056621,
+          "endTime" : 1787739057463,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "    CLUSTER_ID ATTRIBUTE_NAME       MEAN\n12           5   CYCLE_2_NORM  51.111111\n13           5   CYCLE_3_NORM  20.740741\n14           5   CYCLE_4_NORM  17.730294\n15           6   CYCLE_2_NORM  53.448276\n16           6   CYCLE_3_NORM  40.517241\n17           6   CYCLE_4_NORM  28.588270\n18           7   CYCLE_2_NORM  50.000000\n19           7   CYCLE_3_NORM  11.338798\n20           7   CYCLE_4_NORM  12.568306\n21           8   CYCLE_2_NORM   0.000000\n22           8   CYCLE_3_NORM   2.257984\n23           8   CYCLE_4_NORM   4.072624\n24           9   CYCLE_2_NORM   0.000000\n25           9   CYCLE_3_NORM  20.833333\n26           9   CYCLE_4_NORM  16.007533\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Train and Save K-Means Model (Five Clusters) for  \"PAGERANK_NORM\", \"BETWEENNESS_NORM\", \"CLOSENESS_NORM\"",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "\r",
+          "# Group accounts by their graph importance behaviour.\r",
+          "importance_input = bank_features[\r",
+          "    [\"ACCOUNT_ID\", \"PAGERANK_NORM\", \"BETWEENNESS_NORM\", \"CLOSENESS_NORM\"]\r",
+          "]\r",
+          "\r",
+          "importance_settings = {\r",
+          "    \"KMNS_ITERATIONS\": 50,\r",
+          "    \"KMNS_DISTANCE\": \"KMNS_EUCLIDEAN\",\r",
+          "    \"KMNS_DETAILS\": \"KMNS_DETAILS_ALL\",\r",
+          "    \"PREP_AUTO\": \"OFF\"\r",
+          "}\r",
+          "\r",
+          "# Train and save five importance groups in Oracle Database.\r",
+          "importance_model = oml.km(n_clusters=5, **importance_settings).fit(\r",
+          "    importance_input,\r",
+          "    model_name=\"BANK_IMPORTANCE_KMEANS_MODEL\",\r",
+          "    case_id=\"ACCOUNT_ID\"\r",
+          ")\r",
+          "\r",
+          "# print(importance_m/odel)\r",
+          "print(\"BANK_IMPORTANCE_KMEANS_MODEL trained: 5 clusters\")\r",
+          "print(\"Features: PageRank, Betweenness, Closeness\")"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739097354,
+          "endTime" : 1787739100588,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "BANK_IMPORTANCE_KMEANS_MODEL trained: 5 clusters\nFeatures: PageRank, Betweenness, Closeness\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "View Centroid Means (Five Clusters: IDs 5–9)",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "importance_centroids = importance_model.centroids.pull()\r",
+          "\r",
+          "importance_centroids[\r",
+          "    (importance_centroids[\"CLUSTER_ID\"] >= 5)\r",
+          "    & (importance_centroids[\"ATTRIBUTE_NAME\"].isin([\r",
+          "        \"PAGERANK_NORM\",\r",
+          "        \"BETWEENNESS_NORM\",\r",
+          "        \"CLOSENESS_NORM\"\r",
+          "    ]))\r",
+          "][[\"CLUSTER_ID\", \"ATTRIBUTE_NAME\", \"MEAN\"]]"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739201628,
+          "endTime" : 1787739202383,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "    CLUSTER_ID    ATTRIBUTE_NAME       MEAN\n12           5  BETWEENNESS_NORM  31.413213\n13           5    CLOSENESS_NORM  53.519716\n14           5     PAGERANK_NORM  38.490236\n15           6  BETWEENNESS_NORM   5.309719\n16           6    CLOSENESS_NORM  22.808605\n17           6     PAGERANK_NORM   5.514589\n18           7  BETWEENNESS_NORM  18.758097\n19           7    CLOSENESS_NORM  39.252322\n20           7     PAGERANK_NORM  21.158555\n21           8  BETWEENNESS_NORM   1.937974\n22           8    CLOSENESS_NORM  17.468050\n23           8     PAGERANK_NORM   1.974181\n24           9  BETWEENNESS_NORM   9.099288\n25           9    CLOSENESS_NORM  28.810957\n26           9     PAGERANK_NORM   9.493721\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Assign a cycle cluster to every account",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "cycle_assignments = cycle_model.predict(\r",
+          "    cycle_input,\r",
+          "    supplemental_cols=cycle_input[[\"ACCOUNT_ID\"]]\r",
+          ")\r",
+          "\r",
+          "cycle_assignments.head()"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739316049,
+          "endTime" : 1787739316650,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "   ACCOUNT_ID  CLUSTER_ID\n0         487           8\n1         488           8\n2         489           8\n3         490           8\n4         491           8\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "assign an importance cluster to every account (Account 491: cycle cluster 8, importance cluster 7 and the rest are 8)",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "importance_assignments = importance_model.predict(\r",
+          "    importance_input,\r",
+          "    supplemental_cols=importance_input[[\"ACCOUNT_ID\"]]\r",
+          ")\r",
+          "\r",
+          "importance_assignments.head()"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739383791,
+          "endTime" : 1787739384463,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "   ACCOUNT_ID  CLUSTER_ID\n0         487           9\n1         488           8\n2         489           8\n3         490           9\n4         491           7\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Save both account-cluster assignments as database tables",
+        "hasTitle" : true,
+        "message" : [
+          "%python\r",
+          "\r",
+          "# Save account-to-cycle-cluster assignments.\r",
+          "oml.create(\r",
+          "    cycle_assignments.pull(),\r",
+          "    table=\"BANK_CYCLE_CLUSTER_RESULTS\"\r",
+          ")\r",
+          "\r",
+          "# Save account-to-importance-cluster assignments.\r",
+          "oml.create(\r",
+          "    importance_assignments.pull(),\r",
+          "    table=\"BANK_IMPORTANCE_CLUSTER_RESULTS\"\r",
+          ")\r",
+          "\r",
+          "print(\"Two cluster-result tables created\")"
+        ],
+        "selectedVisualization" : "raw",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739536288,
+          "endTime" : 1787739536702,
+          "interpreter" : "python.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "Two cluster-result tables created\n",
+              "type" : "TEXT"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "SELECT 'BANK_CYCLE_CLUSTER_RESULTS' AS result_table,\r",
+          "       COUNT(*) AS account_count,\r",
+          "       COUNT(DISTINCT cluster_id) AS cluster_count\r",
+          "FROM bank_cycle_cluster_results\r",
+          "\r",
+          "UNION ALL\r",
+          "\r",
+          "SELECT 'BANK_IMPORTANCE_CLUSTER_RESULTS',\r",
+          "       COUNT(*),\r",
+          "       COUNT(DISTINCT cluster_id)\r",
+          "FROM bank_importance_cluster_results;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739598184,
+          "endTime" : 1787739600713,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "RESULT_TABLE\tACCOUNT_COUNT\tCLUSTER_COUNT\nBANK_CYCLE_CLUSTER_RESULTS\t1000\t5\nBANK_IMPORTANCE_CLUSTER_RESULTS\t1000\t5\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Summarize the five cycle clusters",
+        "hasTitle" : true,
+        "message" : [
+          "%sql\r",
+          "SELECT\r",
+          "    r.cluster_id,\r",
+          "    COUNT(*) AS account_count,\r",
+          "    ROUND(AVG(f.cycle_2_norm), 2) AS avg_cycle_2,\r",
+          "    ROUND(AVG(f.cycle_3_norm), 2) AS avg_cycle_3,\r",
+          "    ROUND(AVG(f.cycle_4_norm), 2) AS avg_cycle_4\r",
+          "FROM bank_cycle_cluster_results r\r",
+          "JOIN bank_graph_features_normalized f\r",
+          "  ON f.account_id = r.account_id\r",
+          "GROUP BY r.cluster_id\r",
+          "ORDER BY r.cluster_id;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739648202,
+          "endTime" : 1787739648377,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "CLUSTER_ID\tACCOUNT_COUNT\tAVG_CYCLE_2\tAVG_CYCLE_3\tAVG_CYCLE_4\n3\t6\t0\t68.06\t60.68\n6\t29\t53.45\t40.52\t28.59\n7\t61\t50\t11.34\t12.57\n8\t668\t0\t2.26\t4.07\n9\t236\t0\t20.83\t16.01\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : "Summarize the five importance clusters",
+        "hasTitle" : true,
+        "message" : [
+          "%sql\r",
+          "SELECT\r",
+          "    r.cluster_id,\r",
+          "    COUNT(*) AS account_count,\r",
+          "    ROUND(AVG(f.pagerank_norm), 2) AS avg_pagerank,\r",
+          "    ROUND(AVG(f.betweenness_norm), 2) AS avg_betweenness,\r",
+          "    ROUND(AVG(f.closeness_norm), 2) AS avg_closeness\r",
+          "FROM bank_importance_cluster_results r\r",
+          "JOIN bank_graph_features_normalized f\r",
+          "  ON f.account_id = r.account_id\r",
+          "GROUP BY r.cluster_id\r",
+          "ORDER BY r.cluster_id;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787739736955,
+          "endTime" : 1787739737131,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "CLUSTER_ID\tACCOUNT_COUNT\tAVG_PAGERANK\tAVG_BETWEENNESS\tAVG_CLOSENESS\n3\t2\t92.44\t89.42\t95.18\n5\t67\t38.49\t31.41\t53.52\n7\t194\t21.16\t18.76\t39.25\n8\t390\t1.97\t1.94\t17.47\n9\t347\t9.49\t9.1\t28.81\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "CREATE TABLE bank_graph_cluster_results AS\r",
+          "SELECT\r",
+          "    f.account_id,\r",
+          "    f.cycle_2_norm,\r",
+          "    f.cycle_3_norm,\r",
+          "    f.cycle_4_norm,\r",
+          "    f.pagerank_norm,\r",
+          "    f.betweenness_norm,\r",
+          "    f.closeness_norm,\r",
+          "    c.cluster_id AS cycle_cluster_id,\r",
+          "    i.cluster_id AS importance_cluster_id\r",
+          "FROM bank_graph_features_normalized f\r",
+          "JOIN bank_cycle_cluster_results c\r",
+          "  ON c.account_id = f.account_id\r",
+          "JOIN bank_importance_cluster_results i\r",
+          "  ON i.account_id = f.account_id;"
+        ],
+        "selectedVisualization" : "html",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787740056914,
+          "endTime" : 1787740057377,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [ ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "SELECT\r",
+          "    COUNT(*) AS account_count,\r",
+          "    COUNT(DISTINCT cycle_cluster_id) AS cycle_clusters,\r",
+          "    COUNT(DISTINCT importance_cluster_id) AS importance_clusters\r",
+          "FROM bank_graph_cluster_results;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787740078911,
+          "endTime" : 1787740079060,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "ACCOUNT_COUNT\tCYCLE_CLUSTERS\tIMPORTANCE_CLUSTERS\n1000\t5\t5\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 6,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "SELECT DISTINCT cycle_cluster_id\r",
+          "FROM bank_graph_cluster_results\r",
+          "ORDER BY cycle_cluster_id;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787740350389,
+          "endTime" : 1787740350538,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "CYCLE_CLUSTER_ID\n3\n6\n7\n8\n9\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 6,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "SELECT DISTINCT IMPORTANCE_CLUSTER_ID\r",
+          "\r",
+          "FROM bank_graph_cluster_results\r",
+          "ORDER BY IMPORTANCE_CLUSTER_ID;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787740453442,
+          "endTime" : 1787740453588,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "IMPORTANCE_CLUSTER_ID\n3\n5\n7\n8\n9\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "SELECT\r",
+          "    a.id AS account_id,\r",
+          "    a.name AS account_name,\r",
+          "    r.cycle_cluster_id,\r",
+          "    r.importance_cluster_id\r",
+          "FROM bank_accounts a\r",
+          "JOIN bank_graph_cluster_results r\r",
+          "  ON r.account_id = a.id\r",
+          "WHERE a.id IN (406, 387, 352, 135, 934)\r",
+          "ORDER BY a.id;"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787740184035,
+          "endTime" : 1787740184192,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "ACCOUNT_ID\tACCOUNT_NAME\tCYCLE_CLUSTER_ID\tIMPORTANCE_CLUSTER_ID\n135\tVIRGIE BREEDEN\t9\t5\n352\tINEZ YAMNITZ\t9\t5\n387\tANTONIA MCLACHLAN\t3\t3\n406\tJACKLYN NISKALA\t6\t5\n934\tRUSSELL RIVERA\t3\t3\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 12,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "\r",
+          "%sql\r",
+          "SELECT DISTINCT ACCOUNT_ID, IMPORTANCE_CLUSTER_ID, CYCLE_CLUSTER_ID\r",
+          "\r",
+          "FROM bank_graph_cluster_results Where IMPORTANCE_CLUSTER_ID = 5 and CYCLE_CLUSTER_ID = 9\r"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787921544023,
+          "endTime" : 1787921544149,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "ACCOUNT_ID\tIMPORTANCE_CLUSTER_ID\tCYCLE_CLUSTER_ID\n359\t5\t9\n448\t5\t9\n135\t5\t9\n130\t5\t9\n4\t5\t9\n330\t5\t9\n123\t5\t9\n118\t5\t9\n681\t5\t9\n724\t5\t9\n856\t5\t9\n420\t5\t9\n274\t5\t9\n439\t5\t9\n624\t5\t9\n218\t5\t9\n261\t5\t9\n317\t5\t9\n746\t5\t9\n397\t5\t9\n690\t5\t9\n222\t5\t9\n78\t5\t9\n716\t5\t9\n801\t5\t9\n228\t5\t9\n352\t5\t9\n865\t5\t9\n301\t5\t9\n407\t5\t9\n560\t5\t9\n871\t5\t9\n584\t5\t9\n66\t5\t9\n13\t5\t9\n559\t5\t9\n576\t5\t9\n187\t5\t9\n458\t5\t9\n524\t5\t9\n920\t5\t9\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      },
+      {
+        "row" : 0,
+        "col" : 0,
+        "sizeX" : 0,
+        "width" : 0,
+        "title" : null,
+        "hasTitle" : false,
+        "message" : [
+          "%sql\r",
+          "SELECT DISTINCT ACCOUNT_ID, IMPORTANCE_CLUSTER_ID, CYCLE_CLUSTER_ID\r",
+          "\r",
+          "FROM bank_graph_cluster_results Where IMPORTANCE_CLUSTER_ID = 3 and CYCLE_CLUSTER_ID = 3"
+        ],
+        "selectedVisualization" : "table",
+        "visualizationConfig" : null,
+        "hideCode" : false,
+        "hideResult" : false,
+        "hideGutter" : true,
+        "hideVizConfig" : false,
+        "hideInIFrame" : false,
+        "enabled" : true,
+        "forms" : "[]",
+        "result" : {
+          "startTime" : 1787921616813,
+          "endTime" : 1787921616935,
+          "interpreter" : "sql.medium",
+          "taskStatus" : "SUCCESS",
+          "status" : "SUCCESS",
+          "results" : [
+            {
+              "message" : "ACCOUNT_ID\tIMPORTANCE_CLUSTER_ID\tCYCLE_CLUSTER_ID\n934\t3\t3\n387\t3\t3\n",
+              "type" : "TABLE"
+            }
+          ],
+          "forms" : "[]"
+        },
+        "relations" : [ ],
+        "dynamicFormParams" : "{}"
+      }
+    ]
+  }
+]

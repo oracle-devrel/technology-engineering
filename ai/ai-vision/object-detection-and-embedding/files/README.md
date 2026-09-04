@@ -1,4 +1,7 @@
 # OCI Vision + GenAI Embeddings  
+
+Reviewed: 04.08.2026
+
 ## Object Detection → Vector Search Demo
 
 ## Overview
