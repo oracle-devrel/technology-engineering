@@ -1,0 +1,20 @@
+[project]
+name = "getting-started-oci"
+version = "0.1.0"
+description = "Public OCI Generative AI getting started workshop examples"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "UPL-1.0"
+dependencies = [
+    "fastapi>=0.124.0",
+    "ipykernel>=7.2.0",
+    "jupyter>=1.1.0",
+    "langchain>=1.0.0",
+    "langchain-oci>=0.1.0",
+    "oci>=2.167.0",
+    "oracledb>=3.4.0,<4",
+    "pandas>=2.2.0",
+    "python-dotenv>=1.2.2",
+    "requests>=2.33.0",
+    "uvicorn>=0.38.0",
+]
