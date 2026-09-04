@@ -1,0 +1,40 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListFocusDailyExportBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::aws-oci-focus-daily",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "Dataexport/AWSDataExportDailyFocus/data/",
+            "Dataexport/AWSDataExportDailyFocus/data/*",
+            "transfer-logs/",
+            "transfer-logs/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "ReadFocusDailyExportObjects",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::aws-oci-focus-daily/Dataexport/AWSDataExportDailyFocus/data/*"
+    },
+    {
+      "Sid": "ReadWriteMonthlyTransferAuditLogs",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": "arn:aws:s3:::aws-oci-focus-daily/transfer-logs/*"
+    }
+  ]
+}
