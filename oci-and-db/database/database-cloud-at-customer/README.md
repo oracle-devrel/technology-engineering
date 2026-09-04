@@ -2,13 +2,16 @@
 
 Oracle Cloud@Customer brings Oracle Cloud services into your data center, combining the innovation, automation, and flexibility of Oracle Cloud with the security and control of on-premises deployment. It enables organizations to modernize their IT infrastructure while meeting data residency, regulatory, and latency requirements without compromising on cloud capabilities.
 
+Reviewed: 29/07/26
+
 # Useful Links
 
 - [Oracle Cloud@Customer Landing Page](https://www.oracle.com/cloud/cloud-at-customer/)
 
-- [Exadata Cloud@Customer](./exadata-cloud-at-customer/)
+- [Oracle Exadata Cloud@Customer](./exadata-cloud-at-customer/)
 
-Reviewed: 06/13/26
+- [Oracle Base Database Cloud@Customer](./base-database-cloud-at-customer/)
+
 
 # License
 

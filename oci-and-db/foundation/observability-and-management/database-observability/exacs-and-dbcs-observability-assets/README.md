@@ -286,3 +286,6 @@ Wait 5 minutes and then go on the Log Explorer. You will see the logs are there 
 ![image 30](./files/image-30.png)
 
 For more logs and dashboard, you can use the Knowledge Content GitHub.
+
+
+Reviewed: 25.07.2026

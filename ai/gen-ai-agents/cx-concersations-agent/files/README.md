@@ -2,6 +2,8 @@
 
 The **CX Conversations Analyzer** is an AI agent that listens to your call center recordings and tells you what happened — automatically, at scale.
 
+Reviewed: 04.08.2026
+
 Drop in one audio file or a full batch. The agent transcribes each call using **OCI AI Speech**, separates the two speakers, and then uses **OCI Generative AI** with OpenAI GPT-OSS models to extract:
 
 - **Why the customer called** — the explicit call reason
