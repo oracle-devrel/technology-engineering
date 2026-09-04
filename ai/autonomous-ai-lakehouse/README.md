@@ -1,5 +1,7 @@
-<img width="624" height="70" alt="image" src="https://github.com/user-attachments/assets/a912fabd-80ce-4fd0-9920-d943d785283f" /># Autonomous AI Lakehouse
+# Autonomous AI Lakehouse
  
+<img width="624" height="70" alt="image" src="https://github.com/user-attachments/assets/a912fabd-80ce-4fd0-9920-d943d785283f" />
+
 Oracle Autonomous AI Lakehouse is the world’s first and only autonomous database optimized for analytic workloads, including data marts, data warehouses, data lakes, and data lakehouses. With Autonomous Data Warehouse, data scientists, business analysts, and nonexperts can rapidly, easily, and cost-effectively discover business insights using data of any size and type.
  
 Reviewed: 28.10.2025

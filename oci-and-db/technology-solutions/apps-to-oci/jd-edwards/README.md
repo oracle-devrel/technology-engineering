@@ -6,7 +6,7 @@ Contrary to the belief that database-intensive workloads like JD Edwards often d
 
 This solution guide provides a starting point for the Partners/Managed Service Providers/Consultants to understand the key technical requirements and existing business challenges that need to be addressed as part of the migration.
 
-Review Date: 26.11.2025
+Review Date: 28.07.2026
   
 # Table of Contents
 
@@ -16,7 +16,6 @@ Review Date: 26.11.2025
 # Useful Links
 
 - [Learn JD Edwards Portal](https://docs.oracle.com/cd/E84502_01/learnjde/index.html)
-- [JD Edwards on OCI FAQ](https://www.oracle.com/uk/erp/move-jd-edwards-to-cloud/faq/)
 - [JD Edwards Documentation](https://docs.oracle.com/en/applications/jd-edwards/index.html)
 - [Strategies to maximize your JD Edwards investment in the cloud](https://blogs.oracle.com/cloud-infrastructure/post/strategies-to-maximize-your-jd-edwards-investment-in-the-cloud)
 
