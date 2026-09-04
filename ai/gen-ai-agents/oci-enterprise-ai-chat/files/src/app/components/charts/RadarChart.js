@@ -66,7 +66,7 @@ export default function RadarChart({ data, title = "Comparison Chart" }) {
       text.setAttribute("text-anchor", "middle");
       text.setAttribute("dominant-baseline", "middle");
       text.setAttribute("font-size", "12");
-      text.setAttribute("font-family", "var(--font-exo2), sans-serif");
+      text.setAttribute("font-family", "var(--font-oracle-sans), sans-serif");
       text.setAttribute("fill", "#666");
       text.textContent = metric;
       svg.appendChild(text);
@@ -180,7 +180,7 @@ export default function RadarChart({ data, title = "Comparison Chart" }) {
             fontSize: "1.1rem",
             fontWeight: 500,
             color: "#333",
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
           }}
         >
           {title}
@@ -210,7 +210,7 @@ export default function RadarChart({ data, title = "Comparison Chart" }) {
                 sx={{
                   fontSize: "0.9rem",
                   color: "#666",
-                  fontFamily: "var(--font-exo2), sans-serif",
+                  fontFamily: "var(--font-oracle-sans), sans-serif",
                 }}
               >
                 {item.name}

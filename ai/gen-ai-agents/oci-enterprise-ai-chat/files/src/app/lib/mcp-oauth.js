@@ -2,6 +2,15 @@ import { createHash, randomBytes } from 'crypto';
 
 const SESSION_SECRET = process.env.SESSION_SECRET || 'change-me-in-production';
 
+// ── Base path (OCI Hosted Deployment) ────────────────────────────────────────
+// OCI strips the /.../actions/invoke prefix before requests reach us and injects
+// it as APPLICATION_BASE_URL. Server-built browser-facing URLs (OAuth
+// redirect_uri, post-login returnTo) must re-add it so the browser can route
+// back through the gateway. Empty for dev / root (Container Instance) deploys.
+export function basePrefix() {
+  return (process.env.APPLICATION_BASE_URL || process.env.BASE_PATH || '').replace(/\/+$/, '');
+}
+
 // ── PKCE ────────────────────────────────────────────────────────────────────
 
 export function generateCodeVerifier() {
@@ -63,20 +72,64 @@ export const PENDING_COOKIE = 'mcp-oauth-pending';
  * Some servers return endpoint URLs missing the MCP base path — we detect and fix that.
  */
 export async function fetchOAuthMetadata(mcpEndpoint) {
+  // RFC 9728 (OAuth Protected Resource Metadata) — the modern MCP pattern used by
+  // e.g. the OCI DBTools/NL2SQL MCP server. The MCP endpoint exposes a
+  // protected-resource document at {origin}/.well-known/oauth-protected-resource{path}
+  // that points to a SEPARATE authorization server (e.g. an IAM Identity Domain),
+  // whose own metadata holds the authorize/token/registration endpoints.
+  const u = new URL(mcpEndpoint);
+  const resourcePath = u.pathname.replace(/\/$/, '');
+  const prCandidates = [
+    `${u.origin}/.well-known/oauth-protected-resource${resourcePath}`, // path-based (DBTools)
+    `${u.origin}/.well-known/oauth-protected-resource`,                // origin-based
+  ];
+  for (const prUrl of prCandidates) {
+    try {
+      const pr = await fetch(prUrl);
+      if (!pr.ok) continue;
+      const prMeta = await pr.json();
+      const authServer = (prMeta.authorization_servers || [])[0];
+      if (!authServer) continue;
+      const asMeta = await fetchAuthServerMetadata(authServer);
+      if (!asMeta) continue;
+      // The resource's own scopes_supported tells us exactly what to request.
+      return { ...asMeta, scopes_supported: prMeta.scopes_supported || asMeta.scopes_supported };
+    } catch { /* try next candidate */ }
+  }
+
+  // Fallback: some MCP servers serve the authorization-server metadata directly
+  // under the MCP endpoint (older one-level pattern).
   const base = mcpEndpoint.replace(/\/$/, '');
   const res = await fetch(`${base}/.well-known/oauth-authorization-server`);
   if (!res.ok) return null;
-
   const metadata = await res.json();
   return fixMetadataUrls(metadata, mcpEndpoint);
 }
 
-function fixMetadataUrls(metadata, mcpEndpoint) {
+/** Fetch an authorization server's metadata (RFC 8414 or OIDC discovery). */
+async function fetchAuthServerMetadata(authServer) {
+  const root = authServer.replace(/\/$/, '');
+  for (const path of ['/.well-known/oauth-authorization-server', '/.well-known/openid-configuration']) {
+    try {
+      const r = await fetch(`${root}${path}`);
+      if (r.ok) return await r.json();
+    } catch { /* try next */ }
+  }
+  return null;
+}
+
+export function fixMetadataUrls(metadata, mcpEndpoint) {
   const basePath = new URL(mcpEndpoint).pathname.replace(/\/$/, '');
   if (!basePath) return metadata;
 
-  // If the registration URL already includes the base path, metadata is correct
-  const regPath = new URL(metadata.registration_endpoint).pathname;
+  // Probe with the registration URL when present, else the authorize URL —
+  // metadata without registration_endpoint is valid (IDCS has none) and
+  // `new URL(undefined)` would throw.
+  const probeUrl = metadata.registration_endpoint || metadata.authorization_endpoint;
+  if (!probeUrl) return metadata;
+
+  // If the probe URL already includes the base path, metadata is correct
+  const regPath = new URL(probeUrl).pathname;
   if (regPath.startsWith(basePath)) return metadata;
 
   // Prepend the MCP base path to all OAuth endpoints
@@ -142,6 +195,49 @@ export async function exchangeCode(tokenEndpoint, code, codeVerifier, clientId, 
     throw new Error(`Token exchange failed: ${res.status} ${err}`);
   }
   return res.json();
+}
+
+// ── Minted-token cache + single-flight ──────────────────────────────────────
+// IDCS rotates refresh tokens and invalidates the consumed one ("invalid_grant:
+// The token has already been consumed"). We mint in several places per message
+// (pre-send probe, client-side chain executor, Settings probes); minting fresh
+// every time both wasted an IdP roundtrip and raced rotation — two mints with
+// the same refresh token permanently killed the grant. Cache the minted access
+// token for its lifetime, single-flight concurrent mints, and index the cache
+// under BOTH the old and rotated refresh tokens (the cookie update may lag).
+// globalThis: each Next route compiles as its own module instance (turbopack),
+// so plain module state gave every route a PRIVATE cache — two routes minting
+// with the same refresh token raced anyway and killed the rotation. globalThis
+// is shared per Node process and survives dev hot-reloads.
+const _mintCache = (globalThis.__mcpMintCache ||= new Map());       // rtKey → entry
+const _mintInFlight = (globalThis.__mcpMintInFlight ||= new Map()); // rtKey → Promise<entry>
+const _rtKey = (rt) => createHash('sha256').update(rt).digest('hex').slice(0, 16);
+
+export async function mintAccessToken(tokenEndpoint, refreshToken, clientId, clientSecret) {
+  const key = _rtKey(refreshToken);
+  const cached = _mintCache.get(key);
+  if (cached && cached.expiresAt > Date.now() + 60_000) return cached;
+  if (_mintInFlight.has(key)) return _mintInFlight.get(key);
+
+  const inFlight = (async () => {
+    try {
+      const refreshed = await refreshAccessToken(tokenEndpoint, refreshToken, clientId, clientSecret);
+      const entry = {
+        accessToken: refreshed.access_token,
+        refreshToken: refreshed.refresh_token || refreshToken,
+        expiresAt: Date.now() + (refreshed.expires_in || 3600) * 1000,
+      };
+      _mintCache.set(key, entry);
+      if (refreshed.refresh_token && refreshed.refresh_token !== refreshToken) {
+        _mintCache.set(_rtKey(refreshed.refresh_token), entry);
+      }
+      return entry;
+    } finally {
+      _mintInFlight.delete(key);
+    }
+  })();
+  _mintInFlight.set(key, inFlight);
+  return inFlight;
 }
 
 export async function refreshAccessToken(tokenEndpoint, refreshToken, clientId, clientSecret) {

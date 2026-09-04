@@ -2,7 +2,9 @@
 set -e
 
 PLACEHOLDER="/__BASE_PATH_PLACEHOLDER__"
-PREFIX="${BASE_PATH:-}"
+# OCI Hosted Deployments auto-inject the reserved APPLICATION_BASE_URL (the full
+# /.../actions/invoke path). Fall back to BASE_PATH for the Container Instance deploy.
+PREFIX="${APPLICATION_BASE_URL:-${BASE_PATH:-}}"
 PREFIX="${PREFIX%/}"
 ESCAPED=$(printf '%s' "$PREFIX" | sed 's/[\/&|]/\\&/g')
 
