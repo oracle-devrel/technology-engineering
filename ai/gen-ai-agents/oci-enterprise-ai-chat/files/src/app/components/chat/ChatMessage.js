@@ -18,10 +18,12 @@ import {
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Check, Copy, ChevronDown as ChevronDownIcon, Code, FileText, X, Brain, Terminal, RotateCcw } from "lucide-react";
+import { withBase } from "@/lib/withBase";
+import { Check, Copy, ChevronDown as ChevronDownIcon, Code, FileText, X, Brain, Terminal, RotateCcw, ShieldAlert, ShieldCheck, ShieldX } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import JsonView from "@uiw/react-json-view";
+import { MCPService } from "../../services/mcpService";
 
 import Sources from "../agent/Sources";
 import DotMatrixLoader from "../ui/DotMatrixLoader";
@@ -117,7 +119,7 @@ function ReasoningBlock({ text, done }) {
             borderRadius: "16px",
             backgroundColor: isOpen ? "var(--dm-subtle, rgba(0, 0, 0, 0.08))" : "var(--dm-subtle, rgba(0, 0, 0, 0.04))",
             border: "1px solid var(--dm-border, rgba(0, 0, 0, 0.15))",
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
             fontSize: "0.8rem",
             color: "var(--dm-muted, rgba(0, 0, 0, 0.6))",
             transition: "all 0.2s ease",
@@ -163,7 +165,7 @@ function ReasoningBlock({ text, done }) {
                 backgroundColor: "var(--dm-subtle, rgba(0, 0, 0, 0.02))",
                 border: "1px solid var(--dm-border, rgba(0, 0, 0, 0.08))",
                 borderRadius: "20px",
-                fontFamily: "var(--font-exo2), sans-serif",
+                fontFamily: "var(--font-oracle-sans), sans-serif",
                 fontSize: "0.8rem",
                 color: "var(--dm-muted, rgba(0, 0, 0, 0.55))",
                 lineHeight: 1.6,
@@ -214,7 +216,7 @@ function CodeExecutionBlock({ code, output, status }) {
             borderRadius: "16px",
             backgroundColor: isOpen ? "var(--dm-subtle, rgba(0, 0, 0, 0.08))" : "var(--dm-subtle, rgba(0, 0, 0, 0.04))",
             border: "1px solid var(--dm-border, rgba(0, 0, 0, 0.15))",
-            fontFamily: "var(--font-exo2), sans-serif",
+            fontFamily: "var(--font-oracle-sans), sans-serif",
             fontSize: "0.8rem",
             color: "var(--dm-muted, rgba(0, 0, 0, 0.6))",
             transition: "all 0.2s ease",
@@ -298,11 +300,15 @@ function CollapsibleUserMessage({ text, fontSize, isLatest }) {
   const [hasAnimated, setHasAnimated] = useState(false);
   const isLongMessage = text.length > 150;
 
+  // lineHeight stays constant — toggling it on isLatest transitions caused
+  // the previous user-message to instantly shrink vertically when the next
+  // turn started, which propagated as a layout bounce on every subsequent
+  // exchange. Visual de-emphasis is handled via opacity/scale on the wrapper.
   const textStyles = {
     color: "inherit",
     fontSize: fontSize,
     fontWeight: "100",
-    lineHeight: isLatest ? 2 : 1.6,
+    lineHeight: 1.6,
   };
 
   // Mark animation as complete after initial render
@@ -613,6 +619,276 @@ function ActionObservationOutput({ output }) {
   );
 }
 
+// ─── MCP approval card ────────────────────────────────────────────────────
+// Renders an inline Approve / Reject prompt when an MCP tool call requires
+// human approval. Args are parsed into a nice key-value table with a fallback
+// "raw JSON" toggle for inspection. The decision is dispatched via the
+// onApprovalSubmit callback wired from useChat.
+// Apple-style easing — "ease-out-expo": fast off the line, settles gently.
+const APPLE_EASE = [0.16, 1, 0.3, 1];
+
+const cardVariants = {
+  hidden:  { opacity: 0, y: 10, scale: 0.96, filter: 'blur(10px)' },
+  visible: {
+    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+    transition: {
+      type: 'spring', stiffness: 240, damping: 28, mass: 0.85,
+      filter:  { duration: 0.5, ease: APPLE_EASE },
+      opacity: { duration: 0.35, ease: APPLE_EASE },
+      staggerChildren: 0.05,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+const childVariants = {
+  hidden:  { opacity: 0, y: 6 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: APPLE_EASE } },
+};
+
+function ApprovalArgsTable({ args }) {
+  if (!args || typeof args !== 'object') return null;
+  const entries = Object.entries(args);
+  if (entries.length === 0) return null;
+  return (
+    <Box
+      component={motion.div}
+      variants={childVariants}
+      sx={{ display: 'grid', gridTemplateColumns: 'auto 1fr', columnGap: 2, rowGap: 1, mt: 1.5 }}
+    >
+      {entries.map(([k, v], idx) => {
+        const isObj = v !== null && typeof v === 'object';
+        const text = isObj ? JSON.stringify(v, null, 2) : String(v);
+        const isMultiline = !isObj && (text.length > 80 || text.includes('\n'));
+        return (
+          <motion.div
+            key={k}
+            style={{ display: 'contents' }}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.32, ease: APPLE_EASE, delay: 0.18 + idx * 0.04 }}
+          >
+            <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--dm-muted, rgba(0,0,0,0.55))', textTransform: 'uppercase', letterSpacing: '0.04em', pt: isMultiline || isObj ? '4px' : 0 }}>
+              {k}
+            </Typography>
+            {isObj || isMultiline ? (
+              <Box component="pre" sx={{
+                m: 0, p: 1, borderRadius: 1, fontSize: '0.78rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                backgroundColor: 'var(--dm-subtle, rgba(0,0,0,0.04))',
+                border: '1px solid var(--dm-border, rgba(0,0,0,0.06))',
+                color: 'var(--dm-text, #1a1a1a)',
+              }}>{text}</Box>
+            ) : (
+              <Typography sx={{ fontSize: '0.88rem', color: 'var(--dm-text, #1a1a1a)', wordBreak: 'break-word' }}>{text}</Typography>
+            )}
+          </motion.div>
+        );
+      })}
+    </Box>
+  );
+}
+
+function ApprovalCard({ group, onApprovalSubmit }) {
+  const [showRaw, setShowRaw] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const parsed = (() => {
+    try { return JSON.parse(group.arguments || '{}'); } catch { return null; }
+  })();
+  const decided = group.decision === 'approved' || group.decision === 'rejected';
+  const disabled = decided || submitting;
+
+  const submit = async (approve) => {
+    if (disabled || !onApprovalSubmit) return;
+    setSubmitting(true);
+    try {
+      await onApprovalSubmit(group.requestId, approve);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const accent = decided
+    ? (group.decision === 'approved' ? '#2e7d32' : '#c62828')
+    : '#0A84FF'; // Apple system blue for the pending state — actionable, neutral, modern.
+  const accentBg = decided
+    ? (group.decision === 'approved' ? 'rgba(46, 125, 50, 0.06)' : 'rgba(198, 40, 40, 0.06)')
+    : 'rgba(10, 132, 255, 0.07)';
+  const IconCmp = decided
+    ? (group.decision === 'approved' ? ShieldCheck : ShieldX)
+    : ShieldAlert;
+
+  const titleText = decided
+    ? (group.decision === 'approved' ? 'Approved' : 'Rejected')
+    : 'Approval required';
+  const descriptionText = decided
+    ? (group.decision === 'approved'
+        ? 'The assistant is now running the tool with the arguments below.'
+        : 'The assistant skipped this tool call.')
+    : `The assistant wants to run ${group.toolName || 'this tool'} with the arguments below. Approve to continue or reject to cancel this specific action.`;
+
+  return (
+    <Paper
+      component={motion.div}
+      elevation={0}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      layout
+      sx={{
+        p: 2.25,
+        backgroundColor: accentBg,
+        border: `1px solid ${accent}40`,
+        borderRadius: 2,
+        transition: 'background-color 0.4s ease, border-color 0.4s ease',
+        willChange: 'transform, opacity, filter',
+      }}
+    >
+      <Box component={motion.div} variants={childVariants} sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.5 }}>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={decided ? group.decision : 'pending'}
+            initial={{ opacity: 0, scale: 0.6, rotate: -12 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            exit={{ opacity: 0, scale: 0.6, rotate: 12 }}
+            transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+            style={{ display: 'inline-flex' }}
+          >
+            <IconCmp size={18} style={{ color: accent, flexShrink: 0 }} />
+          </motion.div>
+        </AnimatePresence>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={titleText}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.25, ease: APPLE_EASE }}
+          >
+            <Typography sx={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--dm-text, #1a1a1a)' }}>
+              {titleText}
+            </Typography>
+          </motion.div>
+        </AnimatePresence>
+        <Box sx={{ ml: 'auto', display: 'flex', gap: 0.75, alignItems: 'center' }}>
+          {group.serverLabel && (
+            <Chip
+              size="small"
+              label={group.serverLabel}
+              sx={{ fontSize: '0.7rem', height: 22, backgroundColor: 'var(--dm-subtle, rgba(0,0,0,0.05))' }}
+            />
+          )}
+          {group.toolName && (
+            <Chip
+              size="small"
+              icon={<Code size={12} />}
+              label={group.toolName}
+              sx={{ fontSize: '0.7rem', height: 22, backgroundColor: 'var(--dm-surface, white)', border: '1px solid var(--dm-border, rgba(0,0,0,0.1))' }}
+            />
+          )}
+        </Box>
+      </Box>
+
+      <Box component={motion.div} variants={childVariants}>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={descriptionText}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: APPLE_EASE }}
+          >
+            <Typography sx={{ fontSize: '0.8rem', color: 'var(--dm-muted, rgba(0,0,0,0.6))' }}>
+              {descriptionText}
+            </Typography>
+          </motion.div>
+        </AnimatePresence>
+      </Box>
+
+      {parsed ? (
+        <ApprovalArgsTable args={parsed} />
+      ) : (
+        <Box
+          component={motion.pre}
+          variants={childVariants}
+          sx={{
+            m: 0, mt: 1.5, p: 1, borderRadius: 1,
+            fontSize: '0.78rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+            backgroundColor: 'var(--dm-subtle, rgba(0,0,0,0.04))',
+          }}
+        >{group.arguments || '(no arguments)'}</Box>
+      )}
+
+      {parsed && (
+        <Box component={motion.div} variants={childVariants} sx={{ mt: 1 }}>
+          <Button
+            size="small"
+            onClick={() => setShowRaw(s => !s)}
+            sx={{ textTransform: 'none', fontSize: '0.72rem', color: 'var(--dm-muted, rgba(0,0,0,0.55))', minWidth: 'auto', px: 0.5 }}
+          >
+            {showRaw ? 'Hide raw JSON' : 'Show raw JSON'}
+          </Button>
+          <Collapse in={showRaw}>
+            <Box component="pre" sx={{
+              m: 0, mt: 0.5, p: 1, borderRadius: 1,
+              fontSize: '0.72rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+              backgroundColor: 'var(--dm-subtle, rgba(0,0,0,0.04))',
+            }}>{group.arguments || ''}</Box>
+          </Collapse>
+        </Box>
+      )}
+
+      <AnimatePresence initial={false}>
+        {!decided && (
+          <motion.div
+            key="actions"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: APPLE_EASE, delay: 0.22 } }}
+            exit={{ opacity: 0, y: -4, height: 0, marginTop: 0, transition: { duration: 0.25, ease: APPLE_EASE } }}
+            style={{ overflow: 'hidden' }}
+          >
+            <Box sx={{ display: 'flex', gap: 1, mt: 2, justifyContent: 'flex-end' }}>
+              <Box component={motion.div} whileTap={{ scale: 0.97 }} whileHover={{ y: -1 }} transition={{ type: 'spring', stiffness: 400, damping: 25 }}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  disabled={disabled}
+                  onClick={() => submit(false)}
+                  startIcon={submitting ? <CircularProgress size={12} /> : <X size={14} />}
+                  sx={{
+                    textTransform: 'none',
+                    borderColor: 'rgba(198, 40, 40, 0.4)',
+                    color: '#c62828',
+                    '&:hover': { borderColor: '#c62828', backgroundColor: 'rgba(198, 40, 40, 0.04)' },
+                  }}
+                >
+                  Reject
+                </Button>
+              </Box>
+              <Box component={motion.div} whileTap={{ scale: 0.97 }} whileHover={{ y: -1 }} transition={{ type: 'spring', stiffness: 400, damping: 25 }}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  disabled={disabled}
+                  onClick={() => submit(true)}
+                  startIcon={submitting ? <CircularProgress size={12} sx={{ color: 'white' }} /> : <Check size={14} />}
+                  sx={{
+                    textTransform: 'none',
+                    backgroundColor: '#0A84FF',
+                    boxShadow: '0 1px 2px rgba(10,132,255,0.25)',
+                    '&:hover': { backgroundColor: '#0066CC', boxShadow: '0 2px 6px rgba(10,132,255,0.35)' },
+                  }}
+                >
+                  Approve
+                </Button>
+              </Box>
+            </Box>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Paper>
+  );
+}
+
 const MIN_DISPLAY_TIME = 1000; // Minimum time to show loading/thinking indicators
 
 const ChatMessage = memo(function ChatMessage({
@@ -628,6 +904,7 @@ const ChatMessage = memo(function ChatMessage({
   onWidgetSubmit,
   onOptionSelect,
   onRetry,
+  onApprovalSubmit,
   isLoading,
 }) {
   const [textDialogOpen, setTextDialogOpen] = useState(null);
@@ -645,12 +922,7 @@ const ChatMessage = memo(function ChatMessage({
   const contentReady = !showIndicator || hasContent;
 
   // Compute grouping at render time instead of storing in state
-  const groupedResponses = useMemo(() => {
-    const groups = groupMessages(exchange.responses);
-    const sourcesGroups = groups.filter(g => g.type === 'sources');
-    if (sourcesGroups.length > 0) console.log('[ChatMessage] Sources groups found:', sourcesGroups.length, sourcesGroups);
-    return groups;
-  }, [exchange.responses]);
+  const groupedResponses = useMemo(() => groupMessages(exchange.responses), [exchange.responses]);
 
   const getRawContent = () => {
     return groupedResponses.map(group => {
@@ -682,8 +954,13 @@ const ChatMessage = memo(function ChatMessage({
       indicatorStartRef.current = Date.now();
       setShowIndicator(true);
     } else if (!shouldShowIndicator && showIndicator) {
-      // Calling chips skip MIN_DISPLAY_TIME — the chip IS the progress indicator
-      if (hasCallingChips) {
+      // Skip MIN_DISPLAY_TIME when there's a better progress signal already on
+      // screen — the user does NOT need a spinner held up after content has
+      // arrived. MIN_DISPLAY_TIME only exists to prevent a flash for short
+      // initial-loading cases.
+      //   - hasCallingChips: the chip itself is the progress indicator
+      //   - hasContent: the response text/widget is now visible, no need to wait
+      if (hasCallingChips || hasContent) {
         setShowIndicator(false);
         return;
       }
@@ -696,7 +973,7 @@ const ChatMessage = memo(function ChatMessage({
         setShowIndicator(false);
       }
     }
-  }, [shouldShowIndicator, showIndicator, hasCallingChips]);
+  }, [shouldShowIndicator, showIndicator, hasCallingChips, hasContent]);
 
   return (
     <Box
@@ -704,7 +981,10 @@ const ChatMessage = memo(function ChatMessage({
       sx={{
         width: "100%",
         overflow: "visible",
-        mb: exchange.isLatest ? 0 : 6,
+        // Constant mb across turns. Toggling 0 → 6 (48px) on isLatest=false
+        // injected a jump on the previous exchange the moment a new turn
+        // started, shifting all content below it.
+        mb: 6,
         "&:hover .copy-button": { opacity: 1 },
       }}
     >
@@ -712,8 +992,13 @@ const ChatMessage = memo(function ChatMessage({
       <Box sx={{ marginBottom: "0.5rem", "&:hover .copy-button": { opacity: 1 } }}>
         <motion.div
           initial={false}
-          animate={{ opacity: 1, scale: exchange.isLatest ? 1 : 0.85 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          // Scale stays at 1 — the previous animation (1 → 0.85 over 400ms)
+          // ran on the old exchange in parallel with the new exchange's
+          // entrance animations, producing a perceptible "bounce" across the
+          // whole conversation. Visual de-emphasis is still applied via
+          // opacity below and the larger mb on past exchanges.
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           style={{ transformOrigin: "left center" }}
         >
           {exchange.widgetResponse ? null : (
@@ -871,14 +1156,16 @@ const ChatMessage = memo(function ChatMessage({
         </motion.div>
       </Box>
 
-      {/* Response */}
-      <Box sx={{ marginTop: exchange.isLatest ? 2 : 1 }}>
+      {/* Response — marginTop kept constant; toggling it on isLatest caused
+          the previous exchange to vertically squeeze when the next turn
+          started, contributing to the perceived UI bounce. */}
+      <Box sx={{ marginTop: 1.5 }}>
         <Box>
         {groupedResponses
           .filter(group => {
             if (group.type === "thinking") return false;
             if (!exchange.isLatest) return true;
-            if (!contentReady) return ["chipRow", "mcp_chip_row", "mcp_connecting", "reasoning"].includes(group.type);
+            if (!contentReady) return ["chipRow", "mcp_chip_row", "mcp_connecting", "reasoning", "mcp_approval_request"].includes(group.type);
             return true;
           })
           .map((group, groupIndex) => (
@@ -887,7 +1174,9 @@ const ChatMessage = memo(function ChatMessage({
               <Box>
                 <Stack direction="row" spacing={2} sx={{ minHeight: "40px", justifyContent: "flex-start" }}>
                   {group.chips.map((chip) => {
-                    const chipKey = `${exchangeIndex}-${groupIndex}-${chip.messageIndex}`;
+                    // Stable: group.messageIndex (set in messageUtils) doesn't
+                    // shift across filter flips like the filtered groupIndex does.
+                    const chipKey = `${exchangeIndex}-${group.messageIndex ?? `g${groupIndex}`}-${chip.messageIndex}`;
                     return (
                       <DynamicChip
                         key={chipKey}
@@ -953,12 +1242,15 @@ const ChatMessage = memo(function ChatMessage({
               <Box>
                 <Box
                   sx={{
-                    fontFamily: "var(--font-exo2), sans-serif",
+                    fontFamily: "var(--font-oracle-sans), sans-serif",
                     lineHeight: 1.6,
-                    fontSize: exchange.isLatest ? "inherit" : { xs: "0.95rem", sm: "1rem", md: "1.05rem" },
+                    // fontSize stays constant — the old conditional toggled
+                    // size on isLatest transition, re-flowing the assistant
+                    // text and shifting every line below it.
+                    fontSize: { xs: "0.95rem", sm: "1rem", md: "1.05rem" },
                     color: "inherit",
                     opacity: exchange.isLatest ? 1 : 0.7,
-                    "& *": { fontFamily: "var(--font-exo2), sans-serif !important", lineHeight: "inherit !important", color: "inherit" },
+                    "& *": { fontFamily: "var(--font-oracle-sans), sans-serif !important", lineHeight: "inherit !important", color: "inherit" },
                     "& table": { borderCollapse: "collapse", width: "100%", marginBottom: 2 },
                     "& th, & td": { border: "1px solid #ddd", padding: "8px", textAlign: "left" },
                     "& th": { backgroundColor: "#f5f5f5", fontWeight: "bold" },
@@ -1097,6 +1389,15 @@ const ChatMessage = memo(function ChatMessage({
               if (!server && enabled.length === 1) {
                 server = enabled[0];
               }
+              // OracleDB is the native Text-to-SQL pseudo-server — it never lives in
+              // mcpServers, so synthesize it from env. Without this, clicking
+              // Authorize crashed on buildAuthorizeUrl(null).
+              if (!server) {
+                const nl2sqlUrl = process.env.NEXT_PUBLIC_NL2SQL_MCP_URL || '';
+                if (nl2sqlUrl && (group.serverLabel === 'Nl2Sql' || group.serverEndpoint === nl2sqlUrl)) {
+                  server = { name: 'Nl2Sql', endpoint: nl2sqlUrl, authType: 'oauth2.1' };
+                }
+              }
               if (typeof window !== 'undefined' && !window.__mcp_banner_logged) {
                 window.__mcp_banner_logged = true;
                 console.log('[mcp banner]', {
@@ -1118,10 +1419,10 @@ const ChatMessage = memo(function ChatMessage({
               let buttonLabel;
               let onClickAction;
               const returnTo = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/';
-              const openOAuth = () => { window.location.href = `/api/mcp/oauth/authorize?endpoint=${encodeURIComponent(server.endpoint)}&returnTo=${encodeURIComponent(returnTo)}`; };
-              const openSettings = () => { window.location.href = server ? `/settings/tools?focus=${encodeURIComponent(server.id)}` : '/settings/tools'; };
+              const openOAuth = () => { window.location.href = MCPService.buildAuthorizeUrl(server, returnTo); };
+              const openSettings = () => { window.location.href = withBase(server ? `/settings/tools?focus=${encodeURIComponent(server.id)}` : '/settings/tools'); };
 
-              if (authType === 'oauth2.1') {
+              if (authType === 'oauth2.1' || authType === 'oauth2-user') {
                 title = `Authorization needed — ${displayName}`;
                 description = `Sign in to "${displayName}" to grant access. After authorizing you'll return here.`;
                 buttonLabel = 'Authorize';
@@ -1230,7 +1531,7 @@ const ChatMessage = memo(function ChatMessage({
                       </Typography>
                       <Typography component="div" sx={{ mt: 0.75, pl: 1.5, fontSize: "0.85rem", color: "rgba(0,0,0,0.7)", lineHeight: 2 }}>
                         • Switch to an {friendlyMsg.providers} model<br />
-                        • Disable <strong>{friendlyMsg.tools}</strong> in <Box component="a" href="/settings/tools" sx={{ fontWeight: 600, color: "#92400E", textDecoration: "underline", cursor: "pointer", "&:hover": { color: "#78350F" } }}>Settings → Tools</Box>
+                        • Disable <strong>{friendlyMsg.tools}</strong> in <Box component="a" href={withBase("/settings/tools")} sx={{ fontWeight: 600, color: "#92400E", textDecoration: "underline", cursor: "pointer", "&:hover": { color: "#78350F" } }}>Settings → Tools</Box>
                       </Typography>
                     </>
                   ) : (
@@ -1264,10 +1565,9 @@ const ChatMessage = memo(function ChatMessage({
                       >
                         {group.content}
                       </Box>
-                      {(group.opcRequestId || group.model || group.timestamp) && (
+                      {(group.opcRequestId || group.timestamp) && (
                         <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 0.25, fontFamily: "monospace", fontSize: "0.68rem", color: "var(--dm-muted, rgba(0,0,0,0.45))" }}>
                           {group.opcRequestId && <Box>opc-request-id: <Box component="span" sx={{ color: "var(--dm-text, rgba(0,0,0,0.7))", userSelect: "all" }}>{group.opcRequestId}</Box></Box>}
-                          {group.model && <Box>model: {group.model}</Box>}
                           {group.timestamp && <Box>time: {group.timestamp}</Box>}
                         </Box>
                       )}
@@ -1277,7 +1577,7 @@ const ChatMessage = memo(function ChatMessage({
                           sx={{
                             display: "inline-flex", alignItems: "center", gap: 0.5,
                             fontSize: "0.7rem", color: "var(--dm-muted, rgba(0,0,0,0.4))", cursor: "pointer", mt: 1,
-                            fontFamily: "var(--font-exo2), sans-serif",
+                            fontFamily: "var(--font-oracle-sans), sans-serif",
                             "&:hover": { color: "#1976d2" },
                           }}
                         >
@@ -1290,6 +1590,10 @@ const ChatMessage = memo(function ChatMessage({
               );
             })()}
 
+            {group.type === "mcp_approval_request" && (
+              <ApprovalCard group={group} onApprovalSubmit={onApprovalSubmit} />
+            )}
+
             {group.type === "mcp_connecting" && (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, minHeight: 24 }}>
                 <DotMatrixLoader size="medium" />
@@ -1297,7 +1601,10 @@ const ChatMessage = memo(function ChatMessage({
             )}
 
             {group.type === "mcp_chip_row" && (() => {
-              const rowKey = `mcp-row-${exchangeIndex}-${groupIndex}`;
+              // Stable row id keyed off the FIRST chip's messageIndex (set in
+              // messageUtils). Falls back to groupIndex only if missing —
+              // groupIndex is unstable across the contentReady filter flip.
+              const rowKey = `mcp-row-${exchangeIndex}-${group.messageIndex ?? `g${groupIndex}`}`;
               const selectedChipIndex = activeChips[rowKey]?.chipIndex;
               const selectedChip = selectedChipIndex !== undefined ? group.chips[selectedChipIndex] : null;
               const hasError = selectedChip?.status === "failed";
@@ -1401,7 +1708,7 @@ const ChatMessage = memo(function ChatMessage({
                               : chip.status === "failed"
                               ? "1px solid rgba(211, 47, 47, 0.3)"
                               : "1px solid var(--dm-border, rgba(0, 0, 0, 0.1))",
-                            fontFamily: "var(--font-exo2), sans-serif",
+                            fontFamily: "var(--font-oracle-sans), sans-serif",
                             fontSize: "0.8rem",
                             color: chip.status === "completed"
                               ? "#2e7d32"
@@ -1410,7 +1717,7 @@ const ChatMessage = memo(function ChatMessage({
                               : "var(--dm-muted, rgba(0, 0, 0, 0.6))",
                             transition: "all 0.2s ease",
                             cursor: isClickable ? "pointer" : "default",
-                            userSelect: "none",
+                            userSelect: "text",
                             "&:hover": isClickable
                               ? {
                                   backgroundColor: chipHasError ? "rgba(211, 47, 47, 0.12)" : "rgba(76, 175, 80, 0.12)",
@@ -1602,7 +1909,10 @@ const ChatMessage = memo(function ChatMessage({
                                   wordBreak: "break-word",
                                   mb: 1,
                                 }}>
-                                  {selectedChip.error || selectedChip.output || "Tool execution failed"}
+                                  {(() => {
+                                    const e = selectedChip.error || selectedChip.output || "Tool execution failed";
+                                    return typeof e === "string" ? e : JSON.stringify(e, null, 2);
+                                  })()}
                                 </Box>
                                 {exchange.trace && (
                                   <Box
@@ -1672,9 +1982,14 @@ const ChatMessage = memo(function ChatMessage({
                                     No output returned
                                   </Typography>
                                 ) : (() => {
-                                  // Try to parse as JSON for nice rendering
+                                  // Try to parse as JSON for nice rendering.
+                                  // output may already be an object (e.g. an MCP content-block
+                                  // reloaded from history) — in that case skip JSON.parse and
+                                  // render it directly with JsonView so React never gets an object child.
                                   try {
-                                    const parsed = JSON.parse(selectedChip.output);
+                                    const parsed = typeof selectedChip.output === 'string'
+                                      ? JSON.parse(selectedChip.output)
+                                      : selectedChip.output;
                                     if (typeof parsed === 'object' && parsed !== null) {
                                       return (
                                         <JsonView
@@ -1706,10 +2021,11 @@ const ChatMessage = memo(function ChatMessage({
                                       </ReactMarkdown>
                                     );
                                   } catch {
-                                    // Not JSON, render as markdown
+                                    // Not JSON, render as markdown. Coerce non-string output
+                                    // so React never receives an object as a child.
                                     return (
                                       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                                        {selectedChip.output}
+                                        {typeof selectedChip.output === 'string' ? selectedChip.output : JSON.stringify(selectedChip.output, null, 2)}
                                       </ReactMarkdown>
                                     );
                                   }
