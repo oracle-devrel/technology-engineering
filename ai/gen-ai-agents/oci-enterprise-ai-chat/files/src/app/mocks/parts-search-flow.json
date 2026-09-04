@@ -1,0 +1,24 @@
+{
+  "id": "parts-search-flow",
+  "name": "Parts Search and Selection Flow",
+  "triggerPhrases": [
+    "I need parts for the production line"
+  ],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "I need more information before searching for parts in Oracle Fusion ERP. Let me ask you some specific questions to find the exact parts you need."
+      },
+      "delay": 100
+    },
+    {
+      "type": "text",
+      "content": "To help you find the right parts for your production line, I need some specifications:\n\n- **What power rating do you need?** (e.g., 10HP, 15HP, 20HP)\n- **What's your voltage requirement?** (e.g., 220V, 380V, 440V)\n- **Is this for continuous or intermittent operation?**\n\nPlease provide these details so I can search for the most suitable parts in our Oracle Fusion ERP catalog.",
+      "delay": 50
+    }
+  ]
+}
