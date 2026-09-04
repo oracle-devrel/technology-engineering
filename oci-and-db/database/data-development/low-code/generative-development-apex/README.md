@@ -48,7 +48,7 @@ Reviewed: 26.08.2026
 - [Coding with the AI Powered APEX Assistant on Oracle APEX](https://blogs.oracle.com/apex/post/coding-with-the-ai-powered-apex-assistant-on-oracle-apex)
 - [Retrieval Augmented Generation in APEX](https://apex.oracle.com/go/blog-ai-config-and-rag-sources)
 
-## Intergrating AI Services
+## Integrating AI Services
 - [Oracle APEX Meets OCI Generative AI](https://blogs.oracle.com/apex/post/building-innovative-qa-experiences-oracle-apex-meets-oci-generative-ai)
 - [Empowering Search with OCI Vision in APEX](https://blogs.oracle.com/apex/post/empowering-search-with-oci-vision-in-oracle-apex)
 - [Integrating an Oracle Digital Assistant Chatbot](https://blogs.oracle.com/apex/post/integrating-an-oracle-digital-assistant-chatbot-in-to-your-oracle-apex-app)
@@ -82,7 +82,7 @@ Reviewed: 26.08.2026
 - [AI-Powered Knowledge Base Demo](gendev-demos/ai-powered-knowledge-base-demo/README.md)
 The AI-Powered Knowledge Base demo provides an installation guide and reference implementation for building a knowledge-base style application with Oracle APEX and AI capabilities.
 
-- [generating Oracle APEX applications from Blueprint with an AI assistant](./Apex-Apps-Generation-with-Blueprints/)
+- [generating Oracle APEX applications from Blueprint with an AI assistant](./apex-apps-generation-with-blueprints/)
 
 ## APEX 26.1 Generative Development Features
 

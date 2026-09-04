@@ -16,7 +16,7 @@ In July 2025, Oracle release his first MCP Server Tools supportability with the 
 Oracle, since this first adoption have committed to helping organizations bring AI agents and assistants closer to trusted enterprise data.
 Oracle provides MCP servers for some of its most popular platforms, including Oracle AI Database, so developers, DBAs, and business users can connect large language models to approved tools and data through the Model Context Protocol.
 
-Oracle ai Database MCP has three deployment models that can be choosen to fit at best customer environment:
+Oracle ai Database MCP has three deployment models that can be chosen to fit at best customer environment:
 - <b>Oracle SQLcl</b> (since version 25.2) for developers and local STDIO environment (test, dev environments);
 - <b>OCI Database Tools MCP Server</b> for native-managed Oracle Cloud Infrastructure deployments and HTTPS experience for any Oracle AI Database in the cloud;
 - <b>Oracle REST Data Services MCP Server</b> for any HTTPS-secure streaming access
@@ -55,13 +55,6 @@ Main properties:
   - <i><b>sql_run</i></b>: Executes SQL or PL/SQL for an authorized MCP database connection
 
 Reviewed: 26.08.2026
-
-
-# Table of Contents
-
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
