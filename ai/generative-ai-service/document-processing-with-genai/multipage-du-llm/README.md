@@ -3,6 +3,8 @@
 A set of Python command-line and Streamlit apps that combine Oracle Document Understanding (OCR) with Gen AI to classify documents, in particular those that have been bundled together (and scanned) into one long document. The samples demoed here are HR documents but they could be of any type.
 ![](images/ui.png)
 
+Reviewed: 04.08.2026
+
 ## Features
 
 - **Document Classification**: Automatically classifies documents into 70+ HR/Finance categories
