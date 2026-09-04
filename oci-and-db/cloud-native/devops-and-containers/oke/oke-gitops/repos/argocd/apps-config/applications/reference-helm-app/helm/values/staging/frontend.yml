@@ -1,0 +1,9 @@
+global:
+  application: reference-helm-app
+  component: frontend
+  environment: staging
+  instance: reference-helm-app-staging
+frontend:
+  enabled: true
+  image:
+    tag: 1.27.4-alpine
