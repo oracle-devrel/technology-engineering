@@ -1,0 +1,16 @@
+enabled: false
+replicaCount: 1
+image:
+  repository: docker.io/nginxinc/nginx-unprivileged
+  tag: 1.27.2-alpine
+  pullPolicy: IfNotPresent
+service:
+  port: 80
+  targetPort: 8080
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
