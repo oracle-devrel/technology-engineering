@@ -6,6 +6,7 @@ locals {
   enable_cert_manager                                      = var.cluster_type == "enhanced" && var.enable_cert_manager
   enable_metrics_server                                    = var.cluster_type == "enhanced" && var.enable_cert_manager && var.enable_metrics_server
   create_karpenter_policies                                = var.cluster_type == "enhanced" && var.enable_policies && var.create_karpenter_policies
+  create_karpenter_resources                               = local.create_karpenter_policies && !var.policies_dry_run
   create_karpenter_cluster_placement_group_policy_optional = local.create_karpenter_policies && var.create_karpenter_cluster_placement_group_policy_optional
   create_karpenter_tag_policy_optional                     = local.create_karpenter_policies && var.create_karpenter_tag_policy_optional
   tag_compartment_id                                       = local.create_karpenter_tag_policy_optional ? var.tag_compartment_id : ""

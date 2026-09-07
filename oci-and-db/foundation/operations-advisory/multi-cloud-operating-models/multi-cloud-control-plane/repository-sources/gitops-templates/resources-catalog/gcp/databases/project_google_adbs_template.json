@@ -1,0 +1,17 @@
+{
+  "project_id": "__GOOGLE_PROJECT_ID__",
+  "gcp_autonomous_databases_configuration": {
+    "__ADB_KEY__": {
+      "autonomous_database_id": "__ADB_ID__",
+      "display_name": "__ADB_DISPLAY_NAME__",
+      "database": "__ADB_DATABASE_NAME__",
+      "odb_network": "__ODB_NETWORK_ID__",
+      "odb_subnet": "__ODB_SUBNET_ID__",
+      "properties": {
+        "db_workload": "OLTP",
+        "license_type": "LICENSE_INCLUDED",
+        "secret_id": "__ADMIN_PASSWORD_SECRET_ID__"
+      }
+    }
+  }
+}
