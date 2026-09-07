@@ -1,0 +1,10 @@
+.terraform/
+.idea/
+.oca/
+terraform.tfstate
+terraform.tfstate.*
+*.tfvars
+*.tfvars.json
+stack.zip
+.agents.zip
+.DS_Store
