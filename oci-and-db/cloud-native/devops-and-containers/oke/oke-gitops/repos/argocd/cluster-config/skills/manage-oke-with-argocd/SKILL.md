@@ -33,8 +33,13 @@ observation surfaces. Do not repair managed objects directly.
   `production` variants. It never selects a cluster.
 - `fleet-config`: optional registered-spoke objects, profiles, and per-cluster
   placement. Spokes run no local GitOps controller.
-- `pipelines`: OCI DevOps artifact mirroring. Do not place Kubernetes desired
+- `gitops-pipelines`: OCI DevOps artifact mirroring. Do not place Kubernetes desired
   state here.
+
+In a hybrid installation, OCI DevOps may own component builds and releases while
+this repository owns cluster administration. Sharing an OCI DevOps project does
+not transfer Kubernetes ownership: do not add developer component workloads here
+unless the selected GitOps scope explicitly includes application placement.
 
 If a requested change crosses repositories, make and validate one coherent
 change per repository and state the required merge order.

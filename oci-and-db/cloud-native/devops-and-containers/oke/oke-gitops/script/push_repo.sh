@@ -7,6 +7,7 @@ SOURCE_REPO="${SOURCE_REPO#/}"
 SOURCE_PATH="${PWD}/${SOURCE_REPO}"
 CREDENTIAL_HELPER='!f() { printf "username=%s\npassword=%s\n" "$GIT_USERNAME" "$GIT_PASSWORD"; }; f'
 OVERWRITE_REPOSITORY="${OVERWRITE_REPOSITORY:-false}"
+SEED_EXCLUDE_PATHS="${SEED_EXCLUDE_PATHS:-}"
 
 test -n "$CLONED_DIR"
 test -d "$SOURCE_PATH"
@@ -42,6 +43,21 @@ fi
 find "$CLONED_DIR" -mindepth 1 -maxdepth 1 ! -name .git \
   -exec rm -rf -- {} +
 cp -a "${SOURCE_PATH}/." "${CLONED_DIR}/"
+
+# Scope-specific starter content is filtered only while creating the initial
+# repository. Paths must stay relative to the repository root.
+while IFS= read -r excluded_path; do
+  test -n "$excluded_path" || continue
+  case "$excluded_path" in
+    /* | .. | ../* | */../* | */..)
+      echo "Invalid SEED_EXCLUDE_PATHS entry: $excluded_path" >&2
+      exit 2
+      ;;
+  esac
+  rm -rf -- "${CLONED_DIR:?}/${excluded_path}"
+done <<EOF
+$SEED_EXCLUDE_PATHS
+EOF
 
 cd "$CLONED_DIR"
 git config user.email "resource-manager@oracle.com"
