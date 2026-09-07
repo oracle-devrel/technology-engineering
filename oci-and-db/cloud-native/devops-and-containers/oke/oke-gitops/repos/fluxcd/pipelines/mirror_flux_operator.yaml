@@ -12,11 +12,12 @@ env:
     region_key: ""
     chart_name: "flux-operator"
     chart_repo: "oci://ghcr.io/controlplaneio-fluxcd/charts"
-    chart_version: ""
+    chart_version: "LATEST"
     source_controller_version: ""
     kustomize_controller_version: ""
     helm_controller_version: ""
     namespace: "flux-system"   # The Helm Chart will be deployed in this namespace
+    deployment_nonce: ""
 
   exportedVariables:
     - "chart_version"
@@ -25,6 +26,7 @@ env:
     - "tenancy_namespace"
     - "repo_prefix"
     - "namespace"
+    - "deployment_nonce"
 
 steps:
 
@@ -37,6 +39,7 @@ steps:
       region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
       export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
       export tenancy_namespace=$(oci artifacts container configuration get --compartment-id "${repo_compartment_id}" --query data.namespace --raw-output);
+      export deployment_nonce="${OCI_BUILD_RUN_ID:-$(date +%s%N)}"
     onFailure:
       - type: Command
         command: |
@@ -47,12 +50,12 @@ steps:
     name: "Resolve Flux Operator chart version"
     failImmediatelyOnError: true
     command: |
-      if [ -n "${chart_version}" ]; then
-        echo "[INFO] chart_version already provided: ${chart_version}"
+      if [ -n "${chart_version}" ] && [ "${chart_version}" != "LATEST" ]; then
+        echo "[INFO] Using requested chart_version=${chart_version}"
         exit 0
       fi
 
-      echo "[INFO] chart_version not provided. Resolving latest version from ${chart_repo}/${chart_name}"
+      echo "[INFO] Resolving LATEST from ${chart_repo}/${chart_name}"
       SKOPEO_IMAGE="quay.io/skopeo/stable:latest"
       CHART_REPO_REF="${chart_repo#oci://}/${chart_name}"
       docker image inspect "${SKOPEO_IMAGE}" >/dev/null 2>&1 || docker pull "${SKOPEO_IMAGE}" >/dev/null

@@ -10,6 +10,10 @@ Reviewed: 04.06.2026
 2. [Useful Links](#useful-links)
  
 # Team Publications
+
+- [Integrating Oracle GoldenGate for DAA 26ai with RabbitMQ Using JMS](https://blogs.oracle.com/dataintegration/integrating-oracle-goldengate-for-daa-26ai-with-rabbitmq-using-jms)
+    - A practical, lab-tested guide to publishing Oracle Database changes to RabbitMQ with Oracle GoldenGate for Distributed Applications and Analytics (Oracle GoldenGate for DAA) 26ai and the standard JMS Handler.
+
 - [Real-Time AML/Fraud Triage with Oracle GoldenGate AIService and Vector Search](https://medium.com/@nishar.soneji/real-time-aml-fraud-triage-with-oracle-goldengate-aiservice-and-vector-search-4f3dc9c3755a)
     - The blog shows a real-time pattern for operational AML/fraud triage using Oracle GoldenGate AIService, OCI Generative AI embeddings, Oracle Database vector search, and a lightweight analyst review page.
 

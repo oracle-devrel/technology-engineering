@@ -34,9 +34,9 @@ print("\n[grok-4-fast]", response.choices[0].message.content)
 print("Tokens:", response.usage.total_tokens)
 
 # Streaming
-print("\n[llama-4-scout, streaming] ", end="", flush=True)
+print("\n[llama-3.3-70b, streaming] ", end="", flush=True)
 stream = client.chat.completions.create(
-    model="llama-4-scout",
+    model="llama-3.3-70b",
     messages=[{"role": "user", "content": "Write a haiku about Oracle Cloud."}],
     stream=True,
 )

@@ -2,7 +2,7 @@
  
 *Example authorizer function for API Gateway with OIC backend.*
 
-Review Date: 03.11.2023
+Review Date: 02.09.2026
  
 # When to use this asset?
  

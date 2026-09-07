@@ -13,8 +13,9 @@ env:
     tenancy_namespace: ""
     chart_name: "argo-cd"
     chart_repo: "https://argoproj.github.io/argo-helm"
-    chart_version: ""
+    chart_version: "LATEST"
     namespace: "argocd"
+    deployment_nonce: ""
 
   exportedVariables:
     - "chart_version"
@@ -23,6 +24,7 @@ env:
     - "tenancy_namespace"
     - "repo_prefix"
     - "namespace"
+    - "deployment_nonce"
 
 steps:
 
@@ -35,6 +37,7 @@ steps:
       region_key=$(oci iam region list --query "data[?name == '$region'].key | [0]" --raw-output);
       export region_key=$(echo "$region_key" | tr '[:upper:]' '[:lower:]');
       export tenancy_namespace=$(oci artifacts container configuration get --compartment-id "${repo_compartment_id}" --query data.namespace --raw-output);
+      export deployment_nonce="${OCI_BUILD_RUN_ID:-$(date +%s%N)}"
     onFailure:
       - type: Command
         command: |
@@ -45,12 +48,12 @@ steps:
     name: "Resolve Argo CD chart version"
     failImmediatelyOnError: true
     command: |
-      if [ -n "${chart_version}" ]; then
-        echo "[INFO] chart_version already provided: ${chart_version}"
+      if [ -n "${chart_version}" ] && [ "${chart_version}" != "LATEST" ]; then
+        echo "[INFO] Using requested chart_version=${chart_version}"
         exit 0
       fi
 
-      echo "[INFO] chart_version not provided. Resolving latest version from ${chart_repo}/${chart_name}"
+      echo "[INFO] Resolving LATEST from ${chart_repo}/${chart_name}"
       helm repo add argocd "${chart_repo}" --force-update
       helm repo update argocd
 

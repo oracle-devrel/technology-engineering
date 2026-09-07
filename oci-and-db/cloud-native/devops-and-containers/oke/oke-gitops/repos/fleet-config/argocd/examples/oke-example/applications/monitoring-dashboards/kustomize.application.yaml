@@ -1,0 +1,4 @@
+application: monitoring-dashboards
+cluster: oke-example
+namespace: monitoring
+resourcesPath: profiles/example/applications/monitoring-dashboards/resources

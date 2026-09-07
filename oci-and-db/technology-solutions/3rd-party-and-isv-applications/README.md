@@ -4,7 +4,7 @@
 
 ISV Applications are very similar to the above description of 3rd Party Applications, but the company developing the application is using Oracle technology. Examples are Dassault Enovia, Temenos and Murex.
 
-Reviewed: 25.11.2025
+Reviewed: 15.05.2026
 
 # Team Publications
 

@@ -2,7 +2,7 @@
 
 This folder contains the files in order to carry out the AI Vector Search Tutorial [Getting started with vectors in 26ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai).
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
 
 # When to use this asset?
 
@@ -11,8 +11,6 @@ Use the scripts to learn basics about AI Vector Search.
 # How to use this asset?
 
 Please use the posting [Getting started with vectors in 26ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai) for information about the scripts.
-
-# Useful Links
 
 ## Documentation
 

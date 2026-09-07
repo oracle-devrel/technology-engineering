@@ -2,13 +2,12 @@
 
 This page covers shared assets, meaning assets that are not single product specific, and that cover either multiple products or a broader scope.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
 </br></br>
 
 # Table of Contents
 
-1. [Art of the Possible Demos](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/shared-assets/art-of-possible-demo-assets) 
-2. [Other Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/shared-assets/other-assets)
+1. [Other Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/shared-assets/other-assets)
 </br></br>
 
 # License

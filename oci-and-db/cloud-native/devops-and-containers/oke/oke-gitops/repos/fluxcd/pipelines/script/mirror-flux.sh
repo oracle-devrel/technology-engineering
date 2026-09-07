@@ -129,6 +129,11 @@ done
 
 # Create also a repository for flux-operator image
 create_repo "$OCIR_REPOSITORY_PATH/$GITOPS_AGENT_NAME"
+# Flux Operator 0.58+ also mirrors the CLI image used to perform the distro
+# copy and the FluxInstance chart. OCIR does not auto-create repositories for
+# bearer-token pushes.
+create_repo "$OCIR_REPOSITORY_PATH/flux-operator-cli"
+create_repo "$OCIR_REPOSITORY_PATH/charts/flux-instance"
 
 # Login to the registry
 log_info "Authenticating to OCIR"

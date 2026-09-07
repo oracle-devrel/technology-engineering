@@ -1,8 +1,24 @@
 variable "compartment_id" {}
+variable "create_devops_project" {
+  type = bool
+}
+variable "existing_devops_project_id" {
+  type = string
+}
 variable "region" {}
 variable "tenancy_id" {}
 
 variable "gitops_agent" {}
+variable "gitops_scope" {}
+variable "enable_multicluster" {
+  type = bool
+}
+variable "flux_fleet_member_name" {
+  type = string
+}
+variable "development_overwrite_repositories" {
+  type = bool
+}
 
 # NOTIFICATION
 variable "create_notification_topic" {
@@ -24,18 +40,23 @@ variable "devops_log_retention_period_in_days" {
 }
 
 # SECRETS
-variable "git_username" {}
-variable "git_password" {}
+variable "git_username" {
+  description = "Bootstrap-only OCI DevOps Git username used to seed repositories"
+}
+variable "git_password" {
+  description = "Bootstrap-only OCI DevOps Git password used to seed repositories"
+  sensitive   = true
+}
 
 # TEMPLATE
 variable "ocir_repo_path_prefix" {}
+variable "pipelines_repository_name" {
+  type = string
+}
 
 # OKE ENVIRONMENT
 variable "oke_cluster_id" {}
 variable "oke_environment_name" {}
 variable "oke_environment_description" {}
-variable "is_oke_cluster_private" {
-  type = bool
-}
 variable "oke_worker_subnet_id" {}
 variable "oke_worker_nsg_id" {}

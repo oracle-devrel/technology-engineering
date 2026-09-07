@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure integration services connect any application and data source to automate end-to-end processes and centralize management. The broad array of integrations, with prebuilt adapters and low-code customization, simplify migration to the cloud while streamlining hybrid and multicloud operations.
 
-Review Date: 19.01.2026
+Review Date: 02.09.2026
 
 # Useful Links
 

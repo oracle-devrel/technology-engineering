@@ -6,6 +6,7 @@ locals {
   idcs_endpoint = data.oci_identity_domain.devops_domain.url
   matching_rule = <<EOT
   ANY { ALL {resource.type = 'devopsdeploypipeline', resource.compartment.id = '${var.compartment_id}'},
+        ALL {resource.type = 'devopsdeployenvironment', resource.compartment.id = '${var.compartment_id}'},
         ALL {resource.type = 'devopsrepository', resource.compartment.id = '${var.compartment_id}'},
         ALL {resource.type = 'devopsbuildpipeline',resource.compartment.id = '${var.compartment_id}'},
         ALL {resource.type = 'devopsconnection',resource.compartment.id = '${var.compartment_id}'}
@@ -20,4 +21,3 @@ resource "oci_identity_domains_dynamic_resource_group" "devOpsDynamicGroup" {
   matching_rule = local.matching_rule
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:DynamicResourceGroup"]
 }
-

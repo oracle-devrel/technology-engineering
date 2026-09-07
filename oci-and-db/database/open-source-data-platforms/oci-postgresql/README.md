@@ -26,7 +26,7 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Set up PgBouncer for Connection Pooling with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/open-source-data-platforms/oci-postgresql/code-examples/pgbouncer-setup)
 - [Use PostgreSQL MCP Pro with OCI Database with PostgreSQL](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/postgres-mcp)
 - [Automate Switchover/Failover operations with OCI PostgreSQL Warm-Standby DR](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-postgresql/code-examples/crr-automation)
-
+- [OCI PostgreSQL Showcase - Demo Presentation](https://github.com/phantompete/OCIPostgreSQLShowcase)
 
 ### Oracle Learn & Architecture Center
 - [Automate Cold Disaster Recovery for OCI Database with PostgreSQL using OCI Full Stack Disaster Recovery](https://docs.oracle.com/en/learn/full-stack-dr-pgsql-cold-dr/#introduction)
@@ -45,6 +45,7 @@ OCI Database with PostgreSQL is designed for high availability by offering durab
 - [Does Postgres need the Boyer-Moore-Horspool search algorithm for LIKE operator?](https://medium.com/@andreumdorokhinum/does-postgres-need-the-boyer-moore-horspool-search-algorithm-for-like-operator-00b43e4b115c)
 - [Integration of OCI Database with PostgreSQL and Oracle Audit Vault and Database Firewall](https://medium.com/@andreumdorokhinum/integration-of-oci-database-with-postgresql-and-oracle-audit-vault-and-database-firewall-f98236b980bd)
 - [Setting up Kerberos Auth for OCI Database with PostgreSQL](https://medium.com/@andreumdorokhinum/setting-up-kerberos-auth-for-oci-database-with-postgresql-51e9a235975b)
+- [Setting Up a Time-Series Node for OCI Database with PostgreSQL](https://medium.com/@andreumdorokhinum/setting-up-a-time-series-node-for-oci-database-with-postgresql-db1283a6fec8)
 
 ### LiveLabs
 - [LiveLabs: Accelerating IoT applications with OCI Cache and OCI PostgreSQ](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=4383&p210_wec=&session=119324071827764)
