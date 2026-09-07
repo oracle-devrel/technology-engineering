@@ -13,9 +13,11 @@ network security group OCIDs required by the OKE stack.
 For GPU and RDMA clusters that need a complete specialized deployment, use the
 [OCI HPC OKE Quickstart](https://github.com/oracle-quickstart/oci-hpc-oke).
 
+Reviewed: 07.09.2026
+
 ## Architecture
 
-![Architecture](images/architecture.png)
+![Architecture](files/images/architecture.png)
 
 ## 1. Create the network infrastructure
 
@@ -40,7 +42,7 @@ Before applying the stack:
 - Review CIDRs and routing carefully when using an existing VCN. Terraform
   validates input formats but cannot identify every overlap or routing conflict.
 
-See the [generated network-rules report](infra/network-rules-report.md)
+See the [generated network-rules report](files/infra/network-rules-report.md)
 for every OKE, database, and messaging rule created by this stack.
 
 [![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.7/infra.zip)
@@ -66,7 +68,7 @@ When enabled, it derives policies for the selected configuration, including:
 
 Use **Policy dry-run** to inspect the generated statements without creating IAM
 policies or Karpenter identity resources. Read the local
-[OKE policy guide](oke/POLICIES.md) for the exact behavior and for
+[OKE policy guide](files/oke/POLICIES.md) for the exact behavior and for
 additional policies that might be required by application features selected
 after cluster creation.
 
@@ -79,16 +81,16 @@ are disabled by default so the project remains a reusable starter template.
 
 Open the OKE stack and edit its Terraform configuration:
 
-![Edit Terraform configurations](images/edit_oci_stack.png)
+![Edit Terraform configurations](files/images/edit_oci_stack.png)
 
 Set `create = true` only on the node pool you want to provision. You can also
 clone this repository, edit `oke.tf`, and upload the modified OKE directory:
 
-![Upload edited Terraform configuration](images/edit_stack_with_source.png)
+![Upload edited Terraform configuration](files/images/edit_stack_with_source.png)
 
 Save the configuration, create a plan, and apply it:
 
-![Node pool creation](images/node_pool_create.png)
+![Node pool creation](files/images/node_pool_create.png)
 
 ### Available examples
 
@@ -108,16 +110,72 @@ To use Ubuntu workers, first create an Ubuntu custom image in your tenancy, then
 set the worker image type and image OCID as described in `oke.tf`.
 
 For Karpenter installation and configuration, see the
-[Karpenter guide](oke-oci-karpenter-guide.md).
+[Karpenter guide](files/oke-oci-karpenter-guide.md).
 
-## Operate the cluster
+## What's Next? Managing an OKE Cluster
 
-Once the cluster and worker nodes are ready, choose the next step that matches
-your operating model:
+Once the cluster and worker nodes are ready, choose how application delivery and
+cluster administration will be managed.
 
-1. Use the **[OKE GitOps Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/cloud-native/devops-and-containers/oke/oke-gitops)**
-   to manage an existing OKE cluster with Argo CD or Flux CD and OCI DevOps
-   repositories.
-2. Use the **[OKE DevOps Starter](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/cloud-native/devops-and-containers/devops/oci-devops-rm)**
-   to create application repositories, build and deployment pipelines, release
-   promotion, and optional cluster-administration workflows.
+```mermaid
+flowchart TD
+  A["OKE cluster ready"] --> B{"Who deploys applications?"}
+  B -->|OCI DevOps| C{"Who administers the cluster?"}
+  C -->|OCI DevOps| D["OCI DevOps end to end"]
+  C -->|GitOps| E["OCI DevOps applications<br/>GitOps operations"]
+  B -->|GitOps| F{"Who builds images?"}
+  F -->|OCI DevOps| G["OCI DevOps builds only<br/>GitOps delivery and operations"]
+  F -->|Existing CI| H["GitOps with external CI<br/>for example Jenkins"]
+```
+
+| Operating model | OKE DevOps Starter | OKE GitOps |
+| --- | --- | --- |
+| OCI DevOps end to end | `application_delivery_mode=oci_devops`, `enable_cluster_admin=true` | Not required |
+| OCI DevOps applications with GitOps operations | `application_delivery_mode=oci_devops`, `enable_cluster_admin=false` | `gitops_scope=cluster_admin` |
+| Build-only OCI DevOps with GitOps delivery | `application_delivery_mode=build_only`, `enable_cluster_admin=false` | `gitops_scope=applications_and_cluster` |
+| GitOps only with external builds | Not required; use Jenkins or another CI system | `gitops_scope=applications_and_cluster` |
+
+Use these solution assets to implement the selected model:
+
+- [OKE DevOps Starter](../oci-devops-rm/README.md) creates application CI and,
+  when selected, OCI DevOps application delivery and cluster-administration
+  workflows.
+- [OKE GitOps](../oke-gitops/README.md) bootstraps a Git-first operating model
+  using either [Argo CD](../oke-gitops/argocd-solution.md) or
+  [Flux](../oke-gitops/flux-solution.md).
+
+GitOps-only mode still requires a CI system to build and publish application
+images. Jenkins is one option; any build service can be used if it publishes an
+image that the GitOps application configuration can reference.
+
+When both stacks are used, they can share an OCI DevOps project but remain
+independent. Kubernetes ownership is defined per object, not per namespace. A
+GitOps cluster administrator can manage quotas or policies inside an
+application namespace while OCI DevOps manages the workloads there, but the two
+systems must never reconcile the same Kubernetes object identity.
+
+### AI agent skills
+
+The solutions include portable skills that help compatible AI agents operate
+their generated repositories, pipelines, and cluster workflows:
+
+- [OKE DevOps Starter skill](../oci-devops-rm/docs/ai-agent-skill.md)
+- [Manage OKE with Argo CD](../oke-gitops/repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
+  ([installation guide](../oke-gitops/repos/argocd/cluster-config/docs/install-agent-skill.md))
+- [Manage OKE with Flux](../oke-gitops/repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
+  ([installation guide](../oke-gitops/repos/fluxcd/cluster-config/docs/install-agent-skill.md))
+
+### Additional guides
+
+- [OKE policies](../oke-policies/policies.md)
+- [Karpenter guide](oke-oci-karpenter-guide.md)
+- [OKE ingress controller guidance](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengmanagingresscontrollers.htm)
+
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

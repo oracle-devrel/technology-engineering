@@ -14,12 +14,32 @@ dedicated installation pipeline; every member then pulls only its own
 activation root from the shared `fleet-config` repository. Flux has no hub
 mode.
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.0.0/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.1.0/stack.zip)
+
+Reviewed: 07.09.2026
+
+# When to use this asset?
+
+Use this asset when an existing OKE cluster should be managed through Git
+instead of routine direct `kubectl` changes. It provides a guided bootstrap for
+either Argo CD or Flux, separates cluster-administrator and application-team
+repositories, and optionally supports multiple clusters using the delivery
+model native to the selected engine.
+
+# How to use this asset?
+
+Start with the **Deploy to Oracle Cloud** button above, select the GitOps engine
+and scope, and complete the one-time bootstrap described in
+[Deploy and bootstrap](#deploy-and-bootstrap). After the handoff, make normal
+cluster and application changes through the generated Git repositories. Use
+the documentation links below for IAM preparation, administration, application
+delivery, fleet operation, and AI-agent installation.
 
 ## Documentation
 
 - Stable repository contract: [contract v1](REPOSITORY-CONTRACT.md).
-- Current release: [2.0.0 release notes](RELEASE-NOTES.md).
+- Combine this stack with OCI DevOps CI: [integration modes](INTEGRATION.md).
+- Current release: [2.1.0 release notes](RELEASE-NOTES.md).
 - This README: stack deployment and the one-time GitOps handoff.
 - Bootstrap access:
   - [Argo CD IAM and Vault guide](repos/argocd/cluster-config/docs/README.md)
@@ -60,10 +80,27 @@ the mechanism supported by the chosen agent. For Codex, follow the
 or the
 [Flux installation guide](repos/fluxcd/cluster-config/docs/install-agent-skill.md).
 
+## Choose the GitOps scope
+
+`gitops_scope` controls the initial repository template:
+
+- `cluster_admin` seeds cluster-wide and namespace-scoped administrative
+  configuration, including tools, quotas, policies, and shared namespace
+  resources. It does not activate the reference developer workloads.
+- `applications_and_cluster` also seeds the reference application placements,
+  so GitOps can own application namespace infrastructure and releases.
+
+This is an initial-seed choice. Once a repository contains a commit, later
+Resource Manager applies preserve its customer-owned content. The
+`apps-config` catalog is created in both modes, but remains inactive in
+`cluster_admin` until an administrator deliberately adds an application
+placement.
+
 ## What the stack creates
 
-- One OCI DevOps project.
-- A `pipelines` repository for mirroring charts and images into OCIR.
+- A new OCI DevOps project, or resources in a selected existing project.
+- A configurable `gitops-pipelines` repository for mirroring charts and images
+  into OCIR.
 - A `cluster-config` repository for GitOps bootstrap and platform resources.
 - An `apps-config` repository for application workloads.
 - When `enable_multicluster = true`, a `fleet-config` repository for native
@@ -74,7 +111,13 @@ or the
   upgrades.
 - An underlying `install-gitops-agent` deployment pipeline triggered only by
   the bootstrap pipeline.
-- Logging, notifications, and optional IAM resources.
+- For a new project, logging and notification configuration; optional IAM
+  resources are available in either project mode.
+
+When an existing project is selected, the stack does not create or modify that
+project's logging or notification configuration. It creates only this
+solution's repositories, pipelines, artifacts, and OKE environment in the
+selected project.
 
 Choose one GitOps engine when creating the stack:
 
@@ -97,7 +140,7 @@ Argo CD or Flux Operator manages its own Helm release from the editable
 
 | Repository | Owners | Put these changes here |
 |---|---|---|
-| `pipelines` | Platform team | Artifact-mirroring build specifications |
+| `gitops-pipelines` | Platform team | Artifact-mirroring build specifications |
 | `cluster-config` | Cluster administrators | GitOps bootstrap, operators, policies, and cluster-wide platform services |
 | `apps-config` | Application teams | Reusable components, images, and dev/staging/production overlays |
 | `fleet-config` (optional) | Cluster administrators | Native Argo CD placement or decentralized Flux per-cluster activation and shared profiles |
@@ -124,7 +167,8 @@ reverse them. Fix or revert the configuration in Git instead.
 You need:
 
 - An existing OKE cluster and permission to manage it.
-- An OCI compartment where the stack can create DevOps resources.
+- An OCI compartment for a new DevOps project, or an existing OCI DevOps
+  project OCID in the same region.
 - Git, `kubectl`, and access to the cluster kubeconfig.
 - A bootstrap auth token that Resource Manager can use to seed the OCI DevOps
   repositories.
@@ -159,42 +203,38 @@ network policy requires one.
 
 ## Deploy and bootstrap
 
-1. Deploy `stack.zip` through OCI Resource Manager.
-2. Set `gitops_agent` to `argocd` or `fluxcd`.
+1. Deploy the stack through OCI Resource Manager.
+2. Create a new OCI DevOps project or provide the OCID of an existing one.
+3. Set `gitops_agent` to `argocd` or `fluxcd` and select `gitops_scope`.
    Leave `enable_multicluster` disabled for a normal cluster. With Argo CD,
    enable it when the target is the hub. With Flux, enable it to create the
    shared `fleet-config` repository and activate this stack's selected cluster;
    it does not provision or connect additional clusters.
-3. Wait for the Resource Manager apply job to succeed.
-4. In the created OCI DevOps project, run `bootstrap-gitops-agent` and set:
-
+4. Wait for the Resource Manager apply job to succeed.
+5. In the selected OCI DevOps project, run `bootstrap-gitops-agent`. Leave
+   `chart_version` as `LATEST` or set an exact chart version, and set:
    - `git_read_credentials_secret_ocid` to the Git reader Secret OCID;
    - `registry_pull_secret_ocid` to the OCIR reader Secret OCID.
-
-   Leave `chart_version` as `LATEST` or set an exact chart version.
-
-5. Wait for that build and its automatically triggered `install-gitops-agent`
+6. Wait for that build and its automatically triggered `install-gitops-agent`
    deployment to succeed.
-6. Configure `kubectl` for the OKE private API endpoint, then clone
+7. Configure `kubectl` for the OKE private API endpoint, then clone
    `cluster-config`.
-7. Apply the one generated bootstrap root for the selected engine:
-
+8. Apply the one generated bootstrap root for the selected engine:
    ```bash
    # Run from the cluster-config clone.
    kubectl apply -f bootstrap/argocd-bootstrap.yml
    # OR
    kubectl apply -f bootstrap/flux-bootstrap.yml
    ```
-
    Apply only the file for the selected `gitops_agent`. This is the one-time
    handoff from agent installation to Git reconciliation.
-8. Follow the cloned repository README, which is the authoritative operating
+9. Follow the cloned repository README, which is the authoritative operating
    guide:
    - [Argo CD cluster bootstrap](./repos/argocd/cluster-config/README.md)
    - [Flux CD cluster bootstrap](./repos/fluxcd/cluster-config/README.md)
-9. When bootstrap is healthy, clone `apps-config` and follow its README:
-   - [Argo CD application workflow](./repos/argocd/apps-config/README.md)
-   - [Flux CD application workflow](./repos/fluxcd/apps-config/README.md)
+10. With `applications_and_cluster`, clone `apps-config` and follow its README:
+    - [Argo CD application workflow](./repos/argocd/apps-config/README.md)
+    - [Flux CD application workflow](./repos/fluxcd/apps-config/README.md)
 
 If optional multi-cluster support is enabled, follow the cloned `fleet-config`
 README after the installation pipeline succeeds. For Argo CD, bootstrap the
@@ -223,8 +263,8 @@ back the self-managed release by committing an exact version in
 
 ### Upgrade an existing stack to the split pipelines
 
-Existing `pipelines` repositories are customer-owned and are not overwritten
-by Resource Manager. When upgrading an existing stack, merge the new
+Existing `gitops-pipelines` repositories are customer-owned and are not
+overwritten by Resource Manager. When upgrading an existing stack, merge the new
 `mirror_argocd.yaml` or `mirror_flux_operator.yaml` into that repository and
 push it to `main`, then apply the updated stack. Do not run either pipeline
 during this short migration window.
@@ -263,11 +303,13 @@ Expected Applications include `argocd-bootstrap`, `argocd`,
 `platform-cluster-resources`, parent `reference-app`, and its infrastructure,
 and component/environment children such as `reference-app-frontend-dev`,
 `reference-app-api-dev`, `reference-app-frontend-staging`, and
-`reference-app-api-staging`. Four delivery ApplicationSets use the standardized names `platform-cluster-resources`,
-`platform-kustomize`, `platform-helm-repository`, and `platform-helm-git`.
+`reference-app-api-staging`. Four delivery ApplicationSets use the standardized
+names `platform-cluster-resources`, `platform-kustomize`,
+`platform-helm-repository`, and `platform-helm-git`.
 The last three discover administrator-owned applications under
 `cluster-config/platform/applications/`. `platform-applications` separately
-discovers logical application parents and uses child sync waves for readiness ordering.
+discovers logical application parents and uses child sync waves for readiness
+ordering.
 
 For Flux CD:
 
@@ -294,3 +336,11 @@ Expected Kustomizations include `flux-platform`, `platform`,
 Removing a resource from a referenced `kustomization.yml` is a deletion:
 pruning is enabled for normal platform and application reconciliation.
 Review deletions with the same care as infrastructure changes.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

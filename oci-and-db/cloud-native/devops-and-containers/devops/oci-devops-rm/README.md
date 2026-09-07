@@ -20,6 +20,12 @@ The default sample creates:
 - Component source repositories: `sample-api`, `sample-worker`
 - Optional cluster administration repository when enabled: `cluster-admin`
 
+Reviewed: 07.09.2026
+
+# When to use this asset?
+
+# How to use this asset?
+
 ## Documentation
 
 - [Quickstart](docs/quickstart.md): configure the Resource Manager form, apply the stack, deploy the first application, promote a release, and enable cluster operations.
@@ -137,3 +143,11 @@ Application names must be unique. Component names must be globally unique across
 - Seed repository files once and preserve developer-owned content on later stack applies.
 - Keep production optional for early testing by allowing the prod OKE environment to point to the same cluster as pre-prod.
 - Keep cluster administration configuration separate from application environments and deploy only changed cluster targets.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
