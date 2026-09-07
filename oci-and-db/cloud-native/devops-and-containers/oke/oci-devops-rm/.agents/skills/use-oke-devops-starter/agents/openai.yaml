@@ -1,0 +1,7 @@
+interface:
+  display_name: "Use OKE DevOps Starter"
+  short_description: "Operate application and OKE administration workflows"
+  default_prompt: "Use $use-oke-devops-starter to operate this OKE DevOps Starter workflow safely."
+
+policy:
+  allow_implicit_invocation: true

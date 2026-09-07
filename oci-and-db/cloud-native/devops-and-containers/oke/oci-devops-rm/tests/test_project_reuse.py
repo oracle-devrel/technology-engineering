@@ -86,7 +86,7 @@ class DevopsProjectReuseTests(unittest.TestCase):
             '--exclude ".agents"',
             '--exclude ".agents.zip"',
             '--exclude "downloads"',
-            '--exclude "script/package_maintainer_skill.sh"',
+            '--exclude "script/package_user_skill.sh"',
             '--exclude "*.zip"',
         ):
             self.assertIn(exclusion, packaging)
