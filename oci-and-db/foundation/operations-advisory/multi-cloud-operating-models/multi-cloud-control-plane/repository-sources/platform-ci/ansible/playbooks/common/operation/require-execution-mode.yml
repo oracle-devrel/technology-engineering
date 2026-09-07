@@ -1,0 +1,8 @@
+---
+- name: Require an explicit execution mode
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - operation_execution_mode is defined
+      - operation_execution_mode in ['precheck', 'execute']
+    fail_msg: operation_execution_mode must be precheck or execute.
