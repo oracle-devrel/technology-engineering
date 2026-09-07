@@ -2,9 +2,18 @@
 
 Reviewed: 2026-07-08
 
-# Table of Contents <!-- omit in toc --> 
+## What is this asset?
 
-- [GitOps](#gitops)
+This asset explains GitOps as a multi-cloud operating model for managing infrastructure through version control, reviewed changes, and automated delivery.
+
+## How to use this asset?
+
+Read this guide to understand the GitOps operating model, its personas, and its declarative and procedural workflows.
+
+## Table of Contents
+
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
 - [Why GitOps?](#why-gitops)
 - [What is GitOps?](#what-is-gitops)
 - [License](#license)
