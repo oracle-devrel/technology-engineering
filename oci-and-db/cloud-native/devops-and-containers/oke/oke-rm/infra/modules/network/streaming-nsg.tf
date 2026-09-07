@@ -3,7 +3,7 @@ resource "oci_core_network_security_group" "streaming" {
   vcn_id         = local.vcn_id
   freeform_tags  = var.tag_value.freeformTags
   defined_tags   = var.tag_value.definedTags
-  display_name   = "streaming"
+  display_name   = "streaming-${var.network_resource_suffix}"
   count          = var.create_streaming_nsg ? 1 : 0
 }
 
