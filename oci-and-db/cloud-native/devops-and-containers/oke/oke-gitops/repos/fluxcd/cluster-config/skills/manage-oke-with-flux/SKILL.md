@@ -34,7 +34,7 @@ observation surfaces. Do not repair managed objects directly.
   and `production` variants. It never selects a cluster.
 - `fleet-config`: optional shared profiles and explicit per-cluster activation.
   Every member runs its own Flux controllers and pulls Git independently.
-- `pipelines`: OCI DevOps mirroring and agent installation. Do not place
+- `gitops-pipelines`: OCI DevOps mirroring and agent installation. Do not place
   Kubernetes desired state here.
 
 If a request crosses repositories, make one coherent change per repository,
