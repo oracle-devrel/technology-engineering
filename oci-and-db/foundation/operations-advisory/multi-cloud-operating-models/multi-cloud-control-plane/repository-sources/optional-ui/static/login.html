@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="mcp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Multi-Cloud-Plane</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        [data-theme="mcp"] {
+            --color-base-100: oklch(0.17 0.015 260);
+            --color-base-200: oklch(0.14 0.015 260);
+            --color-base-300: oklch(0.22 0.015 260);
+            --color-base-content: oklch(0.92 0.01 260);
+            --color-primary: oklch(0.65 0.2 250);
+            --color-primary-content: oklch(0.98 0 0);
+            --color-secondary: oklch(0.6 0.18 300);
+            --color-secondary-content: oklch(0.98 0 0);
+            --color-accent: oklch(0.72 0.15 195);
+            --color-neutral: oklch(0.25 0.015 260);
+            --color-neutral-content: oklch(0.85 0 0);
+            --color-success: oklch(0.7 0.17 160);
+            --color-warning: oklch(0.75 0.15 85);
+            --color-error: oklch(0.65 0.2 15);
+            --color-info: oklch(0.65 0.2 250);
+            --radius-selector: 0.5rem;
+            --radius-field: 0.5rem;
+            --radius-box: 0.75rem;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Animated dot grid background */
+        .login-bg {
+            background-color: oklch(0.10 0.015 260);
+            background-image:
+                radial-gradient(oklch(0.20 0.03 250 / 0.4) 1px, transparent 1px),
+                radial-gradient(oklch(0.65 0.2 250 / 0.06) 1px, transparent 1px);
+            background-size: 24px 24px, 96px 96px;
+            background-position: 0 0, 48px 48px;
+        }
+
+        /* Glow behind the card */
+        .login-glow {
+            position: absolute;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, oklch(0.65 0.2 250 / 0.12) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Card entrance */
+        .login-card {
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            border: 1px solid oklch(0.25 0.02 260 / 0.5);
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Logo mark */
+        .login-logo {
+            width: 56px; height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, oklch(0.65 0.2 250), oklch(0.6 0.18 300));
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 30px oklch(0.65 0.2 250 / 0.3),
+                        0 0 60px oklch(0.6 0.18 300 / 0.1);
+            animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+        }
+        .login-logo svg { width: 28px; height: 28px; color: white; }
+
+        /* GitHub button hover */
+        .btn-github {
+            background: linear-gradient(135deg, oklch(0.65 0.2 250), oklch(0.58 0.2 270));
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-github:hover {
+            background: linear-gradient(135deg, oklch(0.68 0.22 250), oklch(0.62 0.22 270));
+            box-shadow: 0 0 20px oklch(0.65 0.2 250 / 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Stagger children */
+        .stagger > * {
+            animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .stagger > *:nth-child(1) { animation-delay: 0.15s; }
+        .stagger > *:nth-child(2) { animation-delay: 0.25s; }
+        .stagger > *:nth-child(3) { animation-delay: 0.35s; }
+        .stagger > *:nth-child(4) { animation-delay: 0.45s; }
+        .stagger > *:nth-child(5) { animation-delay: 0.55s; }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center login-bg relative overflow-hidden">
+
+    <!-- Background glow -->
+    <div class="login-glow"></div>
+
+    <!-- Card -->
+    <div class="login-card card w-full max-w-sm bg-base-100/80 backdrop-blur-xl shadow-2xl relative z-10">
+        <div class="card-body items-center text-center stagger py-10">
+
+            <!-- Logo -->
+            <div class="login-logo mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <div>
+                <h1 class="text-2xl font-extrabold tracking-tight">Multi-Cloud-Plane</h1>
+                <p class="text-base-content/35 text-sm mt-1 font-medium">GitOps Infrastructure Platform</p>
+            </div>
+
+            <!-- Alert -->
+            <div id="login-alert" class="alert alert-warning text-sm w-full hidden"></div>
+
+            <!-- Login Button -->
+            <a id="login-button" href="/login" class="btn btn-github btn-lg gap-2.5 w-full text-white font-semibold mt-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+                Sign in with GitHub
+            </a>
+
+            <!-- Footer -->
+            <p class="text-[11px] text-base-content/25 mt-4 font-mono tracking-wide">
+                Authenticate to access the platform
+            </p>
+        </div>
+    </div>
+
+    <!-- Bottom version tag -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-10">
+        <span class="text-[10px] font-mono text-base-content/15 tracking-widest uppercase">MCCP Reference UI</span>
+    </div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const error = params.get("error");
+            if (!error) return;
+
+            const alertEl = document.getElementById("login-alert");
+            if (!alertEl) return;
+
+            const errorDescription = params.get("error_description");
+            let message;
+            let alertClass = "alert-error";
+
+            if (error === "oauth_not_configured") {
+                message = "GitHub OAuth is not configured on this server. Set `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` and restart.";
+                alertClass = "alert-warning";
+                const loginButton = document.getElementById("login-button");
+                if (loginButton) loginButton.classList.add("btn-disabled");
+            } else if (error === "oauth_failed") {
+                message = "GitHub login failed. Try again or check the OAuth app permissions.";
+            } else {
+                message = "Login error: " + error;
+                if (errorDescription) {
+                    message += " — " + errorDescription;
+                }
+            }
+
+            alertEl.classList.remove("hidden", "alert-warning", "alert-error");
+            alertEl.classList.add(alertClass);
+            alertEl.textContent = message;
+        })();
+    </script>
+</body>
+
+</html>
