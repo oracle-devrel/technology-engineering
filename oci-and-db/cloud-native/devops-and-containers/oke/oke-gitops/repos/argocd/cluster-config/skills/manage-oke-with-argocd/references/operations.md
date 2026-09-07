@@ -36,6 +36,32 @@ pruning candidates.
 Do not disable `FailOnSharedResource` to hide overlap. Do not force-sync around
 bad desired state.
 
+## Karpenter on OKE
+
+Karpenter requires a stable system node pool that it does not manage. Confirm at
+least one Ready system node can schedule the controller before adding the chart.
+When controller pods use required anti-affinity, do not request more replicas than
+the available distinct system nodes; a blocked controller Deployment can prevent
+later-wave `OCINodeClass` and `NodePool` resources from being applied.
+
+For VCN-native OKE, verify the Karpenter values and resources use the cluster's
+private API endpoint, worker and pod subnets/NSGs, cluster and network
+compartments, and the intended workload-identity service account. Observe the
+sequence explicitly:
+
+```bash
+kubectl -n karpenter get deploy,pods
+kubectl get ocinodeclass,nodepool,nodeclaim
+kubectl get nodes -L node-role/system,workload-tier
+```
+
+If the descriptor is merged but no Application appears, inspect the ApplicationSet
+conditions and allow for its Git polling interval. An authorized operator may
+request an ApplicationSet refresh; do not treat normal polling delay as a failed
+deployment. A successful test requires the controller Application to be
+`Synced/Healthy`, the `OCINodeClass` and `NodePool` to be Ready, and a provisioned
+NodeClaim to register as a Ready Kubernetes node when pending workloads require it.
+
 ## Roll back
 
 Use an auditable Git revert:
