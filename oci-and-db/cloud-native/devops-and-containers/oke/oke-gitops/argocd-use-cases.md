@@ -8,7 +8,7 @@ editing files. Paths are relative to the named repository.
 
 | Repository | Primary owner | Responsibility |
 |---|---|---|
-| `pipelines` | Platform engineering | Mirror Argo CD, Helm charts, and container images into OCIR |
+| `gitops-pipelines` | Platform engineering | Mirror Argo CD, Helm charts, and container images into OCIR |
 | `cluster-config` | Cluster administrators | Bootstrap, Argo CD configuration, cluster resources, namespace infrastructure, and hub placement |
 | `apps-config` | Application developers | Reusable application components and the `dev`, `staging`, and `production` variants |
 | `fleet-config` | Fleet administrators | Optional spoke registration metadata, reusable profiles, and per-cluster placement |
@@ -27,9 +27,9 @@ normally required.
 | Configure private UI access, OIDC, and RBAC | `cluster-config` | Environment-specific private ingress/certificate and an external secret for the OIDC client secret | `platform/applications/argocd/values/90-user.yml`; verify administrator and read-only mappings before disabling local admin |
 | Rotate the Git or OCIR runtime reader | none; Vault and OCI DevOps operation | A new secret version or credential | Run the `prepare-gitops-agent` deployment stage with both current Secret OCIDs; no Git file |
 | Change Argo CD configuration | `cluster-config` | Optional additional file below `platform/applications/argocd/values/` | `platform/applications/argocd/values/90-user.yml`; add any new file to `helm.valueFiles` in `platform/applications/argocd/helm-repository.application.yaml` |
-| Upgrade or pin Argo CD | `pipelines`, then `cluster-config` | Mirror the required chart version through `mirror-gitops-agent` | To pin, change `helm.version` in `platform/applications/argocd/helm-repository.application.yaml` |
-| Mirror another public Helm chart and its images | `pipelines` | `mirroring/<application>.yaml`, copied from `mirror_helm.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
-| Mirror an explicit image list | `pipelines` | `mirroring/<group>.yaml`, copied from `mirror_images.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
+| Upgrade or pin Argo CD | `gitops-pipelines`, then `cluster-config` | Mirror the required chart version through `mirror-gitops-agent` | To pin, change `helm.version` in `platform/applications/argocd/helm-repository.application.yaml` |
+| Mirror another public Helm chart and its images | `gitops-pipelines` | `mirroring/<application>.yaml`, copied from `mirror_helm.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
+| Mirror an explicit image list | `gitops-pipelines` | `mirroring/<group>.yaml`, copied from `mirror_images.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
 | Add cluster-wide Kustomize resources | `cluster-config` | `platform/cluster-resources/<group>/kustomization.yml` and manifests | `platform/cluster-resources/kustomization.yml` |
 | Add namespaced administrator resources | `cluster-config` | `platform/applications/<name>/kustomize.application.yaml`, `resources/kustomization.yml`, and manifests | — |
 | Install a chart from a Helm or OCI repository | `cluster-config` | `platform/applications/<name>/helm-repository.application.yaml`, `values/*.yml`, and `resources/kustomization.yml` | — |
