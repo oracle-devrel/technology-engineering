@@ -1,5 +1,5 @@
 resource "oci_devops_deploy_pipeline" "deploy_pipeline_helm" {
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "install-gitops-agent"
   description  = "Internal deployment target used only by bootstrap-gitops-agent to prepare OKE and install the selected GitOps agent"
 
@@ -72,7 +72,7 @@ resource "oci_devops_deploy_stage" "prepare_gitops_bootstrap" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {
