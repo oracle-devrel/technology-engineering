@@ -1,8 +1,25 @@
 # OCI Audit Logs to Exabeam Function
 
+## What is this asset?
+
 This directory contains the deployable OCI Function sample for the OCI Audit Logs to Exabeam integration.
 
 For the integration architecture, design considerations, and security model, review the parent [README](../README.md).
+
+## How to use this asset?
+
+Configure the required settings, deploy the Function, and use the test and troubleshooting steps in this guide. Start with [Required Configuration](#1-required-configuration).
+
+## Table of Contents
+
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
+- [1. Required Configuration](#1-required-configuration)
+- [2. Optional Configuration](#2-optional-configuration)
+- [3. Deploy The Function](#3-deploy-the-function)
+- [4. Configure The Function](#4-configure-the-function)
+- [5. Test The Function](#5-test-the-function)
+- [6. Troubleshooting](#6-troubleshooting)
 
 ## 1. Required Configuration
 

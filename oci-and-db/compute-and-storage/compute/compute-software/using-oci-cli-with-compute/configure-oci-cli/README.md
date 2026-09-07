@@ -2,7 +2,7 @@
  
 This section includes a step-by-step manual to configure Oracle OCI CLI on Windows or Unix machines.
  
-Reviewed: 16.10.2025
+Reviewed: 04.09.2026
  
 # When to use this asset?
  
