@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual for the deployment of Prometheus and Grafana on the OCI Container Engine for Kubernetes.
 
-Reviewed: 16.10.2025
+Reviewed: 04.09.2026
 
 # When to use this asset?
 
