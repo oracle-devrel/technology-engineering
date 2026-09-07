@@ -1,8 +1,15 @@
 variable "compartment_id" {}
+variable "create_devops_project" {
+  type = bool
+}
+variable "existing_devops_project_id" {
+  type = string
+}
 variable "region" {}
 variable "tenancy_id" {}
 
 variable "gitops_agent" {}
+variable "gitops_scope" {}
 variable "enable_multicluster" {
   type = bool
 }
@@ -43,6 +50,9 @@ variable "git_password" {
 
 # TEMPLATE
 variable "ocir_repo_path_prefix" {}
+variable "pipelines_repository_name" {
+  type = string
+}
 
 # OKE ENVIRONMENT
 variable "oke_cluster_id" {}

@@ -1,10 +1,42 @@
-variable "tenancy_ocid" {}
-variable "region" {}
-variable "compartment_ocid" {}
-variable "network_compartment_id" {}
+variable "tenancy_ocid" {
+  type = string
+  validation {
+    condition     = can(regex("^ocid1\\.tenancy\\.", var.tenancy_ocid))
+    error_message = "tenancy_ocid must be a tenancy OCID."
+  }
+}
+
+variable "region" {
+  type = string
+  validation {
+    condition     = length(trimspace(var.region)) > 0
+    error_message = "region must not be empty."
+  }
+}
+
+variable "compartment_ocid" {
+  type = string
+  validation {
+    condition     = can(regex("^ocid1\\.(compartment|tenancy)\\.", var.compartment_ocid))
+    error_message = "compartment_ocid must be a compartment or tenancy OCID."
+  }
+}
+
+variable "network_compartment_id" {
+  type = string
+  validation {
+    condition     = can(regex("^ocid1\\.(compartment|tenancy)\\.", var.network_compartment_id))
+    error_message = "network_compartment_id must be a compartment or tenancy OCID."
+  }
+}
 
 variable "cni_type" {
+  type    = string
   default = "vcn_native"
+  validation {
+    condition     = contains(["vcn_native", "flannel"], var.cni_type)
+    error_message = "cni_type must be either vcn_native or flannel."
+  }
 }
 
 # VCN
@@ -14,7 +46,12 @@ variable "create_vcn" {
 }
 
 variable "vcn_id" {
+  type    = string
   default = null
+  validation {
+    condition     = var.vcn_id == null || can(regex("^ocid1\\.vcn\\.", var.vcn_id))
+    error_message = "vcn_id must be null or a VCN OCID."
+  }
 }
 
 variable "vcn_name" {
@@ -24,10 +61,22 @@ variable "vcn_name" {
 variable "vcn_cidr_block" {
   type    = string
   default = "10.0.0.0/16"
+  validation {
+    condition = can(cidrnetmask(var.vcn_cidr_block)) && contains(
+      [16, 18, 20],
+      try(tonumber(split("/", var.vcn_cidr_block)[1]), -1)
+    ) && try(cidrhost(var.vcn_cidr_block, 0) == split("/", var.vcn_cidr_block)[0], false)
+    error_message = "vcn_cidr_block must be a canonical IPv4 /16, /18, or /20 CIDR block."
+  }
 }
 
 variable "vcn_dns_label" {
+  type    = string
   default = "oke1"
+  validation {
+    condition     = can(regex("^[A-Za-z][A-Za-z0-9]{0,14}$", var.vcn_dns_label))
+    error_message = "vcn_dns_label must start with a letter and contain at most 15 alphanumeric characters."
+  }
 }
 
 # CP SUBNET
@@ -47,7 +96,12 @@ variable "cp_subnet_private" {
 }
 
 variable "cp_allowed_source_cidr" {
+  type    = string
   default = "0.0.0.0/0"
+  validation {
+    condition     = can(cidrnetmask(var.cp_allowed_source_cidr))
+    error_message = "cp_allowed_source_cidr must be a valid IPv4 CIDR block."
+  }
 }
 
 # WORKER SUBNET
@@ -92,8 +146,8 @@ variable "additional_pod_cidr" {
   default = []
 
   validation {
-    condition     = length(var.additional_pod_cidr) <= 4
-    error_message = "names can contain at most 4 elements."
+    condition     = length(var.additional_pod_cidr) <= 4 && alltrue([for cidr in var.additional_pod_cidr : can(cidrnetmask(cidr))])
+    error_message = "additional_pod_cidr must contain at most four valid IPv4 CIDR blocks."
   }
 }
 
@@ -167,7 +221,12 @@ variable "allow_external_cp_traffic" {
 }
 
 variable "cp_egress_cidr" {
+  type    = string
   default = "0.0.0.0/0"
+  validation {
+    condition     = can(cidrnetmask(var.cp_egress_cidr))
+    error_message = "cp_egress_cidr must be a valid IPv4 CIDR block."
+  }
 }
 
 # ADDITIONAL NETWORK
@@ -184,6 +243,10 @@ variable "db_subnet_name" {
 variable "db_service_list" {
   type    = list(string)
   default = []
+  validation {
+    condition     = alltrue([for service in var.db_service_list : contains(["postgres", "cache", "oracledb", "mysql"], service)])
+    error_message = "db_service_list supports only postgres, cache, oracledb, and mysql."
+  }
 }
 
 variable "create_database_nsgs" {
@@ -224,7 +287,12 @@ variable "create_drg" {
 }
 
 variable "drg_id" {
+  type    = string
   default = null
+  validation {
+    condition     = var.drg_id == null || can(regex("^ocid1\\.drg\\.", var.drg_id))
+    error_message = "drg_id must be null or a DRG OCID."
+  }
 }
 
 variable "drg_name" {
@@ -239,6 +307,10 @@ variable "create_drg_attachment" {
 variable "peer_vcns" {
   type    = list(string)
   default = []
+  validation {
+    condition     = alltrue([for cidr in var.peer_vcns : can(cidrnetmask(cidr))])
+    error_message = "peer_vcns must contain valid IPv4 CIDR blocks."
+  }
 }
 
 # Tagging

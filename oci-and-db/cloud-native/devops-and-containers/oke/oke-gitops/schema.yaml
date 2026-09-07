@@ -19,6 +19,7 @@ variableGroups:
   - title: "GitOps Agent"
     variables:
       - gitops_agent
+      - gitops_scope
       - enable_multicluster
       - flux_fleet_member_name
 
@@ -33,6 +34,8 @@ variableGroups:
 
   - title: DevOps Project
     variables:
+      - create_devops_project
+      - existing_devops_project_id
       - devops_compartment_id
       - devops_project_name
       - devops_project_description
@@ -46,6 +49,7 @@ variableGroups:
 
   - title: Repository
     variables:
+      - pipelines_repository_name
       - ocir_repo_path_prefix
       - auth_token
 
@@ -72,6 +76,16 @@ variables:
       - argocd
     required: true
 
+  gitops_scope:
+    title: "GitOps scope"
+    description: "Choose whether the initial repositories manage cluster administration only or both developer applications and cluster configuration. Cluster administration still supports namespaced resources such as quotas, policies, and tool configuration. This choice affects the initial seed only; later stack applies preserve customer-owned repository content."
+    type: enum
+    enum:
+      - cluster_admin
+      - applications_and_cluster
+    default: applications_and_cluster
+    required: true
+
   enable_multicluster:
     title: "Enable optional multi-cluster repository"
     description: "Create fleet-config. Argo CD uses native centralized management. Flux CD activates the selected cluster for decentralized reconciliation; administrators manually create an OCI DevOps environment and installation pipeline for every additional member."
@@ -93,36 +107,58 @@ variables:
             - "fluxcd"
         - ${enable_multicluster}
 
+  create_devops_project:
+    title: "Create OCI DevOps project"
+    description: "Create a new OCI DevOps project, or add the GitOps repositories and pipelines to an existing project."
+    type: boolean
+    default: true
+    required: true
+
+  existing_devops_project_id:
+    title: "Existing OCI DevOps project OCID"
+    description: "OCID of the existing OCI DevOps project that will contain the GitOps resources."
+    type: string
+    pattern: "^ocid1\\.devopsproject\\.[a-z0-9-]+\\.[a-z0-9-]*\\.[a-z0-9]+$"
+    required: false
+    visible:
+      not:
+        - ${create_devops_project}
+
   devops_compartment_id:
     title: "DevOps Compartment"
     description: "Compartments where to create the OCI DevOps project"
     type: oci:identity:compartment:id
     default: ${compartment_ocid}
     required: true
+    visible: ${create_devops_project}
 
   devops_project_name:
     title: "DevOps project name"
     description: "Name of the DevOps project. MUST BE UNIQUE in the tenancy."
     type: string
     required: true
+    visible: ${create_devops_project}
 
   devops_project_description:
     title: "DevOps project description"
     description: "Description of the DevOps project"
     type: string
     required: false
+    visible: ${create_devops_project}
 
   devops_log_group_name:
     title: "DevOps Log Group name"
     description: "Name of the Log Group that will be created for the DevOps project"
     type: string
     required: true
+    visible: ${create_devops_project}
 
   devops_log_group_description:
     title: "DevOps Log Group description"
     description: "Description for the Log Group that will be created for the DevOps project"
     type: string
     required: false
+    visible: ${create_devops_project}
 
   devops_log_retention_period_in_days:
     title: "DevOps Log Group retention"
@@ -132,11 +168,13 @@ variables:
     maximum: 180
     multipleOf: 30
     required: true
+    visible: ${create_devops_project}
 
   create_notification_topic:
     title: "Create Notification topic"
     description: "If flagged, create a ONS topic for this DevOps project"
     type: boolean
+    visible: ${create_devops_project}
 
   notification_topic_id:
     title: "DevOps notification topic id"
@@ -144,22 +182,39 @@ variables:
     type: string
     required: true
     visible:
-      not:
-        - ${create_notification_topic}
+      and:
+        - ${create_devops_project}
+        - not:
+            - ${create_notification_topic}
 
   notification_topic_name:
     title: "DevOps notification topic name"
     description: "Notification topic to send notifications related to the DevOps project"
     type: string
     required: true
-    visible: ${create_notification_topic}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${create_notification_topic}
 
   notification_topic_description:
     title: "DevOps notification topic description"
     description: "Description of the notification topic created for the DevOps project"
     type: string
     required: false
-    visible: ${create_notification_topic}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${create_notification_topic}
+
+  pipelines_repository_name:
+    title: "GitOps pipelines repository name"
+    description: "OCI Code Repository containing the GitOps bootstrap and chart-mirroring build specifications."
+    type: string
+    default: "gitops-pipelines"
+    pattern: "^[A-Za-z0-9_.-]+$"
+    maxLength: 100
+    required: true
 
   ocir_repo_path_prefix:
     title: "OCIR Repo prefix"
