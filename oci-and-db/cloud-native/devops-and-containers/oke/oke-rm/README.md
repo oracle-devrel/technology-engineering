@@ -130,14 +130,11 @@ flowchart TD
 | OCI DevOps applications with GitOps operations | `application_delivery_mode=oci_devops`, `enable_cluster_admin=false` | `gitops_scope=cluster_admin` |
 | Build-only OCI DevOps with GitOps delivery | `application_delivery_mode=build_only`, `enable_cluster_admin=false` | `gitops_scope=applications_and_cluster` |
 
-Use these assets to implement the selected model:
+Use these solution assets to implement the selected model:
 
 - [OKE DevOps Starter](../oci-devops-rm/README.md) creates application CI and,
   when selected, OCI DevOps application delivery and cluster-administration
   workflows.
-- [OKE DevOps Starter AI-agent skill](../oci-devops-rm/docs/ai-agent-skill.md)
-  helps users operate the generated repositories and pipelines with any
-  compatible AI agent.
 - [OKE GitOps](../oke-gitops/README.md) bootstraps a Git-first operating model
   using either [Argo CD](../oke-gitops/argocd-solution.md) or
   [Flux](../oke-gitops/flux-solution.md).
@@ -147,6 +144,17 @@ Kubernetes ownership is defined per object, not per namespace. A GitOps cluster
 administrator can manage quotas or policies inside an application namespace
 while OCI DevOps manages the workloads there, but the two systems must never
 reconcile the same Kubernetes object identity.
+
+### AI agent skills
+
+The solutions include portable skills that help compatible AI agents operate
+their generated repositories, pipelines, and cluster workflows:
+
+- [OKE DevOps Starter skill](../oci-devops-rm/docs/ai-agent-skill.md)
+- [Manage OKE with Argo CD](../oke-gitops/repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
+  ([installation guide](../oke-gitops/repos/argocd/cluster-config/docs/install-agent-skill.md))
+- [Manage OKE with Flux](../oke-gitops/repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
+  ([installation guide](../oke-gitops/repos/fluxcd/cluster-config/docs/install-agent-skill.md))
 
 ### Additional guides
 
