@@ -1,4 +1,4 @@
-# Operations Advisory
+# Operations Advisory <!-- omit in toc -->
 
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify  an outline for Day 2 optimal operations, based on  priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
   
@@ -6,7 +6,6 @@ Reviewed: 2026-09-04
 
 # Table of Contents <!-- omit in toc --> 
 
-- [Operations Advisory](#operations-advisory)
 - [Team Publications](#team-publications)
   - [Multi-Cloud Operating Models](#multi-cloud-operating-models)
     - [Operational Security](#operational-security)
@@ -14,12 +13,15 @@ Reviewed: 2026-09-04
     - [Core Infrastructure Operations](#core-infrastructure-operations)
     - [Oracle Database Operations](#oracle-database-operations)
   - [Lifecycle Management](#lifecycle-management)
+    - [Automation](#automation)
     - [FinOps](#finops)
     - [Advanced Operational Integrations](#advanced-operational-integrations)
-    - [Carbon Emissions Dashboard](#carbon-emissions-dashboard)
-    - [Email Delivery Service](#email-delivery-service)
-    - [Exadata Fleet Update](#exadata-fleet-update)
-    - [OS Management Hub](#os-management-hub)
+    - [Disaster Recovery](#disaster-recovery)
+    - [OCI Carbon Emissions](#oci-carbon-emissions)
+    - [OCI Email Delivery](#oci-email-delivery)
+    - [OCI Exadata Fleet Update](#oci-exadata-fleet-update)
+    - [OCI OS Management Hub](#oci-os-management-hub)
+    - [OCI Resource Analytics](#oci-resource-analytics)
 - [Useful Links](#useful-links)
   - [Oracle My Learn](#oracle-my-learn)
   - [Cloud Coaching Clinic](#cloud-coaching-clinic)
@@ -47,51 +49,67 @@ Reviewed: 2026-09-04
 
 ### Core Infrastructure Operations
 
-- [Compute Operations Deep Dive Workshop.](./customer-operations/core-infrastructure/compute-operations/files/Public_Compute_Operations_v0.1.pdf)
+- [OCI Compute Operations Workshop](./customer-operations/core-infrastructure/compute-operations-ws/README.md)
   
 ### Oracle Database Operations
 
-- [ExaDB-D - Management Interfaces Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_0_OCI_ExaDB_Management_Interfaces_v1.0.pdf)
-- [ExaDB-D - Provisioning Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_1_ExaDB-D_Provision_v1.0.pdf)
-- [ExaDB-D - Change Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_2_ExaDB-D_Change_v2.0.pdf)
-- [ExaDB-D - Maintenance Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-d/files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
-- [ExaDB-D - Ansible Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/files/Public_5_ExaDB-D_Ansible_Operations_v0.3.pdf)
-- [Building a Complete Exadata FinOps Model](./lifecycle-management-tools/finops/files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
-- [ExaDB-XS Management Interfaces Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_00_ExaDBXS_Management_Interfaces_v1.0.pdf)
-- [ExaDB-XS Provision Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_01_ExaDBXS_Provision_v1.0.pdf)
-- [ExaDB-XS Change Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_02_ExaDBXS_Change_v1.0.pdf)
-- [ExaDB-XS Maintenance Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_03_ExaDBXS_Maintenance_v1.0.pdf)
-- [ExaDB-XS Backup & Recovery Operations Deep Dive Workshop.](./customer-operations/oracle-database/exadb-xs/files/Public_04_ExaDBXS_DB_Backup_Recovery_v1.0.pdf)
+- [ExaDB-D - Management Interfaces Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/exadb-d-management-interfaces-ws/README.md)
+- [ExaDB-D - Provisioning Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/exadb-d-provisioning-ops-ws/README.md)
+- [ExaDB-D - Change Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/exadb-d-change-ops-ws/README.md)
+- [ExaDB-D - Maintenance Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/exadb-d-maintenance-ops-ws/README.md)
+- [ExaDB-D - Backup and Recovery Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/exadb-d-backuprecovery-ops-ws/README.md)
+- [ExaDB-D - Ansible Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-d/exadb-d-ansible-ops-ws/README.md)
+- [ExaDB-XS - Management Interfaces Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-management-interfaces-ws/README.md)
+- [ExaDB-XS - Provisioning Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-provisioning-ops-ws/README.md)
+- [ExaDB-XS - Change Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-change-ops-ws/README.md)
+- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-maintenace-ops-ws/README.md)
+- [ExaDB-XS - Backup and Recovery Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-backuprecovery-ops-ws/README.md)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling.](./customer-operations/oracle-database/scaling/README.md)
-- [Oracle Database@Azure Automation Workshop.](./customer-operations/oracle-database/od-at-azure-cloud-operations/od-at-azure-automation-ws/files/Public_OD@AZ_Automation_v0.1.pdf)
-- [Oracle Database@Azure Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
-- [Oracle Database@GCP Automation Workshop.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-automation-ws/files/Public_OD@GCP_Automation_v0.1.pdf)
-- [Oracle Database@GCP Operational Best Practices.](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
-- [Oracle Database@AWS Automation Workshop.](./customer-operations/oracle-database/od-at-aws-cloud-operations/od-at-aws-automation-ws/files/Public_OD@AWS_Automation_v0.1.pdf)
+- [Oracle Database@AWS Automation Workshop](./customer-operations/oracle-database/od-at-aws-cloud-operations/od-at-aws-automation-ws/README.md)
+- [Oracle Database@Azure Automation Workshop](./customer-operations/oracle-database/od-at-azure-cloud-operations/od-at-azure-automation-ws/README.md)
+- [Oracle Database@Azure Operational Best Practices](./customer-operations/oracle-database/od-at-azure-cloud-operations/od-at-azure-ops-best-practices/README.md)
+- [Oracle Database@Google Cloud Automation Workshop](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-automation-ws/README.md)
+- [Oracle Database@Google Cloud Operational Best Practices](./customer-operations/oracle-database/od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
 - [Streamline Backups for Oracle Autonomous AI Database on Exadata Cloud@Customer with ZDLRA as the Destination.](https://blogs.oracle.com/autonomous-ai-database/streamline-backups-for-oracle-autonomous-ai-database-on-exadata-cloudcustomer-with-zdlra-as-the-destination)
 
 ## Lifecycle Management
 
+### Automation
+
+- [Infrastructure as Code](./lifecycle-management-tools/automation/infrastructure-as-code/README.md)
+
 ### FinOps
-- [How OCI can support FinOps Workshop.](./lifecycle-management-tools/finops/files/Public_Finops%20Overview%20feb%202026_v0.2.pdf)
-- [OCI Tagging - Driving Governance, Visibility and Cost Control.](./lifecycle-management-tools/finops/files/Public_FinOps_Tagging_v0.1.pdf)
-- [Building a Complete Exadata FinOps Model](./lifecycle-management-tools/finops/files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
+
+- [FinOps](./lifecycle-management-tools/finops/README.md)
 
 ### Advanced Operational Integrations
-- [Sentinel](./lifecycle-management-tools/advanced-operational-integrations/sentinel/files/IntegratingLoggingwithSentinel.pdf)
-- [Exabeam](./lifecycle-management-tools/advanced-operational-integrations/Exabeam/README.md)
 
-### Carbon Emissions Dashboard
-- [OCI Carbon Emissions Analysis Overview.](./lifecycle-management-tools/carbon-emissions/files/Public_OCI_Carbon_Emission_v0.2.pdf)
+- [OCI Audit Logs and Exabeam Webhook Integration](./lifecycle-management-tools/advanced-operational-integrations/Exabeam/README.md)
+- [Integrating Logging with Sentinel](./lifecycle-management-tools/advanced-operational-integrations/sentinel/README.md)
 
-### Email Delivery Service
-- [OCI Email Delivery Service Deep Dive Workshop.](./lifecycle-management-tools/email-delivery-service/files/Public_EmailDeliveryDeepDive_v0.1.pdf)
+### Disaster Recovery
 
-### Exadata Fleet Update
-- [Exadata Fleet Update Overview.](./lifecycle-management-tools/exadata-fleet-update/files/Public_Exadata_Fleet_Update_latest_v2.0.pdf)
-- 
-### OS Management Hub
-- [OCI OS Management Hub.](./lifecycle-management-tools/os-management-hub/files/Public_OS_Management_Hub_v0.2.pdf)
+- [Full Stack Disaster Recovery Operations Workshop](./lifecycle-management-tools/fsdr/fsdr-operations/README.md)
+
+### OCI Carbon Emissions
+
+- [OCI Carbon Emissions Analysis Overview Workshop](./lifecycle-management-tools/carbon-emissions/carbon-emissions-overview-ws/README.md)
+
+### OCI Email Delivery
+
+- [OCI Email Delivery Deep Dive Workshop](./lifecycle-management-tools/email-delivery-service/email-delivery-deep-dive-ws/README.md)
+
+### OCI Exadata Fleet Update
+
+- [Exadata Fleet Update Overview Workshop](./lifecycle-management-tools/exadata-fleet-update/exadata-fleet-update-overview-ws/README.md)
+
+### OCI OS Management Hub
+
+- [OCI OS Management Hub Overview Workshop](./lifecycle-management-tools/os-management-hub/os-management-hub-overview-ws/README.md)
+
+### OCI Resource Analytics
+
+- [OCI Resource Analytics](./lifecycle-management-tools/resource-analytics/README.md)
 
 # Useful Links 
 
