@@ -1,33 +1,33 @@
-# OKE GitOps stack 2.0.0
+# OKE GitOps stack 2.1.0
 
-This release provides a complete Git-first operating model for administering
-OKE with either Argo CD or Flux.
+This release makes the GitOps stack easier to combine with existing OCI DevOps
+delivery workflows while preserving clear Kubernetes object ownership.
 
 ## Included
 
-- One-cluster bootstrap through OCI Resource Manager and OCI DevOps, always
-  using the OKE private API endpoint.
-- Separate read-only Git and OCIR runtime identities stored in OCI Vault.
-- Self-managed Argo CD or Flux Operator after initial installation.
-- Cluster-scoped Kustomize, namespaced Kustomize, external/OCI Helm, Git-hosted
-  Helm, Helm plus YAML, operator dependency, shared-namespace, and OCI Vault
-  External Secrets patterns.
-- A controller-neutral developer catalog for Kustomize and umbrella-Helm
-  components across `dev`, `staging`, and `production`.
-- Native centralized Argo CD fleet delivery and decentralized Flux fleet
-  delivery, both behind the optional fleet flag.
-- Portable `manage-oke-with-argocd` and `manage-oke-with-flux` skills for local
-  AI agents.
-- A slim Resource Manager archive containing only deployable stack and seed
-  content.
+- Create a new OCI DevOps project or reuse an existing project without
+  overwriting its project-level settings.
+- Select `cluster_admin` or `applications_and_cluster` GitOps scope according
+  to the desired ownership boundary.
+- Use the configurable `gitops-pipelines` repository alongside other delivery
+  systems in a shared OCI DevOps project.
+- Preserve cluster-administrator ownership of namespace-scoped infrastructure,
+  including quotas and policies inside application namespaces.
+- Seed existing repositories safely and expose migration guidance for legacy
+  pipeline repository names.
+- Validate cross-variable constraints through root checks compatible with the
+  Terraform version used by OCI Resource Manager.
+- Extend the Argo CD and Flux repository documentation and portable skills for
+  hybrid OCI DevOps/GitOps operation.
 
 ## Acceptance status
 
-- Terraform, YAML, shell, Kustomize, Helm, and skill validation passed.
-- Argo CD local and native-fleet use cases were functionally exercised.
-- Flux primary and decentralized-member use cases were functionally exercised
-  on ARM64 OKE clusters.
-- With repository overwrite disabled, a Resource Manager apply preserved all
-  four non-empty Git repositories and both Flux clusters remained Ready.
+- Terraform, schema, repository seed, documentation, and skill validation
+  passed.
+- Hybrid OCI DevOps application delivery with Argo CD cluster administration
+  was exercised on OKE.
+- Karpenter and kube-prometheus were reconciled successfully through GitOps.
+- Resource Manager compatibility failures found during the clean-room test
+  were converted into regression tests.
 
 The authoritative layout is [REPOSITORY-CONTRACT.md](REPOSITORY-CONTRACT.md).
