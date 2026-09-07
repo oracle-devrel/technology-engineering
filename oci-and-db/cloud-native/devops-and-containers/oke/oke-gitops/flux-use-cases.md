@@ -11,7 +11,7 @@ independently. There is no Flux hub or remote spoke kubeconfig.
 
 | Repository | Primary owner | Responsibility |
 |---|---|---|
-| `pipelines` | Platform engineering | Mirror Flux Operator, Helm charts, and container images into OCIR |
+| `gitops-pipelines` | Platform engineering | Mirror Flux Operator, Helm charts, and container images into OCIR |
 | `cluster-config` | Cluster administrators | Primary-cluster bootstrap, Flux configuration, cluster resources, namespace infrastructure, and local placement |
 | `apps-config` | Application developers | Reusable application components and the `dev`, `staging`, and `production` variants |
 | `fleet-config` | Fleet administrators | Optional shared profiles and explicit per-cluster activation for independent Flux members |
@@ -29,9 +29,9 @@ normally required.
 | Observe Flux reconciliation | none; target-cluster operation | — | Inspect local Flux sources, Kustomizations, ResourceSets, HelmReleases, and workload events; no Git file |
 | Rotate the Git or OCIR runtime reader | none; Vault and OCI DevOps operation | A new secret version or credential | Run the preparation deployment stage with both current Secret OCIDs; no Git file |
 | Change Flux Operator configuration | `cluster-config` | Optional additional file below `platform/applications/flux-operator/values/` | `platform/applications/flux-operator/values/90-user.yml`; add a new ConfigMap key and append it to `spec.inputs[].valuesFrom` in `resourceset.yml` |
-| Upgrade or pin Flux Operator | `pipelines`, then `cluster-config` | Mirror the required chart version through `mirror-gitops-agent` | To pin, change `spec.inputs[].version` in `platform/applications/flux-operator/resourceset.yml` |
-| Mirror another public Helm chart and its images | `pipelines` | `mirroring/<application>.yaml`, copied from `mirror_helm.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
-| Mirror an explicit image list | `pipelines` | `mirroring/<group>.yaml`, copied from `mirror_images.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
+| Upgrade or pin Flux Operator | `gitops-pipelines`, then `cluster-config` | Mirror the required chart version through `mirror-gitops-agent` | To pin, change `spec.inputs[].version` in `platform/applications/flux-operator/resourceset.yml` |
+| Mirror another public Helm chart and its images | `gitops-pipelines` | `mirroring/<application>.yaml`, copied from `mirror_helm.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
+| Mirror an explicit image list | `gitops-pipelines` | `mirroring/<group>.yaml`, copied from `mirror_images.yaml` | Create an OCI DevOps Managed Build stage that uses the new build spec |
 | Add cluster-wide Kustomize resources | `cluster-config` | `platform/cluster-resources/<group>/kustomization.yml` and manifests | `platform/cluster-resources/kustomization.yml` |
 | Add namespaced administrator resources | `cluster-config` | `platform/applications/<name>/resourceset.yml`, `kustomization.yml`, and `resources/` | `platform/applications/kustomization.yml` |
 | Install a chart from a Helm or OCI repository | `cluster-config` | `platform/applications/<name>/resourceset.yml`, ordered `values/*.yml`, and optional `resources/` | `platform/applications/kustomization.yml` |
