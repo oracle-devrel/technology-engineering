@@ -1,0 +1,6 @@
+apiVersion: v2
+name: sample-app
+description: Namespace umbrella chart for the sample-app application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
