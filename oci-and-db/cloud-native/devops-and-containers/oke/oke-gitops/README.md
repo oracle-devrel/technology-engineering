@@ -19,8 +19,21 @@ mode.
 Reviewed: 07.09.2026
 
 # When to use this asset?
- 
+
+Use this asset when an existing OKE cluster should be managed through Git
+instead of routine direct `kubectl` changes. It provides a guided bootstrap for
+either Argo CD or Flux, separates cluster-administrator and application-team
+repositories, and optionally supports multiple clusters using the delivery
+model native to the selected engine.
+
 # How to use this asset?
+
+Start with the **Deploy to Oracle Cloud** button above, select the GitOps engine
+and scope, and complete the one-time bootstrap described in
+[Deploy and bootstrap](#deploy-and-bootstrap). After the handoff, make normal
+cluster and application changes through the generated Git repositories. Use
+the documentation links below for IAM preparation, administration, application
+delivery, fleet operation, and AI-agent installation.
 
 ## Documentation
 
@@ -198,26 +211,21 @@ network policy requires one.
    shared `fleet-config` repository and activate this stack's selected cluster;
    it does not provision or connect additional clusters.
 4. Wait for the Resource Manager apply job to succeed.
-5. In the selected OCI DevOps project, run `bootstrap-gitops-agent` and set:
-
+5. In the selected OCI DevOps project, run `bootstrap-gitops-agent`. Leave
+   `chart_version` as `LATEST` or set an exact chart version, and set:
    - `git_read_credentials_secret_ocid` to the Git reader Secret OCID;
    - `registry_pull_secret_ocid` to the OCIR reader Secret OCID.
-
-   Leave `chart_version` as `LATEST` or set an exact chart version.
-
 6. Wait for that build and its automatically triggered `install-gitops-agent`
    deployment to succeed.
 7. Configure `kubectl` for the OKE private API endpoint, then clone
    `cluster-config`.
 8. Apply the one generated bootstrap root for the selected engine:
-
    ```bash
    # Run from the cluster-config clone.
    kubectl apply -f bootstrap/argocd-bootstrap.yml
    # OR
    kubectl apply -f bootstrap/flux-bootstrap.yml
    ```
-
    Apply only the file for the selected `gitops_agent`. This is the one-time
    handoff from agent installation to Git reconciliation.
 9. Follow the cloned repository README, which is the authoritative operating
@@ -225,8 +233,8 @@ network policy requires one.
    - [Argo CD cluster bootstrap](./repos/argocd/cluster-config/README.md)
    - [Flux CD cluster bootstrap](./repos/fluxcd/cluster-config/README.md)
 10. With `applications_and_cluster`, clone `apps-config` and follow its README:
-   - [Argo CD application workflow](./repos/argocd/apps-config/README.md)
-   - [Flux CD application workflow](./repos/fluxcd/apps-config/README.md)
+    - [Argo CD application workflow](./repos/argocd/apps-config/README.md)
+    - [Flux CD application workflow](./repos/fluxcd/apps-config/README.md)
 
 If optional multi-cluster support is enabled, follow the cloned `fleet-config`
 README after the installation pipeline succeeds. For Argo CD, bootstrap the
@@ -255,8 +263,8 @@ back the self-managed release by committing an exact version in
 
 ### Upgrade an existing stack to the split pipelines
 
-Existing `gitops-pipelines` repositories are customer-owned and are not overwritten
-by Resource Manager. When upgrading an existing stack, merge the new
+Existing `gitops-pipelines` repositories are customer-owned and are not
+overwritten by Resource Manager. When upgrading an existing stack, merge the new
 `mirror_argocd.yaml` or `mirror_flux_operator.yaml` into that repository and
 push it to `main`, then apply the updated stack. Do not run either pipeline
 during this short migration window.
@@ -295,11 +303,13 @@ Expected Applications include `argocd-bootstrap`, `argocd`,
 `platform-cluster-resources`, parent `reference-app`, and its infrastructure,
 and component/environment children such as `reference-app-frontend-dev`,
 `reference-app-api-dev`, `reference-app-frontend-staging`, and
-`reference-app-api-staging`. Four delivery ApplicationSets use the standardized names `platform-cluster-resources`,
-`platform-kustomize`, `platform-helm-repository`, and `platform-helm-git`.
+`reference-app-api-staging`. Four delivery ApplicationSets use the standardized
+names `platform-cluster-resources`, `platform-kustomize`,
+`platform-helm-repository`, and `platform-helm-git`.
 The last three discover administrator-owned applications under
 `cluster-config/platform/applications/`. `platform-applications` separately
-discovers logical application parents and uses child sync waves for readiness ordering.
+discovers logical application parents and uses child sync waves for readiness
+ordering.
 
 For Flux CD:
 
