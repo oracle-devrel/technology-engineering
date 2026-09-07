@@ -3,6 +3,36 @@ output "git_username" {
   value       = local.git_username
 }
 
+output "devops_project_id" {
+  description = "OCID of the created or reused OCI DevOps project"
+  value       = module.devops.devops_project_id
+}
+
+output "devops_project_name" {
+  description = "Name of the created or reused OCI DevOps project"
+  value       = module.devops.devops_project_name
+}
+
+output "gitops_scope" {
+  description = "Initial GitOps repository scope"
+  value       = module.devops.gitops_scope
+}
+
+output "pipelines_repository_url" {
+  description = "HTTPS URL of the configured GitOps pipelines repository"
+  value       = module.devops.pipelines_repository_url
+}
+
+output "cluster_config_repository_url" {
+  description = "HTTPS URL of the cluster-config repository"
+  value       = module.devops.cluster_config_repository_url
+}
+
+output "apps_config_repository_url" {
+  description = "HTTPS URL of the apps-config repository"
+  value       = module.devops.apps_config_repository_url
+}
+
 output "gitops_bootstrap_pipeline_id" {
   description = "OCI DevOps build pipeline that mirrors and installs the selected GitOps agent"
   value       = module.devops.gitops_bootstrap_pipeline_id
