@@ -12,7 +12,7 @@ pdfplumber==0.11.6
 Pillow==11.3.0
 PyPDF2==3.0.1
 pytesseract==0.3.13
-python-dotenv==1.1.1
+python-dotenv==1.2.2
 streamlit==1.45.0
 qdrant-client==1.13.3
 
