@@ -1,7 +1,7 @@
 resource "oci_core_network_security_group" "pod_nsg" {
   compartment_id = var.network_compartment_id
   vcn_id         = local.vcn_id
-  display_name   = "pod"
+  display_name   = "pod-${var.network_resource_suffix}"
   freeform_tags  = merge(var.tag_value.freeformTags, local.karpenter_pod_role_freeform_tag)
   defined_tags   = var.tag_value.definedTags
   count          = local.is_npn ? 1 : 0
@@ -190,6 +190,75 @@ resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_services_i
   stateless                 = true
   description               = "Allow TCP ingress from OCI services to pods"
   count                     = local.is_npn ? 1 : 0
+}
+
+# FSS - Virtual Nodes and other directly addressed pods connect to mount targets
+resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_fss_tcp_egress" {
+  for_each                  = local.create_pod_fss_rules ? local.fss_tcp_port_ranges : {}
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg[0].id
+  protocol                  = local.tcp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.fss_nsg.id
+  stateless                 = true
+  description               = "Allow TCP egress from pods for ${each.value.description} to FSS mounts"
+  tcp_options {
+    destination_port_range {
+      min = each.value.min
+      max = each.value.max
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_fss_tcp_ingress" {
+  for_each                  = local.create_pod_fss_rules ? local.fss_tcp_port_ranges : {}
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg[0].id
+  protocol                  = local.tcp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.fss_nsg.id
+  stateless                 = true
+  description               = "Allow TCP ingress from FSS to pods for ${each.value.description}"
+  tcp_options {
+    source_port_range {
+      min = each.value.min
+      max = each.value.max
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_fss_udp_egress" {
+  for_each                  = local.create_pod_fss_rules ? local.fss_udp_port_ranges : {}
+  direction                 = "EGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg[0].id
+  protocol                  = local.udp_protocol
+  destination_type          = "NETWORK_SECURITY_GROUP"
+  destination               = oci_core_network_security_group.fss_nsg.id
+  stateless                 = true
+  description               = "Allow UDP egress from pods for ${each.value.description} to FSS mounts"
+  udp_options {
+    destination_port_range {
+      min = each.value.min
+      max = each.value.max
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "oke_pod_nsg_fss_udp_ingress" {
+  for_each                  = local.create_pod_fss_rules ? local.fss_udp_port_ranges : {}
+  direction                 = "INGRESS"
+  network_security_group_id = oci_core_network_security_group.pod_nsg[0].id
+  protocol                  = local.udp_protocol
+  source_type               = "NETWORK_SECURITY_GROUP"
+  source                    = oci_core_network_security_group.fss_nsg.id
+  stateless                 = true
+  description               = "Allow UDP ingress from FSS to pods for ${each.value.description}"
+  udp_options {
+    source_port_range {
+      min = each.value.min
+      max = each.value.max
+    }
+  }
 }
 
 # POSTGRES

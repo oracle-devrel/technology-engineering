@@ -1,0 +1,23 @@
+---
+# OCI Compute software-agent installation example.
+
+- name: Deploy Agent
+  hosts: compute_instances
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Require an explicit execution mode
+      ansible.builtin.import_tasks: ../common/operation/require-execution-mode.yml
+
+  tasks:
+    - name: Precheck software-agent installation
+      ansible.builtin.import_tasks: ../common/oci/deploy-agent/precheck.yml
+
+    - name: Apply software-agent installation
+      ansible.builtin.import_tasks: ../common/oci/deploy-agent/apply.yml
+      when: operation_execution_mode == 'execute'
+
+    - name: Verify software-agent installation
+      ansible.builtin.import_tasks: ../common/oci/deploy-agent/verify.yml
+      when: operation_execution_mode == 'execute'
