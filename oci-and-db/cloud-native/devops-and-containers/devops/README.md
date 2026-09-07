@@ -2,13 +2,12 @@
  
 OCI DevOps, OCI Resource Manager, Visual Builder Studio, Open Source tools
 
-Reviewed: 08.05.2024
+Reviewed: 07.09.2026
  
 # Team Publications
 
 - [Deploying Jenkins on Oracle Container Engine for Kubernetes](https://docs.oracle.com/en/solutions/oci-jenkins-oke/index.html#GUID-23A8EB94-DFFC-4D5C-897F-5F59423447D2)
  
-
 # Useful Links
 
 - [A DevOps Engineer's guide to OCI](https://docs.oracle.com/en-us/iaas/Content/GSG/Reference/getting-started-as-devops.htm)

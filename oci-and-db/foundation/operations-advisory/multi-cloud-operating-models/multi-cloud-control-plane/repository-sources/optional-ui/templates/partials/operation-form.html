@@ -1,0 +1,103 @@
+<!-- Operation form partial - Dynamic form for Day-2 operations -->
+{% import "partials/_form_macros.html" as form_macros %}
+{% from "partials/_alerts.html" import empty_state %}
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <div>
+                <h2 class="card-title text-2xl font-extrabold tracking-tight">{{ operation.name or operation.operation_type or operation.id | replace('-', ' ') | title }}</h2>
+                <p class="text-base-content/40 text-sm font-medium">{{ operation.description or 'Configure operation parameters' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-base-100">
+    <div class="card-body">
+        <form hx-post="/partials/execute-operation?project={{ project }}&operation={{ operation.id }}"
+            hx-target="#result">
+            <input type="hidden" name="project" value="{{ project }}">
+            <input type="hidden" name="operation" value="{{ operation.id }}">
+            <input type="hidden" name="cloud" value="{{ cloud }}">
+            <input type="hidden" name="environment" value="{{ environment }}">
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Region</span>
+                </label>
+                <select name="region" class="select select-bordered w-full" required
+                    hx-get="/partials/operation-form?op={{ operation.id }}&project={{ project }}&cloud={{ cloud }}&environment={{ environment }}"
+                    hx-target="#main" hx-trigger="change" hx-include="this">
+                    {% if region_options %}
+                    {% for region_option in region_options %}
+                    <option value="{{ region_option }}" {% if region_option == region %}selected{% endif %}>{{ region_option }}</option>
+                    {% endfor %}
+                    {% else %}
+                    <option value="" selected disabled>No regions available</option>
+                    {% endif %}
+                </select>
+                <label class="label">
+                    <span class="label-text-alt text-base-content/50">Targets are limited to this cloud and region.</span>
+                </label>
+            </div>
+
+            {% for param_key, param_def in parameters.items() %}
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">{{ param_def.label or param_key | replace('_', ' ') | title }}</span>
+                </label>
+
+                {% if param_def.type == 'choice' %}
+                <select name="{{ param_key }}" class="select select-bordered w-full" {% if param_def.required
+                    %}required{% endif %}>
+                    {% for opt in param_def.options %}
+                    <option value="{{ opt }}" {% if opt==param_def.default %}selected{% endif %}>{{ opt }}</option>
+                    {% endfor %}
+                </select>
+
+                {% elif param_def.type == 'boolean' %}
+                <label class="cursor-pointer label justify-start gap-4">
+                    <input type="checkbox" name="{{ param_key }}" class="checkbox checkbox-primary" value="true" {% if
+                        param_def.default %}checked{% endif %} />
+                    <span class="label-text">Enabled</span>
+                </label>
+
+                {% elif param_def.type == 'resource' %}
+                {% if param_def.resources %}
+                <select name="{{ param_key }}" class="select select-bordered w-full" {% if param_def.required
+                    %}required{% endif %}>
+                    {% for res in param_def.resources %}
+                    <option value="{{ res.name }}">{{ res.name }}</option>
+                    {% endfor %}
+                </select>
+                {% else %}
+                {{ empty_state("No " ~ (param_def.resource_type or 'resources') ~ " resources deployed in the selected region.") }}
+                {% endif %}
+
+                {% else %}
+                <input type="text" name="{{ param_key }}" value="{{ param_def.default or '' }}"
+                    class="input input-bordered w-full" placeholder="Enter {{ param_def.label or param_key }}" {% if
+                    param_def.required %}required{% endif %} />
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            {{ form_macros.change_reference_field() }}
+
+            <div class="flex gap-4 mt-2">
+                <button type="submit" class="btn btn-primary gap-2" {% if not can_execute %}disabled{% endif %}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Execute Operation
+                </button>
+                <a class="btn btn-ghost" hx-get="/partials/operations?project={{ project }}"
+                    hx-target="#main">Cancel</a>
+            </div>
+        </form>
+        <div id="result" class="mt-4"></div>
+    </div>
+</div>
