@@ -8,6 +8,17 @@ variable "gitops_agent" {
   default = "fluxcd"
 }
 
+variable "gitops_scope" {
+  description = "Initial GitOps repository scope: cluster administration only, or cluster administration plus developer application placements"
+  type        = string
+  default     = "applications_and_cluster"
+
+  validation {
+    condition     = contains(["cluster_admin", "applications_and_cluster"], var.gitops_scope)
+    error_message = "gitops_scope must be cluster_admin or applications_and_cluster."
+  }
+}
+
 variable "enable_multicluster" {
   description = "Create fleet-config; Argo CD uses a central hub, while Flux CD activates this stack's selected member and documents manual onboarding for additional clusters"
   type        = bool
@@ -37,6 +48,18 @@ variable "development_overwrite_repositories" {
 
 # DEVOPS PROJECT
 variable "devops_compartment_id" {}
+variable "create_devops_project" {
+  description = "Create a new OCI DevOps project. When false, add the GitOps resources to existing_devops_project_id."
+  type        = bool
+  default     = true
+}
+
+variable "existing_devops_project_id" {
+  description = "Existing OCI DevOps project OCID used when create_devops_project is false."
+  type        = string
+  default     = ""
+}
+
 variable "devops_project_name" {
   default = "oke-gitops"
 }
@@ -75,6 +98,17 @@ variable "notification_topic_description" {
 }
 
 # REPOSITORY
+variable "pipelines_repository_name" {
+  description = "Name of the OCI Code Repository containing GitOps bootstrap and mirror pipelines"
+  type        = string
+  default     = "gitops-pipelines"
+
+  validation {
+    condition     = can(regex("^[A-Za-z0-9_.-]+$", var.pipelines_repository_name)) && length(var.pipelines_repository_name) <= 100
+    error_message = "pipelines_repository_name must contain only letters, numbers, periods, underscores, or hyphens and be at most 100 characters."
+  }
+}
+
 variable "ocir_repo_path_prefix" {
   default = "acme/helm"
 }

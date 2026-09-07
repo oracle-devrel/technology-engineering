@@ -1,10 +1,10 @@
 # Oracle Core Infrastructure Compute Operations
 
-Reviewed: 2026-09-03
+Reviewed: 2026-09-04
 
 # Team Publications
 
-- [OCI Compute Operations](./files/Public_Compute_Operations_v0.1.pdf)
+- [OCI Compute Operations Workshop](./compute-operations-ws/README.md)
   
 # License
 
