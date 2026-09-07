@@ -1,9 +1,12 @@
+resource "random_uuid" "network_resources" {}
+
 locals {
   # VCN_NATIVE_CNI internally it is mapped as npn
-  cni             = var.cni_type == "vcn_native" ? "npn" : var.cni_type
-  vcn_cidr_blocks = [var.vcn_cidr_block]
-  tag_value       = var.tag_value == null ? { "freeformTags" = {}, "definedTags" = {} } : var.tag_value
-  db_service_list = var.db_service_list == null ? [] : var.db_service_list
+  cni                     = var.cni_type == "vcn_native" ? "npn" : var.cni_type
+  vcn_cidr_blocks         = [var.vcn_cidr_block]
+  tag_value               = var.tag_value == null ? { "freeformTags" = {}, "definedTags" = {} } : var.tag_value
+  db_service_list         = var.db_service_list == null ? [] : var.db_service_list
+  network_resource_suffix = substr(random_uuid.network_resources.result, 0, 8)
 
   vcn_cidr_prefix = tonumber(split("/", trimspace(var.vcn_cidr_block))[1])
   subnet_profile_by_cidr = {

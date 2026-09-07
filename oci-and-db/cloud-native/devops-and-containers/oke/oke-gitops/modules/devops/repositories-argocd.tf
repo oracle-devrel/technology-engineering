@@ -1,6 +1,6 @@
 resource "oci_devops_repository" "devops_pipelines_repo_argocd" {
-  name            = "pipelines"
-  project_id      = oci_devops_project.devops_project.id
+  name            = var.pipelines_repository_name
+  project_id      = local.devops_project_id
   description     = "Repository containing the source code for Build Pipelines in this project (Pipeline as Code)"
   repository_type = "HOSTED"
   count           = var.gitops_agent == "argocd" ? 1 : 0
@@ -9,7 +9,7 @@ resource "oci_devops_repository" "devops_pipelines_repo_argocd" {
 resource "local_file" "export_variables_pipelines_argocd" {
   filename = "${path.root}/${local.base_repo_path}/pipelines/variables.sh"
   content = templatefile("${path.root}/templates/variables.tpl", {
-    repo_compartment_id = var.compartment_id
+    repo_compartment_id = local.devops_project_compartment_id
     repo_prefix         = var.ocir_repo_path_prefix
     region              = var.region
   })
@@ -50,7 +50,7 @@ resource "null_resource" "push_pipelines_repo_content_argocd" {
 
 resource "oci_devops_repository" "cluster_config_repo_argocd" {
   name            = "cluster-config"
-  project_id      = oci_devops_project.devops_project.id
+  project_id      = local.devops_project_id
   description     = "Repository containing Kubernetes cluster configurations related to infrastructure and system tools, to be used by cluster admins"
   repository_type = "HOSTED"
   count           = var.gitops_agent == "argocd" ? 1 : 0
@@ -208,6 +208,11 @@ resource "null_resource" "push_cluster_config_repo_content_argocd" {
       REGION               = var.region
       SOURCE_REPO          = "/${local.base_repo_path}/cluster-config"
       OVERWRITE_REPOSITORY = tostring(var.development_overwrite_repositories)
+      SEED_EXCLUDE_PATHS = local.applications_enabled ? "" : join("\n", [
+        "gitops/argocd/apps.yml",
+        "platform/applications/reference-app",
+        "platform/applications/reference-helm-app"
+      ])
     }
     working_dir = path.root
   }
@@ -217,6 +222,7 @@ resource "null_resource" "push_cluster_config_repo_content_argocd" {
     repo_prefix           = var.ocir_repo_path_prefix
     repo_id               = oci_devops_repository.cluster_config_repo_argocd.0.id
     seed_revision         = local.repository_seed_revision
+    gitops_scope          = var.gitops_scope
     development_overwrite = var.development_overwrite_repositories ? timestamp() : "false"
   }
   depends_on = [
@@ -240,7 +246,7 @@ resource "null_resource" "push_cluster_config_repo_content_argocd" {
 
 resource "oci_devops_repository" "apps_config_repo_argocd" {
   name            = "apps-config"
-  project_id      = oci_devops_project.devops_project.id
+  project_id      = local.devops_project_id
   description     = "Repository containing Kubernetes application configurations, to be used by developers"
   repository_type = "HOSTED"
   count           = var.gitops_agent == "argocd" ? 1 : 0
