@@ -1,0 +1,10 @@
+{
+    "operation_type": "deploy-agent",
+    "agent_type": "__AGENT_TYPE__",
+    "agent_version": "__AGENT_VERSION__",
+    "targets": [
+        {
+            "display_name": "__INSTANCE_NAME__"
+        }
+    ]
+}
