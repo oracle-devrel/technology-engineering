@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/__CUSTOMER_ORG__/gitops-templates/schemas/gcp/compute.schema.json",
+  "oneOf": [
+    {"type": "object", "maxProperties": 0},
+    {
+      "type": "object",
+      "required": ["project_id", "gcp_virtual_machines_configuration"],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "gcp_virtual_machines_configuration": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "required": ["name", "zone", "subnetwork", "service_account", "ssh_public_key"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "zone": {"type": "string", "minLength": 1},
+              "subnetwork": {"type": "string", "pattern": "^(?:projects/|__)"},
+              "service_account": {"type": "string", "minLength": 1},
+              "ssh_public_key": {"type": "string", "pattern": "^__(?:(?:DEV|TEST|UAT|PROD)_)?GCP_[A-Z0-9_]+__$"},
+              "machine_type": {"type": "string", "minLength": 1},
+              "labels": {"type": "object", "additionalProperties": {"type": "string"}}
+            }
+          }
+        }
+      }
+    }
+  ]
+}
