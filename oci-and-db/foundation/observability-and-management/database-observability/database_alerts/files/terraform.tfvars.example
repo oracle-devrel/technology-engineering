@@ -19,11 +19,12 @@ dataguard_apply_lag_critical_seconds = 900
 # Optional service-dependent resources are created only after their service
 # preflight check passes; neither flag enables an OCI service.
 enable_ops_insights_reports  = true
+enable_ops_insights_sql_degradation_report = true
 enable_log_analytics_alerts  = true
 enable_recommended_alarms    = true
+enable_database_service_metric_alarms = true
 
 # Additional alert thresholds.
 tablespace_warning_percent          = 80
 session_warning_percent             = 75
 process_warning_percent             = 75
-awr_ingestion_lag_warning_seconds   = 3600

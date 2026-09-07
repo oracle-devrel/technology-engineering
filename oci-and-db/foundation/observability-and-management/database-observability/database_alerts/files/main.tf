@@ -1,17 +1,22 @@
-# Target discovery intentionally searches DbmgmtManagedDatabase resources, rather
-# than all Database resources. A result exists only after Database Management has
-# been enabled. Database Management metrics are therefore conditional, but the
-# baseline Database Service critical-event rule is not.
+# Database Management and native Database Service resources are discovered
+# separately. This allows tag selection to target an Autonomous or Base Database
+# even when Database Management has not been enabled for that database.
 locals {
   tag_conditions = [
     for key, value in var.tags :
     "(freeformTags.key = '${replace(key, "'", "\\'")}' && freeformTags.value = '${replace(value, "'", "\\'")}')"
   ]
 
-  target_query = var.compartment_id != null ? (
-    "query DbmgmtManagedDatabase resources where compartmentId = '${var.compartment_id}'"
+  autonomous_database_query = var.compartment_id != null ? (
+    "query AutonomousDatabase resources where compartmentId = '${var.compartment_id}'"
     ) : (
-    "query DbmgmtManagedDatabase resources where ${join(" && ", local.tag_conditions)}"
+    "query AutonomousDatabase resources where ${join(" && ", local.tag_conditions)}"
+  )
+
+  base_database_query = var.compartment_id != null ? (
+    "query Database resources where compartmentId = '${var.compartment_id}'"
+    ) : (
+    "query Database resources where ${join(" && ", local.tag_conditions)}"
   )
 }
 
@@ -22,19 +27,40 @@ check "target_selector_is_present" {
   }
 }
 
-data "oci_resource_search" "managed_databases" {
-  query = local.target_query
+data "oci_resource_search" "autonomous_databases" {
+  query = local.autonomous_database_query
+}
+
+data "oci_resource_search" "base_databases" {
+  query = local.base_database_query
 }
 
 locals {
   # OCI resource-search is region-scoped. Its identifier is the managed database
   # resource OCID, which is also the resourceId dimension used by these metrics.
-  targets = {
-    for database in data.oci_resource_search.managed_databases.results : database.identifier => {
-      compartment_id = database.compartment_id
-      display_name   = database.display_name
-    }
-  }
+  service_targets = merge(
+    {
+      for database in data.oci_resource_search.autonomous_databases.results : database.identifier => {
+        compartment_id = database.compartment_id
+        display_name   = database.display_name
+        target_type    = "autonomous"
+      }
+    },
+    {
+      for database in data.oci_resource_search.base_databases.results : database.identifier => {
+        compartment_id = database.compartment_id
+        display_name   = database.display_name
+        target_type    = "base"
+      }
+    },
+  )
+
+  service_target_compartments = toset([for database in values(local.service_targets) : database.compartment_id])
+
+  # Used for optional Ops Insights and Log Analytics preflight checks. The
+  # managed targets remain separate so DB Management metrics are never applied
+  # to a database that has not been enabled for Database Management.
+  targets = merge(local.service_targets, local.managed_targets)
 
   target_compartments = toset([for database in values(local.targets) : database.compartment_id])
 
@@ -49,8 +75,60 @@ locals {
     message_format               = "ONS_OPTIMIZED"
     pending_duration             = "PT10M"
     repeat_notification_duration = "PT1H"
-    resolution                   = "Database Management metrics are collected and alarms are evaluated only for databases that are enabled for Database Management."
     freeform_tags                = var.freeform_tags
+  }
+
+  database_management_alerts = [
+    "Database Management collection failure",
+    "Sustained CPU utilization",
+    "Database storage utilization",
+    "Flash Recovery Area utilization",
+    "Data Guard apply lag",
+    "Tablespace utilization",
+    "Data Guard transport lag",
+    "Recovery-window breach",
+    "Database Management job failure",
+    "Session or process exhaustion",
+    "Persistent blocking sessions",
+    "Invalid objects or unusable indexes",
+  ]
+
+  ops_insights_alerts = [
+    "Capacity and inventory digest",
+    "Daily SQL performance degradation report",
+  ]
+
+  log_analytics_alerts = [
+    "Database crash",
+    "Internal Oracle incident",
+    "Data corruption",
+    "Storage or I/O error",
+    "Database startup or availability failure",
+    "Listener connection failure burst",
+    "Database timeout burst",
+    "Privileged login or audit-policy change",
+  ]
+}
+
+# Database Management registrations do not inherit freeform tags from the
+# underlying database. Discover them by the selected databases' compartments,
+# then keep only registrations whose OCID belongs to the selected service targets.
+data "oci_database_management_managed_databases" "managed_databases" {
+  for_each = var.compartment_id != null ? toset([var.compartment_id]) : local.service_target_compartments
+
+  compartment_id = each.value
+}
+
+locals {
+  managed_targets = {
+    for database in flatten([for result in values(data.oci_database_management_managed_databases.managed_databases) : result.managed_database_collection[0].items]) : database.id => {
+      compartment_id = database.compartment_id
+      display_name   = database.name
+    }
+    if contains(keys(local.service_targets), database.id) && anytrue([
+      for feature in database.dbmgmt_feature_configs :
+      feature.feature == "DIAGNOSTICS_AND_MANAGEMENT" && feature.feature_status == "ENABLED"
+    ])
   }
 }
 
@@ -134,11 +212,23 @@ locals {
 }
 
 resource "oci_ons_notification_topic" "database_alerts" {
-  for_each       = local.notification_topic_compartments_to_create
+  for_each       = local.baseline_compartments
   compartment_id = each.value
   name           = var.notification_topic_name
   description    = "Database Service critical events and conditional database observability alerts"
   freeform_tags  = var.freeform_tags
+
+  lifecycle {
+    # A topic discovered before the first deployment is adopted by the import
+    # block below. Preserve its existing metadata rather than changing it.
+    ignore_changes = [description, freeform_tags, defined_tags]
+  }
+}
+
+import {
+  for_each = local.existing_notification_topics
+  to       = oci_ons_notification_topic.database_alerts[each.key]
+  id       = each.value.topic_id
 }
 
 locals {
@@ -148,13 +238,59 @@ locals {
   )
 }
 
+data "oci_ons_notification_topics" "existing_operations" {
+  for_each       = var.enable_recommended_alarms || var.enable_ops_insights_sql_degradation_report ? local.baseline_compartments : toset([])
+  compartment_id = each.value
+  name           = var.operations_notification_topic_name
+  state          = "ACTIVE"
+}
+
+locals {
+  existing_operations_notification_topics = {
+    for compartment_id, result in data.oci_ons_notification_topics.existing_operations : compartment_id => one(result.notification_topics)
+    if length(result.notification_topics) == 1
+  }
+
+  operations_topic_compartments_to_create = setsubtract(
+    var.enable_recommended_alarms || var.enable_ops_insights_sql_degradation_report ? local.baseline_compartments : toset([]),
+    toset(keys(local.existing_operations_notification_topics)),
+  )
+}
+
+resource "oci_ons_notification_topic" "operations" {
+  for_each       = var.enable_recommended_alarms || var.enable_ops_insights_sql_degradation_report ? local.baseline_compartments : toset([])
+  compartment_id = each.value
+  name           = var.operations_notification_topic_name
+  description    = "Database operational alerts, including backup failures"
+  freeform_tags  = var.freeform_tags
+
+  lifecycle {
+    # Preserve metadata on a topic discovered and adopted from the target
+    # compartment; only its existence and ID are needed for delivery.
+    ignore_changes = [description, freeform_tags, defined_tags]
+  }
+}
+
+import {
+  for_each = local.existing_operations_notification_topics
+  to       = oci_ons_notification_topic.operations[each.key]
+  id       = each.value.topic_id
+}
+
+locals {
+  operations_notification_topic_ids = merge(
+    { for compartment_id, topic in oci_ons_notification_topic.operations : compartment_id => topic.id },
+    { for compartment_id, topic in local.existing_operations_notification_topics : compartment_id => topic.topic_id },
+  )
+}
+
 # Database Service critical events are emitted through OCI Events and can notify
 # the customer without Database Management, Ops Insights, or Log Analytics.
 resource "oci_events_rule" "database_service_critical" {
-  for_each       = local.notification_topic_ids
-  compartment_id = each.key
-  display_name   = "database-service-critical-events"
-  description    = "Routes Database, DB Node, and DB System critical events to the database-alerts notification topic."
+  for_each       = var.enable_database_service_event_rules ? local.service_targets : {}
+  compartment_id = each.value.compartment_id
+  display_name   = "db-${each.value.display_name}-critical-events"
+  description    = "Routes critical Database Service events for the selected database to the database-alerts notification topic."
   is_enabled     = true
 
   condition = jsonencode({
@@ -163,13 +299,46 @@ resource "oci_events_rule" "database_service_critical" {
       "com.oraclecloud.databaseservice.dbnode.critical",
       "com.oraclecloud.databaseservice.dbsystem.critical",
     ]
+    data = {
+      resourceId = [each.key]
+    }
   })
 
   actions {
     action {
       action_type = "ONS"
       is_enabled  = true
-      topic_id    = each.value
+      topic_id    = local.notification_topic_ids[each.value.compartment_id]
+    }
+  }
+
+  freeform_tags = var.freeform_tags
+}
+
+# Backup failures are Database Service critical events. This rule does not use
+# Database Management metrics and therefore remains available without it.
+resource "oci_events_rule" "database_backup_failure" {
+  for_each       = var.enable_recommended_alarms && var.enable_database_service_event_rules ? local.service_targets : {}
+  compartment_id = each.value.compartment_id
+  display_name   = "db-${each.value.display_name}-backup-failure-events"
+  description    = "Routes Database Service backup failure events for the selected database to the db-prod-operations notification topic."
+  is_enabled     = true
+
+  condition = jsonencode({
+    eventType = ["com.oraclecloud.databaseservice.database.critical"]
+    data = {
+      resourceId = [each.key]
+      additionalDetails = {
+        eventName = ["HEALTH.DB_CLUSTER.CDB.BACKUP_FAILURE"]
+      }
+    }
+  })
+
+  actions {
+    action {
+      action_type = "ONS"
+      is_enabled  = true
+      topic_id    = local.operations_notification_topic_ids[each.value.compartment_id]
     }
   }
 
@@ -185,13 +354,22 @@ resource "oci_ons_subscription" "email" {
   freeform_tags  = var.freeform_tags
 }
 
+resource "oci_ons_subscription" "operations_email" {
+  for_each       = local.operations_notification_topic_ids
+  compartment_id = each.key
+  topic_id       = each.value
+  protocol       = "EMAIL"
+  endpoint       = var.email_endpoint
+  freeform_tags  = var.freeform_tags
+}
+
 resource "oci_opsi_news_report" "weekly_capacity" {
   for_each = var.enable_ops_insights_reports ? local.opsi_enabled_compartments : toset([])
 
   compartment_id = each.value
   name           = "database-capacity-weekly"
-  description    = "Weekly Operations Insights capacity and actionable-insights report for database targets."
-  locale         = "en"
+  description    = "Weekly Operations Insights capacity report for database targets."
+  locale         = "EN"
   news_frequency = "WEEKLY"
   day_of_week    = "MONDAY"
   ons_topic_id   = local.notification_topic_ids[each.value]
@@ -199,80 +377,87 @@ resource "oci_opsi_news_report" "weekly_capacity" {
   freeform_tags  = var.freeform_tags
 
   content_types {
-    capacity_planning_resources          = ["DATABASE"]
-    actionable_insights_resources        = ["DATABASE"]
-    sql_insights_top_databases_resources = ["DATABASE"]
+    capacity_planning_resources = ["DATABASE"]
+  }
+}
+
+resource "oci_opsi_news_report" "daily_sql_degradation" {
+  for_each = var.enable_ops_insights_reports && var.enable_ops_insights_sql_degradation_report ? local.opsi_enabled_compartments : toset([])
+
+  compartment_id = each.value
+  name           = "database-sql-degradation-daily"
+  description    = "Daily Operations Insights SQL performance-degradation report for database targets."
+  locale         = "EN"
+  news_frequency = "DAILY"
+  ons_topic_id   = local.operations_notification_topic_ids[each.value]
+  status         = "ENABLED"
+  freeform_tags  = var.freeform_tags
+
+  content_types {
+    sql_insights_performance_degradation_resources = ["DATABASE"]
   }
 }
 
 resource "oci_log_analytics_namespace_ingest_time_rule" "critical_database_events" {
   for_each = var.enable_log_analytics_alerts ? {
-    for pair in setproduct(keys(local.log_analytics_targets), toset([
+    for pair in setproduct(toset([for target in values(local.log_analytics_targets) : target.compartment_id]), toset([
       "Abnormal Termination",
       "Data Corruption",
       "Internal Error",
       "Storage Error",
       "I/O Error",
       "Availability Error"
-      ])) : "${pair[0]}:${pair[1]}" => {
-      database_id = pair[0]
-      label       = pair[1]
-    }
+    ])) : "${pair[0]}:${pair[1]}" => { compartment_id = pair[0], label = pair[1] }
   } : {}
 
-  compartment_id = local.log_analytics_targets[each.value.database_id].compartment_id
-  namespace      = data.oci_objectstorage_namespace.target[local.log_analytics_targets[each.value.database_id].compartment_id].namespace
-  display_name   = "db-${local.log_analytics_targets[each.value.database_id].display_name}-${replace(lower(each.value.label), " ", "-")}-detection"
-  description    = "Publishes a metric when ${each.value.label} is detected for the selected database entity."
+  compartment_id = each.value.compartment_id
+  namespace      = data.oci_objectstorage_namespace.target[each.value.compartment_id].namespace
+  display_name   = "db-${replace(replace(lower(each.value.label), " ", "-"), "/", "-")}-detection"
+  description    = "Publishes a metric when ${each.value.label} is detected in database logs in this compartment."
   freeform_tags  = var.freeform_tags
 
   conditions {
-    kind           = "FIELD"
-    field_name     = "Label"
-    field_operator = "EQUALS"
+    kind = "FIELD"
+    # OCI Log Analytics ingest-time detection rules use the internal metric-tag
+    # field as the mandatory base condition. The selected label is its value.
+    field_name     = "mtag"
+    field_operator = "EQUAL"
     field_value    = each.value.label
 
-    additional_conditions {
-      condition_field    = "Entity"
-      condition_operator = "EQUALS"
-      condition_value    = local.log_analytics_targets[each.value.database_id].entity_name
-    }
   }
 
   actions {
     type           = "METRIC_EXTRACTION"
-    compartment_id = local.log_analytics_targets[each.value.database_id].compartment_id
+    compartment_id = each.value.compartment_id
     namespace      = "database_log_analytics"
     metric_name    = "CriticalDatabaseEvent"
-    dimensions     = ["Entity"]
   }
 }
 
 resource "oci_monitoring_alarm" "log_analytics_critical_event" {
-  for_each = var.enable_log_analytics_alerts ? local.log_analytics_targets : {}
+  for_each = var.enable_log_analytics_alerts ? toset([for target in values(local.log_analytics_targets) : target.compartment_id]) : toset([])
 
-  compartment_id        = each.value.compartment_id
-  metric_compartment_id = each.value.compartment_id
-  destinations          = [local.notification_topic_ids[each.value.compartment_id]]
-  display_name          = "db-${each.value.display_name}-log-analytics-critical-event"
+  compartment_id        = each.value
+  metric_compartment_id = each.value
+  destinations          = [local.notification_topic_ids[each.value]]
+  display_name          = "db-log-analytics-critical-event"
   namespace             = "database_log_analytics"
-  query                 = "CriticalDatabaseEvent[1m]{Entity = \"${each.value.entity_name}\"}.sum() > 0"
+  query                 = "CriticalDatabaseEvent[1m].sum() > 0"
   severity              = "CRITICAL"
-  notification_title    = "[CRITICAL] Database Log Analytics event: ${each.value.display_name}"
+  notification_title    = "[CRITICAL] Database Log Analytics event"
   body                  = "Log Analytics detected a critical database label: Abnormal Termination, Data Corruption, Internal Error, Storage Error, I/O Error, or Availability Error."
 
   is_enabled                   = local.common_alarm_fields.is_enabled
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = "PT1M"
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = "Open Log Analytics, filter by database entity and Label, and investigate the matching database alert or trace-log event."
   freeform_tags                = local.common_alarm_fields.freeform_tags
 
   depends_on = [oci_log_analytics_namespace_ingest_time_rule.critical_database_events]
 }
 
 resource "oci_monitoring_alarm" "monitoring_collection_failed" {
-  for_each = local.targets
+  for_each = local.managed_targets
 
   compartment_id        = each.value.compartment_id
   metric_compartment_id = each.value.compartment_id
@@ -288,12 +473,11 @@ resource "oci_monitoring_alarm" "monitoring_collection_failed" {
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = local.common_alarm_fields.pending_duration
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
   freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
 resource "oci_monitoring_alarm" "cpu_critical" {
-  for_each = local.targets
+  for_each = local.managed_targets
 
   compartment_id        = each.value.compartment_id
   metric_compartment_id = each.value.compartment_id
@@ -309,12 +493,11 @@ resource "oci_monitoring_alarm" "cpu_critical" {
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = local.common_alarm_fields.pending_duration
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
   freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
 resource "oci_monitoring_alarm" "storage_critical" {
-  for_each = local.targets
+  for_each = local.managed_targets
 
   compartment_id        = each.value.compartment_id
   metric_compartment_id = each.value.compartment_id
@@ -330,12 +513,11 @@ resource "oci_monitoring_alarm" "storage_critical" {
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = "PT30M"
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
   freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
 resource "oci_monitoring_alarm" "fra_critical" {
-  for_each = var.enable_full_management_alarms ? local.targets : {}
+  for_each = var.enable_full_management_alarms ? local.managed_targets : {}
 
   compartment_id        = each.value.compartment_id
   metric_compartment_id = each.value.compartment_id
@@ -351,12 +533,11 @@ resource "oci_monitoring_alarm" "fra_critical" {
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = "PT15M"
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
   freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
 resource "oci_monitoring_alarm" "dataguard_apply_lag_critical" {
-  for_each = var.enable_full_management_alarms ? local.targets : {}
+  for_each = var.enable_full_management_alarms ? local.managed_targets : {}
 
   compartment_id        = each.value.compartment_id
   metric_compartment_id = each.value.compartment_id
@@ -373,7 +554,91 @@ resource "oci_monitoring_alarm" "dataguard_apply_lag_critical" {
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = local.common_alarm_fields.pending_duration
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
+  freeform_tags                = local.common_alarm_fields.freeform_tags
+}
+
+# Native Database Service metrics are available independently of Database
+# Management. These compartment-level alarms cover Base Database, Exadata VM
+# Cluster, and Autonomous Database service namespaces when their metrics exist.
+locals {
+  database_service_metric_alarm_definitions = {
+    database_cpu = {
+      target_type      = "base"
+      namespace        = "oci_database"
+      metric           = "CpuUtilization"
+      threshold        = var.cpu_critical_percent
+      pending_duration = "PT10M"
+      title            = "OCI Database CPU utilization"
+    }
+    database_storage = {
+      target_type      = "base"
+      namespace        = "oci_database"
+      metric           = "StorageUtilization"
+      threshold        = var.storage_critical_percent
+      pending_duration = "PT30M"
+      title            = "OCI Database storage utilization"
+    }
+    cluster_cpu = {
+      target_type      = "cluster"
+      namespace        = "oci_database_cluster"
+      metric           = "CpuUtilization"
+      threshold        = var.cpu_critical_percent
+      pending_duration = "PT10M"
+      title            = "OCI Database Cluster CPU utilization"
+    }
+    cluster_disk = {
+      target_type      = "cluster"
+      namespace        = "oci_database_cluster"
+      metric           = "DiskUtilization"
+      threshold        = var.storage_critical_percent
+      pending_duration = "PT30M"
+      title            = "OCI Database Cluster disk utilization"
+    }
+    autonomous_cpu = {
+      target_type      = "autonomous"
+      namespace        = "oci_autonomous_database"
+      metric           = "CpuUtilization"
+      threshold        = var.cpu_critical_percent
+      pending_duration = "PT10M"
+      title            = "OCI Autonomous Database CPU utilization"
+    }
+    autonomous_storage = {
+      target_type      = "autonomous"
+      namespace        = "oci_autonomous_database"
+      metric           = "StorageUtilization"
+      threshold        = var.storage_critical_percent
+      pending_duration = "PT30M"
+      title            = "OCI Autonomous Database storage utilization"
+    }
+  }
+
+  database_service_metric_alarms = var.enable_database_service_metric_alarms ? {
+    for pair in setproduct(keys(local.service_targets), keys(local.database_service_metric_alarm_definitions)) : "${pair[0]}:${pair[1]}" => merge(
+      local.database_service_metric_alarm_definitions[pair[1]],
+      local.service_targets[pair[0]],
+      { database_id = pair[0], key = pair[1] },
+    )
+    if local.service_targets[pair[0]].target_type == local.database_service_metric_alarm_definitions[pair[1]].target_type
+  } : {}
+}
+
+resource "oci_monitoring_alarm" "database_service_metrics" {
+  for_each = local.database_service_metric_alarms
+
+  compartment_id        = each.value.compartment_id
+  metric_compartment_id = each.value.compartment_id
+  destinations          = [local.notification_topic_ids[each.value.compartment_id]]
+  display_name          = "db-${each.value.display_name}-${each.value.key}-critical"
+  namespace             = each.value.namespace
+  query                 = "${each.value.metric}[5m]{resourceId = \"${each.value.database_id}\"}.max() >= ${each.value.threshold}"
+  severity              = "CRITICAL"
+  notification_title    = "[CRITICAL] ${each.value.title}"
+  body                  = "${each.value.title} reached ${each.value.threshold}% for ${each.value.display_name}. Identify the affected metric stream and investigate the database resource."
+
+  is_enabled                   = local.common_alarm_fields.is_enabled
+  message_format               = local.common_alarm_fields.message_format
+  pending_duration             = each.value.pending_duration
+  repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
   freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
@@ -402,13 +667,6 @@ locals {
       pending_duration = "PT10M"
       title            = "Data Guard transport lag"
       resource_group   = "oracle_dataguard"
-    }
-    backup_failure = {
-      metric           = "BackupJobFailure"
-      threshold        = 0
-      severity         = "CRITICAL"
-      pending_duration = "PT5M"
-      title            = "Backup failure"
     }
     recovery_window_breach = {
       metric           = "RecoveryWindow"
@@ -477,8 +735,8 @@ locals {
   }
 
   recommended_database_management_alarms = var.enable_recommended_alarms ? {
-    for pair in setproduct(keys(local.targets), keys(local.recommended_database_management_alarm_definitions)) : "${pair[0]}:${pair[1]}" => merge(
-      local.targets[pair[0]],
+    for pair in setproduct(keys(local.managed_targets), keys(local.recommended_database_management_alarm_definitions)) : "${pair[0]}:${pair[1]}" => merge(
+      local.managed_targets[pair[0]],
       local.recommended_database_management_alarm_definitions[pair[1]],
       { database_id = pair[0] },
     )
@@ -503,16 +761,15 @@ resource "oci_monitoring_alarm" "recommended_database_management" {
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = each.value.pending_duration
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
   freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
 # Warning and error Database Service events do not require Database Management.
 resource "oci_events_rule" "database_service_operational" {
-  for_each       = var.enable_recommended_alarms ? local.notification_topic_ids : {}
-  compartment_id = each.key
-  display_name   = "database-service-operational-events"
-  description    = "Routes DB Node warning and error events to the database-alerts notification topic."
+  for_each       = var.enable_recommended_alarms && var.enable_database_service_event_rules ? local.service_targets : {}
+  compartment_id = each.value.compartment_id
+  display_name   = "db-${each.value.display_name}-operational-events"
+  description    = "Routes DB Node warning and error events for the selected database to the database-alerts notification topic."
   is_enabled     = true
 
   condition = jsonencode({
@@ -520,40 +777,20 @@ resource "oci_events_rule" "database_service_operational" {
       "com.oraclecloud.databaseservice.dbnode.error",
       "com.oraclecloud.databaseservice.dbnode.warning",
     ]
+    data = {
+      resourceId = [each.key]
+    }
   })
 
   actions {
     action {
       action_type = "ONS"
       is_enabled  = true
-      topic_id    = each.value
+      topic_id    = local.notification_topic_ids[each.value.compartment_id]
     }
   }
 
   freeform_tags = var.freeform_tags
-}
-
-# Ops Insights emits this metric only after the selected database has an enabled
-# Database Insight; the preflight result controls resource creation.
-resource "oci_monitoring_alarm" "opsi_awr_ingestion_lag" {
-  for_each = var.enable_recommended_alarms ? local.opsi_enabled_targets : {}
-
-  compartment_id        = each.value.compartment_id
-  metric_compartment_id = each.value.compartment_id
-  destinations          = [local.notification_topic_ids[each.value.compartment_id]]
-  display_name          = "db-${each.value.display_name}-awr-ingestion-lag"
-  namespace             = "oracle_oci_database"
-  query                 = "AwrIngestionLag[15m]{resourceId = \"${each.key}\"}.max() > ${var.awr_ingestion_lag_warning_seconds}"
-  severity              = "WARNING"
-  notification_title    = "[WARNING] AWR ingestion delay: ${each.value.display_name}"
-  body                  = "Operations Insights AWR ingestion lag exceeded ${var.awr_ingestion_lag_warning_seconds} seconds. Check the management service, AWR collection, and network connectivity."
-
-  is_enabled                   = local.common_alarm_fields.is_enabled
-  message_format               = local.common_alarm_fields.message_format
-  pending_duration             = "PT15M"
-  repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = local.common_alarm_fields.resolution
-  freeform_tags                = local.common_alarm_fields.freeform_tags
 }
 
 locals {
@@ -565,10 +802,10 @@ locals {
   }
 
   recommended_log_analytics_events = var.enable_recommended_alarms && var.enable_log_analytics_alerts ? {
-    for pair in setproduct(keys(local.log_analytics_targets), keys(local.recommended_log_analytics_event_definitions)) : "${pair[0]}:${pair[1]}" => merge(
-      local.log_analytics_targets[pair[0]],
+    for pair in setproduct(toset([for target in values(local.log_analytics_targets) : target.compartment_id]), keys(local.recommended_log_analytics_event_definitions)) : "${pair[0]}:${pair[1]}" => merge(
+      { compartment_id = pair[0] },
       local.recommended_log_analytics_event_definitions[pair[1]],
-      { database_id = pair[0], rule_key = pair[1] },
+      { rule_key = pair[1] },
     )
   } : {}
 }
@@ -578,29 +815,24 @@ resource "oci_log_analytics_namespace_ingest_time_rule" "recommended_database_ev
 
   compartment_id = each.value.compartment_id
   namespace      = data.oci_objectstorage_namespace.target[each.value.compartment_id].namespace
-  display_name   = "db-${each.value.display_name}-${each.value.rule_key}-detection"
-  description    = "Publishes a metric when ${each.value.label} is detected for the selected database entity."
+  display_name   = "db-${each.value.rule_key}-detection"
+  description    = "Publishes a metric when ${each.value.label} is detected in database logs in this compartment."
   freeform_tags  = var.freeform_tags
 
   conditions {
-    kind           = "FIELD"
-    field_name     = "Label"
-    field_operator = "EQUALS"
+    kind = "FIELD"
+    # OCI requires mtag as the base condition for label-based ingest-time rules.
+    field_name     = "mtag"
+    field_operator = "EQUAL"
     field_value    = each.value.label
 
-    additional_conditions {
-      condition_field    = "Entity"
-      condition_operator = "EQUALS"
-      condition_value    = each.value.entity_name
-    }
   }
 
   actions {
     type           = "METRIC_EXTRACTION"
     compartment_id = each.value.compartment_id
     namespace      = "database_log_analytics"
-    metric_name    = "RecommendedDatabaseEvent"
-    dimensions     = ["Entity", "Label"]
+    metric_name    = "RecommendedDatabaseEvent_${each.value.rule_key}"
   }
 }
 
@@ -610,18 +842,17 @@ resource "oci_monitoring_alarm" "recommended_log_analytics_events" {
   compartment_id        = each.value.compartment_id
   metric_compartment_id = each.value.compartment_id
   destinations          = [local.notification_topic_ids[each.value.compartment_id]]
-  display_name          = "db-${each.value.display_name}-${each.value.rule_key}"
+  display_name          = "db-log-analytics-${each.value.rule_key}"
   namespace             = "database_log_analytics"
-  query                 = "RecommendedDatabaseEvent[5m]{Entity = \"${each.value.entity_name}\", Label = \"${each.value.label}\"}.sum() > 0"
+  query                 = "RecommendedDatabaseEvent_${each.value.rule_key}[5m].sum() > 0"
   severity              = each.value.severity
-  notification_title    = "[${each.value.severity}] ${each.value.title}: ${each.value.display_name}"
-  body                  = "Log Analytics detected ${each.value.label} for ${each.value.display_name}. Investigate the matching database log record."
+  notification_title    = "[${each.value.severity}] ${each.value.title}"
+  body                  = "Log Analytics detected ${each.value.label}. Investigate the matching database log record."
 
   is_enabled                   = local.common_alarm_fields.is_enabled
   message_format               = local.common_alarm_fields.message_format
   pending_duration             = "PT5M"
   repeat_notification_duration = local.common_alarm_fields.repeat_notification_duration
-  resolution                   = "Open Log Analytics, filter by database entity and Label, then investigate the matching record."
   freeform_tags                = local.common_alarm_fields.freeform_tags
 
   depends_on = [oci_log_analytics_namespace_ingest_time_rule.recommended_database_events]
