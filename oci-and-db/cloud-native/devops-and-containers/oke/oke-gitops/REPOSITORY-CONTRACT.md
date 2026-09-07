@@ -11,7 +11,18 @@ differ, but repository ownership and the application catalog remain stable.
 | `cluster-config` | Cluster administrators | Bootstrap one primary cluster, self-manage its selected GitOps agent, own cluster-scoped resources, namespace infrastructure, administrator tools, and local application placement |
 | `apps-config` | Application teams | Store reusable Kustomize and umbrella-Helm application components; never select a cluster or own shared namespace infrastructure |
 | `fleet-config` | Fleet administrators | Optionally store reusable profiles and explicit per-cluster placement |
-| `pipelines` | Platform administrators | Mirror public artifacts into OCIR and install the selected GitOps agent; never store Kubernetes desired state |
+| `gitops-pipelines` | Platform administrators | Mirror public artifacts into OCIR and install the selected GitOps agent; never store Kubernetes desired state |
+
+## Initial scope
+
+- `cluster_admin` leaves reference developer component placements inactive,
+  while retaining cluster-scoped and namespace-scoped administrative surfaces.
+- `applications_and_cluster` activates the reference placements and supports
+  GitOps ownership of application infrastructure and releases.
+- Both scopes create `apps-config`; scope controls initial activation, not
+  repository availability.
+- Scope applies only to an empty repository's initial seed. Terraform does not
+  rewrite customer-owned Git content on later applies.
 
 ## Application model
 

@@ -1,7 +1,7 @@
 resource "oci_devops_repository" "fleet_config_repo" {
   count           = var.enable_multicluster ? 1 : 0
   name            = "fleet-config"
-  project_id      = oci_devops_project.devops_project.id
+  project_id      = local.devops_project_id
   description     = "Optional fleet configuration: native Argo CD or decentralized Flux CD"
   repository_type = "HOSTED"
 }
