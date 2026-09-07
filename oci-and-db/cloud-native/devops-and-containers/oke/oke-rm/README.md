@@ -13,9 +13,11 @@ network security group OCIDs required by the OKE stack.
 For GPU and RDMA clusters that need a complete specialized deployment, use the
 [OCI HPC OKE Quickstart](https://github.com/oracle-quickstart/oci-hpc-oke).
 
+Reviewed: 07.09.2026
+
 ## Architecture
 
-![Architecture](images/architecture.png)
+![Architecture](files/images/architecture.png)
 
 ## 1. Create the network infrastructure
 
@@ -40,7 +42,7 @@ Before applying the stack:
 - Review CIDRs and routing carefully when using an existing VCN. Terraform
   validates input formats but cannot identify every overlap or routing conflict.
 
-See the [generated network-rules report](infra/network-rules-report.md)
+See the [generated network-rules report](files/infra/network-rules-report.md)
 for every OKE, database, and messaging rule created by this stack.
 
 [![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.7/infra.zip)
@@ -66,7 +68,7 @@ When enabled, it derives policies for the selected configuration, including:
 
 Use **Policy dry-run** to inspect the generated statements without creating IAM
 policies or Karpenter identity resources. Read the local
-[OKE policy guide](oke/POLICIES.md) for the exact behavior and for
+[OKE policy guide](files/oke/POLICIES.md) for the exact behavior and for
 additional policies that might be required by application features selected
 after cluster creation.
 
@@ -79,16 +81,16 @@ are disabled by default so the project remains a reusable starter template.
 
 Open the OKE stack and edit its Terraform configuration:
 
-![Edit Terraform configurations](images/edit_oci_stack.png)
+![Edit Terraform configurations](files/images/edit_oci_stack.png)
 
 Set `create = true` only on the node pool you want to provision. You can also
 clone this repository, edit `oke.tf`, and upload the modified OKE directory:
 
-![Upload edited Terraform configuration](images/edit_stack_with_source.png)
+![Upload edited Terraform configuration](files/images/edit_stack_with_source.png)
 
 Save the configuration, create a plan, and apply it:
 
-![Node pool creation](images/node_pool_create.png)
+![Node pool creation](files/images/node_pool_create.png)
 
 ### Available examples
 
@@ -108,7 +110,7 @@ To use Ubuntu workers, first create an Ubuntu custom image in your tenancy, then
 set the worker image type and image OCID as described in `oke.tf`.
 
 For Karpenter installation and configuration, see the
-[Karpenter guide](oke-oci-karpenter-guide.md).
+[Karpenter guide](files/oke-oci-karpenter-guide.md).
 
 ## What's Next? Managing an OKE Cluster
 
@@ -168,3 +170,12 @@ their generated repositories, pipelines, and cluster workflows:
 - [OKE policies](../oke-policies/policies.md)
 - [Karpenter guide](oke-oci-karpenter-guide.md)
 - [OKE ingress controller guidance](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengmanagingresscontrollers.htm)
+
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
