@@ -10,6 +10,12 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](docs/quickstart.md)**.
 
+Reviewed: 07.09.2026
+
+# When to use this asset?
+ 
+# How to use this asset?
+
 ## AI Agent Skill
 
 Using the generated OCI DevOps solution with an AI agent?
@@ -168,3 +174,11 @@ See [Delivery Ownership Models](docs/delivery-ownership-models.md) before combin
 - Seed repository files once and preserve developer-owned content on later stack applies.
 - Keep production optional for early testing by allowing the prod OKE environment to point to the same cluster as pre-prod.
 - Keep cluster administration configuration separate from application environments and deploy only changed cluster targets.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
