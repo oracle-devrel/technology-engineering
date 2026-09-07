@@ -81,7 +81,7 @@ pillow==11.3.0
 platformdirs==4.4.0
 propcache==0.3.2
 protobuf==6.32.1
-pyarrow==21.0.0
+pyarrow==23.0.1
 pycparser==2.23
 pydantic==2.11.7
 pydantic-settings==2.10.1
