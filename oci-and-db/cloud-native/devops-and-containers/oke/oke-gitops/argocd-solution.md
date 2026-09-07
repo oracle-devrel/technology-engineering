@@ -13,7 +13,7 @@ descriptors from the optional `fleet-config` repository directly to spokes.
 
 - One OCI DevOps project.
 - Three OCI Code Repositories:
-  - `pipelines`: artifact mirroring build specifications and scripts.
+  - `gitops-pipelines`: artifact mirroring build specifications and scripts.
   - `cluster-config`: Argo CD bootstrap and cluster platform configuration.
   - `apps-config`: namespaced application configuration.
 - An optional fourth `fleet-config` repository when multi-cluster support is
