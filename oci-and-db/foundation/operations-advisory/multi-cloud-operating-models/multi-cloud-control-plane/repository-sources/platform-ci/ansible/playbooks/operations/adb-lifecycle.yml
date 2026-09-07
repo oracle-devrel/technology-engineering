@@ -1,0 +1,22 @@
+---
+# OCI Autonomous Database lifecycle operation.
+
+- name: ADB Lifecycle
+  hosts: adb_instances
+  gather_facts: false
+
+  pre_tasks:
+    - name: Require an explicit execution mode
+      ansible.builtin.import_tasks: ../common/operation/require-execution-mode.yml
+
+  tasks:
+    - name: Precheck ADB lifecycle
+      ansible.builtin.import_tasks: ../common/oci/adb-lifecycle/precheck.yml
+
+    - name: Apply ADB lifecycle
+      ansible.builtin.import_tasks: ../common/oci/adb-lifecycle/apply.yml
+      when: operation_execution_mode == 'execute'
+
+    - name: Verify ADB lifecycle
+      ansible.builtin.import_tasks: ../common/oci/adb-lifecycle/verify.yml
+      when: operation_execution_mode == 'execute'
