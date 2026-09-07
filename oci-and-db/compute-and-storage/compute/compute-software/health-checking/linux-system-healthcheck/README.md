@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual to check the health status of a Linux system;
 
-Reviewed: 16.10.2025
+Reviewed: 04.09.2026
  
 # When to use this asset?
  
