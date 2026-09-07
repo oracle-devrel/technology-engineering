@@ -3,6 +3,13 @@
 This repository is the cluster administrator's source of truth for one OKE
 cluster. A commit merged to `main` is a request for Flux to change the cluster.
 
+When the stack is seeded with `gitops_scope = cluster_admin`, the reference
+developer placements are omitted and
+`platform/applications/kustomization.yml` starts empty. Cluster administrators
+can still add cluster-scoped objects and namespaced resources such as quotas,
+policies, external-secret objects, and platform tools. Add developer placements
+only when GitOps is intended to own application releases.
+
 Flux Operator ResourceSets compose each platform application. A ResourceSet can
 create the destination namespace, a Helm release, and a Flux Kustomization for
 additional manifests while keeping them one administrator-owned application.
@@ -108,7 +115,7 @@ profiles and explicit per-cluster activation in `fleet-config`.
 
 In OCI Console, open **Resource Manager → Stacks → Jobs**. The latest apply job
 must be `Succeeded`. In the created DevOps project, confirm that repositories
-named `pipelines`, `cluster-config`, and `apps-config` exist.
+named `gitops-pipelines`, `cluster-config`, and `apps-config` exist.
 
 The Resource Manager inputs must include:
 
