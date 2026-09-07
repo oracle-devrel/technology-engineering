@@ -1,0 +1,88 @@
+name: Production Terraform
+
+on:
+  pull_request_target:
+    branches: [main]
+    paths: ["oci/prod/**", "azure/prod/**", "gcp/prod/**", "!**/lifecycle_operations/**"]
+  push:
+    branches: [main]
+    paths: ["oci/prod/**", "azure/prod/**", "gcp/prod/**", "!**/lifecycle_operations/**"]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  resolve:
+    if: >-
+      github.event_name != 'push' ||
+      github.event.before != '0000000000000000000000000000000000000000'
+    runs-on: [self-hosted, control-plane-resolver]
+    outputs:
+      cloud: ${{ steps.tuple.outputs.cloud }}
+      region: ${{ steps.tuple.outputs.region }}
+      runner_labels: ${{ steps.tuple.outputs.runner_labels }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - id: tuple
+        shell: bash
+        env:
+          PR_HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          fail() { echo "ERROR: $*" >&2; exit 1; }
+          if [ "${{ github.event_name }}" = pull_request_target ]; then
+            [ "$PR_HEAD_REPOSITORY" = "$GITHUB_REPOSITORY" ] || \
+              fail "Fork pull requests are not accepted."
+          fi
+          base_sha="${{ github.event.pull_request.base.sha || github.event.before }}"
+          head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          git fetch --no-tags origin "$base_sha" "$head_sha"
+          all_changed=$(git diff --name-only "$base_sha" "$head_sha")
+          if printf '%s\n' "$all_changed" | \
+            rg -q '^(oci|azure|gcp)/(production|prd|live)/'; then
+            fail "Production environment aliases are rejected; use prod."
+          fi
+          changed=$(printf '%s\n' "$all_changed" | rg '^(oci|azure|gcp)/prod/[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*\.json$' | rg -v '/lifecycle_operations/' || true)
+          [ -n "$changed" ] || fail "No supported production Terraform manifest was changed."
+          [ "$all_changed" = "$changed" ] || \
+            fail "The change includes a non-manifest or unsupported file."
+          while IFS= read -r path; do
+            git ls-tree "$head_sha" -- "$path" | \
+              rg '^100644 blob [0-9a-f]{40}\t' >/dev/null || \
+              fail "Manifest is not a regular 100644 file: $path"
+            git show "$head_sha:$path" | jq -e . >/dev/null || \
+              fail "Manifest is not valid JSON: $path"
+          done <<< "$changed"
+          tuple_count=$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')
+          [ "$tuple_count" = 1 ] || \
+            fail "Exactly one cloud/prod/region tuple is allowed."
+          IFS=/ read -r cloud environment region <<< "$(printf '%s\n' "$changed" | head -1 | cut -d/ -f1-3)"
+          case "$cloud" in oci|azure|gcp) ;; *) fail "Unsupported cloud: $cloud" ;; esac
+          [ "$environment" = prod ] || fail "Production requests must use the prod path."
+          [ -n "$region" ] || fail "The manifest region folder is empty."
+          {
+            echo "cloud=$cloud"
+            echo "region=$region"
+            jq -nc --arg cloud "$cloud" \
+              '["self-hosted", $cloud, "prod"]' | sed 's/^/runner_labels=/'
+          } >> "$GITHUB_OUTPUT"
+  terraform:
+    needs: resolve
+    uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/terraform-shared.yaml@main
+    with:
+      mode: ${{ github.event_name == 'push' && 'apply' || 'pr' }}
+      cloud: ${{ needs.resolve.outputs.cloud }}
+      environment_name: prod
+      region: ${{ needs.resolve.outputs.region }}
+      repository_layout: production
+      security_profile: repository-secrets
+      manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      runner_labels: ${{ needs.resolve.outputs.runner_labels }}
+      orchestrator_repo: ${{ needs.resolve.outputs.cloud == 'oci' && 'oci-landing-zones/terraform-oci-modules-orchestrator' || needs.resolve.outputs.cloud == 'azure' && 'oci-clickops/clickops-orchestrator-azure' || 'oci-clickops/clickops-orchestrator-gcp' }}
+      orchestrator_ref: ${{ needs.resolve.outputs.cloud == 'oci' && '__OCI_ORCHESTRATOR_REF__' || needs.resolve.outputs.cloud == 'azure' && '__AZURE_ORCHESTRATOR_REF__' || '__GCP_ORCHESTRATOR_REF__' }}
+      bucket_name: __STATE_BUCKET__
+    secrets:
+      repository_secret_values: ${{ secrets.GITOPS_SECRET_VALUES_PROD }}
