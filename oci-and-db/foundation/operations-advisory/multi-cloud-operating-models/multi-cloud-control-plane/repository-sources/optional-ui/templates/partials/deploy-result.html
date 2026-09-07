@@ -1,0 +1,19 @@
+<!-- Deploy result partial - Success/Error for resource deployment -->
+{% from "partials/_alerts.html" import error_alert %}
+{% import "partials/_result_macros.html" as result_macros %}
+{% if success %}
+<div class="alert alert-success mt-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <div>
+        <h3 class="font-bold">Resource {{ action | default('deployed') | title }}!</h3>
+        <div class="text-xs">PR #{{ pr_number }} created for <strong>{{ filename }}</strong></div>
+        <div class="text-xs text-base-content/60 mt-1">Plan available after CI.</div>
+    </div>
+    {{ result_macros.pr_plan_actions(pr_number, project, pr_url, dashboard_project=project, preview_kind="terraform") }}
+</div>
+{% else %}
+{{ error_alert(message=error, title="Error deploying resource") }}
+{% endif %}
