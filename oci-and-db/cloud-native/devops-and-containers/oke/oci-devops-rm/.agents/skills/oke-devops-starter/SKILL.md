@@ -1,9 +1,9 @@
 ---
-name: use-oke-devops-starter
+name: oke-devops-starter
 description: Operate application delivery and OKE cluster-administration workflows created by the OKE DevOps Starter. Use for pull-request validation, component builds and releases, application bootstrap and baseline delivery, cluster-tool changes, deployment verification, rollback, and troubleshooting in the generated OCI DevOps project and repositories.
 ---
 
-# Use OKE DevOps Starter
+# OKE DevOps Starter Skill
 
 Use this skill to operate a deployed OKE DevOps Starter solution. It follows the
 portable Agent Skills `SKILL.md` format and does not depend on one AI product.

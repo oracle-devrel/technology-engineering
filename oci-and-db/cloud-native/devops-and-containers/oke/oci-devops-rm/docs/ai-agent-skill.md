@@ -11,8 +11,8 @@ the extracted directory or its `SKILL.md` to the task context.
 
 ## Download
 
-Download [use-oke-devops-starter.zip](../downloads/use-oke-devops-starter.zip).
-The archive contains one self-contained `use-oke-devops-starter` directory.
+Download [oke-devops-starter.zip](../downloads/oke-devops-starter.zip).
+The archive contains one self-contained `oke-devops-starter` directory.
 
 ## Install
 
@@ -20,12 +20,12 @@ Extract the directory into the skills location supported by your AI agent. For
 OpenAI Codex, use:
 
 ```text
-~/.codex/skills/use-oke-devops-starter/SKILL.md
+~/.codex/skills/oke-devops-starter/SKILL.md
 ```
 
 Start the agent with access to the generated OCI DevOps project, its
 repositories, and the relevant OCI or Kubernetes tools. With Codex, invoke
-`$use-oke-devops-starter`; other agents can select the skill through their own
+`$oke-devops-starter`; other agents can select the skill through their own
 skill-discovery mechanism.
 
 The skill operates the deployed solution. It does not maintain this Terraform
@@ -34,7 +34,7 @@ delete resources.
 
 ## Rebuild The Download
 
-After changing files under `.agents/skills/use-oke-devops-starter`, run:
+After changing files under `.agents/skills/oke-devops-starter`, run:
 
 ```bash
 bash script/package_user_skill.sh

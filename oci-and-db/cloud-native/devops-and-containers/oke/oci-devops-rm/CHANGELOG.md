@@ -18,7 +18,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ### AI-Assisted Operations
 
-- Added the directly downloadable `use-oke-devops-starter` skill and made it prominent in the main README.
+- Added the directly downloadable `oke-devops-starter` skill and made it prominent in the main README.
 - Made the skill portable for any AI agent that supports the Agent Skills `SKILL.md` convention.
 - Added guided workflows for component PRs and releases, application bootstrap and baselines, cluster-tool administration, deployment verification, rollback, and troubleshooting.
 - Kept the skill source and internal agent context outside the Resource Manager deployment archive.

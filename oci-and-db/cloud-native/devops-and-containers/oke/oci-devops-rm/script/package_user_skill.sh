@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILL_NAME="use-oke-devops-starter"
+SKILL_NAME="oke-devops-starter"
 SKILL_PARENT="${ROOT_DIR}/.agents/skills"
 OUTPUT_DIR="${ROOT_DIR}/downloads"
 OUTPUT_ZIP="${OUTPUT_DIR}/${SKILL_NAME}.zip"
