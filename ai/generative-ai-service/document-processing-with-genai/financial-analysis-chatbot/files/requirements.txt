@@ -6,7 +6,7 @@ pdf2image
 oci                         
 oci-cli                     
 
-langchain==0.3.27           
+langchain==0.3.30           
 langchain-core==0.3.81      
 langchain-community
 
