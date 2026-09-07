@@ -57,7 +57,7 @@ httpcore==1.0.7
 httpx==0.28.1
 httpx-sse==0.4.0
 humanfriendly==10.0
-idna==3.10
+idna==3.15
 ipykernel==6.29.5
 ipython==9.0.1
 ipython_pygments_lexers==1.1.1
@@ -86,7 +86,7 @@ jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.13
 kiwisolver==1.4.8
 lab==8.4
-langchain==0.3.26
+langchain==0.3.30
 langchain-community==0.3.27
 langchain-core==0.3.81
 langchain-mcp-adapters==0.1.9
@@ -97,7 +97,7 @@ langgraph==0.5.0
 langgraph-checkpoint==3.0.0
 langgraph-prebuilt==0.5.1
 langgraph-sdk==0.1.55
-langsmith==0.4.4
+langsmith==0.8.0
 lxml==6.0.0
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2

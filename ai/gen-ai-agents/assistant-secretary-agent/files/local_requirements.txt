@@ -24,7 +24,7 @@ h11==0.16.0
 httpcore==1.0.7
 httpx==0.28.1
 httpx-sse==0.4.0
-idna==3.10
+idna==3.15
 ipython==8.31.0
 jedi==0.19.2
 Jinja2==3.1.6
@@ -32,7 +32,7 @@ jsonpatch==1.33
 jsonpointer==3.0.0
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
-langchain==0.3.14
+langchain==0.3.30
 langchain-community==0.3.14
 langchain-core==1.2.28
 langchain-experimental==0.3.4
@@ -40,7 +40,7 @@ langchain-text-splitters==0.3.9
 langgraph==0.2.62
 langgraph-checkpoint==3.0.0
 langgraph-sdk==0.1.51
-langsmith==0.2.11
+langsmith==0.8.0
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 marshmallow==3.26.2

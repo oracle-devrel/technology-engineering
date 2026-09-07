@@ -32,7 +32,7 @@ h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
 httpx-sse==0.4.1
-idna==3.10
+idna==3.15
 isodate==0.7.2
 isort==6.0.1
 Jinja2==3.1.6
@@ -41,7 +41,7 @@ jsonpointer==3.0.0
 jsonschema==4.25.1
 jsonschema-path==0.3.4
 jsonschema-specifications==2025.9.1
-langchain==0.3.27
+langchain==0.3.30
 langchain-community==0.3.29
 langchain-core==0.3.80
 langchain-oci==0.1.5
