@@ -1,19 +1,13 @@
 # Operational Best Practices for Oracle Database@Google Cloud Exadata Database Service
 
-&nbsp;
-
-Last reviewed: 2026-06-17
-
-This asset describes how to operate the Exadata Database Service scope of Oracle Database@Google Cloud (OD@GCP) in the **GitOps multi-cloud operating model**: Git is the source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. The focus is control-plane ownership, Terraform state boundaries, Day 1 and Day 2 tool selection, handoff contracts, and drift handling.
-
-For the implementation runbook, dependency handoff examples, and module wiring patterns, see [OD@GCP Module Handoff Reference](./handoff-reference.md).
-
-&nbsp;
+Last reviewed: 2026-09-04
 
 ## Table of Contents
 
 - [Operational Best Practices for Oracle Database@Google Cloud Exadata Database Service](#operational-best-practices-for-oracle-databasegoogle-cloud-exadata-database-service)
   - [Table of Contents](#table-of-contents)
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
   - [1. Overview](#1-overview)
   - [2. Operational Pattern](#2-operational-pattern)
   - [3. Design and Ownership Considerations](#3-design-and-ownership-considerations)
@@ -23,6 +17,21 @@ For the implementation runbook, dependency handoff examples, and module wiring p
 - [License](#license)
 
 &nbsp;
+
+# What is this asset?
+
+This asset describes how to operate the Exadata Database Service scope of Oracle Database@Google Cloud (OD@GCP) in the **GitOps multi-cloud operating model**: Git is the source of truth, changes are reviewed through pull requests, and pipelines apply the approved desired state. The focus is control-plane ownership, Terraform state boundaries, Day 1 and Day 2 tool selection, handoff contracts, and drift handling.
+
+For the implementation runbook, dependency handoff examples, and module wiring patterns, see [OD@GCP Module Handoff Reference](./handoff-reference.md).
+
+&nbsp;
+
+# How to use this asset?
+
+Follow the following instructions.
+
+>[!NOTE]
+> For the implementation runbook, dependency handoff examples, and module wiring patterns, see [OD@GCP Module Handoff Reference](./handoff-reference.md).
 
 ## 1. Overview
 
