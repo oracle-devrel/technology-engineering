@@ -1,6 +1,6 @@
 # Document Understanding with LLMs - requirements.txt
 
-streamlit==1.47.0                
+streamlit==1.54.0                
 pandas==1.5.3
 Pillow==10.3.0
 pdf2image==1.16.3
