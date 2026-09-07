@@ -1,0 +1,61 @@
+name: Shared Ansible Workflow
+
+on:
+  workflow_call:
+    inputs:
+      mode:
+        description: "check or execute"
+        required: true
+        type: string
+      cloud:
+        description: "oci"
+        required: true
+        type: string
+      operation_file:
+        description: "Path to operation JSON file"
+        required: false
+        type: string
+        default: ""
+      bucket_name:
+        description: "Bucket name for state"
+        required: true
+        type: string
+      environment_name:
+        description: "Selected deployment environment"
+        required: true
+        type: string
+      security_profile:
+        description: "Fixed repository-secrets profile"
+        required: true
+        type: string
+      manifest_ref:
+        description: "Validated manifest repository commit"
+        required: true
+        type: string
+      runner_labels:
+        description: "Runner labels as JSON array"
+        required: false
+        type: string
+        default: '["self-hosted","oci"]'
+jobs:
+  ansible:
+    name: "Ansible ${{ inputs.mode }}"
+    runs-on: ${{ fromJSON(inputs.runner_labels) }}
+    concurrency:
+      group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-ansible-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout validated manifest
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.manifest_ref }}
+          fetch-depth: 0
+      - name: Execute Ansible
+        uses: __CUSTOMER_ORG__/platform-ci/actions/ansible-execution@main
+        with:
+          mode: ${{ inputs.mode }}
+          cloud: ${{ inputs.cloud }}
+          operation_file: ${{ inputs.operation_file }}
+          bucket_name: ${{ inputs.bucket_name }}
+          environment_name: ${{ inputs.environment_name }}
+          security_profile: ${{ inputs.security_profile }}
