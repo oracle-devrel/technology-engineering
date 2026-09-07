@@ -1,0 +1,90 @@
+{% macro pr_state_badge(pr_state, pr_merged) -%}
+  {%- set state = (pr_state or "unknown")|lower -%}
+  {%- if pr_merged -%}
+<span class="badge badge-lg badge-success">Merged</span>
+  {%- elif state == "open" -%}
+<span class="badge badge-lg badge-primary">Open</span>
+  {%- elif state == "closed" -%}
+<span class="badge badge-lg badge-error">Closed</span>
+  {%- else -%}
+<span class="badge badge-lg badge-ghost">{{ state|title }}</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro check_run_badge(run) -%}
+  {%- set conclusion = (run.conclusion or run.status or "pending")|lower -%}
+  {%- if conclusion == "success" -%}
+<span class="badge badge-success">✅ {{ run.name or "Check" }}</span>
+  {%- elif conclusion == "failure" -%}
+<span class="badge badge-error">❌ {{ run.name or "Check" }}</span>
+  {%- elif conclusion in ("pending", "in_progress", "queued") -%}
+<span class="badge badge-warning">⏳ {{ run.name or "Check" }}</span>
+  {%- else -%}
+<span class="badge badge-ghost">⚪ {{ run.name or "Check" }}</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro ci_badge(state, label, size="sm") -%}
+  {%- set value = (state or "")|lower -%}
+  {%- if value == "success" -%}
+<span class="badge badge-success badge-{{ size }} whitespace-nowrap">{{ label }}</span>
+  {%- elif value == "failure" -%}
+<span class="badge badge-error badge-{{ size }} whitespace-nowrap">{{ label }}</span>
+  {%- elif value in ("queued", "pending", "in_progress") -%}
+<span class="badge badge-warning badge-{{ size }} whitespace-nowrap">{{ label }}</span>
+  {%- else -%}
+<span class="badge badge-ghost badge-{{ size }} whitespace-nowrap">{{ label }}</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro deployment_badge(status, conclusion) -%}
+  {%- set workflow_state = (status or "")|lower -%}
+  {%- set final_state = (conclusion or workflow_state or "unknown")|lower -%}
+  {%- if workflow_state == "completed" and final_state == "success" -%}
+<span class="badge badge-success gap-1 whitespace-nowrap"><span class="inline-block h-2 w-2 rounded-full bg-current opacity-70"></span>{{ final_state|title }}</span>
+  {%- elif workflow_state == "completed" and final_state == "failure" -%}
+<span class="badge badge-error gap-1 whitespace-nowrap"><span class="inline-block h-2 w-2 rounded-full bg-current opacity-70"></span>{{ final_state|title }}</span>
+  {%- elif workflow_state in ("in_progress", "queued", "pending") -%}
+<span class="badge badge-warning gap-1 whitespace-nowrap"><span class="inline-block h-2 w-2 rounded-full bg-current opacity-70"></span>{{ workflow_state|replace("_", " ")|title }}</span>
+  {%- else -%}
+<span class="badge badge-ghost gap-1 whitespace-nowrap"><span class="inline-block h-2 w-2 rounded-full bg-current opacity-70"></span>{{ final_state|replace("_", " ")|title }}</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro highlighted_plan(plan_output) -%}
+  {%- if plan_output -%}
+  {%- for raw_line in plan_output.split('\n') -%}
+    {%- set escaped_line = raw_line|e -%}
+    {%- set first_char = (raw_line|trim)[:1] -%}
+    {%- if first_char == "+" -%}
+<span class="text-success">{{ escaped_line }}</span>
+    {%- elif first_char == "-" -%}
+<span class="text-error">{{ escaped_line }}</span>
+    {%- elif first_char == "~" -%}
+<span class="text-warning">{{ escaped_line }}</span>
+    {%- else -%}
+{{ escaped_line }}
+    {%- endif -%}
+    {%- if not loop.last %}{{ '\n' }}{% endif -%}
+  {%- endfor -%}
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro approval_state(approvers, has_pr) -%}
+  {%- if approvers -%}
+<div class="flex flex-wrap gap-1">
+  {%- for approver in approvers -%}
+<span class="badge badge-success badge-sm gap-1">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+    {{ approver }}
+</span>
+  {%- endfor -%}
+</div>
+  {%- elif has_pr -%}
+<span class="badge badge-warning badge-sm">pending</span>
+  {%- else -%}
+<span class="text-base-content/20">&mdash;</span>
+  {%- endif -%}
+{%- endmacro %}
