@@ -1,7 +1,7 @@
 
 data "oci_identity_domain" "karpenter_domain" {
   domain_id = var.karpenter_iam_domain_id
-  count     = var.create_karpenter_policies ? 1 : 0
+  count     = local.create_karpenter_resources ? 1 : 0
 }
 
 locals {
@@ -18,7 +18,7 @@ resource "oci_identity_domains_dynamic_resource_group" "karpenter_dynamic_group"
   description   = "Dynamic group for Karpenter to provision instances on the cluster ${var.cluster_name}"
   matching_rule = local.karpenter_matching_rule
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:DynamicResourceGroup"]
-  count         = var.create_karpenter_policies ? 1 : 0
+  count         = local.create_karpenter_resources ? 1 : 0
 
   lifecycle {
     ignore_changes = [schemas]
