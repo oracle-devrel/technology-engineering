@@ -4,15 +4,15 @@ Reviewed: 7/09/2026
 
 # Introduction
 
-As AI models move from experimentation into everyday products, efficient and scalable inference has become increasingly important. While GPUs remain essential for training and for highly parallel, latency-sensitive workloads, their scarcity and eleveted cost sometimes hinders their adoption. CPU-based inference is gaining relevance as a practical option for deploying many production AI applications. 
+As AI models move from experimentation into everyday products, efficient and scalable inference has become increasingly important. While GPUs remain essential for training and for highly parallel, latency-sensitive workloads, their scarcity and elevated cost sometimes hinders their adoption. CPU-based inference is gaining relevance as a practical option for deploying many production AI applications. 
 Modern CPUs offer broad availability, strong cost efficiency, large memory capacity, and straightforward integration with existing infrastructure. For workloads such as smaller language models, embeddings, classification, retrieval-augmented generation, and batch processing, CPUs can provide reliable performance without requiring specialized accelerators.
 Advances in model quantization, optimized inference runtimes, and CPU instruction sets are further improving performance and reducing resource consumption. 
-CPU inference is therefore not a replacement for GPUs in every scenario, but an increasingly valuable part of a balanced AI deployment strategy. In this article we will show how you can use llama.cpp with AMD ZenDNN libraries to accelerate inference on OCI AMD based shapes E5 and E6. 
+CPU inference is therefore not a replacement for GPUs in every scenario, but an increasingly valuable part of a balanced AI deployment strategy. In this article we will show how you can use llama.cpp with AMD ZenDNN libraries to accelerate inference on OCI AMD-based shapes E5 and E6. 
 
 # When to use this asset?
 
 
-When you want to maximize the inference performance of model served by Llama.cpp on AMD shapes. The ZenDNN acceleration is currently supported on high precision models like BF16 and Q8_0. For more agressive quantization the ZenDNN backend reverts back to llama.cpp standard CPU implementation. ZenDNN accelerates matrix multiplications which is more relevant for the prompt prefill / prompt processing phases. So this optimization helps more workloads that are prefill heavy rather than generation heavy.  
+When you want to maximize the inference performance of models served by Llama.cpp on AMD shapes. The ZenDNN acceleration is currently supported on high precision models like BF16 and Q8_0. For more aggressive quantization the ZenDNN backend reverts back to llama.cpp standard CPU implementation. ZenDNN accelerates matrix multiplications which is more relevant for the prompt prefill / prompt processing phases. So this optimization helps more workloads that are prefill heavy rather than generation heavy.  
 
 # How to use this asset?
 
@@ -98,9 +98,9 @@ With the following command you can request extraction
 ```
 * -t: specifies the number of cores to use
 * -hf: specifies the model to download from HuggingFace
-* -p: Specifies the prompt to use to instract the extraction
+* -p: Specifies the prompt to use to instruct the extraction
 * --temperature: we set temperature to 0 to make generation more deterministic
-* -c: specify context size, the large momory availability on CPUs allow for larger contexts 
+* -c: specify context size, the large memory availability on CPUs allow for larger contexts 
 * -rea off: we disable reasoning to increase determinism and accuracy
 * --image-min-tokens 1024: increases precision of visual extraction
 * --image: specify image to extract 
@@ -126,15 +126,15 @@ we set the environmental variable ZENDNNL_MATMUL_ALGO=1 as recommended by Llama.
 
 ![Performance chart](files/prefill_performance.png)
 
-You can see in this plot the comparison of the performance of llama.cpp with ZenDNN and standard CPU backends. This performance is measured using llama-bench which is a benchmarking tool included in llama.cpp. We provide numbers for different quantization formats ans thread count. These benchmarks focus on prefill performance: 
+You can see in this plot the comparison of the performance of llama.cpp with ZenDNN and standard CPU backends. This performance is measured using llama-bench which is a benchmarking tool included in llama.cpp. We provide numbers for different quantization formats and thread count. These benchmarks focus on prefill performance: 
 ```
 ./llama-bench -hf unsloth/Qwen3.6-35B-A3B-GGUF -t 94 -p 1024 -n 0
 ``` 
-ZenDNN consistently outperformas the standard CPU backend.  In general 64 thread count outperforms 94, and show performance saturation for this benchmark. 
+ZenDNN consistently outperforms the standard CPU backend.  In general a thread count of 64 outperforms 94, and show performance saturation for this benchmark. 
 
 ![Decode chart](files/decode_performance.png)
 
-On the generation side, we can see that the performance improvement with ZenDNN is marginal. Also the performance increases with more agressive quantization levels. 
+On the generation side, we can see that the performance improvement with ZenDNN is marginal. Also the performance increases with more aggressive quantization levels. 
 
 - OCI shapes: VM.Standard.E5.Flex (94 OCPUs, 94 GB RAM)
 - Models: unsloth/Qwen3.6-35B-A3B-GGUF:BF16, unsloth/Qwen3.6-35B-A3B-GGUF:Q8_0, unsloth/Qwen3.6-35B-A3B-GGUF:Q4_0, glebkudr/Infinity-Parser2-Pro-Q8-GGUF 
@@ -146,7 +146,7 @@ For this section we don't use llama-bench, and instead we load and extract one i
 
 ![Scaling chart](files/Scaling.png)
 
-In this chart you can see how the prompt prefill and the decode phases scale with the number of cores. We can see that the prefill scales well even at high core counts, while the generation plateaus at 32 cores. In general E6 provides better performance. E6 VMs also scale up to 126 OCPUs ,and therefore provide more more performance than the largest E5 VM with 94 OCPUs.
+In this chart you can see how the prompt prefill and the decode phases scale with the number of cores. We can see that the prefill scales well even at high core counts, while the generation plateaus at 32 cores. In general E6 provides better performance. E6 VMs also scale up to 126 OCPUs, and therefore provide more performance than the largest E5 VM with 94 OCPUs.
 
 - OCI shapes: VM.Standard.E5.Flex (94 OCPUs, 94 GB RAM), VM.Standard.E6.Flex (126 OCPUs, 126 GB RAM)
 - Models: glebkudr/Infinity-Parser2-Pro-Q8-GGUF
