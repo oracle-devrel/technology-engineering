@@ -4,6 +4,12 @@ This repository is the cluster administrator's source of truth for one OKE
 cluster. A commit merged to `main` is a request for Argo CD to change the
 cluster.
 
+When the stack is seeded with `gitops_scope = cluster_admin`, the reference
+developer ApplicationSet is omitted. This repository can still manage both
+cluster-scoped objects and namespaced administrative resources such as quotas,
+policies, external-secret objects, and platform tools. Add developer placements
+only when GitOps is intended to own application releases.
+
 For normal tools, you do not need to write Argo CD Applications: the stack
 installs ApplicationSets that discover small descriptors under
 `platform/applications/`. An environment-aware application is the deliberate
@@ -134,7 +140,7 @@ it; existing Git files remain customer-owned.
 
 In OCI Console, open **Resource Manager → Stacks → Jobs**. The latest apply job
 must be `Succeeded`. In the created DevOps project, confirm that repositories
-named `pipelines`, `cluster-config`, and `apps-config` exist.
+named `gitops-pipelines`, `cluster-config`, and `apps-config` exist.
 
 The Resource Manager inputs must include:
 

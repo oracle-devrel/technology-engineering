@@ -118,7 +118,7 @@ In OCI DevOps:
 1. Open the DevOps project created by the stack.
 2. Create a new Build Pipeline.
 3. Add a Managed Build stage.
-4. Select this `pipelines` repository as the source.
+4. Select this `gitops-pipelines` repository as the source.
 5. Select branch `main`.
 6. Set the build spec path to your file, for example `mirroring/external-secrets.yaml`.
 7. Use the same build image family used by the examples.

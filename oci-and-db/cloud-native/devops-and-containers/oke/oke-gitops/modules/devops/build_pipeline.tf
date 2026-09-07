@@ -1,5 +1,5 @@
 resource "oci_devops_build_pipeline" "mirror_gitops_agent" {
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "mirror-gitops-agent"
   description  = "Mirror the selected GitOps agent chart and images into OCIR without deploying them"
 
@@ -24,9 +24,10 @@ resource "oci_devops_build_pipeline_stage" "mirror_gitops_agent_stage" {
     items {
       connection_type = "DEVOPS_CODE_REPOSITORY"
       branch          = "main"
-      name            = "pipelines"
-      repository_id   = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.id : oci_devops_repository.devops_pipelines_repo_argocd.0.id
-      repository_url  = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.http_url : oci_devops_repository.devops_pipelines_repo_argocd.0.http_url
+      # This is the stage-local source alias; the OCI repository name is configurable.
+      name           = "pipelines"
+      repository_id  = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.id : oci_devops_repository.devops_pipelines_repo_argocd.0.id
+      repository_url = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.http_url : oci_devops_repository.devops_pipelines_repo_argocd.0.http_url
     }
   }
   build_spec_file                    = var.gitops_agent == "fluxcd" ? "mirror_flux_operator.yaml" : "mirror_argocd.yaml"
@@ -38,7 +39,7 @@ resource "oci_devops_build_pipeline_stage" "mirror_gitops_agent_stage" {
 }
 
 resource "oci_devops_build_pipeline" "bootstrap_gitops_agent" {
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "bootstrap-gitops-agent"
   description  = "Mirror and install the selected GitOps agent on the configured OKE cluster"
 
@@ -78,9 +79,10 @@ resource "oci_devops_build_pipeline_stage" "bootstrap_gitops_agent_stage" {
     items {
       connection_type = "DEVOPS_CODE_REPOSITORY"
       branch          = "main"
-      name            = "pipelines"
-      repository_id   = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.id : oci_devops_repository.devops_pipelines_repo_argocd.0.id
-      repository_url  = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.http_url : oci_devops_repository.devops_pipelines_repo_argocd.0.http_url
+      # Keep workspace paths stable when the OCI repository is renamed.
+      name           = "pipelines"
+      repository_id  = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.id : oci_devops_repository.devops_pipelines_repo_argocd.0.id
+      repository_url = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux.0.http_url : oci_devops_repository.devops_pipelines_repo_argocd.0.http_url
     }
   }
   build_spec_file                    = var.gitops_agent == "fluxcd" ? "mirror_flux_operator.yaml" : "mirror_argocd.yaml"
