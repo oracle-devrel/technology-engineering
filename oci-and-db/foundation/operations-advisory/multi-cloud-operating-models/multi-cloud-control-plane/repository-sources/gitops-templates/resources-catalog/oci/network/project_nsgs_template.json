@@ -1,0 +1,28 @@
+{
+  "network_configuration": {
+    "default_enable_cis_checks": false,
+    "network_configuration_categories": {
+      "__PROJECT_NSG_CATEGORY__": {
+        "inject_into_existing_vcns": {
+          "__PROJECT_VCN_KEY__": {
+            "vcn_id": "__PROJECT_VCN_OCID__",
+            "network_security_groups": {
+              "__NSG_KEY__": {
+                "compartment_id": "__NSG_COMPARTMENT_OCID__",
+                "display_name": "__NSG_DISPLAY_NAME__",
+                "defined_tags": null,
+                "freeform_tags": {
+                  "Project": "__PROJECT_NAME__",
+                  "Tier": "__NSG_TIER__",
+                  "ManagedBy": "platform-ci"
+                },
+                "ingress_rules": {},
+                "egress_rules": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
