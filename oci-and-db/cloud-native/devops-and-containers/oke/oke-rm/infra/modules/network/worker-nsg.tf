@@ -3,7 +3,7 @@ resource "oci_core_network_security_group" "worker_nsg" {
   vcn_id         = local.vcn_id
   freeform_tags  = merge(var.tag_value.freeformTags, local.karpenter_worker_role_freeform_tag)
   defined_tags   = var.tag_value.definedTags
-  display_name   = "worker"
+  display_name   = "worker-${var.network_resource_suffix}"
 }
 
 # Control plane - ALL protocols (webhooks)

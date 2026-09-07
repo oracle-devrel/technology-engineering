@@ -5,6 +5,8 @@ This report documents the ingress and egress rules defined in Terraform for OKE 
 - Worker Nodes (`worker`)
 - Pods (`pod`)
 - Load Balancers (`lb`)
+- Database services (`db`)
+- OCI Streaming (`streaming`)
 
 Scope of sources:
 - `modules/network/cp-nsg.tf`
@@ -12,11 +14,18 @@ Scope of sources:
 - `modules/network/pod-nsg.tf`
 - `modules/network/lb-nsg.tf`
 - `modules/network/lb-nsg-frontend.tf`
+- `modules/network/db-nsg.tf`
+- `modules/network/pod-db-nsg.tf`
+- `modules/network/worker-db-nsg.tf`
+- `modules/network/streaming-nsg.tf`
 - `modules/network/security-list.tf`
 
 ## How to read this report
 
 - Most component rules are implemented with **NSGs** (`oci_core_network_security_group_security_rule`).
+- Each generated NSG, Service Gateway, NAT Gateway, and Internet Gateway
+  display name ends with the stack's persistent eight-character UUID suffix. The same suffix
+  makes the Karpenter worker and pod role tag values unique to this stack.
 - Each subnet also has a **Security List** (`oci_core_security_list`) with baseline ICMP rules.
 - In this design, the ICMP rules in Security Lists are required to support VCN connectivity through a DRG (including ICMP behavior needed for MTU/error signaling across routed paths).
 - Many rules are conditional (`count = ...`) and are only created when feature flags are enabled.
@@ -102,12 +111,12 @@ Security rationale for Internet egress:
 | Ingress + Egress pair | `fss_nsg` | TCP 2048-2050 | Always | NFS traffic to FSS mounts. |
 | Ingress + Egress pair | `fss_nsg` | UDP 2048 | Always | NFS UDP traffic to FSS mounts. |
 | Ingress + Egress pair | `fss_nsg` | TCP 2051 | Always | Encrypted in-transit NFS traffic. |
-| Ingress + Egress pair | `db[postgres]` | TCP 5432 | `!is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"postgres")` | Worker apps to Postgres when shared app NSG model is used. |
-| Ingress + Egress pair | `db[cache]` | TCP 6379 | `!is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"cache")` | Worker apps to OCI Cache. |
-| Ingress + Egress pair | `db[oracledb]` | TCP 1521-1522 | `!is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"oracledb")` | Worker apps to Oracle DB. |
-| Ingress + Egress pair | `db[oracledb]` | TCP 27017 | `!is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"oracledb")` | Worker apps to Oracle Mongo API. |
-| Ingress + Egress pair | `db[mysql]` | TCP 3306 | `!is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"mysql")` | Worker apps to MySQL classic. |
-| Ingress + Egress pair | `db[mysql]` | TCP 33060 | `!is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"mysql")` | Worker apps to MySQL X protocol. |
+| Ingress + Egress pair | `db[postgres]` | TCP 5432 | `!local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"postgres")` | Worker apps to Postgres when shared app NSG model is used. |
+| Ingress + Egress pair | `db[cache]` | TCP 6379 | `!local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"cache")` | Worker apps to OCI Cache. |
+| Ingress + Egress pair | `db[oracledb]` | TCP 1521-1522 | `!local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"oracledb")` | Worker apps to Oracle DB. |
+| Ingress + Egress pair | `db[oracledb]` | TCP 27017 | `!local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"oracledb")` | Worker apps to Oracle Mongo API. |
+| Ingress + Egress pair | `db[mysql]` | TCP 3306 | `!local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"mysql")` | Worker apps to MySQL classic. |
+| Ingress + Egress pair | `db[mysql]` | TCP 33060 | `!local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"mysql")` | Worker apps to MySQL X protocol. |
 | Ingress + Egress pair | `streaming` NSG | TCP 9092 | `!is_npn && create_streaming_nsg` | Worker apps to OCI Streaming Kafka endpoint. |
 | Ingress + Egress pair | `streaming` NSG | TCP 443 | `!is_npn && create_streaming_nsg` | Worker apps to OCI Streaming REST endpoint. |
 
@@ -153,12 +162,17 @@ CNI consideration:
 | Egress only | `0.0.0.0/0` | ALL | `local.is_npn && allow_pod_nat_egress` | Pod internet egress through NAT path. |
 | Ingress + Egress pair | `cp_nsg` | TCP 6443 | `local.is_npn` | Explicit canonical Kubernetes API path; intentionally kept with CP↔pod ALL rule for reliability. |
 | Ingress + Egress pair | OCI Services CIDR (`SERVICE_CIDR_BLOCK`) | TCP (all ports) | `local.is_npn` | Pod access to OCI regional services. |
-| Ingress + Egress pair | `db[postgres]` | TCP 5432 | `local.is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"postgres")` | Pod apps to Postgres when shared app NSG model is used. |
-| Ingress + Egress pair | `db[cache]` | TCP 6379 | `local.is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"cache")` | Pod apps to OCI Cache. |
-| Ingress + Egress pair | `db[oracledb]` | TCP 1521-1522 | `local.is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"oracledb")` | Pod apps to Oracle DB. |
-| Ingress + Egress pair | `db[oracledb]` | TCP 27017 | `local.is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"oracledb")` | Pod apps to Oracle Mongo API. |
-| Ingress + Egress pair | `db[mysql]` | TCP 3306 | `local.is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"mysql")` | Pod apps to MySQL classic. |
-| Ingress + Egress pair | `db[mysql]` | TCP 33060 | `local.is_npn && !separate_db_nsg && create_db_subnet && contains(db_service_list,"mysql")` | Pod apps to MySQL X protocol. |
+| Ingress + Egress pair | `fss_nsg` | UDP 111 | `local.is_npn && create_fss` | NFS portmapper for direct pod and Virtual Node access to FSS. |
+| Ingress + Egress pair | `fss_nsg` | TCP 111 | `local.is_npn && create_fss` | NFS portmapper for direct pod and Virtual Node access to FSS. |
+| Ingress + Egress pair | `fss_nsg` | TCP 2048-2050 | `local.is_npn && create_fss` | NFS traffic from directly addressed pods to FSS mounts. |
+| Ingress + Egress pair | `fss_nsg` | UDP 2048 | `local.is_npn && create_fss` | NFS UDP traffic from directly addressed pods to FSS mounts. |
+| Ingress + Egress pair | `fss_nsg` | TCP 2051 | `local.is_npn && create_fss` | Encrypted in-transit NFS traffic from directly addressed pods. |
+| Ingress + Egress pair | `db[postgres]` | TCP 5432 | `local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"postgres")` | Pod apps to Postgres when shared app NSG model is used. |
+| Ingress + Egress pair | `db[cache]` | TCP 6379 | `local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"cache")` | Pod apps to OCI Cache. |
+| Ingress + Egress pair | `db[oracledb]` | TCP 1521-1522 | `local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"oracledb")` | Pod apps to Oracle DB. |
+| Ingress + Egress pair | `db[oracledb]` | TCP 27017 | `local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"oracledb")` | Pod apps to Oracle Mongo API. |
+| Ingress + Egress pair | `db[mysql]` | TCP 3306 | `local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"mysql")` | Pod apps to MySQL classic. |
+| Ingress + Egress pair | `db[mysql]` | TCP 33060 | `local.is_npn && !var.separate_db_nsg && local.create_db_nsg && contains(var.db_service_list,"mysql")` | Pod apps to MySQL X protocol. |
 | Ingress + Egress pair | `streaming` NSG | TCP 9092 | `local.is_npn && create_streaming_nsg` | Pod apps to OCI Streaming Kafka endpoint. |
 | Ingress + Egress pair | `streaming` NSG | TCP 443 | `local.is_npn && create_streaming_nsg` | Pod apps to OCI Streaming REST endpoint. |
 
@@ -173,7 +187,7 @@ CNI consideration:
 
 ### 3.3 Pod Explanation
 
-Pod NSG rules are only created in VCN-native mode. They allow pod traffic to workers, CP, load balancers, OCI services, and optional DB/Streaming endpoints. This enables pods to act as first-class network endpoints while keeping communication NSG-scoped.
+Pod NSG rules are only created in VCN-native mode. They allow pod traffic to workers, CP, load balancers, OCI services, optional DB/Streaming endpoints, and FSS mount targets when FSS support is enabled. The FSS rules are present on both the pod and FSS NSGs because Virtual Node pods connect directly to the mount target. This enables pods to act as first-class network endpoints while keeping communication NSG-scoped.
 
 ### 3.4 Important design note about CP-to-Pod webhook traffic
 
@@ -227,7 +241,15 @@ There are two LB NSGs in this module:
 
 LB rules are split between backend reachability and internet-facing frontend access. Backend NSG rules allow LB-to-worker/pod service traffic and health checks. Frontend NSG rules expose 80/443 publicly.
 
-## 5) Important conditional behavior
+## 5) Database and Messaging NSGs
+
+Database NSGs are independent from database subnet creation. When `create_database_nsgs` is enabled and `db_service_list` is non-empty, the stack creates one database-side NSG per selected service. PostgreSQL uses TCP 5432, OCI Cache uses TCP 6379, Oracle Database uses TCP 1521-1522 and 27017, and MySQL uses TCP 3306 and 33060.
+
+When `separate_db_nsg` is `false`, those database NSGs communicate directly with the main pod NSG in VCN-native mode or the worker NSG in Flannel mode. When it is `true`, the stack creates a dedicated client-side NSG per selected service so customers can attach database access only to the intended applications.
+
+When `create_streaming_nsg` is enabled, the stack creates an OCI Streaming NSG and bidirectional stateless rules for Kafka on TCP 9092 and the REST API on TCP 443. The peer is the pod NSG in VCN-native mode or the worker NSG in Flannel mode.
+
+## 6) Important conditional behavior
 
 | Variable / Local | Effect on rules |
 |---|---|
@@ -235,13 +257,15 @@ LB rules are split between backend reachability and internet-facing frontend acc
 | `allow_worker_nat_egress` | Enables worker egress rule to `0.0.0.0/0`. |
 | `allow_pod_nat_egress` | Enables pod egress rule to `0.0.0.0/0` (NPN only). |
 | `create_bastion_subnet` | Enables CP↔bastion API and worker↔bastion SSH rules. |
-| `create_db_subnet` + `db_service_list` | Enables DB-related rules for selected services. |
+| `create_db_subnet` | Creates the optional database subnet only; it does not control database NSGs. |
+| `create_database_nsgs` + `db_service_list` | Creates DB-side NSGs and rules for the selected services. |
 | `separate_db_nsg` | When `false`, DB service rules are attached directly to worker/pod NSGs; when `true`, dedicated app DB NSGs are used instead. |
 | `create_streaming_nsg` | Enables Streaming-related rules (Kafka 9092 and REST 443). |
+| `create_fss` + `local.is_npn` | Enables bidirectional NFS rules between the pod and FSS NSGs for direct pod and Virtual Node mounts. |
 | `cp_allowed_source_cidr` | Sets source/destination for CP API external 6443 rule pair. |
 | `cp_egress_cidr` + `allow_external_cp_traffic` + CP subnet mode | Controls CP external egress rule creation. |
 
-## 6) Final note
+## 7) Final note
 
 For `cp`, `worker`, `pod`, and `lb`, this Terraform uses:
 - NSGs for service-level L4 policy (ports/protocols/peers)
