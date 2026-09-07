@@ -16,6 +16,12 @@ mode.
 
 [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.1.0/stack.zip)
 
+Reviewed: 07.09.2026
+
+# When to use this asset?
+ 
+# How to use this asset?
+
 ## Documentation
 
 - Stable repository contract: [contract v1](REPOSITORY-CONTRACT.md).
@@ -320,3 +326,11 @@ Expected Kustomizations include `flux-platform`, `platform`,
 Removing a resource from a referenced `kustomization.yml` is a deletion:
 pruning is enabled for normal platform and application reconciliation.
 Review deletions with the same care as infrastructure changes.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
