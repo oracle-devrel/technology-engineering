@@ -16,6 +16,12 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Made OKE environments, application deployment artifacts, chart repositories, release pipelines, and related IAM permissions conditional on enabled capabilities.
 - Documented three independent OCI DevOps and GitOps ownership models, including object-level ownership for resources that share an application namespace.
 
+### AI-Assisted Maintenance
+
+- Added a directly downloadable `oci-devops-starter-maintainer` Codex skill and made it prominent in the main README.
+- Updated the skill for build-only delivery, existing DevOps project reuse, hybrid OCI DevOps/GitOps ownership, Resource Manager compatibility checks, and release archive validation.
+- Kept the skill source, internal agent context, and maintainer-only scripts outside the Resource Manager deployment archive.
+
 ## [1.0.0] - 2026-07-10
 
 Initial public release of the OCI Resource Manager stack.

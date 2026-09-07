@@ -10,7 +10,20 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](docs/quickstart.md)**.
 
-Maintaining or extending the stack with Codex? **[Download the OKE DevOps Starter Maintainer skill](downloads/oci-devops-starter-maintainer.zip)** and follow the short [installation guide](docs/ai-maintainer-skill.md). It gives an AI agent the project architecture, invariants, validation workflow, and packaging rules.
+## AI Maintainer Skill
+
+Maintaining or extending this stack with Codex?
+
+**[Download the OKE DevOps Starter Maintainer skill](downloads/oci-devops-starter-maintainer.zip)**
+
+Extract the included `oci-devops-starter-maintainer` directory into
+`~/.codex/skills/`, start Codex from this repository, and invoke
+`$oci-devops-starter-maintainer`. The skill gives an AI agent the stack
+architecture, OCI constraints, ownership boundaries, validation workflow, and
+release-packaging rules.
+
+See the [AI Maintainer Skill guide](docs/ai-maintainer-skill.md) for installation,
+scope, and rebuild instructions.
 
 The default sample creates:
 
