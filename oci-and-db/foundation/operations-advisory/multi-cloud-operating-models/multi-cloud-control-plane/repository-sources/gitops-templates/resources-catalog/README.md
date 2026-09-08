@@ -66,26 +66,11 @@ such as `__DEV_`, `__TEST_`, `__UAT_`, or `__PROD_`.
 
 Cross-template dependency: NSG/security-group placeholders in workload templates are string references, not OCIDs. Render them with a key that already exists in the corresponding project network manifest.
 
-## Reference specifications
+## Validation
 
-The JSON Schemas under [`schemas/`](schemas/README.md) are human-readable reference
-contracts for the supported resource manifest shapes:
-
-- [`adb.schema.json`](schemas/oci/adb.schema.json)
-- [`compute.schema.json`](schemas/oci/compute.schema.json)
-- [`nsg.schema.json`](schemas/oci/nsg.schema.json)
-- [`azure/adb.schema.json`](schemas/azure/adb.schema.json)
-- [`azure/compute.schema.json`](schemas/azure/compute.schema.json)
-- [`gcp/adb.schema.json`](schemas/gcp/adb.schema.json)
-- [`gcp/compute.schema.json`](schemas/gcp/compute.schema.json)
-
-They are intentionally **reference-only** in the supplied release. They are not
-loaded by GitHub Actions, `platform-ci`, or Terraform, so adding or updating
-them does not change deployment behaviour. The authoritative runtime validation
-remains the protected control-plane code and the pinned Terraform module
-contracts. Use the schemas for human review, offline manifest checking, and as
-the starting contract when designing a qualified extension; do not treat a
-schema change as a deployment change.
+The Project GitOps validator is the runtime authority for supported manifest shapes,
+paths, environments, handoff references, secret placeholders, and change
+limits. The catalog templates are examples for Project Teams.
 
 ## Security notes
 

@@ -10,7 +10,6 @@ from app.helpers import extract_plan_from_markdown, extract_status_from_markdown
 from app.path_validation import validate_path_segment, validate_relative_path
 from app.schemas import OperationsCatalog
 from app.services.catalog_service import CatalogService
-from app.services.installation_service import load_mccp_installation
 
 logger = logging.getLogger(__name__)
 
@@ -29,11 +28,10 @@ class GitService:
 
     @staticmethod
     def _catalog_service(github_client):
-        installation = load_mccp_installation(settings.mccp_installation_path)
         return CatalogService(
             github_client,
-            repo_name=installation.catalog_repository.rsplit("/", 1)[1],
-            revision=installation.catalog_revision,
+            repo_name="gitops-templates",
+            revision="main",
         )
 
     async def get_repository_structure(self, strict: bool = False):
