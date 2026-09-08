@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-applications
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: ${cluster_config_repo_url}
+        revision: HEAD
+        files:
+          - path: platform/applications/*/application.yaml
+  template:
+    metadata:
+      name: '{{ .name }}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/part-of: platform
+        app.kubernetes.io/name: '{{ .name }}'
+        app.kubernetes.io/component: application-parent
+    spec:
+      project: platform
+      source:
+        repoURL: ${cluster_config_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+        automated:
+          prune: true
+          selfHeal: true

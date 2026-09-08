@@ -1,6 +1,6 @@
 # Real-Time Email Categorization, Sentiment Analysis & "Quick Replies" using OCI AI Language, Generative AI & Oracle Integration Cloud
 
-Reviewed: 07.11.2024
+Reviewed: 04.08.2026
 
 # Introduction
 
@@ -285,7 +285,7 @@ In conclusion, using OCI AI Language, OCI Generative AI and Oracle Integration C
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

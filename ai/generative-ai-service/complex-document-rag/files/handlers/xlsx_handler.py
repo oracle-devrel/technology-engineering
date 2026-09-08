@@ -44,10 +44,13 @@ def process_xlsx_file(
 
         progress(0.3, desc="Processing XLSX file...")
 
-        if rag_system.xlsx_processor is None:
+        # getattr, not attribute access: the attribute is absent (not None) until
+        # _initialize_processors has run, which raised inside the generic handler and
+        # surfaced as an opaque "object has no attribute" error.
+        if getattr(rag_system, "xlsx_processor", None) is None:
             try:
                 rag_system._initialize_processors()
-                if rag_system.xlsx_processor is None:
+                if getattr(rag_system, "xlsx_processor", None) is None:
                     return "❌ ERROR: XLSX ingester failed to initialize", ""
             except Exception as reinit_error:
                 return f"❌ ERROR: Could not initialize XLSX ingester: {str(reinit_error)}", ""
@@ -76,6 +79,15 @@ def process_xlsx_file(
             }
             for chunk in chunks
         ]
+
+        # Replace any previous ingest of this same file/entity before adding, so
+        # re-ingesting during a demo updates the corpus instead of duplicating it.
+        replaced = 0
+        if hasattr(rag_system.vector_store, 'delete_document_chunks'):
+            progress(0.7, desc="Replacing previous version of this file...")
+            replaced = rag_system.vector_store.delete_document_chunks(
+                'xlsx_documents', entity, file_path.name
+            )
 
         # Delete original chunks FIRST if they were rewritten
         if chunks_to_delete and hasattr(rag_system.vector_store, 'delete_chunks'):
@@ -107,8 +119,9 @@ def process_xlsx_file(
 **File:** {file_path.name}  
 **Document ID:** {doc_id}  
 **Entity:** {entity}  
-**Chunks created:** {len(chunks)}  
-**Chunks with rewritten content:** {rewritten_count}  
+**Chunks created:** {len(chunks)}
+**Chunks with rewritten content:** {rewritten_count}
+**Previous chunks replaced:** {replaced}
 **Embedding model:** {embedding_model}  
 **Collection:** {collection_name}  
 

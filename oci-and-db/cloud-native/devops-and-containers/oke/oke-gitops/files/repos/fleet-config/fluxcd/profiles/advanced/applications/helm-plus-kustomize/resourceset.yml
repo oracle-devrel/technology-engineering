@@ -1,0 +1,65 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: fleet-helm-plus-kustomize
+  namespace: flux-system
+spec:
+  resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: combined-demo
+
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: combined-demo
+        namespace: flux-system
+      spec:
+        interval: 5m
+        releaseName: combined-demo
+        targetNamespace: combined-demo
+        chart:
+          spec:
+            chart: ./profiles/advanced/applications/helm-plus-kustomize/chart
+            reconcileStrategy: Revision
+            sourceRef:
+              kind: GitRepository
+              name: fleet-config
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: fleet-combined-demo-resources
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: fleet-combined-demo-ready
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: fleet-config
+        path: ./profiles/advanced/applications/helm-plus-kustomize/resources
+        targetNamespace: combined-demo
+        prune: true
+        wait: true
+        timeout: 3m
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: fleet-combined-demo-ready
+        namespace: flux-system
+      spec:
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: fleet-config
+        path: ./profiles/advanced/applications/helm-plus-kustomize/ready
+        prune: true
+        wait: true
+        healthChecks:
+          - apiVersion: helm.toolkit.fluxcd.io/v2
+            kind: HelmRelease
+            name: combined-demo
+            namespace: flux-system
