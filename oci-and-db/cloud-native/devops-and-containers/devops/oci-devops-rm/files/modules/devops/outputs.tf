@@ -1,6 +1,21 @@
 output "devops_project_id" {
   description = "OCID of the OCI DevOps project."
-  value       = oci_devops_project.devops_project.id
+  value       = local.devops_project_id
+}
+
+output "devops_project_name" {
+  description = "Resolved name of the created or reused OCI DevOps project."
+  value       = local.devops_project_name
+}
+
+output "devops_project_compartment_id" {
+  description = "Compartment OCID of the created or reused OCI DevOps project."
+  value       = local.devops_project_compartment_id
+}
+
+output "application_delivery_mode" {
+  description = "Configured application delivery mode."
+  value       = var.application_delivery_mode
 }
 
 output "pipelines_repository_url" {
@@ -120,28 +135,28 @@ output "application_components" {
 output "application_namespaces" {
   description = "Application name to pre-production Kubernetes namespace."
   value = {
-    for name, application in local.applications_by_name : name => application.namespace
+    for name, application in local.delivery_applications_by_name : name => application.namespace
   }
 }
 
 output "application_prod_namespaces" {
   description = "Application name to production Kubernetes namespace."
   value = {
-    for name, application in local.applications_by_name : name => application.prod_namespace
+    for name, application in local.delivery_applications_by_name : name => application.prod_namespace
   }
 }
 
 output "application_ocir_charts" {
   description = "Application name to umbrella Helm chart OCI URL."
   value = {
-    for name, application in local.applications_by_name : name => application.ocir_chart
+    for name, application in local.delivery_applications_by_name : name => application.ocir_chart
   }
 }
 
 output "component_ocir_charts" {
   description = "Component name to Helm chart OCI URL."
   value = {
-    for name, component in local.components_by_name : name => component.ocir_chart
+    for name, component in local.delivery_components_by_name : name => component.ocir_chart
   }
 }
 

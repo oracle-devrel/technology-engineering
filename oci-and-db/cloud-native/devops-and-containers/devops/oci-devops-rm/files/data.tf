@@ -9,4 +9,3 @@ data "oci_identity_tenancy" "current_tenancy" {
 data "oci_identity_region_subscriptions" "region_subscriptions" {
   tenancy_id = var.tenancy_ocid
 }
-

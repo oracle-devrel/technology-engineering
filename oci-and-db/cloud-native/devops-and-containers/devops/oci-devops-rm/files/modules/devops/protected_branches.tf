@@ -19,7 +19,7 @@ resource "oci_devops_repository_protected_branch_management" "application_source
 }
 
 resource "oci_devops_repository_protected_branch_management" "application_chart_main" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   repository_id = oci_devops_repository.application_chart[each.key].id
   branch_name   = "main"

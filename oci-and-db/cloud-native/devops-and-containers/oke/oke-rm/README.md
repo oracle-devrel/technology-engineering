@@ -137,12 +137,12 @@ flowchart TD
 
 Use these solution assets to implement the selected model:
 
-- [OKE DevOps Starter](../oci-devops-rm/README.md) creates application CI and,
+- [OKE DevOps Starter](../../devops/oci-devops-rm/README.md) creates application CI and,
   when selected, OCI DevOps application delivery and cluster-administration
   workflows.
 - [OKE GitOps](../oke-gitops/README.md) bootstraps a Git-first operating model
-  using either [Argo CD](../oke-gitops/argocd-solution.md) or
-  [Flux](../oke-gitops/flux-solution.md).
+  using either [Argo CD](../oke-gitops/files/argocd-solution.md) or
+  [Flux](../oke-gitops/files/flux-solution.md).
 
 GitOps-only mode still requires a CI system to build and publish application
 images. Jenkins is one option; any build service can be used if it publishes an
@@ -159,16 +159,16 @@ systems must never reconcile the same Kubernetes object identity.
 The solutions include portable skills that help compatible AI agents operate
 their generated repositories, pipelines, and cluster workflows:
 
-- [OKE DevOps Starter skill](../oci-devops-rm/docs/ai-agent-skill.md)
-- [Manage OKE with Argo CD](../oke-gitops/repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
-  ([installation guide](../oke-gitops/repos/argocd/cluster-config/docs/install-agent-skill.md))
-- [Manage OKE with Flux](../oke-gitops/repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
-  ([installation guide](../oke-gitops/repos/fluxcd/cluster-config/docs/install-agent-skill.md))
+- [OKE DevOps Starter skill](../../devops/oci-devops-rm/files/docs/ai-agent-skill.md)
+- [Manage OKE with Argo CD](../oke-gitops/files/repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
+  ([installation guide](../oke-gitops/files/repos/argocd/cluster-config/docs/install-agent-skill.md))
+- [Manage OKE with Flux](../oke-gitops/files/repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
+  ([installation guide](../oke-gitops/files/repos/fluxcd/cluster-config/docs/install-agent-skill.md))
 
 ### Additional guides
 
-- [OKE policies](../oke-policies/policies.md)
-- [Karpenter guide](oke-oci-karpenter-guide.md)
+- [OKE policies](../oke-policies/README.md)
+- [Karpenter guide](files/oke-oci-karpenter-guide.md)
 - [OKE ingress controller guidance](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengmanagingresscontrollers.htm)
 
 

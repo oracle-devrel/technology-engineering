@@ -1,4 +1,10 @@
 variable "compartment_id" {}
+variable "create_devops_project" {
+  type = bool
+}
+variable "existing_devops_project_id" {}
+variable "application_delivery_mode" {}
+variable "devops_pipeline_repository_name" {}
 variable "region" {}
 variable "tenancy_id" {}
 variable "git_username" {}
