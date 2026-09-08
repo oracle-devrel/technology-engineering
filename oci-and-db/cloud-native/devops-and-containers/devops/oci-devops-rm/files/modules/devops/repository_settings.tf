@@ -1,5 +1,7 @@
 resource "oci_devops_project_repository_setting" "project" {
-  project_id = oci_devops_project.devops_project.id
+  count = var.create_devops_project ? 1 : 0
+
+  project_id = local.devops_project_id
 
   merge_settings {
     allowed_merge_strategies = [

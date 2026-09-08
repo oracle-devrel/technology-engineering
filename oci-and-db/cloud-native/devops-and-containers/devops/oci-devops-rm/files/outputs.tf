@@ -3,6 +3,16 @@ output "devops_project_id" {
   value       = module.devops.devops_project_id
 }
 
+output "devops_project_name" {
+  description = "Resolved name of the created or reused OCI DevOps project."
+  value       = module.devops.devops_project_name
+}
+
+output "application_delivery_mode" {
+  description = "Configured application delivery mode."
+  value       = module.devops.application_delivery_mode
+}
+
 output "pipelines_repository_url" {
   description = "HTTPS URL of the shared pipelines repository."
   value       = module.devops.pipelines_repository_url
@@ -120,12 +130,16 @@ output "estimated_devops_resources" {
 
 output "next_steps" {
   description = "Suggested workflow after the stack is applied."
-  value = format(
+  value = local.application_delivery_enabled ? format(
     "%sBootstrap application namespaces and pull secrets with: %s. Deploy application baselines with: %s. Develop components through pull requests and build pipelines: %s. Promote releases with: %s.",
     var.enable_cluster_admin ? "Open cluster-admin to manage cluster baselines and tools. " : "",
     join(", ", sort([for name in keys(module.devops.application_bootstrap_pipeline_ids) : "${name}-bootstrap"])),
     join(", ", sort([for name in keys(module.devops.application_deploy_pipeline_ids) : "${name}-deploy"])),
     join(", ", sort(keys(module.devops.component_build_pipeline_ids))),
     join(", ", sort([for name in keys(module.devops.component_release_build_pipeline_ids) : "${name}-release-build"]))
+    ) : format(
+    "%sBuild-only mode is active. Develop components through pull requests and build pipelines: %s. Consume the published SHA7 images through the external delivery system.",
+    var.enable_cluster_admin ? "Open cluster-admin to manage cluster baselines and tools. " : "",
+    join(", ", sort(keys(module.devops.component_build_pipeline_ids)))
   )
 }

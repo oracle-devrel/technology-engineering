@@ -14,7 +14,7 @@ Build and upload a fresh stack zip when the Terraform templates change. Keep gen
 - `.terraform`
 - local state and plan files
 
-After apply, Resource Manager creates the starter OCI DevOps resources. Existing application/component DevOps resources ignore user-editable changes, and repository seeders never overwrite an existing path.
+After apply, Resource Manager creates the starter OCI DevOps resources selected by `application_delivery_mode` and `enable_cluster_admin`. Existing application/component DevOps resources ignore user-editable changes, and repository seeders never overwrite an existing path.
 
 Repository initialization is intentionally create-only:
 
@@ -30,7 +30,7 @@ Review and merge newer template changes through Git when a customized repository
 
 After a successful apply, the stack's Application Information tab organizes outputs into:
 
-- Start Here: project, configured applications/components, namespaces, and derived next steps.
+- Start Here: project, delivery mode, configured applications/components, available namespaces, and derived next steps.
 - Repositories: component source and application chart repository URLs.
 - Build Pipelines: PR, build, release-build, and application package pipeline OCIDs.
 - Deployment Pipelines And Environments: namespace initialization, application/component deployment pipelines, and both OKE environments.
@@ -55,20 +55,20 @@ The generated chart paths depend on the configured applications.
 
 ## Functional Test Checklist
 
-For each application:
+For each application in `oci_devops` mode:
 
 1. Run `<application>-bootstrap` and confirm both namespace stages succeed, or invoke only the target stage being tested.
 2. Confirm the configured baseline chart version is published in OCIR.
 3. Run `<application>-deploy` when testing full baseline promotion.
 4. Confirm releases `<application>-noprod` and, after approval, `<application>` exist.
 
-For each component:
+For each component in either mode:
 
 1. Open a pull request and verify `<component>-pr` succeeds.
 2. Merge to `main`.
 3. Verify `<component>-build` produces only the 7-character SHA image tag.
-4. Verify `<component>-dev-deploy` updates release `<component>-dev`.
-5. Run `<component>-release-build` with `release_tag=1.0.0-rc.1`.
+4. In `oci_devops` mode, verify `<component>-dev-deploy` updates release `<component>-dev`. In `build_only` mode, verify no deployment run starts.
+5. In `oci_devops` mode, run `<component>-release-build` with `release_tag=1.0.0-rc.1`.
 6. Verify staging release `<component>-staging`.
 7. Review staging, then approve production.
 8. Verify prod release `<component>`, final image tag `1.0.0`, and final Git tag `1.0.0`.

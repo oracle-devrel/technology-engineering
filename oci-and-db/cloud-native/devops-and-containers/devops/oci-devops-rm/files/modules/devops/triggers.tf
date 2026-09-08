@@ -2,8 +2,8 @@ resource "oci_devops_trigger" "application_source_commit" {
   for_each = local.components_by_name
 
   display_name   = "${each.value.name}-main-commit"
-  description    = "Runs ${each.value.name} delivery when the source repository changes"
-  project_id     = oci_devops_project.devops_project.id
+  description    = local.application_delivery_enabled ? "Runs ${each.value.name} delivery when the source repository changes" : "Builds ${each.value.name} when the source repository changes"
+  project_id     = local.devops_project_id
   trigger_source = "DEVOPS_CODE_REPOSITORY"
 
   actions {
@@ -47,11 +47,11 @@ resource "oci_devops_trigger" "application_source_commit" {
 }
 
 resource "oci_devops_trigger" "application_chart_commit" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   display_name   = "${each.value.name}-chart-main-commit"
   description    = "Routes chart repository changes to component or application baseline lifecycles"
-  project_id     = oci_devops_project.devops_project.id
+  project_id     = local.devops_project_id
   trigger_source = "DEVOPS_CODE_REPOSITORY"
 
   dynamic "actions" {
@@ -122,7 +122,7 @@ resource "oci_devops_trigger" "cluster_admin_commit" {
   freeform_tags = merge(local.cluster_admin_tags, {
     role = "source-trigger"
   })
-  project_id     = oci_devops_project.devops_project.id
+  project_id     = local.devops_project_id
   trigger_source = "DEVOPS_CODE_REPOSITORY"
   repository_id  = oci_devops_repository.cluster_admin[each.key].id
 

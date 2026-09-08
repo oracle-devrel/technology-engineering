@@ -23,11 +23,13 @@ flowchart LR
 | --- | --- |
 | `<component>` | Application code, `Dockerfile`, and `.oci-devops/pull-request-pipeline.yaml` |
 | `<application>-chart` | Component charts under `<application>/charts/<component>` |
-| `pipelines` | Platform-owned starter build specifications and scripts; change only when evolving the common delivery model |
+| `devops-pipelines` | Platform-owned starter build specifications and scripts; the repository name is configurable |
 
 The seeded PR build specification is intentionally a placeholder. Replace it with tests appropriate to the component's language, runtime, and integration boundaries. The generic main build expects a `Dockerfile`; use a multi-stage Dockerfile to keep language-specific compilation and tooling inside the component repository.
 
-The default main build specification is `<component>-build-pipeline.yaml`. Stack configuration can set a component `build_spec_path` in the `pipelines` repository. Several components can share a specification such as `java/java-build-pipeline.yaml`. Resource Manager creates a missing custom path and its parent folders from the default template once; the DevOps engineer owns all later changes and Resource Manager never refreshes the file.
+The default main build specification is `<component>-build-pipeline.yaml`. Stack configuration can set a component `build_spec_path` in the configured `devops-pipelines` repository. Several components can share a specification such as `java/java-build-pipeline.yaml`. Resource Manager creates a missing custom path and its parent folders from the default template once; the DevOps engineer owns all later changes and Resource Manager never refreshes the file.
+
+In `build_only` mode, this developer surface stops after PR validation and publication of `<component>:<sha7>`. Charts, release promotion, and OKE deployment are owned by the external delivery workflow.
 
 ## Daily Workflow
 

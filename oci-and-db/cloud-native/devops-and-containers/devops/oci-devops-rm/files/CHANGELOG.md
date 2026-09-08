@@ -4,6 +4,25 @@ All notable changes to the OKE DevOps Starter are documented in this file.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [1.1.0] - 2026-09-07
+
+### Delivery Ownership
+
+- Added `application_delivery_mode` with `oci_devops` and `build_only` options.
+- Added build-only CI that preserves component repositories, pull-request validation, protected main branches, and immutable SHA7 image builds while omitting application charts and OCI DevOps deployment resources.
+- Made the shared build-assets repository configurable, with `devops-pipelines` as its default name.
+- Made OKE environments, application deployment artifacts, chart repositories, release pipelines, and related IAM permissions conditional on enabled capabilities.
+- Documented three independent OCI DevOps and GitOps ownership models, including object-level ownership for resources that share an application namespace.
+
+### AI-Assisted Operations
+
+- Added the directly downloadable `oke-devops-starter` skill and made it prominent in the main README.
+- Made the skill portable for any AI agent that supports the Agent Skills `SKILL.md` convention.
+- Added guided workflows for component PRs and releases, application bootstrap and baselines, cluster-tool administration, deployment verification, rollback, and troubleshooting.
+- Kept the skill source and internal agent context outside the Resource Manager deployment archive.
+
 ## [1.0.0] - 2026-07-10
 
 Initial public release of the OCI Resource Manager stack.
@@ -45,6 +64,7 @@ Initial public release of the OCI Resource Manager stack.
 - Added add-only Git repository seeding that preserves existing developer and administrator content.
 - Added a separate hidden development packaging mode for stack maintainers to refresh template-managed resources during functional testing.
 - Added Vault-backed OCIR pull credentials, private OKE endpoint access from configured worker subnets, optional NSGs, and scoped IAM policies.
+- Added Vault secret-read access as a dedicated IAM policy in the configured Vault compartment.
 - Added release packaging exclusions for local state, credentials, development artifacts, maintainer agent context, and private stack update helpers.
 
 ### Documentation
