@@ -13,7 +13,7 @@ Before choosing an interface, confirm that you:
 - are requesting something in the [current MVP scope](../reference/support.md);
 - have selected one cloud, environment, and region from your environment
   handoff; and
-- have any change reference your organisation requires, such as `CRQ1234`, to
+- have any change reference your organization requires, such as `CRQ1234`, to
   record in the pull request.
 
 ## 2. Choose an interface

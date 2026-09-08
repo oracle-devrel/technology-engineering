@@ -24,7 +24,7 @@ inputs:
     description: Approved Terraform orchestrator repository
     required: true
   orchestrator_ref:
-    description: Approved immutable orchestrator commit
+    description: Approved Terraform orchestrator reference
     required: true
   bucket_name:
     description: OCI Object Storage state bucket
