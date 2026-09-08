@@ -1,7 +1,7 @@
 resource "oci_devops_deploy_pipeline" "deploy_application" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "${each.value.name}-deploy"
   description  = "Promotes the ${each.value.name} namespace baseline through noprod approval and production"
   freeform_tags = {
@@ -24,7 +24,7 @@ resource "oci_devops_deploy_pipeline" "deploy_application" {
 resource "oci_devops_deploy_pipeline" "deploy_component" {
   for_each = local.component_environment_pairs
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = each.value.environment == "staging" ? "${each.value.name}-release" : "${each.value.name}-${each.value.environment}-deploy"
   description  = each.value.environment == "staging" ? "Promotes ${each.value.name} through staging approval and production" : "Deploys the ${each.value.environment} ${each.value.name} Helm release from OCIR"
   freeform_tags = {
@@ -63,9 +63,9 @@ resource "oci_devops_deploy_pipeline" "deploy_component" {
 }
 
 resource "oci_devops_deploy_pipeline" "application_bootstrap" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "${each.value.name}-bootstrap"
   description  = "Initializes the ${each.value.name} namespace and OCIR pull secret on noprod and prod"
   freeform_tags = {
@@ -99,7 +99,7 @@ resource "oci_devops_deploy_pipeline" "application_bootstrap" {
 resource "oci_devops_deploy_stage" "application_bootstrap_namespace" {
   for_each = local.application_bootstrap_targets
 
-  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.application_bootstrap_command_spec.id
+  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.application_bootstrap_command_spec[0].id
   deploy_pipeline_id              = oci_devops_deploy_pipeline.application_bootstrap[each.value.application_name].id
   deploy_stage_type               = "SHELL"
   description                     = "Create the ${each.value.namespace} namespace and OCIR pull secret on ${each.value.cluster_name}"
@@ -114,7 +114,7 @@ resource "oci_devops_deploy_stage" "application_bootstrap_namespace" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {
@@ -141,7 +141,7 @@ resource "oci_devops_deploy_stage" "application_bootstrap_namespace" {
 }
 
 resource "oci_devops_deploy_stage" "deploy_application" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   are_hooks_enabled                 = true
   deploy_pipeline_id                = oci_devops_deploy_pipeline.deploy_application[each.key].id
@@ -174,7 +174,7 @@ resource "oci_devops_deploy_stage" "deploy_application" {
 }
 
 resource "oci_devops_deploy_stage" "approve_application_prod_baseline" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   approval_policy {
     approval_policy_type         = "COUNT_BASED_APPROVAL"
@@ -198,7 +198,7 @@ resource "oci_devops_deploy_stage" "approve_application_prod_baseline" {
 }
 
 resource "oci_devops_deploy_stage" "deploy_application_prod" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   are_hooks_enabled                 = true
   deploy_pipeline_id                = oci_devops_deploy_pipeline.deploy_application[each.key].id
@@ -264,7 +264,7 @@ resource "oci_devops_deploy_stage" "deploy_component" {
 }
 
 resource "oci_devops_deploy_stage" "approve_component_prod_release" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   approval_policy {
     approval_policy_type         = "COUNT_BASED_APPROVAL"
@@ -288,9 +288,9 @@ resource "oci_devops_deploy_stage" "approve_component_prod_release" {
 }
 
 resource "oci_devops_deploy_stage" "promote_component_release_image" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
-  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.promote_release_image_command_spec.id
+  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.promote_release_image_command_spec[0].id
   deploy_pipeline_id              = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
   deploy_stage_type               = "SHELL"
   description                     = "Retag the approved RC image as the final release image"
@@ -299,7 +299,7 @@ resource "oci_devops_deploy_stage" "promote_component_release_image" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {
@@ -326,7 +326,7 @@ resource "oci_devops_deploy_stage" "promote_component_release_image" {
 }
 
 resource "oci_devops_deploy_stage" "deploy_component_prod" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   are_hooks_enabled                 = true
   deploy_pipeline_id                = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
@@ -359,9 +359,9 @@ resource "oci_devops_deploy_stage" "deploy_component_prod" {
 }
 
 resource "oci_devops_deploy_stage" "verify_component_prod" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
-  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.component_verify_deployment_command_spec.id
+  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.component_verify_deployment_command_spec[0].id
   deploy_pipeline_id              = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
   deploy_stage_type               = "SHELL"
   description                     = "Report the completed production Helm release status"
@@ -378,7 +378,7 @@ resource "oci_devops_deploy_stage" "verify_component_prod" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {
@@ -405,9 +405,9 @@ resource "oci_devops_deploy_stage" "verify_component_prod" {
 }
 
 resource "oci_devops_deploy_stage" "tag_component_release_commit" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
-  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.tag_release_commit_command_spec.id
+  command_spec_deploy_artifact_id = oci_devops_deploy_artifact.tag_release_commit_command_spec[0].id
   deploy_pipeline_id              = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
   deploy_stage_type               = "SHELL"
   description                     = "Create the final source Git tag after production deployment succeeds"
@@ -416,7 +416,7 @@ resource "oci_devops_deploy_stage" "tag_component_release_commit" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {

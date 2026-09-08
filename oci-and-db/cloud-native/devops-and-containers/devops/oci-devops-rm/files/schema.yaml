@@ -1,10 +1,10 @@
 title: OKE Helm Starter Stack
-description: Bootstrap an existing OKE cluster for Helm delivery through OCI DevOps.
-stackDescription: Creates OCI DevOps repositories, build and deployment pipelines, and application namespaces for OKE.
+description: Bootstrap OCI DevOps component builds, optional Helm delivery, and optional OKE cluster administration.
+stackDescription: Creates configurable OCI DevOps CI and, when selected, application delivery and OKE administration workflows.
 schemaVersion: 1.1.0
-version: "20260703"
+version: "20260904"
 locale: en
-informationalText: "Start with the Pipelines Repository button and the Next Steps output. Initialize each application namespace, deploy its baseline chart, then develop components through pull requests, builds, and release promotion."
+informationalText: "Start with the Pipelines Repository button and the Next Steps output. Full delivery mode continues from component builds into Helm promotion; build-only mode publishes SHA7 images for an external delivery system."
 
 variableGroups:
   - title: Hidden
@@ -18,9 +18,13 @@ variableGroups:
 
   - title: OCI DevOps
     variables:
+      - create_devops_project
+      - existing_devops_project_id
       - devops_compartment_id
       - devops_project_name
       - devops_project_description
+      - application_delivery_mode
+      - devops_pipeline_repository_name
       - auth_token
       - create_notification_topic
       - notification_topic_id
@@ -39,6 +43,12 @@ variableGroups:
       - application_namespace_help
 
   - title: OKE Pre-Prod Environment
+    visible:
+      or:
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
+        - ${enable_cluster_admin}
     variables:
       - oke_compartment_id
       - oke_cluster_id
@@ -48,6 +58,12 @@ variableGroups:
       - oke_worker_nsg_id
 
   - title: OKE Prod Environment
+    visible:
+      or:
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
+        - ${enable_cluster_admin}
     variables:
       - prod_oke_compartment_id
       - prod_oke_cluster_id
@@ -73,12 +89,49 @@ variableGroups:
       - cluster_administration
 
 variables:
+  application_delivery_mode:
+    title: Application Delivery Mode
+    description: Choose full OCI DevOps application delivery, or build-only CI when GitOps or another external system owns application releases.
+    type: enum
+    enum:
+      - oci_devops
+      - build_only
+    default: oci_devops
+    required: true
+
+  devops_pipeline_repository_name:
+    title: DevOps Pipelines Repository Name
+    description: Shared repository containing this stack's build specifications and helper scripts. Use a distinct name when sharing an OCI DevOps project with another stack.
+    type: string
+    default: devops-pipelines
+    pattern: "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    minLength: 1
+    maxLength: 100
+    required: true
+
+  create_devops_project:
+    title: Create OCI DevOps Project
+    description: Create a new project for this starter. Disable this option to install the generated repositories and pipelines in an existing OCI DevOps project.
+    type: boolean
+    default: true
+
+  existing_devops_project_id:
+    title: Existing OCI DevOps Project OCID
+    description: Resource Manager does not provide an OCI DevOps project selector. Paste the OCID of the project to reuse; its name and compartment are discovered automatically.
+    type: string
+    pattern: "^ocid1\\.devopsproject\\..+$"
+    required: true
+    visible:
+      not:
+        - ${create_devops_project}
+
   devops_compartment_id:
     title: DevOps Compartment
-    description: Compartment where this stack creates OCI DevOps resources and OCIR repositories. Defaults to the stack compartment.
+    description: Compartment where this stack creates the new OCI DevOps project. Defaults to the stack compartment.
     type: oci:identity:compartment:id
     default: ${compartment_ocid}
     required: true
+    visible: ${create_devops_project}
 
   devops_project_name:
     title: DevOps Project Name
@@ -89,37 +142,49 @@ variables:
     minLength: 1
     maxLength: 100
     required: true
+    visible: ${create_devops_project}
 
   devops_project_description:
     title: DevOps Project Description
     type: string
     default: Beginner-friendly OCI DevOps project for OKE Helm delivery
+    visible: ${create_devops_project}
 
   devops_log_group_name:
     title: Log Group Name
     type: string
     default: oke-helm-starter-logs
     required: true
-    visible: ${devops_log_is_enabled}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
 
   devops_log_group_description:
     title: Log Group Description
     type: string
     default: OCI DevOps logs for the OKE Helm starter project
-    visible: ${devops_log_is_enabled}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
 
   devops_log_name:
     title: DevOps Service Log Name
     description: Optional name for the OCI Logging service log that captures DevOps project logs. Leave empty to derive it from the log group and project name.
     type: string
     default: ""
-    visible: ${devops_log_is_enabled}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
 
   devops_log_is_enabled:
     title: Enable DevOps Service Log
     description: Create an OCI Logging log group and service log for this DevOps project.
     type: boolean
     default: true
+    visible: ${create_devops_project}
 
   devops_log_retention_period_in_days:
     title: Log Retention
@@ -130,13 +195,17 @@ variables:
     multipleOf: 30
     default: 30
     required: true
-    visible: ${devops_log_is_enabled}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
 
   create_notification_topic:
     title: Create Notification Topic
     description: Create an OCI Notifications topic for the DevOps project.
     type: boolean
     default: true
+    visible: ${create_devops_project}
 
   notification_topic_id:
     title: Existing Notification Topic OCID
@@ -144,21 +213,29 @@ variables:
     type: string
     required: true
     visible:
-      not:
-        - ${create_notification_topic}
+      and:
+        - ${create_devops_project}
+        - not:
+            - ${create_notification_topic}
 
   notification_topic_name:
     title: Notification Topic Name
     type: string
     default: oke-helm-starter-topic
     required: true
-    visible: ${create_notification_topic}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${create_notification_topic}
 
   notification_topic_description:
     title: Notification Topic Description
     type: string
     default: OCI DevOps notifications for the OKE Helm starter project
-    visible: ${create_notification_topic}
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${create_notification_topic}
 
   oke_compartment_id:
     title: OKE Pre-Prod Compartment
@@ -260,7 +337,7 @@ variables:
     type: text
     multiline: true
     default: |
-      Configure one or more applications. Each application gets a chart repository and baseline deployment pipeline. Each globally unique component gets its own source repository, build pipeline, PR pipeline, release pipeline, and component deployment pipelines.
+      Configure one or more applications with globally unique component names. In OCI DevOps delivery mode, each application gets chart and deployment resources. In build-only mode, each component gets only its source repository, PR pipeline, and SHA7 image build pipeline; deployment configuration remains external.
 
       Example:
       [
@@ -285,11 +362,11 @@ variables:
         }
       ]
 
-      The optional build_spec_path is relative to the pipelines repository. When omitted, the stack generates <component>-build-pipeline.yaml. When specified, the stack creates the file and any parent folders from the default template only if it is missing. After that first commit the specification is user-owned and is never refreshed or overwritten. Multiple components can reference the same specification.
+      The optional build_spec_path is relative to the configured DevOps pipelines repository. When omitted, the stack generates <component>-build-pipeline.yaml. When specified, the stack creates the file and any parent folders from the default template only if it is missing. After that first commit the specification is user-owned and is never refreshed or overwritten. Multiple components can reference the same specification.
 
   applications:
     title: Applications
-    description: "JSON array of applications and globally unique components to bootstrap. Components may set build_spec_path to reference a user-owned specification in the pipelines repository; omitted paths use the generated <component>-build-pipeline.yaml convention."
+    description: "JSON array of applications and globally unique components to bootstrap. Components may set build_spec_path to reference a user-owned specification in the configured DevOps pipelines repository; omitted paths use the generated <component>-build-pipeline.yaml convention."
     type: text
     multiline: true
     pattern: "^\\s*\\[[\\s\\S]*\\]\\s*$"
@@ -404,6 +481,10 @@ variables:
     minLength: 1
     maxLength: 63
     required: true
+    visible:
+      eq:
+        - ${application_delivery_mode}
+        - oci_devops
 
   auth_token:
     title: Auth Token
@@ -438,7 +519,12 @@ variables:
     type: oci:identity:compartment:id
     default: ${compartment_ocid}
     required: true
-    visible: ${create_iam}
+    visible:
+      and:
+        - ${create_iam}
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
 
   devops_dynamic_group_name:
     title: DevOps Dynamic Group Name
@@ -455,10 +541,20 @@ variables:
     visible: ${create_iam}
 
 outputs:
+  application_delivery_mode:
+    title: Application Delivery Mode
+    description: Indicates whether this stack owns application delivery or only builds images.
+    type: string
+
   devops_project_id:
     title: DevOps Project
-    description: OCI DevOps project created by this stack.
+    description: OCI DevOps project created or reused by this stack.
     type: ocid
+
+  devops_project_name:
+    title: DevOps Project Name
+    description: Resolved name used for generated image and chart prefixes.
+    type: string
 
   pipelines_repository_url:
     title: Pipelines Repository
@@ -583,6 +679,8 @@ outputGroups:
       - ${pipelines_repository_url}
       - ${cluster_admin_repository_url}
       - ${devops_project_id}
+      - ${devops_project_name}
+      - ${application_delivery_mode}
       - ${application_components}
       - ${application_namespaces}
       - ${application_prod_namespaces}

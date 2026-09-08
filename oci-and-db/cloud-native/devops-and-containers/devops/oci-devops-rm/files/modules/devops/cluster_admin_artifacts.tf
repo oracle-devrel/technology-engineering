@@ -8,7 +8,7 @@ resource "oci_devops_deploy_artifact" "cluster_admin_deploy_command" {
   freeform_tags = merge(local.cluster_admin_tags, {
     role = "deploy-command"
   })
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/cluster-admin-deploy-command-spec.yaml.tpl", {
@@ -38,7 +38,7 @@ resource "oci_devops_deploy_artifact" "cluster_admin_decommission_command" {
   freeform_tags = merge(local.cluster_admin_tags, {
     role = "decommission"
   })
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/cluster-admin-decommission-command-spec.yaml.tpl", {
