@@ -2,13 +2,16 @@
  
 Container Engine for Kubernetes (OKE) is a popular and powerful managed Kubernetes running on OCI. It boosts Kubernetes with powerful networking based on OCI VCN, resilient block and file storage, and tight security integration with OCI IAM. It's well known for its [capabilities](https://developer.oracle.com/learn/k8s/k8s_comparison.html) offering great price-performance ratio. It's the heart of every cloud-native architecture in OCI.
  
-Reviewed: 20.12.2023
+Reviewed: 07.09.2026
  
 # Table of Contents
  
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
+- [Container Engine for Kubernetes (OKE)](#container-engine-for-kubernetes-oke)
+- [Table of Contents](#table-of-contents)
+- [Team Publications](#team-publications)
+- [Useful Links](#useful-links)
+- [Reusable Assets Overview](#reusable-assets-overview)
+- [License](#license)
  
 # Team Publications
 
@@ -51,12 +54,12 @@ Reviewed: 20.12.2023
 - [Selecting a cloud native microservice framework](https://louwersj.medium.com/selecting-a-cloud-native-microservice-framework-9974e9534da1)
 - [Deploying a spring boot microservice in K8s](https://techdozo.dev/deploying-a-restful-spring-boot-microservice-on-kubernetes/)
 - [Collection of Labs](https://oracle.github.io/cloudtestdrive/AppDev/cloud-native/livelabs/)
-- [OKE policies](./oke-policies/policies.md)
+- [OKE policies](./oke-policies/README.md)
  
 # Reusable Assets Overview
 
-- [OKE Resource Manager QuickStart](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-rm)
-- [OKE GitOps Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-gitops)
+- [OKE Resource Manager QuickStart](./oke-rm/README.md)
+- [OKE GitOps Solution](./oke-gitops/README.md)
 - [OKE Node Packer Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-node-packer)
 - [Cluster Api OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/capoci)
  
