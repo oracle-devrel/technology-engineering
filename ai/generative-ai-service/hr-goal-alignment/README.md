@@ -4,7 +4,7 @@ This Streamlit-based application demonstrates a modular, AI-powered HR chatbot s
 
 The system integrates with Oracle Database and uses OCI's Generative AI models to simulate goal alignment and cascading throughout an organization.
 
-Reviewed Date: 22.09.2025
+Reviewed Date: 04.08.2026
 ---
 # When to use this asset?
 ## Features

@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure (OCI) Document Understanding is an AI service that enables developers to extract text, tables, and other key data from document files through APIs and command-line interface tools. With OCI Document Understanding, you can automate tedious business processing tasks with prebuilt AI models and customize document extraction to fit your industry-specific needs.
 
-Reviewed: 05.03.2026
+Reviewed: 04.08.2026
 
 
 # Table of Contents
@@ -116,8 +116,8 @@ Reviewed: 05.03.2026
 
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](../../LICENSE.txt) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

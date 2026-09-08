@@ -1,0 +1,18 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionEventTrigger
+metadata:
+  name: object-created-trigger
+spec:
+  functionRef:
+    name: managed-hello
+  compartmentId: <COMPARTMENT_OCID>
+  displayName: object-created-trigger
+  description: Invoke managed-hello when objects are created
+  isEnabled: true
+  deletionPolicy: Delete
+  condition:
+    eventType:
+    - com.oraclecloud.objectstorage.createobject
+    data:
+      additionalDetails:
+        bucketName: <BUCKET_NAME>

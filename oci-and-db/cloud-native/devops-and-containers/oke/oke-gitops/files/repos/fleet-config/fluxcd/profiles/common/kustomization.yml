@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - pairs:
+      reconcile.fluxcd.io/watch: Enabled
+
+configMapGenerator:
+  - name: fleet-kube-state-metrics-values
+    namespace: flux-system
+    files:
+      - 00-base.yaml=applications/kube-state-metrics/values/00-base.yml
+      - 90-overrides.yaml=applications/kube-state-metrics/values/90-overrides.yml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+  - cluster-resources/resourceset.yml
+  - applications/fleet-demo/resourceset.yml
+  - applications/kube-state-metrics/resourceset.yml

@@ -5,7 +5,7 @@ This tool lets you upload one or more `.txt` sample articles you wrote before, e
 
 Author: **Ali Ottoman**
 
-Reviewed date: 14.01.2026
+Reviewed date: 04.08.2026
 
 ---
 # When to use this asset

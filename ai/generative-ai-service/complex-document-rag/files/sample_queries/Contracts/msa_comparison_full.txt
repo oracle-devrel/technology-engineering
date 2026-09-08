@@ -1,0 +1,78 @@
+ROLE
+You are a contracts analyst supporting Meridian Logistics Group PLC. Compare the two managed services contracts offered to Meridian — the NorthBridge Master Services Agreement and the Velocita Managed Services Agreement — and produce a professional, Word-ready contract comparison report for the Chief Operating Officer and General Counsel.
+
+CONTEXT
+- NorthBridge Digital Services Ltd: MSA ref NB-MSA-2026-0417, 36-month initial term, priced higher.
+- Velocita Cloud Solutions S.A.: MSA ref VCS/2026/EU-0882, 60-month initial term, priced lower.
+- Both cover the same scope: managed IT infrastructure and cloud operations for a 430-server hybrid estate (Manchester and Frankfurt co-location plus OCI and Azure tenancies).
+- The decision hinges on total cost, service quality commitments, risk allocation, and exit flexibility. Headline price alone is known to be misleading; the report must surface the terms hidden in the schedules and annexes.
+
+STYLE AND EVIDENCE RULES
+- Keep the section headings below verbatim and in this order.
+- In every section, include a side-by-side comparison table with one column per provider (NorthBridge, Velocita). Where the terms are quantitative (money, percentages, hours, days, months), state them as plain numbers in the table so the differences can be charted.
+- Quote short evidence snippets in double quotes and attribute each to the contract and clause (e.g., NorthBridge Clause 17.2, Velocita Article 19.2). Preserve clause/article numbering exactly as in the source documents.
+- Where the two contracts are silent or asymmetric on a term (one addresses it, the other does not), say so explicitly — silence is a finding.
+- For each section, end with a one-line "Advantage:" verdict (NorthBridge / Velocita / Neutral / Depends) and a one-sentence rationale.
+
+DELIVERABLE
+Produce a report with the following sections:
+
+1. Executive Summary
+- Purpose of the report and the decision it supports.
+- The five most consequential differences between the contracts, each with the numbers that prove it.
+- Overall recommendation (which contract to prefer, or what must be renegotiated for the cheaper option to be acceptable).
+
+2. Contract Profiles and Key Terms at a Glance
+- One table covering: contract reference, governing entity and jurisdiction, initial term (months), renewal term (months), non-renewal notice (days), monthly fee (USD), one-time transition/onboarding fee (USD) and how it is payable, annual indexation (%), payment terms (days), invoicing cadence.
+
+3. Commercial Terms and Total Cost of Ownership
+- Monthly base fee, per-instance add/reduce pricing, volume discounts, minimum commitments.
+- Indexation mechanics: NorthBridge CPI-capped vs Velocita fixed escalation (state the caps and percentages).
+- Compute and tabulate an estimated cumulative base-fee cost for each provider over 36 months and over 60 months, applying each contract's own indexation from Contract Year 2 (state your assumptions, e.g., CPI at the cap).
+- Payment terms, invoicing cadence (arrears vs advance), late-payment interest, and the treatment of disputed invoices ("pay first, dispute later" clauses).
+
+4. Term, Renewal and Lock-in
+- Initial term, auto-renewal length, non-renewal notice windows, exclusivity or minimum-commitment obligations, and any clauses that deepen lock-in (amortised onboarding fees, licence continuation fees).
+
+5. Service Levels and Remedies
+- Tabulate: availability target (%), P1 response (minutes), P1 restoration (hours) and its attainment percentage, P2 response (hours), P2 restoration (hours), critical patch deployment window (days), backup success rate (%), service credit cap (% of monthly fee).
+- Contrast the remedy regimes: credits as sole and exclusive remedy vs credits without prejudice to damages; earn-back mechanisms; when SLAs are suspended; chronic-failure termination triggers.
+
+6. Business Continuity and Disaster Recovery
+- RTO (hours) and RPO (minutes or hours) for Tier 1 systems, whether these are contractual service levels or mere targets, DR test frequency and cost of additional tests, and consequences of a failed test or missed RTO.
+
+7. Security, Data Protection and Compliance
+- Certifications and audit reports (ISO 27001, SOC 2 Type II — committed vs best-efforts), breach notification windows (hours), encryption commitments and their qualifiers, patching windows (days), data locations and offshore delivery percentages, data return/deletion on exit.
+
+8. Liability, Indemnities and Insurance
+- Liability caps: state each cap in USD (compute the NorthBridge cap from 12 months of fees), whether it is per-year or whole-of-term, and any enhanced caps for data/confidentiality breaches.
+- Exclusions of consequential loss and whether loss of data is recoverable.
+- Indemnity coverage (IP, data protection, personal injury) and whether indemnities sit inside or outside the cap.
+- Insurance: cyber, professional indemnity, and general liability limits in USD.
+- Claims limitation periods.
+
+9. Termination and Exit
+- Termination for convenience: earliest permitted point (months), notice (days), and the termination fee formula with a worked USD example at month 40 for each contract.
+- Provider-side termination rights (flag any provider right to terminate for convenience).
+- Exit assistance: duration (days), rates (uplift %), minimum commitments, whether SLAs continue during exit, and any conditions on data handover.
+
+10. Intellectual Property and Confidentiality
+- Who owns work product/deliverables, the scope and survival of licences, any fees to retain use after exit, rights to use customer data for analytics, reference/logo rights, and confidentiality survival periods (years).
+
+11. Governance, Personnel and Audit Rights
+- Service review cadence, reporting timeliness (business days), key personnel replacement notice (days) and approval rights, offshore delivery limits (%), customer removal rights, audit frequency and who pays, benchmarking rights and their teeth.
+
+12. Legal Framework and Dispute Resolution
+- Governing law, forum (courts vs ICC arbitration, seat, number of arbitrators), escalation ladders, non-solicitation duration (months) and liquidated damages, force majeure scope — flag any provider-friendly anomalies such as subcontractor failure counting as force majeure.
+
+13. Risk Register and Red Flags
+- The top eight risks across both contracts, each with: the clause reference, a short quoted trigger, the party advantaged, potential financial exposure in USD where computable, and a severity rating (High/Medium/Low).
+
+14. Recommendation and Negotiation Priorities
+- A reasoned recommendation.
+- If Velocita's pricing is to be pursued, the prioritised list of clauses that must be renegotiated to reach parity of risk with NorthBridge, each with a concrete target position (e.g., "raise the liability cap to 12 months' fees per year and carve data breaches out to 2x").
+- If NorthBridge is preferred, the levers available to close the price gap (benchmarking clause, volume discount threshold, indexation cap).
+
+15. Appendix
+- Source documents and clause map: for each report section, the clauses/articles relied on from each contract.
+- Assumptions used in all cost computations.

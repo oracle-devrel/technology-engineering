@@ -1,0 +1,214 @@
+{
+  "id": "order-creation-flow",
+  "name": "Purchase Order Creation",
+  "triggerPhrases": [
+    "Create order with TechParts Inc ($2,970)"
+  ],
+  "messages": [
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Excellent! The user has approved creating a purchase order with TechParts Inc for $2,970 total. I need to process this through Oracle Fusion Procurement Cloud. This includes: generating PO number, validating supplier details (TechParts Inc as vendor TECH001), applying Net 30 payment terms, setting delivery to ADNOC Production Facility, and checking if approval is required. Since the total is under $5,000, it should auto-approve."
+      },
+      "delay": 120
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Calling Oracle Fusion Procurement API",
+        "status": "warning",
+        "icon": "SatelliteDish",
+        "content": {
+          "description": "Creating purchase order for HD-2024 motor with automatic approval processing and supplier notification.",
+          "function": "createPurchaseOrder",
+          "endpoint": "/fusion/procurement/api/v1/orders/create",
+          "parameters": {
+            "supplier": {
+              "vendorId": "TECH001",
+              "name": "TechParts Inc",
+              "paymentTerms": "Net 30"
+            },
+            "orderItems": [
+              {
+                "partNumber": "HD-2024",
+                "description": "Heavy-duty conveyor belt motor (15HP, 380V)",
+                "quantity": 1,
+                "unitPrice": 2750,
+                "lineTotal": 2750
+              }
+            ],
+            "shipping": {
+              "cost": 220,
+              "method": "Standard",
+              "address": "Meridian Industrial Complex - Building A"
+            },
+            "totalAmount": 2970,
+            "approvalRequired": false,
+            "budgetCode": "PROD-MAINT-2025"
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Order Validation",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:18:22Z",
+            "orderId": "PO-2025-001234",
+            "validation": {
+              "paymentTerms": "Net 30",
+              "approvalStatus": "Auto-approved",
+              "budgetValidation": "approved",
+              "complianceCheck": "passed",
+              "totalAmount": "$2,970"
+            },
+            "processingTime": "0.8 seconds"
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "agent_state",
+      "agentStateData": {
+        "system": "Oracle Fusion Procurement",
+        "orderDetails": {
+          "partNumber": "HD-2024",
+          "description": "Heavy-duty conveyor belt motor",
+          "quantity": 1,
+          "unitPrice": "$2,750",
+          "shipping": "$220",
+          "tax": "$0 (Tax-exempt)",
+          "total": "$2,970"
+        },
+        "supplier": {
+          "name": "TechParts Inc",
+          "vendorId": "TECH001",
+          "paymentTerms": "Net 30",
+          "shippingMethod": "Standard"
+        },
+        "approval": {
+          "required": false,
+          "status": "auto-approved",
+          "reason": "Under $5,000 limit"
+        }
+      },
+      "delay": 80
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Perfect! Oracle Fusion has processed all the order details successfully. The total of $2,970 is under our $5,000 approval threshold so it was auto-approved. TechParts Inc is verified in our system as vendor TECH001 with Net 30 payment terms. All budget authorizations are confirmed and supplier compliance checks have passed. Now I need to generate the final PO number and send confirmation to the supplier."
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Calling Order Tracking API",
+        "status": "warning",
+        "icon": "SatelliteDish",
+        "content": {
+          "description": "Retrieving comprehensive order tracking data including delivery timeline and supplier coordination details.",
+          "function": "getOrderTrackingDetails",
+          "endpoint": "/fusion/procurement/api/v1/orders/tracking",
+          "parameters": {
+            "orderNumber": "PO-2025-001234",
+            "includeDeliverySchedule": true,
+            "includeSupplierStatus": true,
+            "includeShippingDetails": true,
+            "includeNotifications": true
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Receiving Order Confirmation",
+        "status": "success",
+        "icon": "FileSpreadsheet",
+        "content": {
+          "response": {
+            "status": "success",
+            "timestamp": "2025-07-30T10:18:45Z",
+            "orderConfirmation": {
+              "orderId": "PO-2025-001234",
+              "status": "confirmed",
+              "supplierAcknowledged": true,
+              "estimatedDelivery": "2025-08-05",
+              "trackingEnabled": true,
+              "notificationsActive": true
+            },
+            "timeline": {
+              "orderSubmitted": "2025-07-30T10:18:22Z",
+              "supplierNotified": "2025-07-30T10:18:45Z",
+              "expectedAcknowledgment": "2025-07-31T09:00:00Z"
+            }
+          }
+        }
+      },
+      "delay": 100
+    },
+    {
+      "type": "agent_state",
+      "agentStateData": {
+        "orderNumber": "PO-2025-001234",
+        "system": "Oracle Fusion Procurement",
+        "supplier": "TechParts Inc",
+        "total": "$2,970",
+        "estimatedDelivery": "2025-08-05",
+        "status": "Confirmed",
+        "trackingInfo": {
+          "orderDate": "2025-07-30",
+          "expectedShipDate": "2025-08-01",
+          "deliveryAddress": "Meridian Industrial Complex - Building A"
+        }
+      },
+      "delay": 80
+    },
+    {
+      "type": "chip",
+      "chipData": {
+        "label": "Planning",
+        "status": "info",
+        "icon": "Lightbulb",
+        "content": "Excellent! The order has been successfully created with PO number PO-2025-001234 and all tracking information is now in place. Delivery is scheduled for August 5th to the Production Facility in Building A. The order date is confirmed as July 30th with expected ship date of August 1st. All systems are synchronized and email notifications will be sent. The complete procurement process is now finished."
+      },
+      "delay": 100
+    },
+    {
+      "type": "text",
+      "content": "Perfect! I've successfully created your purchase order. The system processed everything in just 45 seconds and since the total is under $5,000, it was automatically approved without requiring additional authorization.\n\n**Order Details:**\n- **PO Number:** PO-2025-001234\n- **Part:** HD-2024 motor (15HP, 380V)\n- **Total:** $2,970 ($2,750 + $220 shipping)\n- **Supplier:** TechParts Inc\n\n**Timeline:**\n- **Order placed:** Jul 30, 10:18 GMT\n- **Expected ship:** Aug 1\n- **Delivery:** Aug 5 to Building A\n\nThe supplier has been notified and you should receive email confirmation shortly. Budget validation passed for PROD-MAINT-2025, and tracking updates are now enabled for this order.",
+      "delay": 120
+    },
+    {
+      "type": "interactive",
+      "interactiveData": {
+        "inputType": "choice",
+        "title": "What would you like to do next?",
+        "options": [
+          {
+            "value": "track_order",
+            "label": "Track order status",
+            "type": "action"
+          }
+        ]
+      },
+      "delay": 120
+    }
+  ]
+}

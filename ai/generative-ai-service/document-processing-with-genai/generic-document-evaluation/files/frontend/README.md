@@ -2,6 +2,8 @@
 
 A Next.js application that uses AI to compare, evaluate, and rank documents based on objective criteria.
 
+Reviewed: 04.08.2026
+
 ## Features
 
 - **Document Upload**: Support for multiple file formats (up to 5 documents)

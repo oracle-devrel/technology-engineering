@@ -1,0 +1,12 @@
+application: monitoring
+cluster: oke-example
+namespace: monitoring
+resourcesPath: profiles/example/applications/monitoring/resources
+helm:
+  repository: https://prometheus-community.github.io/helm-charts
+  chart: kube-prometheus-stack
+  version: 87.19.2
+  releaseName: kube-prometheus-stack
+  valueFiles:
+    - profiles/example/applications/monitoring/values/00-base.yml
+    - profiles/example/applications/monitoring/values/90-overrides.yml

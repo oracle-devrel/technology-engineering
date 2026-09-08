@@ -3,7 +3,7 @@
 
 This is a Streamlit-based web application that evaluates resumes (CVs) against job descriptions using Oracle Cloud Infrastructure's Generative AI via Langchain `ChatOCIGenAI`.
 
-Reviewed: 22.09.2025
+Reviewed: 04.08.2026
 
 ---
 

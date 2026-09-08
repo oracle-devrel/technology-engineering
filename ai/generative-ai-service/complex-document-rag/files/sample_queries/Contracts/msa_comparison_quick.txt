@@ -1,0 +1,23 @@
+Compare the NorthBridge and Velocita managed services contracts and generate a professional, Word-ready contract comparison report for Meridian Logistics Group. In every section include a side-by-side table with numeric values (USD, %, hours, days, months) for each provider so differences can be charted, quote key phrases with clause references, and end each section with a one-line advantage verdict. Structure the report with the following sections:
+
+Executive Summary
+
+Key Terms at a Glance
+
+Pricing & Total Cost (fees, indexation, minimum commitments, payment terms)
+
+Term, Renewal & Lock-in
+
+Service Levels & Service Credits
+
+Disaster Recovery (RTO/RPO, test regime)
+
+Security & Data Protection
+
+Liability Caps & Insurance
+
+Termination & Exit Costs
+
+Red Flags & Risk Rating
+
+Recommendation & Negotiation Points

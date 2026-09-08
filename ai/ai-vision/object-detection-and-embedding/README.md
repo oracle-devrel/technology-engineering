@@ -2,7 +2,7 @@
 
 The following asset is a tool designed to display how Embedding models can be used with OCI vision Object Detection to detect and identify different objects within an image.
 
-Reviewed: 17.02.2026
+Reviewed: 04.08.2026
 
 Author: David Attia.
 
@@ -21,4 +21,4 @@ See the full setup and usage guide in [`files/README.md`](./files/README.md).
 ## License
 Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.  
-See [`License`](./LICENSE) file for details.
+See [`License`](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) file for details.

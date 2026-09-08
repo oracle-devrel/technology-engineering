@@ -1,5 +1,7 @@
 from docx import Document
 from docx.shared import Inches
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import os
 import uuid
@@ -7,8 +9,17 @@ import logging
 import datetime
 import math
 import re
+from typing import List, Optional
 from docx.oxml.shared import OxmlElement
 from docx.text.run import Run
+import matplotlib.patches as mpatches
+from matplotlib.table import Table
+import numpy as np
+import textwrap
+
+from langchain_core.messages import HumanMessage
+from contracts import Chunk, SectionDraft, ReportResult
+from progress_bus import progress_bus
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -19,14 +30,20 @@ os.makedirs("charts", exist_ok=True)
 
 _MD_TOKEN_RE = re.compile(r'(\*\*.*?\*\*|__.*?__|\*.*?\*|_.*?_)')
 
-def add_inline_markdown_paragraph(doc, text: str):
+def add_inline_markdown_paragraph(doc, text: str, style: str | None = None):
     """
     Creates a paragraph and renders lightweight inline Markdown:
       **bold** or __bold__ → bold run
       *italic* or _italic_ → italic run
     Everything else is plain text. No links/lists/code handling.
+
+    style: optional python-docx paragraph style name (e.g. "List Bullet").
     """
-    p = doc.add_paragraph()
+    try:
+        p = doc.add_paragraph(style=style) if style else doc.add_paragraph()
+    except KeyError:
+        # Style missing from the template — fall back to a plain paragraph
+        p = doc.add_paragraph()
     i = 0
     for m in _MD_TOKEN_RE.finditer(text):
         # leading text
@@ -49,7 +66,14 @@ def add_inline_markdown_paragraph(doc, text: str):
     return p
 
 def add_table(doc, table_data):
-    """Create a Word table from list of dicts or list of lists, robustly."""
+    """Create a Word table from list of dicts or list of lists, robustly.
+
+    Uses compact font sizing (8 pt body, 8.5 pt bold headers) with Oracle
+    brand colours to avoid ugly line-wrapping and keep a corporate look.
+    """
+    from docx.shared import Pt, RGBColor, Cm
+    from docx.oxml.ns import qn
+
     if not table_data:
         return
 
@@ -71,32 +95,222 @@ def add_table(doc, table_data):
         max_len = max(len(row) for row in table_data)
         headers = [f"Col {i+1}" for i in range(max_len)]
         for row in table_data:
-            rows_normalized.append({headers[i]: row[i] if i < len(row) else "" 
+            rows_normalized.append({headers[i]: row[i] if i < len(row) else ""
                                     for i in range(max_len)})
-
     else:
         headers = ["Value"]
         rows_normalized = [{"Value": str(row)} for row in table_data]
 
     table = doc.add_table(rows=1, cols=len(headers))
     table.style = 'Table Grid'
+    # Allow autofit so Word can shrink columns to fit content
+    table.autofit = True
 
+    # ---- Helper: style a single cell ----
+    _ORACLE_RED = RGBColor(0xC7, 0x46, 0x34)
+    _WHITE = RGBColor(0xFF, 0xFF, 0xFF)
+    _CHARCOAL = RGBColor(0x31, 0x2D, 0x2A)
+    _LIGHT_GREY = RGBColor(0xF5, 0xF5, 0xF5)
+
+    def _shade_cell(cell, color_hex: str):
+        """Apply background shading to a table cell."""
+        shading = OxmlElement("w:shd")
+        shading.set(qn("w:fill"), color_hex)
+        shading.set(qn("w:val"), "clear")
+        cell._tc.get_or_add_tcPr().append(shading)
+
+    def _style_cell(cell, text: str, *, bold: bool = False, font_size=Pt(8),
+                    font_color=_CHARCOAL):
+        cell.text = ""
+        p = cell.paragraphs[0]
+        p.paragraph_format.space_before = Pt(1)
+        p.paragraph_format.space_after = Pt(1)
+        run = p.add_run(str(text))
+        run.font.size = font_size
+        run.font.name = "Calibri"
+        run.font.color.rgb = font_color
+        run.bold = bold
+
+    # ---- Header row (Oracle Red background, white text) ----
     header_row = table.rows[0]
     for i, h in enumerate(headers):
         cell = header_row.cells[i]
-        cell.text = str(h)
-        for paragraph in cell.paragraphs:
-            for run in paragraph.runs:
-                run.bold = True
+        _style_cell(cell, str(h), bold=True, font_size=Pt(8.5), font_color=_WHITE)
+        _shade_cell(cell, "C74634")
 
-    for row in rows_normalized:
+    # ---- Data rows (alternating white / light grey) ----
+    for row_idx, row in enumerate(rows_normalized):
         row_cells = table.add_row().cells
         for i, h in enumerate(headers):
-            row_cells[i].text = str(row.get(h, ""))
+            cell = row_cells[i]
+            _style_cell(cell, str(row.get(h, "")))
+            if row_idx % 2 == 1:
+                _shade_cell(cell, "F5F5F5")
+
+
+_SCALE_WORDS = (
+    ("trillion", 1e12), ("tn", 1e12),
+    ("billion", 1e9), ("bn", 1e9),
+    ("million", 1e6),
+    ("thousand", 1e3),
+)
+
+
+def _comparable_quantity(raw) -> tuple[float, str] | None:
+    """
+    Parse a cell into (magnitude, unit) for a direction-of-comparison check.
+
+    Unlike _parse_numeric this keeps the unit and applies scale words, so
+    "£600 million" and "£3.5 billion" become comparable. Returns None when the
+    cell is not a clean single quantity — callers must treat that as "unknown"
+    rather than guessing.
+
+    Negative values are rejected on purpose: a cell like "-93%" is a *reduction*,
+    where the numerically smaller value is the larger achievement. Annotating
+    those by raw magnitude would invert the very comparison this guards.
+    """
+    if raw is None:
+        return None
+    s = str(raw).strip().lower()
+    if s.upper() in ("N/A", "", "-", "—", "NONE"):
+        return None
+    if "-" in s.lstrip("-") or s.startswith("-") or "−" in s:
+        return None
+    s = s.replace(",", "")  # thousands separators would read as extra figures
+    # A range ("50-80%") or a cell packing two figures has no single magnitude
+    if len(re.findall(r"\d+(?:\.\d+)?", s)) != 1:
+        return None
+
+    m = re.search(r"(\d+(?:\.\d+)?)", s)
+    if not m:
+        return None
+    val = float(m.group(1))
+
+    for word, mult in _SCALE_WORDS:
+        if re.search(rf"\b{word}\b", s) or s.rstrip("%").endswith(word):
+            val *= mult
+            break
+
+    if "%" in s:
+        unit = "pct"
+    elif "£" in s:
+        unit = "gbp"
+    elif "$" in s:
+        unit = "usd"
+    elif re.search(r"\bmw\b", s):
+        unit = "mw"
+    elif re.search(r"\b(m|million|bn|billion)\b", s):
+        unit = "count"
+    else:
+        unit = "num"
+    return val, unit
+
+
+def _higher_entity(row: dict, entities: list) -> str | None:
+    """Which entity holds the numerically larger value, or None if undecidable."""
+    if len(entities) != 2:
+        return None
+    a, b = entities
+    qa, qb = _comparable_quantity(row.get(a)), _comparable_quantity(row.get(b))
+    if not qa or not qb or qa[1] != qb[1] or qa[0] == qb[0]:
+        return None
+    return a if qa[0] > qb[0] else b
+
+
+def _parse_numeric(raw) -> float | None:
+    """Try to parse a table cell into a float, stripping currency/unit noise.
+
+    Rejects cells that are predominantly text (e.g. credit ratings like "Aa3",
+    qualitative labels like "Strong") by checking the ratio of digit characters
+    to the overall string length.
+    """
+    if raw is None:
+        return None
+    s = str(raw).strip()
+    if s.upper() in ("N/A", "", "-", "—", "NONE"):
+        return None
+    # Reject strings that are predominantly alphabetic (ratings, labels)
+    digit_count = sum(1 for c in s if c.isdigit())
+    if digit_count == 0:
+        return None
+    alpha_count = sum(1 for c in s if c.isalpha())
+    # If more alphabetic chars than digits, likely a label not a number
+    # (e.g. "Aa3" has 2 alpha, 1 digit → skip; "$14.2B" has 1 alpha, 3 digits → keep)
+    if alpha_count > digit_count:
+        return None
+    cleaned = re.sub(r"[^\d.\-eE+]", "", s.replace(",", ""))
+    if not cleaned or cleaned in (".", "-", "+"):
+        return None
+    try:
+        val = float(cleaned)
+        if math.isnan(val) or math.isinf(val):
+            return None
+        return val
+    except (ValueError, TypeError):
+        return None
+
+
+def _chart_data_from_table(table: list[dict], entities: list[str]) -> dict:
+    """Build **nested** chart_data from a validated comparison table.
+
+    Returns ``{"Metric": {"Entity1": val, "Entity2": val}, ...}`` so that
+    ``make_chart`` can render a proper grouped bar chart with one color per
+    entity.  Rows where at least one entity has a numeric value are included
+    so that partial data still produces a chart.
+    """
+    chart: dict[str, dict[str, float]] = {}
+    for row in table:
+        metric = str(row.get("Metric", ""))
+        if not metric or metric == "Unknown Metric":
+            continue
+        entity_vals: dict[str, float] = {}
+        for ent in entities:
+            val = _parse_numeric(row.get(ent))
+            if val is not None:
+                entity_vals[ent] = val
+        if entity_vals:
+            chart[metric] = entity_vals
+    if chart:
+        logger.info(f"📊 _chart_data_from_table: extracted {len(chart)} chartable metrics from table")
+    return chart
+
+
+def _mine_chart_from_table(table: list[dict]) -> dict:
+    """Generic fallback: extract flat {metric: value} from any table shape.
+
+    Scans each row for a 'Metric' (or first string) key and picks the first
+    parseable numeric value from the remaining columns.  Returns a flat dict
+    suitable for ``make_chart`` in non-grouped mode.
+    """
+    chart: dict[str, float] = {}
+    skip_cols = {"Metric", "Analysis", "Best Value", "Ranking", "analysis", "metric"}
+    for row in table:
+        if not isinstance(row, dict):
+            continue
+        metric = str(row.get("Metric", ""))
+        if not metric:
+            # Try the first string-valued key as metric name
+            for k, v in row.items():
+                if isinstance(v, str) and not _parse_numeric(v):
+                    metric = v
+                    break
+        if not metric or metric == "Unknown Metric":
+            continue
+        # Find first numeric value
+        for k, v in row.items():
+            if k in skip_cols or str(k) == metric:
+                continue
+            val = _parse_numeric(v)
+            if val is not None:
+                chart[metric] = val
+                break
+    if chart:
+        logger.info(f"📊 _mine_chart_from_table: mined {len(chart)} metrics from table")
+    return chart
 
 
 def _color_for_label(label: str, entities: list[str] | tuple[str, ...] | None,
-                     base="#a9bbbc", e1="#437c94", e2="#c74634") -> str:
+                     base="#BFBFBF", e1="#C74634", e2="#312D2A") -> str:
     """Pick a bar color based on whether a label mentions one of the entities."""
     if not entities:
         return base
@@ -206,28 +420,160 @@ def format_value_with_units(value: float, units: str) -> str:
         return f"{value:.1f}"
 
 
-def make_chart(chart_data: dict, title: str = "", 
+def _needs_log_scale(values, ratio: float = 100.0) -> bool:
+    """True when positive values span more than `ratio`x (≈2 orders of magnitude),
+    where a linear axis would crush the small bars to invisibility. Requires all
+    plotted values to be positive (log can't represent 0 / negatives)."""
+    pos = [v for v in values if isinstance(v, (int, float)) and v > 0]
+    if len(pos) < 2:
+        return False
+    return (max(pos) / min(pos)) > ratio
+
+
+def _make_grouped_chart(grouped_data: dict[str, dict[str, float]],
+                        title: str, units: str,
+                        entity_colors: dict[str, str]) -> str | None:
+    """Render a grouped horizontal bar chart with one color per entity.
+
+    ``grouped_data`` is ``{"Metric": {"Entity1": val, "Entity2": val}}``.
+    ``entity_colors`` maps entity names to hex colours.
+    Returns the path to the saved PNG or *None*.
+    """
+    import textwrap
+
+    metrics = list(grouped_data.keys())
+    if not metrics:
+        return None
+
+    all_entities = list(entity_colors.keys())
+    n_entities = len(all_entities)
+    bar_height = 0.8 / n_entities
+
+    # When metric values span orders of magnitude (e.g. a 250,000 fee next to a
+    # 15% uplift), a linear axis makes the small bars vanish — use a log axis.
+    all_vals = [v for sub in grouped_data.values() for v in sub.values()]
+    use_log = _needs_log_scale(all_vals)
+
+    fig, ax = plt.subplots(figsize=(12, max(6, len(metrics) * 1.2)))
+
+    for i, ent in enumerate(all_entities):
+        positions = [m + i * bar_height for m in range(len(metrics))]
+        vals = [grouped_data[metric].get(ent, 0) for metric in metrics]
+        bars = ax.barh(positions, vals, height=bar_height,
+                       label=ent, color=entity_colors[ent])
+        for bar in bars:
+            width = bar.get_width()
+            if width != 0:
+                formatted = format_value_with_units(width, units)
+                ax.annotate(formatted,
+                            xy=(width, bar.get_y() + bar.get_height() / 2),
+                            xytext=(5, 0), textcoords="offset points",
+                            ha="left", va="center", fontsize=8)
+
+    center_offsets = [m + bar_height * (n_entities - 1) / 2 for m in range(len(metrics))]
+    wrapped = ["\n".join(textwrap.wrap(m, width=35)) for m in metrics]
+    ax.set_yticks(center_offsets)
+    ax.set_yticklabels(wrapped)
+    if use_log:
+        ax.set_xscale("log")
+        ax.set_xlabel(f"{units} (log scale)")
+    else:
+        ax.set_xlabel(units)
+    ax.set_title(title[:100])
+    ax.legend(loc="lower right", framealpha=0.9)
+    ax.grid(axis="x", linestyle="--", alpha=0.6)
+    fig.tight_layout()
+
+    filename = f"chart_{uuid.uuid4().hex}.png"
+    path = os.path.join("charts", filename)
+    fig.savefig(path, dpi=300, bbox_inches="tight")
+    plt.close(fig)
+    return path
+
+
+# Oracle-aligned palette for up to 10 entities in grouped charts
+_ENTITY_PALETTE = [
+    "#C74634",  # Oracle Red
+    "#312D2A",  # Charcoal
+    "#3A7CA5",  # Steel Blue
+    "#747474",  # Mid Grey
+    "#D4892A",  # Amber
+    "#5B8C5A",  # Sage Green
+    "#8E6FAD",  # Purple
+    "#2E86AB",  # Ocean Blue
+    "#A23B72",  # Magenta
+    "#6A7B8B",  # Slate
+]
+
+
+def make_chart(chart_data: dict, title: str = "",
                entities: list[str] | tuple[str, ...] | None = None,
                units: str | None = None) -> str | None:
-    """Generate a chart with conditional formatting and fallback for list values.
-    If `entities` contains up to two names, bars whose labels include those names
-    are highlighted in two distinct colors. Otherwise a default color is used.
+    """Generate a bar chart.
+
+    * If any value in *chart_data* is itself a ``dict`` (nested / grouped
+      data), a **grouped bar chart** is rendered with one colour per entity.
+    * Otherwise a flat bar chart is rendered, with per-entity colour hints
+      when *entities* is provided.
+
     Units are detected automatically or can be passed explicitly.
     """
-
     import textwrap
+
+    if not chart_data:
+        logger.info(f"📊 make_chart: empty chart_data for '{title}' — skipping")
+        return None
 
     os.makedirs("charts", exist_ok=True)
 
+    # Detect units early (before we potentially strip dict values)
+    if not units:
+        units = detect_units(chart_data, title)
+    if units and units != "Value" and units.lower() not in title.lower():
+        title = f"{title} ({units})"
+
+    # --- Grouped mode: values are dicts keyed by entity -----------------------
+    grouped: dict[str, dict[str, float]] = {}
+    for k, v in chart_data.items():
+        if isinstance(v, dict):
+            nums = {}
+            for sub_k, sub_v in v.items():
+                try:
+                    n = float(sub_v)
+                    if not math.isnan(n) and not math.isinf(n):
+                        nums[str(sub_k)] = n
+                except Exception:
+                    continue
+            if nums:
+                grouped[str(k)[:80]] = nums
+
+    if grouped:
+        # Skip a chart that would show a single bar (one entity, one metric) —
+        # a one-value bar chart conveys nothing a sentence doesn't.
+        total_points = sum(len(sub) for sub in grouped.values())
+        if total_points < 2:
+            logger.info(f"📊 make_chart: '{title}' has a single data point — skipping trivial chart")
+            return None
+        # Collect all entity names that appear in the data
+        seen_ents: list[str] = []
+        for sub in grouped.values():
+            for e in sub:
+                if e not in seen_ents:
+                    seen_ents.append(e)
+        # Build colour map
+        entity_colors = {}
+        for i, e in enumerate(seen_ents):
+            entity_colors[e] = _ENTITY_PALETTE[i % len(_ENTITY_PALETTE)]
+        return _make_grouped_chart(grouped, title, units, entity_colors)
+
+    # --- Flat mode: simple key→number -----------------------------------------
     clean = {}
     for k, v in chart_data.items():
-        # Reduce lists to latest numeric entry
         if isinstance(v, list):
             if all(isinstance(i, (int, float)) for i in v):
                 v = v[-1]
             else:
                 continue
-
         try:
             num = float(v)
             if not math.isnan(num) and not math.isinf(num):
@@ -236,21 +582,17 @@ def make_chart(chart_data: dict, title: str = "",
             continue
 
     if not clean:
-        print("⚠️ No valid data to plot.")
+        logger.warning("No valid numeric data to plot for chart: %s", title)
+        return None
+    # Skip a single-bar chart (one entity, one number) — it looks silly and adds nothing.
+    if len(clean) < 2:
+        logger.info(f"📊 make_chart: '{title}' has a single data point — skipping trivial chart")
         return None
 
     labels = list(clean.keys())
     values = list(clean.values())
-    
-    # Detect units if not provided
-    if not units:
-        units = detect_units(chart_data, title)
-    
-    # Update title to include units if not already present
-    if units and units != "Value" and units.lower() not in title.lower():
-        title = f"{title} ({units})"
+    use_log = _needs_log_scale(values)
 
-    # Decide orientation
     max_label_length = max(len(label) for label in labels) if labels else 0
     if len(clean) > 12:
         horizontal = True
@@ -269,7 +611,7 @@ def make_chart(chart_data: dict, title: str = "",
         wrapped_labels = ['\n'.join(textwrap.wrap(label, width=40)) for label in labels]
         colors = [_color_for_label(l, entities) for l in labels]
         bars = ax.barh(wrapped_labels, values, color=colors)
-        ax.set_xlabel(units)  # Use detected units instead of "Value"
+        ax.set_xlabel(units)
         ax.set_ylabel("Category")
         for bar in bars:
             width = bar.get_width()
@@ -281,7 +623,7 @@ def make_chart(chart_data: dict, title: str = "",
         wrapped_labels = ['\n'.join(textwrap.wrap(label, width=15)) for label in labels]
         colors = [_color_for_label(l, entities) for l in labels]
         bars = ax.bar(range(len(labels)), values, color=colors)
-        ax.set_ylabel(units)  # Use detected units instead of "Value"
+        ax.set_ylabel(units)
         ax.set_xlabel("Category")
         ax.set_xticks(range(len(labels)))
         ax.set_xticklabels(wrapped_labels, ha='center', va='top')
@@ -291,6 +633,14 @@ def make_chart(chart_data: dict, title: str = "",
             ax.annotate(formatted_value, xy=(bar.get_x() + bar.get_width() / 2, height),
                         xytext=(0, 5), textcoords="offset points",
                         ha='center', va='bottom', fontsize=8)
+
+    if use_log:
+        if horizontal:
+            ax.set_xscale("log")
+            ax.set_xlabel(f"{units} (log scale)")
+        else:
+            ax.set_yscale("log")
+            ax.set_ylabel(f"{units} (log scale)")
 
     ax.set_title(title[:100])
     ax.grid(axis="y" if not horizontal else "x", linestyle="--", alpha=0.6)
@@ -303,20 +653,86 @@ def make_chart(chart_data: dict, title: str = "",
     return path
 
 
-def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | None = None):
+def _chart_fingerprint(chart_data: dict) -> str:
+    """Return a deterministic SHA-256 hex of *chart_data* for dedup purposes."""
+    import hashlib, json
+
+    def _flatten(obj):
+        if isinstance(obj, dict):
+            return {str(k): _flatten(v) for k, v in sorted(obj.items())}
+        if isinstance(obj, (list, tuple)):
+            return [_flatten(i) for i in obj]
+        return obj
+
+    canonical = json.dumps(_flatten(chart_data), sort_keys=True, default=str)
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+
+def _basename(path: str) -> str:
+    return str(path or "").replace("\\", "/").rsplit("/", 1)[-1]
+
+
+def _chunk_ref_key(ref: dict) -> str:
+    """Stable identity for a chunk reference, used for global de-duplication."""
+    return "|".join([
+        str(ref.get("file", "")),
+        str(ref.get("entity", "")),
+        str(ref.get("page", "")),
+        str(ref.get("excerpt", ""))[:80],
+    ])
+
+
+def _chunk_refs_from_chunks(chunks: list, max_refs: int = 16, excerpt_chars: int = 220) -> list:
+    """Build per-chunk reference dicts ({file, entity, page, excerpt}) from the
+    chunks fed to a section, de-duplicated within the section."""
+    refs, seen = [], set()
+    for c in chunks or []:
+        content = (c.get("content") or "").strip()
+        if not content:
+            continue
+        meta = c.get("metadata", {}) or {}
+        excerpt = " ".join(content.split())
+        if len(excerpt) > excerpt_chars:
+            excerpt = excerpt[:excerpt_chars].rstrip() + "…"
+        ref = {
+            "file": meta.get("filename") or _basename(meta.get("source")) or "Unknown",
+            "entity": c.get("_search_entity") or meta.get("entity") or "",
+            "page": meta.get("page"),
+            "excerpt": excerpt,
+        }
+        k = _chunk_ref_key(ref)
+        if k in seen:
+            continue
+        seen.add(k)
+        refs.append(ref)
+        if len(refs) >= max_refs:
+            break
+    return refs
+
+
+def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | None = None, skip_charts: bool = False, rendered_charts: set | None = None):
     """Append section to document with heading, paragraph, table, chart, and citations."""
     heading = section_data.get("heading", "Untitled Section")
     doc.add_heading(heading, level=level)
 
     text = section_data.get("text", "").strip()
 
-    # Add citations to the text if sources are available
-    if text and citation_map and section_data.get("sources"):
+    # Append citation markers at the end of the section. Prefer chunk-level refs
+    # (each retrieved chunk gets its own number); fall back to document-level
+    # sources only when no chunk refs were captured (e.g. synthesis sections).
+    if text and citation_map:
         citation_numbers = []
-        for source in section_data.get("sources", []):
-            source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
-            if source_key in citation_map:
-                citation_numbers.append(citation_map[source_key])
+        chunk_refs = section_data.get("chunk_refs") or []
+        if chunk_refs:
+            for ref in chunk_refs:
+                key = _chunk_ref_key(ref)
+                if key in citation_map:
+                    citation_numbers.append(citation_map[key])
+        else:
+            for source in section_data.get("sources", []):
+                source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
+                if source_key in citation_map:
+                    citation_numbers.append(citation_map[source_key])
         if citation_numbers:
             unique_citations = sorted(set(citation_numbers))
             citations_str = " " + "".join([f"[{num}]" for num in unique_citations])
@@ -324,7 +740,6 @@ def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | 
 
     if text:
         add_inline_markdown_paragraph(doc, text)
-        doc.add_paragraph(text)
 
     table_data = section_data.get("table", [])
     if isinstance(table_data, dict):
@@ -332,27 +747,41 @@ def append_to_doc(doc, section_data: dict, level: int = 2, citation_map: dict | 
     if isinstance(table_data, list) and table_data:
         add_table(doc, table_data)
 
-    chart_data = section_data.get("chart_data", {})
-    if isinstance(chart_data, dict) and chart_data:
-        # Flatten nested chart data if needed
-        flattened_chart_data = {}
-        for k, v in chart_data.items():
-            if isinstance(v, dict):
-                for sub_k, sub_v in v.items():
-                    label = f"{k} ({sub_k})"
-                    flattened_chart_data[label] = sub_v
-            else:
-                flattened_chart_data[k] = v
+    # Qualitative findings: policies, programmes, framework alignment — the material
+    # the metrics table cannot represent.
+    findings = section_data.get("findings", [])
+    if isinstance(findings, list) and findings:
+        for finding in findings:
+            finding = str(finding).strip()
+            if finding:
+                add_inline_markdown_paragraph(doc, finding, style="List Bullet")
 
-        # Pass dynamic entities (if present) so colors match those names
-        entities = section_data.get("entities")
-        # Pass units if available in section data
-        units = section_data.get("units")
-        chart_path = make_chart(flattened_chart_data, title=heading, entities=entities, units=units)
-        if chart_path:
-            doc.add_picture(chart_path, width=Inches(6))
-            last_paragraph = doc.paragraphs[-1]
-            last_paragraph.alignment = 1  # center
+    # Skip charts if requested (for multi-vendor comparisons)
+    if not skip_charts:
+        chart_data = section_data.get("chart_data", {})
+        if isinstance(chart_data, dict) and chart_data:
+            # Deduplicate: skip if we already rendered an identical chart
+            fp = _chart_fingerprint(chart_data)
+            if rendered_charts is not None and fp in rendered_charts:
+                logger.info(f"📊 Skipping duplicate chart for '{heading}'")
+            else:
+                if rendered_charts is not None:
+                    rendered_charts.add(fp)
+
+                entities = section_data.get("entities")
+                units = section_data.get("units")
+                chart_path = make_chart(chart_data, title=heading, entities=entities, units=units)
+                if chart_path:
+                    doc.add_picture(chart_path, width=Inches(6))
+                    last_paragraph = doc.paragraphs[-1]
+                    last_paragraph.alignment = 1  # center
+                    logger.info(f"📊 Chart rendered for '{heading}'")
+                    # Charts are embedded in the .docx only — not surfaced on screen.
+                    # The results panel gallery was clutter next to the report text.
+                else:
+                    logger.warning(f"📊 Chart generation returned None for '{heading}'")
+        else:
+            logger.info(f"📊 No chart_data for section '{heading}'")
 
 
 def save_doc(doc, filename: str = "_report.docx"):
@@ -365,23 +794,100 @@ class SectionWriterAgent:
     def __init__(self, llm, tokenizer=None):
         self.llm = llm
         self.tokenizer = tokenizer
+        # Diagnostics, not narrative — these were print(), so they bypassed logging
+        # entirely and appeared on screen regardless of log level.
         if tokenizer:
-            print("Tokenizer initialized for SectionWriterAgent")
+            logger.debug("Tokenizer initialized for SectionWriterAgent")
         else:
-            print("⚠️ No tokenizer provided for SectionWriterAgent")
+            logger.debug("No tokenizer provided for SectionWriterAgent")
+
+    # Appended to the prompt on a retry. The failures seen in practice are malformed
+    # JSON (unescaped quotes, possessives written as Supremo1"s), not the model being
+    # unable to do the task — so restating the format constraint is usually enough.
+    _RETRY_SUFFIX = """
+
+IMPORTANT — your previous response could not be parsed as JSON. Return ONLY a single
+valid JSON object. Escape any double quote inside a string value as \\". Do not use
+apostrophes or possessive forms in any string value (write "Supremo1 targets" rather
+than "Supremo1's targets"). Do not wrap the JSON in code fences or commentary."""
+
+    @staticmethod
+    def _default_attempts() -> int:
+        """
+        How many times to try parsing a section's JSON.
+
+        Default 1 — no retry. A retry costs a full regeneration of a ~7k-token
+        section prompt (~80s measured), which is too slow for a live demo: two
+        retries in one run pushed a 136s report to over 4 minutes. Set
+        SECTION_WRITE_ATTEMPTS=2 for unattended runs where completeness matters
+        more than latency.
+        """
+        try:
+            return max(1, int(os.environ.get("SECTION_WRITE_ATTEMPTS", "1")))
+        except ValueError:
+            return 1
+
+    def _invoke_and_parse(
+        self,
+        prompt: str,
+        label: str,
+        entities: Optional[List[str]] = None,
+        attempts: Optional[int] = None,
+        expected_structure: Optional[str] = None,
+    ) -> dict:
+        """
+        Call the LLM and parse its JSON, retrying once on a parse failure.
+
+        Section writers previously had no retry: a single malformed response cost the
+        entire section, which then rendered as an empty heading. One retry recovers
+        nearly all of these, since the failure is formatting rather than capability.
+
+        Passing `entities` matters — the possessive repair keys off it, and it was
+        being called without them.
+        """
+        # Imported here, not at module scope: agent_factory imports this module, so a
+        # top-level import would be circular. Every caller does the same.
+        from agents.agent_factory import UniversalJSONCleaner
+
+        if attempts is None:
+            attempts = self._default_attempts()
+
+        last_error: Optional[Exception] = None
+        for attempt in range(1, attempts + 1):
+            try:
+                attempt_prompt = prompt if attempt == 1 else prompt + self._RETRY_SUFFIX
+                response = self.llm.invoke([HumanMessage(content=attempt_prompt)]).content.strip()
+                json_str = UniversalJSONCleaner.clean_and_extract_json(
+                    response, expected_type="object", entities=entities
+                )
+                parsed = UniversalJSONCleaner.parse_with_validation(
+                    json_str, expected_structure=expected_structure, entities=entities
+                )
+                if attempt > 1:
+                    logger.info(f"✅ '{label}' recovered on attempt {attempt}")
+                return parsed
+            except Exception as e:
+                last_error = e
+                if attempt < attempts:
+                    logger.warning(
+                        f"⚠️ '{label}' attempt {attempt}/{attempts} did not parse ({e}); retrying"
+                    )
+
+        assert last_error is not None
+        raise last_error
 
     def estimate_tokens(self, text: str) -> int:
         return max(1, len(text) // 4)
 
     def log_token_count(self, text: str, tokenizer=None, label: str = "Prompt"):
         if not text:
-            print(f"⚠️ Cannot log tokens: empty text for {label}")
+            logger.debug(f"Cannot log tokens: empty text for {label}")
             return
         if tokenizer:
             token_count = len(tokenizer.encode(text))
         else:
             token_count = self.estimate_tokens(text)
-        print(f"{label} token count: {token_count}")
+        logger.debug(f"{label} token count: {token_count}")
 
     def write_section(self, section_title: str, context_chunks: list[dict]) -> dict:
         from collections import defaultdict
@@ -395,22 +901,229 @@ class SectionWriterAgent:
             grouped_metadata[entity].append(metadata)
 
         entities = list(grouped.keys())
-        if len(entities) == 2:
-            return self._write_comparison_section(section_title, grouped, entities, grouped_metadata)
+        
+        # Handle different numbers of entities
+        if len(entities) > 10:
+            logger.warning(f"⚠️ Too many entities ({len(entities)}). Limiting to first 10.")
+            entities = entities[:10]
+        
+        if len(entities) >= 2:
+            # Multi-entity comparison (2-10 entities)
+            return self._write_multi_entity_comparison(section_title, grouped, entities, grouped_metadata)
         elif len(entities) == 1:
             return self._write_single_entity_section(section_title, grouped, entities[0], grouped_metadata)
         else:
             logger.warning(f"⚠️ No valid entities found for section: {section_title}")
-        return {
-            "heading": section_title,
-            "text": f"Insufficient data for analysis. Entities: {entities}",
-            "table": [],
-            "chart_data": {},
-            "sources": [],
-            # propagate for downstream report logic
-            "is_comparison": False,
-            "entities": entities
-        }
+            return {
+                "heading": section_title,
+                "text": f"Insufficient data for analysis. Entities: {entities}",
+                "table": [],
+                "chart_data": {},
+                "sources": [],
+                # propagate for downstream report logic
+                "is_comparison": False,
+                "entities": entities
+            }
+
+    def write_section_typed(
+        self,
+        topic: str,
+        chunks: List[Chunk],
+        *,
+        entities: Optional[List[str]] = None,
+        is_comparison: bool = False,
+    ) -> SectionDraft:
+        """Write a section and return a typed SectionDraft model."""
+        # Convert Chunk models to legacy dicts for the existing write_section
+        legacy_chunks = [c.to_legacy_dict() for c in chunks]
+
+        # Ensure _search_entity is set so write_section can group correctly.
+        if entities and len(entities) == 1:
+            for lc in legacy_chunks:
+                lc.setdefault("_search_entity", entities[0])
+        elif entities and len(entities) >= 2:
+            # For multi-entity comparison: honour existing search_entity tags
+            # first, then distribute untagged chunks round-robin across entities
+            # so the comparison writer sees data for every entity.
+            untagged = [lc for lc in legacy_chunks if not lc.get("_search_entity")]
+            for i, lc in enumerate(untagged):
+                lc["_search_entity"] = entities[i % len(entities)]
+
+        result = self.write_section(topic, legacy_chunks)
+        result.setdefault("entities", entities or [])
+        result.setdefault("is_comparison", is_comparison)
+        result["chunks_used"] = len(chunks)
+        # Capture the actual chunks that fed this section for chunk-level citations.
+        result["chunk_refs"] = _chunk_refs_from_chunks(legacy_chunks)
+
+        return SectionDraft.from_legacy_dict(result)
+
+    def write_derived_section_typed(
+        self,
+        topic: str,
+        role: str,
+        prior_sections: List[SectionDraft],
+        *,
+        entities: Optional[List[str]] = None,
+        query: str = "",
+    ) -> SectionDraft:
+        """
+        Write a section that reasons over the already-written comparison sections
+        instead of retrieving source data.
+
+        role="synthesize" -> summary/assessment across sections
+        role="recommend"  -> actions derived from the gaps those sections expose
+        """
+        entities = entities or []
+        entity_label = " and ".join(entities) if entities else "the subjects"
+
+        # Flatten what the compare sections actually established
+        digest_parts = []
+        for s in prior_sections:
+            lines = [f"## {s.topic}"]
+            if s.markdown:
+                lines.append(s.markdown.strip())
+            for row in s.table[:20]:
+                metric = row.get("Metric", "")
+                if not metric:
+                    continue
+                vals = " | ".join(f"{e}: {row.get(e, 'N/A')}" for e in entities) if entities else ""
+                # Carry the Analysis verdict through. The compare section already
+                # decided who leads; without it the synthesis LLM re-derives the
+                # comparison from raw numbers and can invert it.
+                verdict = str(row.get("Analysis", "")).strip()
+                line = f"- {metric} — {vals}".rstrip(" —")
+                # Deterministic direction, computed in code. This is what the
+                # synthesis layer must cite instead of comparing numbers itself.
+                higher = _higher_entity(row, list(entities))
+                if higher:
+                    line += f"  [LARGER VALUE: {higher}]"
+                if verdict and verdict != "N/A":
+                    line += f"  [section verdict: {verdict}]"
+                lines.append(line)
+            for f in s.findings[:10]:
+                lines.append(f"- {f}")
+            digest_parts.append("\n".join(lines))
+        digest = "\n\n".join(digest_parts)
+
+        if role == "recommend":
+            objective = (
+                f"Produce concrete, actionable recommendations for {entity_label}, derived from "
+                "the gaps, shortfalls and weaker-performing areas visible in the SECTIONS below.\n"
+                "Address each subject separately. Every recommendation must be traceable to a "
+                "specific gap in the SECTIONS — a missed target, a slower pace, a weaker "
+                "commitment, or an area where one subject trails the other.\n"
+                "Do NOT restate metrics as if they were recommendations."
+            )
+            findings_instruction = (
+                'findings: the recommendations themselves, one action per string, each naming '
+                'the subject it applies to and the gap it addresses.'
+            )
+        else:
+            objective = (
+                f"Produce a summary assessment across all SECTIONS below for {entity_label}.\n"
+                "State where each subject leads, trails, or matches, and whether it meets, "
+                "exceeds or falls short of any target or external standard named in the SECTIONS.\n"
+                "Do NOT introduce data that does not appear in the SECTIONS."
+            )
+            findings_instruction = (
+                'findings: the key cross-cutting judgements, one per string, each naming the '
+                'subject(s) it concerns.'
+            )
+
+        prompt = f"""You are writing the "{topic}" section of a report about {entity_label}.
+
+OBJECTIVE:
+{objective}
+
+USER REQUEST (for tone and scope):
+{query[:1500]}
+
+SECTIONS ALREADY WRITTEN:
+{digest}
+
+Return JSON with exactly these keys:
+- heading: a short descriptive title
+- text: 3-5 sentences of narrative
+- {findings_instruction}
+
+RULES:
+- Use only what appears in SECTIONS above; invent no figures.
+- If the SECTIONS disagree about a value, say so rather than picking one silently.
+- No possessive apostrophes (write "Oracle revenue", not "Oracle's revenue").
+- Respond only in valid JSON.
+
+DIRECTION OF COMPARISON — read carefully:
+Do NOT work out for yourself which subject is ahead on a metric. That has already
+been determined and is annotated on each line:
+- "[LARGER VALUE: X]" means X holds the numerically larger figure on that line.
+- "[section verdict: ...]" is the assessment written by the section author.
+Any claim that one subject leads, trails, exceeds, lags or falls short on a metric
+must agree with those annotations. A line with no annotation is undetermined —
+report the two figures without asserting a direction.
+Note a larger figure is not automatically better: for a reduction or a shortfall,
+the smaller figure may be the stronger result. Read the metric name before judging.
+"""
+
+        from agents.agent_factory import UniversalJSONCleaner
+
+        try:
+            parsed = self._invoke_and_parse(
+                prompt,
+                label=topic,
+                entities=list(entities) if entities else None,
+                expected_structure="Object with 'heading', 'text', and 'findings' keys",
+            )
+            if not isinstance(parsed, dict):
+                raise ValueError(f"expected object, got {type(parsed).__name__}")
+
+            raw_findings = parsed.get("findings", [])
+            if isinstance(raw_findings, str):
+                raw_findings = [raw_findings]
+            elif isinstance(raw_findings, dict):
+                raw_findings = [raw_findings]
+            findings = []
+            if isinstance(raw_findings, list):
+                for f in raw_findings:
+                    # Models frequently return {"Supremo1": "do X"} instead of a
+                    # plain string; render those as "Supremo1: do X" rather than
+                    # letting str() emit a Python dict literal into the document.
+                    if isinstance(f, dict):
+                        named = f.get("finding") or f.get("text") or f.get("recommendation")
+                        if named:
+                            f = named
+                        else:
+                            f = "; ".join(
+                                f"{k}: {v}" for k, v in f.items() if str(v).strip()
+                            )
+                    f = str(f).strip()
+                    if f:
+                        findings.append(f)
+
+            logger.info(f"🧩 {role} section '{topic}': {len(findings)} findings from "
+                        f"{len(prior_sections)} prior sections")
+
+            return SectionDraft.from_legacy_dict({
+                "heading": parsed.get("heading", topic),
+                "text": parsed.get("text", ""),
+                "table": [],
+                "findings": findings,
+                "chart_data": {},
+                "entities": entities,
+                # A synthesis/recommendation section is still part of a comparison
+                # report. Hardcoding False here made the report header read
+                # "Report: Supremo1" whenever one of these sorted first.
+                "is_comparison": len(entities) >= 2,
+                "chunks_used": 0,
+            })
+
+        except Exception as e:
+            logger.error(f"⚠️ Failed to write {role} section '{topic}': {e}")
+            return SectionDraft.from_legacy_dict({
+                "heading": topic,
+                "text": "",
+                "entities": entities,
+            })
 
     def _write_single_entity_section(self, section_title: str, grouped_chunks: dict, entity: str, grouped_metadata: dict | None = None) -> dict:
         text = "\n\n".join(grouped_chunks[entity])
@@ -432,29 +1145,37 @@ class SectionWriterAgent:
         prompt = f"""Extract key data for {entity} on {section_title}.
 
 Return JSON:
-{{"heading": "title", "text": "2-sentence summary", "table": [metrics], "chart_data": {{numbers}}}}
+{{
+  "heading": "descriptive title",
+  "text": "2-sentence summary",
+  "table": [{{"Metric": "metric name", "Value": "value with units"}}],
+  "chart_data": {{"metric_name": numeric_value}}
+}}
+
+IMPORTANT: chart_data MUST contain only numeric values (no text, no units, no currency symbols).
+Example chart_data: {{"Total Revenue": 14234, "Operating Income": 5831, "Net Income": 3926}}
 
 Data:
 {text[:2000]}
 
 CRITICAL RULES:
-1. NEVER use possessive forms or apostrophes (no 's). 
+1. NEVER use possessive forms or apostrophes (no 's).
    - Wrong: "Oracle's revenue", "company's growth"
    - Right: "Oracle revenue", "company growth", "revenue of Oracle"
-2. Use "N/A" for missing data.
-3. Return valid JSON only - no apostrophes in text values."""
+2. Use "N/A" for missing data in tables.
+3. Return valid JSON only - no apostrophes in text values.
+4. Include at least 3-5 numeric metrics in chart_data if available."""
 
         try:
             self.log_token_count(prompt, self.tokenizer, label=f"SingleEntity Prompt ({section_title})")
-            response = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
 
-            from agents.agent_factory import UniversalJSONCleaner
             import ast
 
-            json_str = UniversalJSONCleaner.clean_and_extract_json(response, expected_type="object")
-            parsed = UniversalJSONCleaner.parse_with_validation(
-                json_str,
-                expected_structure="Object with 'heading', 'text', 'table', and 'chart_data' keys"
+            parsed = self._invoke_and_parse(
+                prompt,
+                label=section_title,
+                entities=[entity] if entity else None,
+                expected_structure="Object with 'heading', 'text', 'table', and 'chart_data' keys",
             )
 
             chart_data = parsed.get("chart_data", {})
@@ -473,13 +1194,23 @@ CRITICAL RULES:
                 except Exception:
                     table = []
 
+            # Validate chart_data has actual numeric values
+            has_numeric = any(
+                _parse_numeric(v) is not None for v in chart_data.values()
+            ) if isinstance(chart_data, dict) else False
+
+            if not has_numeric and isinstance(table, list) and table:
+                mined = _mine_chart_from_table(table)
+                if mined:
+                    logger.info(f"📊 Using table-mined chart data for '{section_title}' ({len(mined)} metrics)")
+                    chart_data = mined
+
             return {
                 "heading": parsed.get("heading", section_title),
                 "text": parsed.get("text", ""),
                 "table": table,
                 "chart_data": chart_data,
                 "sources": sources,
-                # NEW: carry entity info so charts/titles can highlight correctly
                 "is_comparison": False,
                 "entities": [entity]
             }
@@ -496,12 +1227,170 @@ CRITICAL RULES:
                 "entities": [entity]
             }
 
+    def _write_multi_entity_comparison(self, section_title: str, grouped_chunks: dict, entities: list[str], grouped_metadata: dict | None = None) -> dict:
+        """Handle comparisons between 2-10 entities with special formatting for tender responses"""
+        import ast
+        from agents.agent_factory import UniversalJSONCleaner
+        
+        # For backward compatibility, use the old method for exactly 2 entities
+        if len(entities) == 2:
+            return self._write_comparison_section(section_title, grouped_chunks, entities, grouped_metadata)
+        
+        # Multi-entity comparison (3-10 entities)
+        entity_data_sections = []
+        for entity in entities:
+            entity_text = "\n\n".join(grouped_chunks.get(entity, []))[:1500]  # Limit text per entity
+            entity_data_sections.append(f"=== {entity} ===\n{entity_text}")
+        
+        entities_str = ", ".join(entities)
+        data_section = "\n\n".join(entity_data_sections)
+        
+        # Detect if this is a tender/RFP comparison
+        is_tender = "tender" in section_title.lower() or "rfp" in section_title.lower() or "proposal" in section_title.lower()
+        
+        if is_tender:
+            table_instruction = f"""
+- table: List of evaluation criteria as rows, with columns for each entity
+  Format: {{"Metric": "criterion", "{entities[0]}": "value1", "{entities[1]}": "value2", ...}}
+- Include a "Best Value" or "Ranking" column if comparing quantitative metrics
+- For qualitative criteria, use ratings like "Excellent", "Good", "Fair", "Poor"
+"""
+        else:
+            table_instruction = f"""
+- table: List of metrics as rows, with columns for each entity
+  Format: {{"Metric": "metric_name", "{entities[0]}": "value1", "{entities[1]}": "value2", ...}}
+- Include an "Analysis" column highlighting key differences
+"""
+
+        prompt = f"""
+You are writing a structured comparison section for {len(entities)} entities: {entities_str}.
+
+Topic: {section_title}
+
+OBJECTIVE:
+Create a comprehensive comparison table showing all entities side-by-side.
+
+Always follow this exact structure in your JSON output:
+- heading: A descriptive title for the section
+- text: A 2-3 sentence overview comparing all entities
+{table_instruction}
+- chart_data: Comparable numeric values from all entities
+
+DATA:
+{data_section}
+
+INSTRUCTIONS:
+- Extract specific metrics that can be compared across all entities
+- Use "N/A" if an entity is missing a value
+- For tender/RFP comparisons, focus on evaluation criteria
+- Keep values human-readable
+- Ensure fair and balanced comparison
+
+CRITICAL RULES:
+1. NEVER use possessive forms (no 's)
+2. Ensure valid JSON format
+3. Include ALL entities in each table row
+
+Respond only in valid JSON format.
+"""
+
+        try:
+            parsed = self._invoke_and_parse(
+                prompt,
+                label=section_title,
+                entities=list(entities) if entities else None,
+                expected_structure="Object with 'heading', 'text', 'table', and 'chart_data' keys",
+            )
+
+            # Process table to ensure all entities have columns
+            table = parsed.get("table", [])
+            if isinstance(table, str):
+                try:
+                    table = ast.literal_eval(table)
+                except:
+                    table = []
+            
+            validated_table = []
+            for row in table:
+                if isinstance(row, dict):
+                    validated_row = {"Metric": row.get("Metric", "Unknown")}
+                    has_data = False
+                    for entity in entities:
+                        value = row.get(entity, "N/A")
+                        validated_row[entity] = value
+                        if value != "N/A":
+                            has_data = True
+                    # Add analysis/ranking columns if present
+                    for key in ["Analysis", "Best Value", "Ranking"]:
+                        if key in row:
+                            validated_row[key] = row[key]
+                    if has_data:
+                        validated_table.append(validated_row)
+            
+            # Build chart_data with entity names in the keys so bars get
+            # per-entity colors.  Prefer mining the validated table.
+            chart_data = _chart_data_from_table(validated_table, entities)
+            if not chart_data:
+                raw_cd = parsed.get("chart_data", {})
+                if isinstance(raw_cd, str):
+                    try:
+                        raw_cd = ast.literal_eval(raw_cd)
+                    except Exception:
+                        raw_cd = {}
+                if isinstance(raw_cd, dict) and raw_cd:
+                    chart_data = raw_cd
+            if not chart_data:
+                mined = _mine_chart_from_table(validated_table)
+                if mined:
+                    chart_data = mined
+                    logger.info(f"📊 Using table-mined chart data for multi-entity '{section_title}'")
+
+            # Extract sources
+            sources = []
+            if grouped_metadata:
+                seen_sources = set()
+                for entity in entities:
+                    if entity in grouped_metadata:
+                        for metadata in grouped_metadata[entity]:
+                            source_key = f"{metadata.get('source', 'Unknown')}_{metadata.get('sheet', '')}_{entity}"
+                            if source_key not in seen_sources:
+                                sources.append({
+                                    "file": metadata.get("source", "Unknown"),
+                                    "sheet": metadata.get("sheet", ""),
+                                    "entity": entity
+                                })
+                                seen_sources.add(source_key)
+            
+            return {
+                "heading": parsed.get("heading", section_title),
+                "text": parsed.get("text", ""),
+                "table": validated_table,
+                "chart_data": chart_data,
+                "sources": sources,
+                "is_comparison": True,
+                "entities": entities,
+                "is_tender": is_tender
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to write multi-entity comparison: {e}")
+            return {
+                "heading": section_title,
+                "text": f"Could not generate comparison for {len(entities)} entities",
+                "table": [],
+                "chart_data": {},
+                "sources": [],
+                "is_comparison": True,
+                "entities": entities
+            }
+    
     def _write_comparison_section(self, section_title: str, grouped_chunks: dict, entities: list[str], grouped_metadata: dict | None = None) -> dict:
+        """Legacy method for exactly 2 entities - kept for backward compatibility"""
         import ast
         from agents.agent_factory import UniversalJSONCleaner
 
         if len(entities) != 2:
-            raise ValueError("Comparison section requires exactly two entities.")
+            raise ValueError("This method requires exactly two entities. Use _write_multi_entity_comparison for more.")
 
         entity_a, entity_b = entities
         text_a = "\n\n".join(grouped_chunks[entity_a])
@@ -517,8 +1406,9 @@ Summarize key data from the context and produce a clear, side-by-side comparison
 
 Always follow this exact structure in your JSON output:
 - heading: A short, descriptive title for the section
-- text: A 1–2 sentence overview comparing {entity_a} and {entity_b}
+- text: A 2–4 sentence overview comparing {entity_a} and {entity_b}
 - table: List of dicts formatted as: Metric | {entity_a} | {entity_b} | Analysis
+- findings: List of strings capturing material that is NOT a numeric metric
 - chart_data: A dictionary of comparable numeric values to plot
 
 DATA:
@@ -534,6 +1424,20 @@ INSTRUCTIONS:
 - Use analysis terms like: "Higher", "Lower", "Similar", "{entity_a} only", "{entity_b} only"
 - Do not echo file names or metadata
 - Keep values human-readable (e.g., "18,500 tonnes CO2e")
+- "N/A" means the value is absent from the DATA above. It does NOT mean the entity
+  has no such commitment — never state or imply that an entity lacks a policy when
+  its value is simply missing from the context.
+
+FINDINGS (do not skip):
+Much of the material above is qualitative and has no place in the metrics table.
+Put it in "findings" instead of discarding it. Cover, where the DATA supports it:
+- Policy commitments and restrictive financing rules (e.g. thermal coal, oil and gas
+  by region or type, sector-level financed-emissions targets and their named sectors)
+- Named programmes and initiatives
+- Alignment with external frameworks and standards, and whether each entity meets,
+  exceeds or falls short of a stated target or threshold
+Each finding is one self-contained sentence naming the entity or entities it concerns.
+Return [] only if the DATA genuinely contains no such material.
 
 CRITICAL RULES:
 1. NEVER use possessive forms or apostrophes (no 's).
@@ -551,15 +1455,11 @@ Respond only in valid JSON format.
             else:
                 logger.warning("⚠️ No tokenizer available for token counting in SectionWriterAgent")
 
-            response = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
-            logger.warning("🧪 RAW LLM OUTPUT:\n%s", response)
-
-            json_str = UniversalJSONCleaner.clean_and_extract_json(response, expected_type="object")
-            logger.debug("🧪 Cleaned JSON string before parsing:\n%s", json_str)
-
-            parsed = UniversalJSONCleaner.parse_with_validation(
-                json_str,
-                expected_structure="Object with 'heading', 'text', 'table', and 'chart_data' keys"
+            parsed = self._invoke_and_parse(
+                prompt,
+                label=section_title,
+                entities=entities,
+                expected_structure="Object with 'heading', 'text', 'table', and 'chart_data' keys",
             )
 
             chart_data = parsed.get("chart_data", {})
@@ -596,13 +1496,21 @@ Respond only in valid JSON format.
                 if validated_row[entity_a] != "N/A" or validated_row[entity_b] != "N/A":
                     validated.append(validated_row)
 
-            flat_chart_data = {}
-            for k, v in chart_data.items():
-                if isinstance(v, dict):
-                    for sub_k, sub_v in v.items():
-                        flat_chart_data[f"{k} - {sub_k}"] = sub_v
-                else:
-                    flat_chart_data[k] = v
+            # Build chart_data with entity names in the keys so bars get
+            # per-entity colors.  Prefer mining the validated table (reliable)
+            # over the LLM's freeform chart_data (often single-entity / flat).
+            final_chart_data = _chart_data_from_table(validated, [entity_a, entity_b])
+            if not final_chart_data:
+                # Fallback 1: try the LLM's chart_data (may be nested or flat)
+                if isinstance(chart_data, dict) and chart_data:
+                    final_chart_data = chart_data
+                    logger.info(f"📊 Using LLM chart_data fallback for '{section_title}'")
+            if not final_chart_data:
+                # Fallback 2: mine any numeric data from the table
+                mined = _mine_chart_from_table(validated)
+                if mined:
+                    final_chart_data = mined
+                    logger.info(f"📊 Using table-mined chart data for '{section_title}' ({len(mined)} metrics)")
 
             # Extract unique sources
             sources = []
@@ -620,13 +1528,28 @@ Respond only in valid JSON format.
                                 })
                                 seen_sources.add(source_key)
 
+            # Qualitative material that has no row in the metrics table
+            raw_findings = parsed.get("findings", [])
+            if isinstance(raw_findings, str):
+                raw_findings = [raw_findings]
+            findings = []
+            if isinstance(raw_findings, list):
+                for f in raw_findings:
+                    if isinstance(f, dict):
+                        f = f.get("finding") or f.get("text") or ""
+                    f = str(f or "").strip()
+                    if f:
+                        findings.append(f)
+            if findings:
+                logger.info(f"📝 {len(findings)} qualitative findings for '{section_title}'")
+
             return {
                 "heading": parsed.get("heading", section_title),
                 "text": parsed.get("text", ""),
                 "table": validated,
-                "chart_data": flat_chart_data,
+                "findings": findings,
+                "chart_data": final_chart_data,
                 "sources": sources,
-                # NEW: signal comparison + entities for downstream styling and charts
                 "is_comparison": True,
                 "entities": [entity_a, entity_b]
             }
@@ -661,10 +1584,41 @@ Respond only in valid JSON format.
 
 class ReportWriterAgent:
     def __init__(self, doc=None, model_name: str = "unknown", llm=None):
-        self.model_name = model_name
+        # Derive model name from the LLM object when not explicitly provided
+        if model_name == "unknown" and llm is not None:
+            model_name = (
+                getattr(llm, "model_name", None)
+                or getattr(llm, "model_id", None)
+                or getattr(llm, "model", None)
+                or "unknown"
+            )
+        self.model_name = str(model_name)
         self.llm = llm  # Store LLM for generating summaries
 
-    def _generate_executive_summary(self, sections: list[dict], is_comparison: bool, entities: list[str], target_language: str = "english", query: str | None = None) -> str:
+    @staticmethod
+    def _has_section_titled(sections: list[dict], *phrases: str) -> bool:
+        """
+        True if a planned section already covers one of these headings.
+
+        Matched on exact heading or a "<phrase>:" / "<phrase> " prefix, so
+        "Executive Summary: ESG Comparison of X and Y" counts but a section
+        merely mentioning the words in passing does not.
+        """
+        for s in sections:
+            if s.get("is_category_header"):
+                continue
+            heading = str(s.get("heading", "")).strip().lower()
+            if not heading:
+                continue
+            for phrase in phrases:
+                p = phrase.strip().lower()
+                if heading == p or heading.startswith(p + ":") or heading.startswith(p + " "):
+                    logger.info(f"Planned section '{s.get('heading')}' covers '{phrase}' — "
+                                f"skipping the generated one")
+                    return True
+        return False
+
+    def _generate_executive_summary(self, sections: list[dict], is_comparison: bool, entities: list[str], query: str | None = None) -> str:
         if not self.llm:
             return self._generate_intro_section(is_comparison, entities)
 
@@ -677,31 +1631,30 @@ class ReportWriterAgent:
 
         sections_text = "\n\n".join(section_summaries)
 
-        language_instruction = ""
-        if target_language == "arabic":
-            language_instruction = "\n\nIMPORTANT: Write the entire executive summary in Arabic (العربية). Use professional Arabic business terminology."
-        elif target_language == "spanish":
-            language_instruction = "\n\nIMPORTANT: Write the entire executive summary in Spanish. Use professional Spanish business terminology."
-        elif target_language == "french":
-            language_instruction = "\n\nIMPORTANT: Write the entire executive summary in French. Use professional French business terminology."
-
         query_context = f"\nUser's Original Request:\n{query}\n" if query else ""
 
         if is_comparison:
+            # Handle 2-10 entities comparison
+            if len(entities) == 2:
+                entity_description = f"{entities[0]} and {entities[1]}"
+            else:
+                entity_description = ", ".join(entities[:-1]) + f", and {entities[-1]}"
+
             prompt = f"""
-You are writing an executive summary for a comparison report between {entities[0]} and {entities[1]}.
+You are writing an executive summary for a comparison report between {len(entities)} entities: {entity_description}.
 {query_context}
 Based on the user's request and the following section summaries, create a 2-3 paragraph executive summary that:
 1. Directly addresses what the user asked for
-2. Highlights the most significant findings and differences relevant to their query
+2. Highlights the most significant findings and differences across all {len(entities)} entities
 3. Provides a clear overview of how the report answers their specific questions
+4. For tender/RFP comparisons, identify the strongest candidates based on the evaluation criteria
 
 Section Summaries:
 {sections_text}
 
 CRITICAL: Never use possessive forms (no apostrophes). Write "Oracle revenue" not "Oracle's revenue", "company performance" not "company's performance".
 
-Write in a professional, analytical tone. Focus on answering the user's specific request.{language_instruction}
+Write in a professional, analytical tone. Focus on answering the user's specific request.
 """
         else:
             prompt = f"""
@@ -717,17 +1670,17 @@ Section Summaries:
 
 CRITICAL: Never use possessive forms (no apostrophes). Write "Oracle revenue" not "Oracle's revenue", "company performance" not "company's performance".
 
-Write in a professional, analytical tone. Focus on answering the user's specific request.{language_instruction}
+Write in a professional, analytical tone. Focus on answering the user's specific request.
 """
 
         try:
-            response = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
+            response = self.llm.invoke([HumanMessage(content=prompt)]).content.strip()
             return response
         except Exception as e:
             logger.warning(f"Failed to generate executive summary: {e}")
             return self._generate_intro_section(is_comparison, entities)
 
-    def _generate_conclusion(self, sections: list[dict], is_comparison: bool, entities: list[str], target_language: str = "english", query: str | None = None) -> str:
+    def _generate_conclusion(self, sections: list[dict], is_comparison: bool, entities: list[str], query: str | None = None) -> str:
         if not self.llm:
             return "This analysis provides insights based on available data from retrieved documents."
 
@@ -749,32 +1702,31 @@ Write in a professional, analytical tone. Focus on answering the user's specific
 
         findings_text = "\n".join(key_findings[:8])
 
-        language_instruction = ""
-        if target_language == "arabic":
-            language_instruction = "\n\nIMPORTANT: Write the entire conclusion in Arabic (العربية). Use professional Arabic business terminology."
-        elif target_language == "spanish":
-            language_instruction = "\n\nIMPORTANT: Write the entire conclusion in Spanish. Use professional Spanish business terminology."
-        elif target_language == "french":
-            language_instruction = "\n\nIMPORTANT: Write the entire conclusion in French. Use professional French business terminology."
-
         query_context = f"\nUser's Original Request:\n{query}\n" if query else ""
 
         if is_comparison:
+            # Handle 2-10 entities comparison
+            if len(entities) == 2:
+                entity_description = f"{entities[0]} and {entities[1]}"
+            else:
+                entity_description = ", ".join(entities[:-1]) + f", and {entities[-1]}"
+
             prompt = f"""
-Based on the analysis of {entities[0]} and {entities[1]}, write a conclusion that directly answers the user's request.
+Based on the analysis of {len(entities)} entities ({entity_description}), write a conclusion that directly answers the user's request.
 {query_context}
 Key Findings:
 {findings_text}
 
 Write 2-3 paragraphs that:
 - Directly answer what the user asked for
-- Summarize the main differences and similarities relevant to their query
+- Summarize the main differences and similarities across all {len(entities)} entities
 - Provide actionable insights based on their specific needs
+- For tender/RFP comparisons, provide clear recommendations on which vendors best meet the requirements
 - Include specific recommendations if appropriate
 
 CRITICAL: Never use possessive forms (no apostrophes). Write "Oracle revenue" not "Oracle's revenue", "company growth" not "company's growth".
 
-Focus on providing value for the user's specific use case.{language_instruction}
+Focus on providing value for the user's specific use case.
 """
         else:
             prompt = f"""
@@ -791,11 +1743,11 @@ Write 2-3 paragraphs that:
 
 CRITICAL: Never use possessive forms (no apostrophes). Write "Oracle revenue" not "Oracle's revenue", "company growth" not "company's growth".
 
-Focus on providing value for the user's specific use case.{language_instruction}
+Focus on providing value for the user's specific use case.
 """
 
         try:
-            response = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
+            response = self.llm.invoke([HumanMessage(content=prompt)]).content.strip()
             return response
         except Exception as e:
             logger.warning(f"Failed to generate conclusion: {e}")
@@ -824,20 +1776,27 @@ Focus on providing value for the user's specific use case.{language_instruction}
 
     def _apply_document_styling(self, doc):
         from docx.shared import Pt, RGBColor
+
+        _ORACLE_RED = RGBColor(0xC7, 0x46, 0x34)
+        _CHARCOAL = RGBColor(0x31, 0x2D, 0x2A)
+
         style = doc.styles['Normal']
         font = style.font
-        font.name = 'Times New Roman'
-        font.size = Pt(12)
+        font.name = 'Calibri'
+        font.size = Pt(11)
+        font.color.rgb = _CHARCOAL
+
         heading1_style = doc.styles['Heading 1']
-        heading1_style.font.name = 'Times New Roman'
+        heading1_style.font.name = 'Calibri'
         heading1_style.font.size = Pt(18)
         heading1_style.font.bold = True
-        heading1_style.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
+        heading1_style.font.color.rgb = _ORACLE_RED
+
         heading2_style = doc.styles['Heading 2']
-        heading2_style.font.name = 'Times New Roman'
+        heading2_style.font.name = 'Calibri'
         heading2_style.font.size = Pt(14)
         heading2_style.font.bold = True
-        heading2_style.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
+        heading2_style.font.color.rgb = _CHARCOAL
 
     def _generate_report_title(self, is_comparison: bool, entities: list[str], query: str | None, sections: list[dict]) -> str:
         if query and self.llm:
@@ -851,7 +1810,7 @@ Type: {'Comparison' if is_comparison else 'Analysis'} Report
 CRITICAL: Never use possessive forms (no apostrophes). Write "Oracle Performance" not "Oracle's Performance".
 
 Return ONLY the title, no quotes or extra text."""
-                title = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
+                title = self.llm.invoke([HumanMessage(content=prompt)]).content.strip()
                 title = title.replace('"', '').replace("'", '').strip()
                 if len(title) > 100:
                     title = title[:97] + "..."
@@ -893,20 +1852,29 @@ Return ONLY the title, no quotes or extra text."""
         from docx.shared import Pt, RGBColor
         from docx.enum.text import WD_ALIGN_PARAGRAPH
 
+        _ORACLE_RED = RGBColor(0xC7, 0x46, 0x34)
+        _CHARCOAL = RGBColor(0x31, 0x2D, 0x2A)
+        _MID_GREY = RGBColor(0x74, 0x74, 0x74)
+
         title_paragraph = doc.add_heading(report_title, level=1)
         title_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         if is_comparison and len(entities) >= 2:
-            subtitle = f"Comparative Analysis: {entities[0]} and {entities[1]}"
+            if len(entities) == 2:
+                subtitle = f"Comparative Analysis: {entities[0]} and {entities[1]}"
+            else:
+                subtitle = f"Comparative Analysis: {', '.join(entities[:-1])} and {entities[-1]}"
         elif entities:
             subtitle = f"Analysis of {entities[0]}"
         else:
             subtitle = "Comprehensive Analysis Report"
 
-        subtitle_paragraph = doc.add_paragraph(subtitle)
+        subtitle_paragraph = doc.add_paragraph()
         subtitle_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        subtitle_run = subtitle_paragraph.runs[0]
+        subtitle_run = subtitle_paragraph.add_run(subtitle)
         subtitle_run.font.size = Pt(12)
+        subtitle_run.font.name = "Calibri"
+        subtitle_run.font.color.rgb = _CHARCOAL
         subtitle_run.italic = True
 
         now = datetime.datetime.now()
@@ -916,102 +1884,19 @@ Return ONLY the title, no quotes or extra text."""
         doc.add_paragraph()
         metadata_paragraph = doc.add_paragraph()
         metadata_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        metadata_text = f"Generated on {date_str} at {time_str}\nPowered by OCI Generative AI"
+        metadata_text = f"Generated on {date_str} at {time_str}\nModel: {self.model_name} | Powered by OCI Generative AI"
         metadata_run = metadata_paragraph.add_run(metadata_text)
-        metadata_run.font.size = Pt(10)
-        metadata_run.font.color.rgb = RGBColor(0x70, 0x70, 0x70)
+        metadata_run.font.size = Pt(9)
+        metadata_run.font.name = "Calibri"
+        metadata_run.font.color.rgb = _MID_GREY
 
         doc.add_paragraph()
-        separator = doc.add_paragraph("─" * 50)
+        separator = doc.add_paragraph()
         separator.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        separator_run = separator.runs[0]
-        separator_run.font.color.rgb = RGBColor(0x70, 0x70, 0x70)
+        sep_run = separator.add_run("─" * 50)
+        sep_run.font.color.rgb = _ORACLE_RED
+        sep_run.font.size = Pt(8)
         doc.add_paragraph()
-
-    def _detect_target_language(self, query: str | None) -> str:
-        if not query:
-            return "english"
-        q = query.lower()
-        arabic_indicators = [
-            "بالعربية", "باللغة العربية", "in arabic", "arabic report", "تقرير",
-            "تحليل", "باللغة العربيه", "عربي", "arabic language"
-        ]
-        arabic_chars = any('\u0600' <= char <= '\u06FF' for char in query)
-        if any(ind in q for ind in arabic_indicators) or arabic_chars:
-            return "arabic"
-        if "en español" in q or "in spanish" in q:
-            return "spanish"
-        if "en français" in q or "in french" in q:
-            return "french"
-        return "english"
-
-    def _ensure_language_consistency(self, sections: list[dict], target_language: str, query: str | None) -> list[dict]:
-        if not self.llm or target_language == "english":
-            return sections
-        logger.info(f"🔄 Ensuring language consistency for {target_language}")
-        corrected_sections = []
-        for section in sections:
-            corrected_section = section.copy()
-            heading = section.get("heading", "")
-            text = section.get("text", "")
-            table = section.get("table", [])
-
-            if heading and not self._is_in_target_language(heading, target_language):
-                corrected_section["heading"] = self._translate_text(heading, target_language, "section heading")
-            if text and not self._is_in_target_language(text, target_language):
-                corrected_section["text"] = self._translate_text(text, target_language, "section text")
-
-            if table and isinstance(table, list):
-                corrected_table = []
-                for row in table:
-                    if isinstance(row, dict):
-                        corrected_row = {}
-                        for key, value in row.items():
-                            k = str(key)
-                            v = str(value)
-                            translated_key = self._translate_text(k, target_language, "table header") if not self._is_in_target_language(k, target_language) else k
-                            # keep numeric strings unchanged
-                            if not self._is_in_target_language(v, target_language) and not v.replace('.', '').replace(',', '').isdigit():
-                                translated_value = self._translate_text(v, target_language, "table value")
-                            else:
-                                translated_value = v
-                            corrected_row[translated_key] = translated_value
-                        corrected_table.append(corrected_row)
-                corrected_section["table"] = corrected_table
-
-            corrected_sections.append(corrected_section)
-        return corrected_sections
-
-    def _is_in_target_language(self, text: str, target_language: str) -> bool:
-        if not text or target_language == "english":
-            return True
-        if target_language == "arabic":
-            arabic_chars = sum(1 for char in text if '\u0600' <= char <= '\u06FF')
-            total_chars = sum(1 for char in text if char.isalpha())
-            if total_chars == 0:
-                return True
-            return arabic_chars / total_chars > 0.3
-        return True
-
-    def _translate_text(self, text: str, target_language: str, context: str = "") -> str:
-        if not text or not self.llm:
-            return text
-        language_names = {"arabic": "Arabic", "spanish": "Spanish", "french": "French"}
-        target_lang_name = language_names.get(target_language, target_language.title())
-        prompt = f"""Translate the following {context} to {target_lang_name}. 
-Maintain the professional tone and technical accuracy. 
-If it's already in {target_lang_name}, return it unchanged.
-
-Text to translate: {text}
-
-Translation:"""
-        try:
-            response = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
-            logger.info(f"Translated {context}: '{text[:50]}...' → '{response[:50]}...'")
-            return response
-        except Exception as e:
-            logger.warning(f"Failed to translate {context}: {e}")
-            return text
 
     def _generate_intro_section(self, is_comparison: bool, entities: list[str]) -> str:
         if is_comparison:
@@ -1022,6 +1907,24 @@ Translation:"""
             f"{comparison_note} All data is sourced from retrieved documents and structured using LLM-based analysis.\n\n"
             "The analysis includes tables and charts where possible. Missing data is noted explicitly."
         )
+
+    def _organize_sections(self, sections: list[dict], query: str | None, entities: list[str]) -> list[dict]:
+        """
+        Order sections for the document.
+
+        The LLM-driven ordering is off by default. It has been failing on every
+        observed run with `unsupported operand type(s) for -: 'dict' and 'int'`
+        (_organize_sections_with_llm assumes the model returns section indices, but it
+        returns objects), then silently falling back to the flat order used here — so
+        it was costing a full serial round trip and an error line on screen to produce
+        the result we get for free. Set REPORT_ORGANIZE_SECTIONS=1 to re-enable, and
+        see §G of docs/rag_pipeline_fixes_2026-07-19.md for the underlying bug.
+        """
+        if os.environ.get("REPORT_ORGANIZE_SECTIONS", "").lower() in ("1", "true", "yes"):
+            return self._organize_sections_with_llm(sections, query, entities)
+
+        logger.debug("Section organisation: using planner order (LLM ordering disabled)")
+        return sections
 
     def _organize_sections_with_llm(self, sections: list[dict], query: str | None, entities: list[str]) -> list[dict]:
         if not query or not self.llm or not sections:
@@ -1070,7 +1973,7 @@ IMPORTANT:
 Return ONLY valid JSON."""
 
         try:
-            response = self.llm.invoke([type("Msg", (object,), {"content": prompt})()]).content.strip()
+            response = self.llm.invoke([HumanMessage(content=prompt)]).content.strip()
             import json, re
             json_match = re.search(r'\{.*\}', response, re.DOTALL)
             if json_match:
@@ -1115,129 +2018,425 @@ Return ONLY valid JSON."""
         return sections
 
     def _build_references_section(self, sections: list[dict]) -> tuple[dict, str]:
-        all_sources = []
-        citation_map = {}
-        citation_counter = 1
-        seen_sources = set()
-        for section in sections:
-            sources = section.get("sources", [])
-            for source in sources:
-                source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
-                if source_key not in seen_sources:
-                    all_sources.append(source)
-                    citation_map[source_key] = citation_counter
-                    citation_counter += 1
-                    seen_sources.add(source_key)
+        """Assign a global number to every distinct chunk used across the report and
+        render a reference list that quotes each chunk (not just its document).
 
-        references_text = []
-        for i, source in enumerate(all_sources, 1):
-            file_name = source.get("file", "Unknown")
-            sheet = source.get("sheet", "")
-            entity = source.get("entity", "")
-            if sheet:
-                ref_text = f"[{i}] {file_name}, Sheet: {sheet}"
-            else:
-                ref_text = f"[{i}] {file_name}"
-            if entity:
-                ref_text += f" ({entity})"
-            references_text.append(ref_text)
+        Falls back to document-level sources for sections that carry no chunk refs
+        (e.g. synthesis sections), so nothing is silently un-cited."""
+        citation_map: dict = {}
+        counter = 1
+        references_text: list[str] = []
+
+        # Primary path: chunk-level references.
+        for section in sections:
+            for ref in section.get("chunk_refs", []) or []:
+                key = _chunk_ref_key(ref)
+                if key in citation_map:
+                    continue
+                citation_map[key] = counter
+                file_name = ref.get("file", "Unknown")
+                entity = ref.get("entity", "")
+                page = ref.get("page")
+                excerpt = ref.get("excerpt", "")
+                loc = f", p.{page}" if page not in (None, "", "None") else ""
+                who = f" ({entity})" if entity else ""
+                references_text.append(f'[{counter}] {file_name}{who}{loc} — "{excerpt}"')
+                counter += 1
+
+        # Fallback: if no chunk refs existed at all, keep the old document-level list.
+        if not references_text:
+            seen_sources = set()
+            for section in sections:
+                for source in section.get("sources", []):
+                    source_key = f"{source.get('file', 'Unknown')}_{source.get('sheet', '')}_{source.get('entity', '')}"
+                    if source_key in seen_sources:
+                        continue
+                    seen_sources.add(source_key)
+                    citation_map[source_key] = counter
+                    file_name = source.get("file", "Unknown")
+                    sheet = source.get("sheet", "")
+                    entity = source.get("entity", "")
+                    ref_text = f"[{counter}] {file_name}" + (f", Sheet: {sheet}" if sheet else "")
+                    if entity:
+                        ref_text += f" ({entity})"
+                    references_text.append(ref_text)
+                    counter += 1
 
         return citation_map, "\n".join(references_text)
+    
+    def _is_multi_vendor_comparison(self, sections: list[dict]) -> bool:
+        """Check if this is a multi-vendor comparison (n > 2 vendors)"""
+        # Check the first few sections to determine if this is a vendor comparison
+        for section in sections[:3]:  # Check first 3 sections
+            entities = section.get("entities", [])
+            is_comparison = section.get("is_comparison", False)
+            is_tender = section.get("is_tender", False)
+            
+            # Multi-vendor comparison if:
+            # 1. More than 2 entities AND
+            # 2. It's a comparison AND
+            # 3. It's a tender/RFP/vendor comparison
+            if len(entities) > 2 and is_comparison and is_tender:
+                return True
+                
+            # Also check section headings for vendor/tender/RFP keywords
+            heading = section.get("heading", "").lower()
+            if len(entities) > 2 and is_comparison:
+                vendor_keywords = ["vendor", "tender", "rfp", "proposal", "bid", "supplier", "quotation"]
+                if any(keyword in heading for keyword in vendor_keywords):
+                    return True
+        
+        return False
+    
 
-    def write_report(self, sections: list[dict], filter_failures: bool = True, query: str | None = None) -> str:
+
+
+
+    def _create_vendor_comparison_visualization(self, sections: list[dict]) -> str | None:
+        """Create a comprehensive visualization table for multi-vendor comparisons"""
+        try:
+            # Extract vendor names and metrics from all sections
+            vendors = set()
+            all_metrics = {}
+            
+            for section in sections:
+                entities = section.get("entities", [])
+                if entities and len(entities) > 2:
+                    vendors.update(entities)
+                
+                # Extract metrics from tables
+                table_data = section.get("table", [])
+                if isinstance(table_data, list):
+                    for row in table_data:
+                        if isinstance(row, dict) and "Metric" in row:
+                            metric_name = row["Metric"]
+                            if metric_name not in all_metrics:
+                                all_metrics[metric_name] = {}
+                            
+                            for vendor in entities:
+                                if vendor in row:
+                                    all_metrics[metric_name][vendor] = row[vendor]
+            
+            if not vendors or not all_metrics:
+                logger.warning("No vendor data found for visualization")
+                return None
+            
+            vendors = sorted(list(vendors))
+            
+            # Create the visualization
+            fig, ax = plt.subplots(figsize=(14, max(8, len(all_metrics) * 0.5 + 2)))
+            ax.axis('tight')
+            ax.axis('off')
+            
+            # Prepare table data
+            table_headers = ["Evaluation Criteria"] + vendors
+            table_rows = []
+            
+            # Color mapping for ratings
+            color_map = {
+                'green': '#90EE90',      # Light green
+                'yellow': '#FFFFE0',     # Light yellow
+                'red': '#FFB6C1',        # Light red
+                'excellent': '#90EE90',
+                'good': '#B4EEB4',
+                'fair': '#FFFFE0',
+                'poor': '#FFB6C1',
+                'best': '#90EE90',
+                'n/a': '#F0F0F0'
+            }
+
+            # Determine wrap width dynamically
+            wrap_width = int(25 * (14 / fig.get_size_inches()[0]))
+            
+            # Process metrics and create rows
+            for metric, vendor_values in all_metrics.items():
+                wrapped_metric = textwrap.fill(metric, wrap_width)
+                row = [wrapped_metric]
+                row_colors = ['#E6E6FA']  # Lavender for metric column
+                
+                for vendor in vendors:
+                    value = vendor_values.get(vendor, "N/A")
+                    wrapped_value = textwrap.fill(str(value), wrap_width)
+                    row.append(wrapped_value)
+                    
+                    # Determine cell color based on value
+                    value_lower = str(value).lower()
+                    cell_color = '#FFFFFF'  # Default white
+                    
+                    # Check for color-coded words
+                    for keyword, color in color_map.items():
+                        if keyword in value_lower:
+                            cell_color = color
+                            break
+                    
+                    # Check for numeric comparisons
+                    if cell_color == '#FFFFFF' and value != "N/A":
+                        try:
+                            numeric_value = float(str(value).replace('%', '').replace(',', ''))
+                            all_nums = []
+                            for v in vendor_values.values():
+                                try:
+                                    num = float(str(v).replace('%', '').replace(',', ''))
+                                    all_nums.append(num)
+                                except:
+                                    pass
+                            if all_nums:
+                                min_val = min(all_nums)
+                                max_val = max(all_nums)
+                                if max_val > min_val:
+                                    norm_value = (numeric_value - min_val) / (max_val - min_val)
+                                    if norm_value > 0.66:
+                                        cell_color = '#90EE90'
+                                    elif norm_value > 0.33:
+                                        cell_color = '#FFFFE0'
+                                    else:
+                                        cell_color = '#FFB6C1'
+                        except:
+                            pass
+                    
+                    row_colors.append(cell_color)
+                
+                table_rows.append((row, row_colors))
+            
+            # Create the table
+            table_data = []
+            cell_colors = []
+            
+            # Add header row
+            header_colors = ['#4472C4'] * len(table_headers)
+            table_data.append([textwrap.fill(h, wrap_width) for h in table_headers])
+            cell_colors.append(header_colors)
+            
+            # Add data rows
+            for row, colors in table_rows:
+                table_data.append(row)
+                cell_colors.append(colors)
+            
+            # Create table with styling
+            table = ax.table(
+                cellText=table_data,
+                cellLoc='center',
+                loc='center',
+                colWidths=[0.25] + [0.15] * len(vendors),
+                cellColours=cell_colors
+            )
+            
+            # Style the table
+            table.auto_set_font_size(False)
+            table.set_fontsize(9)
+            table.scale(1, 2.2)  # slightly taller for wrapped text
+            
+            # Bold headers
+            for i in range(len(table_headers)):
+                cell = table[(0, i)]
+                cell.set_text_props(weight='bold', color='white')
+                cell.set_height(0.1)
+            
+            # Set row heights and text properties
+            for i in range(1, len(table_data)):
+                for j in range(len(table_headers)):
+                    cell = table[(i, j)]
+                    cell.set_height(0.08)
+                    if j == 0:  # Metric column
+                        cell.set_text_props(weight='bold')
+        
+            
+            # Add legend
+            legend_elements = [
+                mpatches.Patch(color='#90EE90', label='Excellent/Best'),
+                mpatches.Patch(color='#B4EEB4', label='Good'),
+                mpatches.Patch(color='#FFFFE0', label='Fair/Average'),
+                mpatches.Patch(color='#FFB6C1', label='Poor/Below Average'),
+                mpatches.Patch(color='#F0F0F0', label='N/A')
+            ]
+            ax.legend(handles=legend_elements, loc='upper center', bbox_to_anchor=(0.5, -0.05),
+                    ncol=5, frameon=False, fontsize=8)
+            
+            
+            # Save the figure
+            filename = f"vendor_comparison_matrix_{uuid.uuid4().hex}.png"
+            os.makedirs("charts", exist_ok=True)
+            path = os.path.join("charts", filename)
+            fig.savefig(path, dpi=300, bbox_inches='tight', pad_inches=0.5)
+            plt.close(fig)
+            
+            logger.info(f"✅ Created vendor comparison visualization: {path}")
+            return path
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to create vendor comparison visualization: {e}")
+            return None
+
+
+    def write_report(self, sections: list[dict], filter_failures: bool = True, query: str | None = None, output_dir: str = "reports") -> str:
         if not isinstance(sections, list):
             raise TypeError("Expected list of sections")
-
-        target_language = self._detect_target_language(query)
-        logger.info(f"🌐 Detected target language: {target_language}")
 
         if filter_failures:
             sections = self._filter_failed_sections(sections)
             logger.info(f"📊 After filtering failures: {len(sections)} sections remaining")
 
-        if target_language != "english":
-            sections = self._ensure_language_consistency(sections, target_language, query)
-
         doc = Document()
         self._apply_document_styling(doc)
 
-        reports_dir = "reports"
+        reports_dir = output_dir
         os.makedirs(reports_dir, exist_ok=True)
 
-        # NEW: infer comparison/entity context from first valid section (or defaults)
-        is_comparison = False
+        # Infer comparison/entity context across ALL sections, not the first one that
+        # happens to carry entities. Section order is planner-controlled, so a single
+        # section that reports is_comparison=False (a synthesis section, say) must not
+        # decide the whole report's header just by sorting first.
+        is_comparison = any(bool(s.get("is_comparison")) for s in sections)
         entities: list[str] = []
         for s in sections:
-            if "entities" in s:
-                entities = list(s.get("entities") or [])
-            if "is_comparison" in s:
-                is_comparison = bool(s.get("is_comparison"))
-            if entities:
-                break
+            candidate = list(s.get("entities") or [])
+            if len(candidate) > len(entities):
+                entities = candidate
 
-        report_title = self._generate_report_title(is_comparison, entities, query, sections)
-        self._add_report_header(doc, report_title, is_comparison, entities)
+        # Two or more entities in play is a comparison regardless of what any
+        # individual section claimed.
+        if len(entities) >= 2:
+            is_comparison = True
+
+        rendered_charts: set = set()
+
+        # The planner may emit its own "Executive Summary" / "Conclusion" section
+        # (role="synthesize"). Generating the hardcoded ones too would duplicate it.
+        need_exec_summary = not self._has_section_titled(sections, "Executive Summary")
+        need_conclusion = not self._has_section_titled(sections, "Conclusion")
 
         from concurrent.futures import ThreadPoolExecutor
         if self.llm:
-            with ThreadPoolExecutor(max_workers=2) as summary_executor:
+            with ThreadPoolExecutor(max_workers=3) as summary_executor:
+                # Title, summary and conclusion are mutually independent — all three
+                # read the finished sections and none reads another's output. The
+                # title used to be generated serially before this block, blocking
+                # everything behind a full round trip for one line of text.
+                title_future = summary_executor.submit(
+                    self._generate_report_title, is_comparison, entities, query, sections
+                )
                 summary_future = summary_executor.submit(
-                    self._generate_executive_summary, sections, is_comparison, entities, target_language, query
-                )
+                    self._generate_executive_summary, sections, is_comparison, entities, query
+                ) if need_exec_summary else None
                 conclusion_future = summary_executor.submit(
-                    self._generate_conclusion, sections, is_comparison, entities, target_language, query
-                )
+                    self._generate_conclusion, sections, is_comparison, entities, query
+                ) if need_conclusion else None
 
-                doc.add_heading("Executive Summary", level=2)
-                executive_summary = summary_future.result()
-                add_inline_markdown_paragraph(doc, executive_summary)
-                doc.add_paragraph(executive_summary)
-                doc.add_paragraph()
+                report_title = title_future.result()
+                self._add_report_header(doc, report_title, is_comparison, entities)
 
-                organized_sections = self._organize_sections_with_llm(sections, query, entities)
+                if summary_future is not None:
+                    doc.add_heading("Executive Summary", level=2)
+                    executive_summary = summary_future.result()
+                    add_inline_markdown_paragraph(doc, executive_summary)
+                    doc.add_paragraph()
+
+                organized_sections = self._organize_sections(sections, query, entities)
                 citation_map, references_text = self._build_references_section(organized_sections)
 
+                # Check if this is a multi-vendor comparison
+                is_multi_vendor = self._is_multi_vendor_comparison(organized_sections)
+                
                 for section in organized_sections:
                     if section.get("is_category_header"):
                         doc.add_heading(section.get("heading", "Category"), level=1)
                     else:
                         level = section.get("level", 2)
-                        append_to_doc(doc, section, level=level, citation_map=citation_map)
+                        # Skip individual charts for multi-vendor comparisons
+                        append_to_doc(doc, section, level=level, citation_map=citation_map, skip_charts=is_multi_vendor, rendered_charts=rendered_charts)
                         doc.add_paragraph()
+                
+                # Add comprehensive vendor comparison visualization at the end
+                if is_multi_vendor:
+                    doc.add_heading("Vendor Comparison Summary", level=1)
+                    doc.add_paragraph("The following matrix provides a comprehensive visual comparison of all vendors across the evaluated criteria:")
+                    
+                    viz_path = self._create_vendor_comparison_visualization(organized_sections)
+                    if viz_path:
+                        doc.add_picture(viz_path, width=Inches(7))
+                        last_paragraph = doc.paragraphs[-1]
+                        last_paragraph.alignment = 1  # center
+                    else:
+                        doc.add_paragraph("(Vendor comparison visualization could not be generated)")
 
-                doc.add_heading("Conclusion", level=2)
-                conclusion = conclusion_future.result()
-                add_inline_markdown_paragraph(doc, conclusion)
-                doc.add_paragraph(conclusion)
+                if conclusion_future is not None:
+                    doc.add_heading("Conclusion", level=2)
+                    conclusion = conclusion_future.result()
+                    add_inline_markdown_paragraph(doc, conclusion)
 
                 if references_text:
                     doc.add_paragraph()
                     doc.add_heading("References", level=2)
-                    doc.add_paragraph(references_text)
+                    for _ref_line in references_text.split("\n"):
+                        if _ref_line.strip():
+                            doc.add_paragraph(_ref_line)
         else:
-            doc.add_heading("Executive Summary", level=2)
-            executive_summary = self._generate_intro_section(is_comparison, entities)
-            doc.add_paragraph(executive_summary)
-            doc.add_paragraph()
+            # No LLM: the title falls back to its deterministic template.
+            report_title = self._generate_report_title(is_comparison, entities, query, sections)
+            self._add_report_header(doc, report_title, is_comparison, entities)
 
-            citation_map, references_text = self._build_references_section(sections)
-            for section in sections:
-                append_to_doc(doc, section, level=2, citation_map=citation_map)
+            if need_exec_summary:
+                doc.add_heading("Executive Summary", level=2)
+                executive_summary = self._generate_intro_section(is_comparison, entities)
+                doc.add_paragraph(executive_summary)
                 doc.add_paragraph()
 
-            doc.add_heading("Conclusion", level=2)
-            conclusion = "This analysis provides insights based on available data from retrieved documents."
-            doc.add_paragraph(conclusion)
+            citation_map, references_text = self._build_references_section(sections)
+            
+            # Check if this is a multi-vendor comparison
+            is_multi_vendor = self._is_multi_vendor_comparison(sections)
+            
+            for section in sections:
+                # Skip individual charts for multi-vendor comparisons
+                append_to_doc(doc, section, level=2, citation_map=citation_map, skip_charts=is_multi_vendor, rendered_charts=rendered_charts)
+                doc.add_paragraph()
+            
+            # Add comprehensive vendor comparison visualization at the end
+            if is_multi_vendor:
+                doc.add_heading("Vendor Comparison Summary", level=1)
+                doc.add_paragraph("The following matrix provides a comprehensive visual comparison of all vendors across the evaluated criteria:")
+                
+                viz_path = self._create_vendor_comparison_visualization(sections)
+                if viz_path:
+                    doc.add_picture(viz_path, width=Inches(7))
+                    last_paragraph = doc.paragraphs[-1]
+                    last_paragraph.alignment = 1  # center
+                else:
+                    doc.add_paragraph("(Vendor comparison visualization could not be generated)")
+
+            if need_conclusion:
+                doc.add_heading("Conclusion", level=2)
+                conclusion = "This analysis provides insights based on available data from retrieved documents."
+                doc.add_paragraph(conclusion)
             if references_text:
                 doc.add_paragraph()
                 doc.add_heading("References", level=2)
-                doc.add_paragraph(references_text)
+                for _ref_line in references_text.split("\n"):
+                    if _ref_line.strip():
+                        doc.add_paragraph(_ref_line)
 
         now = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"report_{self.model_name}_{now}.docx"
         filepath = os.path.join(reports_dir, filename)
         save_doc(doc, filepath)
         return filepath
+
+    def write_report_typed(
+        self,
+        sections: List[SectionDraft],
+        *,
+        query: str = "",
+        output_dir: str = "reports",
+    ) -> ReportResult:
+        """Write the report and return a typed ReportResult model."""
+        legacy_sections = [s.to_legacy_dict() for s in sections]
+        report_path = self.write_report(legacy_sections, query=query, output_dir=output_dir)
+        total_chunks = sum(s.chunks_used for s in sections)
+        return ReportResult(
+            report_path=report_path,
+            sections=sections,
+            total_chunks_used=total_chunks,
+        )
 
 
 # Example usage
