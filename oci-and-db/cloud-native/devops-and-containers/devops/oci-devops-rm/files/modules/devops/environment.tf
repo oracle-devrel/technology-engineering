@@ -1,8 +1,10 @@
 resource "oci_devops_deploy_environment" "oke_environment" {
+  count = local.oke_environments_required ? 1 : 0
+
   deploy_environment_type = "OKE_CLUSTER"
-  project_id              = oci_devops_project.devops_project.id
+  project_id              = local.devops_project_id
   cluster_id              = var.oke_cluster_id
-  display_name            = data.oci_containerengine_cluster.oke_cluster.name
+  display_name            = data.oci_containerengine_cluster.oke_cluster[0].name
   description             = "Pre-prod OKE cluster for Helm delivery"
 
   network_channel {
@@ -20,10 +22,12 @@ resource "oci_devops_deploy_environment" "oke_environment" {
 }
 
 resource "oci_devops_deploy_environment" "prod_oke_environment" {
+  count = local.oke_environments_required ? 1 : 0
+
   deploy_environment_type = "OKE_CLUSTER"
-  project_id              = oci_devops_project.devops_project.id
+  project_id              = local.devops_project_id
   cluster_id              = local.prod_oke_cluster_id
-  display_name            = data.oci_containerengine_cluster.prod_oke_cluster.name
+  display_name            = data.oci_containerengine_cluster.prod_oke_cluster[0].name
   description             = "Production OKE cluster for release deployments"
 
   network_channel {

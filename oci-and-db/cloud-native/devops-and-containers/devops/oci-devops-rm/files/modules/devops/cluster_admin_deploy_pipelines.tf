@@ -1,7 +1,7 @@
 resource "oci_devops_deploy_pipeline" "cluster_admin" {
   for_each = local.cluster_admin_clusters
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "cluster-admin-${each.key}"
   description  = "Applies the cluster baseline and Kubernetes tool DAG to the ${each.key} OKE cluster"
   freeform_tags = merge(local.cluster_admin_tags, {
@@ -38,7 +38,7 @@ resource "oci_devops_deploy_pipeline" "cluster_admin" {
 resource "oci_devops_deploy_pipeline" "cluster_admin_decommission" {
   for_each = local.cluster_admin_clusters
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "cluster-admin-${each.key}-decommission"
   description  = "Manually uninstalls one cluster tool from the ${each.key} OKE cluster"
   freeform_tags = merge(local.cluster_admin_tags, {
@@ -108,7 +108,7 @@ resource "oci_devops_deploy_stage" "cluster_admin_orchestrator" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {
@@ -188,7 +188,7 @@ resource "oci_devops_deploy_stage" "cluster_admin_decommission" {
 
   container_config {
     container_config_type = "CONTAINER_INSTANCE_CONFIG"
-    compartment_id        = var.compartment_id
+    compartment_id        = local.devops_project_compartment_id
     shape_name            = "CI.Standard.E4.Flex"
 
     shape_config {

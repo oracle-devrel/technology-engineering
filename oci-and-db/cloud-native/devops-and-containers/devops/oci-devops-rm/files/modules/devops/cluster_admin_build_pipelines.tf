@@ -1,7 +1,7 @@
 resource "oci_devops_build_pipeline" "cluster_admin_build" {
   for_each = local.cluster_admin_singleton
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "cluster-admin-build"
   description  = "Validates changed cluster configuration, publishes immutable plans and values, and dispatches cluster orchestrators"
 
@@ -52,7 +52,7 @@ resource "oci_devops_build_pipeline_stage" "cluster_admin_build" {
 resource "oci_devops_build_pipeline" "cluster_admin_mirror" {
   for_each = local.cluster_admin_singleton
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "cluster-admin-mirror-charts"
   description  = "Mirrors all missing public Kubernetes tool chart versions from the cluster-admin catalog into OCIR"
 
@@ -103,7 +103,7 @@ resource "oci_devops_build_pipeline_stage" "cluster_admin_mirror" {
 resource "oci_devops_build_pipeline" "cluster_admin_pr" {
   for_each = local.cluster_admin_singleton
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "cluster-admin-pr"
   description  = "Validates cluster administration pull requests without accessing an OKE cluster"
 

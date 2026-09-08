@@ -2,7 +2,12 @@
 
 This repository contains the source code for the `${component_name}` component.
 
-Use this repository for application code, tests, and the component-owned pull request build spec. Do not put Helm charts or values here; chart changes belong in the separate `${chart_repository_name}` repository.
+Use this repository for application code, tests, and the component-owned pull request build spec.
+%{ if delivery_enabled ~}
+Do not put Helm charts or values here; chart changes belong in the separate `${chart_repository_name}` repository.
+%{ else ~}
+This stack is running in build-only mode. Deployment manifests and environment configuration belong to the external delivery system.
+%{ endif ~}
 
 Important files:
 
@@ -20,9 +25,13 @@ Normal development flow:
 1. Open a pull request to `main`.
 2. The `${component_name}-pr` pipeline runs the component-owned checks.
 3. After merge, `${component_name}-build` builds a multi-architecture image tagged with the 7-character commit SHA.
+%{ if delivery_enabled ~}
 4. The successful build deploys the dev release.
 5. Run `${component_name}-release-build` with a release candidate tag such as `1.0.0-rc.1` to promote the selected image.
 6. After production deployment and final Git tagging, OCI DevOps finishes by reporting the Helm release status, resources, history, notes, and namespace release listing.
+%{ else ~}
+4. Update the external GitOps or deployment repository through its normal reviewed workflow to consume that immutable image tag.
+%{ endif ~}
 
 The build pipeline reads this contract file:
 

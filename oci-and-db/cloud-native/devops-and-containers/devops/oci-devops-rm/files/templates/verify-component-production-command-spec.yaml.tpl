@@ -54,8 +54,8 @@ steps:
       export KUBECONFIG="$${OCI_WORKSPACE_DIR}/kubeconfig"
       command -v helm >/dev/null 2>&1 || { echo "helm is not available in the deployment shell runner" >&2; exit 1; }
 
-      echo "=== Release status and resources ==="
-      helm status "$${release}" --namespace "$${namespace}" --show-resources
+      echo "=== Release status ==="
+      helm status "$${release}" --namespace "$${namespace}"
 
       echo "=== Release history ==="
       helm history "$${release}" --namespace "$${namespace}" --max 10

@@ -7,6 +7,42 @@ variable "devops_compartment_id" {
   default = null
 }
 
+variable "create_devops_project" {
+  description = "Create a new OCI DevOps project. When false, generated resources are added to existing_devops_project_id."
+  type        = bool
+  default     = true
+}
+
+variable "existing_devops_project_id" {
+  description = "Existing OCI DevOps project OCID used when create_devops_project is false."
+  default     = null
+}
+
+variable "application_delivery_mode" {
+  description = "Application workflow created by this stack: full OCI DevOps delivery or build-only CI for an external deployment system."
+  type        = string
+  default     = "oci_devops"
+
+  validation {
+    condition     = contains(["oci_devops", "build_only"], var.application_delivery_mode)
+    error_message = "application_delivery_mode must be either oci_devops or build_only."
+  }
+}
+
+variable "devops_pipeline_repository_name" {
+  description = "Name of the shared OCI DevOps repository containing build specifications and helper scripts."
+  type        = string
+  default     = "devops-pipelines"
+
+  validation {
+    condition = (
+      can(regex("^[A-Za-z0-9][A-Za-z0-9._-]*$", var.devops_pipeline_repository_name)) &&
+      length(var.devops_pipeline_repository_name) <= 100
+    )
+    error_message = "devops_pipeline_repository_name must contain 1-100 letters, numbers, periods, underscores, or hyphens and begin with a letter or number."
+  }
+}
+
 variable "devops_project_name" {
   default = "oke-devops-starter"
 
@@ -67,24 +103,16 @@ variable "oke_compartment_id" {
   default = null
 }
 
-variable "oke_cluster_id" {}
+variable "oke_cluster_id" {
+  default = null
+}
 
 variable "prod_oke_cluster_id" {
   default = null
-
-  validation {
-    condition     = try(trimspace(var.prod_oke_cluster_id), "") != ""
-    error_message = "prod_oke_cluster_id is required for the production OKE environment."
-  }
 }
 
 variable "prod_oke_compartment_id" {
   default = null
-
-  validation {
-    condition     = try(trimspace(var.prod_oke_compartment_id), "") != ""
-    error_message = "prod_oke_compartment_id is required for the production OKE cluster."
-  }
 }
 
 variable "network_compartment_id" {
@@ -93,11 +121,6 @@ variable "network_compartment_id" {
 
 variable "prod_network_compartment_id" {
   default = null
-
-  validation {
-    condition     = try(trimspace(var.prod_network_compartment_id), "") != ""
-    error_message = "prod_network_compartment_id is required for the production OKE network configuration."
-  }
 }
 
 variable "oke_vcn_id" {
@@ -106,20 +129,10 @@ variable "oke_vcn_id" {
 
 variable "prod_oke_vcn_id" {
   default = null
-
-  validation {
-    condition     = try(trimspace(var.prod_oke_vcn_id), "") != ""
-    error_message = "prod_oke_vcn_id is required for the production OKE network configuration."
-  }
 }
 
 variable "oke_worker_subnet_id" {
   default = null
-
-  validation {
-    condition     = try(trimspace(var.oke_worker_subnet_id), "") != ""
-    error_message = "oke_worker_subnet_id is required for application bootstrap shell stage execution."
-  }
 }
 
 variable "oke_worker_nsg_id" {
@@ -128,11 +141,6 @@ variable "oke_worker_nsg_id" {
 
 variable "prod_oke_worker_subnet_id" {
   default = null
-
-  validation {
-    condition     = try(trimspace(var.prod_oke_worker_subnet_id), "") != ""
-    error_message = "prod_oke_worker_subnet_id is required for production private endpoint and shell stage execution."
-  }
 }
 
 variable "prod_oke_worker_nsg_id" {
@@ -250,19 +258,6 @@ variable "applications" {
       ])) == length(jsondecode(var.applications))
     ) : true
     error_message = "Application namespaces must be unique within both the noprod and prod clusters."
-  }
-
-  validation {
-    condition = can(jsondecode(var.applications)) ? length(distinct(concat(
-      ["pipelines", "cluster-admin"],
-      [for application in jsondecode(var.applications) : try(application.chart_repository_name, "${application.name}-chart")],
-      flatten([for application in jsondecode(var.applications) : [for component in application.components : component.name]])
-      ))) == length(concat(
-      ["pipelines", "cluster-admin"],
-      [for application in jsondecode(var.applications) : try(application.chart_repository_name, "${application.name}-chart")],
-      flatten([for application in jsondecode(var.applications) : [for component in application.components : component.name]])
-    )) : true
-    error_message = "Derived repository names must be unique and cannot collide with the reserved pipelines or cluster-admin repositories."
   }
 
   validation {
