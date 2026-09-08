@@ -85,8 +85,8 @@ class CatalogService:
     @staticmethod
     def _humanize_template_name(filename: str) -> str:
         special_names = {
-            "project_google_adbs_template.auto.tfvars.json": "Google ADB-S",
-            "project_nsgs_template.auto.tfvars.json": "Project NSGs",
+            "project_google_adbs_template.json": "Google ADB-S",
+            "project_nsgs_template.json": "Project NSGs",
         }
         if filename in special_names:
             return special_names[filename]
