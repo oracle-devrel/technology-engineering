@@ -14,6 +14,7 @@ The stack creates delivery capabilities with access to source repositories, OCIR
 
 - Prefer a dedicated dynamic group and narrowly scoped policies for OCI DevOps execution resources.
 - Restrict Vault secret access to the configured Vault compartment and only the identities that run namespace initialization.
+- The stack creates its dedicated `secret-family` read policy inside the configured Vault compartment, separately from the policy created in the DevOps project compartment.
 - Separate stack maintainers, application release approvers, and cluster production approvers where organizational controls require it.
 - Review manually customized pipelines before expanding their IAM permissions.
 

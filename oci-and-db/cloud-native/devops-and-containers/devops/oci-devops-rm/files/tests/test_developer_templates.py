@@ -139,7 +139,7 @@ class DeveloperTemplateTests(unittest.TestCase):
             source,
         )
         self.assertIn(
-            "command_spec_deploy_artifact_id = oci_devops_deploy_artifact.application_bootstrap_command_spec.id",
+            "command_spec_deploy_artifact_id = oci_devops_deploy_artifact.application_bootstrap_command_spec[0].id",
             source,
         )
         self.assertNotIn('resource "oci_devops_deploy_pipeline" "namespace_init"', source)
@@ -180,7 +180,7 @@ class DeveloperTemplateTests(unittest.TestCase):
         self.assertIn('resource "oci_devops_deploy_stage" "verify_component_prod"', source)
         self.assertNotIn('resource "oci_devops_deploy_stage" "verify_component"', source)
         self.assertIn(
-            "command_spec_deploy_artifact_id = oci_devops_deploy_artifact.component_verify_deployment_command_spec.id",
+            "command_spec_deploy_artifact_id = oci_devops_deploy_artifact.component_verify_deployment_command_spec[0].id",
             source,
         )
         self.assertIn(
@@ -200,6 +200,7 @@ class DeveloperTemplateTests(unittest.TestCase):
             "templates/verify-component-production-command-spec.yaml.tpl"
         )
         self.assertIn('helm status "$${release}"', command_spec)
+        self.assertNotIn("--show-resources", command_spec)
         self.assertIn('helm history "$${release}"', command_spec)
         self.assertIn('helm get notes "$${release}"', command_spec)
         self.assertIn('helm list --namespace "$${namespace}"', command_spec)
@@ -218,11 +219,11 @@ class DeveloperTemplateTests(unittest.TestCase):
         self.assertIn("Applications are limited to 46 characters", variables)
         self.assertIn("components to 45", variables)
         self.assertIn("Application namespaces must be unique", variables)
-        self.assertIn("Derived repository names must be unique", variables)
         self.assertIn("Chart repository names and paths must use safe lowercase relative naming", variables)
 
         checks = self.read("checks.tf")
         self.assertIn('check "recommended_application_scale"', checks)
+        self.assertIn("Derived repository names must be unique", checks)
         self.assertIn("local.component_count <= 50", checks)
 
     def test_deployment_parameter_descriptions_do_not_use_html_placeholders(self):

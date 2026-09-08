@@ -34,7 +34,7 @@ Default sample:
 
 ## Repositories
 
-- Shared pipeline repository: `pipelines`
+- Shared pipeline repository: `devops-pipelines` by default; configurable with `devops_pipeline_repository_name`
 - Application chart repository: `<application>-chart`
 - Component source repository: `<component>`
 
