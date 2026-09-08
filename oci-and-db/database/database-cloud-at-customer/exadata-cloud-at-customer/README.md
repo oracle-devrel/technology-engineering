@@ -2,7 +2,7 @@
 
 Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, and economics of Exadata Database Service and the fully managed Autonomous AI Database into enterprise data centers. It’s the simplest way for customers to start using cloud database resources in their data centers and help address strict data residency requirements. Exadata Cloud@Customer incorporates unique optimizations that let Oracle AI Database workloads run faster with less management and lower costs so organizations can get more value from their data. Oracle offers both autonomous and co-managed Oracle Database cloud solutions on Exadata Cloud@Customer.
 
-Reviewed: 29/07/26
+Reviewed: 07/09/26
 
 # Table of Contents
 - [Useful Links](#useful-links)
@@ -47,44 +47,44 @@ A short video series covering different aspects of the Oracle Exadata Cloud@Cust
 
 **Episode 1 - Introductions to Exadata Cloud@Customer:**
 
-[![Episode 1 - Introduction](files/images/Ep1_TN.jpg "Episode 1 - Introduction")](https://lnkd.in/gb9pHt8Z)
+[![Episode 1 - Introduction](./images/Ep1_TN.jpg "Episode 1 - Introduction")](https://lnkd.in/gb9pHt8Z)
 
 **Episode 2 - Exadata Cloud@Customer Networking:**
 
-[![Episode 2 - Networking](files/images/Ep2_TN.jpg "Episode 2 - Networking")](https://lnkd.in/e2YcMUn5)
+[![Episode 2 - Networking](./images/Ep2_TN.jpg "Episode 2 - Networking")](https://lnkd.in/e2YcMUn5)
 
 **Episode 3 - VM Clusters on Exadata Cloud@Customer:**
 
-[![Episode 3 - VM Clusters](files/images/Ep3_TN.jpg "Episode 3 - VM Clusters")](https://lnkd.in/gdTmDbFw)
+[![Episode 3 - VM Clusters](./images/Ep3_TN.jpg "Episode 3 - VM Clusters")](https://lnkd.in/gdTmDbFw)
 
 **Episode 4 - Exadata Cloud@Customer X11M Introduction:**
 
-[![Episode 4 - X11M](files/images/Ep4_TN.jpg "Episode 4 - X11M")](https://lnkd.in/e7C96jBx)
+[![Episode 4 - X11M](./images/Ep4_TN.jpg "Episode 4 - X11M")](https://lnkd.in/e7C96jBx)
 
 **Episode 5 - Autonomous Database on Exadata Cloud@Customer:**
 
-[![Episode 5 - X11M](files/images/Ep5_TN.jpg "Episode 5 - Autonomous Database")](https://lnkd.in/eQkZzKvk)
+[![Episode 5 - X11M](./images/Ep5_TN.jpg "Episode 5 - Autonomous Database")](https://lnkd.in/eQkZzKvk)
 
 The below videos are showcasing best practices and how-to's with a technical and hands-on approach.
 
 **Learn how to optimize Exadata Database Service performance using IORM (I/O Resource Manager):** 
-[![IORM](files/images/Ep5_TN.jpg "Exadata Database Service Resource Management – IORM")](https://youtu.be/vXkWR6Uc0vM)
+[![IORM](./images/Ep5_TN.jpg "Exadata Database Service Resource Management – IORM")](https://youtu.be/vXkWR6Uc0vM)
 
 ## Exadata Cloud@Customer Public references
 
-- [Advania, Infromation Technology, Sweden](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/Adviana-Island-ExaDBCC.pdf)
+- [Advania, Infromation Technology, Sweden](./exacc-customer-references/assets/Advaina-Island-ExaDBCC.pdf)
 
-- [Banque Internationale A Luxemburg (BIL), Financial Services, Luxemburg](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/BIL-ExaDBCC.pdf)
+- [Banque Internationale A Luxemburg (BIL), Financial Services, Luxemburg](./exacc-customer-references/assets/BIL-ExaDBCC.pdf)
 
-- [Elsewedy Electric, Manufacturing, Egypt](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/El-Sewedy-Electric-ExaDBCC.pdf)
+- [Elsewedy Electric, Manufacturing, Egypt](./exacc-customer-references/assets/El-Sewedy-Electric-ExaDBCC.pdf)
 
-- [Ellevio, Utilities, Sweden](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/Ellevio-AB-ExaDBCC.pdf)
+- [Ellevio, Utilities, Sweden](./exacc-customer-references/assets/Ellevio-AB-ExaDBCC.pdf)
 
-- [EOPYY, Goverment/Health Services, Greece](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/EOPYY-ExaDBCC.pdf)
+- [EOPYY, Goverment/Health Services, Greece](./exacc-customer-references/assets/EOPYY-ExaDBCC.pdf)
 
-- [HUG, Healthcare, Switzerland](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/HUG-ExaDBCC.pdf)
+- [HUG, Healthcare, Switzerland](./exacc-customer-references/assets/HUG-ExaDBCC.pdf)
 
-- [HUS, Healthcare, Finland](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/database-cloud-at-customer/exadata-cloud-at-customer/files/HUS-yhtyma-ExaDBCC.pdf)
+- [HUS, Healthcare, Finland](./exacc-customer-references/assets/HUS-yhtyma-ExaDBCC.pdf)
 
 ## Exadata Cloud@Customer Training
 
