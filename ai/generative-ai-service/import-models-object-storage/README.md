@@ -2,6 +2,8 @@
 
 A comprehensive guide for deploying Hugging Face models via Object Storage on Oracle Cloud Infrastructure (OCI) Generative AI using Imported Models and Dedicated AI Clusters (DAC).
 
+Reviewed: 04.08.2026
+
 ## Overview
 
 This tutorial walks through deploying a Hugging Face model on OCI Generative AI using Imported Models and a Dedicated AI Cluster (DAC). The process involves:

@@ -2,6 +2,8 @@
 
 This demo showcases an AI-powered solution for analyzing batches of customer messages, categorizing them into hierarchical levels, extracting sentiment scores, and generating structured reports. The latest version adds a professional, corporate UI theme, CSV upload/validation in the sidebar, and step-aware progress feedback during processing.
 
+Reviewed: 04.08.2026
+
 ## Key Features
 - Hierarchical Categorization
   - Primary Category: High-level categorization

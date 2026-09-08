@@ -1,0 +1,8 @@
+schema_version: 20180708
+name: hello
+version: 0.0.14
+runtime: python3.12
+build_image: fnproject/python:3.12-dev
+run_image: fnproject/python:3.12
+entrypoint: /python/bin/fdk /function/func.py handler
+memory: 256

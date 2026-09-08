@@ -1,0 +1,9 @@
+global:
+  application: reference-helm-app
+  component: api
+  environment: dev
+  instance: reference-helm-app-dev
+api:
+  enabled: true
+  image:
+    tag: 1.27.4-alpine

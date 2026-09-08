@@ -4,7 +4,7 @@
 
 Author: Ali Ottoman
 
-Reviewed date: 27.03.2026
+Reviewed date: 04.08.2026
 ---
 
 ![Demo](sku_image_generation_studio.gif)

@@ -6,11 +6,11 @@ Combines best practices from both implementations
 import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
-import json, uuid, re, warnings, argparse, time
+import json, os, uuid, re, warnings, argparse, time
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import tiktoken
-from transformers import AutoTokenizer
+# NOTE: transformers is deliberately not imported — see XLSXIngester.__init__.
 warnings.filterwarnings("ignore")
 
 logger = logging.getLogger(__name__)
@@ -21,8 +21,11 @@ class XLSXIngester:
     def __init__(self, tokenizer: str = "BAAI/bge-small-en-v1.5", 
                  chunk_rewriter=None, batch_size: int = 16):  # Larger batch size
         """Initialize processor with speed optimizations"""
+        # The HF tokenizer was loaded here but never used — every token count goes
+        # through tiktoken below. Loading it cost startup time and pulled in the
+        # "None of PyTorch, TensorFlow..." banner. The parameter is kept so existing
+        # callers do not break.
         self.tokenizer_name = tokenizer
-        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer)
         self.chunk_rewriter = chunk_rewriter
         self.batch_size = batch_size
         
@@ -128,9 +131,14 @@ class XLSXIngester:
         if hasattr(self.chunk_rewriter, 'rewrite_chunks_batch'):
             logger.info(f"🚀 Fast batch rewriting for {len(chunks_to_rewrite)} chunks")
             
-            # Larger batch size for fewer API calls
-            BATCH_SIZE = min(16, len(chunks_to_rewrite))
-            MAX_WORKERS = 2  # Limited parallelism to avoid rate limits
+            # One chunk per call, fanned out. Wall clock is dominated by serial token
+            # *generation*, not per-call overhead, so batching chunks together just
+            # queues their output tokens behind each other. Measured on Supremo1.xlsx
+            # (8 chunks, grok-3): batch 16 = 70.3s, batch 4 = 56.2s, batch 2 = 23.9s,
+            # batch 1 = 17.5s — i.e. roughly one call's latency, which is the floor.
+            # Single-chunk calls also sidestep batch-response parsing entirely.
+            BATCH_SIZE = min(int(os.environ.get("XLSX_REWRITE_BATCH_SIZE", "1")), len(chunks_to_rewrite))
+            MAX_WORKERS = int(os.environ.get("XLSX_REWRITE_WORKERS", "8"))
             
             # Split into batches
             batches = [
@@ -389,12 +397,11 @@ def main():
     if not args.no_rewrite:
         try:
             from agents.agent_factory import create_agents
-            from local_rag_agent import OCIModelHandler, LocalLLM
-            from vector_store import EnhancedVectorStore 
-            
+            from llm_factory import create_llm
+            from vector_store import EnhancedVectorStore
+
             vector_store = EnhancedVectorStore()
-            oci_handler = OCIModelHandler(config_profile="DEFAULT")
-            llm = LocalLLM(oci_handler)
+            llm = create_llm()
             agents = create_agents(llm, vector_store=vector_store)
             chunk_rewriter = agents.get("chunk_rewriter")
             

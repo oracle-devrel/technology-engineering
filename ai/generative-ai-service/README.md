@@ -12,7 +12,7 @@ Explore below assets that can transform your business worflows across your depar
 
 [AI Solutions Hub](https://www.oracle.com/artificial-intelligence/solutions/) - Here you can access a variety of other solutions from the GenAI team
 
-Reviewed: 22.09.2025
+Reviewed: 04.08.2026
 
 ## Team Publications
 ### Github Solution Assets
@@ -148,4 +148,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](../../LICENSE.txt) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

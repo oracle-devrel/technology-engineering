@@ -1,0 +1,220 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-cluster-resources
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - list:
+        elements:
+          - name: platform-cluster-resources
+            resourcesPath: platform/cluster-resources
+  template:
+    metadata:
+      name: '{{ .name }}'
+      labels:
+        app.kubernetes.io/part-of: platform
+    spec:
+      project: platform
+      source:
+        repoURL: ${git_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+        automated:
+          prune: true
+          selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-kustomize
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: ${git_repo_url}
+        revision: HEAD
+        files:
+          - path: platform/applications/*/kustomize.application.yaml
+  template:
+    metadata:
+      name: '{{ .name }}'
+      labels:
+        app.kubernetes.io/part-of: platform
+    spec:
+      project: platform
+      source:
+        repoURL: ${git_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-helm-repository
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: ${git_repo_url}
+        revision: HEAD
+        files:
+          - path: platform/applications/*/helm-repository.application.yaml
+  template:
+    metadata:
+      name: '{{ .name }}'
+      labels:
+        app.kubernetes.io/part-of: platform
+    spec:
+      project: platform
+      sources:
+        - repoURL: '{{ .helm.repository }}'
+          chart: '{{ .helm.chart }}'
+          targetRevision: '{{ .helm.version }}'
+          helm:
+            releaseName: '{{ .helm.releaseName }}'
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+  # templatePatch is required for the variable-length valueFiles array.
+  # MergePatch replaces lists atomically, so all sources must be repeated or
+  # the values reference and Kustomize source would be removed.
+  templatePatch: |
+    spec:
+      sources:
+        - repoURL: {{ .helm.repository | toJson }}
+          chart: {{ .helm.chart | toJson }}
+          targetRevision: {{ .helm.version | toJson }}
+          helm:
+            releaseName: {{ .helm.releaseName | toJson }}
+            valueFiles:
+            {{- range $valueFile := .helm.valueFiles }}
+              - {{ printf "$values/%s/%s" $.path.path $valueFile | toJson }}
+            {{- end }}
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          path: {{ .resourcesPath | toJson }}
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform-helm-git
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - git:
+        repoURL: ${git_repo_url}
+        revision: HEAD
+        files:
+          - path: platform/applications/*/helm-git.application.yaml
+  template:
+    metadata:
+      name: '{{ .name }}'
+      labels:
+        app.kubernetes.io/part-of: platform
+    spec:
+      project: platform
+      sources:
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          path: '{{ .helm.path }}'
+          helm:
+            releaseName: '{{ .helm.releaseName }}'
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+  # See the repository-Helm ApplicationSet above. Repeating sources here is
+  # required because changing one list item replaces the complete list.
+  templatePatch: |
+    spec:
+      sources:
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          path: {{ .helm.path | toJson }}
+          helm:
+            releaseName: {{ .helm.releaseName | toJson }}
+            valueFiles:
+            {{- range $valueFile := .helm.valueFiles }}
+              - {{ printf "$values/%s/%s" $.path.path $valueFile | toJson }}
+            {{- end }}
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${git_repo_url}
+          targetRevision: HEAD
+          path: {{ .resourcesPath | toJson }}

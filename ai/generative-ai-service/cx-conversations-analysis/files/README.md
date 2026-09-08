@@ -9,6 +9,8 @@ If you want to use the example dataset, and not your own, you can do it in 2 way
    - [notebook 1](1_check_dataset.ipynb): downloads the dataset, makes statistics (you can edit the methodology) and picks up some samples.
    - [notebook 2](2_prepare_files.ipynb): generates the sampled dataset in a folder `dataset`, including mixed audios (agent&caller in a single audio).
 
+Reviewed: 04.08.2026
+
 # How to run the app
 Install requirements:
 
@@ -102,4 +104,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](../LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

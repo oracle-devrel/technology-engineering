@@ -3,7 +3,7 @@
 ## Introduction
 This repository contains the code for a prototype of the integration of OCI Generative AI in Langflow
 
-Reviewed: 23.09.2025
+Reviewed: 04.08.2026
 
 ## Components for Retrieval-Augmented Generation (RAG)
 In this release (jan 2025), we have included the essential components required to build a robust Retrieval-Augmented Generation (RAG) solution:

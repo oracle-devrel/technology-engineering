@@ -1,0 +1,226 @@
+AI Use Cases for Business Applications
+========================================
+
+This document catalogs practical AI use cases that organizations can implement using Oracle Cloud Infrastructure (OCI) services and Oracle Autonomous Database. Each use case includes the business problem, technical approach, expected outcomes, and implementation complexity.
+
+
+USE CASE 1: REAL-TIME SENTIMENT ANALYSIS
+
+Business Problem:
+Companies receive thousands of customer reviews, social media mentions, and support tickets daily. Manually reading and categorizing this feedback is impossible at scale, leading to missed insights, delayed responses to issues, and inability to quantify brand health.
+
+Technical Approach:
+- Collect reviews from web sources using automated scraping agents
+- Store raw reviews in Oracle Autonomous Database
+- Use DBMS_CLOUD_AI.GENERATE to analyze sentiment in-database
+- AI model classifies sentiment (positive/neutral/negative) and extracts aspects
+- Results stored alongside original reviews for SQL-based analytics
+- Dashboard visualizes trends, alerts, and recommendations in real-time
+
+Key Technologies: DBMS_CLOUD_AI, OCI GenAI (Cohere Command A), FastAPI, React
+
+Expected Outcomes:
+- Process 1,000+ reviews per hour automatically
+- Detect negative sentiment spikes within minutes instead of days
+- 85%+ accuracy on sentiment classification
+- 60% reduction in time-to-insight for brand managers
+
+Implementation Complexity: Medium (4-6 weeks)
+
+
+USE CASE 2: HYPER-PERSONALIZED MARKETING CAMPAIGNS
+
+Business Problem:
+Generic email campaigns achieve low open rates (15-20%) and even lower conversion rates. Marketing teams lack the bandwidth to create personalized variants for different customer segments, resulting in one-size-fits-all messaging that fails to resonate.
+
+Technical Approach:
+- Analyze customer sentiment data to understand audience mood and preferences
+- Use OCI GenAI to generate 3 email variants with different tones and approaches
+- Each variant includes: subject line, email body, predicted open rate, and rationale
+- AI considers: current brand sentiment, top customer complaints, positive themes, and emotional patterns
+- A/B/C test variants against customer segments
+- Feed performance data back for continuous improvement
+
+Key Technologies: OCI GenAI (Cohere Command A), DBMS_CLOUD_AI, sentiment context from Use Case 1
+
+Expected Outcomes:
+- 30-40% higher open rates compared to generic campaigns
+- 3x faster campaign creation (minutes vs. hours of copywriting)
+- Data-driven personalization based on real customer sentiment
+- Consistent brand voice across all marketing communications
+
+Implementation Complexity: Low-Medium (2-3 weeks, builds on Use Case 1)
+
+
+USE CASE 3: NATURAL LANGUAGE DATA QUERYING (NL2SQL)
+
+Business Problem:
+Business users need to access data insights but don't know SQL. They depend on data analysts or BI teams for every question, creating bottlenecks. By the time reports are generated, the data may be stale and the business moment missed.
+
+Technical Approach:
+- Configure Oracle Select AI with an AI profile pointing to relevant database tables
+- Users type natural language questions: "Show me negative trends for Nike this month"
+- Select AI translates the question into valid Oracle SQL
+- Query executes against the database and returns results
+- AI generates a narrative explanation of the findings
+- Results displayed in an interactive chat interface
+
+Key Technologies: Oracle Select AI, AI Profiles, Cohere Command A
+
+Expected Outcomes:
+- Business users self-serve 80% of routine data questions
+- Average time from question to answer: 5-15 seconds
+- Data analyst team freed for complex analysis work
+- Increased data democratization across the organization
+
+Implementation Complexity: Low (1-2 weeks with existing database schema)
+
+
+USE CASE 4: DOCUMENT KNOWLEDGE BASE WITH RAG
+
+Business Problem:
+Organizations accumulate vast document libraries — policies, guidelines, reports, manuals — spread across file shares, cloud storage, and email. Finding specific information requires knowing which document contains the answer, then reading through potentially hundreds of pages.
+
+Technical Approach:
+- Upload documents to OCI Object Storage (PDF, DOCX, TXT, etc.)
+- Documents automatically chunked into segments (512-1024 tokens)
+- Each chunk embedded using Cohere Embed Multilingual v3.0
+- Embeddings stored as vectors in Oracle Database with vector index
+- User asks question in natural language
+- System performs vector similarity search to find relevant chunks
+- Retrieved chunks passed as context to generative model
+- Model synthesizes answer with source citations
+
+Key Technologies: Oracle Select AI RAG, Vector Search, Cohere Embed Multilingual v3.0, OCI Object Storage
+
+Expected Outcomes:
+- Instant answers to questions about corporate knowledge base
+- Source citations for transparency and verification
+- Supports multilingual documents and queries
+- No need to know which document contains the answer
+- 70-80% of routine document queries answered without human involvement
+
+Implementation Complexity: Low (1-2 weeks with existing RAG profile)
+
+
+USE CASE 5: AUTOMATED ANOMALY DETECTION AND ALERTING
+
+Business Problem:
+Businesses need to know immediately when something goes wrong — a sudden spike in product complaints, a PR crisis brewing on social media, or a competitor gaining ground. Manual monitoring can't keep up with the volume and velocity of modern feedback channels.
+
+Technical Approach:
+- Continuous sentiment scoring of incoming reviews
+- Statistical analysis of sentiment trends (rolling averages, standard deviations)
+- AI-powered alert generation when anomalies detected:
+  * Sentiment score drops below threshold
+  * Negative review volume exceeds 2x daily average
+  * New negative keywords clustering (e.g., "recall", "unsafe")
+  * Specific aspect sentiment declining rapidly
+- Alerts classified by severity (Critical/High/Medium/Low)
+- Automated notification to relevant stakeholders
+- AI generates recommended actions for each alert
+
+Key Technologies: DBMS_CLOUD_AI, OCI GenAI, database-native analytics
+
+Expected Outcomes:
+- Detect emerging issues 3-5x faster than manual monitoring
+- Reduce response time to critical issues from days to hours
+- Prioritized alert queue prevents alert fatigue
+- AI-generated action plans accelerate response
+
+Implementation Complexity: Medium (3-4 weeks)
+
+
+USE CASE 6: COMPETITIVE INTELLIGENCE DASHBOARD
+
+Business Problem:
+Understanding how your brand performs relative to competitors requires monitoring their reviews too. Manually tracking competitor sentiment across platforms is time-consuming and produces inconsistent results.
+
+Technical Approach:
+- Extend web scraping to collect competitor reviews (same platforms)
+- Store competitor data in the same schema with brand differentiation
+- Apply identical sentiment analysis to competitor reviews
+- Dashboard provides side-by-side comparison:
+  * Overall sentiment scores
+  * Aspect-level comparison (price, quality, service)
+  * Trend comparison over time
+  * Share of voice across platforms
+- AI generates comparative insights and strategic recommendations
+
+Key Technologies: Same stack as Use Case 1, extended to multiple brands
+
+Expected Outcomes:
+- Real-time competitive positioning visibility
+- Identify competitor weaknesses to exploit
+- Detect when competitors are gaining positive momentum
+- Data-driven strategic planning with competitive context
+
+Implementation Complexity: Low (1-2 weeks if Use Case 1 already implemented)
+
+
+USE CASE 7: INTELLIGENT CUSTOMER SERVICE ROUTING
+
+Business Problem:
+Customer support teams receive inquiries of varying complexity and emotional intensity. First-level agents may struggle with highly emotional or technically complex issues, leading to poor resolution and escalation loops.
+
+Technical Approach:
+- Apply real-time sentiment analysis to incoming support tickets
+- Classify ticket urgency based on detected emotion and sentiment intensity
+- Route tickets intelligently:
+  * High anger + critical issue → Senior agent + manager notification
+  * Moderate frustration → Experienced agent with resolution authority
+  * Neutral inquiry → Standard queue or chatbot
+  * Positive feedback → Customer success team for relationship building
+- Provide agents with sentiment context and recommended responses
+- Track resolution effectiveness by sentiment at intake vs. outcome
+
+Key Technologies: DBMS_CLOUD_AI, OCI GenAI, queue management integration
+
+Expected Outcomes:
+- 25% improvement in first-contact resolution
+- 40% reduction in unnecessary escalations
+- Higher customer satisfaction (CSAT) scores
+- Reduced agent burnout from better workload distribution
+
+Implementation Complexity: Medium-High (6-8 weeks)
+
+
+IMPLEMENTATION PRIORITY MATRIX
+
+Quick Wins (1-2 weeks, high impact):
+- Use Case 3: NL2SQL — immediate value for business users
+- Use Case 4: RAG Knowledge Base — leverage existing documents
+
+Foundation (4-6 weeks, transformative):
+- Use Case 1: Sentiment Analysis — core capability everything else builds on
+- Use Case 5: Anomaly Detection — proactive brand protection
+
+Extensions (2-4 weeks, builds on foundation):
+- Use Case 2: Campaign Generation — monetize sentiment insights
+- Use Case 6: Competitive Intelligence — extend existing infrastructure
+
+Advanced (6-8 weeks, significant investment):
+- Use Case 7: Service Routing — requires support system integration
+
+
+TECHNOLOGY STACK SUMMARY
+
+Oracle Cloud Infrastructure:
+- Autonomous Database 23ai (or later) with AI Vector Search
+- OCI Generative AI Service (Cohere Command A model)
+- OCI Object Storage (for RAG document storage)
+- OCI Compute (for application backend)
+
+Database Features Used:
+- DBMS_CLOUD_AI.GENERATE — in-database AI inference
+- Select AI — natural language to SQL translation
+- Select AI RAG — vector search + retrieval augmented generation
+- AI Profiles — configuration for different AI use cases
+- Vector indexes — efficient similarity search for RAG
+- JSON support — structured aspect data storage
+
+Application Stack:
+- Python FastAPI — REST API backend
+- React + TypeScript — interactive frontend
+- Chart.js — data visualization
+- Server-Sent Events — real-time progress streaming
