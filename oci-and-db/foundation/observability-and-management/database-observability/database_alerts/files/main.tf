@@ -212,23 +212,14 @@ locals {
 }
 
 resource "oci_ons_notification_topic" "database_alerts" {
-  for_each       = local.baseline_compartments
+  # Resource Manager cannot evaluate for_each in import blocks. Create a topic
+  # only when discovery did not find an active topic with the requested name;
+  # otherwise use the discovered topic ID in local.notification_topic_ids.
+  for_each       = local.notification_topic_compartments_to_create
   compartment_id = each.value
   name           = var.notification_topic_name
   description    = "Database Service critical events and conditional database observability alerts"
   freeform_tags  = var.freeform_tags
-
-  lifecycle {
-    # A topic discovered before the first deployment is adopted by the import
-    # block below. Preserve its existing metadata rather than changing it.
-    ignore_changes = [description, freeform_tags, defined_tags]
-  }
-}
-
-import {
-  for_each = local.existing_notification_topics
-  to       = oci_ons_notification_topic.database_alerts[each.key]
-  id       = each.value.topic_id
 }
 
 locals {
@@ -258,23 +249,11 @@ locals {
 }
 
 resource "oci_ons_notification_topic" "operations" {
-  for_each       = var.enable_recommended_alarms || var.enable_ops_insights_sql_degradation_report ? local.baseline_compartments : toset([])
+  for_each       = local.operations_topic_compartments_to_create
   compartment_id = each.value
   name           = var.operations_notification_topic_name
   description    = "Database operational alerts, including backup failures"
   freeform_tags  = var.freeform_tags
-
-  lifecycle {
-    # Preserve metadata on a topic discovered and adopted from the target
-    # compartment; only its existence and ID are needed for delivery.
-    ignore_changes = [description, freeform_tags, defined_tags]
-  }
-}
-
-import {
-  for_each = local.existing_operations_notification_topics
-  to       = oci_ons_notification_topic.operations[each.key]
-  id       = each.value.topic_id
 }
 
 locals {
