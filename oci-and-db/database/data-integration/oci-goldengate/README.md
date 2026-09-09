@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
-Reviewed: 03.06.2026
+Reviewed: 09.09.2026
 
 
 # Table of Contents
@@ -13,6 +13,9 @@ Reviewed: 03.06.2026
 
  
 # Team Publications
+
+- [Common OCI GoldenGate Distribution and Receiver Path Errors](https://medium.com/@aporcescu/common-oci-goldengate-distribution-and-receiver-path-errors-c849e92fb69d?sharedUserId=aporcescu)
+    - This is an article that explains most common error messages that could appear while creating Distribution path with OCI GG
 
 - [Real-Time Data Replication to Oracle AI Data Platform Using OCI GoldenGate](https://blogs.oracle.com/dataintegration/real-time-data-replication-to-oracle-ai-data-platform-using-oci-goldengate)
     - This blog post explains how you can replicate data with OCI GoldenGate directly to AIDP internal storage and OCI bucket for an external storage. 
