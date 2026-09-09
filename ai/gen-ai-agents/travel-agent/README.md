@@ -6,7 +6,7 @@ The agent has been developed using **OCI Generative AI** and **LangGraph**.
 
 **Author**: L. Saetta
 
-**Reviewed**: 26.01.2026
+**Reviewed**: 04.08.2026
 
 ## Who should use this asset
 Use this assett if you want to experiment how-to build an AI Agent managing travels' reservations.
@@ -78,7 +78,7 @@ To use it, you should:
 ## License
 This assett is licensed under **MIT** license.
 
-See [LICENSE](./LICENSE)
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)
 
 
 

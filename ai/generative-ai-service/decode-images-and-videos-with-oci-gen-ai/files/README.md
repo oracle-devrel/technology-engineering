@@ -3,6 +3,8 @@
 
 This is an AI-powered application designed to unlock insights hidden within media files using the Oracle Cloud Infrastructure (OCI) Generative AI services. This application enables users to analyze images and videos, generating detailed summaries in multiple languages. Whether you are a content creator, researcher, or media enthusiast, this app helps you interpret visual content with ease.
 
+Reviewed: 04.08.2026
+
 <img src="./image.png">
 </img>
 ---

@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - pairs:
+      reconcile.fluxcd.io/watch: Enabled
+
+configMapGenerator:
+  - name: fleet-git-tool-values
+    namespace: flux-system
+    files:
+      - 00-base.yaml=applications/git-tool/values/00-base.yml
+      - 90-overrides.yaml=applications/git-tool/values/90-overrides.yml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+  - applications/git-tool/resourceset.yml
+  - applications/helm-plus-kustomize/resourceset.yml
+  - applications/external-secrets/resourceset.yml

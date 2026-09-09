@@ -6,7 +6,7 @@ This project will show you how to set up such a system, feed it documents, and h
 <img src="./files/docSummarizeScreen.png">
 </img>
 
-Reviewed date: 23.09.2025
+Reviewed date: 04.08.2026
 
 # When to use this asset
 
@@ -66,6 +66,6 @@ streamlit run ocidocumentSummarizeUpload.py
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -1,0 +1,17 @@
+# Oracle Database@AWS Overview Workshop
+A workshop designed to dive into all aspects of the Oracle Database@AWS architectural design for customers Azure setup.
+
+Reviewed: 03.08.2026
+
+# When to use this asset?
+Use this workshop to understand the Oracle Database@AWS service in detail to build the required solution in AWS and OCI.
+
+# How to use this asset?
+Workshop content has different sections. Review each section to understand the service options to match your requirements. If required have separate deep dive into each section.
+
+# License
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See LICENSE for more details.

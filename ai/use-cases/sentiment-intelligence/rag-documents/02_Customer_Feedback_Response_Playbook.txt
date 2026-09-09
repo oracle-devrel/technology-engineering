@@ -1,0 +1,165 @@
+Customer Feedback Response Playbook
+====================================
+
+1. PURPOSE
+
+This playbook provides standardized response templates and escalation procedures for handling customer feedback identified through AI-powered sentiment analysis. It ensures consistent, empathetic, and timely responses across all customer touchpoints.
+
+
+2. RESPONSE PRINCIPLES
+
+2.1 The HEART Framework
+Every customer response should follow the HEART framework:
+- Hear: Acknowledge the customer's specific experience
+- Empathize: Show genuine understanding of their feelings
+- Apologize: Take responsibility where appropriate (without over-apologizing)
+- Resolve: Offer a concrete solution or next step
+- Thank: Express gratitude for their feedback
+
+2.2 Tone Guidelines
+- Professional but warm — avoid corporate jargon
+- Match the customer's energy level (don't be overly cheerful to an angry customer)
+- Be specific — reference their actual complaint, not generic platitudes
+- Be honest about limitations and timelines
+- Never be defensive or dismissive
+
+
+3. RESPONSE TEMPLATES BY SENTIMENT CATEGORY
+
+3.1 Product Quality Complaints (Negative Sentiment)
+
+Trigger: Reviews mentioning "defective", "broke", "poor quality", "fell apart", "cheap materials"
+
+Template:
+"Thank you for sharing your experience with [Product Name]. We're sorry to hear that it didn't meet your expectations regarding [specific issue mentioned]. This is not the quality standard we aim for.
+
+We'd like to make this right. Please contact our support team at [contact] with your order number, and we'll arrange a [replacement/refund/repair] right away. Your feedback has been shared with our product team to prevent this from happening to other customers.
+
+We appreciate your patience and hope to earn back your trust."
+
+Escalation: If 5+ similar complaints within 48 hours, escalate to Product Quality team for batch investigation.
+
+
+3.2 Customer Service Complaints (Negative Sentiment)
+
+Trigger: Reviews mentioning "rude staff", "long wait", "no response", "unhelpful", "ignored"
+
+Template:
+"We sincerely apologize for the service experience you described. Every customer deserves to be treated with respect and to receive timely assistance — and it sounds like we fell short.
+
+We've flagged this feedback internally and are addressing it with the team involved. We'd like to connect you with a senior support representative who can ensure your issue is fully resolved. Please reach out to [contact/link] at your convenience.
+
+Thank you for bringing this to our attention. Feedback like yours helps us improve."
+
+Escalation: Immediate escalation to Customer Service Manager if the review mentions a specific employee by name or describes discriminatory behavior.
+
+
+3.3 Pricing Concerns (Mixed/Negative Sentiment)
+
+Trigger: Reviews mentioning "overpriced", "not worth it", "cheaper alternatives", "hidden fees"
+
+Template:
+"Thank you for your honest feedback about pricing. We understand that value for money is important, and we want you to feel confident in your purchase.
+
+Our pricing reflects [brief value proposition — e.g., premium materials, extended warranty, free shipping]. That said, we regularly review our pricing to stay competitive. You might also want to check out our [loyalty program/seasonal sales/bundle deals] for additional savings.
+
+We value your perspective and take pricing feedback seriously in our planning."
+
+Escalation: If pricing complaints increase 15%+ month-over-month, escalate to Pricing Strategy team.
+
+
+3.4 Delivery Issues (Negative Sentiment)
+
+Trigger: Reviews mentioning "late delivery", "damaged package", "wrong item", "lost shipment"
+
+Template:
+"We're sorry about the delivery issue you experienced. We know how frustrating it is when an order doesn't arrive as expected.
+
+We're looking into this immediately. If you haven't already, please contact us at [contact] with your order/tracking number so we can trace the shipment and arrange a [reshipment/refund]. We're also working with our logistics partners to prevent delays like this.
+
+Thank you for your patience — we'll make sure this gets resolved."
+
+Escalation: If delivery complaints spike in a specific region, alert Logistics team for carrier performance review.
+
+
+3.5 Positive Reviews (Positive Sentiment)
+
+Trigger: Reviews with sentiment score > 0.8, mentioning praise or recommendation
+
+Template:
+"Thank you so much for your wonderful review! We're thrilled to hear that you love [specific aspect they praised]. Feedback like yours motivates our entire team.
+
+If you'd like to share your experience with others, we'd really appreciate a recommendation to friends or family. And don't forget to check out [related product/loyalty program] — we think you'd enjoy it!
+
+Thanks for being a valued customer!"
+
+Note: Positive review responses should be personalized. Avoid sending the same response to multiple reviewers on the same platform.
+
+
+3.6 Feature Requests (Neutral/Positive Sentiment)
+
+Trigger: Reviews suggesting improvements, new features, or "wish it had..."
+
+Template:
+"Thank you for the thoughtful suggestion about [specific feature]. We love hearing ideas from our customers — it helps us build better products.
+
+Your idea has been logged with our product team for consideration in future updates. While we can't promise a timeline, customer-requested features are a priority in our development roadmap.
+
+Keep the ideas coming, and thanks for helping us improve!"
+
+
+4. ESCALATION MATRIX
+
+4.1 When to Escalate (Beyond Standard Response)
+- Product safety mentioned: IMMEDIATE escalation to Safety & Compliance
+- Legal threat or litigation mention: IMMEDIATE escalation to Legal
+- Media/influencer with >10K followers: Escalate to PR/Communications within 2 hours
+- Viral potential (50+ engagements in 1 hour): Escalate to Crisis Communications
+- Repeated issue from same customer (3+ contacts): Escalate to Customer Success Manager
+
+4.2 Internal Communication
+- Daily digest of critical and high-severity feedback to department heads
+- Weekly sentiment summary to C-suite with trend analysis
+- Monthly deep-dive presentation to cross-functional leadership
+- Quarterly strategic review incorporating sentiment data into business planning
+
+
+5. MEASURING RESPONSE EFFECTIVENESS
+
+5.1 Key Metrics
+- Response Rate: % of negative reviews that receive a response (target: >90%)
+- Response Time: Average time from review detection to response (target: <4 hours for critical)
+- Resolution Rate: % of complaints resolved to customer satisfaction (target: >80%)
+- Sentiment Recovery: % of negative reviewers who later update their review positively
+- Customer Retention: Retention rate of customers who received responses vs. those who didn't
+
+5.2 A/B Testing Responses
+- Test different response tones (formal vs. casual) per platform
+- Measure impact of offering compensation vs. apology-only
+- Track which response elements correlate with review updates or repeat purchases
+
+
+6. PLATFORM-SPECIFIC GUIDELINES
+
+6.1 Amazon Reviews
+- Keep responses under 500 characters
+- Never ask the customer to change their review
+- Focus on resolution, direct to support for order-specific issues
+- Respond to all 1-2 star reviews within 24 hours
+
+6.2 Social Media (Twitter/X, Instagram)
+- Respond publicly first, then move to DM for details
+- Keep initial response under 280 characters
+- Use platform-appropriate tone (slightly more casual)
+- Monitor for follow-up posts and respond to those too
+
+6.3 Trustpilot / G2
+- Detailed responses are expected (200-400 words)
+- Reference specific points from the review
+- Include your role/title for authenticity
+- Invite the reviewer to update if their issue is resolved
+
+6.4 App Store Reviews
+- Very brief (1-2 sentences)
+- Focus on directing to the latest app version or support channel
+- Thank positive reviewers and ask for feature requests

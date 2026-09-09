@@ -1,0 +1,15 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionJob
+metadata:
+  name: managed-hello-job
+  namespace: default
+spec:
+  functionRef:
+    name: managed-hello
+  payloads:
+  - name: Ron
+    index: 0
+  - name: Ron
+    index: 1
+  parallelism: 1
+  retryLimit: 1
