@@ -11,10 +11,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 
-# Authoritative placeholder grammar. The Codex plugin applies a stricter one as
-# an early convenience check; when they disagree this one decides, and it is
-# deliberately the more permissive of the two so nothing reaches Terraform
-# unresolved.
+# Authoritative placeholder grammar. Project GitOps intentionally performs no
+# duplicate resource-specific validation, so this runtime check is the boundary
+# that prevents unresolved tokens from reaching Terraform.
 PLACEHOLDER_RE = re.compile(r"(?<![A-Za-z0-9_])(__[A-Za-z0-9_]+__)(?![A-Za-z0-9_])")
 ALLOWED_ENVIRONMENTS = {"dev", "test", "uat", "prod"}
 

@@ -103,9 +103,11 @@ exists in the corresponding project network manifest.
 
 ## Validation
 
-The Project GitOps validator is the runtime authority for supported manifest shapes,
-paths, environments, handoff references, secret placeholders, and change
-limits. The catalog templates are examples for Project Teams.
+The protected project workflow, Platform CI, and selected orchestrator are the
+runtime authorities for supported manifest shapes, paths, environments, handoff
+references, secret placeholders, and change limits. The catalog templates are
+examples for Project Teams; Project GitOps intentionally performs no duplicate
+resource-specific validation.
 
 ## Security notes
 

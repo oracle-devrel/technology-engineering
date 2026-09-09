@@ -33,7 +33,7 @@ subnets, NSGs, service accounts, ODB Networks, or ODB Subnets.
 | Operation | GitHub interface | Optional UI | Optional Codex plugin |
 | --- | --- | --- | --- |
 | OCI Autonomous Database start/stop | Yes | Yes | Yes |
-| OCI Compute `deploy-agent` | Yes | Yes | No |
+| OCI Compute `deploy-agent` | Yes | Yes | Yes |
 
 ADB start/stop operates the database. `deploy-agent` is the worked example of
 the SSH execution path: it records `/opt/agents/<agent_type>.installed` on the

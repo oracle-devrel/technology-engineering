@@ -60,7 +60,7 @@ display names in Terraform state for that OCI region. Add another object to the
 | File | operation_type | Cloud | Notes |
 | --- | --- | --- | --- |
 | `oci/adb-lifecycle.json` | `adb-lifecycle` | OCI | Start or stop an Autonomous Database |
-| `oci/deploy-agent.json` | `deploy-agent` | OCI | Worked SSH example: records an installation marker on a compute instance |
+| `oci/deploy-agent.json` | `deploy-agent` | OCI | Hardened SSH marker operation on a Compute instance; it does not install third-party software |
 
 ## Extension boundary
 

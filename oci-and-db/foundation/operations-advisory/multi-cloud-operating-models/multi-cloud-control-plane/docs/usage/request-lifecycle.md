@@ -28,10 +28,12 @@ your change process uses.
 2. Change exactly one cloud, environment, and region in each pull request.
 3. Copy compartments, networks, subnets, and other foundation references from
    the selected environment handoff. Do not invent or replace them.
-4. Represent required secrets with an environment-qualified placeholder such
-   as `__DEV_ADB_ADMIN_PASSWORD__`. The Project Team adds and rotates the
-   matching value in its selected environment secret bundle through the
-   approved secret process; never put a secret value in Git.
+4. Represent required secrets with environment-qualified placeholders. Each OCI
+   ADB must have its own database-scoped administrator-password token, for
+   example `__DEV_ORDERS_ADB_ADMIN_PASSWORD__`; never reuse that token for a
+   second database. The Project Team adds and rotates the matching
+   `DEV_ORDERS_ADB_ADMIN_PASSWORD` member in its selected environment secret
+   bundle through the approved secret process; never put a secret value in Git.
 5. For a resource request, merge the catalog entry into the existing regional
    file. Replace `{}` for the first entry; do not create another file for the
    same configuration group, because Terraform does not deep-merge repeated root
@@ -60,8 +62,8 @@ the governance boundary. Before approving, confirm that:
 - the pull request changes exactly one cloud, environment, and region;
 - every compartment, network, subnet, and project reference matches the
   environment handoff for that environment;
-- the diff contains no secret values, only environment-qualified placeholders
-  such as `__DEV_ADB_ADMIN_PASSWORD__`;
+- the diff contains no secret values, and each OCI ADB uses its own
+  environment- and database-qualified password placeholder;
 - the Terraform plan or Ansible check shows only the intended change, and it ran
   against the current head commit;
 - the change reference is recorded, if your change process requires one; and
@@ -78,9 +80,8 @@ verifying the result, clear it using the route that created the request:
 - For the GitHub interface, including cleanup after an optional-UI request,
   delete the lifecycle file in a focused pull request. The workflow accepts the
   removal and does not execute another operation.
-- For an OCI Autonomous Database lifecycle request created with the Codex
-  plugin, replace the canonical lifecycle file with `{}`. The Codex plugin does
-  not support the OCI Compute `deploy-agent` operation.
+- For an OCI lifecycle request created with the Codex plugin, delete the
+  selected lifecycle file in its focused pull request.
 
 Neither cleanup method reverses the completed operation.
 
@@ -98,7 +99,7 @@ state manually or retry with a personal cloud account.
 
 | Problem | Action |
 | --- | --- |
-| Unresolved secret placeholder | Ask the Project Team to add and rotate the matching key in the selected environment bundle through the approved secret process. Do not commit the value. |
+| Unresolved secret placeholder | Ask the Project Team to add and rotate the matching environment- and database-scoped key in the selected environment bundle through the approved secret process. Do not commit the value. |
 | Incomplete handoff value | Ask Cloud Operations to correct the environment handoff. |
 | Operation target not found | Use the exact resource display name recorded in Terraform state. |
 | Mixed environment or region rejected | Keep one cloud/environment/region tuple in the pull request. |

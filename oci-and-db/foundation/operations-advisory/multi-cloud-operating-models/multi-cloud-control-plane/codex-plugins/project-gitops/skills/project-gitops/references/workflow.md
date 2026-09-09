@@ -1,41 +1,81 @@
 # Workflow
 
-1. Identify the handed-off repository and, for non-production, ask the user to
-   select `dev`, `test`, or `uat`.
-2. Confirm the requested Day 1 resource is supported: OCI NSG, Compute, and
-   ADB; Azure VM and ADB; Google Cloud VM and ADB-S. OCI ADB start and stop are
-   the only supported Day 2 operations. Refuse Azure and Google Cloud Day 2.
-3. For OCI workload networking, derive the private DB subnet for an ADB and
-   the private App subnet for a VM from the environment handoff. Project NSGs
-   are not handoff resources: inspect the base `network/project-nsgs.json`
-   instead. An empty NSG list is valid for a private ADB or VM and uses the
-   subnet security lists. If the user requests an NSG, require an explicit
-   selection from existing project NSG keys; never invent a key. A new NSG is a
-   separate request and manifest change that must merge before a VM or ADB can
-   reference it.
-4. For a new OCI Compute request, offer the approved Frankfurt
-   `VM.Standard.A1.Flex` catalog image or ask for a regional image OCID. The
-   user chooses manually. Do not resolve images through OCI CLI or a cloud API.
-5. Create a disposable clone in a child directory named exactly as the canonical
-   project repository. Create one `agent/<resource>-...` branch from exact
-   `origin/main`.
-6. Edit one canonical manifest path. Use the environment handoff. OCI uses TBAC
-   Application for Compute, Database for ADB and lifecycle, and Infrastructure
-   for NSGs.
-7. Run the packaged validator after the edit:
+1. Identify the handed-off repository and requested environment. A non-prod
+   request must name `dev`, `test`, or `uat`; a production request uses only
+   `prod`. Run `gh repo view <owner/repository> --json
+   nameWithOwner,isPrivate,defaultBranchRef,sshUrl` and stop unless it is the
+   expected private project repository with default branch `main`.
+2. Read only the selected catalog entry from `<owner>/gitops-templates` at
+   `main`, for example `gh api -H "Accept: application/vnd.github.raw+json"
+   "repos/<owner>/gitops-templates/contents/<catalog-path>?ref=main"`.
+   Use `resources-catalog` for infrastructure: merge its one rendered fragment
+   into the existing regional manifest without replacing other root keys. Use
+   `operations-catalog` for OCI lifecycle work: create, modify, or clear one
+   file under `oci/<environment>/<region>/lifecycle_operations/`. For every
+   OCI ADB, replace the catalog's generic administrator-password placeholder
+   with its own token formed from the environment and normalized database
+   mapping key, as defined in [setup](setup.md). Do not reuse a token for two
+   databases. A clear only removes an existing operation request; it does not
+   call OCI.
+3. Derive one stable branch name from the CRQ and requested destination:
+   `agent/<crq-lower>-<cloud>-<environment>-<region>-<resource-key>`. The
+   `resource-key` is the catalog mapping key or operation filename, normalized
+   to lowercase letters, digits, and hyphens. Before creating it, check both
+   the remote branch (`git ls-remote --exit-code --heads origin
+   refs/heads/<branch>`) and open pull requests (`gh pr list --repo
+   <owner/repository> --head <branch> --state open --limit 1 --json
+   number,url`) for that exact name. If either exists, stop and report it;
+   never add a suffix or create a duplicate PR.
+4. Create a disposable clone from the current `main`: `git clone --branch main
+   <repository-url> <temporary-directory>`, `git fetch origin main`, then
+   `git switch -c <branch> origin/main`. Edit only the one catalog-selected
+   manifest or operation file. Do not infer fields, query cloud APIs, or
+   implement resource-specific checks locally.
+5. Before any GitHub write, confirm that the candidate still starts from the
+   current `main`. Inspect its runtime-secret tokens. A preview is invalid
+   unless it lists the required secret bundle and every required JSON member
+   for each runtime token in the candidate. For example, two `dev` ADBs keyed
+   `project45-adb1` and `project45-adb2` require
+   `GITOPS_SECRET_VALUES_DEV` with these distinct members:
 
-   ```bash
-   python3 scripts/validate-change.py \
-     --repo <project-repository> \
-     --base-ref origin/main
+   ```json
+   {
+     "DEV_PROJECT45_ADB1_ADMIN_PASSWORD":"<set-the-first-ADB-admin-password>",
+     "DEV_PROJECT45_ADB2_ADMIN_PASSWORD":"<set-the-second-ADB-admin-password>"
+   }
    ```
 
-   Run it again with `--expect-base-sha` and `--expect-content-sha256` after
-   confirmation.
-8. Use the returned semantic summary to prepare the single user preview.
-9. Accept only the user's exact `Confirm` reply. After confirmation and revalidation, stage only the validated path, commit,
-   push, and conditionally create one pull request. Stop before merge.
+   State that the administrator replaces only the angle-bracket placeholders
+   before saving it. For OCI ADB, include the published password policy: 12 to
+   30 characters, at least one uppercase letter, lowercase letter, and digit,
+   with no double quote and no `admin` substring in any casing. Do not read or
+   test that secret; state it as a prerequisite. Show a semantic preview naming
+   the repository, branch, selected path, requested outcome, destructive or
+   replacement impact, CRQ, those prerequisites, and `GitHub writes: none`.
+   Only then ask for the standalone `confirm` reply.
+6. After confirmation, re-fetch `origin/main`; if it or the candidate differs
+   from the preview, stop, rebuild the candidate, and request a new preview.
+   Stage only the selected path, commit, push the branch, and create one PR
+   with a title and body that include the CRQ: `gh pr create --base main --head
+   <branch> --title <title> --body <body>`. Do not merge, approve, dispatch,
+   rerun, or cancel a workflow.
+7. The protected template triggers Platform CI; never launch a workflow
+   manually. Derive one expected workflow name from the selected repository
+   and path:
 
-Use `{}` only to clear a completed OCI ADB lifecycle request. Do not use it for
-another resource change. A validated change contains one VM or NSG, or up to
-three OCI ADB mutations.
+   | Change | Expected workflow |
+   | --- | --- |
+   | Non-prod infrastructure manifest | `Shared non-production Terraform` |
+   | Production infrastructure manifest | `Production Terraform` |
+   | Non-prod OCI lifecycle manifest | `Shared non-production OCI operations` |
+   | Production OCI lifecycle manifest | `Production OCI operations` |
+
+   Its PR trigger is `pull_request_target`, so do not filter runs as
+   `pull_request`. Read only that workflow with `gh run list --repo
+   <owner/repository> --workflow <expected-workflow> --branch <branch> --limit
+   10 --json databaseId,status,conclusion,workflowName,url,event,headSha`.
+   Require exactly one `pull_request_target` run whose `headSha` is the PR head
+   commit; if absent or ambiguous, stop rather than selecting another run. Poll
+   it with `gh run view <databaseId> --repo <owner/repository> --json
+   status,conclusion,url` every 15–30 seconds until terminal. Report the PR
+   and workflow URL; Platform CI owns validation, plan, and apply.
