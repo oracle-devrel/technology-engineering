@@ -4,7 +4,7 @@
 
 A simple, adaptable solution for analyzing and categorizing transactional documents using predefined evaluation criteria. Perfect for analysts, auditors, or developers seeking to automate document review in enterprise, finance, education, or public sector scenarios and more.
 
-Reviewed: 22.09.2025
+Reviewed: 04.08.2026
 
 ## Overview
 
@@ -169,7 +169,7 @@ npm run dev
 ---
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  

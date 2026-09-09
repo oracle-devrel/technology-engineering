@@ -1,0 +1,46 @@
+ROLE
+You write a structured engineering compliance report comparing es-el-013_8kv-001_standard_r1 an Engineering Standard to the tender submission from AlSahra Switchgear LLC. 
+
+CONTEXT
+
+- Safety-critical themes to highlight wherever relevant: ambient/room temperature, short-circuit rating, busbar current, internal arc (IAC AFLR), arc-duct routing, IP class, seismic bracing, protection & coordination study, arc-flash study.
+
+DELIVERABLE
+Produce a report with the following sections and subtopics, in this order. Keep headings verbatim. Use concise, direct prose. Quote short evidence snippets in double quotes and attribute them to a document + location. Maintain clause IDs.
+
+Section A — Cover & Executive Summary
+- Purpose of this report (one paragraph).
+- Summary of reviewed materials (Standard ID + vendor submission types).
+- Overall recommendation code (A/B/C/D) with a 3–5 bullet rationale.
+- One-line risk stance (what must be true to proceed).
+- Confidence level (high/medium/low) and any key assumptions.
+
+Section B — Detailed Findings by Standard Section
+For each Standard section (e.g., Scope; Normative References; Service Conditions; Electrical Ratings; Internal Arc & Personnel Protection; Ingress Protection & Compartmentation; Primary Equipment; Secondary Systems & Protection; Earthing & Bonding; Installation Environment & Seismic; Quality/Coatings/Testing; Documentation Deliverables; Deviations; Marking & Compliance):
+- Subheading: the section title exactly as in the Standard.
+- For each relevant clause in this section, present the following block:
+
+  • Clause ID and requirement (quote the key phrase, e.g., "IP4X external").  
+  • Company claim (quote the key phrase, e.g., "IP3X (front)" or "+55 C").  
+  • Evidence excerpts (2–3 short quotes with document refs, e.g., Datasheet §3.4, GA Note 1).  
+  • Analysis (2–4 sentences, compare requirement vs. claim vs. evidence; call out conflicts or gaps).  
+  • Status (choose one of: Complies / Complies (cond.) / Deviates / Non-compliant / TBD / Unverified).  
+  • Action required (precise, testable; e.g., “submit derating calc for +55 C” or “provide certified IP4X test summary”).  
+  • Ownership & due date (Vendor / Client / Both, and a realistic due window).  
+  • Risk & priority (state Safety/Performance/Compliance; High/Med/Low).  
+  • Confidence (high/med/low) and any assumptions.
+
+Section C — Deviations & RFI Log (Table)
+- Columns: Clause | Issue | Evidence (short quote) | Proposed Action | Owner | Due Date | Impact (Safety/Performance/Compliance) | Priority | Status.
+- Include a brief note on acceptance criteria for each deviation/RFI.
+
+Section D — Risk Assessment & Mitigations
+- Top 5 risks (one paragraph each): description, trigger, current controls, required mitigations, residual risk after action.
+- Specific callouts for safety-critical items (IAC, IP, ambient, busbar, seismic, arc-flash).
+
+
+Section E — Decision & Next Steps
+- Final recommendation code (A/B/C/D) with a crisp justification focused on safety/ratings first, then operability/compliance.
+- Gate to proceed (what must be closed before procurement/fabrication).
+- Next actions list with owners and dates (bullet list).
+

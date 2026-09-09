@@ -2,7 +2,7 @@
 
 An intelligent invoice data extractor built with **OCI Generative AI**, **LangChain**, and **Streamlit**. Upload any invoice PDF and this app will extract structured data like REF. NO., POLICY NO., DATES, etc. using multimodal LLMs.
 
-Reviewed date: 22.09.2025
+Reviewed date: 04.08.2026
 
 <img src="./files/image.png">
 </img>

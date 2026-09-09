@@ -1,0 +1,11 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: Function
+metadata:
+  name: existing-hello
+  labels:
+    app.kubernetes.io/part-of: oci-functions-operator
+    app.kubernetes.io/component: sample
+spec:
+  mode: Existing
+  functionId: ocid1.fnfunc.oc1.iad.exampleuniqueid
+  invokeEndpoint: https://functions.us-ashburn-1.oci.oraclecloud.com

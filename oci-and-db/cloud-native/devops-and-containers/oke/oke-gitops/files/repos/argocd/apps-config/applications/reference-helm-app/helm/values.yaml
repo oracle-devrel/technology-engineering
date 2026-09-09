@@ -1,0 +1,11 @@
+global:
+  application: reference-helm-app
+  component: unset
+  environment: unset
+  instance: unset
+
+frontend:
+  enabled: false
+
+api:
+  enabled: false

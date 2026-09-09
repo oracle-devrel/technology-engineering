@@ -10,7 +10,7 @@ This repository contains code and examples to help in the following tasks:
 
 **Author**: L. Saetta
 
-**Reviewed**: 28.01.2026
+**Reviewed**: 04.08.2026
 
 ![MCP console](./images/mcp_cli.png)
 
@@ -133,4 +133,4 @@ For more information, see [here](./docs/integrate_apm.md)
 ## License
 
 Licensed under the **MIT** license.
-See [LICENSE](./LICENSE).
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt).

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: git-tool
+  labels:
+    app.kubernetes.io/name: git-tool
+    app.kubernetes.io/managed-by: Helm
+data:
+  message: {{ .Values.message | quote }}
+  owner: {{ .Values.owner | quote }}

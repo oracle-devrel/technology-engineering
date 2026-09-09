@@ -4,7 +4,7 @@ Expense Validator Agent is an AI-powered assistant that automates employee expen
 It extracts structured data from uploaded PDFs, checks policy compliance, detects category mismatches, and compares declared amounts with expenses (invoice) total cost.  
 It runs as an interactive Streamlit app backed by a LangGraph-based workflow and Oracle GenAI models.
 
-Reviewed: August 20, 2025
+Reviewed: August 4, 2026
 
 # When to use this asset?
 
@@ -107,7 +107,7 @@ These control the agent’s reasoning behavior and result formatting.
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

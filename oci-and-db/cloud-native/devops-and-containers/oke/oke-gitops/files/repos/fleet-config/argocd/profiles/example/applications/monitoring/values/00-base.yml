@@ -1,0 +1,5 @@
+grafana:
+  enabled: true
+prometheus:
+  prometheusSpec:
+    retention: 24h

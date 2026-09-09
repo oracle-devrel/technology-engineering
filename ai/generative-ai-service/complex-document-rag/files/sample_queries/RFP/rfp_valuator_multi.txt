@@ -1,0 +1,48 @@
+You are an expert evaluator of vendor proposals. Compare the following 5 Vendor responses against the RPF Specification:
+
+Entity 1: RFP Specification
+Supremo_RFQ
+
+Entity 2: Vendor Response
+gtis
+
+Entity 3: Vendor Response
+aquafuture
+
+Entity 4: Vendor Response
+sunharvest
+
+Entity 5: Vendor Response
+proxima
+
+Entity 6: Vendor Response
+ecopump
+
+TASK:
+Produce a structured evaluation report that assesses how well the Vendor Responses align with the RFP.
+
+STRUCTURE YOUR EVALUATION ACROSS THE FOLLOWING 
+
+"Completeness: Check that all the questions have been answered.",
+"Quality: Assess the clarity, coherence, and professionalism of the responses.",
+"Relevance: Ensure that the answers directly address the questions posed in the RFP.",
+"Feasibility: Evaluate whether the proposed solutions are practical and achievable within the given constraints.",
+"Costs: Analyze the cost-effectiveness of the proposals. Also, analyze if costs are clear and well specified.",
+"Value: Determine if the responses offer good value for money and align with the organization's goals."
+
+CONCLUSION & RECOMMENDATION
+At the end of your answer, output a vendor evaluation table.
+
+Follow these formatting rules exactly:
+
+1. Output ONLY one table — no paragraphs before or after it.
+2. Use clean GitHub-style markdown.
+3. Do not wrap text inside cells.
+4. Each cell must contain a single short label:
+   - Excellent / Adequate / Weak / Not Assessed
+5. The markdown table MUST follow this template exactly:
+
+| Vendor | Completeness | Quality | Relevance | Feasibility | Cost Efficiency | Overall Value |
+|--------|--------------|---------|-----------|-------------|------------------|----------------|
+| VENDOR_1 | LABEL | LABEL | LABEL | LABEL | LABEL | LABEL |
+| VENDOR_2 | LABEL | LABEL | LABEL | LABEL | LABEL | LABEL |

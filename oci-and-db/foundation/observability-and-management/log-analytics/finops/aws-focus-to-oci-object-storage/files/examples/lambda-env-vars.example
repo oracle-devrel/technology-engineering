@@ -1,0 +1,14 @@
+SOURCE_BUCKET=aws-oci-focus-daily
+SOURCE_PREFIX=Dataexport/AWSDataExportDailyFocus/data/
+OCI_BASE_URL=https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/<PAR_TOKEN>/n/<OCI_NAMESPACE>/b/<OCI_BUCKET>/o
+DEST_PREFIX=
+OUTPUT_FILE_PREFIX=aws_focus_daily
+LOOKBACK_HOURS=24
+PROCESS_ALL=false
+LOG_BUCKET=aws-oci-focus-daily
+LOG_PREFIX=transfer-logs
+ENABLE_S3_AUDIT_LOG=true
+OCI_REGION=eu-frankfurt-1
+OCI_NAMESPACE=<namespace>
+OCI_BUCKET=<bucket>
+LOG_LEVEL=INFO
