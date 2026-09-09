@@ -50,7 +50,7 @@ fonttools==4.61.0
 fqdn==1.5.1
 frozenlist==1.5.0
 gitdb==4.0.12
-GitPython==3.1.54
+GitPython==3.1.59
 h11==0.16.0
 html5lib==1.1
 httpcore==1.0.7
@@ -88,13 +88,13 @@ kiwisolver==1.4.8
 lab==8.4
 langchain==0.3.30
 langchain-community==0.3.27
-langchain-core==0.3.81
+langchain-core==1.2.11
 langchain-mcp-adapters==0.1.9
 langchain-text-splitters==1.1.2
 langchain-unstructured==0.1.6
 langdetect==1.0.9
 langgraph==0.5.0
-langgraph-checkpoint==3.0.0
+langgraph-checkpoint==4.0.0
 langgraph-prebuilt==0.5.1
 langgraph-sdk==0.1.55
 langsmith==0.8.0
@@ -126,7 +126,7 @@ olefile==0.47
 onnxruntime==1.19.2
 openapi-pydantic==0.5.1
 oracledb==3.0.0
-orjson==3.10.15
+orjson==3.11.6
 ormsgpack==1.10.0
 overrides==7.7.0
 packaging==24.2
@@ -137,7 +137,7 @@ pathspec==0.12.1
 pdfminer.six==20231228
 pdfplumber==0.11.5
 pexpect==4.9.0
-pillow==11.1.0
+pillow==12.3.0
 platformdirs==4.3.6
 prometheus_client==0.21.1
 prompt_toolkit==3.0.50
