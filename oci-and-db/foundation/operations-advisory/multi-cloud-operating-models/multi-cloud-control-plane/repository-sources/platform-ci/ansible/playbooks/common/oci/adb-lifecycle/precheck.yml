@@ -1,0 +1,24 @@
+---
+- name: Read the ADB before the requested lifecycle action
+  oracle.oci.oci_database_autonomous_database_facts:
+    autonomous_database_id: "{{ oci_ocid }}"
+    auth_type: instance_principal
+  register: adb_state
+  delegate_to: localhost
+  check_mode: false
+
+- name: Validate the requested ADB lifecycle action
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - adb_state.autonomous_databases | length == 1
+      - action in ['start', 'stop']
+    fail_msg: The ADB target or requested lifecycle action is invalid.
+  check_mode: false
+
+- name: Report the observed ADB state
+  ansible.builtin.debug:
+    msg:
+      display_name: "{{ inventory_hostname }}"
+      requested_action: "{{ action }}"
+      lifecycle_state: "{{ adb_state.autonomous_databases[0].lifecycle_state }}"
