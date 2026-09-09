@@ -176,7 +176,7 @@ rank-bm25==0.2.2
 RapidFuzz==3.13.0
 referencing==0.36.2
 regex==2024.11.6
-requests==2.32.3
+requests==2.32.4
 requests-toolbelt==1.0.0
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
