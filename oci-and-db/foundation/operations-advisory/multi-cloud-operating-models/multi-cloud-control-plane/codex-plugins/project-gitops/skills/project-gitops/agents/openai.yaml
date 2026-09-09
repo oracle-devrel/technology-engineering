@@ -1,4 +1,4 @@
 interface:
   display_name: "Project GitOps"
-  short_description: "Governed multi-cloud project changes through PRs"
-  default_prompt: "Use $project-gitops to prepare and validate a governed project change through a human-reviewed GitHub pull request."
+  short_description: "Govern project infrastructure through GitOps."
+  default_prompt: "Prepare a governed project infrastructure change."
