@@ -2,7 +2,7 @@
 
 This document articulates the best practices for OCI Goldengate N-way replication in terms of generic capabilities and provides guidance and options on how those capabilities can be implemented.
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 
