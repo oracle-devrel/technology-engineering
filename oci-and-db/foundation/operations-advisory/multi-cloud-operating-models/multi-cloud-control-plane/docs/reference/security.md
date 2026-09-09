@@ -1,9 +1,10 @@
 # Security and GitHub controls
 
-Project Teams submit reviewed Git changes but do not receive deployment
-credentials. Cloud Operations manages repository controls, secrets, state, and
-runner identities. A trusted runner accesses the cloud only after a human merges
-an approved change.
+Project Teams submit reviewed Git changes, manage the values and rotation of
+their workload secrets, and do not receive deployment credentials. Cloud
+Operations manages repository controls, the secret-delivery boundary, state,
+and runner identities. A trusted runner accesses the cloud only after a human
+merges an approved change.
 
 ## GitHub plan controls
 
@@ -20,10 +21,12 @@ so each environment uses one optional JSON repository secret:
 | `prod` | `GITOPS_SECRET_VALUES_PROD` |
 
 A bundle is needed only when a manifest contains a matching placeholder. The
-workflow passes only the selected environment bundle to Platform CI. It rejects
-forks, workflow changes, invalid JSON, mixed environments or regions,
-cross-environment placeholders, and any field a lifecycle operation does not
-declare.
+Project Team owns the workload-secret values in its project repository bundles
+and rotates them through the organization's approved secret process. Cloud
+Operations maintains the boundary: the workflow passes only the selected
+environment bundle to Platform CI. It rejects forks, workflow changes, invalid
+JSON, mixed environments or regions, cross-environment placeholders, and any
+field a lifecycle operation does not declare.
 
 GitHub Free private repositories do not provide enforceable
 [private branch protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
@@ -49,6 +52,8 @@ request path; they do not change the project workflow.
 - Isolate state by organization, project, cloud, environment, and region.
 - Give each runner only the cloud permissions and labels required for its scope.
 - Keep non-production and production on separate runners.
+- Project Teams add and rotate workload-secret values only in their approved
+  environment-qualified project-repository bundles.
 - Keep Azure `ARM_*` values and Google credentials on the trusted runner, not in
   project manifests or secret bundles.
 - Resolve passwords from the selected secret bundle; never commit them or add

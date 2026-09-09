@@ -57,11 +57,12 @@ Provisions OCI Autonomous Database Serverless through the current OCI Landing
 Zones Autonomous Database contract. Use `__PROJ_DB_SUBNET_OCID__` for the
 private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. Render the
 catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified runtime token,
-such as `__DEV_ADB_ADMIN_PASSWORD__`, and add the corresponding key to that
-environment's project-repository secret bundle. Use one mapping key per ADB
-when deploying multiple databases. If an ADB needs a dedicated NSG, define
-that NSG in `oci/<environment>/<region>/network/project-nsgs.json` and
-reference its key in `networking.network_security_groups`. The catalog
+such as `__DEV_ADB_ADMIN_PASSWORD__`. The Project Team adds and rotates the
+corresponding key in that environment's project-repository secret bundle. Use
+one mapping key per ADB when deploying multiple databases. If an ADB needs a
+dedicated NSG, define that NSG in
+`oci/<environment>/<region>/network/project-nsgs.json` and reference its key
+in `networking.network_security_groups`. The catalog
 intentionally sets `is_dedicated` to `false`; ADB Dedicated requires an
 existing Autonomous Container Database and is not a project self-service
 request in this release.

@@ -52,3 +52,10 @@ boundaries if you need them.
 
 The [request lifecycle](request-lifecycle.md) contains the detailed rules,
 manifest paths, removal steps, and troubleshooting guidance.
+
+## 5. Follow a first worked example
+
+To see one complete request without using customer values, follow the
+[private OCI Autonomous Database walkthrough](oci-adb-walkthrough.md). It
+shows the manifest, pull-request, review, and verification flow using only
+placeholders and sample names.

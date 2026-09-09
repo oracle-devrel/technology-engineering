@@ -73,6 +73,7 @@ The model does not depend on any one tool or cloud. The technology behind it can
 | Approved resource and operation catalog | Cloud Operations |
 | Project boundary and the environment handoff that defines it | Cloud Operations |
 | Workload requests inside the handed-off boundary | Project Team |
+| Workload secret values and their rotation | Project Team, in its environment-qualified project-repository secret bundle |
 | Review and approval of each request | A reviewer who is not the author |
 | Cloud deployment credentials | Trusted runner identities, never a Project Team |
 | Execution of an approved change | Trusted automation, only after merge |

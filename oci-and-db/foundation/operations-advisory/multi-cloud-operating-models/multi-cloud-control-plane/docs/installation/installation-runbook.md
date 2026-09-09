@@ -137,9 +137,11 @@ remain a Cloud Operations review responsibility. Official GitHub Actions use
 reviewed major release tags. Major tags can move, so Cloud Operations reviews
 their release changes during every Platform CI upgrade. The fixed `repository-secrets` profile gives
 an enabled environment a secret bundle only when a workload needs matching
-runtime placeholders; the pull request remains the human deployment gate. See
-the [security guidance](../reference/security.md) for the controls recommended
-for each GitHub plan.
+runtime placeholders. Project Teams manage their workload-secret values in
+those per-environment bundles through the approved secret process; the pull
+request remains the human deployment gate. See the
+[security guidance](../reference/security.md) for the controls recommended for
+each GitHub plan.
 
 Verify the staged sources:
 
@@ -268,8 +270,11 @@ and every identity has the intended state and workload access.
 
 ## 4. Hand off the first project repository
 
-After the successful OP04 workflow, Cloud Operations uses its governed
-project-onboarding process to validate the
+After the successful
+**[OP04 project-onboarding workflow](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)**—the
+OCI Landing Zone phase that creates the project compartments, groups, and
+policies—Cloud
+Operations uses its governed project-onboarding process to validate the
 `project-foundation-handoff.json` and `environment_information.md` artifacts,
 create the project repository when it is absent, and publish the repository
 handoff in a reviewed pull request. It uses `nonprod-project-template` for the
@@ -300,8 +305,10 @@ Before the Project Team starts its first request:
      repository. Follow the procedural approval control in
      [Security and GitHub controls](../reference/security.md#github-plan-controls).
 4. Confirm the project's runners, identities, state boundary, and any required
-   `GITOPS_SECRET_VALUES_<ENVIRONMENT>` secret bundle. Add that bundle only
-   when supported workload placeholders require it.
+   `GITOPS_SECRET_VALUES_<ENVIRONMENT>` secret bundle. Enable a bundle only
+   when supported workload placeholders require it. Project Teams add and
+   rotate the workload-secret values in their enabled bundles through the
+   approved secret process.
 5. Confirm the request surface is within the [supported MVP scope](../reference/support.md).
 
 **Continue only when:** the handoff is complete. The Project Team then starts
@@ -317,6 +324,8 @@ For GitHub Team and GitHub Enterprise Cloud, also inspect the active `main`
 ruleset after configuring it:
 
 ```bash
+export PROJECT_REPOSITORY=nonprod-orders
+
 gh api "repos/$CUSTOMER_ORG/$PROJECT_REPOSITORY/rulesets" --paginate \
   --jq '.[] | select(.target == "branch" and .enforcement == "active") | .id' |
 while read -r ruleset_id; do
@@ -324,6 +333,10 @@ while read -r ruleset_id; do
     '{name, conditions, bypass_actors, rules}'
 done
 ```
+
+Set `PROJECT_REPOSITORY` to the handed-off repository name, without the
+organization prefix. For example, use `prod-orders` for a production project
+repository.
 
 Confirm that the output contains the active rule targeting `main`, its required
 pull-request rule with at least one approval, and no direct-push bypass. GitHub

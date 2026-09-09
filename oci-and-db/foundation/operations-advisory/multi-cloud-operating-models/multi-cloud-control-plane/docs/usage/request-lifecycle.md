@@ -29,7 +29,9 @@ your change process uses.
 3. Copy compartments, networks, subnets, and other foundation references from
    the selected environment handoff. Do not invent or replace them.
 4. Represent required secrets with an environment-qualified placeholder such
-   as `__DEV_ADB_ADMIN_PASSWORD__`. Never put a secret value in Git.
+   as `__DEV_ADB_ADMIN_PASSWORD__`. The Project Team adds and rotates the
+   matching value in its selected environment secret bundle through the
+   approved secret process; never put a secret value in Git.
 5. For a resource request, merge the catalog entry into the existing regional
    file. Replace `{}` for the first entry; do not create another file for the
    same configuration group, because Terraform does not deep-merge repeated root
@@ -115,6 +117,3 @@ state manually or retry with a personal cloud account.
 | Google private VM | `gcp/{environment}/{region}/compute/compute.json` |
 | Google Autonomous Database Serverless | `gcp/{environment}/{region}/workloads/adb.json` |
 | OCI lifecycle operation | `oci/{environment}/{region}/lifecycle_operations/{operation}.json` |
-
-Keep one file for each configuration group in a project and region. Terraform
-does not deep-merge repeated root values across multiple files.
