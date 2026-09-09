@@ -4,29 +4,13 @@
 
 Using APEX, developers don't need to be experts in a vast array of technologies to deliver sophisticated solutions. Just focus on solving the problem and let APEX take care of the rest.
 
-Reviewed: 2026.06.17
+Reviewed: 30.08.2026
 
 # Table of Contents
-1. [APEX 26.1 Highlights](#apex-261-highlights)
-2. [Assets](#assets)
-3. [Team Publications](#team-publications)
-4. [Useful Links](#useful-links)
 
-# APEX 26.1 Highlights
-
-- AI-assisted development capabilities
-- APEXlang
-- AI Agents
-- AI Interactive Reports
-- Workflow enhancements
-- Universal Theme updates
-- REST data source and security enhancements
-
-# Assets
-
-- [OCI Service Integration with REST APIs](./oci-service-integration-rest-apis/)
-- [OCI Services Integration without REST](./oci-services-integration-non-rest/)
-
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+3. [Assets](#assets)
 
 # Team Publications
 
@@ -82,8 +66,17 @@ Reviewed: 2026.06.17
 - [Other APEX Blogs](https://blogs.oracle.com/apex/)
 - [APEX YouTube channel](https://www.youtube.com/channel/UCEpIXFjcQIztReQNLymvYrQ/playlists?view=1&sort=da)
 
+
+
+# Assets
+
+- [OCI Service Integration with REST APIs](./oci-service-integration-rest-apis/)
+- [OCI Services Integration without REST](./oci-services-integration-non-rest/)
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

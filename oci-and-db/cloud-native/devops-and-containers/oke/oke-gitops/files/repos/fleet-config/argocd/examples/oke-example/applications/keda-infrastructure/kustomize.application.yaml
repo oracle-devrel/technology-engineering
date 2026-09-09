@@ -1,0 +1,4 @@
+application: keda-infrastructure
+cluster: oke-example
+namespace: keda
+resourcesPath: profiles/example/applications/keda-infrastructure/resources

@@ -1,0 +1,11 @@
+name: kube-prometheus-stack
+namespace: monitoring
+helm:
+  repository: https://prometheus-community.github.io/helm-charts
+  chart: kube-prometheus-stack
+  version: 87.19.1
+  releaseName: kube-prometheus-stack
+  valueFiles:
+    - values/00-base.yml
+    - values/90-overrides.yml
+resourcesPath: platform/applications/kube-prometheus-stack/resources

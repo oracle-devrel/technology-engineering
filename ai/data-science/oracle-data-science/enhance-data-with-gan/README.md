@@ -2,7 +2,7 @@
  
 This files cover code snippets for OCI Data Science, for enhancing data with GAN (Generative Adversarial Networks).
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

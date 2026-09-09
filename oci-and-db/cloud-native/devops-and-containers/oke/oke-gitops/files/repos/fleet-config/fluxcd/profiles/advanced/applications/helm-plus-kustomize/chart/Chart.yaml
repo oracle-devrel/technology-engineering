@@ -1,0 +1,6 @@
+apiVersion: v2
+name: combined-demo
+description: Lightweight Helm half of the combined delivery pattern
+type: application
+version: 0.1.0
+appVersion: "1.0"

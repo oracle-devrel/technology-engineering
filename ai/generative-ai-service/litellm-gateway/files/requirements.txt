@@ -1,0 +1,8 @@
+# LiteLLM proxy with the complexity auto-router (>= 1.94)
+litellm[proxy]>=1.94.0
+# OCI SDK - needed by the OCI Guardrails hook (guardrails/oci_guardrails.py)
+oci>=2.150.0
+# Optional: Langfuse observability (Stage 4)
+langfuse>=3.0.0
+# Examples use the plain OpenAI SDK against the gateway
+openai>=1.40.0

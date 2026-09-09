@@ -1,6 +1,6 @@
 # Distributed Cloud
 
-Updated: 29.05.2026
+Updated: 28.08.2026
 
 Oracle’s distributed cloud delivers the benefits of cloud with greater control and flexibility. Oracle’s distributed cloud lineup includes:
 
@@ -22,8 +22,16 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 - [Oracle Compute Cloud@Customer on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer/)
 - [Oracle Compute Cloud@Customer Isolated on oracle.com](https://www.oracle.com/cloud/compute/cloud-at-customer-isolated/)
 
+## Team Publications
+
+- [Native and Secured Gnome Desktop Access for Oracle Linux 10.x GUI](https://github.com/m21conjunction/solutions/blob/main/OL10GnodeDesktopSecuredAccess.pdf) (18/Aug/2026)
+
+
 ## Distributed Cloud - Common Assets
 
+- [Announcing: Accelerating Enterprise AI with OCI Dedicated Cloud Customer-Owned GPU](https://blogs.oracle.com/cloud-infrastructure/oci-dedicated-cloud-customer-owned-gpu) (24/Jul/2026)
+- [Announcing Enterprise AI for OCI Dedicated Cloud: Run AI where your data resides](https://blogs.oracle.com/cloud-infrastructure/enterprise-ai-oci-dedicated-cloud) (17/Jul/2026)
+- [Sovereign AI: Building AI Where Data, Infrastructure, and Control Stay Aligned](https://blogs.oracle.com/cloud-infrastructure/sovereign-ai) (16/Jul/2026)
 - [How OCI Delivers Cloud Consistency and Isolation: Gartner® Names Oracle in Report](https://blogs.oracle.com/cloud-infrastructure/oci-delivers-private-cloud) (28/Apr/2026)
 - [Oracle EU Sovereign Cloud – Reflecting on the Journey and Lessons Learned](https://blogs.oracle.com/cloud-infrastructure/oracle-eu-sovereign-cloud-lessons-learned) (9/Mar/2026)
 - [Oracle’s Full Cloud, Available On Premises – Industry Leading Sovereignty with Public Cloud Service Parity](https://blogs.oracle.com/cloud-infrastructure/oracle-full-cloud-on-prem) (19/Dec/2025)
@@ -32,7 +40,7 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 - [Oracle named a Leader, furthest in completeness of vision in the 2025 Gartner® Magic Quadrant™ for Distributed Hybrid Infrastructure](https://www.oracle.com/cloud/distributed-cloud/gartner-leadership-report/) (8/Sep/2025)
 - [Unveiling the Future of Cloud Computing: A Sneak Peek into Dedicated Cloud at Oracle AI World 2025](https://blogs.oracle.com/cloud-infrastructure/post/dedicated-cloud-at-oracle-ai-world-2025) (27/Aug/2025)
 - [Tackle your sovereignty obligations with Oracle Cloud Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/tackle-sovereignty-obligations-with-oci) (22/Apr/2025)
-- [Announcing New AI Infrastructure Capabilities with NVIDIA Blackwell for Public, On-Premises, and Service Provider Clouds](https://blogs.oracle.com/cloud-infrastructure/post/supercluster-nvidia-blackwell-dedicated-alloy) (27/Mar/2025)
+- [Announcing New AI Infrastructure Capabilities with NVIDIA Blackwell for Public, On-Premises, and Service Provider Clouds](https://blogs.oracle.com/cloud-infrastructure/supercluster-nvidia-blackwell-dedicated-alloy) (26/Mar/2025)
 - [https://blogs.oracle.com/cloud-infrastructure/post/oracle-and-nvidia-deliver-sovereign-ai-anywhere](https://blogs.oracle.com/cloud-infrastructure/post/oracle-and-nvidia-deliver-sovereign-ai-anywhere) (18/Mar/2025)
 -  [Oracle recognized as a Leader for a second year in the/2024 Gartner Magic Quadrant for Distributed Hybrid Infrastructure](https://blogs.oracle.com/cloud-infrastructure/post/2024-gartner-mq-distributed-hybrid-infrastructure) (10/Oct/2024)
 -  [Oracle sovereign cloud solutions: Implement more personnel requirements](https://blogs.oracle.com/cloud-infrastructure/post/oracle-sovereign-cloud-operations-support-personnel-requirements) (27/Jun/2023)
@@ -42,6 +50,9 @@ Oracle’s distributed cloud delivers the benefits of cloud with greater control
 - [Oracle sovereign cloud solutions: Using realms for enhanced cloud isolation](https://blogs.oracle.com/cloud-infrastructure/post/sovereign-cloud-realms-enhanced-isolation) (10/Apr/2023)
 - [Oracle sovereign cloud solutions: Choose where your data is located](https://blogs.oracle.com/cloud-infrastructure/post/oracle-sovereign-cloud-choose-where-data-located) (2/Mar/2023)
 - [OCI’s distributed cloud: meeting customer needs beyond the public cloud](https://blogs.oracle.com/cloud-infrastructure/post/oci-distributed-cloud-meeting-customer-needs) (18/Oct/2022)
+
+## Distributed Cloud - Industry Assets
+- [Oracle Cloud Deployment Models for Government Leaders](https://www.oracle.com/a/ocom/docs/industries/government/digital-gov-suite-cloud-deployment.pdf)
 
 ## License
 

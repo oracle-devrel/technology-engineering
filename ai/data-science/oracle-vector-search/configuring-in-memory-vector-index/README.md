@@ -2,7 +2,7 @@
  
 This document covers how to configure the in-memory vector index size within Oracle DB 23ai.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

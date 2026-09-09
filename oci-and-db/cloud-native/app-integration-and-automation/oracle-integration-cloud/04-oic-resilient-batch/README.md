@@ -2,7 +2,7 @@
  
 This asset contains accelerator type OIC Gen3 implementation of the resilient batch processing on top of Parking Lot Pattern. This pattern address one specific need when using Oracle Integration Cloud OIC for processing many batches. The repository provides the OIC Gen3 project with sample integrations and ATP scripts required for the implementation described in the [README.md](./files/oic-parkinglot/README.md).
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # When to use this asset?
  

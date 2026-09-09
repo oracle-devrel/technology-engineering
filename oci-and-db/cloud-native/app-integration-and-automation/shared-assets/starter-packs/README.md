@@ -4,8 +4,6 @@ Workload Architecture Document (WAD) is a standardized document Oracle Technolog
 
 The document is written in markdown and we use draw.io for architecture pictures and diagrams. The sub folders contain so called starter packs, which represent WAD templates for specific areas (simple application integration, application integration with SaaS, etc.)
 
-Review Date: 14.11.2025
-
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.

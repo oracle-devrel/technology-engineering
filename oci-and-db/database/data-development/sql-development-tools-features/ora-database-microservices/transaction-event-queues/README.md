@@ -4,21 +4,23 @@
 
 TxEventQs are compatible with Kafka (via the Kafka API for TxEventQ) and support TxEventQ - Kafka integration, providing flexibility for those architectures where kafka is already been using or in scenarios where message transactionality is not needed.
 
-### Key Concepts
+Reviewed: 26.08.2026
 
-##### Event-driven architecture (EDA)
+# Key Concepts
+
+## Event-driven architecture (EDA)
 
 Event-driven architecture (EDA) is a software design pattern that promotes the production, detection, consumption, and reaction to events. Events are significant changes in state or conditions that an application needs to respond to. TxEventQs enable EDA by providing a robust infrastructure for event handling and processing.
 
-##### Message Queues
+## Message Queues
 
 Message queues are essential in distributed systems, allowing different parts of an application to communicate and process operations asynchronously. TxEventQs provide a high-performance, transactional messaging system that ensures messages (events) are reliably delivered and processed in the correct order.
 
-##### Transactions
+## Transactions
 
 In databases and messaging, a transaction is a sequence of operations performed as a single logical unit of work. Transactions ensure that a series of operations either complete successfully as a whole or fail without affecting the system state. TxEventQs integrate with Oracle's transaction management to guarantee that messages are processed reliably within transactions. **This message transactionality helps developers reduce the effort needed to develop EDA**, as it avoids the need for compensation code to ensure data consistency in case of failures.
 
-### Features of Oracle Transaction Event Queues
+# Features of Oracle Transaction Event Queues
 
 **High Performance**
 
@@ -38,11 +40,11 @@ TxEventQs support various message patterns, including point-to-point and publish
 
 **Integration**
 
-TxEventQs can be easily integrated with other Oracle database features and external applications, enabling seamless interaction between different system components and microservices. 
+TxEventQs can be easily integrated with other Oracle database features and external applications, enabling seamless interaction between different system components and microservices.
 
-Also, TxEventQ can be integrated with Kafka in a transparent way for applications. 
+Also, TxEventQ can be integrated with Kafka in a transparent way for applications.
 
-### Use Cases
+# Use Cases
 
 **Microservices Communication**
 
@@ -62,20 +64,14 @@ TxEventQs can manage and coordinate workflows by routing events between differen
 
 Oracle Transaction Event Queues provide a robust, high-performance solution for managing transactional events in event-driven architectures. By integrating seamlessly with Oracle's database and transaction management systems, TxEventQs offer reliable, scalable, and flexible event processing capabilities, making them a powerful tool for modern applications.
 
-Reviewed: 01.12.2025
-
-# Table of Contents
- 
-1. [Team Publications](#team-publications)
-2. [Useful Links](#useful-links)
-3. [Reusable Assets Overview](#reusable-assets-overview)
-
 # Team Publications
+
 - [Video: Simplify Event-driven Apps with TxEventQ (Presentation and demo)](https://otube.oracle.com/media/Simplify%20Event-driven%20Apps%20with%20TxEventQ/1_zsf9huje)
 - [Oracle Developer Tech Days](https://go.oracle.com/LP=138674?elqCampaignId=500067&src1=:se:lw:ie:pt:::SEO400308921SW&evite=WWMK230914P00011:se:lw:ie:pt:::SEO400308921SW) Developing Microservices Applications with Oracle (**Registration Required**)
 - Cloud Coaching Session: [Upgrade Your Microservices with Autonomous Database: Event Driven Architectures with TxEventQ and Kafka](https://www.youtube.com/watch?v=my4KMotFKwM&list=PLPIzp-E1msrZbCMh7NObbSSoI7q924MZS&index=1&t=7s)
 
 # Useful Links
+
 - [Oracle Transactional Event Queues Home Page](https://www.oracle.com/database/advanced-queuing/)
 - Oracle 23ai Documentation: [Transactional Event Queues and Advanced Queuing User's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/26/adque/index.html)
 - Blog: [Building a event streaming architecture using a simple and breakthrough solution](https://luca-bindi.medium.com/building-a-event-streaming-architecture-using-a-simple-and-breakthrough-solution-db6270ea6183)
@@ -84,6 +80,7 @@ Reviewed: 01.12.2025
 - Video: [Transactional Events Using Oracle TEQ and Apache Kafka](https://www.youtube.com/watch?v=BZ4bJtNyV-g)
 
 # Reusable Assets Overview
+
 - Oracle LiveLabs [Tutorials / How To's]: [Simplify Microservices with Converged Oracle Database](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=637)
 - Oracle LiveLabs [Tutorials / How To's]: [Get started with Oracle AQ and Oracle TEQ events and messaging](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=1016)
 
@@ -93,4 +90,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
