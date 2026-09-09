@@ -315,16 +315,18 @@ Before the Project Team starts its first request:
    when supported workload placeholders require it. Project Teams add and
    rotate the workload-secret values in their enabled bundles through the
    approved secret process.
-5. Confirm the request surface is within the [supported MVP scope](../reference/support.md).
+5. Confirm the request surface is within [Reference capabilities](../reference/support.md).
 
 **Continue only when:** the handoff is complete. The Project Team then starts
 with the [Project Team guide](../usage/README.md), not with platform setup.
 
 ## 5. Accept the first project
 
-Run the [environment secret-isolation check](../reference/verify-secret-isolation.md)
-after handoff and before the first workload request. It reaches Terraform plan
-but does not deploy infrastructure.
+Cloud Operations coordinates first-project acceptance after handoff. The
+Project Team runs the [environment secret-isolation check](../reference/verify-secret-isolation.md)
+before its first workload request. Cloud Operations confirms that the runners,
+state boundary, and selected environment secret-delivery boundary support the
+check. It reaches Terraform plan but does not deploy infrastructure.
 
 For GitHub Team and GitHub Enterprise Cloud, also inspect the active `main`
 ruleset after configuring it:

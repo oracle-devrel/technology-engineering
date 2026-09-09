@@ -10,9 +10,11 @@ cloud. Every request follows the same reviewed pull-request workflow.
 Before choosing an interface, confirm that you:
 
 - have write access to a handed-off project repository;
-- are requesting something in the [current MVP scope](../reference/support.md);
+- are requesting something in [Reference capabilities](../reference/support.md);
 - have selected one cloud, environment, and region from your environment
   handoff; and
+- have completed the [environment secret-isolation check](../reference/verify-secret-isolation.md)
+  with Cloud Operations; and
 - have any change reference your organization requires, such as `CRQ1234`, to
   record in the pull request.
 

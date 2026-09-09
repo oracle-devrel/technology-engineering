@@ -11,7 +11,7 @@ Confirm that you have write access to the handed-off `nonprod-<project>` or
 selected cloud. Blank handoff sections cannot be used. Azure and Google Cloud
 requests require their reviewed foundation references in that file.
 
-Check that the request appears in [what MCCP supports](../reference/support.md).
+Check that the request appears in [Reference capabilities](../reference/support.md).
 
 Record a change reference such as `CRQ1234` in the pull request before review.
 This is a procedural convention for traceability: no workflow validates it. The

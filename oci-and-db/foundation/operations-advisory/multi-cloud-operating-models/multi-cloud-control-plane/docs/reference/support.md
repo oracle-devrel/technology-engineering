@@ -3,10 +3,10 @@
 This page lists the Day 1 resources and Day 2 operations included in the
 supplied MCCP reference.
 
-These patterns are part of the [target operating
-model](architecture.md#target-operating-model). New resource families follow
-the [extension model](architecture.md#extension-model). Use the supplied
-patterns only from a handed-off project repository and follow the
+The supplied reference implementation includes these patterns. New resource
+families can be added through the [extension model](architecture.md#extension-model)
+without changing the [target operating model](architecture.md#target-operating-model).
+Use the supplied patterns only from a handed-off project repository and follow the
 [request lifecycle](../usage/request-lifecycle.md) for its review and boundary
 requirements.
 
@@ -20,6 +20,9 @@ resource in this table.
 | OCI | Project network security groups (NSGs), Compute, Autonomous Database |
 | Azure | Private Linux VM, Oracle Autonomous Database |
 | Google Cloud | Private Linux VM, Oracle Autonomous Database Serverless |
+
+The supplied OCI Compute example uses `eu-frankfurt-1`. A reference deployment
+in another region needs a region-specific Compute template and image reference.
 
 The Azure and Google Cloud reference patterns consume existing foundation
 references. They do not create projects, resource groups, IAM, networks,

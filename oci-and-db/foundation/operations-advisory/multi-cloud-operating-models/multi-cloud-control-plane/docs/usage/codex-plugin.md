@@ -18,7 +18,7 @@ Read-only status and monitoring requests do not need a CRQ and do not create
 Git changes.
 
 The plugin supports the resource requests listed in
-[what MCCP supports](../reference/support.md) and OCI Autonomous Database
+[Reference capabilities](../reference/support.md) and OCI Autonomous Database
 start/stop. OCI Compute `deploy-agent` remains available through the GitHub
 interface or optional UI.
 

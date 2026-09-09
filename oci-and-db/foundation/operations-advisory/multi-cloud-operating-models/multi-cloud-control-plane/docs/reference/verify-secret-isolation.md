@@ -1,8 +1,10 @@
 # Verify environment secret isolation
 
 The Project Team runs this acceptance test after Cloud Operations hands off the
-first project repository and before it submits a workload request. The test
-reaches Terraform plan but does not deploy infrastructure.
+first project repository and before it submits a workload request. Cloud
+Operations confirms that the runners, state boundary, and selected environment
+secret-delivery boundary support the test. The test reaches Terraform plan but
+does not deploy infrastructure.
 
 ## Successful environment
 
