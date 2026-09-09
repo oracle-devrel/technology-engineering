@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project GitOps"
+  short_description: "Govern project infrastructure through GitOps."
+  default_prompt: "Prepare a governed project infrastructure change."
