@@ -1,0 +1,11 @@
+streamlit>=1.58.0
+oci>=2.178.0
+openai>=2.0.0
+oci-genai-auth>=1.1.1
+httpx>=0.27.0,<1
+pydantic>=2.10.0
+PyMuPDF>=1.24.0
+Pillow>=10.4.0
+pandas>=2.2.0
+openpyxl>=3.1.5
+python-dotenv>=1.0.1
