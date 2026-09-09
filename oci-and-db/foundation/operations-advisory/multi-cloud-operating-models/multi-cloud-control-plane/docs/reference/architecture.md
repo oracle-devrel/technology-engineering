@@ -22,7 +22,7 @@ flowchart LR
 ```
 
 All three routes prepare the same proposed manifests and pull requests. A
-change is executed only after the organisation's human review and approved
+change is executed only after the organization's human review and approved
 merge. The optional UI and Codex plugin do not bypass GitHub review, merge
 changes, or hold cloud deployment authority.
 
@@ -91,5 +91,5 @@ privilege, and separation of duties.
 
 - Follow a request end to end in the [request lifecycle](../usage/request-lifecycle.md).
 - Review the [security and trust controls](security.md).
-- Prepare organisation repositories and runners with the [installation runbook](../installation/installation-runbook.md).
+- Prepare organization repositories and runners with the [installation runbook](../installation/installation-runbook.md).
 - Check the [MVP capabilities](support.md) before preparing a request.

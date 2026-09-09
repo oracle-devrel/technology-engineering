@@ -8,10 +8,9 @@ and [Project Team workflow](https://github.com/oracle-devrel/technology-engineer
 
 ## Installation
 
-Cloud Operations copies this component to its UI runtime location and places
-the rendered MCCP `mccp-installation.json` beside it. This small non-secret
-file identifies the customer organization and approved immutable catalog
-revision. Repository layouts and environments are fixed by the installed
+Cloud Operations copies this component to its UI runtime location. The UI uses
+its configured GitHub organization and the current `gitops-templates` catalog
+on `main`. Repository layouts and environments are fixed by the installed
 release.
 
 Create a local `.env` from `.env.example` and set the GitHub App and session
