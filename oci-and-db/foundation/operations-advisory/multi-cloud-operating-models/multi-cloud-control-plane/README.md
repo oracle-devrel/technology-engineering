@@ -1,5 +1,7 @@
 # Multi-Cloud Control Plane <!-- omit in toc -->
 
+Reviewed: 2026-09-04
+
 > *One governed way to request, review, execute, and record workload changes across clouds at scale.*
 
 ## Table of Contents <!-- omit in toc -->
@@ -8,7 +10,7 @@
 - [How to use this asset?](#how-to-use-this-asset)
 - [Why we need a Multi-Cloud Control Plane?](#why-we-need-a-multi-cloud-control-plane)
 - [What is the Multi-Cloud Control Plane?](#what-is-the-multi-cloud-control-plane)
-  - [The Multi-Cloud Operating Model.](#the-multi-cloud-operating-model)
+  - [The Multi-Cloud Operating Model](#the-multi-cloud-operating-model)
     - [Who owns what](#who-owns-what)
     - [How a request moves](#how-a-request-moves)
 - [How it works](#how-it-works)
@@ -21,17 +23,17 @@
 
 # What is this asset?
 
-The Multi-Cloud Control Plane (MCCP) lets an organisation run Day 1 and Day 2 operations among several clouds without requiring a different way of working for each one. It connects people, governance, security, and automation into a single delivery path: a team proposes a change, a person approves it, and trusted automation executes it.
+The Multi-Cloud Control Plane (MCCP) lets an organization run Day 1 and Day 2 operations among several clouds without requiring a different way of working for each one. It connects people, governance, security, and automation into a single delivery path: a team proposes a change, a person approves it, and trusted automation executes it.
 
 # How to use this asset?
 
-Follow the following guidance and instructions.
+Start with the [installation runbook](docs/installation/installation-runbook.md) if you are Cloud Operations, or the [Project Team guide](docs/usage/README.md) if you have a handed-off repository.
 
 # Why we need a Multi-Cloud Control Plane?
 
 Fragmented cloud operations do not scale. Cloud operations usually grow one platform at a time. A process that works in a small environment becomes hard to manage once more teams, services, and providers are added.
 
-Managing multi-cloud environments present difficult challenges as:
+Managing multi-cloud environments presents challenges such as:
 
 * Different consoles and management interfaces.
 * Multiple services and endless options.
@@ -41,7 +43,7 @@ Managing multi-cloud environments present difficult challenges as:
 * Increased delivery times, coordination between teams and delays on approvals.
 * A challenging Operational Security.
 
-This leads to a ***limited scalability***, ***high operational risk*** and experience a ***poor control***.
+The result is limited scalability, high operational risk, and weak control.
 
 Each cloud adds another interface, another process, and another set of specialist skills, so work and evidence fragment. Delivery slows, operational risk rises, and control weakens as the estate grows.
 
@@ -49,14 +51,14 @@ The goal is not another console. It is to give every team the same safe way to r
 
 # What is the Multi-Cloud Control Plane?
 
-The Multi-Cloud Control Plane is the response that satisfy the management of multiple clouds. It is composed of the different components:
+The Multi-Cloud Control Plane answers that problem. It has four components:
 
-* The Multi-Cloud Common Operating Model.
+* The Multi-Cloud Operating Model.
 * Different User Interfaces managing the Git single-source of truth.
-* Operations Catalogue.
+* Operations catalog.
 * Automation pipelines implementing the changes.
 
-## The Multi-Cloud Operating Model.
+## The Multi-Cloud Operating Model
 
 A multi-cloud operating model answers four questions: who can request a change, what they can request, who approves it, and where the result is recorded. MCCP turns those rules into a repeatable delivery pattern.
 
@@ -119,7 +121,7 @@ Cloud Operations creates the foundation and the safe boundary. A standard reposi
 | **Trusted automation** | Shared validation, planning, execution, and evidence controlled by Cloud Operations. |
 | **Request interfaces** | GitHub, plus an optional UI and an optional Codex plugin, all creating the same governed pull request. |
 
-Cloud Operations connects these to the organisation's reviewed cloud foundations, identities, runners, and state storage. The [installation runbook](docs/installation/installation-runbook.md) covers those prerequisites and the setup steps.
+Cloud Operations connects these to the organization's reviewed cloud foundations, identities, runners, and state storage. The [installation runbook](docs/installation/installation-runbook.md) covers those prerequisites and the setup steps.
 
 The supplied package deliberately qualifies a small catalog of OCI, Azure, and Google Cloud resource requests plus selected OCI lifecycle operations; see [current capabilities](docs/reference/support.md) for the current scope and its qualification evidence. The catalog grows through reviewed provider integrations, resources, and operations, and each extension follows the same governance, security, and approval process before Project Teams can use it.
 
@@ -129,14 +131,14 @@ The supplied package deliberately qualifies a small catalog of OCI, Azure, and G
 | --- | --- |
 | [Architecture](docs/reference/architecture.md) | Explains roles, repositories, execution, and extensions. |
 | [Current capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations, and the qualification evidence behind them.|
-| [Operational Security Controls](docs/reference/security.md) | Get insights of the built-in security controls. |
+| [Operational Security Controls](docs/reference/security.md) | Describes the built-in security controls. |
 | [Verify environment secret isolation](docs/reference/verify-secret-isolation.md) | One-time acceptance check before the first workload request. |
 
 # Getting Started
 
 | Step | Start here |
 | --- | --- |
-| **STEP 1: Install MCCP for a GitHub organisation** | [Cloud Operations installation](docs/installation/installation-runbook.md) |
+| **STEP 1: Install MCCP for a GitHub organization** | [Cloud Operations installation](docs/installation/installation-runbook.md) |
 | **STEP 2: How to onboard projects** | [Project Team guide](docs/usage/README.md) |
 
 # Related guidance

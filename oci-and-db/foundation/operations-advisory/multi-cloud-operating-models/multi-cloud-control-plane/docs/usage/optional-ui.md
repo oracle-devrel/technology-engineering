@@ -1,4 +1,4 @@
-# Optional Multi-Cloud Plane UI
+# Optional Multi-Cloud Control Plane UI
 
 Use the UI when you prefer a guided form to editing JSON.
 
@@ -18,4 +18,4 @@ authority than that. Check [MVP capabilities](../reference/support.md) for the
 resources and lifecycle operations available through this interface.
 
 If the UI is not available, use the GitHub interface. Cloud Operations installs
-it using the [optional UI setup](../installation/optional-interfaces.md#optional-multi-cloud-plane-ui).
+it using the [optional UI setup](../installation/optional-interfaces.md#optional-multi-cloud-control-plane-ui).
