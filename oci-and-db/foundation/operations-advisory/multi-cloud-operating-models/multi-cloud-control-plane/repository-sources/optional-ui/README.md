@@ -1,8 +1,8 @@
-# Multi-Cloud Plane
+# Multi-Cloud Control Plane UI
 
-Multi-Cloud Plane is the optional MCCP guided interface. It lets Project
-Teams select an approved catalog entry and open a pull request in an already
-handed-off project repository. The canonical MCCP documentation defines the
+Multi-Cloud Control Plane UI is the optional MCCP guided interface. It lets
+Project Teams select an approved catalog entry and open a pull request in an
+already handed-off project repository. The canonical MCCP documentation defines the
 [supported request surface](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md)
 and [Project Team workflow](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md).
 

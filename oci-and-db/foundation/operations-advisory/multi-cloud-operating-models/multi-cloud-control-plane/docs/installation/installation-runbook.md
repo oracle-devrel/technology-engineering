@@ -268,26 +268,24 @@ and every identity has the intended state and workload access.
 
 ## 4. Hand off the first project repository
 
-Create a project repository only after its project-foundation handoff is
-complete. Use `nonprod-project-template` for the shared `dev`, `test`, and
-`uat` model, or `prod-project-template` for the isolated `prod` model.
-
-```bash
-export PROJECT_REPOSITORY=nonprod-example-project
-gh repo create "$CUSTOMER_ORG/$PROJECT_REPOSITORY" \
-  --private --template "$CUSTOMER_ORG/nonprod-project-template"
-```
+After the successful OP04 workflow, Cloud Operations uses its governed
+project-onboarding process to validate the
+`project-foundation-handoff.json` and `environment_information.md` artifacts,
+create the project repository when it is absent, and publish the repository
+handoff in a reviewed pull request. It uses `nonprod-project-template` for the
+shared `dev`, `test`, and `uat` model, or `prod-project-template` for the
+isolated `prod` model. Do not create the project repository outside that
+process.
 
 Before the Project Team starts its first request:
 
-1. Complete `environments/<environment>/environment_information.md` for each
-   enabled cloud; blank values are not valid. The OCI references are published
-   into that file by the Landing Zone project-foundation handoff (the OP04 phase
-   that creates the project compartments, groups, and policies), so do not
-   hand-write them. Complete the Azure and Google Cloud sections yourself in a
-   separate reviewed pull request. Use the
-   [OCI Landing Zone](../../../../../landing-zones/README.md) if the foundation
-   does not exist yet.
+1. The OCI section of `environments/<environment>/environment_information.md`
+   is published by the Landing Zone project-foundation handoff. The OP04 phase
+   creates the project compartments, groups, and policies, so do not hand-write
+   its references. Complete the Azure and Google Cloud sections in a separate
+   reviewed pull request; blank values are not valid. Use the
+   [OCI Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)
+   if the foundation does not exist yet.
 2. Configure Project Team access. The Project Team owns review ownership and
    may render `.github/CODEOWNERS.template` into an active
    `.github/CODEOWNERS` file as described in the project template README. A
@@ -300,7 +298,7 @@ Before the Project Team starts its first request:
      author.
    - **GitHub Free:** GitHub cannot enforce these controls for a private
      repository. Follow the procedural approval control in
-     [Security and GitHub controls](../reference/security.md#github-free-baseline).
+     [Security and GitHub controls](../reference/security.md#github-plan-controls).
 4. Confirm the project's runners, identities, state boundary, and any required
    `GITOPS_SECRET_VALUES_<ENVIRONMENT>` secret bundle. Add that bundle only
    when supported workload placeholders require it.

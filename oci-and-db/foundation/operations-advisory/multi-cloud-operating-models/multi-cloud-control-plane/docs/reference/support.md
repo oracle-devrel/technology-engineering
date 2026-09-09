@@ -47,8 +47,8 @@ Azure and Google Cloud lifecycle operations are not supplied in this release.
 | Azure resources | Provider-schema validation and credential-free mocked Terraform lifecycle tests |
 | Google Cloud resources | Provider-schema validation and credential-free mocked Terraform lifecycle tests |
 
-Maintainer qualification also covered every supplied JSON file and catalog
-schema, create/update/delete validation including invalid handoffs, public IPs,
+Maintainer qualification also covered every supplied JSON file and
+create/update/delete validation including invalid handoffs, public IPs,
 secret placeholders, unknown clouds and mixed environments, and synthetic Git
 repositories for requests, project handoff, and environment retirement.
 

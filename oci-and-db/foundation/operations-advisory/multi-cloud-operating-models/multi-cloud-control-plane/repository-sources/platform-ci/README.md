@@ -21,7 +21,7 @@ project caller.
 
 Use a trusted Linux self-hosted runner with:
 
-- Git, `jq`, `rg`, and Python 3.11 or later.
+- Git, `jq`, `rg`, and Python 3.11, available as `python3.11`, with `pip`.
 - Outbound HTTPS access to install the pinned Terraform 1.12.1 runtime.
 - OCI Instance Principal access to the Object Storage state bucket.
 - `STATE_NAMESPACE`, `STATE_REGION`, and

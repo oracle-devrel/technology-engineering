@@ -9,7 +9,7 @@ passes its path explicitly to the shared workflow. Platform CI parses
 `operation_type` and selects one explicitly allow-listed operation playbook;
 project input never selects a playbook path or Ansible tag.
 
-## JSON schema
+## Manifest shape
 
 ```json
 {

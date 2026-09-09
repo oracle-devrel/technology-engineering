@@ -73,7 +73,7 @@ catalog. A new resource is available only after Cloud Operations implements and
 qualifies the complete delivery chain:
 
 - foundation references, permissions, and the handoff contract;
-- an approved catalog template, schema, and semantic validation;
+- an approved catalog template and semantic validation;
 - a cloud orchestrator or execution implementation and explicit workflow routing;
 - isolated state, a scoped runner identity, and required secrets; and
 - customer documentation, security review, and qualification evidence.

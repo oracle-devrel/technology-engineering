@@ -216,7 +216,7 @@ def _validate_vm_declaration(
             or hostname != name
             or not _valid_ocid(networking.get("subnet_id"), "subnet", region)
             or type(nsg_keys) is not list
-            or not 1 <= len(nsg_keys) <= MAX_NSG_IDS
+            or not 0 <= len(nsg_keys) <= MAX_NSG_IDS
             or any(
                 type(key) is not str or RESOURCE_KEY_RE.fullmatch(key) is None
                 for key in nsg_keys
@@ -870,7 +870,13 @@ def main(argv: list[str] | None = None) -> int:
                  "environment": change.environment, "region": change.region},
             )
         elif change.kind == "database/database.json":
-            document = validate_adb_change(change)
+            candidate = strict_json(change.candidate_content)
+            declared_nsgs = (
+                None if candidate == {} else _declared_nsg_keys_at_base(
+                    change.repo, change.base_sha, change.environment, change.region
+                )
+            )
+            document = validate_adb_change(change, declared_nsgs=declared_nsgs)
         elif change.kind == "compute/compute.json":
             document = validate_compute_change(change)
         elif change.kind == "network/project-nsgs.json":

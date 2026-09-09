@@ -36,16 +36,13 @@ Fragmented cloud operations do not scale. Cloud operations usually grow one plat
 Managing multi-cloud environments presents challenges such as:
 
 * Different consoles and management interfaces.
-* Multiple services and endless options.
-* Distributed traceability.
-* Several tools, automations, manual steps and managing versioning.
-* Leads to having big teams, requiring specialization.
-* Increased delivery times, coordination between teams and delays on approvals.
-* A challenging Operational Security.
+* More services and configuration choices.
+* Evidence spread across platforms.
+* More tools, automation, manual steps, and versioning.
+* Larger specialist teams and slower approvals.
+* A harder operational-security model.
 
 The result is limited scalability, high operational risk, and weak control.
-
-Each cloud adds another interface, another process, and another set of specialist skills, so work and evidence fragment. Delivery slows, operational risk rises, and control weakens as the estate grows.
 
 The goal is not another console. It is to give every team the same safe way to request, review, execute, and record a change.
 
@@ -54,7 +51,7 @@ The goal is not another console. It is to give every team the same safe way to r
 The Multi-Cloud Control Plane answers that problem. It has four components:
 
 * The Multi-Cloud Operating Model.
-* Different User Interfaces managing the Git single-source of truth.
+* Request interfaces that manage the Git source of truth.
 * Operations catalog.
 * Automation pipelines implementing the changes.
 
@@ -62,7 +59,8 @@ The Multi-Cloud Control Plane answers that problem. It has four components:
 
 A multi-cloud operating model answers four questions: who can request a change, what they can request, who approves it, and where the result is recorded. MCCP turns those rules into a repeatable delivery pattern.
 
-The operating model defines the rules — roles and ownership, approved boundaries, governance, approvals, and compliance. The control plane enforces
+The operating model defines the rules: roles and ownership, approved boundaries,
+governance, approvals, and compliance. The control plane enforces
 them by giving teams one controlled way to request, review, execute, and record changes. Teams work independently, but only inside a safe operating space established once by Cloud Operations.
 
 The model does not depend on any one tool or cloud. The technology behind it can change without redefining how work is governed.
@@ -130,7 +128,7 @@ The supplied package deliberately qualifies a small catalog of OCI, Azure, and G
 | Document | Description |
 | --- | --- |
 | [Architecture](docs/reference/architecture.md) | Explains roles, repositories, execution, and extensions. |
-| [Current capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations, and the qualification evidence behind them.|
+| [Current capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations, and the qualification evidence behind them. |
 | [Operational Security Controls](docs/reference/security.md) | Describes the built-in security controls. |
 | [Verify environment secret isolation](docs/reference/verify-secret-isolation.md) | One-time acceptance check before the first workload request. |
 
@@ -139,13 +137,14 @@ The supplied package deliberately qualifies a small catalog of OCI, Azure, and G
 | Step | Start here |
 | --- | --- |
 | **STEP 1: Install MCCP for a GitHub organization** | [Cloud Operations installation](docs/installation/installation-runbook.md) |
-| **STEP 2: How to onboard projects** | [Project Team guide](docs/usage/README.md) |
+| **STEP 2: Hand off a project** | [Cloud Operations handoff](docs/installation/installation-runbook.md#4-hand-off-the-first-project-repository) |
+| **STEP 3: Use a handed-off repository** | [Project Team guide](docs/usage/README.md) |
 
 # Related guidance
 
 These companion assets are outside MCCP:
 
-- [OCI Landing Zone](../../../landing-zones/README.md) can establish a governed OCI foundation and publishes the project-foundation handoff that MCCP consumes. MCCP can also use an existing reviewed OCI foundation.
+- [OCI Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities) can establish a governed OCI foundation and publishes the project-foundation handoff that MCCP consumes. MCCP can also use an existing reviewed OCI foundation.
 - [Operational Security](../operational-security/README.md) provides broader guidance for protecting Git, CI/CD automation, identities, and programmatic cloud access.
 
 # License

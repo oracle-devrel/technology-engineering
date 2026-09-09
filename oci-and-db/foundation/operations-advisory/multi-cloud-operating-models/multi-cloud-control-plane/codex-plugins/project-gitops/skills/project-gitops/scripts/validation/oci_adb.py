@@ -24,7 +24,7 @@ def validate_adb_declaration(
     project: str,
     environment: str,
     region: str,
-) -> None:
+) -> frozenset[str]:
     """Validate one created or updated ADB declaration."""
     if (not isinstance(adb_key, str) or ADB_KEY_RE.fullmatch(adb_key) is None
             or not isinstance(adb, dict) or set(adb) != ADB_FIELDS):
@@ -51,7 +51,7 @@ def validate_adb_declaration(
         nsg_ids = networking.get("network_security_groups")
         invalid |= networking.get("enable_private_endpoint") is not True
         invalid |= not _valid_ocid(networking.get("subnet_id"), "subnet", region)
-        invalid |= (type(nsg_ids) is not list or not 1 <= len(nsg_ids) <= MAX_NSG_IDS
+        invalid |= (type(nsg_ids) is not list or not 0 <= len(nsg_ids) <= MAX_NSG_IDS
                     or any(type(item) is not str or ADB_NSG_RE.fullmatch(item) is None
                            for item in nsg_ids) or len(set(nsg_ids)) != len(nsg_ids))
     if invalid:
@@ -66,6 +66,8 @@ def validate_adb_declaration(
             or not inner_secret_name.startswith(environment_prefix)):
         _failure("INVALID_SECRET_PLACEHOLDER",
                  "The ADB administrator secret placeholder is invalid.")
+    assert isinstance(nsg_ids, list)
+    return frozenset(nsg_ids)
 
 
 def _adb_configuration(document: object) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -132,7 +134,11 @@ def _adb_summary(
     return summary
 
 
-def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
+def validate_adb_change(
+    change: RepositoryChange,
+    *,
+    declared_nsgs: frozenset[str] | None = None,
+) -> dict[str, object]:
     """Validate one to three governed ADB creates, updates, or deletions."""
     base_document = strict_json(change.base_content)
     candidate_document = strict_json(change.candidate_content)
@@ -171,8 +177,13 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
         new_adb = candidate_databases[adb_key]
         if _has_sensitive_value(new_adb):
             _failure("INVALID_SECRET_VALUE", "The ADB manifest contains a rejected value.")
-        validate_adb_declaration(adb_key, new_adb, project=change.project,
-                                 environment=change.environment, region=change.region)
+        referenced_nsgs = validate_adb_declaration(
+            adb_key, new_adb, project=change.project,
+            environment=change.environment, region=change.region,
+        )
+        if declared_nsgs is not None and not referenced_nsgs.issubset(declared_nsgs):
+            _failure("UNDECLARED_NSG_REFERENCE",
+                     "An ADB references an undeclared project NSG.")
         resource_summaries.append(_adb_summary(
             adb_key, new_adb, action="create", region=change.region,
             default_compartment_id=candidate_default,
@@ -181,8 +192,13 @@ def validate_adb_change(change: RepositoryChange) -> dict[str, object]:
         updated_adb = candidate_databases[adb_key]
         if _has_sensitive_value(updated_adb):
             _failure("INVALID_SECRET_VALUE", "The ADB manifest contains a rejected value.")
-        validate_adb_declaration(adb_key, updated_adb, project=change.project,
-                                 environment=change.environment, region=change.region)
+        referenced_nsgs = validate_adb_declaration(
+            adb_key, updated_adb, project=change.project,
+            environment=change.environment, region=change.region,
+        )
+        if declared_nsgs is not None and not referenced_nsgs.issubset(declared_nsgs):
+            _failure("UNDECLARED_NSG_REFERENCE",
+                     "An ADB references an undeclared project NSG.")
         previous_adb = base_databases[adb_key]
         changed_fields = sorted(
             field for field in ADB_FIELDS
