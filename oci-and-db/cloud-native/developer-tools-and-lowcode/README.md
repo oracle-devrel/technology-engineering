@@ -2,7 +2,7 @@
 
 We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include WebLogic Server, WebCenter Content, developer tools, frameworks, low code platforms, data management, and blockchain.
 
-Reviewed: 08.05.2024
+Reviewed: 07.09.2026
 
 # Team Publications
 
