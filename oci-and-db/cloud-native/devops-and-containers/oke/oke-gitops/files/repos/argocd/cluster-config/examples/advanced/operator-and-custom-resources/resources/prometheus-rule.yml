@@ -1,0 +1,8 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: platform-alerts
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  groups: []

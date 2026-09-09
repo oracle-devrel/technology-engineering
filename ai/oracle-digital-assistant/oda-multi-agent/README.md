@@ -44,3 +44,9 @@ allow any-user to manage generative-ai-family in compartment xxx where request.p
 ## Known issue
 - RagHoliday and LLamaProd use a RAG agent (you need an OCI RAG agent ocid to use it)
 - LLamaProd needs more rest API to work fully. One of them is a RAG agent (you need an OCI RAG agent ocid to use it)
+
+## License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License v1.0.

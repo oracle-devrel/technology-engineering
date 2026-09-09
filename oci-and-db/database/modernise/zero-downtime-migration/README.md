@@ -1,0 +1,84 @@
+# Zero Downtime Migration - ZDM
+ 
+Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architecture (MAA)-recommended solution to migrate Oracle Databases to the Oracle Cloud. ZDM automates the entire migration process, reducing the chance of human errors and providing zero to negligible downtime for the production system.
+
+Reviewed: 26.08.2026 
+
+# Table of Contents
+ 
+1. [Team Publications](#team-publications)
+2. [Useful Links](#useful-links)
+ 
+# Team Publications
+
+## Training Videos
+
+- [Red Hot Universally Speaking - Zero Downtime Migration session on YouTube](https://www.youtube.com/watch?v=1jQ9GtAKDF0)
+    - Red Hot Webinar delivered by Amalraj Puthenchira and Carlos Alvarez capturing an in depth description of Zero Downtime Migration - features, functionality, use-cases and technical demonstration
+- [Migrate your Oracle Database to OCI using ZDM (Zero-Downtime Migration) - Cloud Coaching Webinar](https://www.youtube.com/watch?v=SXb7KVZjpV8)
+    - Cloud Coaching Webinar, including a technical demonstration, delivered by Amalraj Puthenchira and Bilegt Bat Ochir around the use of ZDM for efficient migration into OCI.
+- [Fast-track your Journey to AI with Oracle and Azure (Migration to Oracle ADB23ai@Azure using Zero-Downtime Migration Logical Online) - Developer Coaching Webinar](https://www.youtube.com/watch?v=SanGj96PoxI)
+    - Developer Coaching Webinar, including a technical demonstration, delivered by Mihai Costeanu and Emiel Ramakers around the use of ZDM for efficient migration to Oracle ADB23ai@Azure .
+- [Modernise your Database with Autonomous Database on Oracle Database@Google Cloud - Developer Coaching Webinar](https://youtu.be/5zdOtUEfa1E?si=FeS6xhRf2nxEWSjA)
+    - Developer Coaching Webinar delivered by Amalraj Puthenchira and Neeraj Pandita covering migration solution , provisioning of key components and a live demo of ZDM logical online migration to Autonomous Database on Oralce Database@Google Cloud.
+
+## Technical Guides
+
+- [ZDM: Installation Guide](https://macsdata.com/oracle/zdm-installation) 
+    - Detailed, step-by-step guide for ZDM installation
+- [ZDM: Patching Guide](https://macsdata.com/oracle/zdm-patching) 
+    - Detailed, step-by-step guide for ZDM patching
+- [ZDM: Wallet Setup Guide](https://macsdata.com/oracle/zdm-wallet-setup)
+    - Detailed, step-by-step guide for ZDM wallet setup
+- [GoldenGate: Marketplace Image Installation Guide](https://macsdata.com/oracle/goldengate-marketplace-installation)
+    - Detailed, step-by-step GoldenGate Marketplace Image installation guide for database migrations, available on Marcus Doeringer's public platform
+- [GoldenGate: Marketplace Image Docker Setup Guide](https://macsdata.com/oracle/goldengate-marketplace-docker-setup)
+    - Detailed, step-by-step GoldenGate Marketplace Image Docker setup guide for database migrations, available on Marcus Doeringer's public platform
+- [ZDM: Logical Offline Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/40)
+    - Detailed, step-by-step instructions for performing logical offline migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
+- [ZDM: Logical Online Migration to Autonomous Database Dedicated ](https://wordpress.com/post/amalrajputhenchira.wordpress.com/170)
+    - Detailed, step-by-step instructions for performing logical online migration to Autonomous Database Dedicated using NFS as data transfer medium, available on Amalraj Puthenchira's public platform
+- [ZDM: Migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR ](https://amalrajputhenchira.wordpress.com/2025/08/04/oracle-zero-downtime-migration-to-exadata-database-service-on-dedicated-infrastructure-with-cloud-native-dr/)
+    - Detailed, step-by-step instructions for performing Physical online migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR , available on Amalraj Puthenchira's public platform
+- [ZDM: Physical Online Migration with Refreshable Clone ](https://carlosal.wordpress.com/2026/06/16/zero-downtime-migration-v26-1-physical-online-migrations-with-refreshable-clone/)
+    - Detailed, step-by-step instructions for performing Physical Online Migration using the ZDM 26.1 support for Refreshable Clone PDBs, available on Carlos Álvarez's public platform
+
+## LiveLabs Workshops
+- [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)
+    - Detailed, step-by-step guide to setup physical offline migration in Zero Downtime Migration 
+- [Zero Downtime Migration: Physical Online Migration with Backup Location to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3618)
+    - Detailed, step-by-step guide to setup physical online migration with backup location in Zero Downtime Migration
+- [Zero Downtime Migration: Physical Online Migration with Direct Data Transfer to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3669)
+    - Detailed, step-by-step guide to setup physical online migration with direct data transfer in Zero Downtime Migration
+- [Zero Downtime Migration: Logical Online Migration to ADB](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=937)
+    - Detailed, step-by-step guide to setup logical online migration to Autonomous Database in Zero Downtime Migration
+ 
+# Useful Links
+
+- [Zero Downtime Migration Product Page](https://www.oracle.com/database/zero-downtime-migration) (scroll to "Multicloud Migration" section for DB@ migrations)
+  - Detailed step-by-step guides for migration to **Oracle AI Database@Azure**
+    - Physical Offline, Physical Online, Logical Offline, Logical Online migration to ExaDB-D@Azure
+    - Logical Offline, Logical Online migration to ADB-S@Azure
+  - Detailed step-by-step guides for migration to **Oracle AI Database@Google Cloud**
+    - Physical Offline, Physical Online, Logical Offline, Logical Online migration to ExaDB-D@Google Cloud
+    - Logical Offline, Logical Online migration to ADB-S@Google Cloud
+  - Detailed step-by-step guides for migration to **Oracle AI Database@AWS**
+    - Physical Offline, Physical Online, Logical Offline, Logical Online migration to ExaDB-D@AWS
+    - Logical Offline, Logical Online migration to ADB-D@AWS
+- [Zero Downtime Migration Documentation](https://docs.oracle.com/en/database/oracle/zero-downtime-migration/index.html)
+- Multicloud Migration Storage Options
+  - [Oracle AI Database@Azure - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-azure)
+  - [Oracle AI Database@Google Cloud - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-gcp)
+  - [Oracle AI Database@AWS - Exploring NFS Storage Options](https://blogs.oracle.com/maa/nfs-options-zdm-migration-oracle-database-aws)
+- [Video: Oracle ZDM Logical Online Migration to Autonomous AI Database@Azure](https://www.youtube.com/watch?v=SanGj96PoxI)
+- [Video: Migrating and Upgrading Oracle Databases to OCI with Oracle Zero Downtime Migration (ZDM)](https://www.youtube.com/watch?v=WPkqwnXGSjo)
+- [White Paper: Logical Migration Performance Guidelines](https://www.oracle.com/docs/tech/zdm-gg-performance.pdf)
+- [Step-by-Step Guide: Logical Migration from On-Premises to Exadata Cloud@Customer or Exadata On-Premises using ACFS as Backup Location](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-acfs.pdf)
+
+# License
+ 
+Copyright (c) 2026 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

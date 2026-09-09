@@ -1,0 +1,14 @@
+apiVersion: v2
+name: reference-helm-app
+description: Umbrella chart for the environment-aware Helm reference application
+type: application
+version: 0.1.0
+dependencies:
+  - name: frontend
+    version: 0.1.0
+    repository: file://charts/frontend
+    condition: frontend.enabled
+  - name: api
+    version: 0.1.0
+    repository: file://charts/api
+    condition: api.enabled
