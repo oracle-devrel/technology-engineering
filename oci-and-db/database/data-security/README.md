@@ -7,7 +7,7 @@ Security of Data is at the core of our products.   As a team, we focus on Securi
 - The stand-alone products: Audit Vault and Database Firewall, Key Vault
 - The Enterprise Manager pack: Data Masking and Subsetting
 
-Reviewed: 30.10.25
+Reviewed: 09.09.2026
 
 # Team Publications
 
