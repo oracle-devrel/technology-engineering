@@ -11,6 +11,12 @@ Each Project Team user then authorizes the UI or installs the Codex plugin in
 their own shell. The GitHub interface remains available without either
 optional component.
 
+| Customer choice | Additional Cloud Operations action | Project Team result |
+| --- | --- | --- |
+| GitHub only | None after core acceptance. | Submit and review requests in the handed-off repository. |
+| Multi-Cloud Control Plane UI | Install and configure the shared UI service. | Authorize the UI and prepare pull requests. |
+| Codex plugin | Publish the approved local marketplace. | Install the plugin in a local shell and prepare pull requests. |
+
 ## Optional Multi-Cloud Control Plane UI
 
 Stage the UI from the `multi-cloud-control-plane` directory of a clean clone:

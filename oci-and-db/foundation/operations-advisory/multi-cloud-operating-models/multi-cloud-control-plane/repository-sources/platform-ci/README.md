@@ -93,7 +93,7 @@ succeeds with empty values and swallows the failure.
 Do not add a generic task runner, accept executable paths from project input,
 or enable a resource or operation by changing only this repository. An
 extension must update the catalog, validation, execution mapping, permissions,
-documentation, and qualification evidence together. See the canonical
+and documentation together. See the canonical
 [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model).
 
 ## License

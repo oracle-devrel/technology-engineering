@@ -44,7 +44,7 @@ Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`,
 the regional project NSG manifest. `__PROJ_APP_CMP_OCID__` comes from the
 completed handoff. The SSH public-key path is platform-owned and must remain
 `/home/github-runner/.ssh/oci_vm_key.pub`. The Frankfurt template pins the
-certified `Oracle-Linux-9.8-aarch64-2026.07.20-0` image, compatible with
+`Oracle-Linux-9.8-aarch64-2026.07.20-0` image, compatible with
 `VM.Standard.A1.Flex`; confirm the image choice manually before approval and
 retain it unless the request explicitly supplies another regional image OCID.
 No OCI CLI lookup is required. Use a separately validated regional template

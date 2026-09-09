@@ -14,7 +14,7 @@ Use the UI when you prefer a guided form to editing JSON.
    opens the pull request.
 
 The UI creates an issue, branch, commit, and pull request, and holds no more
-authority than that. Check [MVP capabilities](../reference/support.md) for the
+authority than that. Check [Reference capabilities](../reference/support.md) for the
 resources and lifecycle operations available through this interface.
 
 If the UI is not available, use the GitHub interface. Cloud Operations installs

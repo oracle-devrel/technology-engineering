@@ -99,4 +99,4 @@ and workflow result as the request evidence.
 
 For the complete safety rules, including removal and troubleshooting, follow
 the [request lifecycle](request-lifecycle.md). The supplied request surface and
-qualification limits are listed in [MVP capabilities](../reference/support.md).
+reference scope are listed in [Reference capabilities](../reference/support.md).

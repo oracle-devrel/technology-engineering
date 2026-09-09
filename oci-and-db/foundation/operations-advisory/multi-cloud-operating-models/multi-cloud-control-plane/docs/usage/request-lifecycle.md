@@ -98,7 +98,7 @@ state manually or retry with a personal cloud account.
 
 | Problem | Action |
 | --- | --- |
-| Unresolved secret placeholder | Ask Cloud Operations to add the matching key to the selected environment bundle. Do not commit the value. |
+| Unresolved secret placeholder | Ask the Project Team to add and rotate the matching key in the selected environment bundle through the approved secret process. Do not commit the value. |
 | Incomplete handoff value | Ask Cloud Operations to correct the environment handoff. |
 | Operation target not found | Use the exact resource display name recorded in Terraform state. |
 | Mixed environment or region rejected | Keep one cloud/environment/region tuple in the pull request. |

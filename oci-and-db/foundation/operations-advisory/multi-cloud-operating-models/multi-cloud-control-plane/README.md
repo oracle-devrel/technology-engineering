@@ -103,7 +103,7 @@ This repository is a reference implementation of the operating model above. It c
 Request interfaces prepare a change; Git preserves the approved intent and the evidence; the catalog defines what is supported; and trusted automation delivers the approved change to the chosen cloud. Every interface creates the same pull request and none of them can approve, merge, or deploy it.
 
 This is the target control-plane architecture, so its labels are generic: the diagram's **Control Plane UI** is the optional Multi-Cloud Control Plane UI, and its **AI Ops Agent** is the optional Codex plugin. The cloud icons show where the model can
-extend, not the currently qualified integrations — see [current capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
+extend, not only the patterns supplied by this reference — see [Reference capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
 
 ## Onboarding a project
 
@@ -122,14 +122,14 @@ Cloud Operations creates the foundation and the safe boundary. A standard reposi
 
 Cloud Operations connects these to the organization's reviewed cloud foundations, identities, runners, and state storage. The [installation runbook](docs/installation/installation-runbook.md) covers those prerequisites and the setup steps.
 
-The supplied package deliberately qualifies a small catalog of OCI, Azure, and Google Cloud resource requests plus selected OCI lifecycle operations; see [current capabilities](docs/reference/support.md) for the current scope and its qualification evidence. The catalog grows through reviewed provider integrations, resources, and operations, and each extension follows the same governance, security, and approval process before Project Teams can use it.
+This reference supplies a focused catalog of OCI, Azure, and Google Cloud resource requests plus selected OCI lifecycle operations; see [Reference capabilities](docs/reference/support.md) for its scope and patterns. The catalog grows through reviewed provider integrations, resources, and operations, and each extension follows the same governance, security, and approval process before Project Teams can use it.
 
 ## Reference
 
 | Document | Description |
 | --- | --- |
 | [Architecture](docs/reference/architecture.md) | Explains roles, repositories, execution, and extensions. |
-| [Current capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations, and the qualification evidence behind them. |
+| [Reference capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations. |
 | [Operational Security Controls](docs/reference/security.md) | Describes the built-in security controls. |
 | [Verify environment secret isolation](docs/reference/verify-secret-isolation.md) | One-time acceptance check before the first workload request. |
 

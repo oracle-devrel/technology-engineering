@@ -68,7 +68,7 @@ Adding a JSON template here does not enable an operation. A supported extension
 also requires its allowed manifest fields in Platform CI
 `scripts_python/validate_operation_manifest.py`, inventory extraction, an
 explicitly allow-listed Platform CI playbook, permissions, documentation, and
-qualification evidence. Follow the canonical
+delivery controls. Follow the canonical
 [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model)
 before publishing it to Project Teams.
 

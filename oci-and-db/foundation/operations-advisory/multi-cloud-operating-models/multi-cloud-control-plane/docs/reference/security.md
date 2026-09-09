@@ -70,7 +70,7 @@ deployment reviewers for private repositories.
 GitHub Enterprise Cloud can additionally use required deployment reviewers,
 prevent self-review, and keep environment secrets behind an approval gate in
 private repositories. It can support paired GitHub Environments such as `dev`
-and `dev-apply` when that model has been qualified for the customer.
+and `dev-apply` when that approach is selected for the customer.
 
 Availability depends on the GitHub plan and repository visibility. Verify the
 current GitHub documentation for
