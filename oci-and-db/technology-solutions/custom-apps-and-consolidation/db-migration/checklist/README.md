@@ -2,7 +2,7 @@
 
 This is a checklist that would help the implementer with any logical Oracle database migration. This includes pre-check and post-check tasks along with the migration flow so as to track and complete the required tasks before handover.
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 

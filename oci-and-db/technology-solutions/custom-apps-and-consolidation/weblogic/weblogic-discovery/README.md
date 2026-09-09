@@ -4,7 +4,7 @@ The content of this folder is about WebLogic's workloads _discovery_. The term _
 
 A simple, reusable Excel spreadsheet questionnaire to use as a guideline to do a proper WebLogic workload discovery.  
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 
@@ -33,7 +33,7 @@ will remain the same, but, now we have also:
 
 Use the questionnaire to discover your customers weblogic workload.
 
-## License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 

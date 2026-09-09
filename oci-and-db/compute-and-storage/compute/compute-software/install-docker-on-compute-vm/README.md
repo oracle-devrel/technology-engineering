@@ -2,7 +2,7 @@
 
 This section includes a step-by-step manual for installing Docker on OL8 on the OCI Compute Virtual Machine.
  
-Reviewed: 16.10.2025
+Reviewed: 04.09.2026
  
 # When to use this asset?
  

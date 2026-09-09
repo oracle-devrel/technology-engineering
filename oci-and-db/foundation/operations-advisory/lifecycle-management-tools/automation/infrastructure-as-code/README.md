@@ -1,7 +1,18 @@
-# Infrastructure as Code - IaC
+# Infrastructure as Code - IaC <!-- omit in toc --> 
+
+Reviewed: 2026-09-04
+
+# Table of Contents <!-- omit in toc --> 
+
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
+- [Declarative Automation](#declarative-automation)
+- [Procedural Automation](#procedural-automation)
+- [Useful Links](#useful-links)
+- [License](#license)
+# What is this asset?
 
 Infrastructure As Code (IaC) is a methodology in which scripts automate infrastructure and configuration management. IaC tools allow you to abstract away details about your physical environment, allowing you to focus on what matters. It brings several benefits.
-
 
 **Cost reduction**: By automating time-consuming, frequent, and repeatable tasks, like configuring compute instances and storage, businesses can minimize costs.
 
@@ -11,7 +22,9 @@ Infrastructure As Code (IaC) is a methodology in which scripts automate infrastr
 
 **Consistency** IaC makes it possible to avoid human errors and inconsistency and minimize drift over time.
 
-Reviewed: 08.10.2024
+# How to use this asset?
+
+Use this guide to select between declarative and procedural automation. Review the supporting [Observability Management](./files/ObservabilityManagement.pdf) material and [operations tools guidance](./files/operations-tools.md) for additional detail.
 
 # Declarative Automation
 
@@ -34,9 +47,6 @@ In this scenario the desired end-state of the resource is declared, The provider
 - Decide on  **State file resource scope**. This decision can influence how many root modules you have. A good segmentation rule is to base state file granularity on resources that are bound to be together, such as Environment Type, OCI Region, etc.
 - Decide on the  **Module granularity**. This is related to the  **state file ** decision and  **data structures**  in the  **tfvars**  files.
 
-
-
-
 # Procedural Automation
 
 Enables Operations automation using a procedural approach, with command line & scripting.
@@ -58,19 +68,12 @@ Procedural automation consists of a set of activities required to achieve the go
 - Identifying the  **Operational Scenarios**  and prioritizing them based on the frequency of use and effort.
 - Decide on the  **scripting**  technology.
 
-
-
 # Useful Links
 
 [What is Infrastructure as Code](https://developer.oracle.com/learn/technical-articles/what-is-iac)
-
-
-[Oracle Cloud Infrastrucure Provider](https://registry.terraform.io/providers/oracle/oci/latest/docs)
-
+[Oracle Cloud Infrastructure Provider](https://registry.terraform.io/providers/oracle/oci/latest/docs)
 [Set Up a Simple OCI Infrastructure with OCI Terraform](https://docs.oracle.com/en-us/iaas/developer-tutorials/tutorials/tf-simple-infrastructure/01-summary.htm)
-
 [OCI Ansible Collection](https://docs.oracle.com/iaas/tools/oci-ansible-collection/latest/)
-
 
 # License
 
