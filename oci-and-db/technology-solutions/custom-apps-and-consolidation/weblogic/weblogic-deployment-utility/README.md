@@ -2,7 +2,7 @@
 
 This utility allows you to provision a WLS MPI and configure a WebLogic Server domain in Oracle Cloud Infrastructure (OCI) in minutes. It will create and/or configure multiple OCI services such as Compute, Network, OCI Database, Autonomous Database, and Identity Cloud Service. The script can be extended to enable Logging, File System, and Application Performance Monitoring just by updating the template with the right Terraform variables and format as outlined in Excel.
 
-
+Reviewed: 09.09.2026
 
 # When to use this asset?
 

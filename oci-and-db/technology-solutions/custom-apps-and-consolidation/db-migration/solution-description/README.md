@@ -2,7 +2,7 @@
 
 This repository contains some sample architecture documents that describe Oracle database migration from on-premises to various Cloud Database Services.
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 
