@@ -23,8 +23,9 @@ From the repo root:
    ```
    For production (Linux only, with Gunicorn for scaling):
    ```bash
-   gunicorn app:app --workers 16 --worker-class uvicorn.workers.UvicornWorker --timeout 600 --bind 0.0.0.0:8088
+    gunicorn app:app --workers 16 --worker-class uvicorn.workers.UvicornWorker --timeout 600 --bind 0.0.0.0:8088
    ```
+   - **Note**: For Windows, Gunicorn is not natively supported; use Uvicorn directly with a process manager like PM2 (via Node.js) or NSSM for production scaling.
 
 ### Option 2: Run with Podman (Containerized Deployment)
 
@@ -36,9 +37,9 @@ From the repo root:
 3. Build and run:
    ```bash
    podman build -t oci_genai_gateway .
-   podman run -p 8088:8088 \
-     -v ~/.oci:/root/.oci:Z \
-     -it --name oci_genai_gateway oci_genai_gateway
+    podman run -p 8088:8088 \
+    -v ~/.oci:/root/.oci:Z \  # On Linux/macOS; on Windows, use an absolute path like -v C:/Users/<username>/.oci:/root/.oci:Z (ensure the directory is shared/mounted in Podman machine/VM)
+    -it --name oci_genai_gateway oci_genai_gateway
    ```
 4. Verify: Open `http://localhost:8088` in a browser (should show a health check or API docs). Check logs with `podman logs oci_genai_gateway`.
 
@@ -51,7 +52,7 @@ In n8n, use the **OpenAI** node but point it to your local gateway as a custom e
 2. Add an **OpenAI** node (under AI > Chat Models).
 3. Configure credentials:
    * **API Key:** Leave blank or use a dummy value (gateway uses OCI auth).
-   * **Base URL:** `http://host.docker.internal:8088/v1` (for Podman/Docker; use `http://localhost:8088/v1` if running natively).
+   * **Base URL**: `http://host.containers.internal:8088/v1` (preferred for Podman on Windows/macOS; fallback to `http://localhost:8088/v1` if running natively or use the gateway's explicit IP with `--add-host host.containers.internal:<gateway-ip>` in Podman run command).
    * **Model:** Select or enter an OCI model (list available models via gateway docs or OCI Console).
 n8n will now route requests through the gateway to OCI GenAI.
 
