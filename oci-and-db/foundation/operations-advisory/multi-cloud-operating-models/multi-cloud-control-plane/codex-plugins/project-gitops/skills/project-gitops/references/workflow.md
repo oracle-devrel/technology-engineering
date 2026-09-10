@@ -37,8 +37,11 @@
    `stop all OCI ADBs`. For that single all-target form, enumerate every OCI
    ADB display name in the selected regional database manifest at current
    `main`. Stop if it contains none, and include the resulting exact names in
-   the semantic preview before requesting confirmation. Do not expand another
-   group, `all` resource type, name prefix, or ambiguous selector into targets.
+   the semantic preview before requesting confirmation. Render those targets
+   as one row each in `| Type | Display name | Size | Action |`; use the same
+   approved-profile size labels as the resource inventory. Do not expand
+   another group, `all` resource type, name prefix, or ambiguous selector into
+   targets.
    For every
    OCI ADB or Compute request, select the named approved capacity profile from
    the catalog and preserve all of its literal capacity, license, image, and
@@ -109,10 +112,12 @@ report `N/A`. Use `N/A` for resource types without a published size profile.
    password policy: 12 to 30 characters, at least one uppercase letter,
    lowercase letter, and digit, with no double quote and no `admin` substring
    in any casing. Do not read or test that secret; state it as a prerequisite.
-   Show a semantic preview naming the repository, branch, selected path,
-   requested outcome, destructive or replacement impact, CRQ, those
-   prerequisites, and `GitHub writes: none`. Only then ask for the standalone
-   `confirm` reply.
+   Show a semantic preview naming the repository, environment, region, branch,
+   selected path, requested outcome, destructive or replacement impact, CRQ,
+   those prerequisites, and `GitHub writes: none`. For an all-OCI-ADB
+   lifecycle request, use the target table above instead of a prose target
+   list. Do not show the operation JSON or validation commentary unless the
+   user asks. Only then ask for the standalone `confirm` reply.
 6. After confirmation, re-fetch `origin/main`; if it or the candidate differs
    from the preview, stop, rebuild the candidate, and request a new preview.
    Stage only the selected path, commit, push the branch, and create one PR

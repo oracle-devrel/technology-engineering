@@ -58,8 +58,9 @@ These boundaries always apply, even when a reference cannot be read:
 - An explicit all-OCI-ADB lifecycle request may enumerate all exact display
   names from the selected regional manifest when it names the repository,
   environment, region, and `start` or `stop` action. Show the resulting display
-  names in the semantic preview. Do not expand any other group, prefix, or
-  ambiguous target selector.
+  names in the semantic preview. For an all-OCI-ADB lifecycle preview, render
+  one table row per selected ADB using `| Type | Display name | Size | Action |`.
+  Do not expand any other group, prefix, or ambiguous target selector.
 
 ## Operating model
 
