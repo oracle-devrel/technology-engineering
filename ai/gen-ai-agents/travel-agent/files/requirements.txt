@@ -73,7 +73,7 @@ jupyterlab_widgets==3.0.15
 kiwisolver==1.4.8
 lab==8.4
 langchain==0.3.25
-langchain-community==0.3.24
+langchain-community==0.3.27
 langchain-core==0.3.80
 langchain-text-splitters==1.1.2
 langgraph==0.4.5
@@ -112,7 +112,7 @@ platformdirs==4.3.8
 prometheus_client==0.22.0
 prompt_toolkit==3.0.51
 propcache==0.3.1
-protobuf==6.31.1
+protobuf==6.33.5
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
@@ -133,7 +133,7 @@ pytz==2025.2
 PyYAML==6.0.2
 pyzmq==26.4.0
 referencing==0.36.2
-requests==2.32.3
+requests==2.32.4
 requests-toolbelt==1.0.0
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1

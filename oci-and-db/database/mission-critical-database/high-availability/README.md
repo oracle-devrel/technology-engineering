@@ -22,6 +22,7 @@ Transparent Application Continuity (TAC) transparently tracks and records the se
 With no reliance on application knowledge or application code changes
 Transparency is achieved by consuming the state-tracking information that captures and categorizes the session state usage as the application issues the user calls.
 
+Reviewed: 09.09.2026
 
 # Useful Links
 
@@ -35,4 +36,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
