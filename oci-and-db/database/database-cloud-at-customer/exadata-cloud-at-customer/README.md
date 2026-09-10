@@ -2,7 +2,7 @@
 
 Oracle Exadata Cloud@Customer (ExaDB-C@C) brings the performance, automation, and economics of Exadata Database Service and the fully managed Autonomous AI Database into enterprise data centers. It’s the simplest way for customers to start using cloud database resources in their data centers and help address strict data residency requirements. Exadata Cloud@Customer incorporates unique optimizations that let Oracle AI Database workloads run faster with less management and lower costs so organizations can get more value from their data. Oracle offers both autonomous and co-managed Oracle Database cloud solutions on Exadata Cloud@Customer.
 
-Reviewed: 07/09/26
+Reviewed: 09/09/26
 
 # Table of Contents
 - [Useful Links](#useful-links)
@@ -31,6 +31,8 @@ Reviewed: 07/09/26
 - [What’s New in ADB-D on Exadata Cloud@Customer](https://docs.oracle.com/en-us/iaas/exadata/doc/adb-okv-integration.html)
 
 ## Subpages
+
+- <img src="./../images/solution-definition.png" width="24" alt="Solution Definition">  [ExaDB-C@C Solution Definition](./solution-definition/)
 
 - <img src="./images/exadb-infra.png" width="24" alt="Infrastructure">  [ExaDB-C@C Infrastructure](./exacc-infra)
 
