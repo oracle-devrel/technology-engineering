@@ -2,7 +2,7 @@
 
 Require a user-provided CRQ matching `CRQ[0-9]{1,20}` before preparing a
 mutable manifest, lifecycle, branch-push, or pull-request change. Do not ask
-for a CRQ for read-only declared-resource inventory, status, validation, or
+for a CRQ for read-only resource inventory, status, validation, or
 monitoring.
 
 Before every branch push or pull-request creation, show one concise semantic

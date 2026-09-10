@@ -1,9 +1,12 @@
 # Workflow
 
-1. Require the target as `owner/repository`; do not derive it from a short
-   project name. Identify the handed-off repository and requested environment.
-   A non-prod request must name `dev`, `test`, or `uat`; a production request
-   uses only `prod`. Run `gh repo view <owner/repository> --json
+1. The configured organization is `multicloud-control-plane`. Accept either
+   `<repository>` or `multicloud-control-plane/<repository>`, reject a full
+   reference from another organization, and resolve the target internally.
+   Never ask the user for an organization name. Identify the handed-off
+   repository and requested environment. A non-prod request must name `dev`,
+   `test`, or `uat`; a production request uses only `prod`. Run `gh repo view
+   multicloud-control-plane/<repository> --json
    nameWithOwner,isPrivate,defaultBranchRef,sshUrl` and stop unless it is the
    expected private project repository with default branch `main`.
 2. Read only the selected catalog entry from `<owner>/gitops-templates` at
@@ -29,9 +32,13 @@
    the preview. Use
    `operations-catalog` for OCI lifecycle work: create, modify, or
    clear one file under `oci/<environment>/<region>/lifecycle_operations/`.
-   Require an explicit environment, region, and one or more exact,
-   user-approved state display names for every lifecycle target. Do not expand
-   `all`, `development`, a name prefix, or another group selector into targets.
+   Require an explicit environment, region, and one or more exact display
+   names for every lifecycle target, except an explicit request to `start` or
+   `stop all OCI ADBs`. For that single all-target form, enumerate every OCI
+   ADB display name in the selected regional database manifest at current
+   `main`. Stop if it contains none, and include the resulting exact names in
+   the semantic preview before requesting confirmation. Do not expand another
+   group, `all` resource type, name prefix, or ambiguous selector into targets.
    For every
    OCI ADB or Compute request, select the named approved capacity profile from
    the catalog and preserve all of its literal capacity, license, image, and
@@ -42,15 +49,28 @@
    databases. A clear only removes an existing operation request; it does not
    call OCI.
 
-## Read-only declared-resource inventory
+## Read-only resource inventory
 
 For an inventory request, read the target repository at `main` and list only
-resources declared in its committed regional manifests. Label the result
-`Declared resources (Git)` and include environment, region, resource type,
-display name, and source manifest path. Do not create a branch, PR, or CRQ for
-this read-only response. Do not call it deployed state or infer lifecycle
-status. A deployed inventory must come from a published read-only Platform CI
-workflow; until then, stop and state that Project GitOps cannot provide it.
+resources in its committed regional manifests. Do not create a branch, PR, or
+CRQ for this read-only response. Render exactly this compact shape:
+
+```markdown
+## Resource inventory
+
+Repository: `<repository>`
+Environment: `<environment>`
+Region: `<region>`
+
+| Type | Display name | Size |
+| --- | --- | --- |
+| `<resource type>` | `<display name>` | `<size>` |
+```
+
+Do not include manifest paths, lifecycle status, deployment commentary, or a
+disclaimer. For OCI ADB and Compute, report `Small`, `Medium`, or `Large` only
+when the declaration exactly matches a published capacity profile; otherwise
+report `N/A`. Use `N/A` for resource types without a published size profile.
 3. Derive one stable branch name from the CRQ and requested destination:
    `agent/<crq-lower>-<cloud>-<environment>-<region>-<resource-key>`. The
    `resource-key` is the catalog mapping key or operation filename, normalized
