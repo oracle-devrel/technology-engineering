@@ -6,6 +6,8 @@ Reviewed: 03.08.2026
 
 Oracle Database@Azure combines Oracle Exadata Database Service and Oracle database capabilities with Microsoft Azure networking, identity, and operational services. The solution is designed for mission-critical workloads that require enterprise performance, security, availability, and cloud-native integration.
 
+# When to use this asset?
+
 ## Purpose
 
 The purpose of this repository is to provide a structured, reusable, and customer-facing reference for:
@@ -26,8 +28,9 @@ This material is intended for:
 - Technical Leads
 - Implementation Teams
 - Customer Architects and DBA teams
-  
-
+ 
+# How to use this asset?
+ 
 ## Solution Overview
 
 Oracle Database@Azure provides Oracle database services deployed natively inside Azure data centers. It enables customers to:
@@ -175,4 +178,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See LICENSE for more details.
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
