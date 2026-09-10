@@ -9,8 +9,8 @@
         "name": "__VM_NAME__",
         "shape": "VM.Standard.A1.Flex",
         "flex_shape_settings": {
-          "ocpus": "1",
-          "memory": "6"
+          "ocpus": "4",
+          "memory": "24"
         },
         "platform_image": {
           "ocid": "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaal42ffbltq2gqeh5xlcxvszrk24hkth4vbz4cgxez5wbsqkfy6vya"
@@ -26,9 +26,7 @@
         "networking": {
           "hostname": "__VM_NAME__",
           "subnet_id": "__VM_SUBNET_OCID__",
-          "network_security_groups": [
-            "__VM_NSG_KEY__"
-          ]
+          "network_security_groups": ["__VM_NSG_KEY__"]
         }
       }
     }

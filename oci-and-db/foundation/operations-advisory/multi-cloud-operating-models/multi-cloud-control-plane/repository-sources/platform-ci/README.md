@@ -21,7 +21,7 @@ project caller.
 
 Use a trusted Linux self-hosted runner with:
 
-- Git, `jq`, `rg`, and Python 3.11 or later.
+- Git, `jq`, `rg`, and Python 3.11, available as `python3.11`, with `pip`.
 - Outbound HTTPS access to install the pinned Terraform 1.12.1 runtime.
 - OCI Instance Principal access to the Object Storage state bucket.
 - `STATE_NAMESPACE`, `STATE_REGION`, and
@@ -44,8 +44,8 @@ Object Storage. The selected region comes from the changed
 `{cloud}/{environment}/{region}/` path.
 
 Before Terraform runs, JSON files are copied to the runner's temporary
-directory. Environment-qualified tokens such as
-`__DEV_ADB_ADMIN_PASSWORD__` resolve only from the explicitly passed JSON
+directory. Environment-qualified, resource-scoped tokens such as
+`__DEV_ORDERSADB_ADMIN_PASSWORD__` resolve only from the explicitly passed JSON
 repository secret bundle. The workflow rejects unqualified, cross-environment,
 or unresolved tokens and never modifies the checked-out manifest. It masks
 each decoded value before Terraform can emit it.
@@ -93,7 +93,7 @@ succeeds with empty values and swallows the failure.
 Do not add a generic task runner, accept executable paths from project input,
 or enable a resource or operation by changing only this repository. An
 extension must update the catalog, validation, execution mapping, permissions,
-documentation, and qualification evidence together. See the canonical
+and documentation together. See the canonical
 [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model).
 
 ## License

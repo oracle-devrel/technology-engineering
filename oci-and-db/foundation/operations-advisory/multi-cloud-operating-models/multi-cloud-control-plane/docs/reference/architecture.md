@@ -2,7 +2,7 @@
 
 The [README](../../README.md) explains the operating model. This page focuses on
 how the supplied MCCP reference implementation enforces it through repositories,
-request flow, trust boundaries, and qualified extensions.
+request flow, trust boundaries, and extensions.
 
 ## Governed request flow
 
@@ -26,9 +26,9 @@ change is executed only after the organization's human review and approved
 merge. The optional UI and Codex plugin do not bypass GitHub review, merge
 changes, or hold cloud deployment authority.
 
-The [MVP capabilities](support.md) page defines the currently qualified
-resources and operations. The operating pattern can extend beyond that scope,
-but a request is not available until its complete delivery chain is qualified.
+The [Reference capabilities](support.md) page lists the resource and operation
+patterns supplied with this reference. The operating pattern can extend beyond
+that scope when its complete delivery chain is implemented.
 
 ## Repository model
 
@@ -50,10 +50,9 @@ records its approved project name, environments, regions, compartments,
 networks, and execution settings in the environment handoff. MCCP validates
 requests against that boundary.
 
-For Azure and Google Cloud, the handoff contains direct references to existing
-foundation resources. The workload orchestrators consume those references; they
-do not create resource groups, projects, IAM, networks, subnets, NSGs, service
-accounts, ODB Networks, or ODB Subnets.
+For Azure and Google Cloud, the reference patterns consume direct references to
+existing foundation resources. See [Reference capabilities](support.md)
+for its exact boundaries.
 
 ## Execution and trust boundary
 
@@ -66,17 +65,30 @@ The supplied baseline may route OCI, Azure, and Google Cloud jobs to trusted
 OCI-hosted runners carrying the required labels and workload identities.
 Non-production and production retain separate runner boundaries.
 
+## Target operating model
+
+The completed MCCP model separates foundation governance from project delivery.
+Cloud Operations owns the shared foundation, policy boundary, state, runner
+identities, and project handoff. Project Teams request catalog-defined workload
+and project-scoped resources within that handoff; they do not hold cloud
+deployment credentials.
+
+Each cloud integration can add further project-scoped resource families within
+the approved boundary. The catalog, semantic validation, runner permissions,
+and documentation define what is available for a specific cloud, environment,
+and region. Foundation governance remains with Cloud Operations.
+
 ## Extension model
 
-The supplied baseline is a governed starting point, not an unrestricted service
-catalog. A new resource is available only after Cloud Operations implements and
-qualifies the complete delivery chain:
+The supplied baseline is a governed starting point, rather than the completed
+service catalog. A new resource is available only after Cloud Operations
+implements the complete delivery chain:
 
 - foundation references, permissions, and the handoff contract;
-- an approved catalog template, schema, and semantic validation;
+- an approved catalog template and semantic validation;
 - a cloud orchestrator or execution implementation and explicit workflow routing;
 - isolated state, a scoped runner identity, and required secrets; and
-- customer documentation, security review, and qualification evidence.
+- customer documentation, security review, and validation.
 
 A new operation also requires its allowed manifest fields, inventory
 extraction for its targets, and a provider-specific playbook or execution
@@ -92,4 +104,4 @@ privilege, and separation of duties.
 - Follow a request end to end in the [request lifecycle](../usage/request-lifecycle.md).
 - Review the [security and trust controls](security.md).
 - Prepare organization repositories and runners with the [installation runbook](../installation/installation-runbook.md).
-- Check the [MVP capabilities](support.md) before preparing a request.
+- Check the [Reference capabilities](support.md) before preparing a request.

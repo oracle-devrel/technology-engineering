@@ -13,12 +13,14 @@ declared in Terraform state for the same environment and region.
 | Field | What to provide | Allowed values or behavior |
 | --- | --- | --- |
 | `operation_type` | Operation identifier. | Always `deploy-agent`. |
-| `agent_type` | Agent product or role name. | Non-empty text, such as `monitoring-agent`. |
-| `agent_version` | Intended agent version. | Non-empty text, such as `1.2.3` or `latest`. |
+| `agent_type` | Platform-owned agent product or role identifier. | 1–63 lowercase characters: letters, digits, and hyphens; for example `monitoring-agent`. It cannot select a command, URL, playbook, or filesystem path. |
+| `agent_version` | Intended agent version identifier. | 1–64 characters: letters, digits, dots, underscores, pluses, and hyphens; for example `1.2.3` or `latest`. |
 | `targets` | Instances to operate. | One or more target objects. |
 | `targets[].display_name` | Instance display name. | Exact, case-sensitive display name from Terraform state. |
 
 The supplied playbook is a safe demonstration placeholder: it creates
 `/opt/agents/<agent_type>.installed` with the requested type and version. It
 does not download or install a real third-party agent. Replacing it with an
-actual installer is a separate platform change.
+actual installer is a separate platform change. A future installer must map
+the validated `agent_type` to a platform-owned, allow-listed implementation;
+project input must never select a command, URL, playbook, or filesystem path.

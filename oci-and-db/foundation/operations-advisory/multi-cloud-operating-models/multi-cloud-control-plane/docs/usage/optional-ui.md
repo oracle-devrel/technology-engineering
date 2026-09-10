@@ -14,8 +14,17 @@ Use the UI when you prefer a guided form to editing JSON.
    opens the pull request.
 
 The UI creates an issue, branch, commit, and pull request, and holds no more
-authority than that. Check [MVP capabilities](../reference/support.md) for the
+authority than that. Check [Reference capabilities](../reference/support.md) for the
 resources and lifecycle operations available through this interface.
+
+The UI renders catalog values exactly. For OCI Compute and Autonomous Database,
+select the published Small, Medium, or Large profile; its capacity, image,
+license, storage, and auto-scaling values are not editable in the form. For an
+OCI project NSG, choose either a new NSG or an existing one, then add zero or
+more approved TCP ingress and egress rules. The UI writes integer destination
+port ranges and adds rules to an existing NSG without replacing its creation
+fields. It never offers an arbitrary resource-JSON editor or an unmodelled
+catalog field.
 
 If the UI is not available, use the GitHub interface. Cloud Operations installs
 it using the [optional UI setup](../installation/optional-interfaces.md#optional-multi-cloud-control-plane-ui).

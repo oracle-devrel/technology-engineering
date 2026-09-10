@@ -1,8 +1,8 @@
 """Git operations service backed by async GitHub API calls."""
 import json
 import logging
-import time
-import uuid
+import re
+from pathlib import PurePosixPath
 
 from app.config import settings
 from app.github import GitHubClient, github_client as default_github_client
@@ -12,6 +12,8 @@ from app.schemas import OperationsCatalog
 from app.services.catalog_service import CatalogService
 
 logger = logging.getLogger(__name__)
+
+_CRQ_PATTERN = re.compile(r"^CRQ[0-9]{1,20}$", re.IGNORECASE)
 
 
 class RepositoryStateError(RuntimeError):
@@ -130,6 +132,7 @@ class GitService:
         resource_path,
         data,
         commit_message=None,
+        change_reference="",
     ):
         """Write one manifest file via issue + branch + PR flow."""
         validate_path_segment(cloud, "cloud")
@@ -138,8 +141,14 @@ class GitService:
         validate_relative_path(resource_path)
         file_path = f"{cloud}/{environment}/{region}/{resource_path}"
         commit_message = commit_message or f"Update {file_path}"
-        branch_suffix = f"{int(time.time())}-{uuid.uuid4().hex[:8]}"
-        branch = f"change/{cloud}-{environment}-{region}-{branch_suffix}"
+        branch = self.stable_branch_name(
+            change_reference,
+            cloud,
+            environment,
+            region,
+            resource_path,
+        )
+        await self.ensure_branch_available(branch)
 
         issue = await self.github.create_issue_async(
             self.project_name,
@@ -186,6 +195,32 @@ class GitService:
         except Exception as e:
             logger.error("PR flow failed: %s", e)
             raise
+
+    @staticmethod
+    def stable_branch_name(
+        change_reference: str,
+        cloud: str,
+        environment: str,
+        region: str,
+        resource_path: str,
+    ) -> str:
+        """Return the deterministic branch for one CRQ and manifest destination."""
+        reference = (change_reference or "").strip()
+        if not _CRQ_PATTERN.fullmatch(reference):
+            raise ValueError("Change reference must match CRQ followed by 1 to 20 digits")
+        resource_key = PurePosixPath(resource_path).stem.lower()
+        resource_key = re.sub(r"[^a-z0-9]+", "-", resource_key).strip("-")
+        if not resource_key:
+            raise ValueError("Resource path must include a file name")
+        return f"agent/{reference.lower()}-{cloud}-{environment}-{region}-{resource_key}"
+
+    async def ensure_branch_available(self, branch: str) -> None:
+        """Stop before creating an issue when the deterministic branch is occupied."""
+        if await self.github.branch_exists_async(self.project_name, branch):
+            raise ValueError(f"Branch already exists: {branch}")
+        open_prs = await self.github.get_open_prs(self.project_name)
+        if any((pr.get("head") or {}).get("ref") == branch for pr in open_prs):
+            raise ValueError(f"Open pull request already exists for branch: {branch}")
 
     async def get_git_status(self):
         """Get current status from the repository main branch head."""

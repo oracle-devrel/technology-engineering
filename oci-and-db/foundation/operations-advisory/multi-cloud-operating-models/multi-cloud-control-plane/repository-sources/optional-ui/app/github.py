@@ -428,6 +428,17 @@ class GitHubClient:
             data=kwargs,
         )
 
+    async def branch_exists_async(self, repo_name: str, branch_name: str) -> bool:
+        """Return whether a branch exists without treating a missing branch as an error."""
+        branch = await self._request(
+            self._github.rest.repos.async_get_branch,
+            self.org,
+            repo_name,
+            branch_name,
+            allow_statuses={404},
+        )
+        return branch is not _MISSING
+
     async def create_branch_async(self, repo_name: str, branch_name: str, from_branch: str = "main"):
         """Create a branch from an existing source branch."""
         self._ensure_writes_enabled()

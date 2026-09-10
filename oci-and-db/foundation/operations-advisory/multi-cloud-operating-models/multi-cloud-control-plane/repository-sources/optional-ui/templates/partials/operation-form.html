@@ -77,6 +77,13 @@
                 {{ empty_state("No " ~ (param_def.resource_type or 'resources') ~ " resources deployed in the selected region.") }}
                 {% endif %}
 
+                {% elif param_def.type == 'handoff' %}
+                <input type="hidden" name="{{ param_key }}" value="{{ param_def.default or '' }}" />
+                <input type="text" value="{{ param_def.default or '' }}" class="input input-bordered w-full" readonly />
+                <label class="label">
+                    <span class="label-text-alt text-base-content/50">Read from the approved project handoff.</span>
+                </label>
+
                 {% else %}
                 <input type="text" name="{{ param_key }}" value="{{ param_def.default or '' }}"
                     class="input input-bordered w-full" placeholder="Enter {{ param_def.label or param_key }}" {% if

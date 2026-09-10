@@ -1,33 +1,147 @@
 # Workflow
 
-1. Identify the handed-off repository and, for non-production, ask the user to
-   select `dev`, `test`, or `uat`.
-2. Confirm the requested Day 1 resource is supported: OCI NSG, Compute, and
-   ADB; Azure VM and ADB; Google Cloud VM and ADB-S. OCI ADB start and stop are
-   the only supported Day 2 operations. Refuse Azure and Google Cloud Day 2.
-3. For a new OCI Compute request, offer the approved Frankfurt
-   `VM.Standard.A1.Flex` catalog image or ask for a regional image OCID. The
-   user chooses manually. Do not resolve images through OCI CLI or a cloud API.
-4. Create a disposable clone in a child directory named exactly as the canonical
-   project repository. Create one `agent/<resource>-...` branch from exact
-   `origin/main`.
-5. Edit one canonical manifest path. Use the environment handoff. OCI uses TBAC
-   Application for Compute, Database for ADB and lifecycle, and Infrastructure
-   for NSGs.
-6. Run the packaged validator after the edit:
+1. The configured organization is `multicloud-control-plane`. Accept either
+   `<repository>` or `multicloud-control-plane/<repository>`, reject a full
+   reference from another organization, and resolve the target internally.
+   Never ask the user for an organization name. Identify the handed-off
+   repository and requested environment. A non-prod request must name `dev`,
+   `test`, or `uat`; a production request uses only `prod`. Run `gh repo view
+   multicloud-control-plane/<repository> --json
+   nameWithOwner,isPrivate,defaultBranchRef,sshUrl` and stop unless it is the
+   expected private project repository with default branch `main`.
+2. Read only the selected catalog entry from
+   `multicloud-control-plane/gitops-templates` at
+   `main`, for example `gh api -H "Accept: application/vnd.github.raw+json"
+   "repos/multicloud-control-plane/gitops-templates/contents/<catalog-path>?ref=main"`.
+   Use `resources-catalog` for infrastructure: render its structure exactly,
+   replacing only documented placeholders, then merge the selected fragment
+   into the existing regional manifest without replacing other root keys.
+   Preserve all literal fields, types, and collections. Populate a collection
+   only when its catalog fragment supplies an entry shape; an empty collection
+   with no entry template authorizes zero entries. Stop rather than infer a
+   field, CIDR, source, protocol, port, or rule that the catalog does not
+   model. `project_nsgs_template.json` contains the complete NSG object plus
+   optional child patterns for one TCP ingress rule and one TCP egress rule.
+   Render zero or more of those child patterns only when requested. For an
+   existing NSG, merge only the requested child pattern into that NSG; do not
+   repeat or replace its creation fields. `protocol` is the literal catalog
+   value `TCP`; never replace it with a provider number such as `6`. For
+   ingress render only their published `src`, `src_type`, `dst_port_min`, and
+   `dst_port_max` fields; for egress use `dst` and `dst_type` instead. Do not
+   add nested provider `tcp_options`. A `0.0.0.0/0` ingress source is allowed
+   only when explicitly requested and must be identified as public exposure in
+   the preview. Use
+   `operations-catalog` for OCI lifecycle work: create, modify, or
+   clear one file under `oci/<environment>/<region>/lifecycle_operations/`.
+   Require an explicit environment, region, and one or more exact display
+   names for every lifecycle target, except an explicit request to `start` or
+   `stop all OCI ADBs`. For that single all-target form, enumerate every OCI
+   ADB display name in the selected regional database manifest at current
+   `main`. Stop if it contains none, and include the resulting exact names in
+   the semantic preview before requesting confirmation. Render those targets
+   as one row each in `| Type | Display name | Size | Action |`; use the same
+   approved-profile size labels as the resource inventory. Do not expand
+   another group, `all` resource type, name prefix, or ambiguous selector into
+   targets.
+   For every
+   OCI ADB or Compute request, select the named approved capacity profile from
+   the catalog and preserve all of its literal capacity, license, image, and
+   auto-scaling values. Do not combine profiles or change their values. For every
+   OCI ADB, replace the catalog's generic administrator-password placeholder
+   with its own token formed from the environment and normalized database
+   mapping key, as defined in [setup](setup.md). Do not reuse a token for two
+   databases. A clear only removes an existing operation request; it does not
+   call OCI.
 
-   ```bash
-   python3 scripts/validate-change.py \
-     --repo <project-repository> \
-     --base-ref origin/main
+## Read-only resource inventory
+
+For an inventory request, read the target repository at `main` and list only
+resources in its committed regional manifests. Do not create a branch, PR, or
+CRQ for this read-only response. Render exactly this compact shape:
+
+```markdown
+## Resource inventory
+
+Repository: `<repository>`
+Environment: `<environment>`
+Region: `<region>`
+
+| Type | Display name | Size |
+| --- | --- | --- |
+| `<resource type>` | `<display name>` | `<size>` |
+```
+
+Do not include manifest paths, lifecycle status, deployment commentary, or a
+disclaimer. For OCI ADB and Compute, report `Small`, `Medium`, or `Large` only
+when the declaration exactly matches a published capacity profile; otherwise
+report `N/A`. Use `N/A` for resource types without a published size profile.
+3. Derive one stable branch name from the CRQ and requested destination:
+   `agent/<crq-lower>-<cloud>-<environment>-<region>-<resource-key>`. The
+   `resource-key` is the catalog mapping key or operation filename, normalized
+   to lowercase letters, digits, and hyphens. Before creating it, check both
+   the remote branch (`git ls-remote --exit-code --heads origin
+   refs/heads/<branch>`) and open pull requests (`gh pr list --repo
+   multicloud-control-plane/<repository> --head <branch> --state open --limit 1 --json
+   number,url`) for that exact name. If either exists, stop and report it;
+   never add a suffix or create a duplicate PR.
+4. Create a disposable clone from the current `main`: `git clone --branch main
+   <repository-url> <temporary-directory>`, `git fetch origin main`, then
+   `git switch -c <branch> origin/main`. Edit only the one catalog-selected
+   manifest or operation file. Do not infer fields, query cloud APIs, or
+   implement resource-specific checks locally.
+5. Before any GitHub write, confirm that the candidate still starts from the
+   current `main`. Inspect its runtime-secret tokens. A preview is invalid
+   unless it lists the required secret bundle and every required JSON member
+   for each runtime token in the candidate. For example, two `dev` ADBs keyed
+   `project45-adb1` and `project45-adb2` require
+   `GITOPS_SECRET_VALUES_DEV` with these distinct members. Only when the bundle
+   does not yet exist, the administrator may create it with this complete JSON
+   object:
+
+   ```json
+   {
+     "DEV_PROJECT45_ADB1_ADMIN_PASSWORD":"<set-the-first-ADB-admin-password>",
+     "DEV_PROJECT45_ADB2_ADMIN_PASSWORD":"<set-the-second-ADB-admin-password>"
+   }
    ```
 
-   Run it again with `--expect-base-sha` and `--expect-content-sha256` after
-   confirmation.
-7. Use the returned semantic summary to prepare the single user preview.
-8. Accept only the user's exact `Confirm` reply. After confirmation and revalidation, stage only the validated path, commit,
-   push, and conditionally create one pull request. Stop before merge.
+   State that the administrator replaces only the angle-bracket placeholders
+   before saving it. If the bundle already exists, show only the missing member
+   keys as a JSON fragment and instruct the administrator to merge them through
+   the approved secret process without replacing existing members; the agent
+   cannot read or reconstruct their values. For OCI ADB, include the published
+   password policy: 12 to 30 characters, at least one uppercase letter,
+   lowercase letter, and digit, with no double quote and no `admin` substring
+   in any casing. Do not read or test that secret; state it as a prerequisite.
+   Show a semantic preview naming the repository, environment, region, branch,
+   selected path, requested outcome, destructive or replacement impact, CRQ,
+   those prerequisites, and `GitHub writes: none`. For an all-OCI-ADB
+   lifecycle request, use the target table above instead of a prose target
+   list. Do not show the operation JSON or validation commentary unless the
+   user asks. Only then ask for the standalone `confirm` reply.
+6. After confirmation, re-fetch `origin/main`; if it or the candidate differs
+   from the preview, stop, rebuild the candidate, and request a new preview.
+   Stage only the selected path, commit, push the branch, and create one PR
+   with a title and body that include the CRQ: `gh pr create --base main --head
+   <branch> --title <title> --body <body>`. Do not merge, approve, dispatch,
+   rerun, or cancel a workflow.
+7. The protected template triggers Platform CI; never launch a workflow
+   manually. Derive one expected workflow name from the selected repository
+   and path:
 
-Use `{}` only to clear a completed OCI ADB lifecycle request. Do not use it for
-another resource change. A validated change contains one VM or NSG, or up to
-three OCI ADB mutations.
+   | Change | Expected workflow |
+   | --- | --- |
+   | Non-prod infrastructure manifest | `Shared non-production Terraform` |
+   | Production infrastructure manifest | `Production Terraform` |
+   | Non-prod OCI lifecycle manifest | `Shared non-production OCI operations` |
+   | Production OCI lifecycle manifest | `Production OCI operations` |
+
+   Its PR trigger is `pull_request_target`, so do not filter runs as
+   `pull_request`. Read only that workflow with `gh run list --repo
+   multicloud-control-plane/<repository> --workflow <expected-workflow> --branch <branch> --limit
+   10 --json databaseId,status,conclusion,workflowName,url,event,headSha`.
+   Require exactly one `pull_request_target` run whose `headSha` is the PR head
+   commit; if absent or ambiguous, stop rather than selecting another run. Poll
+   it with `gh run view <databaseId> --repo multicloud-control-plane/<repository> --json
+   status,conclusion,url` every 15–30 seconds until terminal. Report the PR
+   and workflow URL; Platform CI owns validation, plan, and apply.

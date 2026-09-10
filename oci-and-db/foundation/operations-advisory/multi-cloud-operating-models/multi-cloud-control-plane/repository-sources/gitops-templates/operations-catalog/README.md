@@ -9,7 +9,7 @@ passes its path explicitly to the shared workflow. Platform CI parses
 `operation_type` and selects one explicitly allow-listed operation playbook;
 project input never selects a playbook path or Ansible tag.
 
-## JSON schema
+## Manifest shape
 
 ```json
 {
@@ -60,7 +60,7 @@ display names in Terraform state for that OCI region. Add another object to the
 | File | operation_type | Cloud | Notes |
 | --- | --- | --- | --- |
 | `oci/adb-lifecycle.json` | `adb-lifecycle` | OCI | Start or stop an Autonomous Database |
-| `oci/deploy-agent.json` | `deploy-agent` | OCI | Worked SSH example: records an installation marker on a compute instance |
+| `oci/deploy-agent.json` | `deploy-agent` | OCI | Hardened SSH marker operation on a Compute instance; it does not install third-party software |
 
 ## Extension boundary
 
@@ -68,7 +68,7 @@ Adding a JSON template here does not enable an operation. A supported extension
 also requires its allowed manifest fields in Platform CI
 `scripts_python/validate_operation_manifest.py`, inventory extraction, an
 explicitly allow-listed Platform CI playbook, permissions, documentation, and
-qualification evidence. Follow the canonical
+delivery controls. Follow the canonical
 [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model)
 before publishing it to Project Teams.
 

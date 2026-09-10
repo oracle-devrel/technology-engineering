@@ -1,25 +1,29 @@
 # Project Team guide
 
 Use this guide after Cloud Operations gives you a prepared project repository.
-You can create, change, or remove approved resources and run supported lifecycle
-operations without deployment credentials or a different process for each
-cloud. Every request follows the same reviewed pull-request workflow.
+You can declare or remove approved resources, add published NSG rules, and run
+supported lifecycle operations without deployment credentials or a different
+process for each cloud. Every request follows the same reviewed pull-request
+workflow.
 
 ## 1. Check that you are ready
 
 Before choosing an interface, confirm that you:
 
 - have write access to a handed-off project repository;
-- are requesting something in the [current MVP scope](../reference/support.md);
+- are requesting something in [Reference capabilities](../reference/support.md);
 - have selected one cloud, environment, and region from your environment
   handoff; and
+- have completed the [environment secret-isolation check](../reference/verify-secret-isolation.md)
+  with Cloud Operations; and
 - have any change reference your organization requires, such as `CRQ1234`, to
   record in the pull request.
 
 ## 2. Choose an interface
 
-Each interface prepares the same Git change and pull request, and none of them
-can approve, merge, or deploy it — see the
+Each interface follows the same governed pull-request lifecycle, and none of
+them can approve, merge, or deploy it. The optional UI and Codex plugin render
+only published catalog capabilities — see the
 [trust boundary](../reference/architecture.md#execution-and-trust-boundary).
 
 | Interface | Use it when | Guide |
@@ -52,3 +56,10 @@ boundaries if you need them.
 
 The [request lifecycle](request-lifecycle.md) contains the detailed rules,
 manifest paths, removal steps, and troubleshooting guidance.
+
+## 5. Follow a first worked example
+
+To see one complete request without using customer values, follow the
+[private OCI Autonomous Database walkthrough](oci-adb-walkthrough.md). It
+shows the manifest, pull-request, review, and verification flow using only
+placeholders and sample names.
