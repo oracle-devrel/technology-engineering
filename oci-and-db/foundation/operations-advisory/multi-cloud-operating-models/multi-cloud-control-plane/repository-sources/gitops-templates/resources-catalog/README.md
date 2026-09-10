@@ -39,22 +39,21 @@ Defines exactly one generic project NSG under
 merge only that entry into
 `oci/<environment>/<region>/network/project-nsgs.json`.
 `__NSG_COMPARTMENT_OCID__` is the project compartment OCID from the selected
-environment handoff; it is not the shared network compartment. The template
-creates an empty NSG. Workloads reference the rendered NSG key, not an OCID.
+environment handoff; it is not the shared network compartment. It contains
+one reusable TCP ingress-rule pattern and one reusable TCP egress-rule pattern
+inside the NSG entry. They are optional child fragments, not rules that every
+NSG must create: render zero or more only when requested. A later rule request
+uses the same child pattern and merges it into the selected existing project
+NSG. Workloads reference the rendered NSG key, not an OCID.
 
-**`project_nsg_ingress_tcp_rule_template.json`** and
-**`project_nsg_egress_tcp_rule_template.json`**
-Append one uniquely named rule to an NSG that already exists in the same
-project network manifest. They are the approved Project Team rule
-capabilities for TCP: rule key, description, source or destination and its
-type, and a destination-port range. `protocol` is the literal catalog value
-`TCP`; Project Teams never provide a provider number such as `6`. They
-deliberately do not expose provider blocks, Terraform expressions, lifecycle
-settings, or any foundation network resource.
-
-For ingress, use `src` and `src_type`; for egress, use `dst` and `dst_type`.
-The port fields are directly `dst_port_min` and `dst_port_max`, not nested
-`tcp_options`. Provide a complete integer port range.
+The approved rule inputs are rule key, description, source or destination and
+its type, and a destination-port range. `protocol` is the literal catalog value
+`TCP`; Project Teams never provide a provider number such as `6`. For ingress,
+use `src` and `src_type`; for egress, use `dst` and `dst_type`. The port fields
+are directly `dst_port_min` and `dst_port_max`, not nested `tcp_options`.
+Provide a complete integer port range. The template deliberately does not
+expose provider blocks, Terraform expressions, lifecycle settings, or any
+foundation network resource.
 Typical types are `CIDR_BLOCK`, `NETWORK_SECURITY_GROUP`, or
 `SERVICE_CIDR_BLOCK`, where supported by the selected OCI Landing Zone
 contract. `0.0.0.0/0` is permitted only when the request explicitly asks for

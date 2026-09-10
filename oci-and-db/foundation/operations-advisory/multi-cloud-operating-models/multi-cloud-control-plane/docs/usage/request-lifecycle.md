@@ -41,12 +41,12 @@ your change process uses.
 6. Validate the edited JSON before opening the pull request.
 
 OCI project network security groups (NSGs) must exist before an OCI Compute
-request refers to their names. The catalog provides separate ingress and egress
-rule capabilities for an existing project NSG. State the source or destination,
-its type, and destination-port range explicitly. The supplied capabilities are
-TCP-only and set the catalog protocol value themselves. A public ingress source
-(`0.0.0.0/0`) is allowed only when the request explicitly requires it; the
-pull-request preview and review must identify that exposure.
+request refers to their names. The NSG template contains optional ingress and
+egress TCP rule patterns for a new or existing project NSG. State the source or
+destination, its type, and destination-port range explicitly. The template
+sets the catalog protocol value itself. A public ingress source (`0.0.0.0/0`)
+is allowed only when the request explicitly requires it; the pull-request
+preview and review must identify that exposure.
 
 ## Review and execute
 

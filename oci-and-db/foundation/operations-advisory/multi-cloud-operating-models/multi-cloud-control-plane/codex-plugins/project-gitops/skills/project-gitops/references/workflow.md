@@ -15,14 +15,17 @@
    only when its catalog fragment supplies an entry shape; an empty collection
    with no entry template authorizes zero entries. Stop rather than infer a
    field, CIDR, source, protocol, port, or rule that the catalog does not
-   model. The OCI project-NSG TCP ingress and egress rule templates append one
-   named rule to an existing project NSG. Their `protocol` is the literal
-   catalog value `TCP`; never replace it with a provider number such as `6`.
-   For ingress render only their published `src`, `src_type`,
-   `dst_port_min`, and `dst_port_max` fields; for egress use `dst` and
-   `dst_type` instead. Do not add nested provider `tcp_options`. A
-   `0.0.0.0/0` ingress source is allowed only when explicitly requested and
-   must be identified as public exposure in the preview. Use
+   model. `project_nsgs_template.json` contains the complete NSG object plus
+   optional child patterns for one TCP ingress rule and one TCP egress rule.
+   Render zero or more of those child patterns only when requested. For an
+   existing NSG, merge only the requested child pattern into that NSG; do not
+   repeat or replace its creation fields. `protocol` is the literal catalog
+   value `TCP`; never replace it with a provider number such as `6`. For
+   ingress render only their published `src`, `src_type`, `dst_port_min`, and
+   `dst_port_max` fields; for egress use `dst` and `dst_type` instead. Do not
+   add nested provider `tcp_options`. A `0.0.0.0/0` ingress source is allowed
+   only when explicitly requested and must be identified as public exposure in
+   the preview. Use
    `operations-catalog` for OCI lifecycle work: create, modify, or
    clear one file under `oci/<environment>/<region>/lifecycle_operations/`. For every
    OCI ADB, replace the catalog's generic administrator-password placeholder
