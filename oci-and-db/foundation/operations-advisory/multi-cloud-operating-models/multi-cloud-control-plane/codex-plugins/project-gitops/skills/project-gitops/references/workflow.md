@@ -9,9 +9,10 @@
    multicloud-control-plane/<repository> --json
    nameWithOwner,isPrivate,defaultBranchRef,sshUrl` and stop unless it is the
    expected private project repository with default branch `main`.
-2. Read only the selected catalog entry from `<owner>/gitops-templates` at
+2. Read only the selected catalog entry from
+   `multicloud-control-plane/gitops-templates` at
    `main`, for example `gh api -H "Accept: application/vnd.github.raw+json"
-   "repos/<owner>/gitops-templates/contents/<catalog-path>?ref=main"`.
+   "repos/multicloud-control-plane/gitops-templates/contents/<catalog-path>?ref=main"`.
    Use `resources-catalog` for infrastructure: render its structure exactly,
    replacing only documented placeholders, then merge the selected fragment
    into the existing regional manifest without replacing other root keys.
@@ -80,7 +81,7 @@ report `N/A`. Use `N/A` for resource types without a published size profile.
    to lowercase letters, digits, and hyphens. Before creating it, check both
    the remote branch (`git ls-remote --exit-code --heads origin
    refs/heads/<branch>`) and open pull requests (`gh pr list --repo
-   <owner/repository> --head <branch> --state open --limit 1 --json
+   multicloud-control-plane/<repository> --head <branch> --state open --limit 1 --json
    number,url`) for that exact name. If either exists, stop and report it;
    never add a suffix or create a duplicate PR.
 4. Create a disposable clone from the current `main`: `git clone --branch main
@@ -137,10 +138,10 @@ report `N/A`. Use `N/A` for resource types without a published size profile.
 
    Its PR trigger is `pull_request_target`, so do not filter runs as
    `pull_request`. Read only that workflow with `gh run list --repo
-   <owner/repository> --workflow <expected-workflow> --branch <branch> --limit
+   multicloud-control-plane/<repository> --workflow <expected-workflow> --branch <branch> --limit
    10 --json databaseId,status,conclusion,workflowName,url,event,headSha`.
    Require exactly one `pull_request_target` run whose `headSha` is the PR head
    commit; if absent or ambiguous, stop rather than selecting another run. Poll
-   it with `gh run view <databaseId> --repo <owner/repository> --json
+   it with `gh run view <databaseId> --repo multicloud-control-plane/<repository> --json
    status,conclusion,url` every 15–30 seconds until terminal. Report the PR
    and workflow URL; Platform CI owns validation, plan, and apply.

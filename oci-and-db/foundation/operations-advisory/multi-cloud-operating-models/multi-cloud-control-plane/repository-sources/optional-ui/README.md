@@ -35,6 +35,16 @@ Use these GitHub App repository permissions:
 The UI does not need a GitHub App private key, an installation-token flow, or
 write permission to Actions, Checks, Administration, or Workflows.
 
+## Catalog boundary
+
+The catalog is the UI's complete Day 1 contract. The UI renders only documented
+placeholders; it does not expose catalog literals as editable inputs or provide
+an arbitrary JSON editor. OCI Compute and Autonomous Database capacity profiles
+therefore remain fixed. The single OCI project-NSG catalog template supports a
+new NSG with zero or more TCP ingress and egress rules, or additive rules on an
+existing NSG. The UI renders destination ports as integers and rejects a rule
+key that already exists.
+
 Copy the sample configuration before starting. For a local installation, the
 sample uses `http://localhost:8011/callback`. For a shared deployment, register
 the exact externally visible `https://<host>/callback` URL and configure the

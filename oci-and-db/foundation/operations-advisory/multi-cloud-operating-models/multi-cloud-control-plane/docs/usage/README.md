@@ -1,9 +1,10 @@
 # Project Team guide
 
 Use this guide after Cloud Operations gives you a prepared project repository.
-You can create, change, or remove approved resources and run supported lifecycle
-operations without deployment credentials or a different process for each
-cloud. Every request follows the same reviewed pull-request workflow.
+You can declare or remove approved resources, add published NSG rules, and run
+supported lifecycle operations without deployment credentials or a different
+process for each cloud. Every request follows the same reviewed pull-request
+workflow.
 
 ## 1. Check that you are ready
 
@@ -20,8 +21,9 @@ Before choosing an interface, confirm that you:
 
 ## 2. Choose an interface
 
-Each interface prepares the same Git change and pull request, and none of them
-can approve, merge, or deploy it — see the
+Each interface follows the same governed pull-request lifecycle, and none of
+them can approve, merge, or deploy it. The optional UI and Codex plugin render
+only published catalog capabilities — see the
 [trust boundary](../reference/architecture.md#execution-and-trust-boundary).
 
 | Interface | Use it when | Guide |

@@ -1,12 +1,13 @@
 # Setup
 
-1. Read the project repository `origin` before every operation. Accept only a
-   GitHub origin for a handed-off private `nonprod-<project>` or
-   `prod-<project>` repository whose default branch is `main`. The origin
-   supplies the customer organization; the matching
+1. Resolve the project repository internally as
+   `multicloud-control-plane/<repository>` before every operation. Read its
+   `origin` only to confirm it is the expected handed-off private
+   `nonprod-<project>` or `prod-<project>` repository whose default branch is
+   `main`; never infer an organization from it. The matching
    `environments/<environment>/environment_information.md` supplies the
    approved handoff references.
-2. Use `<customer-org>/gitops-templates` at `main`. Choose
+2. Use `multicloud-control-plane/gitops-templates` at `main`. Choose
    `resources-catalog` for infrastructure or `operations-catalog` for OCI
    lifecycle work. The catalog is the only source for supported fields and
    destination paths. Platform CI and the selected orchestrator are the only

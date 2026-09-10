@@ -24,8 +24,28 @@ class OperationsService:
     """Reusable operation matching and parameter-enrichment helpers."""
 
     @staticmethod
+    def _handoff_placeholder(parameter_key: str) -> str:
+        """Map a compartment-OCID operation input to its approved handoff value."""
+        key = (parameter_key or "").lower()
+        if not key.endswith("compartment_ocid"):
+            return ""
+        if "database" in key or key.startswith("db_"):
+            return "__PROJ_DB_CMP_OCID__"
+        if "application" in key or key.startswith("app_"):
+            return "__PROJ_APP_CMP_OCID__"
+        if "infrastructure" in key or key.startswith("infra_"):
+            return "__PROJ_INFRA_CMP_OCID__"
+        if "parent" in key or "project" in key:
+            return "__PROJECT_PARENT_CMP_OCID__"
+        return ""
+
+    @staticmethod
     def _template_payload(operation_def: OperationCatalogEntry) -> dict[str, Any]:
-        return operation_def.model_dump(exclude_none=True)
+        return {
+            key: value
+            for key, value in operation_def.model_dump(exclude_none=True).items()
+            if key not in _OPERATION_METADATA_KEYS
+        }
 
     @staticmethod
     def match_operations(
@@ -100,7 +120,15 @@ class OperationsService:
                 type="string",
                 required=True,
             )
-            if any(key in placeholder for key in ("adb", "database", "db")):
+            handoff_placeholder = cls._handoff_placeholder(placeholder)
+            if handoff_placeholder:
+                param_config = OperationParameter(
+                    label=param_config.label,
+                    type="handoff",
+                    handoff_placeholder=handoff_placeholder,
+                    required=True,
+                )
+            elif any(key in placeholder for key in ("adb", "database", "db")):
                 param_config = OperationParameter(
                     label=param_config.label,
                     type="resource",
@@ -117,6 +145,27 @@ class OperationsService:
             parameters[placeholder] = param_config
 
         return parameters
+
+    @classmethod
+    def resolve_handoff_parameters(
+        cls,
+        operation_def: OperationCatalogEntry,
+        payload: dict[str, Any],
+        handoff_suggestions: dict[str, str],
+    ) -> dict[str, Any]:
+        """Replace handoff-backed values with the approved project handoff value."""
+        resolved = dict(payload or {})
+        for param_key, param_def in cls.build_parameters(operation_def).items():
+            if param_def.type != "handoff":
+                continue
+            placeholder = param_def.handoff_placeholder
+            value = handoff_suggestions.get(placeholder)
+            if not placeholder or not value:
+                raise ValueError(
+                    f"Approved handoff value is unavailable for {param_key}"
+                )
+            resolved[param_key] = value
+        return resolved
 
     @staticmethod
     def _is_empty(value: Any) -> bool:

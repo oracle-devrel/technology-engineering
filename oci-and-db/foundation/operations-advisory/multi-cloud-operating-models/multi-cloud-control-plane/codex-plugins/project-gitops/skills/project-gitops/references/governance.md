@@ -14,9 +14,11 @@ to the previewed candidate on the then-current `main`. If the candidate or
 confirmation. Do not show, request, or require hashes or SHAs.
 
 Human review and merge are mandatory. After a known human merge, read its
-`mergeCommit.oid` with `gh pr view <number> --repo <owner/repository> --json
+`mergeCommit.oid` with `gh pr view <number> --repo
+multicloud-control-plane/<repository> --json
 mergedAt,mergeCommit,url`, then identify the configured `push` workflow (not
-the earlier PR run) with `gh run list --repo <owner/repository> --commit
+the earlier PR run) with `gh run list --repo
+multicloud-control-plane/<repository> --commit
 <merge-commit-oid> --limit 10 --json
 databaseId,status,conclusion,workflowName,url,event,headSha`. Select the
 matching `push` run and monitor it until terminal unless the user asks for a
