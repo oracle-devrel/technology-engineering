@@ -6,6 +6,8 @@ Oracle Database@AWS combines Oracle Exadata Database Service and Oracle database
 
 Reviewed: 18.08.2026
 
+# When to use this asset?
+
 ## Purpose
 
 The purpose of this repository is to provide a structured, reusable, and customer-facing reference for:
@@ -27,7 +29,9 @@ This material is intended for:
 - Implementation Teams
 - Customer Architects and DBA teams
 
-## Solution Overview
+# How to use this asset?
+
+# Solution Overview
 
 Oracle Database@AWS provides Oracle database services deployed natively inside Azure data centers. It enables customers to:
 
@@ -37,7 +41,7 @@ Oracle Database@AWS provides Oracle database services deployed natively inside A
 - Integrate with AWS networking and identity services
 - Support hybrid, multicloud, and sovereign cloud use cases
 
-## Repository Contents
+# Repository Contents
 
 Typical content in this repository includes:
 
@@ -53,7 +57,7 @@ Typical content in this repository includes:
 - Customer onboarding guidance
 - FAQ and known issues
 
-## Solution Scope
+# Solution Scope
 
 The exact scope of an engagement may vary by customer, but the solution definition typically covers:
 
@@ -68,7 +72,7 @@ The exact scope of an engagement may vary by customer, but the solution definiti
 - High availability and disaster recovery
 - Operations, support, and handover
 
-## Landing Zone Requirements
+# Landing Zone Requirements
 
 Before deployment, the AWS and OCI landing zones should be validated for:
 
@@ -84,7 +88,7 @@ Before deployment, the AWS and OCI landing zones should be validated for:
 - Automation and governance controls
 
 
-## Security and Compliance
+# Security and Compliance
 
 Security design should account for:
 
@@ -95,7 +99,7 @@ Security design should account for:
 - Regulatory and sovereign cloud requirements
 - Separation of duties across Oracle, AWS, and customer teams
 
-## Monitoring and Operations
+# Monitoring and Operations
 
 The solution may use a combination of:
 
@@ -109,7 +113,7 @@ The solution may use a combination of:
 - Oracle Enterprise Manager
 - Third-party SIEM and observability tools
 
-## High Availability and Disaster Recovery
+# High Availability and Disaster Recovery
 
 Common HA/DR patterns include:
 
@@ -119,7 +123,7 @@ Common HA/DR patterns include:
 - Backup-based recovery using OCI Object Storage or Recovery Service
 - Cross-region DR where required
 
-## Sizing and Capacity Planning
+# Sizing and Capacity Planning
 
 Sizing should be based on:
 
@@ -131,7 +135,7 @@ Sizing should be based on:
 - Licensing model (BYOL or license included)
 - DR and backup requirements
 
-## Implementation and Handover
+# Implementation and Handover
 
 Implementation planning should include:
 
@@ -142,7 +146,7 @@ Implementation planning should include:
 - Customer obligations
 - Transition and handover plan
 
-## References
+# References
 
 Useful references may include:
 
@@ -153,8 +157,15 @@ Useful references may include:
 - Oracle Data Guard and GoldenGate references
 - Internal architecture and enablement materials
 
-## Notes
+# Notes
 
 - This repository is intended to support solution design and enablement.
 - Any customer-specific architecture decisions should be validated against the agreed SDD.
 - Use the latest approved Oracle and Microsoft reference architectures where applicable.
+
+# License
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

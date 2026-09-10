@@ -8,6 +8,7 @@ OCID or the execution mode.
 """
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -22,6 +23,12 @@ ALLOWED_TARGET_KEYS = {
     "adb-lifecycle": {"display_name", "action", "wait_for_state", "timeout_minutes"},
     "deploy-agent": {"display_name"},
 }
+
+# These values are exposed to the platform-owned deploy-agent playbook. Keep
+# agent_type safe for its marker filename and agent_version safe for logs and
+# marker content; neither value may select a command, URL, playbook, or path.
+AGENT_TYPE_RE = re.compile(r"^[a-z][a-z0-9-]{0,62}$")
+AGENT_VERSION_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$")
 
 
 def fail(message: str) -> "NoReturn":
@@ -61,6 +68,20 @@ def validate(document: object) -> str:
         for index, target in enumerate(targets):
             if target.get("action") not in {"start", "stop"}:
                 fail(f"targets[{index}].action must be start or stop")
+
+    if operation_type == "deploy-agent":
+        agent_type = document.get("agent_type")
+        if not isinstance(agent_type, str) or not AGENT_TYPE_RE.fullmatch(agent_type):
+            fail(
+                "agent_type must be a 1-63 character lowercase identifier "
+                "using letters, digits, and hyphens"
+            )
+        agent_version = document.get("agent_version")
+        if not isinstance(agent_version, str) or not AGENT_VERSION_RE.fullmatch(agent_version):
+            fail(
+                "agent_version must be a 1-64 character identifier using "
+                "letters, digits, dots, underscores, pluses, and hyphens"
+            )
 
     return operation_type
 

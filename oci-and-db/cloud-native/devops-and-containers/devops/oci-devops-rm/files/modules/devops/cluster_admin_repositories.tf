@@ -2,7 +2,7 @@ resource "oci_devops_repository" "cluster_admin" {
   for_each = local.cluster_admin_singleton
 
   name            = "cluster-admin"
-  project_id      = oci_devops_project.devops_project.id
+  project_id      = local.devops_project_id
   description     = "Cluster administrator-owned Kubernetes resources, tool catalog, and per-cluster Helm values"
   repository_type = "HOSTED"
   freeform_tags = merge(local.cluster_admin_tags, {
@@ -17,7 +17,7 @@ resource "oci_devops_repository" "cluster_admin" {
 resource "oci_artifacts_repository" "cluster_admin_values" {
   for_each = local.cluster_admin_singleton
 
-  compartment_id = var.compartment_id
+  compartment_id = local.devops_project_compartment_id
   display_name = trimspace(var.cluster_admin_artifact_repository_name) != "" ? (
     var.cluster_admin_artifact_repository_name
   ) : "${local.project_repo_prefix}-cluster-admin-values"
@@ -38,7 +38,7 @@ resource "local_file" "cluster_admin_readme" {
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/README.md"
   content = templatefile("${path.root}/templates/cluster-admin-README.md.tpl", {
-    project_name = var.devops_project_name
+    project_name = local.devops_project_name
   })
 }
 
@@ -57,9 +57,9 @@ resource "local_file" "cluster_admin_build_spec" {
   filename = "${path.root}/${local.cluster_admin_repo_path}/.oci-devops/build-pipeline.yaml"
   content = templatefile("${path.root}/templates/cluster-admin-build-pipeline.yaml.tpl", {
     artifact_repository_id = oci_artifacts_repository.cluster_admin_values[each.key].id
-    compartment_id         = var.compartment_id
+    compartment_id         = local.devops_project_compartment_id
     mirror_pipeline_id     = oci_devops_build_pipeline.cluster_admin_mirror[each.key].id
-    project_id             = oci_devops_project.devops_project.id
+    project_id             = local.devops_project_id
     region                 = var.region
     region_key             = local.region_key
     tenancy_namespace      = local.namespace
@@ -72,7 +72,7 @@ resource "local_file" "cluster_admin_mirror_spec" {
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/.oci-devops/mirror-charts-pipeline.yaml"
   content = templatefile("${path.root}/templates/cluster-admin-mirror-pipeline.yaml.tpl", {
-    compartment_id    = var.compartment_id
+    compartment_id    = local.devops_project_compartment_id
     region            = var.region
     region_key        = local.region_key
     tenancy_namespace = local.namespace

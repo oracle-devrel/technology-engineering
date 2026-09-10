@@ -1,7 +1,7 @@
 resource "oci_devops_repository" "platform_pipelines" {
-  name            = "pipelines"
-  project_id      = oci_devops_project.devops_project.id
-  description     = "Reusable pipeline assets for application delivery"
+  name            = var.devops_pipeline_repository_name
+  project_id      = local.devops_project_id
+  description     = local.application_delivery_enabled ? "Reusable pipeline assets for application delivery" : "Reusable component build pipeline assets"
   repository_type = "HOSTED"
 
   lifecycle {
@@ -13,8 +13,8 @@ resource "oci_devops_repository" "application_source" {
   for_each = local.components_by_name
 
   name            = each.value.name
-  project_id      = oci_devops_project.devops_project.id
-  description     = "Source code repository for the ${each.value.name} component. Helm chart specifications are intentionally kept separate."
+  project_id      = local.devops_project_id
+  description     = local.application_delivery_enabled ? "Source code repository for the ${each.value.name} component. Helm chart specifications are intentionally kept separate." : "Source code repository for the ${each.value.name} component. An external delivery system consumes its SHA7-tagged images."
   repository_type = "HOSTED"
 
   lifecycle {
@@ -23,10 +23,10 @@ resource "oci_devops_repository" "application_source" {
 }
 
 resource "oci_devops_repository" "application_chart" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   name            = each.value.chart_repository_name
-  project_id      = oci_devops_project.devops_project.id
+  project_id      = local.devops_project_id
   description     = "Helm chart repository for the ${each.value.name} application. Umbrella and component subchart paths follow separate package and deploy lifecycles."
   repository_type = "HOSTED"
 
@@ -73,6 +73,7 @@ resource "local_file" "application_source_readme" {
     chart_repository_name = local.applications_by_name[each.value.application_name].chart_repository_name
     component_name        = each.value.name
     devops_project_prefix = local.project_repo_prefix
+    delivery_enabled      = local.application_delivery_enabled
   })
 }
 
@@ -86,7 +87,7 @@ resource "local_file" "application_source_dockerfile" {
 }
 
 resource "local_file" "application_chart_readme" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   filename = "${path.root}/${each.value.repo_path}/README.md"
   content = templatefile("${path.root}/templates/application-chart-README.md.tpl", {
@@ -98,7 +99,7 @@ resource "local_file" "application_chart_readme" {
 }
 
 resource "local_file" "application_chart_chart_yaml" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   filename = "${path.root}/${each.value.repo_path}/${each.value.chart_path}/Chart.yaml"
   content = templatefile("${path.root}/templates/application-chart-Chart.yaml.tpl", {
@@ -108,21 +109,21 @@ resource "local_file" "application_chart_chart_yaml" {
 }
 
 resource "local_file" "application_chart_values_yaml" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   filename = "${path.root}/${each.value.repo_path}/${each.value.chart_path}/values.yaml"
   content  = templatefile("${path.root}/templates/application-chart-values.yaml.tpl", {})
 }
 
 resource "local_file" "application_chart_helmignore" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   filename = "${path.root}/${each.value.repo_path}/${each.value.chart_path}/.helmignore"
   content  = templatefile("${path.root}/templates/application-chart-helmignore.tpl", {})
 }
 
 resource "local_file" "component_chart_chart_yaml" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   filename = "${path.root}/${local.applications_by_name[each.value.application_name].repo_path}/${each.value.chart_path}/Chart.yaml"
   content = templatefile("${path.root}/templates/component-chart-Chart.yaml.tpl", {
@@ -132,7 +133,7 @@ resource "local_file" "component_chart_chart_yaml" {
 }
 
 resource "local_file" "component_chart_values_yaml" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   filename = "${path.root}/${local.applications_by_name[each.value.application_name].repo_path}/${each.value.chart_path}/values.yaml"
   content = templatefile("${path.root}/templates/component-chart-values.yaml.tpl", {
@@ -142,21 +143,21 @@ resource "local_file" "component_chart_values_yaml" {
 }
 
 resource "local_file" "component_chart_deployment_yaml" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   filename = "${path.root}/${local.applications_by_name[each.value.application_name].repo_path}/${each.value.chart_path}/templates/deployment.yaml"
   content  = templatefile("${path.root}/templates/component-chart-deployment.yaml.tpl", {})
 }
 
 resource "local_file" "component_chart_service_yaml" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   filename = "${path.root}/${local.applications_by_name[each.value.application_name].repo_path}/${each.value.chart_path}/templates/service.yaml"
   content  = templatefile("${path.root}/templates/component-chart-service.yaml.tpl", {})
 }
 
 resource "local_file" "component_chart_serviceaccount_yaml" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   filename = "${path.root}/${local.applications_by_name[each.value.application_name].repo_path}/${each.value.chart_path}/templates/serviceaccount.yaml"
   content  = templatefile("${path.root}/templates/component-chart-serviceaccount.yaml.tpl", {})
@@ -166,7 +167,7 @@ resource "local_file" "application_delivery_pipeline" {
   for_each = local.generated_component_build_specs
 
   filename = "${path.root}/${local.platform_repo_path}/${each.value.build_spec_path}"
-  content = templatefile("${path.root}/templates/application-delivery-pipeline.yaml.tpl", {
+  content = templatefile(local.application_delivery_enabled ? "${path.root}/templates/application-delivery-pipeline.yaml.tpl" : "${path.root}/templates/build-only-pipeline.yaml.tpl", {
     application_chart_path      = each.value.application_chart_path
     component_chart_repo_prefix = each.value.chart_repo_prefix
     component_image_repo_prefix = each.value.image_repo_prefix
@@ -175,7 +176,7 @@ resource "local_file" "application_delivery_pipeline" {
     component_name              = each.value.name
     region                      = var.region
     region_key                  = local.region_key
-    repo_compartment_id         = var.compartment_id
+    repo_compartment_id         = local.devops_project_compartment_id
     tenancy_namespace           = local.namespace
   })
 }
@@ -187,7 +188,7 @@ resource "local_file" "custom_application_delivery_pipeline" {
   content = join("\n", [
     "# Starter generated for components: ${join(", ", each.value.component_names)}.",
     "# This explicit build_spec_path is user-owned after its first commit and is never refreshed by Resource Manager.",
-    templatefile("${path.root}/templates/application-delivery-pipeline.yaml.tpl", {
+    templatefile(local.application_delivery_enabled ? "${path.root}/templates/application-delivery-pipeline.yaml.tpl" : "${path.root}/templates/build-only-pipeline.yaml.tpl", {
       application_chart_path      = each.value.component.application_chart_path
       component_chart_repo_prefix = each.value.component.chart_repo_prefix
       component_image_repo_prefix = each.value.component.image_repo_prefix
@@ -196,7 +197,7 @@ resource "local_file" "custom_application_delivery_pipeline" {
       component_name              = each.value.component.name
       region                      = var.region
       region_key                  = local.region_key
-      repo_compartment_id         = var.compartment_id
+      repo_compartment_id         = local.devops_project_compartment_id
       tenancy_namespace           = local.namespace
     })
   ])
@@ -207,11 +208,12 @@ resource "local_file" "platform_pipelines_readme" {
   content = templatefile("${path.root}/templates/pipelines-README.md.tpl", {
     application_name = join(", ", keys(local.applications_by_name))
     component_name   = join(", ", keys(local.components_by_name))
+    delivery_enabled = local.application_delivery_enabled
   })
 }
 
 resource "local_file" "application_baseline_pipeline" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   filename = "${path.root}/${local.platform_repo_path}/${each.value.name}-package-pipeline.yaml"
   content = templatefile("${path.root}/templates/application-baseline-pipeline.yaml.tpl", {
@@ -220,23 +222,25 @@ resource "local_file" "application_baseline_pipeline" {
     application_chart_repo_prefix = each.value.chart_repo_prefix
     region                        = var.region
     region_key                    = local.region_key
-    repo_compartment_id           = var.compartment_id
+    repo_compartment_id           = local.devops_project_compartment_id
     tenancy_namespace             = local.namespace
   })
 }
 
 resource "local_file" "helm_chart_pipeline" {
+  count = local.application_delivery_enabled ? 1 : 0
+
   filename = "${path.root}/${local.platform_repo_path}/helm-chart-pipeline.yaml"
   content = templatefile("${path.root}/templates/helm-chart-pipeline.yaml.tpl", {
     region              = var.region
     region_key          = local.region_key
-    repo_compartment_id = var.compartment_id
+    repo_compartment_id = local.devops_project_compartment_id
     tenancy_namespace   = local.namespace
   })
 }
 
 resource "local_file" "release_pipeline" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   filename = "${path.root}/${local.platform_repo_path}/${each.value.name}-release-pipeline.yaml"
   content = templatefile("${path.root}/templates/release-pipeline.yaml.tpl", {
@@ -246,7 +250,7 @@ resource "local_file" "release_pipeline" {
     component_image_repository  = each.value.image_repository
     region                      = var.region
     region_key                  = local.region_key
-    repo_compartment_id         = var.compartment_id
+    repo_compartment_id         = local.devops_project_compartment_id
     tenancy_namespace           = local.namespace
   })
 }
@@ -261,8 +265,11 @@ resource "null_resource" "seed_platform_shared" {
       REGION         = var.region
       # OCI can create a hosted repository with an empty initial commit. Add-only
       # seeds missing starter paths without overwriting adopted repository content.
-      SEED_MODE   = "add-only"
-      SEED_PATHS  = join("\n", ["README.md", "helm-chart-pipeline.yaml", "script"])
+      SEED_MODE = "add-only"
+      SEED_PATHS = join("\n", concat(
+        ["README.md", "script"],
+        local.application_delivery_enabled ? ["helm-chart-pipeline.yaml"] : []
+      ))
       SOURCE_REPO = "/${local.platform_repo_path}"
     }
     working_dir = path.root
@@ -289,9 +296,9 @@ resource "null_resource" "seed_platform_entities" {
       REGION         = var.region
       SEED_MODE      = "add-only"
       SEED_PATHS = join("\n", concat(
-        [for name in sort(keys(local.applications_by_name)) : "${name}-package-pipeline.yaml"],
+        [for name in sort(keys(local.delivery_applications_by_name)) : "${name}-package-pipeline.yaml"],
         [for name in sort(keys(local.generated_component_build_specs)) : local.generated_component_build_specs[name].build_spec_path],
-        [for name in sort(keys(local.components_by_name)) : "${name}-release-pipeline.yaml"],
+        [for name in sort(keys(local.delivery_components_by_name)) : "${name}-release-pipeline.yaml"],
         sort(local.custom_build_spec_paths)
       ))
       SOURCE_REPO = "/${local.platform_repo_path}"
@@ -301,8 +308,9 @@ resource "null_resource" "seed_platform_entities" {
 
   triggers = {
     repo_id                    = oci_devops_repository.platform_pipelines.id
-    application_names          = join(",", sort(keys(local.applications_by_name)))
+    application_names          = join(",", sort(keys(local.delivery_applications_by_name)))
     component_names            = join(",", sort(keys(local.components_by_name)))
+    application_delivery_mode  = var.application_delivery_mode
     generated_build_spec_paths = join(",", sort([for component in values(local.generated_component_build_specs) : component.build_spec_path]))
     custom_build_spec_paths    = join(",", sort(local.custom_build_spec_paths))
   }
@@ -328,10 +336,10 @@ resource "null_resource" "refresh_platform_development" {
       REGION         = var.region
       SEED_MODE      = "refresh"
       SEED_PATHS = join("\n", concat(
-        ["README.md", "helm-chart-pipeline.yaml", "script"],
-        [for name in sort(keys(local.applications_by_name)) : "${name}-package-pipeline.yaml"],
+        concat(["README.md", "script"], local.application_delivery_enabled ? ["helm-chart-pipeline.yaml"] : []),
+        [for name in sort(keys(local.delivery_applications_by_name)) : "${name}-package-pipeline.yaml"],
         [for name in sort(keys(local.generated_component_build_specs)) : local.generated_component_build_specs[name].build_spec_path],
-        [for name in sort(keys(local.components_by_name)) : "${name}-release-pipeline.yaml"]
+        [for name in sort(keys(local.delivery_components_by_name)) : "${name}-release-pipeline.yaml"]
       ))
       SOURCE_REPO = "/${local.platform_repo_path}"
     }
@@ -343,11 +351,11 @@ resource "null_resource" "refresh_platform_development" {
     content_hash = sha256(join("", concat(
       [
         local_file.platform_pipelines_readme.content,
-        local_file.helm_chart_pipeline.content,
+        local.application_delivery_enabled ? local_file.helm_chart_pipeline[0].content : "",
       ],
-      [for name in sort(keys(local.applications_by_name)) : local_file.application_baseline_pipeline[name].content],
+      [for name in sort(keys(local.delivery_applications_by_name)) : local_file.application_baseline_pipeline[name].content],
       [for name in sort(keys(local.generated_component_build_specs)) : local_file.application_delivery_pipeline[name].content],
-      [for name in sort(keys(local.components_by_name)) : local_file.release_pipeline[name].content],
+      [for name in sort(keys(local.delivery_components_by_name)) : local_file.release_pipeline[name].content],
       [
         for script_path in sort(fileset("${path.root}/${local.platform_repo_path}/script", "**")) :
         filesha256("${path.root}/${local.platform_repo_path}/script/${script_path}")
@@ -390,7 +398,7 @@ resource "null_resource" "seed_application_source" {
 }
 
 resource "null_resource" "seed_application_chart_baseline" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
@@ -426,7 +434,7 @@ resource "null_resource" "seed_application_chart_baseline" {
 }
 
 resource "null_resource" "seed_application_chart_components" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"

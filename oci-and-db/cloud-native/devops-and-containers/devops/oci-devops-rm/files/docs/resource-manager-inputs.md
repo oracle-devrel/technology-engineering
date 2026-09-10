@@ -2,13 +2,13 @@
 
 The Resource Manager schema is organized around the decisions a developer platform team must make up front. Most names and paths are derived.
 
-Application configuration supports the [developer workflow](developers.md). The optional cluster-administration configuration supports the independent [cluster operations workflow](cluster-operations.md). OKE, OCI DevOps, and IAM inputs are shared platform concerns.
+Application configuration supports the [developer workflow](developers.md). The optional cluster-administration configuration supports the independent [cluster operations workflow](cluster-operations.md). Select `application_delivery_mode` first because it controls whether the OKE application-delivery inputs and resources are needed.
 
 ```mermaid
 flowchart TB
   RM["Resource Manager inputs"]
 
-  RM --> DevOps["OCI DevOps\ncompartment, project name, auth token"]
+  RM --> DevOps["OCI DevOps\ncreate or reuse project, auth token"]
   RM --> Apps["Applications\napplication names and component names"]
   RM --> Preprod["OKE pre-prod environment\ncluster, network compartment, subnet, optional NSG"]
   RM --> Prod["OKE prod environment\ncluster, network compartment, subnet, optional NSG"]
@@ -26,15 +26,21 @@ flowchart TB
 
 Configure:
 
-- DevOps compartment.
-- DevOps project name, default `oke-devops-starter`.
-- DevOps project description.
+- Create a new OCI DevOps project, or reuse an existing project by OCID.
+- Application delivery mode: `oci_devops` for the complete Helm promotion flow, or `build_only` for source, PR, and immutable image builds only.
+- Shared build-assets repository name, default `devops-pipelines`.
+- For a new project: DevOps compartment, project name (default `oke-devops-starter`), description, and notification topic behavior.
 - Auth token used to seed OCI DevOps Code Repositories.
-- Notification topic behavior: create a new topic or use an existing topic OCID.
-- Logging behavior: create a DevOps service log, then configure log group name, service log name, and retention.
+- For a new project: logging behavior, log group name, service log name, and retention.
 - Namespace-init pull secret name, default `ocirsecret`.
 
-The project name also becomes part of image and chart prefixes. For example, project `oke-devops-starter`, application `shop`, and component `invoice` produces image prefix `oke-devops-starter/shop/invoice`.
+Resource Manager does not expose a DevOps project selector, so reuse mode accepts an OCI DevOps project OCID and discovers its name and compartment. It does not modify that project's name, description, notification configuration, logging configuration, or project-wide repository settings. The stack creates and manages only its generated resources inside the selected project.
+
+Choose the ownership mode when creating the stack and keep it stable. Switching an applied stack from create mode to reuse mode changes Terraform ownership of the project and is not an adoption workflow.
+
+The resolved project name becomes part of image and chart prefixes. For example, project `oke-devops-starter`, application `shop`, and component `invoice` produces image prefix `oke-devops-starter/shop/invoice`.
+
+In `build_only` mode, application chart repositories, chart artifacts, release pipelines, deployment pipelines, and OKE deployment environments are omitted. Component source repositories, protected `main` branches, PR validation, SHA7 image builds, and the configurable `devops-pipelines` repository remain. OKE inputs disappear unless cluster administration is also enabled.
 
 ## Applications
 
@@ -75,11 +81,11 @@ Optional fields exist for advanced use:
 - component `chart_version`
 - component `build_spec_path`
 
-`build_spec_path` is relative to the `pipelines` repository. If omitted, Resource Manager generates and owns `<component>-build-pipeline.yaml`. If explicitly configured, Resource Manager creates the file and any parent folders from the default component template only when the path is missing. The first commit is a starter for the DevOps engineer; subsequent applies never refresh or overwrite it. Multiple components can share a specification such as `java/java-build-pipeline.yaml`. A shared starter identifies every referencing component and should be generalized before all of those component builds are enabled.
+`build_spec_path` is relative to the configurable `devops-pipelines` repository. If omitted, Resource Manager generates and owns `<component>-build-pipeline.yaml`. If explicitly configured, Resource Manager creates the file and any parent folders from the default component template only when the path is missing. The first commit is a starter for the DevOps engineer; subsequent applies never refresh or overwrite it. Multiple components can share a specification such as `java/java-build-pipeline.yaml`. A shared starter identifies every referencing component and should be generalized before all of those component builds are enabled.
 
 Defaults are derived from the application and component names. Application names must be unique. Component names must be globally unique across all applications.
 
-Names are validated after their derived suffixes are considered: application names are limited to 46 characters, component names to 45, and namespaces must be unique DNS labels within each cluster. Repository names cannot collide with another application/component or the reserved `pipelines` and `cluster-admin` repositories. The `estimated_devops_resources` output helps platform owners compare the generated topology with OCI service limits; larger-than-recommended topologies produce non-blocking Terraform check warnings.
+Names are validated after their derived suffixes are considered: application names are limited to 46 characters, component names to 45, and namespaces must be unique DNS labels within each cluster. Repository names cannot collide with another application/component, the configured shared pipeline repository, or `cluster-admin`. The `estimated_devops_resources` output helps platform owners compare the generated topology with OCI service limits; larger-than-recommended topologies produce non-blocking Terraform check warnings.
 
 Adding an application or component later creates its OCI resources and adds only missing entity-specific repository paths. Existing repository files are treated as developer-owned and are not overwritten by later applies. Explicit custom build-spec paths are add-only and excluded from development refresh.
 
@@ -145,7 +151,7 @@ Configure:
 - Worker subnet.
 - Optional worker NSG.
 
-The stack uses private OKE endpoints for DevOps shell stages. The worker subnet is therefore mandatory.
+These inputs are required when application delivery or cluster administration is enabled. They are hidden and unnecessary when `application_delivery_mode=build_only` and cluster administration is disabled. The stack uses private OKE endpoints for DevOps shell stages, so the worker subnet is mandatory whenever OKE is required.
 
 ## OKE Prod Environment
 

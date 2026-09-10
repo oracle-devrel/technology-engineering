@@ -1,9 +1,24 @@
 locals {
+  devops_project_id = var.create_devops_project ? (
+    oci_devops_project.devops_project[0].id
+  ) : data.oci_devops_project.existing[0].id
+  devops_project_name = var.create_devops_project ? (
+    var.devops_project_name
+  ) : data.oci_devops_project.existing[0].name
+  devops_project_compartment_id = var.create_devops_project ? (
+    var.compartment_id
+  ) : data.oci_devops_project.existing[0].compartment_id
+
   region_key = lower([for s in data.oci_identity_region_subscriptions.region_subscriptions.region_subscriptions : s if s.region_name == var.region][0].region_key)
   namespace  = data.oci_artifacts_container_configuration.ocir_config.namespace
 
   platform_repo_path  = "repos/pipelines"
-  project_repo_prefix = replace(lower(var.devops_project_name), "/[^a-z0-9._-]+/", "-")
+  project_repo_prefix = replace(lower(local.devops_project_name), "/[^a-z0-9._-]+/", "-")
+
+  application_delivery_enabled = var.application_delivery_mode == "oci_devops"
+  build_only_enabled           = var.application_delivery_mode == "build_only"
+  cluster_admin_enabled        = var.enable_cluster_admin
+  oke_environments_required    = local.application_delivery_enabled || local.cluster_admin_enabled
 
   applications_by_name = {
     for application in var.applications : application.name => {
@@ -42,6 +57,9 @@ locals {
     }
   ]...)
 
+  delivery_applications_by_name = local.application_delivery_enabled ? local.applications_by_name : {}
+  delivery_components_by_name   = local.application_delivery_enabled ? local.components_by_name : {}
+
   generated_component_build_specs = {
     for name, component in local.components_by_name : name => component if component.generate_build_spec
   }
@@ -65,7 +83,7 @@ locals {
   }
 
   component_environment_pairs = merge([
-    for component_name, component in local.components_by_name : {
+    for component_name, component in local.delivery_components_by_name : {
       for environment in ["dev", "staging"] : "${component_name}:${environment}" => merge(component, {
         environment = environment
       })
@@ -73,7 +91,7 @@ locals {
   ]...)
 
   application_bootstrap_targets = merge([
-    for application_name, application in local.applications_by_name : {
+    for application_name, application in local.delivery_applications_by_name : {
       "${application_name}:noprod" = {
         application_name = application_name
         cluster_name     = "noprod"
@@ -101,8 +119,8 @@ locals {
   oke_worker_nsg_ids        = try(trimspace(var.oke_worker_nsg_id), "") == "" ? [] : [var.oke_worker_nsg_id]
   prod_oke_worker_nsg_ids   = try(trimspace(local.prod_oke_worker_nsg_id), "") == "" ? [] : [local.prod_oke_worker_nsg_id]
 
-  oke_environment_id      = oci_devops_deploy_environment.oke_environment.id
-  prod_oke_environment_id = oci_devops_deploy_environment.prod_oke_environment.id
+  oke_environment_id      = try(oci_devops_deploy_environment.oke_environment[0].id, null)
+  prod_oke_environment_id = try(oci_devops_deploy_environment.prod_oke_environment[0].id, null)
 
   cluster_admin_repo_path = "repos/generated/cluster-admin"
   cluster_admin_singleton = var.enable_cluster_admin ? { enabled = true } : {}

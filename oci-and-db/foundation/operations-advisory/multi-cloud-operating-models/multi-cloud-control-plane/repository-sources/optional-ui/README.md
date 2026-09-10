@@ -1,17 +1,16 @@
-# Multi-Cloud Plane
+# Multi-Cloud Control Plane UI
 
-Multi-Cloud Plane is the optional MCCP guided interface. It lets Project
-Teams select an approved catalog entry and open a pull request in an already
-handed-off project repository. The canonical MCCP documentation defines the
-[supported request surface](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md)
+Multi-Cloud Control Plane UI is the optional MCCP guided interface. It lets
+Project Teams select an approved catalog entry and open a pull request in an
+already handed-off project repository. The canonical MCCP documentation defines the
+[Reference capabilities](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md)
 and [Project Team workflow](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md).
 
 ## Installation
 
-Cloud Operations copies this component to its UI runtime location and places
-the rendered MCCP `mccp-installation.json` beside it. This small non-secret
-file identifies the customer organization and approved immutable catalog
-revision. Repository layouts and environments are fixed by the installed
+Cloud Operations copies this component to its UI runtime location. The UI uses
+its configured GitHub organization and the current `gitops-templates` catalog
+on `main`. Repository layouts and environments are fixed by the installed
 release.
 
 Create a local `.env` from `.env.example` and set the GitHub App and session
@@ -35,6 +34,16 @@ Use these GitHub App repository permissions:
 
 The UI does not need a GitHub App private key, an installation-token flow, or
 write permission to Actions, Checks, Administration, or Workflows.
+
+## Catalog boundary
+
+The catalog is the UI's complete Day 1 contract. The UI renders only documented
+placeholders; it does not expose catalog literals as editable inputs or provide
+an arbitrary JSON editor. OCI Compute and Autonomous Database capacity profiles
+therefore remain fixed. The single OCI project-NSG catalog template supports a
+new NSG with zero or more TCP ingress and egress rules, or additive rules on an
+existing NSG. The UI renders destination ports as integers and rejects a rule
+key that already exists.
 
 Copy the sample configuration before starting. For a local installation, the
 sample uses `http://localhost:8011/callback`. For a shared deployment, register

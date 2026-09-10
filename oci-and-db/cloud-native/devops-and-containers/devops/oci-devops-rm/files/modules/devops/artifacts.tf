@@ -1,5 +1,5 @@
 resource "oci_devops_deploy_artifact" "application_chart" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "HELM_CHART"
@@ -8,7 +8,7 @@ resource "oci_devops_deploy_artifact" "application_chart" {
   freeform_tags = {
     application = each.value.name
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     chart_url                   = each.value.ocir_chart
@@ -26,7 +26,7 @@ resource "oci_devops_deploy_artifact" "application_chart" {
 }
 
 resource "oci_devops_deploy_artifact" "component_chart" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "HELM_CHART"
@@ -36,7 +36,7 @@ resource "oci_devops_deploy_artifact" "component_chart" {
     application = each.value.application_name
     component   = each.value.name
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     chart_url                   = each.value.ocir_chart
@@ -54,7 +54,7 @@ resource "oci_devops_deploy_artifact" "component_chart" {
 }
 
 resource "oci_devops_deploy_artifact" "application_baseline_values" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_type       = "GENERIC_FILE"
@@ -63,7 +63,7 @@ resource "oci_devops_deploy_artifact" "application_baseline_values" {
   freeform_tags = {
     application = each.value.name
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content       = base64encode(templatefile("${path.root}/templates/application-baseline-values.yaml.tpl", {}))
@@ -76,7 +76,7 @@ resource "oci_devops_deploy_artifact" "application_baseline_values" {
 }
 
 resource "oci_devops_deploy_artifact" "application_prod_values" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_type       = "GENERIC_FILE"
@@ -85,7 +85,7 @@ resource "oci_devops_deploy_artifact" "application_prod_values" {
   freeform_tags = {
     application = each.value.name
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content       = base64encode(templatefile("${path.root}/templates/application-baseline-values.yaml.tpl", {}))
@@ -108,7 +108,7 @@ resource "oci_devops_deploy_artifact" "component_values" {
     application = each.value.application_name
     component   = each.value.name
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/component-values.yaml.tpl", {
@@ -126,7 +126,7 @@ resource "oci_devops_deploy_artifact" "component_values" {
 }
 
 resource "oci_devops_deploy_artifact" "component_prod_values" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_type       = "GENERIC_FILE"
@@ -136,7 +136,7 @@ resource "oci_devops_deploy_artifact" "component_prod_values" {
     application = each.value.application_name
     component   = each.value.name
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/component-values.yaml.tpl", {
@@ -154,6 +154,8 @@ resource "oci_devops_deploy_artifact" "component_prod_values" {
 }
 
 resource "oci_devops_deploy_artifact" "application_bootstrap_command_spec" {
+  count = local.application_delivery_enabled ? 1 : 0
+
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "COMMAND_SPEC"
   description                = "Initializes an application namespace and OCIR image pull secret on noprod or prod"
@@ -162,7 +164,7 @@ resource "oci_devops_deploy_artifact" "application_bootstrap_command_spec" {
     purpose = "application-bootstrap"
     role    = "namespace-initialization"
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/application-bootstrap-command-spec.yaml.tpl", {
@@ -181,6 +183,8 @@ resource "oci_devops_deploy_artifact" "application_bootstrap_command_spec" {
 }
 
 resource "oci_devops_deploy_artifact" "component_verify_deployment_command_spec" {
+  count = local.application_delivery_enabled ? 1 : 0
+
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "COMMAND_SPEC"
   description                = "Reports a completed production component Helm release status"
@@ -189,7 +193,7 @@ resource "oci_devops_deploy_artifact" "component_verify_deployment_command_spec"
     purpose = "component-delivery"
     role    = "deployment-status"
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/verify-component-production-command-spec.yaml.tpl", {
@@ -206,6 +210,8 @@ resource "oci_devops_deploy_artifact" "component_verify_deployment_command_spec"
 }
 
 resource "oci_devops_deploy_artifact" "promote_release_image_command_spec" {
+  count = local.application_delivery_enabled ? 1 : 0
+
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "COMMAND_SPEC"
   description                = "Promotes an approved component RC image tag to the final release tag"
@@ -214,7 +220,7 @@ resource "oci_devops_deploy_artifact" "promote_release_image_command_spec" {
     purpose = "component-delivery"
     role    = "release-image-promotion"
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/promote-release-image-command-spec.yaml.tpl", {
@@ -229,6 +235,8 @@ resource "oci_devops_deploy_artifact" "promote_release_image_command_spec" {
 }
 
 resource "oci_devops_deploy_artifact" "tag_release_commit_command_spec" {
+  count = local.application_delivery_enabled ? 1 : 0
+
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "COMMAND_SPEC"
   description                = "Tags a released component source commit after production deployment"
@@ -237,7 +245,7 @@ resource "oci_devops_deploy_artifact" "tag_release_commit_command_spec" {
     purpose = "component-delivery"
     role    = "release-commit-tagging"
   }
-  project_id = oci_devops_project.devops_project.id
+  project_id = local.devops_project_id
 
   deploy_artifact_source {
     base64encoded_content = base64encode(templatefile("${path.root}/templates/tag-release-commit-command-spec.yaml.tpl", {

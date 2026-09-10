@@ -4,6 +4,13 @@ This stack is a starting point for customers adopting OCI DevOps with OKE. It cr
 
 Application tests, quality gates, deployment checks, chart values, and operational policies are deliberately templates. Configure the initial shape through Resource Manager, apply the stack, and then let the owning teams evolve the generated repositories and pipelines.
 
+Before selecting clusters, choose an application delivery mode:
+
+- `oci_devops` creates the complete component build and Helm promotion workflow documented below.
+- `build_only` creates component source repositories, PR validation, and SHA7 image builds. Application deployment belongs to GitOps or another external system, so application OKE inputs are hidden unless cluster administration is enabled.
+
+The supported combinations with an independent GitOps solution are summarized in [Delivery Ownership Models](delivery-ownership-models.md).
+
 ## What You Need
 
 Before opening the Resource Manager form, prepare:
@@ -24,9 +31,9 @@ Select **Deploy to Oracle Cloud** in the main README. Resource Manager opens wit
 
 ### OCI DevOps
 
-Select the DevOps compartment and set the project name. The project name becomes part of every generated image and chart path.
+Choose whether to create a new OCI DevOps project or reuse an existing one. For a new project, select its compartment and set its name. For reuse, paste the existing project OCID; Resource Manager has no DevOps project selector, so the stack discovers the name and compartment from that OCID. The resolved project name becomes part of every generated image and chart path.
 
-Provide the Git seeding credentials, logging configuration, and notification topic. Enable IAM creation only when the stack should create its dynamic group and policy.
+Provide the Git seeding credentials. New projects also expose logging and notification topic configuration; reused projects retain their existing logging, notification, and merge settings. Enable IAM creation only when the stack should create its dynamic group and policy.
 
 ### Applications
 
@@ -89,7 +96,7 @@ The catalog pins chart coordinates and dependency topology. Values remain separa
 Run an Apply job and wait for `SUCCEEDED`. In Application Information, verify that Resource Manager reports:
 
 - The OCI DevOps project.
-- The shared `pipelines` repository.
+- The shared `devops-pipelines` repository, or the configured alternative.
 - One chart repository per application.
 - One source repository per component.
 - Build, PR, release, bootstrap, and deployment pipelines.

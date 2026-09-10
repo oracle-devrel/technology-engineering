@@ -19,18 +19,22 @@ trap cleanup EXIT
 rsync -a \
   --exclude ".git" \
   --exclude ".agents" \
+  --exclude ".agents.zip" \
+  --exclude "downloads" \
   --exclude ".terraform" \
   --exclude ".idea" \
   --exclude ".oca" \
   --exclude ".tmp-*" \
+  --exclude "Projects" \
   --exclude "__pycache__" \
   --exclude "*.pyc" \
   --exclude "AGENT.md" \
   --exclude "script/update_orm_stack.sh" \
+  --exclude "script/package_user_skill.sh" \
   --exclude "terraform.tfstate*" \
   --exclude "*.tfvars" \
   --exclude ".DS_Store" \
-  --exclude "stack.zip" \
+  --exclude "*.zip" \
   "$ROOT_DIR/" "$STAGING_DIR/"
 
 if [ "$DEVELOPMENT_MODE" = "true" ]; then

@@ -1,9 +1,11 @@
 resource "oci_devops_build_pipeline" "application_delivery" {
   for_each = local.components_by_name
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "${each.value.name}-build"
-  description  = "Builds ${each.value.name} images when source changes and packages the component chart when chart files change"
+  description = local.application_delivery_enabled ? (
+    "Builds ${each.value.name} images when source changes and packages the component chart when chart files change"
+  ) : "Builds and publishes ${each.value.name} images for external delivery"
 
   lifecycle {
     # OCI rejects some updates to parameterless pipeline containers.
@@ -17,7 +19,9 @@ resource "oci_devops_build_pipeline_stage" "application_delivery" {
   build_pipeline_id         = oci_devops_build_pipeline.application_delivery[each.key].id
   build_pipeline_stage_type = "BUILD"
   display_name              = "${title(replace(each.value.name, "-", " "))} Build"
-  description               = "Conditionally builds the component image and packages the component chart"
+  description = local.application_delivery_enabled ? (
+    "Conditionally builds the component image and packages the component chart"
+  ) : "Builds and publishes the component image"
   freeform_tags = {
     application = each.value.application_name
     component   = each.value.name
@@ -48,12 +52,16 @@ resource "oci_devops_build_pipeline_stage" "application_delivery" {
       repository_id   = oci_devops_repository.application_source[each.key].id
       repository_url  = oci_devops_repository.application_source[each.key].http_url
     }
-    items {
-      connection_type = "DEVOPS_CODE_REPOSITORY"
-      branch          = "main"
-      name            = "application-chart"
-      repository_id   = oci_devops_repository.application_chart[each.value.application_name].id
-      repository_url  = oci_devops_repository.application_chart[each.value.application_name].http_url
+    dynamic "items" {
+      for_each = local.application_delivery_enabled ? [1] : []
+
+      content {
+        connection_type = "DEVOPS_CODE_REPOSITORY"
+        branch          = "main"
+        name            = "application-chart"
+        repository_id   = oci_devops_repository.application_chart[each.value.application_name].id
+        repository_url  = oci_devops_repository.application_chart[each.value.application_name].http_url
+      }
     }
   }
 
@@ -69,7 +77,7 @@ resource "oci_devops_build_pipeline_stage" "application_delivery" {
 }
 
 resource "oci_devops_build_pipeline_stage" "trigger_dev_deployment" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   build_pipeline_id              = oci_devops_build_pipeline.application_delivery[each.key].id
   build_pipeline_stage_type      = "TRIGGER_DEPLOYMENT_PIPELINE"
@@ -94,9 +102,9 @@ resource "oci_devops_build_pipeline_stage" "trigger_dev_deployment" {
 }
 
 resource "oci_devops_build_pipeline" "application_baseline_package" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "${each.value.name}-package"
   description  = "Packages the ${each.value.name} application baseline chart and deploys it to the noprod cluster"
 
@@ -107,7 +115,7 @@ resource "oci_devops_build_pipeline" "application_baseline_package" {
 }
 
 resource "oci_devops_build_pipeline_stage" "application_baseline_package" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   build_pipeline_id         = oci_devops_build_pipeline.application_baseline_package[each.key].id
   build_pipeline_stage_type = "BUILD"
@@ -155,7 +163,7 @@ resource "oci_devops_build_pipeline_stage" "application_baseline_package" {
 }
 
 resource "oci_devops_build_pipeline_stage" "trigger_application_baseline_deployment" {
-  for_each = local.applications_by_name
+  for_each = local.delivery_applications_by_name
 
   build_pipeline_id              = oci_devops_build_pipeline.application_baseline_package[each.key].id
   build_pipeline_stage_type      = "TRIGGER_DEPLOYMENT_PIPELINE"
@@ -182,7 +190,7 @@ resource "oci_devops_build_pipeline_stage" "trigger_application_baseline_deploym
 resource "oci_devops_build_pipeline" "application_pull_request" {
   for_each = local.components_by_name
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "${each.value.name}-pr"
   description  = "Runs component-owned pull request validation for ${each.value.name}"
 
@@ -234,9 +242,9 @@ resource "oci_devops_build_pipeline_stage" "application_pull_request" {
 }
 
 resource "oci_devops_build_pipeline" "release_application" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
-  project_id   = oci_devops_project.devops_project.id
+  project_id   = local.devops_project_id
   display_name = "${each.value.name}-release-build"
   description  = "Creates a source Git tag and retags the matching SHA image"
   freeform_tags = {
@@ -264,7 +272,7 @@ resource "oci_devops_build_pipeline" "release_application" {
 }
 
 resource "oci_devops_build_pipeline_stage" "release_application" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   build_pipeline_id                  = oci_devops_build_pipeline.release_application[each.key].id
   build_pipeline_stage_type          = "BUILD"
@@ -317,7 +325,7 @@ resource "oci_devops_build_pipeline_stage" "release_application" {
 }
 
 resource "oci_devops_build_pipeline_stage" "trigger_staging_deployment" {
-  for_each = local.components_by_name
+  for_each = local.delivery_components_by_name
 
   build_pipeline_id              = oci_devops_build_pipeline.release_application[each.key].id
   build_pipeline_stage_type      = "TRIGGER_DEPLOYMENT_PIPELINE"

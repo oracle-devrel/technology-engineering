@@ -3,12 +3,12 @@
 <div class="form-control mb-6">
     <label class="label">
         <span class="label-text font-semibold">Change Reference</span>
-        <span class="label-text-alt text-base-content/30">Optional</span>
+        <span class="label-text-alt text-base-content/30">Required</span>
     </label>
     <input type="text" name="change_reference" class="input input-bordered w-full"
-        placeholder="CRQ, CHG, JIRA ticket..." />
+        placeholder="CRQ12345" pattern="CRQ[0-9]{1,20}" required />
     <label class="label">
-        <span class="label-text-alt text-base-content/30">Will appear in the PR title and audit log</span>
+        <span class="label-text-alt text-base-content/30">Controls the deterministic branch, PR title, and audit log</span>
     </label>
 </div>
 {%- endmacro %}

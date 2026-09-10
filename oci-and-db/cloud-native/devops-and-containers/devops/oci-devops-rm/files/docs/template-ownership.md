@@ -2,6 +2,10 @@
 
 The stack bootstraps OCI DevOps resources and repositories, but it is not intended to remain authoritative for every user customization.
 
+It can create a dedicated OCI DevOps project or install its generated resources into an existing project. Reuse mode reads the existing project's name and compartment, preserves project-level settings, and manages only the starter resources it adds. Resource names must not collide with resources already present in the project.
+
+The create/reuse choice is an initial ownership decision. Do not toggle an existing applied stack between modes; migrate Terraform state explicitly when project ownership must change.
+
 ## Release Mode
 
 `./update.sh` creates a release archive by default.
@@ -29,7 +33,7 @@ Use development mode only for stack development and functional testing. It is no
 
 | Seed target | Later apply behavior |
 | --- | --- |
-| Shared `pipelines` files | Seed when empty; preserve existing files |
+| Shared `devops-pipelines` files | Seed when empty; preserve existing files |
 | Component source repository | Seed when empty; preserve developer content |
 | Application baseline chart | Seed when empty |
 | New component chart directory | Add only when the path is missing |

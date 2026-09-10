@@ -2,6 +2,10 @@ module "devops" {
   source = "./modules/devops"
 
   compartment_id                         = coalesce(var.devops_compartment_id, var.compartment_ocid)
+  create_devops_project                  = var.create_devops_project
+  existing_devops_project_id             = var.existing_devops_project_id
+  application_delivery_mode              = var.application_delivery_mode
+  devops_pipeline_repository_name        = var.devops_pipeline_repository_name
   region                                 = var.region
   tenancy_id                             = var.tenancy_ocid
   git_username                           = local.git_username
@@ -36,7 +40,7 @@ module "iam" {
   source = "./modules/iam"
   count  = var.create_iam ? 1 : 0
 
-  compartment_id              = coalesce(var.devops_compartment_id, var.compartment_ocid)
+  compartment_id              = module.devops.devops_project_compartment_id
   iam_domain_id               = var.devops_iam_domain_id
   network_compartment_id      = coalesce(var.network_compartment_id, var.compartment_ocid)
   prod_network_compartment_id = var.prod_network_compartment_id
@@ -45,6 +49,8 @@ module "iam" {
   secret_compartment_id       = coalesce(var.namespace_init_secret_compartment_id, var.compartment_ocid)
   devops_policy_name          = var.devops_policy_name
   dynamic_group_name          = var.devops_dynamic_group_name
+  enable_oke_access           = local.oke_environments_required
+  enable_secret_access        = local.application_delivery_enabled
   providers = {
     oci = oci.home
   }

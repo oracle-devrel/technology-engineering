@@ -23,8 +23,9 @@ from app.forms import (
 from app.helpers import render_partial, render_repository_state_error
 from app.path_validation import validate_path_segment
 from app.services.dashboard_service import DashboardService
-from app.services.installation_service import load_mccp_installation
+from app.services.project_context import environment_options as project_environment_options
 from app.services.git_service import GitService, RepositoryStateError
+from app.services.handoff_service import HandoffService
 from app.services.operations_service import OperationsService
 
 logger = logging.getLogger(__name__)
@@ -45,10 +46,7 @@ def _validate_operation_scope(cloud: str, environment: str) -> None:
 
 def _environment_options(project: str) -> list[str]:
     """Return the V2 environments permitted by the selected project layout."""
-    installation = load_mccp_installation(settings.mccp_installation_path)
-    if project.startswith("prod-"):
-        return [installation.project_context(project, "prod").environment]
-    return sorted(installation.nonprod_environments)
+    return project_environment_options(project)
 
 RequiredText = Annotated[str, StringConstraints(min_length=1)]
 OptionalText = str
@@ -141,6 +139,15 @@ async def operation_form_partial(
             )
 
         parameters = OperationsService.build_parameters(operation_def)
+        handoff_suggestions = await HandoffService(
+            github_client, project, environment
+        ).load_suggestions()
+        handoff_values = OperationsService.resolve_handoff_parameters(
+            operation_def, {}, handoff_suggestions
+        )
+        for parameter_key, parameter in parameters.items():
+            if parameter.type == "handoff":
+                parameter.default = handoff_values[parameter_key]
         operation_cloud = operation_def.cloud or cloud or settings.default_cloud
         _validate_operation_scope(operation_cloud, environment)
         selected_region = region or settings.default_region_for_cloud(operation_cloud)
@@ -245,6 +252,12 @@ async def execute_operation_htmx(
             raise ValueError(f"Operation {form.operation} not found")
 
         parameters = OperationsService.build_parameters(operation_def)
+        handoff_suggestions = await HandoffService(
+            github_client, form.project, form.environment
+        ).load_suggestions()
+        payload = OperationsService.resolve_handoff_parameters(
+            operation_def, payload, handoff_suggestions
+        )
         inventory_resources = None
         if OperationsService.needs_inventory(parameters):
             inventory = await DashboardService(git_service).get_resource_inventory(strict=True)
@@ -283,6 +296,7 @@ async def execute_operation_htmx(
             resource_path=f"lifecycle_operations/{form.operation}.json",
             data=final_manifest,
             commit_message=commit_message,
+            change_reference=form.change_reference,
         )
 
         return render_partial(

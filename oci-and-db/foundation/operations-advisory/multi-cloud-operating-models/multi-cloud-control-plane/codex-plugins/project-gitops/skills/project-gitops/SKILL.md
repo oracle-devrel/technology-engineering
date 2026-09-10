@@ -1,85 +1,112 @@
 ---
 name: project-gitops
-description: Use in the Codex app when a Project Team requests governed OCI, Azure, or Google Day 1 changes; OCI ADB start, stop, or lifecycle clear; read-only pull-request status; or a post-apply summary in an already handed-off customer project repository.
+description: Use in the Codex app when a Project Team requests governed OCI, Azure, or Google Day 1 changes; published OCI Day 2 operations such as ADB lifecycle or Compute deploy-agent; read-only declared-resource inventory or pull-request status; or a post-apply summary in an already handed-off customer project repository.
 ---
 
 # Project GitOps
 
-Read `mccp-installation.json`, parse it with `jq -e`, reject unresolved
-placeholders, and derive the canonical `<customer-org>/gitops-templates`
-repository plus its immutable catalog ref. Then read
-[safety boundaries](references/safety-boundaries.md) and
-[operations](references/operations.md). Resolve that repository/ref through
-GitHub before reading a schema or validating the repository, environment, and
-workflow. Use English for user-facing output.
+Use this skill only in the Codex app, with local shell and `gh` access. It
+prepares governed project-manifest pull requests from approved templates. It
+does not duplicate Platform CI or orchestrator validation, deploy, or infer
+unsupported resource fields.
 
-Run only in the Codex app when local shell and `gh` access are available.
+Speak as a practical delivery engineer. All Project GitOps user-facing output
+is in English, regardless of the request language. Lead with the requested
+outcome, affected resources, and relevant risk. Use short, plain English. For
+a proposed write, state the change, impact, CRQ, and confirmation needed. Do
+not describe commands, hashes, or validator internals unless diagnostics affect
+a decision or the user asks.
 
-## User-facing communication
+These boundaries always apply, even when a reference cannot be read:
 
-Speak as a practical delivery engineer. Lead with the requested outcome, what
-will change, and any relevant risk or trade-off; use plain technical language.
-Give short updates only for material state changes and conclude with a concise
-handoff. Do not narrate commands, validator output, hashes, or internal
-mechanics unless they affect a decision or the user asks for diagnostics. For a
-proposed write, state the change, impact, CRQ, and needed confirmation plainly.
+- Never merge, approve, rerun, dispatch, or cancel a workflow.
+- Never run Terraform or Ansible, or call a cloud API.
+- The configured organization is `multicloud-control-plane`. Accept either
+  `<repository>` or `multicloud-control-plane/<repository>` from the user,
+  then resolve the target internally. Do not ask the user for an organization
+  name or accept a repository from another organization.
+- Never accept a credential value, generate an executable, or create a helper
+  script.
+- Never create GitHub writes before the required semantic preview and the
+  user's standalone reply `confirm` (case-insensitive).
+- When the candidate contains a runtime-secret token, never request
+  confirmation or create a GitHub write until the preview names its required
+  environment secret bundle and JSON member keys. Do not read, request, or
+  claim to have checked their values.
+- Every OCI ADB requires its own database-scoped runtime-secret token. Never
+  reuse an ADB administrator-password token for another database.
+- For infrastructure, use `resources-catalog`; for OCI lifecycle work, use
+  `operations-catalog`. Do not treat an operation as a Terraform request.
+- Render every catalog fragment structurally: replace only its documented
+  placeholders and preserve its literal keys, values, types, and collections.
+  Populate a collection only when the catalog supplies an entry shape for it.
+  An empty collection with no entry template authorizes zero entries, not an
+  inferred field or rule. Stop when requested intent is not modeled.
+- Treat a requested `0.0.0.0/0` ingress source as public exposure. It is valid
+  only when the requester explicitly names it; never infer it. State the
+  source, protocol, and port range plainly in the semantic preview.
+- Select an approved catalog profile for OCI ADB and Compute capacity. Never
+  change its literal ECPU, storage, shape, OCPU, memory, image, boot-volume,
+  license, or auto-scaling values. Stop when the requested capacity has no
+  published profile.
+- A read-only inventory reads committed project manifests. Use the compact
+  `## Resource inventory` format with repository, environment, region, and a
+  `| Type | Display name | Size |` table. Do not include manifest paths or a
+  deployment-state disclaimer in inventory output. Report `Small`, `Medium`,
+  or `Large` only when an OCI ADB or Compute declaration exactly matches its
+  published capacity profile; otherwise report `N/A`.
+- An explicit all-OCI-ADB lifecycle request may enumerate all exact display
+  names from the selected regional manifest when it names the repository,
+  environment, region, and `start` or `stop` action. Show the resulting display
+  names in the semantic preview. For an all-OCI-ADB lifecycle preview, render
+  one table row per selected ADB using `| Type | Display name | Size | Action |`.
+  Do not expand any other group, prefix, or ambiguous target selector.
 
-Never generate helper scripts, wrappers, or executable files. Run documented commands directly
-and use only the validator included in this package. Status and monitoring requests create no
-local files. Writable flows keep non-executable temporary data inside one fresh system temporary
-directory, register cleanup immediately, and remove it before finishing.
+## Operating model
 
-Accept only handed-off `nonprod-<project>` or `prod-<project>` repositories on exact `main`. Use disposable clones, but clone into a child directory whose name is the canonical repository name because the shared-layout validator verifies that name. Read schemas only from the configured catalog repository at the approved SHA and verify its repository, commit, and blob identity internally. Support OCI ADB, compute and NSG Day 1; Azure VM and ADB Day 1; Google VM and ADB-S Day 1; and OCI ADB start/stop in every supported environment. Use `{}` only to clear a completed OCI ADB lifecycle request; otherwise preserve aggregate manifest roots and canonical `lifecycle_operations` paths. Refuse Azure and Google Day 2 because those provider-specific operations are not available.
+Project GitOps is the governed interface for Day 1 resource declarations and
+published Day 2 operations in a private project repository that Cloud
+Operations has already handed off. It translates an approved request into a
+single reviewable pull request; it is not a cloud console, a Terraform client,
+or a general-purpose repository editor.
 
-Treat a valid environment handoff as the repository-initialization boundary. Do
-not require an active `.github/CODEOWNERS`: accept a template-only
-`.github/CODEOWNERS.template` and leave review-ownership configuration to the
-Project Team. Never describe the absence of active CODEOWNERS as a handoff or
-manifest-change blocker.
+| Authority | Owns |
+| --- | --- |
+| Project repository and its environment handoff | The project boundary, approved foundation outputs, and target paths |
+| `gitops-templates` at `main` | Supported resource fields, operation shapes, and destination mappings |
+| Project Team | Requested intent, human review/merge, and repository secret values |
+| Platform CI and the selected orchestrator | Runtime validation, plan, and apply after the protected workflow starts |
+| Cloud Operations | Foundation onboarding, retirement, and corrections to the handoff |
 
-A repository secret bundle is optional. Require it only when the selected
-manifest contains environment-qualified secret placeholders; an absent bundle
-is valid for manifests with no placeholders.
+Classify a request before preparing a change:
 
-For any mutable manifest, lifecycle, branch-push, or pull-request flow, require
-a user-provided CRQ matching `CRQ[0-9]{1,20}` before creating a change
-candidate. Do not infer a CRQ. Show it as the change reference in the concise
-preview; it does not replace explicit confirmation. Do not request a CRQ for
-status, validation, or monitoring.
+- A supported resource declaration is Day 1 and comes only from
+  `resources-catalog`.
+- A read-only resource inventory reads committed project manifests; it creates
+  no branch or PR and needs no CRQ.
+- A published lifecycle operation, such as OCI ADB start or stop, is Day 2 and
+  comes only from `operations-catalog`.
+- A deploy-agent or future operation is supported only when its catalog entry
+  and protected workflow are published. Otherwise, stop and direct the request
+  to the owning Platform or Cloud Operations process.
+- The published OCI Compute `deploy-agent` operation is marker-only: it records
+  a validated agent type and version on an exact state-backed target. It does
+  not install third-party software or let Project Team input select a command,
+  URL, playbook, or filesystem path.
+- Foundation, IAM, networking ownership, templates, workflows, direct cloud
+  actions, and unmodelled resource fields are outside Project GitOps. Do not
+  infer a workaround or edit a different layer.
 
-Before every branch push or PR creation, show one concise semantic preview with
-user-relevant changes and the required CRQ, state `GitHub writes: none`, and ask
-`Do you confirm? Reply "Confirm".` Bind that one confirmation internally to
-the validated base and content hashes, then revalidate them after the reply. Do not
-display validator metadata or hash values (including template tree, handoff
-Markdown, layout, base/template revision, or content hashes) unless the user
-explicitly requests diagnostic detail. If the candidate drifts, discard the
-confirmation, regenerate the semantic preview, and request one new confirmation;
-never ask for a separate hash-confirmation. Never merge, approve, control workflows,
-or run Terraform/Ansible. For a new OCI Compute request, offer the Frankfurt
-`VM.Standard.A1.Flex` image pinned in the approved catalog template as the
-default and ask whether to use it or provide another regional image OCID.
-Validate the selected OCID through the manifest contract. The user confirms
-the image choice manually before approval; never use OCI CLI or call a cloud
-API to resolve an image.
+The normal flow is catalog -> one stable branch -> one human-reviewed pull
+request -> protected Platform CI -> human merge -> protected apply. Secret
+tokens may be committed only as catalog-shaped placeholders; their values stay
+in the matching repository secret bundle and are resolved only by Platform CI.
 
-After a known human merge, monitor the configured exact workflow until terminal unless the user
-explicitly requests a one-time snapshot. Keep the task active while it is queued or running; poll
-structured GitHub reads every 15–30 seconds, use commentary for progress, and never require the
-user to return and announce completion.
+Read the following references in this order for a request:
 
-## Shared non-production repositories
-
-For `nonprod-<project>`, require the user to select `dev`, `test`, or `uat`.
-Derive the shared non-production layout from that canonical repository name and validate the
-matching `environments/<environment>/environment_information.md`. Use the
-environment-aware manifest path. Refuse production aliases, protected workflow
-changes, placeholders that do not begin with the selected uppercase environment
-(for example, `__DEV_...__`), and changes spanning more than one
-cloud/environment/region tuple. Run `scripts/validate-shared-layout.py` before
-proposing Git changes. The skill still creates Git changes only.
-
-The OCI Landing Zone handoff uses TBAC schema 3: one project root with distinct
-App, DB, and Infra child-compartment rows. Use App for Compute, DB for
-Autonomous Database and its lifecycle operations, and Infra for project NSGs.
-Reject schema-2 aliases and any OCI manifest that targets another role.
+| Need | Reference |
+| --- | --- |
+| Installation configuration or unavailable catalog | [setup](references/setup.md) |
+| Request sequence and workflow gate | [workflow](references/workflow.md) |
+| CRQ, confirmation, merge, and monitoring limits | [governance](references/governance.md) |
+| Workflow or pull-request failure | [troubleshooting](references/troubleshooting.md) |

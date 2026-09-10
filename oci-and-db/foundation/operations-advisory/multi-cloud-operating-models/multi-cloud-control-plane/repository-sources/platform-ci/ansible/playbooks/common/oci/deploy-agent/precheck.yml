@@ -5,8 +5,14 @@
     that:
       - agent_type is defined
       - agent_type is string
-      - agent_type | length > 0
-    fail_msg: agent_type must be provided for software-agent installation.
+      - agent_type is match('^[a-z][a-z0-9-]{0,62}$')
+      - agent_version is defined
+      - agent_version is string
+      - agent_version is match('^[A-Za-z0-9][A-Za-z0-9._+-]{0,63}$')
+    fail_msg: >-
+      agent_type must be a lowercase 1-63 character identifier using letters,
+      digits, and hyphens; agent_version must be a 1-64 character identifier
+      using letters, digits, dots, underscores, pluses, and hyphens.
 
 - name: Confirm SSH access to the instance
   ansible.builtin.ping:

@@ -16,8 +16,26 @@
                   "Tier": "__NSG_TIER__",
                   "ManagedBy": "platform-ci"
                 },
-                "ingress_rules": {},
-                "egress_rules": {}
+                "ingress_rules": {
+                  "__INGRESS_RULE_KEY__": {
+                    "description": "__INGRESS_RULE_DESCRIPTION__",
+                    "protocol": "TCP",
+                    "src": "__INGRESS_RULE_SOURCE__",
+                    "src_type": "__INGRESS_RULE_SOURCE_TYPE__",
+                    "dst_port_min": "__INGRESS_RULE_DST_PORT_MIN__",
+                    "dst_port_max": "__INGRESS_RULE_DST_PORT_MAX__"
+                  }
+                },
+                "egress_rules": {
+                  "__EGRESS_RULE_KEY__": {
+                    "description": "__EGRESS_RULE_DESCRIPTION__",
+                    "protocol": "TCP",
+                    "dst": "__EGRESS_RULE_DESTINATION__",
+                    "dst_type": "__EGRESS_RULE_DESTINATION_TYPE__",
+                    "dst_port_min": "__EGRESS_RULE_DST_PORT_MIN__",
+                    "dst_port_max": "__EGRESS_RULE_DST_PORT_MAX__"
+                  }
+                }
               }
             }
           }

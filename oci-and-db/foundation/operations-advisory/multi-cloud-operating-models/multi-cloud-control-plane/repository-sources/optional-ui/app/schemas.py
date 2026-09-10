@@ -18,6 +18,7 @@ class OperationParameter(BaseModel):
     options: list[Any] = Field(default_factory=list)
     resource_type: str = ""
     resources: list[dict[str, Any]] = Field(default_factory=list)
+    handoff_placeholder: str = ""
 
 
 class OperationCatalogEntry(BaseModel):

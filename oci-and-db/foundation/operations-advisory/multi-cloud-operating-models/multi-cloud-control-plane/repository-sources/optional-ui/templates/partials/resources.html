@@ -69,11 +69,6 @@
                                 </button>
 
                                 {% if res.collection_name is defined %}
-                                <button class="btn btn-sm btn-ghost"
-                                    hx-get="/partials/resource-edit?project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}&resource_path={{ res.resource_path }}&collection_name={{ res.collection_name }}&resource_key={{ res.id }}"
-                                    hx-target="#main">
-                                    Update
-                                </button>
                                 <button class="btn btn-sm btn-error btn-outline"
                                     hx-get="/partials/resource-delete?project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}&resource_path={{ res.resource_path }}&collection_name={{ res.collection_name }}&resource_key={{ res.id }}"
                                     hx-target="#main">

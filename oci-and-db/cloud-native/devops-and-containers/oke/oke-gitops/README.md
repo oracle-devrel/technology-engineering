@@ -37,48 +37,48 @@ delivery, fleet operation, and AI-agent installation.
 
 ## Documentation
 
-- Stable repository contract: [contract v1](REPOSITORY-CONTRACT.md).
-- Combine this stack with OCI DevOps CI: [integration modes](INTEGRATION.md).
-- Current release: [2.1.0 release notes](RELEASE-NOTES.md).
+- Stable repository contract: [contract v1](files/REPOSITORY-CONTRACT.md).
+- Combine this stack with OCI DevOps CI: [integration modes](files/INTEGRATION.md).
+- Current release: [2.1.0 release notes](files/RELEASE-NOTES.md).
 - This README: stack deployment and the one-time GitOps handoff.
 - Bootstrap access:
-  - [Argo CD IAM and Vault guide](repos/argocd/cluster-config/docs/README.md)
-  - [Flux CD IAM and Vault guide](repos/fluxcd/cluster-config/docs/README.md)
+  - [Argo CD IAM and Vault guide](files/repos/argocd/cluster-config/docs/README.md)
+  - [Flux CD IAM and Vault guide](files/repos/fluxcd/cluster-config/docs/README.md)
 - Cluster administration:
-  - [Argo CD cluster guide](repos/argocd/cluster-config/README.md)
-  - [Flux CD cluster guide](repos/fluxcd/cluster-config/README.md)
+  - [Argo CD cluster guide](files/repos/argocd/cluster-config/README.md)
+  - [Flux CD cluster guide](files/repos/fluxcd/cluster-config/README.md)
 - Application teams:
-  - [Argo CD developer guide](repos/argocd/apps-config/docs/README.md)
-  - [Flux CD developer guide](repos/fluxcd/apps-config/docs/README.md)
-- Architecture details: [Argo CD](argocd-solution.md) and
-  [Flux CD](flux-solution.md).
+  - [Argo CD developer guide](files/repos/argocd/apps-config/docs/README.md)
+  - [Flux CD developer guide](files/repos/fluxcd/apps-config/docs/README.md)
+- Architecture details: [Argo CD](files/argocd-solution.md) and
+  [Flux CD](files/flux-solution.md).
 - Complete change maps:
-  - [Argo CD use cases and impacted files](argocd-use-cases.md)
-  - [Flux CD use cases and impacted files](flux-use-cases.md)
+  - [Argo CD use cases and impacted files](files/argocd-use-cases.md)
+  - [Flux CD use cases and impacted files](files/flux-use-cases.md)
 - Portable Argo CD automation:
-  [install the OKE agent skill](repos/argocd/cluster-config/docs/install-agent-skill.md).
+  [install the OKE agent skill](files/repos/argocd/cluster-config/docs/install-agent-skill.md).
 - Portable Flux automation:
-  [install the OKE agent skill](repos/fluxcd/cluster-config/docs/install-agent-skill.md).
-- Stack-author IAM reference: [policies.md](policies.md).
+  [install the OKE agent skill](files/repos/fluxcd/cluster-config/docs/install-agent-skill.md).
+- Stack-author IAM reference: [policies.md](files/policies.md).
 - Optional fleet administration:
-  [Argo CD fleet guide](repos/fleet-config/argocd/README.md) or
-  [Flux CD fleet guide](repos/fleet-config/fluxcd/README.md).
+  [Argo CD fleet guide](files/repos/fleet-config/argocd/README.md) or
+  [Flux CD fleet guide](files/repos/fleet-config/fluxcd/README.md).
 
 ## AI agent skills
 
 The stack includes portable skills that teach an AI agent how to administer an
 OKE cluster through this repository model:
 
-- [Manage OKE with Argo CD](repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
-- [Manage OKE with Flux](repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
+- [Manage OKE with Argo CD](files/repos/argocd/cluster-config/skills/manage-oke-with-argocd/SKILL.md)
+- [Manage OKE with Flux](files/repos/fluxcd/cluster-config/skills/manage-oke-with-flux/SKILL.md)
 
 Resource Manager places the skill for the selected GitOps engine in the seeded
 `cluster-config/skills/` directory. This keeps the operating instructions next
 to the repository the agent will manage. Install or load that directory using
 the mechanism supported by the chosen agent. For Codex, follow the
-[Argo CD installation guide](repos/argocd/cluster-config/docs/install-agent-skill.md)
+[Argo CD installation guide](files/repos/argocd/cluster-config/docs/install-agent-skill.md)
 or the
-[Flux installation guide](repos/fluxcd/cluster-config/docs/install-agent-skill.md).
+[Flux installation guide](files/repos/fluxcd/cluster-config/docs/install-agent-skill.md).
 
 ## Choose the GitOps scope
 
@@ -179,7 +179,7 @@ You need:
 - Two OCI Vault secrets containing the runtime identities as JSON.
 - A subnet from which OCI DevOps Shell stages can reach the OKE API endpoint
   and OCI services.
-- IAM permissions from [policies.md](./policies.md), or `create_iam = true`.
+- IAM permissions from [policies.md](files/policies.md), or `create_iam = true`.
 
 ### Prepare bootstrap access
 
@@ -189,8 +189,8 @@ and two OCI Vault secrets.
 
 Follow the bootstrap access guide for the selected engine:
 
-- [Argo CD bootstrap access](repos/argocd/cluster-config/docs/README.md)
-- [Flux CD bootstrap access](repos/fluxcd/cluster-config/docs/README.md)
+- [Argo CD bootstrap access](files/repos/argocd/cluster-config/docs/README.md)
+- [Flux CD bootstrap access](files/repos/fluxcd/cluster-config/docs/README.md)
 
 The guides include Console navigation, exact least-privilege policy statements,
 username formats, Vault JSON, pipeline parameter mapping, verification,
@@ -230,11 +230,11 @@ network policy requires one.
    handoff from agent installation to Git reconciliation.
 9. Follow the cloned repository README, which is the authoritative operating
    guide:
-   - [Argo CD cluster bootstrap](./repos/argocd/cluster-config/README.md)
-   - [Flux CD cluster bootstrap](./repos/fluxcd/cluster-config/README.md)
+   - [Argo CD cluster bootstrap](files/repos/argocd/cluster-config/README.md)
+   - [Flux CD cluster bootstrap](files/repos/fluxcd/cluster-config/README.md)
 10. With `applications_and_cluster`, clone `apps-config` and follow its README:
-    - [Argo CD application workflow](./repos/argocd/apps-config/README.md)
-    - [Flux CD application workflow](./repos/fluxcd/apps-config/README.md)
+    - [Argo CD application workflow](files/repos/argocd/apps-config/README.md)
+    - [Flux CD application workflow](files/repos/fluxcd/apps-config/README.md)
 
 If optional multi-cluster support is enabled, follow the cloned `fleet-config`
 README after the installation pipeline succeeds. For Argo CD, bootstrap the

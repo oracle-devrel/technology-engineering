@@ -1,5 +1,7 @@
 # Multi-Cloud Control Plane <!-- omit in toc -->
 
+Reviewed: 2026-09-04
+
 > *One governed way to request, review, execute, and record workload changes across clouds at scale.*
 
 ## Table of Contents <!-- omit in toc -->
@@ -8,7 +10,7 @@
 - [How to use this asset?](#how-to-use-this-asset)
 - [Why we need a Multi-Cloud Control Plane?](#why-we-need-a-multi-cloud-control-plane)
 - [What is the Multi-Cloud Control Plane?](#what-is-the-multi-cloud-control-plane)
-  - [The Multi-Cloud Operating Model.](#the-multi-cloud-operating-model)
+  - [The Multi-Cloud Operating Model](#the-multi-cloud-operating-model)
     - [Who owns what](#who-owns-what)
     - [How a request moves](#how-a-request-moves)
 - [How it works](#how-it-works)
@@ -21,46 +23,44 @@
 
 # What is this asset?
 
-The Multi-Cloud Control Plane (MCCP) lets an organisation run Day 1 and Day 2 operations among several clouds without requiring a different way of working for each one. It connects people, governance, security, and automation into a single delivery path: a team proposes a change, a person approves it, and trusted automation executes it.
+The Multi-Cloud Control Plane (MCCP) lets an organization run Day 1 and Day 2 operations among several clouds without requiring a different way of working for each one. It connects people, governance, security, and automation into a single delivery path: a team proposes a change, a person approves it, and trusted automation executes it.
 
 # How to use this asset?
 
-Follow the following guidance and instructions.
+Start with the [installation runbook](docs/installation/installation-runbook.md) if you are Cloud Operations, or the [Project Team guide](docs/usage/README.md) if you have a handed-off repository.
 
 # Why we need a Multi-Cloud Control Plane?
 
 Fragmented cloud operations do not scale. Cloud operations usually grow one platform at a time. A process that works in a small environment becomes hard to manage once more teams, services, and providers are added.
 
-Managing multi-cloud environments present difficult challenges as:
+Managing multi-cloud environments presents challenges such as:
 
 * Different consoles and management interfaces.
-* Multiple services and endless options.
-* Distributed traceability.
-* Several tools, automations, manual steps and managing versioning.
-* Leads to having big teams, requiring specialization.
-* Increased delivery times, coordination between teams and delays on approvals.
-* A challenging Operational Security.
+* More services and configuration choices.
+* Evidence spread across platforms.
+* More tools, automation, manual steps, and versioning.
+* Larger specialist teams and slower approvals.
+* A harder operational-security model.
 
-This leads to a ***limited scalability***, ***high operational risk*** and experience a ***poor control***.
-
-Each cloud adds another interface, another process, and another set of specialist skills, so work and evidence fragment. Delivery slows, operational risk rises, and control weakens as the estate grows.
+The result is limited scalability, high operational risk, and weak control.
 
 The goal is not another console. It is to give every team the same safe way to request, review, execute, and record a change.
 
 # What is the Multi-Cloud Control Plane?
 
-The Multi-Cloud Control Plane is the response that satisfy the management of multiple clouds. It is composed of the different components:
+The Multi-Cloud Control Plane answers that problem. It has four components:
 
-* The Multi-Cloud Common Operating Model.
-* Different User Interfaces managing the Git single-source of truth.
-* Operations Catalogue.
+* The Multi-Cloud Operating Model.
+* Request interfaces that manage the Git source of truth.
+* Operations catalog.
 * Automation pipelines implementing the changes.
 
-## The Multi-Cloud Operating Model.
+## The Multi-Cloud Operating Model
 
 A multi-cloud operating model answers four questions: who can request a change, what they can request, who approves it, and where the result is recorded. MCCP turns those rules into a repeatable delivery pattern.
 
-The operating model defines the rules — roles and ownership, approved boundaries, governance, approvals, and compliance. The control plane enforces
+The operating model defines the rules: roles and ownership, approved boundaries,
+governance, approvals, and compliance. The control plane enforces
 them by giving teams one controlled way to request, review, execute, and record changes. Teams work independently, but only inside a safe operating space established once by Cloud Operations.
 
 The model does not depend on any one tool or cloud. The technology behind it can change without redefining how work is governed.
@@ -73,6 +73,7 @@ The model does not depend on any one tool or cloud. The technology behind it can
 | Approved resource and operation catalog | Cloud Operations |
 | Project boundary and the environment handoff that defines it | Cloud Operations |
 | Workload requests inside the handed-off boundary | Project Team |
+| Workload secret values and their rotation | Project Team, in its environment-qualified project-repository secret bundle |
 | Review and approval of each request | A reviewer who is not the author |
 | Cloud deployment credentials | Trusted runner identities, never a Project Team |
 | Execution of an approved change | Trusted automation, only after merge |
@@ -102,7 +103,7 @@ This repository is a reference implementation of the operating model above. It c
 Request interfaces prepare a change; Git preserves the approved intent and the evidence; the catalog defines what is supported; and trusted automation delivers the approved change to the chosen cloud. Every interface creates the same pull request and none of them can approve, merge, or deploy it.
 
 This is the target control-plane architecture, so its labels are generic: the diagram's **Control Plane UI** is the optional Multi-Cloud Control Plane UI, and its **AI Ops Agent** is the optional Codex plugin. The cloud icons show where the model can
-extend, not the currently qualified integrations — see [current capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
+extend, not only the patterns supplied by this reference — see [Reference capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
 
 ## Onboarding a project
 
@@ -119,31 +120,32 @@ Cloud Operations creates the foundation and the safe boundary. A standard reposi
 | **Trusted automation** | Shared validation, planning, execution, and evidence controlled by Cloud Operations. |
 | **Request interfaces** | GitHub, plus an optional UI and an optional Codex plugin, all creating the same governed pull request. |
 
-Cloud Operations connects these to the organisation's reviewed cloud foundations, identities, runners, and state storage. The [installation runbook](docs/installation/installation-runbook.md) covers those prerequisites and the setup steps.
+Cloud Operations connects these to the organization's reviewed cloud foundations, identities, runners, and state storage. The [installation runbook](docs/installation/installation-runbook.md) covers those prerequisites and the setup steps.
 
-The supplied package deliberately qualifies a small catalog of OCI, Azure, and Google Cloud resource requests plus selected OCI lifecycle operations; see [current capabilities](docs/reference/support.md) for the current scope and its qualification evidence. The catalog grows through reviewed provider integrations, resources, and operations, and each extension follows the same governance, security, and approval process before Project Teams can use it.
+This reference supplies a focused catalog of OCI, Azure, and Google Cloud resource requests plus selected OCI lifecycle operations; see [Reference capabilities](docs/reference/support.md) for its scope and patterns. The catalog grows through reviewed provider integrations, resources, and operations, and each extension follows the same governance, security, and approval process before Project Teams can use it.
 
 ## Reference
 
 | Document | Description |
 | --- | --- |
 | [Architecture](docs/reference/architecture.md) | Explains roles, repositories, execution, and extensions. |
-| [Current capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations, and the qualification evidence behind them.|
-| [Operational Security Controls](docs/reference/security.md) | Get insights of the built-in security controls. |
+| [Reference capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations. |
+| [Operational Security Controls](docs/reference/security.md) | Describes the built-in security controls. |
 | [Verify environment secret isolation](docs/reference/verify-secret-isolation.md) | One-time acceptance check before the first workload request. |
 
 # Getting Started
 
 | Step | Start here |
 | --- | --- |
-| **STEP 1: Install MCCP for a GitHub organisation** | [Cloud Operations installation](docs/installation/installation-runbook.md) |
-| **STEP 2: How to onboard projects** | [Project Team guide](docs/usage/README.md) |
+| **STEP 1: Install MCCP for a GitHub organization** | [Cloud Operations installation](docs/installation/installation-runbook.md) |
+| **STEP 2: Hand off a project** | [Cloud Operations handoff](docs/installation/installation-runbook.md#4-hand-off-the-first-project-repository) |
+| **STEP 3: Use a handed-off repository** | [Project Team guide](docs/usage/README.md) |
 
 # Related guidance
 
 These companion assets are outside MCCP:
 
-- [OCI Landing Zone](../../../landing-zones/README.md) can establish a governed OCI foundation and publishes the project-foundation handoff that MCCP consumes. MCCP can also use an existing reviewed OCI foundation.
+- [OCI Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities) can establish a governed OCI foundation and publishes the project-foundation handoff that MCCP consumes. MCCP can also use an existing reviewed OCI foundation.
 - [Operational Security](../operational-security/README.md) provides broader guidance for protecting Git, CI/CD automation, identities, and programmatic cloud access.
 
 # License

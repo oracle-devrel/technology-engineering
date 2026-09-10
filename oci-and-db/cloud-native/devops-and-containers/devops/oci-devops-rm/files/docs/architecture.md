@@ -1,6 +1,8 @@
 # Architecture
 
-The stack creates an OCI DevOps project that owns the operational path from code to OKE. It intentionally does not require a GitOps controller.
+The stack can create its OCI DevOps project or attach the generated topology to an existing project. In reuse mode, the existing project remains externally owned: the stack reads its name and compartment, preserves project-level configuration and logging, and manages only the repositories, pipelines, artifacts, environments, and triggers that it adds.
+
+The stack can own the operational path from code to OKE or provide build-only CI for an external delivery system. It intentionally does not require a GitOps controller.
 
 Choose the path that matches your role:
 
@@ -14,7 +16,7 @@ The [responsibility matrix](responsibilities.md) records the handoffs between th
 flowchart TB
   RM["OCI Resource Manager stack"] --> Project["OCI DevOps project"]
 
-  Project --> PipelinesRepo["Repository: pipelines"]
+  Project --> PipelinesRepo["Repository: devops-pipelines"]
   Project --> AppChartRepo["Repository: <application>-chart"]
   Project --> ComponentRepo["Repository: <component>"]
   Project --> ClusterAdminRepo["Repository: cluster-admin"]
@@ -61,7 +63,7 @@ flowchart TB
 For the whole stack:
 
 - One OCI DevOps project.
-- One shared `pipelines` repository containing common build specs and scripts.
+- One configurable shared repository, `devops-pipelines` by default, containing common build specs and scripts.
 - One notification topic, unless an existing topic is supplied.
 - Optional IAM policies and dynamic group for DevOps access.
 - One pre-prod OKE deploy environment named from the selected cluster.
@@ -97,7 +99,7 @@ The project also has two shared component command specs for release image promot
 ```mermaid
 flowchart LR
   subgraph Shared["Shared"]
-    P["pipelines repo\ncommon build specs and scripts"]
+    P["devops-pipelines repo\ncommon build specs and scripts"]
   end
 
   subgraph Application["Per application"]
@@ -120,7 +122,7 @@ flowchart LR
   P --> S
 ```
 
-`pipelines` contains reusable delivery logic. It owns the common build specs and shell scripts used by generated build pipelines.
+`devops-pipelines` contains reusable build logic. In full delivery mode it also contains chart and release helpers. The repository name is configurable so this stack can coexist with repositories created by other automation.
 
 `<application>-chart` contains the umbrella chart and nested component charts. The umbrella chart is for shared namespace resources. Component charts are deployed independently.
 
@@ -134,7 +136,7 @@ Repository content follows a create-only ownership model:
 
 | Seed unit | Behavior after creation |
 | --- | --- |
-| Shared pipeline scripts and generic files | Seeded only when the `pipelines` repository is empty |
+| Shared pipeline scripts and generic files | Seeded only when the configured pipeline repository is empty |
 | Application/component pipeline specs | Missing entity-specific files are added; existing files are preserved |
 | Component source repository | Seeded only when the repository is empty |
 | Application baseline chart | Seeded only when the chart repository is empty |
@@ -145,3 +147,11 @@ Template changes in a newer stack archive are not pushed into repositories that 
 IAM, networking inputs, OCIR conventions, and core stack structure remain Terraform-managed.
 
 Cluster administration uses the same template ownership model. The repository is seeded only while empty, and generated pipelines, stages, artifacts, triggers, and branch protection preserve later administrator customization.
+
+## Capability Modes
+
+`application_delivery_mode=oci_devops` creates application charts, artifacts, deployment environments, bootstrap, release, and deployment pipelines in addition to source builds and PR validation.
+
+`application_delivery_mode=build_only` creates component source repositories, PR validation, image build pipelines, and the shared build-assets repository. Application chart and deployment resources are absent. Enabling cluster administration is independent; when enabled, its OKE environments and operational resources are still created.
+
+This stack does not publish a handoff contract to a GitOps stack and neither stack modifies the other's Terraform state or repositories. Configure each from the same architecture decisions. A shared OCI DevOps project is possible here through project reuse; equivalent project reuse in the GitOps stack is planned separately.

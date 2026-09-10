@@ -54,12 +54,12 @@ Reviewed: 07.09.2026
 - [Selecting a cloud native microservice framework](https://louwersj.medium.com/selecting-a-cloud-native-microservice-framework-9974e9534da1)
 - [Deploying a spring boot microservice in K8s](https://techdozo.dev/deploying-a-restful-spring-boot-microservice-on-kubernetes/)
 - [Collection of Labs](https://oracle.github.io/cloudtestdrive/AppDev/cloud-native/livelabs/)
-- [OKE policies](./oke-policies/policies.md)
+- [OKE policies](./oke-policies/README.md)
  
 # Reusable Assets Overview
 
-- [OKE Resource Manager QuickStart](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-rm)
-- [OKE GitOps Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-gitops)
+- [OKE Resource Manager QuickStart](./oke-rm/README.md)
+- [OKE GitOps Solution](./oke-gitops/README.md)
 - [OKE Node Packer Solution](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/oke-node-packer)
 - [Cluster Api OCI](https://github.com/oracle-devrel/technology-engineering/tree/main/app-dev/oke/capoci)
  

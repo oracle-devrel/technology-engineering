@@ -47,14 +47,18 @@ flowchart TB
   Runtime -->|No| Workload{"Component Kubernetes workload?"}
   Workload -->|Yes| ComponentChart["Component chart directory"]
   Workload -->|No| AppShared{"Shared application namespace object?"}
-  AppShared -->|Yes| AppChart["Application baseline chart"]
+  AppShared -->|Yes| Owner{"Who owns this object?"}
+  Owner -->|Application team| AppChart["Application baseline chart"]
+  Owner -->|Cluster administrators| ClusterAdmin["cluster-admin or GitOps repository"]
   AppShared -->|No| Cluster{"Cluster tool or cluster-scoped object?"}
-  Cluster -->|Yes| ClusterAdmin["cluster-admin repository"]
+  Cluster -->|Yes| ClusterAdmin
   Cluster -->|No| Platform["Stack and shared pipelines"]
 ```
 
 - Component behavior or packaging: component source repository.
 - Component Kubernetes workload: component chart directory.
-- Shared application namespace object: application baseline chart.
+- Shared application namespace object: the owning workflow. An application baseline may own shared application objects, while cluster administrators may separately own quotas, policies, or configuration in the same namespace.
 - Kubernetes tool or cluster object: `cluster-admin` repository.
-- Delivery convention affecting every team: shared `pipelines` repository and stack template.
+- Delivery convention affecting every team: shared `devops-pipelines` repository and stack template.
+
+Ownership is decided per Kubernetes object identity (`apiVersion`, `kind`, `namespace`, and `name`), not per namespace. OCI DevOps and GitOps may both operate in an application namespace, but they must never manage the same object.

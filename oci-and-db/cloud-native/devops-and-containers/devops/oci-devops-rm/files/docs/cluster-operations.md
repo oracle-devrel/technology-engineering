@@ -2,7 +2,7 @@
 
 This section is for OKE cluster administrators. It covers shared cluster tools, cluster-scoped Kubernetes objects, and supplemental namespaced resources. It is separate from the component SDLC: there are no dev, staging, or release-candidate promotions in the cluster administration path.
 
-Enable this workflow with `enable_cluster_admin`. When disabled, the stack creates only the developer delivery resources.
+Enable this workflow with `enable_cluster_admin`. When disabled, no cluster-administration resources are created; the remaining developer resources follow the selected application delivery mode.
 
 ```mermaid
 flowchart TB
