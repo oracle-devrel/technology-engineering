@@ -1,8 +1,10 @@
-Multi-Cloud Sales Pitch
+# Multi-Cloud Sales Pitch
 
 Oracle Database@Hyperscaler helps customers run Oracle databases natively inside their preferred cloud while keeping Oracle performance, security, and supportability.
 
-What is it?
+Reviewed: 10.09.2026
+
+# What is it?
 
 Oracle’s multicloud strategy brings Oracle Database services directly into major hyperscaler environments such as:
 
@@ -12,7 +14,7 @@ Oracle Database@Google Cloud
 
 This allows customers to keep their applications in the cloud they already use, while running Oracle databases with Exadata-class performance and Oracle-managed operations.
 
-Why it matters
+# Why it matters
 
 Many customers want to modernize without moving everything to a single cloud. Oracle Database@Hyperscaler gives them:
 
@@ -56,3 +58,14 @@ Native integration with hyperscaler networking and identity
 Support for enterprise HA/DR patterns
 Strong security posture with customer-managed keys and auditing
 Flexible licensing options including BYOL where applicable
+
+# When to use this asset?
+
+# How to use this asset?
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

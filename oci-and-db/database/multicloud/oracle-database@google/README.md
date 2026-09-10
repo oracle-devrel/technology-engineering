@@ -1,4 +1,4 @@
-# Oracle Database@Google --- New  Announcement !!!
+# Oracle Database@Google
  
 Oracle and Google Cloud announced a joint solution to deliver Oracle Exadata Database Service within Google Cloud, allowing customers to run mission-critical Oracle Database workloads with Oracle-managed database operations and Google Cloud integration. 
 
@@ -41,4 +41,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
