@@ -39,10 +39,14 @@
    formula; reject a candidate that reuses one ADB password token. Before
    asking for confirmation, inspect the candidate's runtime-secret tokens and
    state its required bundle and every required member key in the preview.
-   Give the full copy-paste-safe JSON object whose only placeholders are secret
-   values, and state that the administrator must replace those angle-bracket
-   placeholders before saving it. For an OCI ADB administrator password, also
-   state the published runtime policy: 12 to 30 characters, at least one
+   If the bundle does not exist, give a full copy-paste-safe JSON object whose
+   only placeholders are secret values, and state that the administrator must
+   replace those angle-bracket placeholders before saving it. If it already
+   exists, give only the missing member-key fragment and instruct the
+   administrator to add it to the existing JSON through the approved secret
+   process, preserving every existing member. The agent cannot read or
+   reconstruct those existing values. For an OCI ADB administrator password,
+   also state the published runtime policy: 12 to 30 characters, at least one
    uppercase letter, lowercase letter, and digit, with no double quote and no
    `admin` substring in any casing. An agent cannot determine whether that
    bundle exists or whether its values meet that policy, so it must not imply

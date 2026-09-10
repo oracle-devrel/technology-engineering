@@ -5,6 +5,13 @@ catalog files into project repository manifests; `platform-ci` passes the
 reviewed manifests to the selected orchestrator as Terraform `-var-file`
 inputs.
 
+Each template is an exact structural contract. Replace only documented
+placeholders and preserve literal keys, values, types, and collections.
+Populate a collection only when the template supplies an entry shape for it;
+an empty collection with no entry template authorizes zero entries. A requested
+field or rule absent from the template is not self-service and requires a
+reviewed catalog extension.
+
 ## Directory layout
 
 ```
@@ -32,9 +39,27 @@ Defines exactly one generic project NSG under
 merge only that entry into
 `oci/<environment>/<region>/network/project-nsgs.json`.
 `__NSG_COMPARTMENT_OCID__` is the project compartment OCID from the selected
-environment handoff; it is not the shared network compartment. Add ingress or
-egress rules only from explicit approved intent. Workloads reference the
-rendered NSG key, not an OCID.
+environment handoff; it is not the shared network compartment. The template
+creates an empty NSG. Workloads reference the rendered NSG key, not an OCID.
+
+**`project_nsg_ingress_tcp_rule_template.json`** and
+**`project_nsg_egress_tcp_rule_template.json`**
+Append one uniquely named rule to an NSG that already exists in the same
+project network manifest. They are the approved Project Team rule
+capabilities for TCP: rule key, description, source or destination and its
+type, and a destination-port range. `protocol` is the literal catalog value
+`TCP`; Project Teams never provide a provider number such as `6`. They
+deliberately do not expose provider blocks, Terraform expressions, lifecycle
+settings, or any foundation network resource.
+
+For ingress, use `src` and `src_type`; for egress, use `dst` and `dst_type`.
+The port fields are directly `dst_port_min` and `dst_port_max`, not nested
+`tcp_options`. Provide a complete integer port range.
+Typical types are `CIDR_BLOCK`, `NETWORK_SECURITY_GROUP`, or
+`SERVICE_CIDR_BLOCK`, where supported by the selected OCI Landing Zone
+contract. `0.0.0.0/0` is permitted only when the request explicitly asks for
+public exposure; it must never be inferred. The request preview must state
+that exposure plainly.
 
 ### OCI — compute
 
@@ -56,10 +81,11 @@ outside Frankfurt.
 Provisions OCI Autonomous Database Serverless through the current OCI Landing
 Zones Autonomous Database contract. Use `__PROJ_DB_SUBNET_OCID__` for the
 private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. Render the
-catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified runtime token,
-such as `__DEV_ADB_ADMIN_PASSWORD__`. The Project Team adds and rotates the
-corresponding key in that environment's project-repository secret bundle. Use
-one mapping key per ADB when deploying multiple databases. If an ADB needs a
+catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified,
+database-scoped runtime token. For database mapping key `ordersadb` in `dev`,
+use `__DEV_ORDERSADB_ADMIN_PASSWORD__`; the corresponding project-repository
+secret-bundle member is `DEV_ORDERSADB_ADMIN_PASSWORD`. Use one mapping key and
+one distinct password token per ADB when deploying multiple databases. If an ADB needs a
 dedicated NSG, define that NSG in
 `oci/<environment>/<region>/network/project-nsgs.json` and reference its key
 in `networking.network_security_groups`. The catalog

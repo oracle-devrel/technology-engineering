@@ -44,8 +44,8 @@ Object Storage. The selected region comes from the changed
 `{cloud}/{environment}/{region}/` path.
 
 Before Terraform runs, JSON files are copied to the runner's temporary
-directory. Environment-qualified tokens such as
-`__DEV_ADB_ADMIN_PASSWORD__` resolve only from the explicitly passed JSON
+directory. Environment-qualified, resource-scoped tokens such as
+`__DEV_ORDERSADB_ADMIN_PASSWORD__` resolve only from the explicitly passed JSON
 repository secret bundle. The workflow rejects unqualified, cross-environment,
 or unresolved tokens and never modifies the checked-out manifest. It masks
 each decoded value before Terraform can emit it.

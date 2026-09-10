@@ -17,7 +17,7 @@ resource in this table.
 
 | Cloud | Resources |
 | --- | --- |
-| OCI | Project network security groups (NSGs), Compute, Autonomous Database |
+| OCI | Project network security groups (NSGs) and approved ingress/egress rules, Compute, Autonomous Database |
 | Azure | Private Linux VM, Oracle Autonomous Database |
 | Google Cloud | Private Linux VM, Oracle Autonomous Database Serverless |
 

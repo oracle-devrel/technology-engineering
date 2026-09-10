@@ -8,10 +8,23 @@
 2. Read only the selected catalog entry from `<owner>/gitops-templates` at
    `main`, for example `gh api -H "Accept: application/vnd.github.raw+json"
    "repos/<owner>/gitops-templates/contents/<catalog-path>?ref=main"`.
-   Use `resources-catalog` for infrastructure: merge its one rendered fragment
-   into the existing regional manifest without replacing other root keys. Use
-   `operations-catalog` for OCI lifecycle work: create, modify, or clear one
-   file under `oci/<environment>/<region>/lifecycle_operations/`. For every
+   Use `resources-catalog` for infrastructure: render its structure exactly,
+   replacing only documented placeholders, then merge the selected fragment
+   into the existing regional manifest without replacing other root keys.
+   Preserve all literal fields, types, and collections. Populate a collection
+   only when its catalog fragment supplies an entry shape; an empty collection
+   with no entry template authorizes zero entries. Stop rather than infer a
+   field, CIDR, source, protocol, port, or rule that the catalog does not
+   model. The OCI project-NSG TCP ingress and egress rule templates append one
+   named rule to an existing project NSG. Their `protocol` is the literal
+   catalog value `TCP`; never replace it with a provider number such as `6`.
+   For ingress render only their published `src`, `src_type`,
+   `dst_port_min`, and `dst_port_max` fields; for egress use `dst` and
+   `dst_type` instead. Do not add nested provider `tcp_options`. A
+   `0.0.0.0/0` ingress source is allowed only when explicitly requested and
+   must be identified as public exposure in the preview. Use
+   `operations-catalog` for OCI lifecycle work: create, modify, or
+   clear one file under `oci/<environment>/<region>/lifecycle_operations/`. For every
    OCI ADB, replace the catalog's generic administrator-password placeholder
    with its own token formed from the environment and normalized database
    mapping key, as defined in [setup](setup.md). Do not reuse a token for two
@@ -36,7 +49,9 @@
    unless it lists the required secret bundle and every required JSON member
    for each runtime token in the candidate. For example, two `dev` ADBs keyed
    `project45-adb1` and `project45-adb2` require
-   `GITOPS_SECRET_VALUES_DEV` with these distinct members:
+   `GITOPS_SECRET_VALUES_DEV` with these distinct members. Only when the bundle
+   does not yet exist, the administrator may create it with this complete JSON
+   object:
 
    ```json
    {
@@ -46,13 +61,17 @@
    ```
 
    State that the administrator replaces only the angle-bracket placeholders
-   before saving it. For OCI ADB, include the published password policy: 12 to
-   30 characters, at least one uppercase letter, lowercase letter, and digit,
-   with no double quote and no `admin` substring in any casing. Do not read or
-   test that secret; state it as a prerequisite. Show a semantic preview naming
-   the repository, branch, selected path, requested outcome, destructive or
-   replacement impact, CRQ, those prerequisites, and `GitHub writes: none`.
-   Only then ask for the standalone `confirm` reply.
+   before saving it. If the bundle already exists, show only the missing member
+   keys as a JSON fragment and instruct the administrator to merge them through
+   the approved secret process without replacing existing members; the agent
+   cannot read or reconstruct their values. For OCI ADB, include the published
+   password policy: 12 to 30 characters, at least one uppercase letter,
+   lowercase letter, and digit, with no double quote and no `admin` substring
+   in any casing. Do not read or test that secret; state it as a prerequisite.
+   Show a semantic preview naming the repository, branch, selected path,
+   requested outcome, destructive or replacement impact, CRQ, those
+   prerequisites, and `GitHub writes: none`. Only then ask for the standalone
+   `confirm` reply.
 6. After confirmation, re-fetch `origin/main`; if it or the candidate differs
    from the preview, stop, rebuild the candidate, and request a new preview.
    Stage only the selected path, commit, push the branch, and create one PR

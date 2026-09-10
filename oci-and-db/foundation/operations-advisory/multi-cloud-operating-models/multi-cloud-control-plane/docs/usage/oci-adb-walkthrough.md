@@ -24,7 +24,7 @@ Before editing anything, confirm all of the following:
   OCIDs.
 - The existing `oci/dev/eu-frankfurt-1/network/project-nsgs.json` file defines
   the database NSG key you will use.
-- The Project Team has added `DEV_ADB_ADMIN_PASSWORD` to its
+- The Project Team has added `DEV_ORDERSADB_ADMIN_PASSWORD` to its
   `GITOPS_SECRET_VALUES_DEV` repository secret through the approved secret
   process.
 
@@ -61,7 +61,7 @@ single entry. Replace the bracketed values with handoff values, and replace
         "license_model": "BRING_YOUR_OWN_LICENSE",
         "enable_cpu_auto_scaling": false,
         "enable_storage_auto_scaling": false,
-        "admin_password": "__DEV_ADB_ADMIN_PASSWORD__",
+        "admin_password": "__DEV_ORDERSADB_ADMIN_PASSWORD__",
         "networking": {
           "enable_private_endpoint": true,
           "subnet_id": "<private-database-subnet-ocid-from-handoff>",

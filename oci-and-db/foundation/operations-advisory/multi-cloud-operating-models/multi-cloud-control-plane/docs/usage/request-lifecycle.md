@@ -30,9 +30,9 @@ your change process uses.
    the selected environment handoff. Do not invent or replace them.
 4. Represent required secrets with environment-qualified placeholders. Each OCI
    ADB must have its own database-scoped administrator-password token, for
-   example `__DEV_ORDERS_ADB_ADMIN_PASSWORD__`; never reuse that token for a
+   example `__DEV_ORDERSADB_ADMIN_PASSWORD__`; never reuse that token for a
    second database. The Project Team adds and rotates the matching
-   `DEV_ORDERS_ADB_ADMIN_PASSWORD` member in its selected environment secret
+   `DEV_ORDERSADB_ADMIN_PASSWORD` member in its selected environment secret
    bundle through the approved secret process; never put a secret value in Git.
 5. For a resource request, merge the catalog entry into the existing regional
    file. Replace `{}` for the first entry; do not create another file for the
@@ -41,7 +41,12 @@ your change process uses.
 6. Validate the edited JSON before opening the pull request.
 
 OCI project network security groups (NSGs) must exist before an OCI Compute
-request refers to their names.
+request refers to their names. The catalog provides separate ingress and egress
+rule capabilities for an existing project NSG. State the source or destination,
+its type, and destination-port range explicitly. The supplied capabilities are
+TCP-only and set the catalog protocol value themselves. A public ingress source
+(`0.0.0.0/0`) is allowed only when the request explicitly requires it; the
+pull-request preview and review must identify that exposure.
 
 ## Review and execute
 
@@ -62,6 +67,9 @@ the governance boundary. Before approving, confirm that:
 - the pull request changes exactly one cloud, environment, and region;
 - every compartment, network, subnet, and project reference matches the
   environment handoff for that environment;
+- every NSG rule uses the approved catalog shape and its source or destination,
+  TCP port range are the intended ones; any `0.0.0.0/0` ingress is explicitly
+  approved as public exposure;
 - the diff contains no secret values, and each OCI ADB uses its own
   environment- and database-qualified password placeholder;
 - the Terraform plan or Ansible check shows only the intended change, and it ran

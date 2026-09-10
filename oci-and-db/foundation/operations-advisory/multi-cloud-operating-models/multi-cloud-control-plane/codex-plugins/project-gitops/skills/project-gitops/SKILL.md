@@ -33,6 +33,14 @@ These boundaries always apply, even when a reference cannot be read:
   reuse an ADB administrator-password token for another database.
 - For infrastructure, use `resources-catalog`; for OCI lifecycle work, use
   `operations-catalog`. Do not treat an operation as a Terraform request.
+- Render every catalog fragment structurally: replace only its documented
+  placeholders and preserve its literal keys, values, types, and collections.
+  Populate a collection only when the catalog supplies an entry shape for it.
+  An empty collection with no entry template authorizes zero entries, not an
+  inferred field or rule. Stop when requested intent is not modeled.
+- Treat a requested `0.0.0.0/0` ingress source as public exposure. It is valid
+  only when the requester explicitly names it; never infer it. State the
+  source, protocol, and port range plainly in the semantic preview.
 
 ## Operating model
 
