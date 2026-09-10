@@ -62,25 +62,30 @@ that exposure plainly.
 
 ### OCI — compute
 
-**`project_compute_template.json`**
-Provisions exactly one generic OCI VM. Render `__VM_KEY__`, `__VM_NAME__`,
-`__VM_SUBNET_OCID__`, and `__VM_NSG_KEY__`; the NSG key must already exist in
-the regional project NSG manifest. `__PROJ_APP_CMP_OCID__` comes from the
-completed handoff. The SSH public-key path is platform-owned and must remain
-`/home/github-runner/.ssh/oci_vm_key.pub`. The Frankfurt template pins the
-`Oracle-Linux-9.8-aarch64-2026.07.20-0` image, compatible with
-`VM.Standard.A1.Flex`; confirm the image choice manually before approval and
-retain it unless the request explicitly supplies another regional image OCID.
-No OCI CLI lookup is required. Use a separately validated regional template
-outside Frankfurt.
+**`project_compute_small_template.json`**,
+**`project_compute_medium_template.json`**, and
+**`project_compute_large_template.json`**
+Provisions exactly one approved OCI VM profile. The profiles use the same
+private Frankfurt image, `VM.Standard.A1.Flex`, 50 GB boot volume, CIS level,
+and platform-owned SSH public-key path. They differ only in their fixed
+capacity: Small is 1 OCPU / 6 GB, Medium is 2 OCPUs / 12 GB, and Large is 4
+OCPUs / 24 GB. Render `__VM_KEY__`, `__VM_NAME__`, `__VM_SUBNET_OCID__`, and
+`__VM_NSG_KEY__`; the NSG key must already exist in the regional project NSG
+manifest. `__PROJ_APP_CMP_OCID__` comes from the completed handoff. Do not
+override a profile's shape, capacity, image, boot volume, or SSH key path. Use
+a separately validated regional profile outside Frankfurt.
 
 ### OCI — databases
 
-**`project_database_template.json`**
-Provisions OCI Autonomous Database Serverless through the current OCI Landing
-Zones Autonomous Database contract. Use `__PROJ_DB_SUBNET_OCID__` for the
-private DB subnet and `__NSG_DB_KEY__` for the DB-tier NSG. Render the
-catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified,
+**`project_adb_small_byol_template.json`**,
+**`project_adb_medium_byol_template.json`**, and
+**`project_adb_large_byol_template.json`**
+Provision OCI Autonomous Database Serverless through the current OCI Landing
+Zones Autonomous Database contract. The fixed BYOL profiles are Small (2 ECPUs
+/ 32 GB), Medium (4 ECPUs / 64 GB), and Large (8 ECPUs / 128 GB). They retain
+private endpoints and disabled compute and storage auto-scaling. Use
+`__PROJ_DB_SUBNET_OCID__` for the private DB subnet and `__NSG_DB_KEY__` for
+the DB-tier NSG. Render the catalog's `__ADB_ADMIN_PASSWORD__` as an environment-qualified,
 database-scoped runtime token. For database mapping key `ordersadb` in `dev`,
 use `__DEV_ORDERSADB_ADMIN_PASSWORD__`; the corresponding project-repository
 secret-bundle member is `DEV_ORDERSADB_ADMIN_PASSWORD`. Use one mapping key and
@@ -88,9 +93,9 @@ one distinct password token per ADB when deploying multiple databases. If an ADB
 dedicated NSG, define that NSG in
 `oci/<environment>/<region>/network/project-nsgs.json` and reference its key
 in `networking.network_security_groups`. The catalog
-intentionally sets `is_dedicated` to `false`; ADB Dedicated requires an
-existing Autonomous Container Database and is not a project self-service
-request in this release.
+intentionally fixes `is_dedicated` to `false`; ADB Dedicated, different
+license models, and unlisted capacities are not project self-service requests
+in this release.
 
 ### Azure — compute
 

@@ -28,6 +28,9 @@
    the preview. Use
    `operations-catalog` for OCI lifecycle work: create, modify, or
    clear one file under `oci/<environment>/<region>/lifecycle_operations/`. For every
+   OCI ADB or Compute request, select the named approved capacity profile from
+   the catalog and preserve all of its literal capacity, license, image, and
+   auto-scaling values. Do not combine profiles or change their values. For every
    OCI ADB, replace the catalog's generic administrator-password placeholder
    with its own token formed from the environment and normalized database
    mapping key, as defined in [setup](setup.md). Do not reuse a token for two

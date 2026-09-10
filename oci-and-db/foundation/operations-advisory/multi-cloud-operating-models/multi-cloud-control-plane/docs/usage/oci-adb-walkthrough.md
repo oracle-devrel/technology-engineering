@@ -34,7 +34,7 @@ Team secret process. Do not invent a foundation reference or commit a secret.
 
 ## 2. Prepare one manifest change
 
-Use the OCI database template from the approved
+Use the OCI Small BYOL ADB template from the approved
 [resource catalog](../../repository-sources/gitops-templates/resources-catalog/README.md)
 and edit the existing regional manifest:
 

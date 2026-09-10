@@ -41,6 +41,10 @@ These boundaries always apply, even when a reference cannot be read:
 - Treat a requested `0.0.0.0/0` ingress source as public exposure. It is valid
   only when the requester explicitly names it; never infer it. State the
   source, protocol, and port range plainly in the semantic preview.
+- Select an approved catalog profile for OCI ADB and Compute capacity. Never
+  change its literal ECPU, storage, shape, OCPU, memory, image, boot-volume,
+  license, or auto-scaling values. Stop when the requested capacity has no
+  published profile.
 
 ## Operating model
 
