@@ -59,9 +59,7 @@ The Multi-Cloud Control Plane answers that problem. It has four components:
 
 A multi-cloud operating model answers four questions: who can request a change, what they can request, who approves it, and where the result is recorded. MCCP turns those rules into a repeatable delivery pattern.
 
-The operating model defines the rules: roles and ownership, approved boundaries,
-governance, approvals, and compliance. The control plane enforces
-them by giving teams one controlled way to request, review, execute, and record changes. Teams work independently, but only inside a safe operating space established once by Cloud Operations.
+The operating model defines the rules: roles and ownership, approved boundaries, governance, approvals, and compliance. The control plane enforces them by giving teams one controlled way to request, review, execute, and record changes. Teams work independently, but only inside a safe operating space established once by Cloud Operations.
 
 The model does not depend on any one tool or cloud. The technology behind it can change without redefining how work is governed.
 
@@ -102,8 +100,7 @@ This repository is a reference implementation of the operating model above. It c
 
 Request interfaces prepare a change; Git preserves the approved intent and the evidence; the catalog defines what is supported; and trusted automation delivers the approved change to the chosen cloud. Every interface creates the same pull request and none of them can approve, merge, or deploy it.
 
-This is the target control-plane architecture, so its labels are generic: the diagram's **Control Plane UI** is the optional Multi-Cloud Control Plane UI, and its **AI Ops Agent** is the optional Codex plugin. The cloud icons show where the model can
-extend, not only the patterns supplied by this reference — see [Reference capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
+This is the target control-plane architecture, so its labels are generic: the diagram's **Control Plane UI** is the optional Multi-Cloud Control Plane UI, and its **AI Ops Agent** is the optional Codex plugin. The cloud icons show where the model can extend, not only the patterns supplied by this reference — see [Reference capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
 
 ## Onboarding a project
 
@@ -152,6 +149,4 @@ These companion assets are outside MCCP:
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
-Licensed under the Universal Permissive License (UPL), Version 1.0. See
-[LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE)
-for more details.
+Licensed under the Universal Permissive License (UPL), Version 1.0. See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

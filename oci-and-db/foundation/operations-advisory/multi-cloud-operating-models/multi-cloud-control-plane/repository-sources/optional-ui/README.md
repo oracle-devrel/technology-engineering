@@ -1,54 +1,28 @@
 # Multi-Cloud Control Plane UI
 
-Multi-Cloud Control Plane UI is the optional MCCP guided interface. It lets
-Project Teams select an approved catalog entry and open a pull request in an
-already handed-off project repository. The canonical MCCP documentation defines the
-[Reference capabilities](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md)
-and [Project Team workflow](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md).
+Multi-Cloud Control Plane UI is the optional MCCP guided interface. It lets Project Teams select an approved catalog entry and open a pull request in an already handed-off project repository. The canonical MCCP documentation defines the [Reference capabilities](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md) and [Project Team workflow](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md).
 
 ## Installation
 
-Cloud Operations copies this component to its UI runtime location. The UI uses
-its configured GitHub organization and the current `gitops-templates` catalog
-on `main`. Repository layouts and environments are fixed by the installed
-release.
+Cloud Operations copies this component to its UI runtime location. The UI uses its configured GitHub organization and the current `gitops-templates` catalog on `main`. Repository layouts and environments are fixed by the installed release.
 
-Create a local `.env` from `.env.example` and set the GitHub App and session
-values outside Git. `GITHUB_ORG` must match the rendered installation
-configuration. Use TLS in any shared deployment.
+Create a local `.env` from `.env.example` and set the GitHub App and session values outside Git. `GITHUB_ORG` must match the rendered installation configuration. Use TLS in any shared deployment.
 
-Create and install a dedicated **GitHub App** for the customer organization.
-Enable user-to-server authorization and register the exact callback URL. Select
-the `gitops-templates` repository, which the UI reads but never writes, plus
-only the handed-off project repositories it must serve. Each user authorizes
-the App and must already have the project repository access required for the
-requested action.
+Create and install a dedicated **GitHub App** for the customer organization. Enable user-to-server authorization and register the exact callback URL. Select the `gitops-templates` repository, which the UI reads but never writes, plus only the handed-off project repositories it must serve. Each user authorizes the App and must already have the project repository access required for the requested action.
 
 Use these GitHub App repository permissions:
 
-- **Actions: read** and **Checks: read** to display plan/check and execution
-  status.
-- **Contents: read and write**, **Issues: read and write**, and **Pull
-  requests: read and write** for the UI's issue, branch, commit, and PR flow.
+- **Actions: read** and **Checks: read** to display plan/check and execution status.
+- **Contents: read and write**, **Issues: read and write**, and **Pull requests: read and write** for the UI's issue, branch, commit, and PR flow.
 - **Metadata: read** is always present and must remain read-only.
 
-The UI does not need a GitHub App private key, an installation-token flow, or
-write permission to Actions, Checks, Administration, or Workflows.
+The UI does not need a GitHub App private key, an installation-token flow, or write permission to Actions, Checks, Administration, or Workflows.
 
 ## Catalog boundary
 
-The catalog is the UI's complete Day 1 contract. The UI renders only documented
-placeholders; it does not expose catalog literals as editable inputs or provide
-an arbitrary JSON editor. OCI Compute and Autonomous Database capacity profiles
-therefore remain fixed. The single OCI project-NSG catalog template supports a
-new NSG with zero or more TCP ingress and egress rules, or additive rules on an
-existing NSG. The UI renders destination ports as integers and rejects a rule
-key that already exists.
+The catalog is the UI's complete Day 1 contract. The UI renders only documented placeholders; it does not expose catalog literals as editable inputs or provide an arbitrary JSON editor. OCI Compute and Autonomous Database capacity profiles therefore remain fixed. The single OCI project-NSG catalog template supports a new NSG with zero or more TCP ingress and egress rules, or additive rules on an existing NSG. The UI renders destination ports as integers and rejects a rule key that already exists.
 
-Copy the sample configuration before starting. For a local installation, the
-sample uses `http://localhost:8011/callback`. For a shared deployment, register
-the exact externally visible `https://<host>/callback` URL and configure the
-reverse proxy to preserve the original host and HTTPS protocol.
+Copy the sample configuration before starting. For a local installation, the sample uses `http://localhost:8011/callback`. For a shared deployment, register the exact externally visible `https://<host>/callback` URL and configure the reverse proxy to preserve the original host and HTTPS protocol.
 
 ```bash
 python3.11 -m venv .venv
@@ -57,15 +31,8 @@ cp .env.example .env
 .venv/bin/python -m app.main
 ```
 
-The application reads `.env` itself, including its configured host and port.
-`APP_URL` must match the exact browser origin, including its protocol and port.
-The signed-in user remains the authorizing identity for project writes; an
-optional server token may read the catalog but cannot bypass user-scoped
-project authorization.
+The application reads `.env` itself, including its configured host and port. `APP_URL` must match the exact browser origin, including its protocol and port. The signed-in user remains the authorizing identity for project writes; an optional server token may read the catalog but cannot bypass user-scoped project authorization.
 
 ## Security boundary
 
-The UI creates GitHub issues, branches, commits, and pull requests. It does not
-hold cloud credentials, approve or merge requests, or execute Terraform or
-Ansible. See the canonical MCCP
-[security guidance](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md).
+The UI creates GitHub issues, branches, commits, and pull requests. It does not hold cloud credentials, approve or merge requests, or execute Terraform or Ansible. See the canonical MCCP [security guidance](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md).
