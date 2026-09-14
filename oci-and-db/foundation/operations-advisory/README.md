@@ -4,7 +4,7 @@ The EMEA Technology Solutions Operations Advisory Black Belts are a field-driven
 
 The Operations Advisory provides critical guidance to Customers on how to define their operations. Operations Excellence Advisory 'Approach Workshop' advises on best practices and their benefits from Oracle based on previous experiences and is meant to identify an outline for Day 2 optimal operations, based on priorities and requirements for DR, Integrations, O&M also in the following scenarios: Hybrid, Multi-cloud, Dedicated Cloud. Where needed, Automation advice is also included.
   
-Reviewed: 2026-09-04
+Reviewed: 2026-09-14
 
 # Table of Contents <!-- omit in toc --> 
 
