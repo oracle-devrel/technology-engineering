@@ -4,7 +4,7 @@ OCI’s distributed cloud provides customers with the flexibility to choose wher
 
 The field CISO specialists team offers advisory services to engage with customer CISO and C-level executives to align their business objectives to suitable Distributed Cloud options.
 
-Reviewed: 02.02.2024
+Reviewed: 14.10.2026
 
 # Useful Links
  

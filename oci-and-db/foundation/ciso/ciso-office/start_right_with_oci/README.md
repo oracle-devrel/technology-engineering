@@ -1,6 +1,6 @@
 # Start Right With OCI
 
-Last updated: 20 May 2025
+Reviewed: 14.10.2026
 
 ## A Five-Step Approach to Deploying on Oracle Cloud Infrastructure (OCI)
 

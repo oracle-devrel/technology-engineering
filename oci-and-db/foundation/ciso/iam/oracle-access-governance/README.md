@@ -6,7 +6,7 @@ Access Governance is a cloud native identity governance and administration (IGA)
 
 Oracle Access Governance enables integration with a wide range of authoritative sources (trusted source of identities and their attributes) and managed systems (applications containing account and permissions). **For the most common integration patterns, please see the [Reusable Assets Overview](#reusable-assets-overview) section below**.
 
-Reviewed: 11.11.2025
+Reviewed: 14.10.2026
 
 # Useful Links
 

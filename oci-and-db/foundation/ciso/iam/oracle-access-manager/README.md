@@ -2,7 +2,7 @@
 
 Oracle Access Management provides innovative new services that complement traditional access management capabilities. It provides Web SSO with MFA, coarse-grained authorization, session management, standard SAML Federation, and OAuth capabilities to enable secure access to external cloud and mobile applications. It can be easily integrated with the Oracle Identity Cloud Service to support hybrid access management capabilities that can help customers protect on-premises and cloud applications seamlessly.
 
-Reviewed: 11.11.2025
+Reviewed: 14.10.2026
 
 # Useful Links
 

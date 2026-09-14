@@ -2,7 +2,7 @@
 
 Oracle Identity Governance provides complete user lifecycle management and rich access entitlement controls across a wide range of services for both on-premises and cloud. Now supports microservices to discover common access patterns, optimize role-based access control, and automate the process of role publishing to Oracle Identity Governance. Oracle Identity Governance manages user provisioning and de-provisioning and provides actionable identity intelligence that enables rapid remediation of high-risk user entitlements.
 
-Review Date: 11.11.2025
+Reviewed: 14.10.2026
 
 # Useful Links
 
