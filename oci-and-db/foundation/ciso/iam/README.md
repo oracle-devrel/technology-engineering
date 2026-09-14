@@ -7,7 +7,7 @@ The Identity and Access Management group under the Technology Engineering Securi
 - Solution Assistance
 - Workshops to enable the partners/customers
 
-Reviewed: 14.10.2026
+Reviewed: 14.09.2026
 
 Table of Contents
 
@@ -45,4 +45,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

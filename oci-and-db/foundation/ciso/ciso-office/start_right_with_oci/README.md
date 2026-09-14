@@ -1,6 +1,6 @@
 # Start Right With OCI
 
-Reviewed: 14.10.2026
+Reviewed: 14.09.2026
 
 ## A Five-Step Approach to Deploying on Oracle Cloud Infrastructure (OCI)
 
@@ -89,4 +89,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

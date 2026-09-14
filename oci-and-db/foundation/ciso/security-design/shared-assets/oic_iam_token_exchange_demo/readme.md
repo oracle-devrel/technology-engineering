@@ -1,5 +1,7 @@
 # Identity Token Propagation Script
 
+Reviewed: 14.09.2026
+
 ## Overview
 
 A colleague of mine posted an [article](https://www.ateam-oracle.com/post/authentication-and-user-propagation-for-api-calls) explaining a method for propagating identity using tokens when using Oracle Identity Cloud Service (IDCS) or Oracle Cloud Infrastructure (OCI) IAM domains. In this article, Olaf used the OAuth User Assertion flow in which a local, trusted custom application generates local identity tokens for its authenticated users. These tokens (either JWT or SAML) are the passed to IAM where it exchanges them for an IAM-issued token, which is then used to access an IAM integrated backend service. In the article's example, Oracle SaaS is used as the example endpoint.

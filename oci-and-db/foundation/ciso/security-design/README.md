@@ -3,8 +3,7 @@
 The Cloud Security Design Advisory team is covering end-to-end OCI security topics depending on customers' needs and requirements.
 We are working closely with OCI Domain Specialists (networking, infrastructure security, data management, and observability), to provide the customer the best deep dive expertise, both on Cloud Security and Cloud Solutions.
 
-
-Reviewed: 14.10.2026
+Reviewed: 14.09.2026
 
 # Table of Contents
  
@@ -71,5 +70,5 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 

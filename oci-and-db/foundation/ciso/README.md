@@ -2,7 +2,7 @@
 
 The Technology Engineering Security Specialists team provides end-end Oracle security specialists coverage through Field CISO, Security Design, and IAM sub-areas. Our specialists work closely with Infra Security and Data Security specialists with a mission to transform the IT landscape of strategic customers into a secure, compliant, resilient, and successful workload deployment by evangelizing and applying Oracle’s leading security best practices and services.
 
-Reviewed: 14.10.2026
+Reviewed: 14.09.2026
 
 # Table of Contents
  
@@ -34,4 +34,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

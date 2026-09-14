@@ -2,6 +2,8 @@
 
 Owner: Paul Toal
 
+Reviewed: 14.09.2026
+
 During authentication, it is widely recognised that Multi-Factor Authentication (MFA) should be used to increase the security of a user's credential and reduce the chance of a brute force attack. However, there are certain use cases where it may be necessary to disable MFA for a particular account.
 
 One common use case is when using an OCI IAM account as a service account to call IAM protected endpoints. For example, Oracle Integration Cloud (OIC) allows users to build integrations and expose them as REST endpoints (amongst other things). When calling that REST endpoint, either BASIC or OAUTH authentication can be used to authenticate the requestor to the REST API.
@@ -116,4 +118,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
