@@ -63,7 +63,7 @@ Reviewed: 14.10.2026
 
 ## Reusable Assets Overview
 
-- [List of assets](../security-design/shared-assets/readme.md)
+- [List of assets](../security-design/README.md)
 
 # Useful Links
  
