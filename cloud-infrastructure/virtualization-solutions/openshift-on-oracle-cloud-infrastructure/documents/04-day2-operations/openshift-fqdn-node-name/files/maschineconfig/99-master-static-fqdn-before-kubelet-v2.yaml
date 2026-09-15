@@ -1,0 +1,34 @@
+---
+## machineconfigs/99-master-static-fqdn-before-kubelet-v2.yaml
+
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 99-master-static-fqdn-before-kubelet-v2
+  labels:
+    machineconfiguration.openshift.io/role: master
+spec:
+  config:
+    ignition:
+      version: 3.4.0
+    storage:
+      files:
+        - path: /usr/local/sbin/set-static-fqdn.sh
+          mode: 493
+          overwrite: true
+          contents:
+            source: data:text/plain;base64,${B64_SCRIPT}
+        - path: /etc/systemd/system/set-static-fqdn.service
+          mode: 420
+          overwrite: true
+          contents:
+            source: data:text/plain;base64,${B64_UNIT}
+        - path: /etc/systemd/system/kubelet.service.d/10-static-fqdn.conf
+          mode: 420
+          overwrite: true
+          contents:
+            source: data:text/plain;base64,${B64_DROPIN}
+    systemd:
+      units:
+        - name: set-static-fqdn.service
+          enabled: true
