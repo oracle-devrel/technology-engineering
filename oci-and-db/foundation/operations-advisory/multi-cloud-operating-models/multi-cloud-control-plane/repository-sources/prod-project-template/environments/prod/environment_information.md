@@ -1,8 +1,6 @@
 # Production environment handoff
 
-Cloud Operations publishes OCI references automatically and completes the Azure
-and Google Cloud sections in a separate reviewed handoff pull request. Blank
-values are not valid workload references.
+Cloud Operations publishes OCI references automatically and completes the Azure and Google Cloud sections in a separate reviewed handoff pull request. Blank values are not valid workload references.
 
 ## Azure
 

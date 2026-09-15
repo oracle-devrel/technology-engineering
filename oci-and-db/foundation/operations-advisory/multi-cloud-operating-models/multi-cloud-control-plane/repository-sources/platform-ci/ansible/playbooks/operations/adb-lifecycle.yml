@@ -7,7 +7,12 @@
 
   pre_tasks:
     - name: Require an explicit execution mode
-      ansible.builtin.import_tasks: ../common/operation/require-execution-mode.yml
+      ansible.builtin.assert:
+        quiet: true
+        that:
+          - operation_execution_mode is defined
+          - operation_execution_mode in ['precheck', 'execute']
+        fail_msg: operation_execution_mode must be precheck or execute.
 
   tasks:
     - name: Precheck ADB lifecycle

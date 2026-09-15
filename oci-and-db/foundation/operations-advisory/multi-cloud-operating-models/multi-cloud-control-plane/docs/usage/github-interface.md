@@ -1,17 +1,14 @@
 # GitHub interface
 
-Use the GitHub interface when you want to edit the approved JSON file directly.
-First read the common [request lifecycle](request-lifecycle.md).
+Use the GitHub interface when you want to edit the approved JSON file directly. First read the common [request lifecycle](request-lifecycle.md).
 
 ## GitHub website
 
 1. Open the required manifest in your project repository and select **Edit**.
 2. Apply the catalog entry described in the request lifecycle.
 3. Select **Create a new branch for this commit and start a pull request**.
-4. Name the branch and commit with the change reference and requested resource
-   or operation.
-5. Open the pull request, record the change reference, review the plan or
-   check, obtain approval, and merge.
+4. Name the branch and commit with the change reference and requested resource or operation.
+5. Open the pull request, record the change reference, review the plan or check, obtain approval, and merge.
 6. Verify the post-merge workflow and cloud outcome.
 
 ## GitHub CLI
@@ -38,6 +35,4 @@ git push -u origin "$BRANCH"
 gh pr create --fill
 ```
 
-Do not merge until the plan or check and required approval are complete. The
-[request lifecycle](request-lifecycle.md#complete-or-remove-a-request) explains
-how to clear a completed operation or remove a resource.
+Do not merge until the plan or check and required approval are complete. The [request lifecycle](request-lifecycle.md#complete-or-remove-a-request) explains how to clear a completed operation or remove a resource.

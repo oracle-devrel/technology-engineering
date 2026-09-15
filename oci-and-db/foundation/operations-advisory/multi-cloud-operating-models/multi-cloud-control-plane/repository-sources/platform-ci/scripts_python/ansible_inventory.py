@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-"""
-Generate dynamic Ansible inventory from Terraform state.
+"""Generate dynamic Ansible inventory from Terraform state.
+
+The script downloads the project-region state, indexes supported resources by
+their exact display name, selects the manifest targets, and writes the small
+inventory consumed by the allow-listed operation playbook.
+
 Usage: python3 ansible_inventory.py <cloud> <bucket> <config-path> <operation-file>
 """
 
@@ -144,6 +148,10 @@ def build_compute_inventory(manifest, compute_map):
             sys.exit(1)
 
         info = compute_map[name]
+        if not info['private_ip']:
+            print(f"\n❌ ERROR: '{name}' has no private IP in Terraform state")
+            sys.exit(1)
+
         inventory['compute_instances']['hosts'][name] = {
             'ansible_host': info['private_ip'],
             'ansible_connection': 'ssh',

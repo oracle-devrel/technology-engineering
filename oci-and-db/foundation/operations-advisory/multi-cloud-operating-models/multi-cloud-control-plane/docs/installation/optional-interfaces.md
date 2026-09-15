@@ -1,15 +1,8 @@
 # Install optional Project Team interfaces
 
-The GitHub interface requires no additional MCCP component. Complete this page
-only after the first project repository has passed the core acceptance check,
-and only if the customer selected the optional Multi-Cloud Control Plane UI or Codex
-plugin. Both prepare pull requests against the same handed-off project
-repositories.
+The GitHub interface requires no additional MCCP component. Complete this page only after the first project repository has passed the core acceptance check, and only if the customer selected the optional Multi-Cloud Control Plane UI or Codex plugin. Both prepare pull requests against the same handed-off project repositories.
 
-Cloud Operations installs the shared UI service or marketplace files once.
-Each Project Team user then authorizes the UI or installs the Codex plugin in
-their own shell. The GitHub interface remains available without either
-optional component.
+Cloud Operations installs the shared UI service or marketplace files once. Each Project Team user then authorizes the UI or installs the Codex plugin in their own shell. The GitHub interface remains available without either optional component.
 
 | Customer choice | Additional Cloud Operations action | Project Team result |
 | --- | --- | --- |
@@ -28,17 +21,11 @@ cp -R repository-sources/optional-ui "$UI_STAGE"
 test ! -e "$UI_STAGE/.env"
 ```
 
-Configure OAuth, session secrets, GitHub App permissions, TLS, and the runtime
-using the [Multi-Cloud Control Plane technical guide](../../repository-sources/optional-ui/README.md).
-Keep `.env` and all credentials outside Git. Before inviting Project Team
-users, confirm that a test user can see only its handed-off project
-repositories.
+Configure OAuth, session secrets, GitHub App permissions, TLS, and the runtime using the [Multi-Cloud Control Plane technical guide](../../repository-sources/optional-ui/README.md). Keep `.env` and all credentials outside Git. Before inviting Project Team users, confirm that a test user can see only its handed-off project repositories.
 
 ## Optional Codex plugin
 
-Stage a local MCCP marketplace containing the plugin. Set
-`CODEX_MARKETPLACE_ROOT` to a persistent directory readable by the approved
-Project Team users:
+Stage a local MCCP marketplace containing the plugin. Set `CODEX_MARKETPLACE_ROOT` to a persistent directory readable by the approved Project Team users:
 
 ```bash
 export CODEX_MARKETPLACE_ROOT=/path/to/persistent/mccp-marketplace
@@ -67,8 +54,7 @@ jq -n '
 jq -e . "$CODEX_MARKETPLACE_ROOT/.agents/plugins/marketplace.json" >/dev/null
 ```
 
-Each Project Team user installs the approved marketplace and plugin from a
-local shell:
+Each Project Team user installs the approved marketplace and plugin from a local shell:
 
 ```bash
 codex --version
@@ -77,9 +63,4 @@ codex plugin add project-gitops@mccp
 codex plugin list
 ```
 
-`codex plugin list` must show `project-gitops` from the `mccp` marketplace.
-Each user also needs authenticated GitHub CLI access and permission to the
-handed-off project repository. Start a new Codex thread after installation so
-the plugin is loaded. Keep `CODEX_MARKETPLACE_ROOT` available while the
-marketplace is configured. Remove only unused temporary staging artifacts after
-both optional interfaces have been verified.
+`codex plugin list` must show `project-gitops` from the `mccp` marketplace. Each user also needs authenticated GitHub CLI access and permission to the handed-off project repository. Start a new Codex thread after installation so the plugin is loaded. Keep `CODEX_MARKETPLACE_ROOT` available while the marketplace is configured. Remove only unused temporary staging artifacts after both optional interfaces have been verified.
