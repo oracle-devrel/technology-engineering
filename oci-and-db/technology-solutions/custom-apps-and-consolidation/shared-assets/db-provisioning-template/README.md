@@ -2,7 +2,7 @@
 
 This document can be used as a reference template to collect the required details for database provisioning.
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 

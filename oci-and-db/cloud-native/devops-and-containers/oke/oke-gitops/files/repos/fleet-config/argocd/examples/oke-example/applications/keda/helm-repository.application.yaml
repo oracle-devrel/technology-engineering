@@ -1,0 +1,12 @@
+application: keda
+cluster: oke-example
+namespace: keda
+resourcesPath: profiles/example/applications/keda/resources
+helm:
+  repository: https://kedacore.github.io/charts
+  chart: keda
+  version: 2.20.1
+  releaseName: keda
+  valueFiles:
+    - profiles/example/applications/keda/values/00-base.yml
+    - profiles/example/applications/keda/values/90-overrides.yml

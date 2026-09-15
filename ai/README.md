@@ -1,6 +1,6 @@
 # Oracle AI Platform
  
-Oracle Cloud Infrastructure (OCI) brings together [Generative AI Service](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm), [Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm), and [AI Services](https://www.oracle.com/uk/artificial-intelligence/ai-services/) with AI Data Strategy; Document Understanding, Language, Speech, and Vision; Analytics, Analytical Data Platform Lakehouse, Autonomous AI Lakehouse, and Data Science; Generative AI Platform; Oracle AI Data Platform; and Oracle Digital Assistant. Together, they provide prebuilt and customizable AI models, data-platform capabilities, and tools for building AI-powered applications and business processes. The assets below include architecture guidance, hands-on examples, reference implementations, and solution blueprints across the OCI AI portfolio.
+Get comprehensive AI services and state-of-the-art generative AI innovations on our data platform and in our cloud applications—all on a best-in-class AI infrastructure. The assets below include architecture guidance, hands-on examples, reference implementations, and solution blueprints across the OCI AI PaaS portfolio.
 
 Reviewed: 04.08.2026
 

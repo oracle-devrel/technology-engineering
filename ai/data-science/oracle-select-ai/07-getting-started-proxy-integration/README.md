@@ -2,7 +2,7 @@
  
 Use this asset as a reference for getting started with the Select AI Proxy Integration capabilities available within the Oracle AI Database. More specifically, we will take a look at setting up the Proxy Integration against a PostgreSQL database.
 
-Reviewed: 2026.04.30
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

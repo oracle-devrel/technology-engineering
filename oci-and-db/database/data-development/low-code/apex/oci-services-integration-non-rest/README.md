@@ -4,13 +4,21 @@ REST APIs are used to integrate with OCI Cloud Services from APEX. However, ther
 
 This section will highlight other integration considerations, posts and useful places to get a project going.
 
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
-# When to use this asset?
+# Table of Contents
+
+1. [Reusable Assets Overview](#reusable-assets-overview)
+2. [Useful Links](#useful-links)
+
+
+# Reusable Assets Overview
+
+## When to use this asset?
 Use this asset when you need to integrate Oracle APEX with services like Identity Cloud Service (IDCS) for authentication, Oracle Analytics Cloud (OAC) for embedding analytics and reports, Oracle Digital Assistant (ODA) for chatbot functionality, or OCI AI Services for adding generative AI features. These methods are ideal when pre-built connectors and simpler integration approaches are more efficient than REST APIs, especially for tasks like SSO setup, real-time data visualization, or interactive AI-driven features in APEX.
 
 
-# How to use this asset?
+## How to use this asset?
 To use this asset, follow specific integration steps based on the service you're working with:
 
 - Set up SSO with IDCS for secure authentication in APEX.
@@ -18,10 +26,6 @@ To use this asset, follow specific integration steps based on the service you're
 - Integrate ODA to add chatbot functionality to your APEX apps, allowing natural language interaction.
 - Configure Generative AI with Select AI to enable intelligent automation and AI features in APEX.
 
-
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
 
 # Useful Links
 
@@ -60,8 +64,12 @@ To use this asset, follow specific integration steps based on the service you're
 - [APEX Documentation](https://docs.oracle.com/en/database/oracle/apex/23.2/htmdb/about-incorporating-content-from-other-websites.html "About Incorporating Content from Other Websites")
 - [Blog: Oracle APEX data embedded in your Website with an iFrame](https://medium.com/@Coggs/oracle-apex-data-embedded-in-your-website-with-an-iframe-7d648eb4b4a5)
 
+
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

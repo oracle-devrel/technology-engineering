@@ -1,0 +1,10 @@
+# Recovery template only. install-gitops-agent normally creates this Secret from OCI Vault.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: git-token-auth
+  namespace: flux-system
+type: Opaque
+stringData:
+  username: "" # Dedicated read-only OCI DevOps Git username
+  password: "" # Git reader auth token

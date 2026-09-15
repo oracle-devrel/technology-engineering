@@ -1,5 +1,7 @@
 # Automating SAML Metadata Retrieval in OCI Identity Domains
 
+Reviewed: 14.09.2026
+
 This solution provisions an **OCI Identity Domain** with Terraform and securely retrieves its **SAML metadata** for integration with external identity providers.
 
 Instead of making the SAML metadata publicly accessible by enabling the *“Configure client access”* option under *Access Signing Certificate*, this approach uses a **temporary confidential OAuth client** to authenticate and download the metadata.

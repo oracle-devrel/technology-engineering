@@ -6,7 +6,7 @@ The Oracle Private AI Services Container is a robust, secure AI infrastructure t
 
 The solution also mitigates performance bottlenecks, allowing customers to securely offload compute-intensive AI tasks such as Vector Embedding Generation, LLM Inference (coming soon) and Vector Index Acceleration (coming soon) outside the database, helping keep all data secure within their environment. The container can be deployed within the customer’s tenancy in the public cloud, on private clouds, or on-premises, including in air-gapped environments.
 
-Reviewed: 2026.04.23
+Reviewed: 2026.08.13
 </br></br>
 
 # Table of Contents

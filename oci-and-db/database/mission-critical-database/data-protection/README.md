@@ -9,6 +9,8 @@ Oracle Database Zero Data Loss Autonomous Recovery Service is a fully managed da
 Oracle Database Backup Cloud Service is a secure, scalable, on-demand storage solution for backing up Oracle databases to Oracle Cloud. The service complements your existing backup strategy by providing an off-site storage location in the public cloud.
 To use Oracle Database Backup Cloud Service you’ll subscribe to the service, install the Oracle Database Cloud Backup Module, and configure your environment to send backups to the cloud. You can then use familiar Recovery Manager (RMAN) commands to perform backup, restore, recovery, and maintenance operations. You can also use other tools for your cloud backups.
 
+Reviewed: 09.09.2026
+
 # Useful Links
 
 - [Zero Data Loss Autonomous Recovery Service Page](https://www.oracle.com/database/zero-data-loss-autonomous-recovery-service/#rc30p4)

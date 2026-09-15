@@ -9,24 +9,21 @@ The Data Science section covers the tools and services under the broader Oracle 
 * Oracle AI Vector Search (In-Database)
 * Oracle Private AI Services Container (Database Extension)
 * Oracle Select AI (In-Database)
-* Oracle Graph (In-Database)
-* Oracle Spatial (In-Databse)</br></br>
+</br></br>
 
-Reviewed: 2026.04.23
+Reviewed: 2026.08.13
 </br></br>
 
 # Table of Contents
 
-1. [Oracle AI Agent Memory](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-ai-agent-memory)
-2. [OCI Data Science](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-data-science)
-3. [Oracle Graph](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-graph)
-4. [Oracle Machine Learning](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-machine-learning)
-5. [Oracle Private Agent Factory](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-private-agent-factory)
-6. [Oracle Private AI Services Container](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-private-ai-services-container)
-7. [Oracle Select AI](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai)
-8. [Oracle Spatial](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-spatial)
-9. [Oracle AI Vector Search](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search)
-10. [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/shared-assets)
+1. [Oracle AI Agent Memory](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-ai-agent-memory)
+2. [OCI Data Science](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-data-science)
+3. [Oracle Machine Learning](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-machine-learning)
+4. [Oracle Private Agent Factory](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-private-agent-factory)
+5. [Oracle Private AI Services Container](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-private-ai-services-container)
+6. [Oracle Select AI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-select-ai)
+7. [Oracle AI Vector Search](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search)
+8. [Shared Assets](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/shared-assets)
 </br></br>
 
 

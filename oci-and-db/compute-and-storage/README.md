@@ -4,6 +4,8 @@ Oracle Cloud Infrastructure (OCI) Compute and Storage services provide the infra
 
 Use this area to explore guidance, examples, and resources for OCI Compute and OCI Storage.
 
+Reviewed: 1 Sept 2026
+
 ## Explore this area
 
 | Area | Description |

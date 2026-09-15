@@ -1,4 +1,12 @@
-# CAPOCI installation
+# CAPOCI
+
+Reviewed: 07.09.2026
+
+# When to use this asset?
+ 
+# How to use this asset?
+
+## CAPOCI installation
 This project includes a simplified procedure to deploy and use Cluster API inside any
 OKE cluster.
 The only prerequisite is to have an Oracle Cloud tenancy with an OKE cluster already
@@ -21,3 +29,11 @@ apply it to the cluster.
 
 NOTE: The cluster deployed here is very simple, but you can actually configure it in
 every aspect, you can configure the network and even create Virtual Node clusters!
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -1,6 +1,14 @@
 # Sentinel
 
-Reviewed: 2026-05-12
+Reviewed: 2026-09-04
+
+## What is this asset?
+
+This asset provides guidance for integrating OCI logging with Sentinel.
+
+## How to use this asset?
+
+Read the integration guide in the files folder: [Integrating Logging with Sentinel](./files/IntegratingLoggingwithSentinel.pdf).
 
 # License
 

@@ -2,7 +2,7 @@
  
 This document covers how to integrate NVIDIA NIM Microservices within OCI Data Science by deploying the Mistral 7B Instruct v0.3 LLM via the OCI Marketplace.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

@@ -13,7 +13,11 @@ Reviewed: 08.10.2025
  
 - [Seamlessly migrate an on-premise PostgreSQL database to OCI Database with PostgreSQL using OCI GoldenGate](https://blogs.oracle.com/dataintegration/post/seamlessly-migrate-an-onpremise-postgresql-database-to-oci-database-with-postgresql-online-with-oci-goldengate)
     - Oracle Blogs article explaining how to use OCI GoldenGate to perform an online migration from  an on-premises PostgreSQL Database to OCI Database with PostgreSQL
- 
+- [Zero-Downtime PostgreSQL Migration to OCI Database with PostgreSQL Using OCI GoldenGate (Part 1)](https://medium.com/@hncelebi/zero-downtime-postgresql-migration-to-oci-database-with-postgresql-using-oci-goldengate-part-1-76a665e0a98c?sharedUserId=hncelebi)
+    - A two part step by step OCI GoldenGate guide documenting a near zero downtime migration of an on-premises PostgreSQL Database to OCI Database with PostgreSQL with fallback replication.
+- [Zero-Downtime PostgreSQL Migration to OCI Database with PostgreSQL Using OCI GoldenGate (Part 2)](https://medium.com/@hncelebi/zero-downtime-postgresql-migration-to-oci-database-with-postgresql-using-oci-goldengate-part-2-af4f2d1122d5?sharedUserId=hncelebi)
+    - A two part step by step OCI GoldenGate guide documenting a near zero downtime migration of an on-premises PostgreSQL Database to OCI Database with PostgreSQL with fallback replication.
+
 # Useful Links
 
 - [Oracle Documentation: Importing, Exporting, and Migrating Databases](https://docs.oracle.com/en-us/iaas/Content/postgresql/import-export-migrate.htm)

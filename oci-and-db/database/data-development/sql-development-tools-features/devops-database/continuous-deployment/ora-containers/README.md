@@ -13,17 +13,20 @@ ADB free container image comes pre-built with the following components exactly l
 
 Autonomous Database Free Container Image is now available on [Oracle Container Registry](https://container-registry.oracle.com/ords/f?p=113:4:110784766203219:::RP,4:P4_REPOSITORY,AI_REPOSITORY,P4_REPOSITORY_NAME,AI_REPOSITORY_NAME:2223,2223,Oracle%20Autonomous%20Database%20Free,Oracle%20Autonomous%20Database%20Free&cs=3iytyP0Ctunr3v0-nv7dCZfzaGtZqSixvp3qYkAgNzNQ1JCtVBaBA_eK_z3EK1p272JeUVOsEGVfeSXev4b1QEg), you can perform local development with an ADB-free container image and have the ability to merge your work later in a cloud instance.
 
-If you are looking about information about Oracle Database running on Kubernetes check this content [here](../../../ora-database-microservices/ora-kubernetes/README.md)
+For information about running Oracle Database on Kubernetes, see the [Oracle Database Operator for Kubernetes](../ora-kubernetes/README.md) resources.
 
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
 # Table of Contents
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 
 - [DB Containers: Free Oracle Database for Developers](https://synuora.hashnode.dev/db-containers-free-oracle-database-for-developers)
+
 # Useful Links
 
 - [Oracle Databases for Containers Home Page](https://www.oracle.com/uk/database/kubernetes-for-container-database/#containers)
@@ -44,4 +47,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

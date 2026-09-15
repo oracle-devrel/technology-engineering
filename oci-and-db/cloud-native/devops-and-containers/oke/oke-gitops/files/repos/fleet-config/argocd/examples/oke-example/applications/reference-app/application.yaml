@@ -1,0 +1,3 @@
+application: reference-app
+cluster: oke-example
+resourcesPath: examples/oke-example/applications/reference-app
