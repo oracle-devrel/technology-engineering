@@ -1,0 +1,31 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: reference-app-infrastructure
+  namespace: flux-system
+spec:
+  inputs:
+    - name: reference-app-infrastructure
+      namespace: reference-app
+      resourcesPath: ./platform/applications/reference-app/infrastructure/resources
+  resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: << inputs.namespace >>
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: << inputs.name >>
+        namespace: flux-system
+      spec:
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+        path: << inputs.resourcesPath >>
+        targetNamespace: << inputs.namespace >>
+        prune: true
+        wait: true
+        timeout: 3m

@@ -1,4 +1,7 @@
 ## Procedure to deploy on to OCI OKE.
+
+Reviewed: 04.08.2026
+
 ----
 
 ### Dynamic group and policies for repo and genertive-ai access from OKE

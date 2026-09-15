@@ -32,7 +32,7 @@ class OCIEmbeddingHandler:
             "endpoint": "us-chicago-1",  # 
             "input_type": None,  # Not needed for Cohere
             "max_tokens": 512,
-            "dimensions": 1024,
+            "dimensions": 1536,
             "description": "Cohere English embedding v4.0 - Frankfurt region, optimized for semantic search"
         },
         "cohere-embed-english-v3.0": {
@@ -42,14 +42,6 @@ class OCIEmbeddingHandler:
             "max_tokens": 512,
             "dimensions": 1024,
             "description": "Cohere English embedding v3.0 - Frankfurt region, optimized for semantic search"
-        },
-        "cohere-embed-english-light-v2.0": {
-            "model_id": "cohere.embed-english-light-v2.0",
-            "endpoint": "us-chicago-1",  # Light v2.0 is in Chicago
-            "input_type": None,  # Not needed for Cohere
-            "max_tokens": 512,
-            "dimensions": 1024,
-            "description": "Cohere English light v2.0 - Chicago region, optimized for semantic search"
         },
         "cohere-embed-multilingual-v3.0": {
             "model_id": "cohere.embed-multilingual-v3.0",
@@ -392,6 +384,15 @@ class EmbeddingModelManager:
             info = self.models[model_name].get_model_info()
             info["type"] = "oci"
             return info
+        elif model_name in OCIEmbeddingHandler.EMBEDDING_MODELS:
+            # Return static config even if handler isn't initialized yet
+            config = OCIEmbeddingHandler.EMBEDDING_MODELS[model_name]
+            return {
+                "name": model_name,
+                "description": config.get("description", "OCI embedding model"),
+                "dimensions": config.get("dimensions"),
+                "type": "oci"
+            }
         else:
             return {
                 "name": model_name,

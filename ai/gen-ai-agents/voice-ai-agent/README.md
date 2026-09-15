@@ -1,7 +1,7 @@
 # Voice AI Agent (OCI Realtime Speech + Generative AI Agent)
 
 **Author:** msliwins  
-**Last review date:** 2025-12-05  
+**Last review date:** 2026-08-04  
 
 A small voice assistant that:
 

@@ -1,0 +1,6 @@
+fastapi>=0.110.0
+uvicorn>=0.29.0
+oci>=2.100.0
+pydantic>=2.0.0
+requests>=2.31.0
+sseclient-py>=1.8.0

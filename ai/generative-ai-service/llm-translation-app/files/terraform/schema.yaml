@@ -1,0 +1,211 @@
+title: Option C - Container Instances + Load Balancer
+description: Deploy multiple OCI Container Instances in a private subnet and expose them through a public OCI Load Balancer.
+informationalText: This stack assumes the network already exists and requires one private subnet for the container instances and one public subnet for the load balancer.
+schemaVersion: 1.1.0
+version: "20190304"
+locale: "en"
+
+variableGroups:
+  - title: "Hidden"
+    visible: false
+    variables:
+      - compartment_ocid
+      - region
+
+  - title: "Networking"
+    variables:
+      - private_subnet_ocid
+      - public_subnet_ocid
+
+  - title: "Container Instances"
+    variables:
+      - ci_count
+      - ci_name
+      - ci_container_name
+      - ci_image_url
+      - ci_registry_secret
+      - ci_shape
+      - ci_ocpus
+      - ci_memory
+      - ci_restart_policy
+      - ci_state
+      - is_public_ip_assigned
+
+  - title: "Load Balancer"
+    variables:
+      - lb_name
+      - load_balancer_shape_details_minimum_bandwidth_in_mbps
+      - load_balancer_shape_details_maximum_bandwidth_in_mbps
+      - lb_listener_port
+      - lb_backend_port
+      - lb_checker_health_port
+      - lb_checker_url_path
+
+variables:
+  region:
+    title: "Region"
+    type: oci:identity:region:name
+    required: true
+
+  compartment_ocid:
+    title: "Compartment"
+    type: oci:identity:compartment:id
+    required: true
+
+  private_subnet_ocid:
+    title: "Private Subnet"
+    description: "Private subnet where the container instances will be created."
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+    required: true
+
+  public_subnet_ocid:
+    title: "Public Subnet"
+    description: "Public subnet used by the public load balancer."
+    type: oci:core:subnet:id
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+    required: true
+
+  ci_count:
+    title: "Container Instance Count"
+    description: "Number of container instances to create behind the load balancer."
+    type: integer
+    minimum: 1
+    default: 1
+    required: true
+
+  ci_name:
+    title: "Container Instance Display Name"
+    description: "Base display name used for the container instances."
+    type: string
+    default: "CI_TRANSLATOR"
+    required: true
+
+  ci_container_name:
+    title: "Container Name Prefix"
+    description: "Prefix used for each container display name."
+    type: string
+    default: "CI_CONT_TRANSLATOR"
+    required: true
+
+  ci_image_url:
+    title: "Container Image URL"
+    description: "Full image URL in OCIR, for example cdg.ocir.io/<namespace>/<repo>:<tag>."
+    type: string
+    required: true
+
+  ci_registry_secret:
+    title: "Registry Secret OCID"
+    description: "Vault secret OCID containing the OCIR credentials as a JSON payload with username and password."
+    type: string
+    required: true
+
+  ci_shape:
+    title: "Container Instance Shape"
+    description: "OCI Container Instance shape."
+    type: enum
+    enum:
+      - CI.Standard.E4.Flex
+    default: "CI.Standard.E4.Flex"
+    required: true
+
+  ci_ocpus:
+    title: "Container Instance OCPUs"
+    description: "Number of OCPUs assigned to each container instance."
+    type: number
+    minimum: 1
+    default: 1
+    required: true
+
+  ci_memory:
+    title: "Container Instance Memory (GB)"
+    description: "Memory in GB assigned to each container instance."
+    type: number
+    minimum: 1
+    default: 2
+    required: true
+
+  ci_restart_policy:
+    title: "Restart Policy"
+    description: "Restart policy applied to the container instance."
+    type: enum
+    enum:
+      - ALWAYS
+      - NEVER
+      - ON_FAILURE
+    default: "ALWAYS"
+    required: true
+
+  ci_state:
+    title: "Initial State"
+    description: "Target state for the container instance resource."
+    type: enum
+    enum:
+      - ACTIVE
+      - INACTIVE
+    default: "ACTIVE"
+    required: true
+
+  is_public_ip_assigned:
+    title: "Assign Public IP To Container Instances"
+    description: "Usually disabled because the load balancer exposes the service publicly."
+    type: boolean
+    default: false
+    required: true
+
+  lb_name:
+    title: "Load Balancer Name"
+    description: "Display name of the public load balancer."
+    type: string
+    default: "CI_TRANSLATOR_LB"
+    required: true
+
+  load_balancer_shape_details_minimum_bandwidth_in_mbps:
+    title: "LB Minimum Bandwidth (Mbps)"
+    description: "Minimum bandwidth for the flexible load balancer."
+    type: integer
+    minimum: 10
+    default: 10
+    required: true
+
+  load_balancer_shape_details_maximum_bandwidth_in_mbps:
+    title: "LB Maximum Bandwidth (Mbps)"
+    description: "Maximum bandwidth for the flexible load balancer."
+    type: integer
+    minimum: 10
+    default: 100
+    required: true
+
+  lb_listener_port:
+    title: "Listener Port"
+    description: "Frontend listener port exposed by the load balancer."
+    type: integer
+    minimum: 1
+    maximum: 65535
+    default: 8000
+    required: true
+
+  lb_backend_port:
+    title: "Backend Port"
+    description: "Port used by the load balancer to reach the container instances."
+    type: integer
+    minimum: 1
+    maximum: 65535
+    default: 8000
+    required: true
+
+  lb_checker_health_port:
+    title: "Health Check Port"
+    description: "Port used by the load balancer health checker."
+    type: string
+    default: "8000"
+    required: true
+
+  lb_checker_url_path:
+    title: "Health Check Path"
+    description: "HTTP path checked by the load balancer health checker."
+    type: string
+    default: "/docs"
+    required: true

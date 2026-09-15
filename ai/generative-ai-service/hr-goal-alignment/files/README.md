@@ -2,6 +2,8 @@
 
 This Streamlit-based application demonstrates a modular, AI-powered HR chatbot system designed to help employees and managers align their goals through structured, data-informed conversations.
 
+Reviewed: 04.08.2026
+
 The system integrates with Oracle Database and uses OCI's Generative AI models to simulate goal alignment and cascading throughout an organization.
 
 ---
@@ -152,7 +154,7 @@ LLM Provider: Oracle Generative AI (via Cohere or other supported backends)
 Graph Visualization: Graphviz (for org charts)
 
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See the LICENSE file for more details.

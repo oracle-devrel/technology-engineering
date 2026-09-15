@@ -3,7 +3,7 @@
 This asset provides a practical, production-ready Python implementation demonstrating how to proactively prevent timeouts when interacting with **OCI Generative AI** using the OCI Python SDK.
 The repository includes a robust code sample and a supporting presentation that outlines the resilience techniques implemented.
 
-Reviewed: 03.12.2025
+Reviewed: 04.08.2026
 
 # When to use this asset?
 
@@ -54,7 +54,7 @@ The included PDF presentation provides additional context on the concepts and re
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

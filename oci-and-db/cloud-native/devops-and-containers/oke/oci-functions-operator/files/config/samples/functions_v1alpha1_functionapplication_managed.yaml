@@ -1,0 +1,26 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: FunctionApplication
+metadata:
+  name: managed-hello-app
+  namespace: default
+spec:
+  mode: Managed
+  deletionPolicy: Retain
+  region: me-jeddah-1
+  compartmentId: <COMPARTMENT_OCID>
+  displayName: oke-functions-operator
+  subnetIds:
+  - <SUBNET_OCID>
+  # Optional: attach NSGs to the OCI Functions application.
+  # Omit nsgIds to leave existing application NSGs unmanaged.
+  # Use nsgIds: [] to explicitly clear all NSGs.
+  # Each NSG must allow egress TCP 443 to Oracle Services Network/OCIR.
+  # nsgIds:
+  # - <NSG_OCID>
+  logging:
+    invocationLogs:
+      enabled: true
+      logGroupId: <LOG_GROUP_OCID>
+      lineFormat: JSON
+  config:
+    APP_LEVEL_GREETING: "hello from function application"

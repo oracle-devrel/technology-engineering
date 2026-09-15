@@ -1,0 +1,26 @@
+apiVersion: functions.oci.oracle.com/v1alpha1
+kind: Function
+metadata:
+  name: desired-hello
+spec:
+  mode: Managed
+  deletionPolicy: Retain
+  config:
+    region: me-jeddah-1
+    compartmentId: ocid1.compartment.oc1..exampleuniqueid
+    applicationName: oci-functions-operator-sample
+    subnetIds:
+    - ocid1.subnet.oc1.me-jeddah-1.exampleuniqueid
+    # Optional: attach NSGs to the OCI Functions application.
+    # Omit nsgIds to leave existing application NSGs unmanaged.
+    # Use nsgIds: [] to explicitly clear NSGs.
+    # nsgIds:
+    # - ocid1.networksecuritygroup.oc1.me-jeddah-1.exampleuniqueid
+    displayName: desired-hello
+    image: jed.ocir.io/<TENANCY_NAMESPACE>/hello-function:<tag>
+    memoryInMBs: 128
+    timeoutInSeconds: 30
+    config:
+      LOG_LEVEL: info
+    freeformTags:
+      managed-by: oci-functions-operator

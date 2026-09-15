@@ -1,0 +1,325 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Oracle Redwood Light Theme ── */
+:root {
+  --primary: #F1F2F5;
+  --accent: #C74634;
+  --accent2: #0572CE;
+  --green: #13811C;
+  --orange: #D97B0B;
+  --blue: #0572CE;
+  --surface: #FFFFFF;
+  --surface-light: #F5F5F5;
+  --text-primary: #161513;
+  --text-secondary: #4B5563;
+  --border: #D1D5DB;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4C4C4;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C4C4C4 var(--primary);
+}
+
+/* ── Animations ── */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes progress-stripe {
+  0% {
+    background-position: 1rem 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s ease-out forwards;
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up 0.4s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 1.5s linear infinite;
+}
+
+/* ── Sentiment Gauge Ring ── */
+.gauge-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gauge-ring::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  z-index: 1;
+}
+
+.gauge-ring .gauge-value {
+  position: relative;
+  z-index: 2;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.gauge-ring .gauge-label {
+  position: relative;
+  z-index: 2;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ── Shimmer Loading ── */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #F0F0F0 25%,
+    #E0E0E0 50%,
+    #F0F0F0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Glass Card (Redwood Light) ── */
+.glass-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.04),
+    0 4px 12px rgba(17, 24, 39, 0.06),
+    0 8px 24px rgba(17, 24, 39, 0.04);
+}
+
+.glass-card:hover {
+  box-shadow:
+    0 1px 3px rgba(17, 24, 39, 0.06),
+    0 8px 20px rgba(17, 24, 39, 0.08),
+    0 14px 36px rgba(17, 24, 39, 0.06);
+}
+
+/* ── Severity-tinted card variants ── */
+.tile-critical {
+  background: linear-gradient(180deg, #FEF2F2 0%, #FFFFFF 70%);
+  border-left: 4px solid #DC2626;
+}
+
+.tile-high,
+.tile-warning {
+  background: linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 70%);
+  border-left: 4px solid #D97706;
+}
+
+.tile-medium,
+.tile-info {
+  background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 70%);
+  border-left: 4px solid #2563EB;
+}
+
+.tile-positive {
+  background: linear-gradient(180deg, #F0FDF4 0%, #FFFFFF 70%);
+  border-left: 4px solid #16A34A;
+}
+
+.tile-low,
+.tile-neutral {
+  background: #F9FAFB;
+  border-left: 4px solid #D1D5DB;
+}
+
+/* ── Workflow Step Connector ── */
+.step-connector {
+  height: 2px;
+  flex: 1;
+  min-width: 20px;
+  background: #E2E2E2;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-connector.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  background-size: 1rem 100%;
+  animation: progress-stripe 0.5s linear infinite;
+}
+
+.step-connector.complete {
+  background: var(--green);
+}
+
+/* ── Chat Bubble ── */
+.chat-response {
+  background: #F5F7FA;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem;
+}
+
+.chat-sql {
+  background: #F0F6FF;
+  border: 1px solid #D4E5FA;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* ── Agent Flow Diagram ── */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.flow-line {
+  stroke: #E2E2E2;
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 8 4;
+  transition: stroke 0.5s ease;
+}
+
+.flow-line.active {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  animation: flow-dash 0.6s linear infinite;
+  filter: drop-shadow(0 0 3px rgba(199, 70, 52, 0.4));
+}
+
+.flow-line.complete {
+  stroke: var(--green);
+  stroke-dasharray: none;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 2px rgba(19, 129, 28, 0.3));
+}
+
+.flow-particle {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 4px rgba(199, 70, 52, 0.5));
+}

@@ -1,0 +1,11 @@
+/.github/ __PLATFORM_OWNERS__
+/environments/ __PLATFORM_OWNERS__
+/oci/dev/ __DEV_OWNERS__
+/azure/dev/ __DEV_OWNERS__
+/gcp/dev/ __DEV_OWNERS__
+/oci/test/ __TEST_OWNERS__
+/azure/test/ __TEST_OWNERS__
+/gcp/test/ __TEST_OWNERS__
+/oci/uat/ __UAT_OWNERS__
+/azure/uat/ __UAT_OWNERS__
+/gcp/uat/ __UAT_OWNERS__
