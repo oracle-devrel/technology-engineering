@@ -3,8 +3,7 @@
 The Cloud Security Design Advisory team is covering end-to-end OCI security topics depending on customers' needs and requirements.
 We are working closely with OCI Domain Specialists (networking, infrastructure security, data management, and observability), to provide the customer the best deep dive expertise, both on Cloud Security and Cloud Solutions.
 
-
-Reviewed: 29.10.2024
+Reviewed: 14.09.2026
 
 # Table of Contents
  
@@ -14,12 +13,10 @@ Reviewed: 29.10.2024
    
 # Team Publications
 
- 
- 
 ## Oracle Blogs
 
-- [New Oracle Data Safe Reference Architectures to Quickly Secure Your Databases](https://blogs.oracle.com/cloudsecurity/post/oracle-data-safe-architectures-to-quickly-secure-your-databases)
-    - Are you concerned about data safety and security? Whether it’s your customers’ or employees’ data, Oracle Database customers can help reduce the risk of a data breach and simplify compliance by using Oracle Data Safe.
+- [Boost your OCI Security for Free with Easy CIS Resources](https://blogs.oracle.com/cloud-infrastructure/boost-your-oci-security-with-cis-resources)
+    - A very useful exercise to do regularly is to compare the state of your security posture against their configuration guidelines.
       
 ## OCI Architecture Center
  
@@ -47,6 +44,9 @@ Reviewed: 29.10.2024
 - [Setting up IP-based TLS certificates on OCI Load Balancer](shared-assets/zerossl-lb-test-certificate-setup/README.md)
 - [Bastion Session Script, Python SDK version](shared-assets/bastion-py-script/README.md)      
 - [Bypassing MFA for Service Accounts for specific applications](shared-assets/iam-mfa-bypass-svc-accts/README.md)
+- [Identity Token Propagation Script](shared-assets/oic_iam_token_exchange_demo/readme.md)
+- [Adding a Group to an OCI IAM Admin Role](shared-assets/oci_iam_adding_group_to_admin_role/)
+- [Adding OCI Observability alarms to security monitoring](shared-assets/security-alarms/README.md)
       
 # Useful Links
  
@@ -70,5 +70,5 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 

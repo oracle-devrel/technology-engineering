@@ -1,6 +1,6 @@
 # Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D)
 
-Reviewed: 2026-07-30
+Reviewed: 2026-09-04
 
 # Table of Contents  <!-- omit in toc --> 
 - [Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D)](#oracle-exadata-database-service-on-dedicated-infrastructure-exadb-d)
@@ -8,12 +8,11 @@ Reviewed: 2026-07-30
 - [License](#license)
 
 # Team Publications
-- [ExaDB-D - Management Interfaces Deep Dive Workshop](./files/Public_0_OCI_ExaDB_Management_Interfaces_v1.0.pdf)
-- [ExaDB-D - Provisioning Operations Deep Dive Workshop](./files/Public_1_ExaDB-D_Provision_v1.0.pdf)
-- [ExaDB-D - Change Operations Deep Dive Workshop](./files/Public_2_ExaDB-D_Change_v2.0.pdf)
-- [ExaDB-D - Maintenance Operations Deep Dive Workshop](./files/Public_3_ExaDB-D_Maintenance_v2.0.pdf)
-- [ExaDB-D - Ansible Operations Deep Dive Workshop](./files/Public_5_ExaDB-D_Ansible_Operations_v0.3.pdf)
-
+- [ExaDB-D - Management Interfaces Deep Dive Workshop](./exadb-d-management-interfaces-ws/README.md)
+- [ExaDB-D - Provisioning Operations Deep Dive Workshop](./exadb-d-provisioning-ops-ws/README.md)
+- [ExaDB-D - Change Operations Deep Dive Workshop](./exadb-d-change-ops-ws/README.md)
+- [ExaDB-D - Maintenance Operations Deep Dive Workshop](./exadb-d-maintenance-ops-ws/README.md)
+- [ExaDB-D - Ansible Operations Deep Dive Workshop](./exadb-d-ansible-ops-ws/README.md)
   
 # License
 Copyright (c) 2026 Oracle and/or its affiliates.

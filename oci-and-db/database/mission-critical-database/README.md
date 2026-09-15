@@ -4,6 +4,8 @@ The Mission Critical Database Domain Specialism focuses on the platforms and tec
 
 The team follows MAA Best Practices closely and provides guidance and information to deliver MAA to our DB Cloud Services platforms and Exadata. This includes technologies supporting High Availability, Disaster Recover and Data Protection (Backup and Restore)
 
+Reviewed: 09.09.2026
+
 # Useful Links
 
 - [Oracle MAA https](//www.oracle.com/database/technologies/maximum-availability-architecture/)

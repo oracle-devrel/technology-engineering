@@ -4,7 +4,7 @@ OCI’s distributed cloud provides customers with the flexibility to choose wher
 
 The field CISO specialists team offers advisory services to engage with customer CISO and C-level executives to align their business objectives to suitable Distributed Cloud options.
 
-Reviewed: 02.02.2024
+Reviewed: 14.09.2026
 
 # Useful Links
  
@@ -21,4 +21,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

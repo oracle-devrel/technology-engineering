@@ -2,7 +2,7 @@
 
 This asset comprises the OCI architecture for an enterprise-grade deployment of Microsoft Dynamics 365 Customer Engagement (evolution of Dynamics CRM) in OCI.
 
-Reviewed: 25.11.2025
+Reviewed: 15.05.2026
 
 # When to use this asset?
 

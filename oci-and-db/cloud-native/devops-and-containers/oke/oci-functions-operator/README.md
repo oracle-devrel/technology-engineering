@@ -8,6 +8,12 @@ Current controller image:
 ghcr.io/ronsevetoci/oci-functions-operator/controller:v0.1.7
 ```
 
+Reviewed: 07.09.2026
+
+# When to use this asset?
+ 
+# How to use this asset?
+
 ## What This Operator Provides
 
 The operator exposes five namespaced CRDs in `functions.oci.oracle.com/v1alpha1`:
@@ -134,3 +140,11 @@ kubectl describe functionjob hello-job
 ```
 
 Fake mode proves only Kubernetes reconciliation and status behavior. It does not prove OCI auth, OCI Functions network egress, OCIR image access, or function image compatibility.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -1,49 +1,19 @@
 # FinOps
 
-**FinOps** is a cloud financial management practice that supports organizations to optimize their cloud spending by providing a dedicated framework to achieve maximum business value by helping engineering, finance & business teams to collaborate on data-driven spending decision
-
-Reviewed: 2026-06-15
-
-# Table of Contents  <!-- omit in toc --> 
-- [FinOps](#finops)
-- [Principles](#principles)
-- [FinOps Phases](#finops-phases)
-- [Team Publications](#team-publications)
-- [Useful Links](#useful-links)
-- [License](#license)
-
-**The FinOps Framework** describes 
-1. The Principles that drive FinOps practices
-2. The Personas that FinOps must support as stakeholders
-3. The best practices and process models that allow us to accomplish this
-4. The Domains of activity we will have to perform in our FinOps practice
-
-# Principles
-
-- Teams need to collaborate
-- Everyone takes ownership of their cloud usage
-- A centralized team enables FinOps
-- Reports should be accessible and timely
-- Decisions are driven by the business value of the cloud
-- Take advantage of the variable cost model of the cloud
-
-# FinOps Phases
-
-**Inform**: Gain visibility into your cloud usage;
-**Optimize**: Reduce overconsumption by making optimal decisions based on data;
-**Operate**: Create a culture for cost optimization.
+Reviewed: 2026-09-04
 
 # Team Publications
-- [How OCI can support FinOps Workshop.](./files/Public_Finops%20Overview%20feb%202026_v0.2.pdf)
-- [OCI Tagging - Driving Governance, Visibility and Cost Control.](./files/Public_FinOps_Tagging_v0.1.pdf)
-- [Building a Complete Exadata FinOps Model](./files/Public_FinOps_ExadataCostAttribution_v0.1.pdf)
+
+- [How OCI Can Support FinOps Workshop](./finops-overview-ws/README.md)
+- [Building a Complete Exadata FinOps Model Workshop](./exadata-cost-attribution-ws/README.md)
+- [OCI Tagging - Driving Governance, Visibility and Cost Control Workshop](./finops-tagging-ws/README.md)
+- [FinOps in OCI](./finops-in-oci/README.md)
+- [FOCUS™ Support for OCI](./focus-in-oci/README.md)
 
 # Useful Links
 
-[State of FinOps](https://data.finops.org/)
-
-Attribution
-[FinOps Principles](https://www.finops.org/framework/principles/) by [FinOps Foundation](https://finops.org/about/)
+- [State of FinOps](https://data.finops.org/)
+- [FinOps Principles](https://www.finops.org/framework/principles/)
 
 # License
 

@@ -2,7 +2,7 @@
  
 Oracle Zero Downtime Migration (ZDM) is the Oracle Maximum Availability Architecture (MAA)-recommended solution to migrate Oracle Databases to the Oracle Cloud. ZDM automates the entire migration process, reducing the chance of human errors and providing zero to negligible downtime for the production system.
 
-Reviewed: 04.06.2026 
+Reviewed: 26.08.2026 
 
 # Table of Contents
  
@@ -55,27 +55,25 @@ Reviewed: 04.06.2026
  
 # Useful Links
 
+- [Zero Downtime Migration Product Page](https://www.oracle.com/database/zero-downtime-migration) (scroll to "Multicloud Migration" section for DB@ migrations)
+  - Detailed step-by-step guides for migration to **Oracle AI Database@Azure**
+    - Physical Offline, Physical Online, Logical Offline, Logical Online migration to ExaDB-D@Azure
+    - Logical Offline, Logical Online migration to ADB-S@Azure
+  - Detailed step-by-step guides for migration to **Oracle AI Database@Google Cloud**
+    - Physical Offline, Physical Online, Logical Offline, Logical Online migration to ExaDB-D@Google Cloud
+    - Logical Offline, Logical Online migration to ADB-S@Google Cloud
+  - Detailed step-by-step guides for migration to **Oracle AI Database@AWS**
+    - Physical Offline, Physical Online, Logical Offline, Logical Online migration to ExaDB-D@AWS
+    - Logical Offline, Logical Online migration to ADB-D@AWS
 - [Zero Downtime Migration Documentation](https://docs.oracle.com/en/database/oracle/zero-downtime-migration/index.html)
-- [Zero Downtime Migration Product page on oracle.com](https://www.oracle.com/database/zero-downtime-migration)
+- Multicloud Migration Storage Options
+  - [Oracle AI Database@Azure - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-azure)
+  - [Oracle AI Database@Google Cloud - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-gcp)
+  - [Oracle AI Database@AWS - Exploring NFS Storage Options](https://blogs.oracle.com/maa/nfs-options-zdm-migration-oracle-database-aws)
+- [Video: Oracle ZDM Logical Online Migration to Autonomous AI Database@Azure](https://www.youtube.com/watch?v=SanGj96PoxI)
 - [Video: Migrating and Upgrading Oracle Databases to OCI with Oracle Zero Downtime Migration (ZDM)](https://www.youtube.com/watch?v=WPkqwnXGSjo)
 - [White Paper: Logical Migration Performance Guidelines](https://www.oracle.com/docs/tech/zdm-gg-performance.pdf)
 - [Step-by-Step Guide: Logical Migration from On-Premises to Exadata Cloud@Customer or Exadata On-Premises using ACFS as Backup Location](https://www.oracle.com/a/tech/docs/oracle-zdm-logical-migration-acfs.pdf)
-- [Database@Azure - Blog: Overview of Oracle ZDM Migration Workflows to ExaDB-D](https://blogs.oracle.com/maa/post/overview-of-oracle-zdm-migration-workflows-to-exadata-database-service-on-oracle-databaseazure)
-    - Information about the different workflows for migrations to Exadata Database Service on Oracle Database@Azure using Oracle Zero Downtime Migration with links to the step-by-step guides.
-- [Database@Azure - Blog: Oracle ZDM Migration to Autonomous Database](https://blogs.oracle.com/maa/post/oracle-zdm-to-autonomous-database-on-azure)
-    - Information about the different workflows for migrations to Autonomous Database on Oracle Database@Azure using Oracle Zero Downtime Migration with links to the step-by-step guides.
-- [Database@Azure - Blog: Oracle ZDM Physical Online Migration with direct data transfer](https://blogs.oracle.com/maa/post/oracle-zdm-for-oracle-database-at-azure)
-- [Database@Azure - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=1fDDGlb7y7Y)
-- [Database@Azure - Video: Oracle ZDM Logical Online Migration to Autonomous Database@Azure](https://www.youtube.com/watch?v=SanGj96PoxI)
-- [Database@Azure - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-azure)
-- [Database@Google - Blog: Overview of Oracle ZDM Migration Workflows](https://blogs.oracle.com/maa/post/oracle-zdm-to-oracle-database-at-google-cloud)
-    - Information about the different workflows for migrations to Oracle Database@Google Cloud and Oracle Autonomous Database@Google Cloud using Oracle Zero Downtime Migration with links to the step-by-step guides.
-- [Database@Google - Video: Migrate Oracle Databases to ExaDB-D](https://www.youtube.com/watch?v=GQ5xXXS3bRc)
-- [Database@Google - Exploring NFS Storage Options](https://blogs.oracle.com/maa/post/nfs-options-zdm-migration-oracle-database-gcp)
-- [Database@AWS - Blog: Announcing Oracle ZDM Migrations to Exadata Database Service on Oracle Database@AWS](https://blogs.oracle.com/maa/oracle-zdm-migration-exadata-aws)
-    - Information about the different workflows for migrations to Oracle Exadata Database Service@AWS using Oracle Zero Downtime Migration with links to the step-by-step guides.
-- [Database@AWS - Blog: Announcing Oracle ZDM Migrations to Autonomous Database on Oracle Database@AWS](https://blogs.oracle.com/maa/oracle-zdm-migration-adb-aws)
-    - Information about the different workflows for migrations to Oracle Autonomous Database on Oracle Database@AWS using Oracle Zero Downtime Migration with links to the step-by-step guides.
 
 # License
  

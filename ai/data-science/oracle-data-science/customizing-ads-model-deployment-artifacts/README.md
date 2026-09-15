@@ -1,8 +1,10 @@
-# Overview
-
-Reviewed: 2026.04.16
+# Customizing ADS Model Deployment Artifacts
 
 This project demonstrates how to deploy a machine learning model using the ADS SDK while customizing the default generated model artifacts, which is often required in production scenarios.
+
+Reviewed: 2026.08.13
+
+# When to use this asset?
 
 While ADS provides a standard template for model artifacts, real-world use cases frequently require additional logic. In this notebook, we focus on modifying the generated artifacts to incorporate feature engineering directly into the deployment pipeline.
 
@@ -14,16 +16,22 @@ Specifically, the notebook covers:
 3. Customizing the generated artifact to include feature engineering in score.py
 4. Registering, deploying, and invoking the model
 
-# Environment
+# How to use this asset?
+## Environment
 
 Conda environment: generalml_p311_cpu_x86_64_v1
 Created: April 2026
 
-# Prerequisites
+## Prerequisites
 - Access to OCI Data Science
 - Required IAM permissions for model registration and deployment
 - Basic familiarity with Python, Pandas, and Scikit-learn
 
 # License
+ 
 Copyright (c) 2026 Oracle and/or its affiliates.
+ 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+

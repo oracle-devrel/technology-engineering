@@ -1,0 +1,24 @@
+{
+  "autonomous_databases_configuration": {
+    "default_compartment_id": "__PROJ_DB_CMP_OCID__",
+    "databases": {
+      "__ADB_KEY__": {
+        "db_name": "__ADB_DB_NAME__",
+        "display_name": "__ADB_DISPLAY_NAME__",
+        "is_dedicated": false,
+        "ecpu_count": 2,
+        "non_dw_storage_size_in_gbs": 32,
+        "db_workload": "OLTP",
+        "license_model": "BRING_YOUR_OWN_LICENSE",
+        "enable_cpu_auto_scaling": false,
+        "enable_storage_auto_scaling": false,
+        "admin_password": "__ADB_ADMIN_PASSWORD__",
+        "networking": {
+          "enable_private_endpoint": true,
+          "subnet_id": "__PROJ_DB_SUBNET_OCID__",
+          "network_security_groups": ["__NSG_DB_KEY__"]
+        }
+      }
+    }
+  }
+}

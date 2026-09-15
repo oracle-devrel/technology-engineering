@@ -6,7 +6,7 @@ Instance Security collects important security information about compute hosts su
 
 Instance Security is natively integrated with OCI Logging so you can easily export logs to your third-party security tooling.
  
-Reviewed: 16.10.2025
+Reviewed: 24.08.2026
 
 # Table of Contents
  

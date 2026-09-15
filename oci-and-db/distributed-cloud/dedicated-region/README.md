@@ -1,6 +1,6 @@
 # OCI Dedicated Region
 
-Updated: 29.05.2026
+Reviewed: 11.08.2026
 
 Dedicated Region is a rapidly deployed full-stack OCI region with an expandable footprint starting as small as 3 Racks, optimized for diverse environments. The pre-configured modular infrastructure and streamlined service design enables a seamless experience while accelerating time-to-market. Access more than 150 OCI services for a complete cloud journey, from migration to modernization to innovation. Run nearly any workload, even mission-critical and AI workloads, and address stringent sovereignty and regulatory requirements.
 

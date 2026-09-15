@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="mcp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Multi-Cloud-Plane{% endblock %}</title>
+
+    <!-- Fonts: Plus Jakarta Sans (body) + JetBrains Mono (data/code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- DaisyUI v5 + Tailwind Browser v4 -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+
+    <style type="text/tailwindcss">
+        /* ── Custom Theme: MCP Command Center ── */
+        [data-theme="mcp"] {
+            --color-base-100: oklch(0.17 0.015 260);   /* #1a1d2e */
+            --color-base-200: oklch(0.14 0.015 260);   /* #121421*/
+            --color-base-300: oklch(0.22 0.015 260);   /* #252840 */
+            --color-base-content: oklch(0.92 0.01 260); /* light gray text */
+            --color-primary: oklch(0.65 0.2 250);       /* electric blue */
+            --color-primary-content: oklch(0.98 0 0);
+            --color-secondary: oklch(0.6 0.18 300);     /* violet */
+            --color-secondary-content: oklch(0.98 0 0);
+            --color-accent: oklch(0.72 0.15 195);       /* cyan */
+            --color-accent-content: oklch(0.15 0 0);
+            --color-neutral: oklch(0.25 0.015 260);
+            --color-neutral-content: oklch(0.85 0 0);
+            --color-success: oklch(0.7 0.17 160);       /* emerald */
+            --color-warning: oklch(0.75 0.15 85);       /* amber */
+            --color-error: oklch(0.65 0.2 15);          /* rose */
+            --color-info: oklch(0.65 0.2 250);
+            --radius-selector: 0.5rem;
+            --radius-field: 0.5rem;
+            --radius-box: 0.75rem;
+        }
+
+        /* ── Typography ── */
+        body, .font-body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+        .font-mono, code, pre, .stat-value.font-mono,
+        td.font-mono, span.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* ── HTMX Loading ── */
+        .htmx-indicator { display: none !important; }
+        .htmx-request .htmx-indicator,
+        .htmx-request.htmx-indicator { display: flex !important; }
+
+        /* ── HTMX Swap Transitions ── */
+        #main { animation: fadeSlideIn 0.25s ease-out; }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Sidebar ── */
+        aside.mcp-sidebar {
+            background: linear-gradient(180deg, oklch(0.13 0.02 260) 0%, oklch(0.10 0.015 260) 100%);
+            border-right: 1px solid oklch(0.25 0.02 260 / 0.5);
+        }
+        aside.mcp-sidebar .menu a {
+            border-radius: 0.5rem;
+            transition: all 0.15s ease;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+        }
+        aside.mcp-sidebar .menu a:hover {
+            background: oklch(0.22 0.03 250 / 0.4);
+            border-left-color: oklch(0.65 0.2 250 / 0.5);
+        }
+        aside.mcp-sidebar .menu a.active {
+            background: oklch(0.22 0.04 250 / 0.6);
+            border-left-color: oklch(0.65 0.2 250);
+            color: oklch(0.85 0.1 250);
+        }
+
+        /* ── Header glow line ── */
+        header.mcp-header {
+            border-bottom: 1px solid oklch(0.25 0.02 260 / 0.6);
+            box-shadow: 0 1px 0 oklch(0.65 0.2 250 / 0.08);
+        }
+
+        /* ── Card polish ── */
+        .card { border: 1px solid oklch(0.25 0.02 260 / 0.4); }
+        .card:hover { border-color: oklch(0.30 0.03 250 / 0.5); }
+
+        /* ── Subtle grid background for content area ── */
+        .mcp-grid-bg {
+            background-image:
+                radial-gradient(oklch(0.25 0.02 260 / 0.3) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* ── Cloud provider badges ── */
+        .badge-cloud-oci  { background: oklch(0.55 0.2 25);  color: white; }
+        .badge-cloud-azure { background: oklch(0.55 0.2 250); color: white; }
+        .badge-cloud-gcp { background: oklch(0.62 0.16 145); color: oklch(0.16 0.02 145); }
+
+        /* ── Stat card accent ── */
+        .stat { border-left: 3px solid transparent; transition: border-color 0.2s; }
+        .stat:hover { border-left-color: oklch(0.65 0.2 250 / 0.5); }
+
+        /* ── Logo mark ── */
+        .mcp-logo {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, oklch(0.65 0.2 250), oklch(0.6 0.18 300));
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px oklch(0.65 0.2 250 / 0.3);
+        }
+        .mcp-logo svg { width: 20px; height: 20px; color: white; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: oklch(0.3 0.02 260); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: oklch(0.4 0.02 260); }
+    </style>
+</head>
+
+<body class="min-h-screen font-body">
+    <div class="drawer lg:drawer-open">
+        <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+
+        <!-- Main Content -->
+        <div class="drawer-content flex flex-col min-h-screen bg-base-200 mcp-grid-bg">
+            <!-- Mobile Toggle -->
+            <div class="lg:hidden navbar bg-base-100">
+                <label for="my-drawer-2" class="btn btn-square btn-ghost drawer-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        class="inline-block w-6 h-6 stroke-current">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </label>
+                <span class="ml-2 font-bold text-lg">Multi-Cloud-Plane</span>
+            </div>
+
+            <!-- Header -->
+            <header class="mcp-header navbar bg-base-100/80 backdrop-blur-md px-8 sticky top-0 z-30">
+                <div class="flex-1">
+                    <h2 id="pageTitle" class="text-xl font-bold tracking-tight">{% block page_title %}Dashboard{% endblock %}</h2>
+                    <p id="pageSubtitle" class="text-base-content/40 text-sm ml-4 font-medium">{% block page_subtitle %}Overview{% endblock %}</p>
+                </div>
+                <div class="flex-none gap-3 items-center">
+                    {% if user %}
+                    <div class="flex flex-col items-end">
+                        <span class="text-sm font-semibold">{{ user.name or user.login }}</span>
+                        <span class="text-xs text-base-content/40 font-mono">@{{ user.login }}</span>
+                    </div>
+                    <div class="avatar">
+                        <div class="w-9 rounded-lg ring ring-base-300 ring-offset-base-100 ring-offset-1">
+                            <img src="{{ user.avatar_url }}" alt="{{ user.login }}" />
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="flex flex-col items-end">
+                        <span class="text-sm font-semibold">Guest</span>
+                    </div>
+                    <div class="avatar placeholder">
+                        <div class="bg-neutral text-neutral-content rounded-lg w-9">
+                            <span class="text-sm">G</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <a href="/logout" class="btn btn-sm btn-ghost btn-square opacity-60 hover:opacity-100 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </a>
+                </div>
+            </header>
+
+            <div class="p-8">
+                <!-- Warning Banner -->
+                <div id="api-warning-banner" class="alert alert-warning mb-6" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <div>
+                        <h3 class="font-bold">GitHub API Unavailable</h3>
+                        <div class="text-xs">Showing cached data. Updates may be delayed.</div>
+                    </div>
+                    <button onclick="document.getElementById('api-warning-banner').style.display='none'"
+                        class="btn btn-sm btn-ghost">Dismiss</button>
+                </div>
+
+                <!-- Loading Overlay -->
+                <div id="loading-overlay"
+                    class="htmx-indicator fixed inset-0 bg-base-200/80 backdrop-blur-sm z-50 flex items-center justify-center">
+                    <div class="flex flex-col items-center gap-3">
+                        <span class="loading loading-ring loading-lg text-primary"></span>
+                        <span class="text-xs text-base-content/40 font-medium tracking-wide">Loading...</span>
+                    </div>
+                </div>
+
+                <!-- Main HTMX Content -->
+                <div id="main" class="w-full">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="drawer-side z-40">
+            <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+            <aside class="mcp-sidebar p-4 w-72 min-h-full flex flex-col gap-2">
+                <!-- App Title -->
+                <div class="mb-8 px-2 flex items-center gap-3 mt-2">
+                    <div class="mcp-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        </svg>
+                    </div>
+                    <a href="/" class="flex flex-col">
+                        <span class="text-lg font-extrabold tracking-tight leading-none">Multi-Cloud</span>
+                        <span class="text-[10px] font-mono text-base-content/30 uppercase tracking-[0.2em]">MCCP Reference UI</span>
+                    </a>
+                </div>
+
+                <!-- Project Selector -->
+                <div class="px-2 mb-6">
+                    <label class="label pt-0 pb-2">
+                        <span class="label-text text-[10px] font-bold uppercase tracking-[0.15em] text-base-content/40">Project</span>
+                    </label>
+                    <select id="projectSelector" class="select select-sm w-full bg-base-300/50 border-base-300/60 focus:border-primary/50"
+                        hx-get="/partials/dashboard" hx-target="#main" hx-trigger="change" hx-include="this"
+                        hx-indicator="#loading-overlay" name="project">
+                        <option value="">-- Select Project --</option>
+                        {% for p in projects %}
+                        <option value="{{ p.name }}" {% if p.name==current_project %}selected{% endif %}>
+                            {{ p.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Navigation -->
+                <div class="px-1 mb-2">
+                    <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-base-content/30 px-4 mb-3 block">Navigation</span>
+                    <ul class="menu menu-md rounded-box p-0 gap-0.5">
+                        <li>
+                            <a hx-get="/partials/overview" hx-target="#main"
+                                hx-indicator="#loading-overlay"
+                                onclick="document.getElementById('projectSelector').value=''">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                </svg>
+                                All Projects
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="navTo('/partials/dashboard')" hx-indicator="#loading-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="navTo('/partials/resources-catalog')" hx-indicator="#loading-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                </svg>
+                                Resources Catalog
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="navTo('/partials/operations')" hx-indicator="#loading-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                                </svg>
+                                Operations Catalog
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="navTo('/partials/resources')" hx-indicator="#loading-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                Inventory
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="navTo('/partials/audit?mode=gitops')" hx-indicator="#loading-overlay">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                                Audit
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mt-auto pt-4 border-t border-base-content/5 px-2">
+                    <p class="text-[9px] text-center text-base-content/20 mt-3 font-mono">GitOps Multi-Cloud Platform</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // Navigate to a project-scoped partial, or to overview if no project is selected
+        function navTo(partial) {
+            const project = document.getElementById('projectSelector').value;
+            if (!project) {
+                htmx.ajax('GET', '/partials/overview', { target: '#main' });
+                document.getElementById('projectSelector').value = '';
+                return;
+            }
+            const separator = partial.includes('?') ? '&' : '?';
+            htmx.ajax('GET', partial + separator + 'project=' + encodeURIComponent(project), { target: '#main' });
+        }
+
+        // HTMX Active Link Handling + re-trigger fade animation
+        document.body.addEventListener('htmx:afterSwap', function (event) {
+            try {
+                // Re-trigger content animation
+                const main = document.getElementById('main');
+                if (main && event.detail.target === main) {
+                    main.style.animation = 'none';
+                    main.offsetHeight; // force reflow
+                    main.style.animation = '';
+                }
+                // Active nav state
+                const path = event.detail.pathInfo.requestPath;
+                document.querySelectorAll('.mcp-sidebar .menu a').forEach(el => el.classList.remove('active'));
+                const activeLink = document.querySelector(`.mcp-sidebar .menu a[hx-get="${path}"]`);
+                if (activeLink) activeLink.classList.add('active');
+            } catch (e) { }
+        });
+    </script>
+</body>
+
+</html>

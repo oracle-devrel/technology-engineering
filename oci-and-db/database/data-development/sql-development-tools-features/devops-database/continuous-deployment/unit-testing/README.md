@@ -7,11 +7,7 @@
 
 It allows for automated testing of Packages, Functions, Procedures, Triggers, Views, and anything else that can be executed and observed from PL/SQL.
 
-Reviewed: 01.12.2025
-
-# Table of Contents
- 
-1. [Useful Links](#useful-links)
+Reviewed: 26.08.2026
 
 # Useful Links
 
@@ -32,5 +28,7 @@ Reviewed: 01.12.2025
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

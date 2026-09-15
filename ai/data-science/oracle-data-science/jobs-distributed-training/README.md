@@ -2,7 +2,7 @@
  
 This files cover code snippets and documentation for utilising OCI Data Science Jobs for Distributed Training.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

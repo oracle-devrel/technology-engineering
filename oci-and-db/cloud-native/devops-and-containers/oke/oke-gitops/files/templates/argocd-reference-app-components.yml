@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: reference-app-components
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app.kubernetes.io/name: reference-app
+    app.kubernetes.io/component: workloads
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - list:
+        elements:
+          - component: frontend
+            environment: dev
+            resourcesPath: applications/reference-app/kustomize/components/frontend/environments/dev
+          - component: api
+            environment: dev
+            resourcesPath: applications/reference-app/kustomize/components/api/environments/dev
+          - component: frontend
+            environment: staging
+            resourcesPath: applications/reference-app/kustomize/components/frontend/environments/staging
+          - component: api
+            environment: staging
+            resourcesPath: applications/reference-app/kustomize/components/api/environments/staging
+  template:
+    metadata:
+      name: 'reference-app-{{ .component }}-{{ .environment }}'
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+      labels:
+        app.kubernetes.io/name: reference-app
+        app.kubernetes.io/component: '{{ .component }}'
+        app.kubernetes.io/environment: '{{ .environment }}'
+    spec:
+      project: applications
+      source:
+        repoURL: ${apps_config_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: reference-app
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+        retry:
+          limit: 10
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m

@@ -1,9 +1,0 @@
-{
-    "model": "openai/gpt-oss-120b",
-    "tensor-parallel-size": 2,
-    "genai-perf": {
-	"inputs": {
-	    "reasoning_effort": "low"
-	}
-    }
-}

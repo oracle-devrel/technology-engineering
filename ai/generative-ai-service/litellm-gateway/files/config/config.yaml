@@ -88,7 +88,7 @@ model_list:
   # DAC endpoint OCID*. LiteLLM therefore talks to it with the standard
   # `openai/` provider - no OCI signing needed.
   # =========================================================================
-  - model_name: qwen3-dac
+  - model_name: gpt-oss-120b-dac
     litellm_params:
       # OCI_DAC_MODEL must be the full string "openai/<DAC endpoint OCID>"
       # (LiteLLM only resolves os.environ/ when it is the entire value).
@@ -97,7 +97,7 @@ model_list:
       api_key: os.environ/OCI_GENAI_API_KEY
       tags: ["oci", "dac", "imported"]
     model_info:
-      description: "Imported model on a Dedicated AI Cluster via the OpenAI-compatible endpoint."
+      description: "gpt-oss-120b hosted on a Dedicated AI Cluster via the OpenAI-compatible endpoint."
 
   # =========================================================================
   # 3. External providers - same gateway, same virtual keys
@@ -109,11 +109,13 @@ model_list:
   #     api_key: os.environ/OPENAI_API_KEY
   #     tags: ["external"]
 
-  # - model_name: claude-sonnet
-  #   litellm_params:
-  #     model: anthropic/claude-sonnet-5
-  #     api_key: os.environ/ANTHROPIC_API_KEY
-  #     tags: ["external"]
+  - model_name: claude-sonnet
+    litellm_params:
+      model: anthropic/claude-sonnet-5
+      api_key: os.environ/ANTHROPIC_API_KEY
+      tags: ["external"]
+    model_info:
+      description: "Anthropic Claude Sonnet 5 via the Claude API (needs a Console API key with credits)."
 
   # =========================================================================
   # Stage 2 - Automatic routing.
@@ -131,6 +133,28 @@ model_list:
           MEDIUM: grok-4-fast
           COMPLEX: grok-4
           REASONING: grok-4-fast-reasoning
+        # ---------------------------------------------------------------
+        # Router upgrade path (uncomment ONE level; default is the free,
+        # deterministic keyword scorer — <1ms, $0, auditable):
+        #
+        # (a) Teach the scorer your domain vocabulary (still <1ms, $0):
+        # custom_technical_keywords: ["terraform", "disaster recovery", "rpo", "rto", "failover"]
+        #
+        # (b) Deterministic overrides — force a tier on keyword match:
+        # keyword_tier_rules:
+        #   - keywords: ["disaster recovery", "architecture review"]
+        #     tier: COMPLEX
+        #
+        # (c) LLM-judged routing: a small model classifies each request
+        #     ("judge the intellectual difficulty, not the length") with
+        #     structured output. Adds ~0.5s + one cheap call per request;
+        #     falls back to the keyword scorer on timeout/error, and the
+        #     judge's spend is attributed to the calling virtual key.
+        # classifier_type: llm
+        # classifier_llm_config:
+        #   model: llama-3.3-70b      # judge model — must be in model_list
+        #   timeout_ms: 3000
+        # ---------------------------------------------------------------
       complexity_router_default_model: grok-4-fast
 
 router_settings:

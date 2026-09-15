@@ -2,7 +2,7 @@
 
 Owner: Leon van Birgelen
 
-Reviewed: 29.10.2024
+Reviewed: 14.09.2026
 
 This shell script can be used to easily connect to the OCI Bastion service based on temporary SSH keys. Authorization is granted based on OCI CLI authentication and OCI Permissions. For OCI CLI authentication both the use of exchanged API keys and session security tokens is supported. This script works also directly on OCI Cloud Shell, however only for Managed SSH Sessions since port forwarding is not supported on OCI Cloud Shell.
 
@@ -65,4 +65,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
