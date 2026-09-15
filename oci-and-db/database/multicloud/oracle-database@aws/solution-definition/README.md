@@ -8,7 +8,13 @@ Reviewed: 18.08.2026
 
 # When to use this asset?
 
-## Purpose
+Use this when scoping, designing, planning, or preparing an Oracle Database@AWS project. This document helps to support the full journey from discovery and architecture alignment through landing-zone validation, security, HA/DR, sizing, implementation, onboarding, and operational handover.
+
+# How to use this asset?
+
+Use the repository as a reusable solution-design reference. Start with the current state and requirements, then use its guidance to define the target architecture, validate AWS/OCI readiness, select security and HA/DR patterns, size the service, document assumptions and responsibilities, and build the implementation workplan. Tailor all recommendations into the agreed customer-specific Solution Definition Document and validate against the latest approved Oracle and AWS reference architectures.
+
+# Purpose
 
 The purpose of this repository is to provide a structured, reusable, and customer-facing reference for:
 
@@ -20,7 +26,7 @@ The purpose of this repository is to provide a structured, reusable, and custome
 - Sizing and bill of materials planning
 - Implementation planning and onboarding readiness
 
-## Audience
+# Audience
 
 This material is intended for:
 
@@ -29,11 +35,10 @@ This material is intended for:
 - Implementation Teams
 - Customer Architects and DBA teams
 
-# How to use this asset?
 
 # Solution Overview
 
-Oracle Database@AWS provides Oracle database services deployed natively inside Azure data centers. It enables customers to:
+Oracle Database@AWS provides Oracle database services deployed natively inside AWS data centers. It enables customers to:
 
 - Keep applications in AWS
 - Use Oracle Exadata-class performance
@@ -63,7 +68,7 @@ The exact scope of an engagement may vary by customer, but the solution definiti
 
 - Current state architecture
 - Future state architecture
-- Azure landing zone readiness
+- AWS landing zone readiness
 - Oracle Database@AWS onboarding requirements
 - Network connectivity and DNS
 - Identity federation and access control
