@@ -1,5 +1,7 @@
 # OCI Security Health Check &ndash; Standard Edition
 
+Reviewed: 14.09.2026
+
 ## The *OCI Security Health Check &ndash; Standard Edition* script has been merged into the *CIS Compliance Script* repository!
 
 > Please, get the latest version from the [CIS Compliance Script repository](https://github.com/oci-landing-zones/oci-cis-landingzone-quickstart).

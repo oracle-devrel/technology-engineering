@@ -2,6 +2,8 @@
 
 Oracle requires that certain records are added to a customers DNS to allow Oracle's email delivery service to send emails on the customers behalf. This prevents the customers emails from being flagged as spoofed. 
 
+Reviewed: 14.09.2026
+
 ### Disclaimer
 
 This asset uses a rest API to make it possible to show the geo-locations of the email servers in the SPF DNS records. This is done by making an HTTP request to the ip-api.com service.

@@ -1,5 +1,7 @@
 # Generation of Securty Alarms from OCI logs
 
+Reviewed: 14.09.2026
+
 Oracle Cloud Infrastructure (OCI) and its services provide effective and manageable security that enables you to run mission-critical workloads and store your data with confidence. To achieve cloud security operational excellence, it is crucial to continuously protect, detect, and in the event of a potentially risky configuration change or potential attack, respond. For protection of the environment, a strong security posture and essential cyber hygiene practices are imperative.
   
 Creating alarms to be passed to the security responsible organization or individuals is a key requirement in order to gain early detection of a Advanced Persistent Threat type of attack. 
@@ -213,4 +215,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -2,6 +2,8 @@
 
 Owner: Inge Os
 
+Reviewed: 14.09.2026
+
 OCI Vault supports several types of keys: HSM-based and software-based.
 
 Most services in Oracle OCI with encryption offer two types of encryption key management, Oracle-managed keys or Customer-managed keys.
@@ -156,6 +158,6 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.
 
 
