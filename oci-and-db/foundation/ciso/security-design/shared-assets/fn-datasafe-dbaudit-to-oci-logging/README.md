@@ -2,7 +2,7 @@
 
 Owner: Fabrizio Zarri
 
-Version: 31072026
+Reviewed: 14.09.2026
 
 Oracle Data Safe is a fully integrated, regional Cloud service focused on data security. It provides a complete and integrated set of features of the Oracle Cloud Infrastructure (OCI) for protecting sensitive and regulated data in Oracle databases.
 
