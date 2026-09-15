@@ -1,0 +1,11 @@
+name: argocd
+namespace: argocd
+helm:
+  repository: ${region_key}.ocir.io/${tenancy_namespace}/${repo_prefix}/charts
+  chart: argo-cd
+  version: "*"
+  releaseName: argo-cd
+  valueFiles:
+    - values/00-bootstrap.yml
+    - values/90-user.yml
+resourcesPath: platform/applications/argocd/resources

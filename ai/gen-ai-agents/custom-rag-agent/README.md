@@ -3,7 +3,7 @@ This repository contains the code for the development of a **custom RAG Agent**,
 
 **Author**: L. Saetta
 
-**Reviewed**: 28.01.2026
+**Reviewed**: 04.08.2026
 
 ![UI](images/ui_image.png)
 
@@ -58,4 +58,4 @@ For example, to ensure that final responses do not disclose Personally Identifia
 ## License
 The assett is licensed under **MIT** license.
 
-See [LICENSE](./LICENSE)
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)

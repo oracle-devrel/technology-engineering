@@ -4,7 +4,7 @@
  
 The following asset is a tool designed to showcase how OCI AI Vision can be connected with SAM2 from Meta for accurate segmentations without needing high amount of data for training.
  
-Reviewed: 22.09.2025
+Reviewed: 04.08.2026
 
 Authors: Matthias Wolf and Cristina Granés
  
@@ -19,8 +19,8 @@ See the full setup and usage guide in [`files/README.md`](./files/README.md).
  
 # License
  
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

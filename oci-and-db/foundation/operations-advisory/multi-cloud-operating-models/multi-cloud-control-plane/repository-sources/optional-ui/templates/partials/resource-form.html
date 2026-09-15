@@ -1,0 +1,99 @@
+<!-- Resource form partial - Configure resource deployment -->
+{% import "partials/_form_macros.html" as form_macros %}
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            <div>
+                <h2 class="card-title text-2xl font-extrabold tracking-tight">Configure Resource</h2>
+                <p class="text-base-content/40 text-sm font-medium">Configure parameters for deployment</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card bg-base-100">
+    <div class="card-body">
+        <form hx-post="/partials/deploy-resource" hx-target="#result">
+            <input type="hidden" name="project" value="{{ project }}">
+            <input type="hidden" name="template_path" value="{{ template_path }}">
+
+            <div class="form-control mb-4">
+                <label class="label"><span class="label-text">Environment</span></label>
+                <select name="environment" class="select select-bordered w-full" required>
+                    {% for item in environment_options %}
+                    <option value="{{ item }}" {% if item == environment %}selected{% endif %}>{{ item }}</option>
+                    {% endfor %}
+                </select>
+                <label class="label">
+                    <span class="label-text-alt text-base-content/50">The request is limited to this project environment.</span>
+                </label>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label"><span class="label-text">Region</span></label>
+                <select name="region" class="select select-bordered w-full" required>
+                    {% for region in region_options %}
+                    <option value="{{ region }}" {% if region == (selected_region or default_region) %}selected{% endif %}>{{ region }}</option>
+                    {% endfor %}
+                </select>
+                <label class="label">
+                    <span class="label-text-alt text-base-content/50">Target region for the generated manifest.</span>
+                </label>
+            </div>
+
+            {% for f in fields %}
+            {% set field_name = f.name or f.placeholder %}
+            {% set field_value = f.suggested_value if f.suggested_value is defined and f.suggested_value is not none else '' %}
+            <div class="form-control mb-4">
+                <label class="label"><span class="label-text">{{ f.label }}</span></label>
+                {% if f.options %}
+                <select name="{{ field_name }}" class="select select-bordered w-full"
+                    {% if f.required %}required{% endif %}>
+                    {% if not f.required %}
+                    <option value="" {% if not field_value %}selected{% endif %}>No NSG selected</option>
+                    {% endif %}
+                    {% for option in f.options %}
+                    <option value="{{ option.value }}" {% if option.value == field_value %}selected{% endif %}>
+                        {{ option.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% elif f.value_type == "bool" %}
+                <select name="{{ field_name }}" class="select select-bordered w-full" required>
+                    <option value="true" {% if field_value in [true, "true", "True"] %}selected{% endif %}>True</option>
+                    <option value="false" {% if field_value in [false, "false", "False"] %}selected{% endif %}>False</option>
+                </select>
+                {% else %}
+                <input type="{{ f.input_type or 'text' }}" name="{{ field_name }}" class="input input-bordered w-full"
+                    value="{{ field_value }}"
+                    {% if f.value_type == "float" %}step="any"{% endif %}
+                    placeholder="{{ f.input_placeholder if f.input_placeholder is defined else ('Enter ' ~ f.label if f.required else 'Optional ' ~ f.label) }}"
+                    {% if f.required %}required{% endif %}>
+                {% endif %}
+                {% if f.help_text is defined and f.help_text %}
+                <label class="label">
+                    <span class="label-text-alt text-base-content/50">{{ f.help_text }}</span>
+                </label>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            {{ form_macros.change_reference_field() }}
+
+            <div class="flex gap-4 mt-2">
+                <button type="submit" class="btn btn-primary gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Deploy Resource
+                </button>
+                <a class="btn btn-ghost" hx-get="/partials/resources-catalog?project={{ project }}"
+                    hx-target="#main">Cancel</a>
+            </div>
+        </form>
+        <div id="result" class="mt-4"></div>
+    </div>
+</div>

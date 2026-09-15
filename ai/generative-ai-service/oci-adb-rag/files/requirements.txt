@@ -1,0 +1,10 @@
+gradio
+oci
+oracledb
+python-dotenv
+langchain-oci
+langchain-oracledb
+langchain-community
+langchain-text-splitters
+pypdf
+docx2txt

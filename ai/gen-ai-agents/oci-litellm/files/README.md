@@ -1,5 +1,7 @@
 ## OCI Lite-LLM installation script
 
+Reviewed: 04.08.2026
+
 ### Usage
 - Login to OCI Cloud
 - Create a compartment and get the ##compartment OCID##

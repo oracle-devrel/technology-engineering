@@ -1,0 +1,5 @@
+streamlit>=1.38
+openai>=1.50
+requests>=2.32
+Pillow>=10.4
+python-dotenv>=1.0

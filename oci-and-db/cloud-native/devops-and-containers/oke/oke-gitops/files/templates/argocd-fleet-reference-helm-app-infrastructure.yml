@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: reference-helm-app-infrastructure-${cluster}
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app.kubernetes.io/name: reference-helm-app
+    app.kubernetes.io/component: infrastructure
+    fleet.oke.oracle.com/cluster: ${cluster}
+spec:
+  project: fleet
+  source:
+    repoURL: ${fleet_config_repo_url}
+    targetRevision: HEAD
+    path: profiles/example/applications/reference-helm-app/infrastructure/resources
+  destination:
+    name: ${cluster}
+    namespace: reference-helm-app
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
+      - FailOnSharedResource=true
+      - PruneLast=true
+    automated:
+      prune: true
+      selfHeal: true

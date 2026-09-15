@@ -1,0 +1,28 @@
+kafka:
+  input_topic: "sample-transactions"
+  output_topic: "fraud-scored-transactions"
+  group_id: "fraud-scoring-consumer"
+  auto_offset_reset: "earliest"
+  key_field: "cc_num"
+
+model:
+  endpoint: "https://<model-endpoint>/predict"
+  threshold: 0.5
+
+oci:
+  config_file: "~/.oci/config"
+  profile: "DEFAULT"
+  region: "<replace-me-region>"
+  compartment_id: "<replace-me-compartment-ocid>"
+  metric_namespace: "fraud_monitoring"
+  environment: "dev"
+
+object_storage:
+  bucket_name: "<replace-me-bucket>"
+  prefix: "scored-events"
+  flush_every_records: 10000
+  flush_every_seconds: 120
+
+monitoring:
+  metrics_flush_seconds: 60
+  high_value_threshold: 1000

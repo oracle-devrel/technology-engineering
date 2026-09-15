@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage OKE with Argo CD"
+  short_description: "Operate OKE safely through Git and Argo CD"
+  default_prompt: "Use $manage-oke-with-argocd to plan, validate, and perform this OKE GitOps change."

@@ -5,6 +5,8 @@
 This demo allows you to upload images and generate short descriptions, as well
 as categorizing the main object(s) and generating a JSON with properties.
 
+Reviewed: 04.08.2026
+
 ### Applications
 
 - Classifying objects for insurance purposes
@@ -64,8 +66,8 @@ We welcome contributions to improve and expand the capabilities of this demo.
 Please fork the repository and submit a pull request with your changes.
 
 ## License
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
  
 Licensed under the Universal Permissive License (UPL), Version 1.0.
  
-See [LICENSE](../LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

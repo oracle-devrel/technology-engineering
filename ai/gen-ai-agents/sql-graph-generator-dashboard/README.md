@@ -4,7 +4,7 @@ SQL Graph Generator Dashboard is an AI-powered assistant that enables natural la
 It extracts data from your database using conversational queries, automatically generates appropriate visualizations, and provides multi-turn conversational context for data exploration.
 It runs as an interactive Next.js web app backed by a FastAPI server, LangChain orchestration, and Oracle Cloud Infrastructure GenAI models.
 
-Reviewed: October 13, 2025
+Reviewed: August 4, 2026
 
 # When to use this asset?
 
@@ -226,6 +226,6 @@ Key configuration in `backend/utils/config.py`:
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.

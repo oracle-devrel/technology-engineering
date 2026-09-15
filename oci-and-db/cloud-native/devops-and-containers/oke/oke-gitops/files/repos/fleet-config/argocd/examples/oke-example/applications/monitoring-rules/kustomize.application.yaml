@@ -1,0 +1,4 @@
+application: monitoring-rules
+cluster: oke-example
+namespace: monitoring
+resourcesPath: profiles/example/applications/monitoring-rules/resources

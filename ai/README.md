@@ -1,8 +1,25 @@
-# OCI Generative AI and AI Services
+# Oracle AI Platform
  
-Oracle Cloud Infrastructure (OCI) [Generative AI Service](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm), [Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm) and [AI Services](https://www.oracle.com/uk/artificial-intelligence/ai-services/) are a collection of services with prebuilt machine learning and Generative AI models that make it easy for developers to apply AI to applications and business processes. The models can be custom-trained (or fine-tuned) for more accurate business results. Teams within an organization can reuse the models, datasets, and data labels across services. OCI AI makes it possible for developers to easily add AI to applications without slowing down application development.
+Get comprehensive AI services and state-of-the-art generative AI innovations on our data platform and in our cloud applications—all on a best-in-class AI infrastructure. The assets below include architecture guidance, hands-on examples, reference implementations, and solution blueprints across the OCI AI PaaS portfolio.
 
-Reviewed: 21.08.2025
+Reviewed: 04.08.2026
+
+# Explore the AI assets
+
+- [AI Data Strategy](./ai-data-strategy/) — strategy, architecture, and adoption guidance for AI initiatives.
+- [AI Document Understanding](./ai-document-understanding/) — document extraction, classification, and automation examples.
+- [AI Language](./ai-language/) — text analysis and language-processing assets.
+- [AI Speech](./ai-speech/) — speech-to-text, text-to-speech, and voice application examples.
+- [AI Vision](./ai-vision/) — image and video analysis demos.
+- [Analytical Data Platform Lakehouse](./analytical-data-platform-lakehouse/) — lakehouse architecture and data-platform assets.
+- [Analytics](./analytics/) — analytics, dashboards, and data-insight examples.
+- [Autonomous AI Lakehouse](./autonomous-ai-lakehouse/) — Autonomous Database and lakehouse solution assets.
+- [Data Science](./data-science/) — machine learning, notebooks, and MLOps resources.
+- [Generative AI Agents](./gen-ai-agents/) — agent patterns, tools, and solution blueprints.
+- [Generative AI Platform](./gen-ai-platform/) — platform integrations and deployment assets.
+- [Generative AI Service](./generative-ai-service/) — generative AI applications, tutorials, and code samples.
+- [Oracle AI Data Platform](./oracle-ai-data-platform/) — AI data-platform reference assets.
+- [Oracle Digital Assistant](./oracle-digital-assistant/) — conversational AI and chatbot examples.
 
 
 # Useful Links
@@ -23,13 +40,13 @@ Reviewed: 21.08.2025
 - [Availability of AI Services across OCI datacenters](https://www.oracle.com/cloud/distributed-cloud/#service-availability)
 
 ## Learning paths and certifications
-- [OCI AI Foundations Certification](https://mylearn.oracle.com/ou/learning-path/become-an-oci-ai-foundations-associate-2024/140164)
-- [OCI Generative AI Professional](https://mylearn.oracle.com/ou/learning-path/become-an-oci-generative-ai-professional/136227)
-- [Become a Digital Assistant developer](https://mylearn.oracle.com/ou/learning-path/become-a-digital-assistant-developer-2025/147740)
+- [OCI Enterprise AI Professional](https://mylearn.oracle.com/ou/learning-path/become-an-oci-enterprise-ai-professional-2026/163234)
+- [OCI AI Foundations Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oci-ai-foundations-associate-2026/163544)
+- [Oracle Agentic AI Foundations Associate](https://mylearn.oracle.com/ou/learning-path/become-an-oracle-agentic-ai-foundations-associate-2026/163239)
 
 # License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 

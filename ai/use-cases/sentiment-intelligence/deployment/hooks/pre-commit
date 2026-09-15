@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# =============================================================================
+# Monorepo pre-commit hook.
+#
+# Scoped: only acts when files under the sentiment-intelligence deployment
+# sources are staged. For any other commit in the monorepo it does nothing.
+#
+# When deployment/ files are staged it rebuilds sentiment-intelligence.zip
+# (the OCI Resource Manager stack package) and stages it, so the committed
+# package always matches the committed Terraform sources.
+# =============================================================================
+set -euo pipefail
+
+PROJECT="ai/use-cases/sentiment-intelligence"
+DEPLOY_SRC="$PROJECT/deployment/"
+BUILD_SCRIPT="$PROJECT/deployment/build-stack-zip.sh"
+ZIP="$PROJECT/sentiment-intelligence.zip"
+
+# Any staged (added/copied/modified/renamed) files under deployment/?
+if git diff --cached --name-only --diff-filter=ACMR -z \
+    | grep -zq "^$DEPLOY_SRC"; then
+
+  if [ ! -x "$BUILD_SCRIPT" ]; then
+    echo "pre-commit: $BUILD_SCRIPT not found or not executable; skipping stack package build." >&2
+  else
+    echo "pre-commit: rebuilding $ZIP from staged deployment sources..."
+    "./$BUILD_SCRIPT"
+    git add "$ZIP"
+  fi
+fi
