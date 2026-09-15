@@ -8,9 +8,9 @@ Use this asset as a reference or template when automating OIC project and deploy
  
 # How to use this asset?
  
-Review the [OIC Project and Deployment Export and Import Guide]( oci-and-db\cloud-native\app-integration-and-automation\oracle-integration-cloud\13-oic-project-and-deployment-export-import-guide\files\import-export-guide\README.md) , configure OAuth authentication, and replace the environment placeholders with your Oracle Integration values. 
+Review the [OIC Project and Deployment Export and Import Guide](../13-oic-deployment-export-import-guide/\files\import-export-guide\README.md) , configure OAuth authentication, and replace the environment placeholders with your Oracle Integration values. 
 
-For Postman collection, you can import the provided [Postman Collection](oci-and-db\cloud-native\app-integration-and-automation\oracle-integration-cloud\13-oic-project-and-deployment-export-import-guide\files\postman-collection\README.md) to run the included API samples for retrieving deployments, exporting projects or deployments, and importing archive files, ensure to replace the placeholders with your environment details.
+For Postman collection, you can import the provided [Postman Collection](../13-oic-deployment-export-import-guide\files\postman-collection\README.md) to run the included API samples for retrieving deployments, exporting projects or deployments, and importing archive files, ensure to replace the placeholders with your environment details.
  
 # License
 
