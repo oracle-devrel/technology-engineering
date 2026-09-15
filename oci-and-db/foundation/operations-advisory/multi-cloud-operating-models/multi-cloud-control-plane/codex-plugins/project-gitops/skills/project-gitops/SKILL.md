@@ -1,5 +1,6 @@
 ---
-name: project-gitops description: Use in the Codex app when a Project Team requests governed OCI, Azure, or Google Day 1 changes; published OCI Day 2 operations such as ADB lifecycle or Compute deploy-agent; read-only declared-resource inventory or pull-request status; or a post-apply summary in an already handed-off customer project repository.
+name: project-gitops
+description: Use in the Codex app when a Project Team requests governed OCI, Azure, or Google Day 1 changes; published OCI Day 2 operations such as ADB lifecycle or Compute deploy-agent; read-only declared-resource inventory or pull-request status; or a post-apply summary in an already handed-off customer project repository.
 ---
 
 # Project GitOps

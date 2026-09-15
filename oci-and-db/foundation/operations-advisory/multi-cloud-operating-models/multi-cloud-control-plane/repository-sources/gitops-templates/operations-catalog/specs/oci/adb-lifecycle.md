@@ -8,6 +8,8 @@ oci/<environment>/<region>/lifecycle_operations/adb-lifecycle.json
 
 This operation starts or stops one or more OCI Autonomous Databases already declared in Terraform state for the same environment and region.
 
+Platform CI turns that state into a temporary inventory before running the operation. See [Terraform state as dynamic inventory](../../../../platform-ci/README.md#terraform-state-as-dynamic-inventory) for the shared ADB and Compute pattern.
+
 After the workflow has completed and the result is verified, delete the request file in a focused pull request. Deleting it records cleanup of the completed request; it does not reverse the lifecycle operation.
 
 | Field | What to provide | Allowed values or behavior |

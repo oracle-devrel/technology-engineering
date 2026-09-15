@@ -5,6 +5,10 @@
     state: directory
     mode: "0755"
 
+# CUSTOMER EXTENSION POINT (MVP): replace the marker task below with an import
+# of your platform-owned, allow-listed role or task file. Keep the operation
+# wrapper and its common precheck/apply/verify phases. Never let project input
+# choose a command, URL, playbook, role, or filesystem path.
 - name: Deploy agent marker
   ansible.builtin.copy:
     dest: "/opt/agents/{{ agent_type }}.installed"
