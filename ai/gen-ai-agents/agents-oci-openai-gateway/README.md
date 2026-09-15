@@ -6,7 +6,7 @@ Big thanks to https://github.com/RETAJD/modelsOCI-toOpenAI/tree/main
 
 **Author**: matsliwins
 
-**Last review date**: 19/09/2025
+**Last review date**: 04/08/2026
 
 ![](files/images/n8n_image.png)
 

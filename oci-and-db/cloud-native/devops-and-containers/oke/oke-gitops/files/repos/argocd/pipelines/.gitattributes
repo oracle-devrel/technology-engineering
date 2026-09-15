@@ -1,0 +1,9 @@
+# Force Unix line endings for shell scripts
+*.sh text eol=lf
+
+# Optional: other executable/script-like files
+*.bash text eol=lf
+*.zsh text eol=lf
+*.ksh text eol=lf
+*.env text eol=lf
+Dockerfile text eol=lf

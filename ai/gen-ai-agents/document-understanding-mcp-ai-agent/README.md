@@ -2,6 +2,8 @@
 
 The **Document Understanding Agent** is an AI-powered assistant designed to extract and understand text from documents (e.g., PDFs, images) using Oracle Cloud Infrastructure (OCI) Generative AI Agents and Document Understanding services.
 
+Reviewed: 04.08.2026
+
 This tool demonstrates an end-to-end workflow involving:
 
 - File upload (via React frontend)
@@ -151,7 +153,7 @@ oci-genai-agent-llama-react-frontend/
 
 ## License
 
-Copyright (c) 2025 Oracle and/or its affiliates.
+Copyright (c) 2026 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
 See LICENSE for more details.

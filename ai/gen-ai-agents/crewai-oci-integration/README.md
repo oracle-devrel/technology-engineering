@@ -3,7 +3,7 @@
 This repository provides examples and configuration guidelines for integrating **[CrewAI](https://github.com/joaomdmoura/crewAI)** with **Oracle Cloud Infrastructure (OCI) Generative AI** services.  
 The goal is to demonstrate how CrewAI agents can seamlessly leverage OCI-hosted models through the **LiteLLM gateway**.
 
-**Reviewed**: 26.01.2026
+**Reviewed**: 04.08.2026
 
 ---
 
@@ -121,4 +121,4 @@ You can find a detailed comparison with LangGraph [here](./files/crewai-vs-langg
 ## License
 This assett is licensed under **MIT** license.
 
-see [LICENSE](./LICENSE)
+see [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt)

@@ -12,6 +12,10 @@ import tiktoken
 from dotenv import load_dotenv
 
 from agents.agent_factory import create_agents, create_ingestion_only_agents
+from contracts import Chunk, Plan, PlanSection, SectionDraft, ReportResult
+from llm_concurrency import llm_semaphore, MAX_LLM_CONCURRENCY
+from llm_factory import create_llm, get_available_models, MODEL_REGISTRY
+from progress_bus import progress_bus
 from vector_store import EnhancedVectorStore
 
 load_dotenv()
@@ -21,8 +25,10 @@ try:
     ORACLE_DB_AVAILABLE = True
 except ImportError:
     ORACLE_DB_AVAILABLE = False
-    logging.warning(
-        "Oracle DB support not available. "
+    # debug, not warning: the Chroma path is the intended default here, so this is
+    # a statement of configuration, not a problem. It read as a failure on screen.
+    logging.debug(
+        "Oracle DB backend not installed; using Chroma. "
         "Install with: pip install oracledb sentence-transformers"
     )
 
@@ -41,333 +47,6 @@ except ImportError:
     logger = logging.getLogger(__name__)
     DEMO_MODE = False
 
-class LocalLLM:
-    """Wrapper for OCI LLM to match LangChain's ChatOpenAI interface"""
-    def __init__(self, pipeline):
-        self.pipeline = pipeline
-
-    def __call__(self, prompt: str) -> str:
-        # This gets used when you do `llm(prompt)`
-        max_tokens = getattr(self.pipeline, 'model_config', {}).get('max_output_tokens', 4000)
-        return self.pipeline(prompt, max_new_tokens=max_tokens)[0]["generated_text"].strip()
-    
-    def invoke(self, messages):
-        # Convert messages to a single prompt
-        prompt = "\n".join([msg.content for msg in messages])
-        
-        # Use model-specific max tokens from the pipeline's model config
-        max_tokens = getattr(self.pipeline, 'model_config', {}).get('max_output_tokens', 4000)
-        result = self.pipeline(prompt, max_new_tokens=max_tokens)[0]["generated_text"]
-        
-        # Create a response object with content attribute
-        class Response:
-            def __init__(self, content):
-                self.content = content
-        
-        return Response(result.strip())
-    
-class OCIModelHandler:
-    """Handler for calling multiple OCI Generative AI models"""
-    
-    # Model configurations
-    MODEL_CONFIGS = {
-        "grok-4": {
-            "model_id": os.getenv("OCI_GROK_4_MODEL_ID"),
-            "request_type": "generic",
-            "max_output_tokens": 8000,  # Reduced from 120000 for faster response  
-            "default_params": {
-                "temperature": 1,
-                "top_p": 1
-            }
-        },
-        "grok-3": {
-            "model_id": os.getenv("OCI_GROK_3_MODEL_ID", 
-                                 os.getenv("GROK_MODEL_ID")),
-            "request_type": "generic",
-            "max_output_tokens": 8000,  # Reduced from 16000 for consistency 
-            "default_params": {
-                "temperature": 0.7,
-                "top_p": 0.9
-            }
-        },
-        "grok-3-fast": {
-            "model_id": os.getenv("OCI_GROK_3_FAST_MODEL_ID", 
-                                 os.getenv("GROK_MODEL_ID")),
-            "request_type": "generic",
-            "max_output_tokens": 4000,  # Optimized for speed  
-            "default_params": {
-                "temperature": 0.7,
-                "top_p": 0.9
-            }
-        },
-        "llama3.3": {
-            "model_id": os.getenv("OCI_LLAMA_3_3_MODEL_ID"),
-            "request_type": "generic",
-            "max_output_tokens": 4000,  
-            "default_params": {
-                "temperature": 1,
-                "frequency_penalty": 0,
-                "presence_penalty": 0,
-                "top_p": 0.75
-            }
-        },
-        "cohere-command-a": {
-            "model_id": os.getenv("OCI_COHERE_COMMAND_A_MODEL_ID"),
-            "request_type": "cohere",
-            "max_output_tokens": 4000,   # Cohere limited to 4K output
-            "default_params": {
-                "temperature": 1,
-                "frequency_penalty": 0,
-                "top_p": 0.75,
-                "top_k": 0
-            }
-        },
-        "dac-cluster": {
-            "endpoint_id": "ocid1.generativeaiendpoint.oc1.eu-frankfurt-1.amaaaaaa2xxap7yaj6ki7iooezw6yrkj5lj6l2y43xekiekg2jxu4li2tnna",
-            "request_type": "generic",
-            "max_output_tokens": 600,  # Adjust based on your DAC configuration
-            "is_dedicated": True,
-            "region": "eu-frankfurt-1",
-            "default_params": {
-                "temperature": 1,
-                "frequency_penalty": 0,
-                "presence_penalty": 0,
-                "top_p": 0.75
-            }
-        }
-    }
-    
-    def __init__(self, model_name: str = "grok-3", config_profile: str = "DEFAULT", compartment_id: str = None):
-        """Initialize OCI model handler
-        
-        Args:
-            model_name: Name of the model to use (grok-4, grok-3, grok-3-fast, llama3.3, cohere-command-a, dac-cluster, etc.)
-            config_profile: OCI config profile to use
-            compartment_id: OCI compartment ID (if None, will try to get from environment)
-        """
-        import oci
-        self.oci = oci
-        self.model_name = model_name
-        
-        # Validate model name
-        if model_name not in self.MODEL_CONFIGS:
-            available_models = ", ".join(self.MODEL_CONFIGS.keys())
-            raise ValueError(f"Unsupported model: {model_name}. Available models: {available_models}")
-        
-        self.model_config = self.MODEL_CONFIGS[model_name]
-        
-        # Check if this is a dedicated cluster
-        is_dedicated = self.model_config.get("is_dedicated", False)
-        
-        # Validate that model ID or endpoint ID is available
-        if not is_dedicated and not self.model_config.get("model_id"):
-            env_var_map = {
-                "grok-4": "OCI_GROK_4_MODEL_ID",
-                "grok-3": "OCI_GROK_3_MODEL_ID or GROK_MODEL_ID",
-                "grok-3-fast": "OCI_GROK_3_FAST_MODEL_ID",
-                "llama3.3": "OCI_LLAMA_3_3_MODEL_ID",
-                "cohere-command-a": "OCI_COHERE_COMMAND_A_MODEL_ID"
-            }
-            required_env = env_var_map.get(model_name, "Unknown")
-            raise ValueError(
-                f"Model ID not found for {model_name}. "
-                f"Please set {required_env} in your .env file."
-            )
-        
-        # Set compartment ID - use DAC compartment for dedicated cluster
-        if is_dedicated:
-            self.compartment_id = os.getenv("COMPARTMENT_ID_DAC")
-            if not self.compartment_id:
-                raise ValueError(
-                    "DAC Compartment ID not found. "
-                    "Please set COMPARTMENT_ID_DAC in your .env file."
-                )
-        else:
-            self.compartment_id = (compartment_id or 
-                                  os.getenv("OCI_COMPARTMENT_ID") or 
-                                  os.getenv("COMPARTMENT_ID"))
-            
-            if not self.compartment_id:
-                raise ValueError(
-                    "Compartment ID not found. "
-                    "Please set OCI_COMPARTMENT_ID in your .env file."
-                )
-        
-        # Set endpoint based on region
-        region = self.model_config.get("region", "us-chicago-1")
-        self.endpoint = f"https://inference.generativeai.{region}.oci.oraclecloud.com"
-
-        # Initialize OCI client with better retry and timeout settings
-        config = oci.config.from_file("~/.oci/config", config_profile)
-        
-        # Create a custom retry strategy for chunk rewriting operations
-        retry_strategy = oci.retry.RetryStrategyBuilder(
-            max_attempts=3,
-            retry_max_wait_between_calls_seconds=10,
-            retry_base_sleep_time_seconds=2,
-            retry_exponential_growth_multiplier=2,
-            retry_eligible_service_errors=[429, 500, 502, 503, 504],
-            service_error_retry_config={
-                -1: []  # Retry on timeout errors
-            }
-        ).add_service_error_check(
-            service_error_retry_config={-1: []},
-            service_error_retry_on_any_5xx=True
-        ).get_retry_strategy()
-        
-        self.client = oci.generative_ai_inference.GenerativeAiInferenceClient(
-            config=config,
-            service_endpoint=self.endpoint,
-            retry_strategy=retry_strategy,
-            timeout=(30, 120)  # Increased timeout: 30s connect, 120s read for chunk rewriting
-        )
-        
-        print(f"✅ Initialized OCI handler for {model_name}")
-        if is_dedicated:
-            print(f"   Using dedicated cluster in {region}")
-            print(f"   DAC Compartment ID: {self.compartment_id[:20]}...")
-
-    def _create_generic_request(self, prompt: str, max_tokens: int, **kwargs) -> Any:
-        """Create a generic chat request for Grok and Llama models"""
-        oci = self.oci
-        params = {**self.model_config["default_params"], **kwargs}
-        
-        content = oci.generative_ai_inference.models.TextContent(text=prompt)
-        message = oci.generative_ai_inference.models.Message(role="USER", content=[content])
-
-        request_kwargs = {
-            "api_format": oci.generative_ai_inference.models.BaseChatRequest.API_FORMAT_GENERIC,
-            "messages": [message],
-            "max_tokens": max_tokens,
-            "temperature": params.get("temperature", 0.7),
-            "top_p": params.get("top_p", 0.9),
-        }
-
-        if "frequency_penalty" in params:
-            request_kwargs["frequency_penalty"] = params.get("frequency_penalty", 0)
-        if "presence_penalty" in params:
-            request_kwargs["presence_penalty"] = params.get("presence_penalty", 0)
-        
-        return oci.generative_ai_inference.models.GenericChatRequest( **request_kwargs)
-
-    def _create_cohere_request(self, prompt: str, max_tokens: int, **kwargs) -> Any:
-        """Create a Cohere chat request"""
-        oci = self.oci
-        
-        # Merge default params with provided kwargs
-        params = {**self.model_config["default_params"], **kwargs}
-        
-        return oci.generative_ai_inference.models.CohereChatRequest(
-            message=prompt,
-            max_tokens=max_tokens,
-            temperature=params.get("temperature", 1),
-            frequency_penalty=params.get("frequency_penalty", 0),
-            top_p=params.get("top_p", 0.75),
-            top_k=params.get("top_k", 0)
-        )
-
-    def __call__(self, prompt: str, max_new_tokens: int = 4000, **kwargs) -> List[Dict[str, str]]:
-        """Call the OCI model with the given prompt"""
-        try:
-            oci = self.oci
-            max_tokens = max_new_tokens or 4000
-
-            print(f"🧪 [OCI DEBUG] Using {self.model_name}")
-            print(f"🧪 [OCI DEBUG] Prompt length (chars): {len(prompt)}")
-            print(f"🧪 [OCI DEBUG] Prompt preview:\n{prompt[:300]}...")
-
-            # Create appropriate request based on model type
-            if self.model_config["request_type"] == "cohere":
-                chat_request = self._create_cohere_request(prompt, max_tokens, **kwargs)
-            else:  # generic
-                chat_request = self._create_generic_request(prompt, max_tokens, **kwargs)
-
-            # Create serving mode based on whether it's dedicated or on-demand
-            is_dedicated = self.model_config.get("is_dedicated", False)
-            if is_dedicated:
-                # Use DedicatedServingMode for DAC
-                serving_mode = oci.generative_ai_inference.models.DedicatedServingMode(
-                    endpoint_id=self.model_config["endpoint_id"]
-                )
-            else:
-                # Use OnDemandServingMode for regular models
-                serving_mode = oci.generative_ai_inference.models.OnDemandServingMode(
-                    model_id=self.model_config["model_id"]
-                )
-
-            # Create chat detail
-            chat_detail = oci.generative_ai_inference.models.ChatDetails(
-                serving_mode=serving_mode,
-                chat_request=chat_request,
-                compartment_id=self.compartment_id
-            )
-
-            # Make the API call
-            response = self.client.chat(chat_detail)
-
-            # Extract response text - handle different response structures
-            chat_response = response.data.chat_response
-            
-            if self.model_config["request_type"] == "cohere":
-                # Cohere has a different response structure
-                if hasattr(chat_response, 'text'):
-                    # Direct text attribute
-                    text = chat_response.text.strip()
-                elif hasattr(chat_response, 'message') and hasattr(chat_response.message, 'content'):
-                    # Message with content
-                    if isinstance(chat_response.message.content, list):
-                        text = "".join(chunk.text for chunk in chat_response.message.content).strip()
-                    else:
-                        text = str(chat_response.message.content).strip()
-                else:
-                    print("⚠️ Unexpected Cohere response structure!")
-                    print(f"Response attributes: {dir(chat_response)}")
-                    return [{"generated_text": ""}]
-            else:
-                # Generic models (Grok, Llama) use choices structure
-                choices = chat_response.choices
-                if not choices or not choices[0].message.content:
-                    print("⚠️ Empty response from model!")
-                    return [{"generated_text": ""}]
-                
-                # Generic models may return multiple text chunks
-                text = "".join(chunk.text for chunk in choices[0].message.content).strip()
-            
-            if not text:
-                print("⚠️ Empty text extracted from response!")
-                return [{"generated_text": ""}]
-
-            print(f"🧪 [OCI DEBUG] Model output:\n{text[:100]}...")
-
-            return [{"generated_text": text}]
-        
-        except Exception as e:
-            print(f"⚠️ Error in OCIModelHandler for {self.model_name}: {str(e)}")
-            raise
-
-    @classmethod
-    def get_available_models(cls) -> List[str]:
-        """Get list of available model names"""
-        return list(cls.MODEL_CONFIGS.keys())
-
-    def get_model_info(self) -> Dict[str, Any]:
-        """Get information about the current model"""
-        is_dedicated = self.model_config.get("is_dedicated", False)
-        info = {
-            "name": self.model_name,
-            "request_type": self.model_config["request_type"],
-            "default_params": self.model_config["default_params"],
-            "max_output_tokens": self.model_config.get("max_output_tokens", 4000)
-        }
-        
-        if is_dedicated:
-            info["endpoint_id"] = self.model_config.get("endpoint_id")
-            info["region"] = self.model_config.get("region")
-            info["is_dedicated"] = True
-        else:
-            info["model_id"] = self.model_config.get("model_id")
-            
-        return info
 
 
 
@@ -465,29 +144,18 @@ class RAGSystem:
         self.use_cot = use_cot
         self.quantization = quantization
         self.model_name = model_name
-        print('Model Name after assignment:', self.model_name)
-        self.collection=collection
-        # Support all OCI models
-        available_oci_models = OCIModelHandler.get_available_models()
-        if model_name in available_oci_models:
-            print(f"\nLoading {model_name} model...")
-            self.oci_handler = OCIModelHandler(model_name=model_name)
-            self.pipeline = self.oci_handler
-            # Add model config to pipeline for token limit access
-            self.pipeline.model_config = self.oci_handler.model_config
-            print(f"Using {model_name} from OCI")
-        else:
-            print(f"⚠️ Model {model_name} not supported. Available OCI models: {', '.join(available_oci_models)}")
-            print("Falling back to grok-3")
-            self.oci_handler = OCIModelHandler(model_name="grok-3")
-            self.pipeline = self.oci_handler
-            # Add model config to pipeline for token limit access
-            self.pipeline.model_config = self.oci_handler.model_config
-            self.model_name = "grok-3"
-        
-        # Create LLM wrapper
-        self.llm = LocalLLM(self.pipeline)
-        logger.info(f"RAGSystem: self.llm assigned = {self.llm}")
+        self.collection = collection
+
+        # Initialize LLM via factory
+        available_models = list(MODEL_REGISTRY.keys())
+        if model_name not in available_models:
+            logger.warning("Model %s not in registry. Falling back to grok-3", model_name)
+            model_name = "grok-3"
+            self.model_name = model_name
+
+        logger.info("Loading %s model...", model_name)
+        self.llm = create_llm(model_name)
+        logger.info("RAGSystem: self.llm assigned = %s", self.llm)
 
         # Initialize tiktoken tokenizer for accurate token counting
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
@@ -497,7 +165,8 @@ class RAGSystem:
             self.llm,
             self.vector_store,
             model_name=self.model_name,
-            tokenizer=self.tokenizer
+            tokenizer=self.tokenizer,
+            known_tags=getattr(self, "known_tags", None),
         )
         logger.info(f"Agents initialized: {list(self.agents.keys())}")
         # --- known tag cache loaded from vector store - helps identify entities in the query ---
@@ -606,11 +275,11 @@ class RAGSystem:
         provided_entities: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """
-        Report agent pipeline:
-        - Plan sections using PlannerAgent
-        - Retrieve chunks using ResearchAgent
-        - Write sections using SectionWriterAgent
-        - Assemble report with ReportWriterAgent
+        Report agent pipeline using typed contracts:
+        - Plan sections using PlannerAgent -> Plan
+        - Retrieve chunks using ResearchAgent -> List[Chunk]
+        - Write sections using SectionWriterAgent -> SectionDraft
+        - Assemble report with ReportWriterAgent -> ReportResult
         """
         logger.info("Starting report generation pipeline")
 
@@ -623,137 +292,202 @@ class RAGSystem:
             logger.warning("Missing one or more required agents")
             return self._generate_general_response(query)
 
-        # STEP 1: Plan the report
+        # STEP 1: Plan the report -> typed Plan
         logger.info("Planning report sections...")
+        progress_bus.publish("Planning report sections…", step=1)
         if provided_entities:
             logger.info(f"Using provided entities for planning: {provided_entities}")
         try:
-            result = planner.plan(query, is_comparison_report=is_comparison_report, provided_entities=provided_entities)
-            if not isinstance(result, tuple) or len(result) != 3:
-                raise ValueError(f"Planner returned unexpected format: {type(result)} → {result}")
-            plan, entities, is_comparison = result
-
-            if not isinstance(plan, list):
-                logger.error("Planner output is not a list of steps. Got: %s", type(plan))
-                logger.debug("Raw planner output: %s", plan)
-                return self._generate_general_response(query)
-
+            plan = planner.plan_typed(
+                query,
+                is_comparison_report=is_comparison_report,
+                provided_entities=provided_entities,
+            )
         except Exception as e:
-            logger.error(f"Error calling planner.plan: {e}")
+            logger.error(f"Error calling planner.plan_typed: {e}")
             return self._generate_general_response(query)
 
-        logger.info("Sections planned: %s", [p['topic'] for p in plan])
+        if not plan.sections:
+            logger.error("Planner returned no sections")
+            return self._generate_general_response(query)
 
-        # PARALLEL SECTION PROCESSING - Major speed improvement!
-        def process_section(section_data):
-            """Process a single section (research + write) - runs in parallel"""
-            section, section_idx = section_data
-            topic = section.get("topic", "Untitled Section")
-            steps = section.get("steps", [])
-            section_chunks = []
-            
-            logger.info(f"🔄 Processing section {section_idx+1}/{len(plan)}: {topic}")
+        # Render the decomposition — the visible evidence that the task was broken
+        # down rather than answered in one shot. Guarded so plain logging still works.
+        if hasattr(logger, "plan"):
+            logger.plan(
+                [
+                    {
+                        "topic": s.topic,
+                        "role": s.role,
+                        # Criteria are carried inside the per-entity retrieval steps,
+                        # not as a field. Show one — they are mirrored across entities.
+                        "criteria": next(iter(s.entity_steps.values()), ""),
+                    }
+                    for s in plan.sections
+                ],
+                entities=plan.entities,
+            )
+        else:
+            logger.info("Sections planned: %s", [s.topic for s in plan.sections])
 
-            if is_comparison:
-                if len(steps) != 2:
-                    raise ValueError(f"Expected 2 steps per topic for comparison, got {len(steps)}")
+        # Now the denominator is known: plan + every section + assembly.
+        progress_bus.set_total(len(plan.sections) + 3)
+        progress_bus.publish(f"Planned {len(plan.sections)} sections", step=2)
 
-                step_a, step_b = steps
-                entity_a, entity_b = entities[:2] if len(entities) >= 2 else ("Unknown", "Unknown")
+        # PARALLEL SECTION PROCESSING
+        def process_section(section_data: tuple[PlanSection, int]) -> tuple[SectionDraft, int]:
+            """Process a single section (research + write) - runs in parallel."""
+            plan_section, section_idx = section_data
+            topic = plan_section.topic
+            entity_steps = plan_section.entity_steps
+            all_chunks: List[Chunk] = []
 
-                # Parallel research for both entities
-                with ThreadPoolExecutor(max_workers=2) as research_executor:
-                    future_a = research_executor.submit(
-                        researcher.research, query, step_a, None, True, [entity_a], collection_mode
-                    )
-                    future_b = research_executor.submit(
-                        researcher.research, query, step_b, None, True, [entity_b], collection_mode
-                    )
-                    
-                    chunks_a = future_a.result()
-                    chunks_b = future_b.result()
+            section_started = time.time()
+            logger.info(f"Processing section {section_idx+1}/{len(plan.sections)}: {topic}")
+            progress_bus.publish(f"Researching: {topic}")
 
-                for chunk in chunks_a:
-                    chunk["_search_entity"] = entity_a
-                for chunk in chunks_b:
-                    chunk["_search_entity"] = entity_b
+            if plan.is_comparison and len(entity_steps) >= 2:
+                # Parallel research per entity (vector store calls only)
+                with ThreadPoolExecutor(max_workers=min(len(entity_steps), 10)) as research_executor:
+                    futures = {}
+                    for entity, step in entity_steps.items():
+                        future = research_executor.submit(
+                            researcher.research, query, step, None, True, [entity], collection_mode
+                        )
+                        futures[future] = entity
 
-                section_chunks = chunks_a + chunks_b
-
+                    for future in futures:
+                        entity = futures[future]
+                        try:
+                            raw_chunks = future.result()
+                            for chunk_dict in raw_chunks:
+                                chunk_dict["_search_entity"] = entity
+                            all_chunks.extend([Chunk.from_legacy_dict(c) for c in raw_chunks])
+                        except Exception as err:
+                            logger.warning(f"Research failed for entity '{entity}': {err}")
             else:
-                entity = entities[0] if entities else "Unknown"
-                # Parallel research for multiple steps if needed
-                if len(steps) > 1:
-                    with ThreadPoolExecutor(max_workers=min(4, len(steps))) as research_executor:
-                        futures = []
-                        for step in steps:
-                            future = research_executor.submit(
-                                researcher.research, query, step, None, False, [entity], collection_mode
-                            )
-                            futures.append(future)
-                        
-                        for future in as_completed(futures):
-                            chunks = future.result()
-                            for chunk in chunks:
-                                chunk["_search_entity"] = entity
-                            section_chunks.extend(chunks)
-                else:
-                    # Single step - no need for parallelization
-                    chunks = researcher.research(query, steps[0], is_comparison=False, entities=[entity], collection=collection_mode)
-                    for chunk in chunks:
-                        chunk["_search_entity"] = entity
-                    section_chunks.extend(chunks)
+                # Single-entity mode
+                for entity, step in entity_steps.items():
+                    raw_chunks = researcher.research(
+                        query, step, is_comparison=False,
+                        entities=[entity], collection=collection_mode,
+                    )
+                    for chunk_dict in raw_chunks:
+                        chunk_dict["_search_entity"] = entity
+                    all_chunks.extend([Chunk.from_legacy_dict(c) for c in raw_chunks])
 
-            logger.info(f"🧹 Collected {len(section_chunks)} chunks for topic: {topic}")
+            logger.info(f"Collected {len(all_chunks)} chunks for topic: {topic}")
+            progress_bus.publish(f"Writing ({len(all_chunks)} chunks): {topic}")
 
-            # Write the section
-            section_result = section_writer.write_section(topic, section_chunks)
-            section_result["entities"] = entities
-            section_result["is_comparison"] = is_comparison
-            section_result.setdefault("chart_data", {})
-            if not isinstance(section_result.get("table"), list):
-                section_result["table"] = [section_result.get("table")]
+            # Write the section (LLM call — goes through semaphore internally)
+            with llm_semaphore:
+                section_draft = section_writer.write_section_typed(
+                    topic, all_chunks,
+                    entities=plan.entities,
+                    is_comparison=plan.is_comparison,
+                )
 
-            logger.info(f"✅ Completed section {section_idx+1}: {topic}")
-            return section_result, len(section_chunks)
+            if hasattr(logger, "section_done"):
+                logger.section_done(
+                    topic, len(all_chunks), len(section_draft.findings),
+                    time.time() - section_started,
+                )
+            else:
+                logger.info(f"Completed section {section_idx+1}: {topic}")
+            progress_bus.publish(f"Wrote: {topic}", advance=True)
+            return section_draft, len(all_chunks)
 
-        # Process all sections in parallel - MAJOR SPEED BOOST!
-        logger.info(f"🚀 Processing {len(plan)} sections in parallel...")
-        all_sections = []
+        # Two waves: retrieval-backed sections first, then the sections that reason
+        # over them. A synthesize/recommend section cannot run in parallel with the
+        # compare sections because its input is their output.
+        retrieval_sections = [(s, i) for i, s in enumerate(plan.sections) if s.role == "compare"]
+        derived_sections = [(s, i) for i, s in enumerate(plan.sections) if s.role != "compare"]
+
+        logger.info(
+            f"Processing {len(retrieval_sections)} retrieval sections in parallel, "
+            f"then {len(derived_sections)} derived: "
+            f"{[f'{s.topic}({s.role})' for s, _ in derived_sections]}"
+        )
+
+        all_drafts: List[SectionDraft] = []
         total_chunks_used = 0
-        
-        # Use ThreadPoolExecutor to process sections in parallel
-        max_workers = min(4, len(plan))  # Limit concurrent sections to avoid overwhelming the LLM
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            # Submit all section processing tasks
-            section_futures = []
-            for idx, section in enumerate(plan):
-                future = executor.submit(process_section, (section, idx))
-                section_futures.append(future)
-            
-            # Collect results as they complete
-            for future in as_completed(section_futures):
-                try:
-                    section_result, chunk_count = future.result()
-                    all_sections.append(section_result)
-                    total_chunks_used += chunk_count
-                except Exception as e:
-                    logger.error(f"❌ Section processing failed: {e}")
-                    # Continue with other sections
-        
-        # Sort sections to maintain original order (since parallel processing may complete out of order)
-        # We'll need to track the original index to maintain order
-        logger.info(f"📊 Processed {len(all_sections)} sections with {total_chunks_used} total chunks")
+        results_by_idx: Dict[int, tuple[SectionDraft, int]] = {}
 
-        logger.info("📄 Writing report with %d sections", len(all_sections))
-        report_path = report_writer.write_report(all_sections, query=query)
+        # --- Wave 1: compare sections (retrieve + write), in parallel -------------
+        if retrieval_sections:
+            # Match the global LLM semaphore (MAX_LLM_CONCURRENCY, default 6) rather than
+            # capping at 4 — the semaphore already throttles actual concurrent LLM calls,
+            # so a smaller pool just left allowed slots idle and forced an extra wave.
+            max_workers = min(MAX_LLM_CONCURRENCY, len(retrieval_sections))
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                section_futures = [
+                    (executor.submit(process_section, (section, idx)), idx)
+                    for section, idx in retrieval_sections
+                ]
+                for future, idx in section_futures:
+                    try:
+                        draft, chunk_count = future.result()
+                        results_by_idx[idx] = (draft, chunk_count)
+                    except Exception as e:
+                        logger.error(f"Section processing failed: {e}")
 
+        # --- Wave 2: synthesize / recommend, reading wave 1's output --------------
+        if derived_sections:
+            prior = [results_by_idx[i][0] for i in sorted(results_by_idx.keys())]
+            if not prior:
+                logger.warning(
+                    "No compare sections succeeded; derived sections have nothing to "
+                    "reason over and will be skipped"
+                )
+            else:
+                # Derived sections all read the same frozen `prior` list, so they are
+                # independent of each other and can run concurrently within the wave.
+                def write_derived(section_data: tuple[PlanSection, int]) -> tuple[SectionDraft, int]:
+                    section, _idx = section_data
+                    progress_bus.publish(f"Synthesising: {section.topic}")
+                    with llm_semaphore:
+                        return section_writer.write_derived_section_typed(
+                            section.topic,
+                            section.role,
+                            prior,
+                            entities=plan.entities,
+                            query=query,
+                        ), 0
+
+                with ThreadPoolExecutor(max_workers=min(4, len(derived_sections))) as executor:
+                    derived_futures = [
+                        (executor.submit(write_derived, (section, idx)), idx, section.topic)
+                        for section, idx in derived_sections
+                    ]
+                    for future, idx, topic in derived_futures:
+                        try:
+                            results_by_idx[idx] = future.result()
+                            progress_bus.publish(f"Wrote: {topic}", advance=True)
+                        except Exception as e:
+                            logger.error(f"Derived section '{topic}' failed: {e}")
+
+        # Maintain original order
+        for idx in sorted(results_by_idx.keys()):
+            draft, chunk_count = results_by_idx[idx]
+            all_drafts.append(draft)
+            total_chunks_used += chunk_count
+
+        logger.info(f"Processed {len(all_drafts)} sections with {total_chunks_used} total chunks")
+
+        # Write report -> typed ReportResult
+        logger.info("Writing report with %d sections", len(all_drafts))
+        progress_bus.publish("Writing summary, conclusion and charts…", advance=True)
+        report_result = report_writer.write_report_typed(
+            all_drafts, query=query,
+        )
+
+        # Return backward-compatible dict
         return {
-            "answer": f"Report successfully written to {report_path}",
-            "report_path": report_path,
-            "sections": all_sections,
+            "answer": f"Report successfully written to {report_result.report_path}",
+            "report_path": report_result.report_path,
+            "sections": [s.to_legacy_dict() for s in all_drafts],
             "context": [],
-            "total_chunks_used": total_chunks_used
+            "total_chunks_used": report_result.total_chunks_used,
         }
 
     
@@ -767,31 +501,16 @@ class RAGSystem:
 
     
     def _generate_text(self, prompt: str, max_length: int = None) -> str:
-        """Generate text using the OCI model with model-aware token limits"""
-        # Log start time for performance monitoring
+        """Generate text using the LLM."""
         start_time = time.time()
-        print("\n🧪 [DEBUG] Prompt being sent to model:\n")
-        print(prompt)  # Optional: trim to 1000 chars
-        print("\n🧪 [DEBUG] Prompt length:", len(prompt))
+        logger.info("Generating text (prompt_len=%d)", len(prompt))
 
-        # Use model-specific max tokens if max_length not provided
-        if max_length is None:
-            max_length = getattr(self.pipeline, 'model_config', {}).get('max_output_tokens', 4000)
-        
-        # Ensure we don't exceed model limits
-        model_max = getattr(self.pipeline, 'model_config', {}).get('max_output_tokens', 4000)
-        max_length = min(max_length, model_max)
-        
-        print(f"🧪 [DEBUG] Using max_tokens: {max_length} (model limit: {model_max})")
+        result = self.llm(prompt)
 
-        # Only OCI models are supported in this cleaned version
-        result = self.pipeline(prompt, max_new_tokens=max_length)[0]["generated_text"]
-        
-        # Log completion time
         elapsed_time = time.time() - start_time
-        logger.info(f"Text generation completed in {elapsed_time:.2f} seconds")
-        
-        return result.strip()
+        logger.info("Text generation completed in %.2f seconds", elapsed_time)
+
+        return result
     
     def _generate_response(self, query: str, context: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Generate a response using the retrieved context"""

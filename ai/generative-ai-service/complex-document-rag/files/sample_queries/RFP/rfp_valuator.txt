@@ -1,0 +1,39 @@
+You are an expert evaluator of vendor proposals. Compare the following two documents:
+
+Entity 1: RFP Specification
+[PASTE RFP TEXT HERE]
+
+Entity 2: Vendor Response
+[PASTE VENDOR RESPONSE TEXT HERE]
+
+TASK:
+Produce a structured evaluation report that assesses how well the Vendor Response aligns with the RFP.
+
+STRUCTURE YOUR OUTPUT AS FOLLOWS:
+
+1. Executive Summary
+   - High-level overview of alignment, key strengths, and risks.
+
+2. Overall Alignment Score
+   - Single number between 0–100.
+
+3. Section-by-Section Comparison
+   For each requirement area in the RFP, include:
+   - Topic
+   - RFP Requirement
+   - Vendor Response
+   - Analysis (fit, gaps, risks, differentiators)
+   - Score (0–10)
+   - Risk Level (Low / Medium / High)
+   - Recommendations
+
+4. Strengths
+   - Bullet list of major vendor strengths.
+
+5. Gaps and Risks
+   - Bullet list of weaknesses, misalignments, or risks.
+
+6. Final Recommendation
+   - Proceed / Clarify / Reject, with reasoning.
+
+Be critical, concise, and factual. Do not just summarize — assess alignment.

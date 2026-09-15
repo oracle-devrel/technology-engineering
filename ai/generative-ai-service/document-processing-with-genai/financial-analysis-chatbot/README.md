@@ -5,7 +5,7 @@ This tool enables semantic search, summarization, and financial Q&A by leveragin
 
 Author: **Ali Ottoman**
 
-Reviewed date: 23.09.2025
+Reviewed date: 04.08.2026
 
 ---
 

@@ -4,7 +4,7 @@ A Gradio-based web application that demonstrates **image embedding and similarit
 
 **Author:** Ilayda Ece Temir
 
-**Reviewed date:** 17.02.2026
+**Reviewed date:** 04.08.2026
 
 ---
 

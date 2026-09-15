@@ -1,0 +1,14 @@
+oci:
+  config_file: "~/.oci/config"
+  profile: "DEFAULT"
+  bucket_name: "<replace-me-bucket>"
+  object_name: "production_data_fraud_detection_kaggle_600.csv"
+
+simulator:
+  delay_seconds: 0.1
+  loop: false
+  flush_every: 500
+
+kafka:
+  topic: "sample-transactions"
+  key_field: "cc_num"

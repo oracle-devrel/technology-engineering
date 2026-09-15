@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2025 Oracle and/or its affiliates.
+ * Copyright (c) 2026 Oracle and/or its affiliates.
  * All rights reserved. Oracle Digital Assistant Client Web SDK, Release: 25.02
  */
 !(function (e, factory) {
