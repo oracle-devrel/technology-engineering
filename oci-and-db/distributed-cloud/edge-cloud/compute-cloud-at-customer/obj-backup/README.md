@@ -1,5 +1,5 @@
 
-Reviewed: 26.03.2026
+Reviewed: 15.09.2026
 
 
 # Creating a C3 Object Storage Backup Destination for ExaDB-C@C
@@ -39,7 +39,7 @@ A workstation with access to the C3 public network and object storage endpoint i
 > - All variables enclosed in `< >` should be replaced by the actual values  
 > - All return values enclosed in `< >` should be interpreted as the actual values in the applicable format  
 
-The **/home/<user>/.oci/config** file should contain at least the following entries:
+The **~/.oci/config** file should contain at least the following entries:
 
 ```ini
 [DEFAULT]
