@@ -9,6 +9,8 @@ Reviewed: 26.08.2026
 
 # When to use this asset?
 
+Use this asset when you need to understand the various Database Actions (SQL Developer Web) connections to databases (Cloud DB, On-prem DB).
+
 # How to use this asset?
 
 ## User Authentication - prerequisites
