@@ -2,11 +2,16 @@
 
 Oracle Database Actions is formerly known as SQL Developer Web and is a web-based interface that uses Oracle REST Data Services to provide development, data studio, administration and monitoring features for Oracle Autonomous Database, Oracle Database Cloud Services and on-premises Oracle Database. Database Actions comes already configured, via ORDS, on Autonomous Database.
 
-Reviewed: 10.06.2026
-
 Database Actions, (here also abbreviated as DB Actions), runs in Oracle REST Data Services and access to it is provided through schema-based authentication. To access Database Actions, you must sign in as a database user whose schema has been enabled for Database Actions.
 
-## User Authentication - prerequisites
+Reviewed: 26.08.2026
+
+## When to use this Asset?
+Use this Asset when you need to understand the various scenarios on how to connect to SQL Developer Web a.k.a DB Actions.
+
+## How to use this Asset?
+
+### User Authentication - prerequisites
 
 User access to Database Actions is described as follows
 - In Oracle Autonomous AI Database databases, the ADMIN user is pre-enabled;
