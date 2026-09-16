@@ -49,7 +49,6 @@ Oracle Compute Cloud@Customer is fully managed, rack-scale infrastructure that a
 
 - [Get Started with AsterionDB on Oracle Roving Edge Infrastructure and Oracle Compute Cloud@Customer](https://docs.oracle.com/en/learn/roving-edge-oc3-asteriondb/index.html) (29/Feb/2024)
 - [Use Oracle Marketplace Images on Oracle Roving Edge Infrastructure and Oracle Compute Cloud@Customer](https://docs.oracle.com/en/learn/roving-edge-oc3-marketplace-images/) (14/Dec/2023)
-- [Creating a C3 Object Storage Backup Destination for ExaDB-C@C](oci-and-db/distributed-cloud/edge-cloud/compute-cloud-at-customer/obj-backup)
 
 ## Blogs and other publications
 
