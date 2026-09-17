@@ -1,8 +1,0 @@
-{
-  "domain": "generic",
-  "items": [
-    {"id": "GL001", "title": "Missing approver caused submission rejection", "description": "Documents without formal approver sign-off were rejected at review stage, requiring resubmission with 2-week delay.", "keywords": ["approver", "approval", "signature", "sign-off"], "severity": "high", "recommendation": "Always verify approver field is completed before submission."},
-    {"id": "GL002", "title": "Outdated standard references caused compliance failure", "description": "Referenced standards were superseded versions. Audit flagged non-compliance due to outdated references.", "keywords": ["standard", "reference", "outdated", "superseded", "compliance"], "severity": "medium", "recommendation": "Check all referenced standards are current and not superseded."},
-    {"id": "GL003", "title": "Version mismatch between TOC and content", "description": "Table of contents listed sections that were removed in a later revision, creating confusion during review.", "keywords": ["table of contents", "TOC", "version", "revision", "sections"], "severity": "low", "recommendation": "Regenerate TOC after any structural changes to the document."}
-  ]
-}

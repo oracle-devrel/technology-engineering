@@ -1,9 +1,0 @@
-{
-  "auths": {
-    "ocir.eu-frankfurt-1.oci.oraclecloud.com": {
-      "username": "<OCI_REGISTRY_USERNAME>",
-      "password": "<OCI_REGISTRY_AUTH_TOKEN>",
-      "auth": "<BASE64_USERNAME_COLON_TOKEN>"
-    }
-  }
-}
