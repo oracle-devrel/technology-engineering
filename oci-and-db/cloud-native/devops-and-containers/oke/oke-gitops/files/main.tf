@@ -35,9 +35,9 @@ module "devops" {
 
 module "iam" {
   source                 = "./modules/iam"
+  policy_compartment_id  = var.iam_policy_compartment_id == null ? var.tenancy_ocid : var.iam_policy_compartment_id
   compartment_id         = module.devops.devops_project_compartment_id
   iam_domain_id          = var.devops_iam_domain_id
-  kms_compartment_id     = var.kms_compartment_id
   network_compartment_id = var.network_compartment_id
   oke_compartment_id     = var.oke_compartment_id
   devops_policy_name     = var.devops_policy_name

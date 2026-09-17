@@ -12,12 +12,13 @@ You need:
 
 - an OCI Vault;
 - a symmetric master encryption key in that Vault;
-- permission to create secrets in the chosen compartment;
+- permission to create secrets in the OCI DevOps project compartment;
 - `read secret-bundles` permission for the DevOps dynamic group, as shown in
   [the IAM guide](iam.md#4-verify-the-devops-resource-principal-policy).
 
-An asymmetric key cannot encrypt an imported secret. You may reuse an existing
-Vault and symmetric key that follow your organization's security policy.
+An asymmetric key cannot encrypt an imported secret. The Secrets must be in
+the OCI DevOps project compartment; the Vault and symmetric key may be reused
+according to your organization's security policy and OCI permissions.
 
 ## 2. Create the Git reader secret
 
@@ -25,7 +26,8 @@ In OCI Console:
 
 1. Open **Identity & Security → Vault → Secrets**.
 2. Select **Create secret**.
-3. Choose the secret compartment, Vault, and symmetric encryption key.
+3. Choose the OCI DevOps project compartment for the Secret, then select the
+   Vault and symmetric encryption key.
 4. Use a descriptive name such as `oke-gitops-git-read`.
 5. Select manual secret generation and enter this JSON as plain text:
 
@@ -92,8 +94,8 @@ version, and rerun the preparation stage.
 
 ## Migrate an existing shared-token installation
 
-`auth_token_secret_ocid` is a deprecated one-release fallback for stacks that
-previously used one personal token for Git and OCIR.
+Shared-token bootstrap is no longer supported. Existing installations must
+provide separate Git and OCIR credential secrets before running bootstrap.
 
 To migrate:
 
@@ -104,7 +106,7 @@ To migrate:
    OCIDs.
 4. Verify Git reconciliation and private-registry access.
 5. Revoke the former personal token.
-6. Stop supplying `auth_token_secret_ocid`.
+6. Remove the obsolete shared-token parameter from any manually maintained pipelines.
 
 Never delete an active Vault secret or user while the cluster still references
 it.

@@ -1,4 +1,34 @@
-# OKE GitOps stack 2.1.0
+# OKE GitOps stack 2.1.1
+
+This patch corrects Resource Manager bootstrap failures and aligns the portable
+administration skills with the current repository and credential model.
+
+## Fixes in 2.1.1
+
+- Reject new or reused DevOps projects in the tenancy root before deployment.
+- Attach IAM policies at the tenancy root by default, with a configurable
+  common ancestor for installations using sibling compartments.
+- Keep bootstrap credential Secrets in the DevOps project compartment and
+  remove the separate Vault-compartment input.
+- Ignore OCI-added dynamic-group schema extensions without ignoring matching rules.
+- Replace the unsupported Helm nonce override with ENFORCE_HELM_DEPLOYMENT.
+- Remove the deprecated shared-token parameter and fallback. Document exact
+  JSON credential examples with OCI-compatible parameter descriptions.
+- Omit apps-config, its seed and controller source in cluster_admin scope.
+- Manage Flux Operator as a normal platform application through the single
+  platform reconciliation root, with a documented existing-installation handoff.
+- Update both portable administrator skills with the corrected workflow.
+
+Changing from full application scope to cluster_admin may delete the
+Terraform-managed apps-config repository. Existing Git content is preserved;
+the Flux ownership migration must be applied separately through Git.
+
+Local validation covers Terraform, credentials command syntax, repository
+seeding, skill metadata, and archive integrity. The supplied Resource Manager
+log confirms a successful apply of the preceding bootstrap fixes; the final
+Flux ownership consolidation has not been applied to a live cluster here.
+
+## Inherited from 2.1.0
 
 This release makes the GitOps stack easier to combine with existing OCI DevOps
 delivery workflows while preserving clear Kubernetes object ownership.

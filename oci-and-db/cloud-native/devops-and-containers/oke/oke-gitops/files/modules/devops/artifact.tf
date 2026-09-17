@@ -69,10 +69,8 @@ resource "oci_devops_deploy_artifact" "gitops_bootstrap_prepare" {
       gitops_namespace        = local.gitops_namespace
       ocir_registry           = "${local.region_key}.ocir.io"
       ocir_chart_repository   = "${local.region_key}.ocir.io/${local.namespace}/${var.ocir_repo_path_prefix}/charts"
-      legacy_git_username     = var.git_username
-      legacy_ocir_username    = local.legacy_ocir_username
       cluster_config_repo_url = var.gitops_agent == "fluxcd" ? oci_devops_repository.cluster_config_repo_flux[0].http_url : oci_devops_repository.cluster_config_repo_argocd[0].http_url
-      apps_config_repo_url    = var.gitops_agent == "fluxcd" ? oci_devops_repository.apps_config_repo_flux[0].http_url : oci_devops_repository.apps_config_repo_argocd[0].http_url
+      apps_config_repo_url    = local.apps_repository_url
       fleet_config_repo_url   = var.enable_multicluster ? oci_devops_repository.fleet_config_repo[0].http_url : ""
     })
     deploy_artifact_source_type = "INLINE"

@@ -26,6 +26,11 @@ observation surfaces. Do not repair managed objects directly.
 
 ## Repository ownership
 
+For stack scope, bootstrap credentials, IAM placement, or upgrades, read
+[references/bootstrap.md](references/bootstrap.md). In `cluster_admin`,
+`apps-config` is absent by design; do not create its source or developer
+placements unless the user explicitly enables application management.
+
 - `cluster-config`: bootstrap, Argo configuration, cluster resources (including
   every resource rendered into `kube-system`), namespace infrastructure, and
   local placement. Owned by cluster administrators.

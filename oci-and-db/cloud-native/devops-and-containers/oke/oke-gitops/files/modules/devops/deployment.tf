@@ -40,24 +40,19 @@ resource "oci_devops_deploy_pipeline" "deploy_pipeline_helm" {
       description   = "OCIR repository prefix containing mirrored GitOps artifacts"
     }
     items {
-      name          = "deployment_nonce"
-      default_value = "manual"
-      description   = "Unique bootstrap run identifier that prevents OCI DevOps from skipping a same-version Helm reconciliation"
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Run Helm even when the same chart version was previously deployed"
     }
     items {
       name          = "git_read_credentials_secret_ocid"
       default_value = "CHANGE_ME"
-      description   = "OCI Vault JSON credential secret for read-only Git access, passed by bootstrap-gitops-agent"
+      description   = "Enter the Secret OCID, not JSON. Create the secret in the DevOps project compartment with plaintext JSON (replace all example values): {\"username\":\"example-tenancy/Default/git-reader\",\"password\":\"REPLACE_WITH_GIT_AUTH_TOKEN\"}. Use a dedicated read-only Git user. Password is an OCI auth token, not the console password. Do not base64-encode the JSON in the Console."
     }
     items {
       name          = "registry_pull_secret_ocid"
       default_value = "CHANGE_ME"
-      description   = "OCI Vault JSON credential secret for read-only OCIR access, passed by bootstrap-gitops-agent"
-    }
-    items {
-      name          = "auth_token_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "Deprecated legacy raw-token Vault secret, passed by bootstrap-gitops-agent"
+      description   = "Enter the Secret OCID, not JSON. Create the secret in the DevOps project compartment with plaintext JSON (replace all example values): {\"username\":\"example-namespace/Default/ocir-reader\",\"password\":\"REPLACE_WITH_OCIR_AUTH_TOKEN\"}. Use a dedicated pull-only OCIR user. Tenancy namespace is the Object Storage namespace, not the tenancy name or OCID. Do not base64-encode the JSON in the Console."
     }
   }
 }
@@ -112,12 +107,6 @@ resource "oci_devops_deploy_stage" "deploy_helm_stage" {
   purpose                           = "EXECUTE_HELM_UPGRADE"
   release_name                      = "$${chart_name}"
   is_force_enabled                  = true
-  set_string {
-    items {
-      name  = "bootstrapNonce"
-      value = "$${deployment_nonce}"
-    }
-  }
   rollback_policy {
     policy_type = "AUTOMATED_STAGE_ROLLBACK_POLICY"
   }

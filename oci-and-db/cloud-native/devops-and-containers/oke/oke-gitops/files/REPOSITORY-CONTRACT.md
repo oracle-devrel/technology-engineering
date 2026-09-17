@@ -19,8 +19,8 @@ differ, but repository ownership and the application catalog remain stable.
   while retaining cluster-scoped and namespace-scoped administrative surfaces.
 - `applications_and_cluster` activates the reference placements and supports
   GitOps ownership of application infrastructure and releases.
-- Both scopes create `apps-config`; scope controls initial activation, not
-  repository availability.
+- Only `applications_and_cluster` creates `apps-config`. Switching to
+  `cluster_admin` removes the Terraform-managed application repository.
 - Scope applies only to an empty repository's initial seed. Terraform does not
   rewrite customer-owned Git content on later applies.
 

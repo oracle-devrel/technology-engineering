@@ -6,6 +6,12 @@ resource "oci_devops_repository" "fleet_config_repo" {
   repository_type = "HOSTED"
 }
 
+resource "local_file" "export_flux_fleet_admin_development" {
+  count    = var.enable_multicluster && var.gitops_agent == "fluxcd" && !local.applications_enabled ? 1 : 0
+  filename = "${path.root}/repos/fleet-config/fluxcd/profiles/development/kustomization.yml"
+  content  = "apiVersion: kustomize.config.k8s.io/v1beta1\nkind: Kustomization\nresources: []\n"
+}
+
 resource "local_file" "export_flux_fleet_cluster_root" {
   for_each = local.flux_fleet_members
 
@@ -35,7 +41,7 @@ resource "local_file" "export_flux_fleet_bootstrap" {
     tenancy_namespace = local.namespace
     repo_prefix       = var.ocir_repo_path_prefix
     fleet_repo_url    = oci_devops_repository.fleet_config_repo[0].http_url
-    apps_repo_url     = oci_devops_repository.apps_config_repo_flux[0].http_url
+    apps_repo_url     = local.apps_repository_url
     cluster_name      = "CHANGE_ME"
   })
 }
@@ -74,7 +80,7 @@ resource "local_file" "export_argocd_fleet_reference_app_infrastructure" {
 resource "local_file" "export_argocd_fleet_reference_app_components" {
   filename = "${path.root}/repos/fleet-config/argocd/examples/oke-example/applications/reference-app/components.application-set.yml"
   content = templatefile("${path.root}/templates/argocd-fleet-reference-app-components.yml", {
-    apps_config_repo_url = oci_devops_repository.apps_config_repo_argocd[0].http_url
+    apps_config_repo_url = local.apps_repository_url
     cluster              = "oke-example"
   })
   count = var.enable_multicluster && var.gitops_agent == "argocd" ? 1 : 0
@@ -92,7 +98,7 @@ resource "local_file" "export_argocd_fleet_reference_helm_app_infrastructure" {
 resource "local_file" "export_argocd_fleet_reference_helm_app_components" {
   filename = "${path.root}/repos/fleet-config/argocd/examples/oke-example/applications/reference-helm-app/components.application-set.yml"
   content = templatefile("${path.root}/templates/argocd-fleet-reference-helm-app-components.yml", {
-    apps_config_repo_url = oci_devops_repository.apps_config_repo_argocd[0].http_url
+    apps_config_repo_url = local.apps_repository_url
     cluster              = "oke-example"
   })
   count = var.enable_multicluster && var.gitops_agent == "argocd" ? 1 : 0
@@ -104,11 +110,18 @@ resource "null_resource" "push_fleet_config_repo_content" {
   provisioner "local-exec" {
     command = "chmod +x ./script/push_repo.sh && ./script/push_repo.sh"
     environment = {
-      REPO_CLONE_URL       = oci_devops_repository.fleet_config_repo[0].http_url
-      GIT_USERNAME         = var.git_username
-      GIT_PASSWORD         = var.git_password
-      REGION               = var.region
-      SOURCE_REPO          = "/repos/fleet-config/${var.gitops_agent}"
+      REPO_CLONE_URL = oci_devops_repository.fleet_config_repo[0].http_url
+      GIT_USERNAME   = var.git_username
+      GIT_PASSWORD   = var.git_password
+      REGION         = var.region
+      SOURCE_REPO    = "/repos/fleet-config/${var.gitops_agent}"
+      SEED_EXCLUDE_PATHS = local.applications_enabled ? "" : join("\n", [
+        "examples/oke-example/applications/reference-app",
+        "examples/oke-example/applications/reference-helm-app",
+        "profiles/example/applications/reference-app",
+        "profiles/example/applications/reference-helm-app",
+        "profiles/development/applications"
+      ])
       OVERWRITE_REPOSITORY = tostring(var.development_overwrite_repositories)
     }
     working_dir = path.root
@@ -121,6 +134,7 @@ resource "null_resource" "push_fleet_config_repo_content" {
   }
 
   depends_on = [
+    local_file.export_flux_fleet_admin_development,
     local_file.export_argocd_fleet_reference_app_infrastructure,
     local_file.export_argocd_fleet_reference_app_components,
     local_file.export_argocd_fleet_reference_helm_app_infrastructure,

@@ -26,11 +26,11 @@ variableGroups:
   - title: Create policies
     variables:
       - create_iam
+      - iam_policy_compartment_id
       - iam_domain_compartment_id
       - devops_iam_domain_id
       - devops_dynamic_group_name
       - devops_policy_name
-      - kms_compartment_id
 
   - title: DevOps Project
     variables:
@@ -126,7 +126,7 @@ variables:
 
   devops_compartment_id:
     title: "DevOps Compartment"
-    description: "Compartments where to create the OCI DevOps project"
+    description: "Child compartment where the OCI DevOps project and the bootstrap Shell stage Container Instance will be created. The tenancy root is not supported."
     type: oci:identity:compartment:id
     default: ${compartment_ocid}
     required: true
@@ -302,6 +302,14 @@ variables:
     description: "Let this stack create OCI DevOps policies and dynamic group"
     type: boolean
 
+  iam_policy_compartment_id:
+    title: "IAM policy compartment"
+    description: "Where to create the policy. Use the tenancy root for sibling compartments, or a common ancestor of the DevOps, OKE, and network compartments. Permissions remain scoped to the selected resource compartments."
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_iam}
+
   iam_domain_compartment_id:
     title: "Domain Compartment"
     description: "Compartment where the IAM domain is located"
@@ -331,11 +339,4 @@ variables:
     description: "Name of the policy for the OCI DevOps service"
     type: string
     required: true
-    visible: ${create_iam}
-
-  kms_compartment_id:
-    title: "Vault Compartment"
-    description: "Compartments where the Vault Secrets will be located"
-    type: oci:identity:compartment:id
-    default: ${compartment_ocid}
     visible: ${create_iam}

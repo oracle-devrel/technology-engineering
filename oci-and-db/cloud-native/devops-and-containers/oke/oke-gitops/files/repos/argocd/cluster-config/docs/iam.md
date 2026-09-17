@@ -21,11 +21,12 @@ Before creating anything, record:
 - the identity domain containing the two users;
 - the compartment OCID containing the OCI DevOps project;
 - the compartment OCID containing the OCIR repositories;
-- the compartment OCID containing the Vault secrets;
 - the OKE, worker subnet, and optional NSG compartment OCIDs.
 
-Several of these can be the same compartment. Policy examples below use OCIDs
-so that duplicate compartment names are not ambiguous.
+The two runtime credential Secrets must be created in the OCI DevOps project
+compartment. Other listed resources may be in different compartments. Policy
+examples below use OCIDs so that duplicate compartment names are not
+ambiguous.
 
 ## 2. Create the groups and users
 
@@ -60,7 +61,11 @@ identities must not seed Git repositories or push images.
 
 The deployment pipeline—not either runtime user—reads the Vault secrets and
 connects to OKE. When the stack input `create_iam` is `true`, the stack creates
-the required dynamic group and policy. When IAM is managed externally, ensure
+the required dynamic group and policy. The IAM policy compartment defaults to
+the tenancy root so the policy can reference sibling DevOps, OKE, and network
+compartments. An alternative location must be a common ancestor of all target
+compartments. Each permission remains scoped to its named resource compartment.
+When IAM is managed externally, ensure
 the DevOps dynamic group has the equivalent permissions:
 
 ```text
@@ -76,7 +81,7 @@ Allow dynamic-group <domain-name>/<devops-dynamic-group> to use network-security
 Allow dynamic-group <domain-name>/<devops-dynamic-group> to read all-artifacts in compartment id <devops-compartment-ocid>
 Allow dynamic-group <domain-name>/<devops-dynamic-group> to manage compute-container-family in compartment id <devops-compartment-ocid>
 Allow dynamic-group <domain-name>/<devops-dynamic-group> to manage cluster in compartment id <oke-compartment-ocid>
-Allow dynamic-group <domain-name>/<devops-dynamic-group> to read secret-bundles in compartment id <vault-secret-compartment-ocid>
+Allow dynamic-group <domain-name>/<devops-dynamic-group> to read secret-bundles in compartment id <devops-compartment-ocid>
 ```
 
 If your tenancy has reached its policy-object limit, append the exact

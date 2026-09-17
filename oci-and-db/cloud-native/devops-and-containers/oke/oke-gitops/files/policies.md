@@ -24,12 +24,18 @@ ALL {resource.type = 'devopsconnection',resource.compartment.id = 'compartmentOC
 
 ## DevOps resource-principal policies
 
+The stack attaches the policy to `iam_policy_compartment_id`, defaulting to the
+tenancy root. This supports sibling DevOps, OKE, and network compartments.
+An alternative policy location must be a common ancestor of every referenced
+compartment. The statements still grant access only in the specified resource
+compartments; placing the policy at the root does not grant tenancy-wide access.
+
 Policies needed:
 ```
 NOTE1: CompartmentOCID == compartment id where the OCI DevOps is located
 NOTE2: CompartmentOCIDNetwork == compartment id where the network for the OKE cluster has been provisioned
 NOTE3: CompartmentOCIDOKE == compartment id where the OKE cluster is provisioned
-NOTE4: CompartmentOCIDVault == compartment containing the separate Git reader and OCIR reader credential secrets
+The Git reader and OCIR reader credential secrets must be created in CompartmentOCID.
 
 Allow dynamic-group <domain-name>/DevOpsDynamicGroup to manage repos in compartment id compartmentOCID
 Allow dynamic-group <domain-name>/DevOpsDynamicGroup to manage devops-family in compartment id compartmentOCID
@@ -43,7 +49,7 @@ Allow dynamic-group <domain-name>/DevOpsDynamicGroup to use network-security-gro
 Allow dynamic-group <domain-name>/DevOpsDynamicGroup to read all-artifacts in compartment id compartmentOCID
 Allow dynamic-group <domain-name>/DevOpsDynamicGroup to manage compute-container-family in compartment id compartmentOCID
 Allow dynamic-group <domain-name>/DevOpsDynamicGroup to manage cluster in compartment id compartmentOCIDOKE
-Allow dynamic-group <domain-name>/DevOpsDynamicGroup to read secret-bundles in compartment id compartmentOCIDVault
+Allow dynamic-group <domain-name>/DevOpsDynamicGroup to read secret-bundles in compartment id compartmentOCID
 ```
 
 ## Runtime reader policies

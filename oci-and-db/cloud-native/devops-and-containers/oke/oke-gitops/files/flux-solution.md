@@ -77,9 +77,8 @@ cluster-config/
     install-agent-skill.md                # portable skill installation
   gitops/
     fluxcd/
-      flux-operator.yml                   # initial generated adapter
-      platform.yml
-      apps.yml                            # initial generated adapter
+      platform.yml                        # platform root, including Flux Operator
+      apps.yml                            # applications_and_cluster only
       fleet.yml                           # optional; documented even when absent
   platform/
     applications/
