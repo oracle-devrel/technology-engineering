@@ -1,0 +1,44 @@
+# AIQ RAG Application Backend Dependencies
+
+# Web Framework
+fastapi>=0.109.0,<1.0.0
+uvicorn[standard]>=0.27.0,<1.0.0
+
+# File uploads
+python-multipart>=0.0.6,<1.0.0
+
+# HTTP client for async API calls
+httpx>=0.26.0,<1.0.0
+
+# OpenAI-compatible client (used for Llama Stack)
+openai>=1.0.0,<2.0.0
+
+# Data validation
+pydantic>=2.5.0,<3.0.0
+
+# Environment variables
+python-dotenv>=1.0.0,<2.0.0
+
+# PDF processing
+pdfplumber>=0.10.0,<1.0.0
+
+# Oracle Database - Vector Store
+oracledb>=2.0.0,<3.0.0
+
+# OCI SDK - Object Storage integration
+oci>=2.100.0
+
+# Web scraping
+beautifulsoup4>=4.12.0,<5.0.0
+requests>=2.31.0,<3.0.0
+
+# Job scheduling for batch processing
+apscheduler>=3.10.0,<4.0.0
+
+# Development dependencies
+pytest>=8.0.0,<9.0.0
+pytest-asyncio>=0.23.0,<1.0.0
+pytest-cov>=4.1.0,<6.0.0
+
+# Code quality
+ruff>=0.2.0,<1.0.0

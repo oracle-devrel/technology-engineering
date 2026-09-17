@@ -1,0 +1,27 @@
+{
+  "domain": "manufacturing",
+  "checks": [
+    {"id": "MFG01", "type": "required_field", "field_name": "document_title", "category": "Document Identity", "severity": "high", "pass_message": "Document title present", "fail_message": "No document title — SOP cannot be properly identified"},
+    {"id": "MFG02", "type": "required_field", "field_name": "document_number", "category": "Document Identity", "severity": "high", "pass_message": "Document number present", "fail_message": "No document number — traceability compromised"},
+    {"id": "MFG03", "type": "required_field", "field_name": "approver", "category": "Signatures", "severity": "critical", "pass_message": "Approver identified", "fail_message": "NO APPROVER — document not formally authorized for production use"},
+    {"id": "MFG04", "type": "required_field", "field_name": "quality_checks", "category": "Quality Control", "severity": "critical", "pass_message": "Quality control checks documented", "fail_message": "NO QUALITY CONTROL CHECKS — product quality cannot be assured"},
+    {"id": "MFG05", "type": "required_field", "field_name": "inspection_procedures", "category": "Quality Control", "severity": "high", "pass_message": "Inspection procedures documented", "fail_message": "No inspection procedures — acceptance criteria undefined"},
+    {"id": "MFG06", "type": "required_field", "field_name": "hazards_identified", "category": "Safety", "severity": "critical", "pass_message": "Hazards identified and assessed", "fail_message": "NO HAZARDS IDENTIFIED — workplace risk assessment is missing"},
+    {"id": "MFG07", "type": "required_field", "field_name": "ppe_requirements", "category": "Safety", "severity": "high", "pass_message": "PPE requirements specified", "fail_message": "No PPE requirements — worker safety may be compromised"},
+    {"id": "MFG08", "type": "required_field", "field_name": "training_requirements", "category": "Training", "severity": "high", "pass_message": "Training requirements documented", "fail_message": "No training requirements — operator competency not assured"},
+    {"id": "MFG09", "type": "required_field", "field_name": "supplier_requirements", "category": "Supply Chain", "severity": "medium", "pass_message": "Supplier requirements documented", "fail_message": "No supplier quality requirements — incoming material quality uncontrolled"},
+    {"id": "MFG10", "type": "required_field", "field_name": "traceability_records", "category": "Supply Chain", "severity": "high", "pass_message": "Traceability records present", "fail_message": "No traceability records — product recall capability compromised"},
+    {"id": "MFG001", "type": "keyword_present", "keyword": "ISO 9001", "category": "Quality", "severity": "critical", "pass_message": "ISO 9001 quality management referenced", "fail_message": "No ISO 9001 reference — quality management standard"},
+    {"id": "MFG002", "type": "keyword_present", "keyword": "quality control", "category": "Quality", "severity": "high", "pass_message": "Quality control procedures found", "fail_message": "No quality control procedures"},
+    {"id": "MFG003", "type": "keyword_present", "keyword": "OSHA", "category": "Safety", "severity": "critical", "pass_message": "OSHA safety standards referenced", "fail_message": "No OSHA reference — workplace safety compliance gap"},
+    {"id": "MFG004", "type": "keyword_present", "keyword": "PPE", "category": "Safety", "severity": "high", "pass_message": "PPE requirements addressed", "fail_message": "No PPE requirements found"},
+    {"id": "MFG005", "type": "keyword_present", "keyword": "hazardous material", "category": "Safety", "severity": "high", "pass_message": "Hazardous materials addressed", "fail_message": "No hazardous materials provisions"},
+    {"id": "MFG006", "type": "keyword_present", "keyword": "environmental", "category": "Environmental", "severity": "high", "pass_message": "Environmental compliance addressed", "fail_message": "No environmental compliance"},
+    {"id": "MFG007", "type": "keyword_present", "keyword": "waste management", "category": "Environmental", "severity": "medium", "pass_message": "Waste management referenced", "fail_message": "No waste management procedures"},
+    {"id": "MFG008", "type": "keyword_present", "keyword": "standard operating procedure", "category": "Process", "severity": "high", "pass_message": "SOPs referenced", "fail_message": "No SOPs referenced"},
+    {"id": "MFG009", "type": "keyword_present", "keyword": "inspection", "category": "Process", "severity": "high", "pass_message": "Inspection procedures found", "fail_message": "No inspection procedures"},
+    {"id": "MFG010", "type": "keyword_present", "keyword": "supplier", "category": "Supply Chain", "severity": "medium", "pass_message": "Supplier requirements addressed", "fail_message": "No supplier quality requirements"},
+    {"id": "MFG011", "type": "keyword_present", "keyword": "training", "category": "Training", "severity": "medium", "pass_message": "Training requirements present", "fail_message": "No training requirements"},
+    {"id": "MFG012", "type": "keyword_present", "keyword": "traceability", "category": "Documentation", "severity": "high", "pass_message": "Traceability measures found", "fail_message": "No traceability measures"}
+  ]
+}
