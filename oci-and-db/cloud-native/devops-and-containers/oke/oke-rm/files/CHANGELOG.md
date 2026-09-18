@@ -1,38 +1,41 @@
-# Changelog
+# OKE Resource Manager 1.4.0
 
-This file documents notable user-facing changes to the OCI Resource Manager infrastructure and OKE stacks.
+## Changes
 
-## 2026-09-04
+- Accept multiple IPv4 CIDRs for control-plane API access and optional external egress in the infrastructure stack.
+- Expose both inputs as Resource Manager lists with per-entry IPv4 validation.
+- Deduplicate repeated entries and support empty lists without removing internal OKE communication rules.
+- Preserve existing API rule state through Terraform moved blocks.
+- Upgrade the OCI Terraform provider to 9.2.0 for both infrastructure and OKE stacks. Other provider versions remain unchanged.
 
-### Added
+## Upgrade Notes
 
-- Added Terraform input validation for identifiers, CIDRs, supported CNI and cluster types, Kubernetes versions, and dependent configuration.
-- Added a Resource Manager security notice for the permissive default control-plane and public bastion network rules.
-- Added and linked a detailed network-rules report covering OKE, database, and OCI Streaming NSGs.
-- Added automatic least-privilege policies for VCN-native clusters whose worker and network resources are in different compartments.
-- Added policy outputs grouped by feature and an inventory of the IAM policy resources created by the stack.
-- Added documentation for additional policies that might be required by workload, storage, load balancer, encryption, and advanced node-pool features.
-- Added a persistent eight-character per-stack UUID suffix to make generated NSG and gateway names, and Karpenter worker and pod network role tags, unique.
-- Added bidirectional FSS rules to the pod and FSS NSGs so Virtual Node pods can connect directly to FSS mount targets when FSS support is enabled.
-- Added an `fss_nsg_id` stack output so the generated FSS NSG can be attached directly to mount targets.
+The existing input names remain `cp_allowed_source_cidr` and `cp_egress_cidr`, but their types change from string to list(string). Convert saved scalar values before planning:
 
-### Changed
+```hcl
+cp_allowed_source_cidr = ["192.0.2.10/32", "198.51.100.0/24"]
+cp_egress_cidr         = ["10.10.0.0/16", "10.20.0.0/16"]
+```
 
-- Updated the post-install documentation to direct customers to the OKE GitOps Solution or the OKE DevOps Starter.
-- Reorganized the README around the infrastructure, cluster, worker-node, and operational workflows, with direct links to the local policy guide and generated network-rules report.
-- Reworked the Karpenter guide into a complete installation, configuration, validation, and cleanup workflow aligned with the stack's IAM and networking defaults.
-- Limited DRG creation to VCNs created by the infrastructure stack.
-- Derived the tenancy home region automatically when creating IAM resources.
-- Limited Karpenter policy configuration to enhanced clusters.
-- Exposed generated policy statements in the Resource Manager output section.
-- Deduplicated Cluster Autoscaler statements when node pools and networking share a compartment while preserving OCI's required policy sets for separate compartments.
-- Made the Karpenter namespace and service account configurable for workload identity policies.
-- Updated policy dry-run mode so it does not create Karpenter identity resources.
+Keep the previous CIDR first to retain the existing rule at index zero. Append additional entries where possible; reordering can update indexed rules. Defaults remain `["0.0.0.0/0"]`; restrict access appropriately.
 
-### Fixed
+Review the complete plan before upgrading. The Amsterdam repeat plan showed no CIDR-rule drift, but proposed removing tenancy-injected defined tags from 34 resources. That unrelated plan was not applied; this release does not change tag ownership.
 
-- Decoupled database subnet creation from database NSG and database service selection.
-- Prevented Karpenter dynamic-group evaluation when Karpenter policies are not supported by the selected cluster type.
-- Added the required Karpenter permission to manage volume attachments.
-- Corrected the Karpenter capacity reservation policy to use the `compute-capacity-reservations` resource type.
-- Corrected the Karpenter guide to use deterministic network OCIDs, a supported CNI version check, and a safe secondary-VNIC IP count.
+## Verification
+
+- Terraform formatting and validation passed for both stacks.
+- All 19 native Terraform tests passed: nine infrastructure and ten OKE tests.
+- Resource Manager Terraform 1.5 successfully planned and applied both stacks with OCI provider 9.2.0 in eu-amsterdam-1.
+- The public-endpoint, VCN-native cluster and its test worker reached ACTIVE.
+- Both ingress/return CIDR pairs and both egress CIDRs were verified through OCI, then manually verified by the user.
+- Direct kubectl access from the test laptop was blocked/refused on its corporate network; Kubernetes API readiness was not independently verified from that laptop.
+- Test cleanup completed successfully: the external node pool, worker instance, boot volume, cluster, all 132 infrastructure resources, and both temporary Resource Manager stacks were removed.
+
+The draft includes `infra.zip` and `oke.zip`. Deploy buttons target this release and become usable after publication.
+
+## SHA-256
+
+```text
+3722860407945386b54f985c0acfbeab9beef593b825db2b829079305d6891a9  infra.zip
+1e6a97c685e400af44b591ce983a5a1f8733b3e27f9603e90391c615ed88e5d0  oke.zip
+```

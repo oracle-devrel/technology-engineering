@@ -195,11 +195,14 @@ variables:
         - ${create_vcn}
 
   cp_allowed_source_cidr:
-    title: "Control Plane allowed source cidr"
-    description: "This source CIDR block will be able to contact the OKE API server"
-    type: string
-    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
-    required: true
+    title: "Control Plane Allowed Source CIDRs"
+    description: "IPv4 CIDR ranges allowed to contact the OKE API server on TCP 6443. Each entry also gets a return-traffic rule. An empty list disables external API access."
+    type: array
+    default: ["0.0.0.0/0"]
+    items:
+      type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
+    required: false
 
 
 # WORKER SUBNET
@@ -422,11 +425,14 @@ variables:
           - ${cp_external_nat}
 
   cp_egress_cidr:
-    title: "Control Plane allowed egress cidr"
-    description: "Allowed egress IP range that the Control Plane is allowed to call"
-    type: string
-    required: true
-    pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
+    title: "Control Plane Allowed Egress CIDRs"
+    description: "IPv4 destination ranges the control plane can call using TCP. An empty list creates no optional external egress rules."
+    type: array
+    default: ["0.0.0.0/0"]
+    required: false
+    items:
+      type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/(?:[0-9]|[1-2][0-9]|3[0-2])$"
     visible:
       and:
         - ${allow_external_cp_traffic}
