@@ -10,6 +10,11 @@ resource "oci_devops_deploy_pipeline" "deploy_application" {
 
   deploy_pipeline_parameters {
     items {
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Run Helm even when artifacts and stage parameters are unchanged"
+    }
+    items {
       name          = "chart_version"
       default_value = each.value.chart_version
       description   = "Application baseline chart version to deploy"
@@ -33,6 +38,11 @@ resource "oci_devops_deploy_pipeline" "deploy_component" {
   }
 
   deploy_pipeline_parameters {
+    items {
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Run Helm even when artifacts and stage parameters are unchanged"
+    }
     items {
       name          = "component_chart_version"
       default_value = each.value.chart_version

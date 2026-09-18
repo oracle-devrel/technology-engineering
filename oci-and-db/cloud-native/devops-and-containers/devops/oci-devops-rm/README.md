@@ -10,7 +10,10 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](files/docs/quickstart.md)**.
 
-Reviewed: 07.09.2026
+Reviewed: 18.09.2026
+
+See the [1.1.1 upgrade notes](files/docs/release-1.1.1.md) for cross-compartment
+IAM policy placement, project-location validation, and explicit Helm reruns.
 
 # When to use this asset?
 

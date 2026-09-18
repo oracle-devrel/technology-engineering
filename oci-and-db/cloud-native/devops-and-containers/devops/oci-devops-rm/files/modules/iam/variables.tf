@@ -1,4 +1,7 @@
 variable "compartment_id" {}
+variable "policy_compartment_id" {
+  type = string
+}
 variable "iam_domain_id" {}
 variable "network_compartment_id" {}
 variable "prod_network_compartment_id" {}

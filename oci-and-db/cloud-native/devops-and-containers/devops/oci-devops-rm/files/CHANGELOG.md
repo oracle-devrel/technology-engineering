@@ -6,6 +6,20 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-09-18
+
+### Fixed
+
+- Added configurable IAM policy placement at a common ancestor (tenancy root by default) so grants work across sibling OKE and network compartments. Vault access remains in the secret compartment.
+- Reject new and reused tenancy-root DevOps projects when application delivery or cluster administration needs Container Instance Shell stages. Pure build-only mode remains allowed.
+- Set OCI's reserved `ENFORCE_HELM_DEPLOYMENT=true` parameter on generated application and component deployment pipelines so explicit reruns execute Helm even when inputs are unchanged.
+
+### Upgrade Notes
+
+- Review the Terraform plan for the IAM policy location change. The applying identity needs policy-management permissions in the selected ancestor compartment. Grant targets are unchanged.
+- Existing customized deployment pipelines retain template ownership (`ignore_changes = all`). Add `ENFORCE_HELM_DEPLOYMENT` with default `true` manually to existing application baseline and component dev/release pipelines, or pass it on an individual deployment run.
+- No live OCI functional test was performed for this patch; local regression and Terraform validation results are recorded in the release PR.
+
 ## [1.1.0] - 2026-09-07
 
 ### Delivery Ownership

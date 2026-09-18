@@ -2,7 +2,7 @@ title: OKE Helm Starter Stack
 description: Bootstrap OCI DevOps component builds, optional Helm delivery, and optional OKE cluster administration.
 stackDescription: Creates configurable OCI DevOps CI and, when selected, application delivery and OKE administration workflows.
 schemaVersion: 1.1.0
-version: "20260904"
+version: "20260918"
 locale: en
 informationalText: "Start with the Pipelines Repository button and the Next Steps output. Full delivery mode continues from component builds into Helm promotion; build-only mode publishes SHA7 images for an external delivery system."
 
@@ -75,6 +75,7 @@ variableGroups:
   - title: IAM
     variables:
       - create_iam
+      - iam_policy_compartment_id
       - iam_domain_compartment_id
       - devops_iam_domain_id
       - namespace_init_secret_compartment_id
@@ -497,6 +498,14 @@ variables:
     description: Enable only if you want this stack to create the DevOps dynamic group and policy. Leave off when IAM has already been prepared.
     type: boolean
     default: false
+
+  iam_policy_compartment_id:
+    title: IAM Policy Compartment
+    description: Choose a common ancestor of the DevOps, OKE, and network compartments. Defaults to the tenancy root; permissions remain scoped to the selected resource compartments. Creating the policy requires permission at this location.
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_iam}
 
   iam_domain_compartment_id:
     title: IAM Domain Compartment
