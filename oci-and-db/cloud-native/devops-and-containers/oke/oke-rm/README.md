@@ -13,7 +13,7 @@ network security group OCIDs required by the OKE stack.
 For GPU and RDMA clusters that need a complete specialized deployment, use the
 [OCI HPC OKE Quickstart](https://github.com/oracle-quickstart/oci-hpc-oke).
 
-Reviewed: 07.09.2026
+Reviewed: 18.09.2026
 
 ## Architecture
 
@@ -45,7 +45,31 @@ Before applying the stack:
 See the [generated network-rules report](files/infra/network-rules-report.md)
 for every OKE, database, and messaging rule created by this stack.
 
-[![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.7/infra.zip)
+[![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.4.0/infra.zip)
+
+### Control-plane CIDR lists
+
+`cp_allowed_source_cidr` and `cp_egress_cidr` accept lists of IPv4 CIDRs.
+Resource Manager displays both as list inputs with per-entry validation.
+
+```hcl
+cp_allowed_source_cidr = ["192.0.2.10/32", "198.51.100.0/24"]
+cp_egress_cidr         = ["10.10.0.0/16", "10.20.0.0/16"]
+```
+
+Each distinct source gets a TCP 6443 ingress rule and its stateless return rule.
+Each distinct egress destination gets an optional stateful TCP rule, subject to
+the existing external-traffic and subnet/NAT settings. Empty lists create no
+corresponding external rules; internal OKE rules are unchanged. Defaults remain
+`["0.0.0.0/0"]`; restrict them to the required networks.
+
+**Upgrading from 1.3.x:** convert scalar CIDR inputs to single-element lists before
+applying, keeping the previous CIDR first. Terraform moves the existing API rules
+to index zero; the optional egress rule already uses index zero. Append additional
+ranges where possible, as reordering lists can update indexed rules. Review the
+plan, including any tenancy-injected defined-tag drift, before applying.
+
+Both stacks pin OCI provider 9.2.0. See the [release notes](files/CHANGELOG.md).
 
 After the apply finishes, keep the stack outputs available for the next step.
 
@@ -54,7 +78,7 @@ After the apply finishes, keep the stack outputs available for the next step.
 Create the OKE stack using the VCN, subnet, and network security group OCIDs
 returned by the infrastructure stack.
 
-[![Deploy OKE to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.3.7/oke.zip)
+[![Deploy OKE to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.4.0/oke.zip)
 
 ### IAM policies
 
