@@ -35,6 +35,7 @@ rsync -a \
   --exclude "*.tfvars" \
   --exclude ".DS_Store" \
   --exclude "*.zip" \
+  --exclude "stack.zip.sha256" \
   "$ROOT_DIR/" "$STAGING_DIR/"
 
 if [ "$DEVELOPMENT_MODE" = "true" ]; then

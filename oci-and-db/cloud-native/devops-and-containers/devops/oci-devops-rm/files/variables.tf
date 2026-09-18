@@ -507,6 +507,16 @@ variable "auth_token" {
   sensitive = true
 }
 
+variable "iam_policy_compartment_id" {
+  type        = string
+  default     = null
+  description = "Common ancestor of the DevOps, OKE, and network compartments for policy attachment. Defaults to the tenancy root; grants remain scoped to their selected compartments."
+  validation {
+    condition     = var.iam_policy_compartment_id == null ? true : can(regex("^ocid1\\.(compartment|tenancy)\\.", var.iam_policy_compartment_id))
+    error_message = "Use a compartment or tenancy OCID."
+  }
+}
+
 variable "create_iam" {
   type    = bool
   default = false

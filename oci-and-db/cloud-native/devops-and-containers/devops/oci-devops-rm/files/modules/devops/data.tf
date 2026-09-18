@@ -2,6 +2,13 @@ data "oci_devops_project" "existing" {
   count = var.create_devops_project ? 0 : 1
 
   project_id = var.existing_devops_project_id
+
+  lifecycle {
+    postcondition {
+      condition     = !local.oke_environments_required || self.compartment_id != var.tenancy_id
+      error_message = "The existing DevOps project must be in a child compartment when application delivery or cluster administration is enabled: Shell stages cannot create Container Instances in the tenancy root."
+    }
+  }
 }
 
 data "oci_artifacts_container_configuration" "ocir_config" {

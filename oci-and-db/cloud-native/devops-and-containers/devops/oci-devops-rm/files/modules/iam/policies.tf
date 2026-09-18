@@ -44,7 +44,7 @@ locals {
 }
 
 resource "oci_identity_policy" "devops_policy" {
-  compartment_id = var.compartment_id
+  compartment_id = var.policy_compartment_id
   description    = "Policies for the OKE Helm starter OCI DevOps resources"
   name           = var.devops_policy_name
   statements     = local.statements

@@ -41,6 +41,7 @@ module "iam" {
   count  = var.create_iam ? 1 : 0
 
   compartment_id              = module.devops.devops_project_compartment_id
+  policy_compartment_id       = coalesce(var.iam_policy_compartment_id, var.tenancy_ocid)
   iam_domain_id               = var.devops_iam_domain_id
   network_compartment_id      = coalesce(var.network_compartment_id, var.compartment_ocid)
   prod_network_compartment_id = var.prod_network_compartment_id

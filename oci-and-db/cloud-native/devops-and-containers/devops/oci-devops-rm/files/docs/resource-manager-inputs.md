@@ -170,3 +170,11 @@ For early testing, prod can point to the same OKE cluster, subnet, and NSG as pr
 The IAM section controls whether the stack creates the DevOps dynamic group and policies. The Vault compartment input is used by application bootstrap because the OCIR pull password is read from an OCI Vault secret at deployment time.
 
 When IAM creation is enabled, you can also configure the generated dynamic group name and policy name.
+
+### IAM Policy Placement
+
+When `create_iam=true`, `iam_policy_compartment_id` selects where the DevOps
+policy is attached. It defaults to the tenancy root and must be a common ancestor
+of the project, OKE, and network compartments. Individual permissions remain
+scoped to those compartments. The separate Vault policy stays in the secret
+compartment. See [1.1.1 upgrade notes](release-1.1.1.md).
