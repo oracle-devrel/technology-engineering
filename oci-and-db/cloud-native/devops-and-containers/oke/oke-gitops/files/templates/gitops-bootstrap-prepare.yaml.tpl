@@ -12,14 +12,11 @@ env:
     gitops_namespace: "${gitops_namespace}"
     ocir_registry: "${ocir_registry}"
     ocir_chart_repository: "${ocir_chart_repository}"
-    legacy_git_username: "${legacy_git_username}"
-    legacy_ocir_username: "${legacy_ocir_username}"
     cluster_config_repo_url: "${cluster_config_repo_url}"
     apps_config_repo_url: "${apps_config_repo_url}"
     fleet_config_repo_url: "${fleet_config_repo_url}"
     git_read_credentials_secret_ocid: "$${git_read_credentials_secret_ocid}"
     registry_pull_secret_ocid: "$${registry_pull_secret_ocid}"
-    auth_token_secret_ocid: "$${auth_token_secret_ocid}"
 
 steps:
   - type: Command
@@ -34,19 +31,10 @@ steps:
 
       git_secret_valid=false
       ocir_secret_valid=false
-      legacy_secret_valid=false
       is_vault_secret "$${git_read_credentials_secret_ocid}" && git_secret_valid=true
       is_vault_secret "$${registry_pull_secret_ocid}" && ocir_secret_valid=true
-      is_vault_secret "$${auth_token_secret_ocid}" && legacy_secret_valid=true
 
-      if [ "$${git_secret_valid}" != "$${ocir_secret_valid}" ]; then
-        echo "git_read_credentials_secret_ocid and registry_pull_secret_ocid must be configured together" >&2
-        exit 1
-      elif [ "$${git_secret_valid}" = true ]; then
-        echo "Separate Git and OCIR runtime credentials selected"
-      elif [ "$${legacy_secret_valid}" = true ]; then
-        echo "WARNING: auth_token_secret_ocid is deprecated; migrate to separate read-only Git and OCIR credentials" >&2
-      else
+      if [ "$${git_secret_valid}" != true ] || [ "$${ocir_secret_valid}" != true ]; then
         echo "Set both runtime credential secret OCIDs to OCI Vault secrets" >&2
         exit 1
       fi
@@ -90,13 +78,12 @@ steps:
 
       git_json_path="$${credentials_dir}/git.json"
       ocir_json_path="$${credentials_dir}/ocir.json"
-      legacy_token_path="$${credentials_dir}/legacy-token"
       git_username_path="$${credentials_dir}/git-username"
       git_password_path="$${credentials_dir}/git-password"
       ocir_username_path="$${credentials_dir}/ocir-username"
       ocir_password_path="$${credentials_dir}/ocir-password"
       dockerconfig_path="$${credentials_dir}/dockerconfig.json"
-      trap 'rm -f "$${git_json_path}" "$${ocir_json_path}" "$${legacy_token_path}" "$${git_username_path}" "$${git_password_path}" "$${ocir_username_path}" "$${ocir_password_path}" "$${dockerconfig_path}"' EXIT
+      trap 'rm -f "$${git_json_path}" "$${ocir_json_path}" "$${git_username_path}" "$${git_password_path}" "$${ocir_username_path}" "$${ocir_password_path}" "$${dockerconfig_path}"' EXIT
 
       umask 077
       read_vault_secret() {
@@ -167,12 +154,8 @@ steps:
       PY
         echo "Loaded separate read-only Git and OCIR credentials"
       else
-        read_vault_secret "$${auth_token_secret_ocid}" "$${legacy_token_path}"
-        printf '%s' "$${legacy_git_username}" >"$${git_username_path}"
-        printf '%s' "$${legacy_ocir_username}" >"$${ocir_username_path}"
-        cp "$${legacy_token_path}" "$${git_password_path}"
-        cp "$${legacy_token_path}" "$${ocir_password_path}"
-        echo "WARNING: using deprecated shared bootstrap credentials" >&2
+        echo "Both runtime credential secrets are required" >&2
+        exit 1
       fi
 
       git_runtime_username="$(cat "$${git_username_path}")"
@@ -180,7 +163,7 @@ steps:
 
       cluster_repo_prefix="$${cluster_config_repo_url%/*}"
       apps_repo_prefix="$${apps_config_repo_url%/*}"
-      if [ "$${cluster_repo_prefix}" != "$${apps_repo_prefix}" ]; then
+      if [ -n "$${apps_config_repo_url}" ] && [ "$${cluster_repo_prefix}" != "$${apps_repo_prefix}" ]; then
         echo "cluster-config and apps-config do not share an OCI DevOps repository URL prefix" >&2
         exit 1
       fi
@@ -192,8 +175,10 @@ steps:
       credential_helper='!f() { printf "username=%s\npassword=%s\n" "$GIT_USERNAME" "$GIT_PASSWORD"; }; f'
       git -c credential.helper="$${credential_helper}" \
         ls-remote "$${cluster_config_repo_url}" HEAD >/dev/null
-      git -c credential.helper="$${credential_helper}" \
-        ls-remote "$${apps_config_repo_url}" HEAD >/dev/null
+      if [ -n "$${apps_config_repo_url}" ]; then
+        git -c credential.helper="$${credential_helper}" \
+          ls-remote "$${apps_config_repo_url}" HEAD >/dev/null
+      fi
       if [ -n "$${fleet_config_repo_url}" ]; then
         fleet_repo_prefix="$${fleet_config_repo_url%/*}"
         if [ "$${cluster_repo_prefix}" != "$${fleet_repo_prefix}" ]; then

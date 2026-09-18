@@ -20,4 +20,9 @@ resource "oci_identity_domains_dynamic_resource_group" "devOpsDynamicGroup" {
   description   = "Dynamic group for the OCI DevOps service"
   matching_rule = local.matching_rule
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:DynamicResourceGroup"]
+
+  lifecycle {
+    # OCI may add schema extensions such as OCITags after creation.
+    ignore_changes = [schemas]
+  }
 }

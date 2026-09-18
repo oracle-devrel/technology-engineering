@@ -49,7 +49,5 @@ output "cluster_config_repository_url" {
 
 output "apps_config_repository_url" {
   description = "HTTPS URL of the selected agent's apps-config repository"
-  value = var.gitops_agent == "fluxcd" ? (
-    oci_devops_repository.apps_config_repo_flux[0].http_url
-  ) : oci_devops_repository.apps_config_repo_argocd[0].http_url
+  value       = local.applications_enabled ? local.apps_repository_url : null
 }

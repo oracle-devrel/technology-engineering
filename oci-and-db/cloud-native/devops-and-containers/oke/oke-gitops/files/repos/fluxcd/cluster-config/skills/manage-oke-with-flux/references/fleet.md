@@ -26,7 +26,7 @@ shared or dedicated to one cluster. Activation is explicit: each file below
 Read the repository's `docs/add-member.md` completely. Resource Manager manages
 only the primary environment/pipeline. An administrator creates a private OKE
 deployment environment and dedicated installer pipeline for every later
-member, using a unique `deployment_nonce` per run. Prepare Git activation,
+member, using `ENFORCE_HELM_DEPLOYMENT=true` for installation runs. Prepare Git activation,
 install Flux Operator through OCI DevOps, then apply the sanitized
 `bootstrap/<cluster>.yml` once. Each external mutation requires authorization.
 

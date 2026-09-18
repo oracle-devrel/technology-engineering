@@ -80,10 +80,9 @@ Manager must not manage this pipeline. Define these parameters:
 | `region_key` | OCIR region key, for example `lin` |
 | `tenancy_namespace` | Object Storage tenancy namespace used by OCIR |
 | `repo_prefix` | The same OCIR repository prefix configured in the Resource Manager stack |
-| `deployment_nonce` | A unique value for every installation run, for example the deployment timestamp or change ticket |
+| `ENFORCE_HELM_DEPLOYMENT` | `true`; execute Helm even for same-version reinstalls |
 | `git_read_credentials_secret_ocid` | Vault JSON secret for the read-only Git identity |
 | `registry_pull_secret_ocid` | Vault JSON secret for the read-only OCIR identity |
-| `auth_token_secret_ocid` | `CHANGE_ME`; deprecated fallback only |
 
 Add two stages in this order:
 
@@ -95,10 +94,8 @@ Add two stages in this order:
 2. An **OKE Helm Chart Deployment** stage targeting the additional cluster's
    environment. Use the existing `flux-operator-chart` and
    `flux-operator-chart-values` artifacts, execute a Helm upgrade, and make it
-   depend on the Shell stage. Enable **Force Helm**, then add the string value
-   `bootstrapNonce=${deployment_nonce}`. The Flux Operator chart safely ignores
-   this unknown value; changing it prevents OCI DevOps from treating a deleted
-   same-version release as an already completed deployment.
+   depend on the Shell stage. Enable **Force Helm** and supply the deployment
+   parameter `ENFORCE_HELM_DEPLOYMENT=true` when running the pipeline.
 
 The three OCIR parameters are required because the shared values artifact uses
 them to construct the mirrored controller image names. A literal
@@ -107,8 +104,8 @@ manual pipeline omitted these parameters.
 
 Run `mirror-gitops-agent` first if the requested exact chart version is not
 already present in OCIR. Then run the member installation pipeline with both
-Vault secret OCIDs and a new `deployment_nonce`. Reuse the same chart version
-when reinstalling, but never reuse the nonce. Do not use `LATEST` in the
+Vault secret OCIDs and `ENFORCE_HELM_DEPLOYMENT=true`. Reuse the same chart version
+when reinstalling. Do not use `LATEST` in the
 deployment pipeline: resolve and mirror an exact version first.
 
 ## 4. Hand off to GitOps

@@ -45,6 +45,11 @@ resource "oci_devops_build_pipeline" "bootstrap_gitops_agent" {
 
   build_pipeline_parameters {
     items {
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Request Helm execution on every bootstrap deployment, including same-version reinstalls"
+    }
+    items {
       name          = "chart_version"
       default_value = "LATEST"
       description   = "Exact Helm chart version to mirror and install, or LATEST to resolve the current upstream version"
@@ -52,17 +57,12 @@ resource "oci_devops_build_pipeline" "bootstrap_gitops_agent" {
     items {
       name          = "git_read_credentials_secret_ocid"
       default_value = "CHANGE_ME"
-      description   = "OCI Vault secret OCID containing JSON username/password credentials for read-only Git access"
+      description   = "Enter the Secret OCID, not JSON. Create the secret in the DevOps project compartment with plaintext JSON (replace all example values): {\"username\":\"example-tenancy/Default/git-reader\",\"password\":\"REPLACE_WITH_GIT_AUTH_TOKEN\"}. Use a dedicated read-only Git user. Password is an OCI auth token, not the console password. Do not base64-encode the JSON in the Console."
     }
     items {
       name          = "registry_pull_secret_ocid"
       default_value = "CHANGE_ME"
-      description   = "OCI Vault secret OCID containing JSON username/password credentials for read-only OCIR access"
-    }
-    items {
-      name          = "auth_token_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "Deprecated legacy OCI Vault secret OCID containing one raw auth token for Git and OCIR"
+      description   = "Enter the Secret OCID, not JSON. Create the secret in the DevOps project compartment with plaintext JSON (replace all example values): {\"username\":\"example-namespace/Default/ocir-reader\",\"password\":\"REPLACE_WITH_OCIR_AUTH_TOKEN\"}. Use a dedicated pull-only OCIR user. Tenancy namespace is the Object Storage namespace, not the tenancy name or OCID. Do not base64-encode the JSON in the Console."
     }
   }
 }

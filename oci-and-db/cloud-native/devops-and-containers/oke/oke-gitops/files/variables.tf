@@ -151,6 +151,12 @@ variable "create_iam" {
   default = false
 }
 
+variable "iam_policy_compartment_id" {
+  description = "Compartment containing the IAM policy; must be an ancestor of every referenced compartment. Null uses the tenancy root."
+  type        = string
+  default     = null
+}
+
 variable "iam_domain_compartment_id" {
   default = null
 }
@@ -164,8 +170,5 @@ variable "devops_dynamic_group_name" {
 }
 
 variable "devops_policy_name" {
-  default = null
-}
-variable "kms_compartment_id" {
   default = null
 }

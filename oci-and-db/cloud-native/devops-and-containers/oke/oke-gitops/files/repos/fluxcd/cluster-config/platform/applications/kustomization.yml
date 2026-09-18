@@ -3,5 +3,6 @@ kind: Kustomization
 
 # Add one directory for each ResourceSet-managed platform application.
 resources:
+  - flux-operator
   - reference-app
   - reference-helm-app

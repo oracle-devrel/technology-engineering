@@ -6,7 +6,7 @@ locals {
     "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devOpsDynamicGroup.ocid} to read all-artifacts in compartment id ${var.compartment_id}",
     "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devOpsDynamicGroup.ocid} to manage compute-container-family in compartment id ${var.compartment_id}",
     "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devOpsDynamicGroup.ocid} to manage cluster in compartment id ${var.oke_compartment_id}",
-    "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devOpsDynamicGroup.ocid} to read secret-bundles in compartment id ${var.kms_compartment_id}"
+    "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devOpsDynamicGroup.ocid} to read secret-bundles in compartment id ${var.compartment_id}"
   ]
 
   network_compartment_id = var.network_compartment_id == null ? "" : var.network_compartment_id
@@ -23,7 +23,7 @@ locals {
 
 
 resource "oci_identity_policy" "devops_policy" {
-  compartment_id = var.compartment_id
+  compartment_id = var.policy_compartment_id
   description    = "Policies for the OCI DevOps service in the compartment"
   name           = var.devops_policy_name
   statements     = local.statements
