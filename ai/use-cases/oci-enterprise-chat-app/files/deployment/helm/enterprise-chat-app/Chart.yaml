@@ -1,0 +1,15 @@
+apiVersion: v2
+name: enterprise-chat-app
+description: OCI Enterprise Chat Application — FastAPI backend + React frontend with Oracle 23ai Vector Store
+type: application
+version: 0.1.0
+appVersion: "3.0"
+keywords:
+  - oci
+  - oracle
+  - rag
+  - chat
+  - fastapi
+  - react
+maintainers:
+  - name: ai-coe
