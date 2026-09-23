@@ -46,14 +46,32 @@ Each operation playbook uses explicit `precheck`, `apply`, and `verify` phases. 
 
 ### Terraform state as dynamic inventory
 
+Project Teams identify operation targets by their exact `display_name`; they do not need to discover or copy resource OCIDs or private IP addresses into operation manifests. Platform CI resolves the current runtime identifiers from the Terraform state for the selected project, environment, and region. This keeps requests readable, avoids stale resource identifiers, and ensures that Ansible operates only on state-managed resources. This applies to the target resource identity; context fields such as the ADB `database_compartment_id` still come from the approved project handoff.
+
 ```mermaid
 flowchart LR
-    R["Operation request<br/>exact target name"] --> B["Inventory builder"]
-    S["Terraform state<br/>resource facts"] --> B
-    B --> I["Temporary<br/>inventory.json"]
-    I --> P["Approved<br/>Ansible playbook"]
-    P --> V["Compute VM<br/>SSH"]
-    P --> A["ADB<br/>OCI API"]
+    subgraph TF["Terraform workflow"]
+        direction LR
+        I["Infrastructure PR"] --> TP["Validate + plan"]
+        TP --> M1["Human merge"]
+        M1 --> TA["Apply"]
+    end
+
+    TA --> S[("Terraform state<br/>display_name → OCID / private IP")]
+
+    subgraph AN["Ansible workflow"]
+        direction LR
+        O["Operation PR<br/>Target by display_name<br/>No resource OCID or IP"] --> I1["Temporary<br/>inventory.json"]
+        I1 --> P1["Approved playbook<br/>precheck"]
+        P1 --> M2["Human merge"]
+        M2 --> I2["Regenerated temporary<br/>inventory.json"]
+        I2 --> P2["Approved playbook<br/>execute"]
+    end
+
+    S -. "Resolve display_name" .-> I1
+    S -. "Resolve current resource data" .-> I2
+    P2 --> V["Compute VM<br/>SSH"]
+    P2 --> A["ADB<br/>OCI API"]
 ```
 
 The operation request supplies the exact display names to target. Platform CI reads the Terraform state for the same project, cloud, environment, and region, selects only matching resources, and writes a temporary Ansible inventory on the trusted runner. The state is read-only, and the generated inventory is not committed to Git.

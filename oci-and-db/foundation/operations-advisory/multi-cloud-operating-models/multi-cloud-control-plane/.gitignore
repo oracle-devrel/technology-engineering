@@ -8,8 +8,6 @@ staging/
 *.tfstate.*
 *.tfplan
 .terraform/
-# The resource catalog contains versioned input templates, not environment state.
-!repository-sources/gitops-templates/resources-catalog/**/*.auto.tfvars.json
 __pycache__/
 .pytest_cache/
 .venv/

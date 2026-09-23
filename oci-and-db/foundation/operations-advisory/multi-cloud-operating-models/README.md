@@ -18,6 +18,10 @@ Reviewed: 2026-09-04
 
 - [Multi-Cloud Control Plane](./multi-cloud-control-plane/README.md)
 
+## Landing Zone Repository Design
+
+- [Landing Zone Repository Design and Lifecycle Governance](./landing-zone-repository-design/README.md)
+
 ## Operational Security
 
 | Asset | Purpose |
