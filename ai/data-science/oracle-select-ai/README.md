@@ -4,7 +4,7 @@ This page covers Oracle Select AI.
 
 Use natural language to interact with your database and LLMs through SQL to enhance user productivity and develop AI-based applications. Select AI simplifies and automates using generative AI, whether generating, running, and explaining SQL from a natural language prompt, using retrieval augmented generation with vector stores, generating synthetic data, or chatting with the LLM.
 
-Reviewed: 2026.04.30
+Reviewed: 2026.08.13
 </br></br>
 
 # Table of Contents
@@ -24,14 +24,14 @@ Reviewed: 2026.04.30
 
 - [Enhancing Data Analysis with Select AI in Oracle APEX](https://medium.com/@cristina.varas98/enhancing-data-analysis-with-select-ai-in-oracle-apex-9d00b070a073)
 - [Getting Started - Setup Guide](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/00-getting-started-setup-guide)
-- [Getting Started - NL2SQL](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/01-getting-started-nl2sql)
-- [Getting Started - Synthetic Data Generation](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/02-getting-started-synthetic-data)
-- [Getting Started - RAG ](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/03-getting-started-rag)
-- [Getting Started - Summarization](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/04-getting-started-summarize)
-- [Getting Started - Translation](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/05-getting-started-translate)
-- [Getting Started - Feedback](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/06-getting-started-feedback)
-- [Getting Started - Proxy Integration](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/07-getting-started-proxy-integration)
-- [Getting Started - Product Return Agent](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/08-getting-started-product-return-agent)
+- [Getting Started - NL2SQL](https://www.linkedin.com/pulse/select-ai-natural-language-sql-ismail-syed-ursie/)
+- [Getting Started - Synthetic Data Generation](https://www.linkedin.com/pulse/select-ai-synthetic-data-generation-ismail-syed-hooue)
+- [Getting Started - RAG ](https://www.linkedin.com/pulse/select-ai-retrieval-augmented-generation-ismail-syed-n7xme)
+- [Getting Started - Summarization](https://www.linkedin.com/pulse/select-ai-text-summarization-ismail-syed-8v7fe)
+- [Getting Started - Translation](https://www.linkedin.com/pulse/select-ai-language-translation-ismail-syed-ypkie)
+- [Getting Started - Feedback](https://www.linkedin.com/pulse/select-ai-feedback-ismail-syed-pecue)
+- [Getting Started - Proxy Integration](https://www.linkedin.com/pulse/select-ai-data-gateway-postgresql-ismail-syed-ausve)
+- [Getting Started - Product Return Agent](https://www.linkedin.com/pulse/select-ai-product-return-agent-ismail-syed-sm1ze)
 - [Getting Started - Database Log Analyser Agent](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/09-getting-started-db-log-analyser-agent)
 - [Getting Started - Agent Tools](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-select-ai/10-getting-started-agent-tools)
 </br></br>

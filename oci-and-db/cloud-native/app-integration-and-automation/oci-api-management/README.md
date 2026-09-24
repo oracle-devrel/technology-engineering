@@ -10,7 +10,7 @@ API Gateway provides policy enforcement such as limiting the number of requests 
 
 API managers can create Usage Plans within API Gateway and define API access tiers. API teams can monitor the traffic and analytics of their APIs based on the usage plan and subscriptions. This enables customers to analyze usage patterns as well as unlock new revenue streams by monetizing APIs.
 
-Review Date: 03.11.2023
+Review Date: 02.09.2026
 
 
 # Useful Links

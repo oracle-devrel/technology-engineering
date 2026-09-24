@@ -22,6 +22,11 @@ MySQL HeatWave is Oracle’s cloud database service that combines MySQL transact
 
 ### Github
 - [OCI Object Event to MySQL Table](https://github.com/ivanxma/oci-fn-object-event-2-hw-table)
+- [MySQL DBConsole](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-mysql-heatwave)
+- [Building a TimescaleDB-Style Time-Series Layer on MySQL](https://github.com/ivanxma/mysql_timescale)
+- [MySQL Shell Dump/Load Web UI](https://github.com/ivanxma/mysqlsh-dumpload-webui)
+- [AIDP + HeatWave MySQL: End-to-End Integration and Performance Lab](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-mysql-heatwave/code-examples/aidp-mysql-heatwave)
+- [Implementation Runbook — PostgreSQL > MySQL HeatWave Replication using OCI GoldenGate](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/open-source-data-platforms/oci-mysql-heatwave/code-examples/postgresql-to-mysql-heatwave-oci-gg)
 
 ### LiveLabs
 - [Cloud-native analytics using Open-source tools with MySQL HeatWave](https://livelabs.oracle.com/ords/r/dbpm/livelabs/run-workshop?p210_wid=3234&p210_wec=&clear=210&session=118326321955831)

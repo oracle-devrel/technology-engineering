@@ -2,7 +2,7 @@
 
 Owner: Leon van Birgelen
 
-Reviewed: 29.10.2024
+Reviewed: 14.09.2026
 
 Key Management Service is an OCI service that stores and manages keys for secure access to resources.
 
@@ -93,4 +93,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

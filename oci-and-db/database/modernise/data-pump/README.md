@@ -6,7 +6,7 @@ The Data Pump export utility writes the schema objects, including the tables and
 
 A set of best practices and other useful assets/links can be found in this page.
 
-Reviewed: 21.07.2026
+Reviewed: 19.08.2026
 
  
 # Table of Contents
@@ -32,6 +32,8 @@ Reviewed: 21.07.2026
     - Blog Post by Austine Ouma explaining how to manage running jobs in Oracle Data Pump
 - [OCI Console Data Pump Import Wizard](https://techrochet.com/console-data-pump-import-wizard)
     - Blog Post by Austine Ouma explaining how to use the OCI DB Console Import Wizard to import data into Autonomous Database
+- [Data Pump in Visual Studio Code](https://techrochet.com/data-pump-in-vs-code)
+    - Blog Post by Austine Ouma explaining how to run data pump jobs in VS Code
 - [A Complete Guide to Migrate your Data to Autonomous Database and Best Practices](https://medium.com/@snoozrocks/a-complete-guide-to-migrate-your-data-to-autonomous-database-and-best-practices-8e5fbdaa26eb)
     - This blog post provides a high-level overview of the steps to migrate data from a source Oracle Database to the Autonomous Database Cloud using Data Pump and OCI Object Storage
 - [Migrate to Oracle Autonomous DB@Azure using Azure blob storage](https://macsdata.com/oracle/data-pump-import-adb-azure-blob-storage)

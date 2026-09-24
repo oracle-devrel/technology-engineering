@@ -2,6 +2,8 @@
 
 This section contains various examples related to Application Integration: demo videos and code examples, articles, blogs, presentations, and reference architectures. Links to public content are listed below, while the assets can be found in subfolders.
 
+Reviewed: 02.09.2026
+
 # Team Publications
 
 ## Technical Case Study

@@ -2,7 +2,7 @@
 
 Assets that contain solution design practice and implementation steps for the Hybrid Integrations and integrating private OCI resources.
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # OIC-Connectivity-Agent-and-Hybrid-Integrations
 

@@ -2,6 +2,8 @@
 
 Author: Inge Os
 
+Reviewed: 14.09.2026
+
 The aim is to show how you may configure SSO between an Pyhton app an instance of  Oracle OCI IAM Domain,
 using the OCI IAM SDK for Python.
 

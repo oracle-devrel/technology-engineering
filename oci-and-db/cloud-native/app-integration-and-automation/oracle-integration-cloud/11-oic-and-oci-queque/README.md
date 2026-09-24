@@ -7,7 +7,7 @@ Asset that contains oic project with all the basic interactions to use OCI Queue
 
 This OIC project provides solutions for automating message processing and queue management, benefiting industries such as cloud, financial, and technology, by enabling real-time data processing, efficient queue management, and event-driven business object processing.
 
-Review Date: 19.01.2026
+Review Date: 02.09.2026
 
 # When to use these assets?
 

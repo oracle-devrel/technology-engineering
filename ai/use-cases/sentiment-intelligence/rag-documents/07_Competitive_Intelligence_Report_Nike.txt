@@ -1,0 +1,150 @@
+Competitive Intelligence Report: Athletic Footwear Market
+============================================================
+Report Period: Q4 2025
+Prepared by: AI Analytics Division
+
+EXECUTIVE SUMMARY
+
+The athletic footwear market continues to show strong growth, driven by health-conscious consumers, athleisure trends, and innovation in sustainable materials. This report analyzes customer sentiment patterns across major brands using AI-powered review analysis of over 50,000 customer reviews from multiple platforms.
+
+Key findings:
+- Nike maintains market leadership in brand sentiment (avg score: 0.72) but faces pressure on pricing perception
+- Adidas shows strongest improvement in sustainability sentiment (+18% quarter-over-quarter)
+- New Balance emerges as the "value champion" with highest price-to-satisfaction ratio
+- Running shoe category shows highest sentiment scores; basketball shoes show most volatility
+
+
+BRAND-BY-BRAND ANALYSIS
+
+1. NIKE
+Overall Sentiment Score: 0.72 (up from 0.69 in Q3)
+Total Reviews Analyzed: 15,420
+Positive: 62% | Neutral: 21% | Negative: 17%
+
+Strengths (Top Positive Aspects):
+- Design/Aesthetics: 0.88 — "Nike consistently delivers on style and visual appeal"
+- Brand Trust: 0.85 — "Long-standing reputation gives confidence in purchase"
+- Innovation: 0.82 — "React foam and Air Max technology receive consistent praise"
+- Athlete Endorsements: 0.80 — "Celebrity and athlete collaborations drive excitement"
+
+Weaknesses (Top Negative Aspects):
+- Price: 0.35 — "Perceived as overpriced compared to competitors offering similar technology"
+- Durability of Budget Lines: 0.42 — "Lower-end models show more quality complaints"
+- Customer Service: 0.45 — "Online return process and wait times criticized"
+- Sizing Consistency: 0.48 — "Sizing varies significantly between shoe models"
+
+Dominant Emotions: Trust (28%), Joy (22%), Anticipation (18%), Frustration (12%)
+
+Key Alerts:
+- Negative sentiment spike detected for Nike Pegasus 41 regarding midsole durability (Week 45)
+- Positive surge for Nike Vomero 18 launch (Week 48) — early reviews exceptionally positive
+- Pricing concern cluster growing: 23% increase in "overpriced" mentions vs. Q3
+
+
+2. ADIDAS
+Overall Sentiment Score: 0.68 (up from 0.62 in Q3)
+Total Reviews Analyzed: 12,850
+Positive: 58% | Neutral: 24% | Negative: 18%
+
+Strengths:
+- Sustainability: 0.84 — "Parley ocean plastic collection receives strong positive sentiment"
+- Comfort (Boost/4D): 0.82 — "Boost cushioning technology remains highly praised"
+- Price-to-Quality: 0.75 — "Better perceived value than premium competitors"
+- Design Range: 0.73 — "Wide variety appeals to different style preferences"
+
+Weaknesses:
+- Availability: 0.38 — "Limited edition drops frustrate customers who miss out"
+- Durability: 0.44 — "Some running models show sole separation after 3-4 months"
+- App Experience: 0.40 — "Confirmed app crashes and inventory errors during launches"
+- Brand Identity: 0.50 — "Some consumers feel brand direction is unclear post-Yeezy"
+
+Dominant Emotions: Joy (24%), Trust (20%), Anticipation (20%), Surprise (15%)
+
+Key Alerts:
+- Sustainability messaging creating strong positive differentiation
+- Ultraboost 24 receiving mixed reviews — comfort praised but durability questioned
+- Significant improvement in customer service sentiment (+15% QoQ)
+
+
+3. NEW BALANCE
+Overall Sentiment Score: 0.74 (up from 0.71 in Q3)
+Total Reviews Analyzed: 8,930
+Positive: 65% | Neutral: 22% | Negative: 13%
+
+Strengths:
+- Comfort: 0.89 — "Consistently ranked #1 for all-day comfort"
+- Value for Money: 0.86 — "Best quality-to-price ratio in the market"
+- Made in USA Line: 0.85 — "Heritage manufacturing resonates strongly"
+- Width Options: 0.84 — "Wide and extra-wide options highly appreciated"
+
+Weaknesses:
+- Style/Fashion: 0.52 — "Perceived as less trendy than Nike/Adidas by younger consumers"
+- Marketing Reach: 0.48 — "Less brand awareness among 18-25 demographic"
+- Limited Colorways: 0.55 — "Fewer color options compared to competitors"
+
+Dominant Emotions: Trust (32%), Satisfaction (25%), Joy (18%), Comfort (12%)
+
+Key Alerts:
+- Growing "dad shoe" trend benefiting brand perception among younger consumers
+- Fresh Foam X series receiving exceptionally positive running community reviews
+- Strong word-of-mouth recommendation rate (mentioned in 34% of positive reviews)
+
+
+4. ASICS
+Overall Sentiment Score: 0.71 (stable from Q3)
+Total Reviews Analyzed: 6,420
+Positive: 61% | Neutral: 25% | Negative: 14%
+
+Strengths:
+- Running Performance: 0.90 — "Gel-Kayano and Nimbus lines are gold standard for serious runners"
+- Support Technology: 0.87 — "Best-in-class stability and pronation control"
+- Durability: 0.83 — "Shoes last longer than competitors at similar price points"
+
+Weaknesses:
+- Casual Style: 0.45 — "Not considered fashionable for non-athletic wear"
+- Retail Availability: 0.50 — "Hard to find in stores; online-only for many models"
+- Marketing: 0.48 — "Low brand visibility outside running community"
+
+
+MARKET TRENDS
+
+1. Sustainability as Purchase Driver
+- 34% of reviews now mention environmental concerns (up from 22% in Q4 2024)
+- Brands with clear sustainability messaging see 12% higher average sentiment
+- Recycled materials are the most frequently praised sustainability feature
+- "Greenwashing" concerns emerging — brands must back claims with specifics
+
+2. Direct-to-Consumer Shift
+- Reviews of DTC purchases show 8% higher satisfaction than marketplace purchases
+- Customization features (NikeID, mi adidas) generate exceptionally positive sentiment
+- App experience becoming a significant sentiment driver (positive and negative)
+
+3. Performance Technology
+- Carbon plate running shoes maintain premium positioning despite high price
+- "Super shoe" category shows highest positive sentiment (avg 0.82) but also highest price complaints
+- Recovery footwear (slides, recovery shoes) is fastest-growing category by review volume
+
+4. Sizing and Fit Technology
+- Virtual try-on and sizing tools mentioned in 8% of reviews (mostly positive)
+- Inconsistent sizing remains the #2 complaint across all brands (after price)
+- Brands investing in fit technology see 15% fewer return-related negative reviews
+
+
+STRATEGIC RECOMMENDATIONS
+
+For brands analyzing their competitive position:
+1. Price Perception: Communicate value story — don't just compete on price
+2. Sustainability: Make environmental commitments specific and measurable
+3. Sizing: Invest in consistent sizing and virtual fit tools to reduce returns
+4. Community: Build authentic community engagement (user-generated content, events)
+5. Service Recovery: Fast, empathetic response to negative reviews drives loyalty
+6. Innovation Communication: Help customers understand technology benefits in plain language
+
+
+METHODOLOGY
+
+Data Sources: Amazon, Trustpilot, Google Reviews, Reddit, Twitter/X, specialized running forums
+Collection Period: October 1 - December 31, 2025
+Analysis Model: OCI GenAI (Cohere Command A) via DBMS_CLOUD_AI
+Sentiment Framework: Three-tier classification with aspect-based analysis
+Confidence Level: 95% for brand-level metrics, 90% for aspect-level metrics

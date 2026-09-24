@@ -2,7 +2,7 @@
  
 Oracle Cloud Infrastructure Database Migration (DMS) is a fully managed cloud service for migrating Oracle and MySQL databases to Oracle Cloud Infrastructure (OCI). The Oracle database migration is powered by the Zero Downtime Migration engine and provides a complete self-service experience for logical offline or online migration using Oracle GoldenGate for minimal downtime. As a source, DMS supports on-premises Oracle databases running on Linux, AIX, or Solaris as well as Amazon RDS and co-managed databases in OCI that can be migrated to Autonomous Database Serverless/Dedicated, OCI co-managed databases and Oracle Database@Azure. For MySQL migrations DMS supports MySQL Database Server installations as well as MySQL services from OCI, Amazon, Azure and Google Cloud that can be migrated to OCI MySQL Heatwave.
 
-Reviewed: 03.06.2026
+Reviewed: 26.08.2026
  
 # Table of Contents
  
@@ -21,15 +21,17 @@ Reviewed: 03.06.2026
     - This blog helps you in planning, designing, and implementing the process of migrating your On-premises Oracle Database 11g to OCI Base Database Service (Oracle 19c) using OCI Database Migration Service (DMS).
 - [Mordenise VMware Workloads with Autonomous Database](https://techrochet.com/mordenize-vmware-workloads-with-autonomous-database)
     - A step-by-step guide on how to migrate an Oracle Database 11g on VMware On-Premise to an Autonomous Database using the Database Migration Service (DMS) with Integrated Goldengate
-
 - [Modernizing MySQL: A Hands-On Approach to Online Migration from On-Premises MySQL to OCI HeatWave using OCI DMS](https://sanojbehera.wixsite.com/blogsphere/post/modernizing-mysql-a-hands-on-approach-to-online-migration-from-on-premises-mysql-to-oci-heatwave-us)
     - A Hands-On Practical Approach to Online Migration from On-Premises MySQL to OCI HeatWave using OCI DMS 
+
 # Useful Links
 
+- [OCI Database Migration service adds support for Oracle AI Database@Azure](https://blogs.oracle.com/dataintegration/oci-database-migration-service-adds-support-for-database-at-azure)
+- [OCI Database Migration service adds support for Oracle AI Database@AWS](https://blogs.oracle.com/dataintegration/oci-database-migration-service-adds-support-for-oracle-ai-databaseaws)
+- [OCI Database Migration Product Page](https://www.oracle.com/cloud/database-migration)
 - [OCI Database Migration Documentation](https://docs.oracle.com/en/cloud/paas/database-migration)
-- [OCI Database Migration Product page on oracle.com](https://www.oracle.com/cloud/database-migration)
 - [OCI Database Migration LiveLabs Workshop](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3326)
-- [OCI Database Migration Demo Video](https://www.youtube.com/watch?v=6Ji3EOPsRjg)
+- [OCI Database Migration Demo Video](https://www.youtube.com/watch?v=gqeDKeizsgY)
     - Short OCI Database Migration overview demo video
 - [Cloud Premigration Advisor Tool (CPAT) in DMS](https://www.youtube.com/watch?v=kYUqh4O1Owo)
     - Short video that shows the integration of the Cloud Premigration Advisor Tool (CPAT) in DMS

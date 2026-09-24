@@ -1,0 +1,34 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: fleet-reference-app-components
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: apps-config
+      namespace: flux-system
+  inputs:
+    - component: frontend
+      environment: dev
+    - component: api
+      environment: dev
+  resources:
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: fleet-reference-app-<< inputs.component >>-<< inputs.environment >>
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: fleet-reference-app-infrastructure
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: apps-config
+        path: ./applications/reference-app/kustomize/components/<< inputs.component >>/environments/<< inputs.environment >>
+        targetNamespace: reference-app
+        prune: true
+        wait: true
+        timeout: 3m

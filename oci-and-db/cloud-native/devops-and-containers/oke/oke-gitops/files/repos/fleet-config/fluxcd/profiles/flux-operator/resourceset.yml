@@ -1,0 +1,50 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: flux-operator
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: v1
+      kind: ConfigMap
+      name: flux-operator-values
+      namespace: flux-system
+  inputs:
+    - version: "*"
+      namespace: flux-system
+      valuesFrom:
+        - kind: ConfigMap
+          name: flux-operator-values
+          valuesKey: 00-bootstrap.yaml
+        - kind: ConfigMap
+          name: flux-operator-values
+          valuesKey: 90-user.yaml
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      metadata:
+        name: flux-operator
+        namespace: << inputs.namespace >>
+      spec:
+        interval: 30m
+        url: oci://region.ocir.io/namespace/repository/charts/flux-operator
+        secretRef:
+          name: ocirsecret
+        layerSelector:
+          mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+          operation: copy
+        ref:
+          semver: << inputs.version | quote >>
+
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: flux-operator
+        namespace: << inputs.namespace >>
+      spec:
+        interval: 30m
+        releaseName: flux-operator
+        chartRef:
+          kind: OCIRepository
+          name: flux-operator
+        valuesFrom: << inputs.valuesFrom | toYaml | nindent 10 >>

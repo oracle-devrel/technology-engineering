@@ -4,7 +4,7 @@
 
 ### Who are we?
 
-We are a team of Oracle specialists focusing on cloud and software products. We answer questions, create demos and workshops, provide hands-on guides, develop code snippets and examples, and perform health checks on existing solutions. We help our customers find solutions to business challenges and migrate workloads to the Oracle Cloud.
+The EMEA Technology Solutions Black Belts are a field-driven solution engine focused on removing barriers to OCI Adoption. Staffed by boots on the ground engineers, these groups aggregate customer blockers, triage issues, create and maintain actionable assets, and engage in a continuous feedback loop between the field, product, partners  and customers.
 
 ### Why do we have a Git Repository?
 

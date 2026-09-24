@@ -1,0 +1,10 @@
+application: git-tool
+cluster: oke-example
+namespace: git-tool
+resourcesPath: profiles/example/applications/git-tool/resources
+helm:
+  path: profiles/example/applications/git-tool/chart
+  releaseName: git-tool
+  valueFiles:
+    - profiles/example/applications/git-tool/values/00-base.yml
+    - profiles/example/applications/git-tool/values/90-overrides.yml

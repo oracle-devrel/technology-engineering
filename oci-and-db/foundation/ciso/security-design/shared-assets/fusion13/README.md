@@ -2,6 +2,8 @@
 
 Author: Inge Os
 
+Reviewed: 14.09.2026
+
 The aim is to show how you may configure SSO between an Oracle Fusion Application instance and an instance of  Oracle OCI IAM Domain.  
 In the text below the scope of Oracle Fusion Applications is ERP, HCM and SCM.  
 

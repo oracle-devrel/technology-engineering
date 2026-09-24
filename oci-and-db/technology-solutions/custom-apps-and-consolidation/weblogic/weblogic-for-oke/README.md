@@ -7,7 +7,7 @@ The content in this folder is about the [WebLogic for Oracle Engine for Kubernet
 - Best practices and guidelines
 - Technical Briefs
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 
@@ -31,7 +31,7 @@ A simple example of a WebLogic workload architecture built in OCI and leveraging
 
 
 
-## License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 

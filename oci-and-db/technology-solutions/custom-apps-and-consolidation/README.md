@@ -4,6 +4,7 @@ This Architecture Group is focused on helping customers migrate their custom-dev
 
 Custom Applications may be designed using traditional or cloud-native architectures. Whether the custom applications are running in Kubernetes containers, serverless architectures, machine learning, NoSQL data models, and open source databases, our aim to to offer architectures and guidance that can help in migration of e.g. Traditional Java applications running on Weblogic to be migrated to the cloud using the [Weblogic Market on OCI VMs Place Image](https://cloudmarketplace.oracle.com/marketplace/en_US/listing/63497374) or [Weblogic Market on OKE Place Image](https://cloudmarketplace.oracle.com/marketplace/en_US/listing/84688008)
 
+Reviewed: 09.09.2026
 
 # Application Modernization 
 

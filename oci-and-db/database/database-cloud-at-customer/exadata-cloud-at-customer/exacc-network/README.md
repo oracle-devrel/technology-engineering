@@ -4,7 +4,7 @@ Exadata Cloud@Customer provides secure connectivity between the Exadata infrastr
 
 <img src="./../images/exadb-network.png" alt="Network">
 
-Reviewed: 30/07/26
+Reviewed: 07/09/26
 
 # Table of Contents
 - [Useful Links](#useful-links)
@@ -27,8 +27,6 @@ Reviewed: 30/07/26
 - [ExaDB-C@C transceivers](./exacc-transceivers)
 
 - [Changing NTP/DNS settings](./ntp-dns-change)
-
-Reviewed: 06/24/26
 
 # License
 

@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: reference-app
+nameSuffix: -production
+
+resources:
+  - ../../base
+
+images:
+  - name: docker.io/nginxinc/nginx-unprivileged
+    newTag: 1.27.5-alpine
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: reference-app-production
+      app.kubernetes.io/environment: production
+
+patches:
+  - path: deployment-patch.yml

@@ -2,6 +2,8 @@
 
 In this section, we cover all the Oracle Cloud offerings covering Oracle Database Services: ExaDB-D, ExaDB-C@C, BaseDB Service, and Autonomous in the context of the ADB-D and ADB-C@C Services. (Please see the Autonomous-database section for specific Autonomous Database content). As part of this, we also cover the platforms associated with the delivery of Database Services: Exadata, OCI DB Platform, and ODA
 
+Reviewed: 09.09.2026
+
 # Useful Links
 
 - [A Pragmatic Approach to the Autonomous Database Journey](https://otube.oracle.com/media/A+Pragmatic+Approach+to+the+Autonomous+Database+Journey/1_y8v75gtr)
@@ -16,12 +18,10 @@ In this section, we cover all the Oracle Cloud offerings covering Oracle Databas
     - [Operator Access Control Technical Brief](http://Oracle%20Operator%20Access%20Control%20for%20Exadata%20Cloud@customer/)
 
 
- 
-
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

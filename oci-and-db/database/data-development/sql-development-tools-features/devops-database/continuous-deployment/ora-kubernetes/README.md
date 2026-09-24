@@ -8,15 +8,14 @@ Oracle Supports Oracle Database running in Kubernetes, Furthermore, Oracle offer
 
 In this way, developers can operate our database in the same manner as any other component of their applications, and utilize our best solutions (Exadata, Autonomous, etc.) to run these databases, and DBAs maintain control of such important topics as security, high availability, disaster recovery...
 
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
-3. [Tutorials / How-To's](#Tutorials)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
- 
 # Team Publications
 
 - [Oracle Database and Kubernetes: Overview](https://medium.com/devops-dev/oracle-database-and-kubernetes-overview-6584710228e7)
@@ -32,12 +31,12 @@ Reviewed: 01.12.2025
 - [Oracle Database Operator for Kubernetes: Why Should You Care (Oracle PM Video)](https://www.youtube.com/watch?v=40omFGtFe0A)
 - [Running and Licensing Oracle Programs in Containers and Kubernetes](https://www.oracle.com/a/tech/docs/running-and-licensing-programs-in-containers-and-kubernetes.pdf)
 
+# Reusable Assets Overview
 
-# Tutorials / How-To's
+## Tutorials / How-To's
 
 - [Oracle LiveLabs: Oracle Database Operator for Kubernetes + DevOps](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3393)
 - [Oracle LiveLabs: Run Oracle Database in Kubernetes with the DB Operator](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3562)
-
 
 # License
 
@@ -45,4 +44,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

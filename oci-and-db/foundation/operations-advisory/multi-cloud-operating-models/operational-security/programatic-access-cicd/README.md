@@ -1,10 +1,28 @@
-# Programmatic Access to OCI for CI/CD Pipelines
+# Programmatic Access to OCI for CI/CD Pipelines <!-- omit from toc-->
 
-Last reviewed: 2026-05-14
+Last reviewed: 2026-09-04
 
----
+# Table of Contents <!-- omit from toc -->
+- [Programmatic Access to OCI for CI/CD Pipelines ](#programmatic-access-to-oci-for-cicd-pipelines-)
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
+- [Overview](#overview)
+- [Options](#options)
+- [Best Practices](#best-practices)
+  - [Runner inside OCI](#runner-inside-oci)
+  - [Runner outside OCI](#runner-outside-oci)
+  - [When nothing else works](#when-nothing-else-works)
+- [Security Basics](#security-basics)
+- [License](#license)
+# What is this asset?
 
-## Overview
+This asset explains secure authentication patterns for CI/CD pipelines that call OCI APIs, prioritizing credential-free and short-lived identity methods.
+
+# How to use this asset?
+
+Use the following guidance. Check the [Options](#options) and best-practice guidance to select the right authentication pattern for the runner and deployment environment.
+
+# Overview
 
 When a CI/CD pipeline calls OCI APIs it needs to authenticate. The safest way to do this is to avoid storing credentials at all. A key sitting in a secret store can leak through a build log, get committed to a repo by mistake, or expire without anyone noticing.
 
@@ -12,7 +30,7 @@ OCI makes credential-free authentication possible through native identity: the p
 
 The sections below help you pick the right approach for your setup. Configuration steps are in the implementation guides linked at the bottom.
 
-## Options
+# Options
 
 ```mermaid
 %%{init: {
@@ -78,9 +96,9 @@ flowchart LR
 | **Workload Identity Federation** | Any external runner with OIDC | OAuth client only | Automatic |
 | **API Signing Keys** | Anywhere | Private key, rotated every 90 days | Manual |
 
-## Best Practices
+# Best Practices
 
-### Runner inside OCI
+## Runner inside OCI
 
 Pick the option that matches what runs the pipeline:
 
@@ -92,15 +110,15 @@ Pick the option that matches what runs the pipeline:
 
 No keys. No rotation process. No secrets in your pipeline configuration.
 
-### Runner outside OCI
+## Runner outside OCI
 
 If your platform supports OIDC (GitHub Actions, GitLab CI, and most modern CI tools do), use **Workload Identity Federation**. The only thing stored in your CI/CD system is an OAuth `client_id` and `client_secret` that can only be used to exchange tokens, it gives no access to OCI resources on its own.
 
-### When nothing else works
+## When nothing else works
 
 If your tooling does not support OIDC and does not run inside OCI, use **API Signing Keys**. Follow the hardening steps in the implementation guide, they are not optional.
 
-## Security Basics
+# Security Basics
 
 These apply regardless of which method you use:
 
@@ -109,7 +127,7 @@ These apply regardless of which method you use:
 - **Check the audit logs.** OCI logs every API call with the full principal identity. Filter by principal OCID to confirm only expected actions are happening.
 - **No credentials in code.** Keys must not appear in source files, Dockerfiles, or build specs, ever.
 
-## License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.  
 Licensed under the Universal Permissive License (UPL), Version 1.0.  

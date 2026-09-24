@@ -1,16 +1,18 @@
-# Automating Security List Updates
+# Automating Security List Updates <!-- omit from toc-->
 
 Last reviewed: 2026-06-04
 
-## Table of Contents
+# Table of Contents <!-- omit from toc-->
 
-- [Automating Security List Updates](#automating-security-list-updates)
-  - [Table of Contents](#table-of-contents)
+- [Automating Security List Updates ](#automating-security-list-updates-)
+- [Table of Contents ](#table-of-contents-)
+- [What is this asset?](#what-is-this-asset)
+- [How to use this asset?](#how-to-use-this-asset)
 - [Overview](#overview)
-  - [The Problem We Solve](#the-problem-we-solve)
-  - [Who Benefits?](#who-benefits)
-  - [Business Impact](#business-impact)
-  - [The Solution: OCI Security List CIDR Updater](#the-solution-oci-security-list-cidr-updater)
+- [The Problem We Solve](#the-problem-we-solve)
+- [Who Benefits?](#who-benefits)
+- [Business Impact](#business-impact)
+- [The Solution: OCI Security List CIDR Updater](#the-solution-oci-security-list-cidr-updater)
 - [Real-World Use Cases](#real-world-use-cases)
   - [Update with current public IP (perfect for dynamic IPs)](#update-with-current-public-ip-perfect-for-dynamic-ips)
   - [Replace specific CIDR blocks across ingress rules](#replace-specific-cidr-blocks-across-ingress-rules)
@@ -24,7 +26,13 @@ Last reviewed: 2026-06-04
   - [4. Run your first update](#4-run-your-first-update)
   - [License](#license)
 
----
+# What is this asset?
+
+This asset describes an open-source OCI Security List CIDR Updater for safe, repeatable security-list updates across regions.
+
+# How to use this asset?
+
+Follow the folloging guidance and review the usage scenarios in the [Getting Started](#getting-started) steps to clone, build, configure, and run the tool.
 
 # Overview
 
@@ -34,7 +42,7 @@ The OCI Security List CIDR Updater is an open-source tool that automates securit
 
 You can find it [here](https://github.com/eugsim1/OCI-Security-List-CIDR-Updater).
 
-## The Problem We Solve
+# The Problem We Solve
 
 Managing OCI Security Lists manually presents several challenges:
 
@@ -48,7 +56,7 @@ Managing OCI Security Lists manually presents several challenges:
 
 - Difficult rollbacks when needed
 
-## Who Benefits?
+# Who Benefits?
 
 - Cloud Engineers managing multiple OCI environments
 
@@ -58,7 +66,7 @@ Managing OCI Security Lists manually presents several challenges:
 
 - Compliance Teams requiring detailed change audits
 
-## Business Impact
+# Business Impact
 
 - 90% reduction in time spent on security list updates
 
@@ -68,7 +76,7 @@ Managing OCI Security Lists manually presents several challenges:
 
 - Faster incident response with rollback capabilities
 
-## The Solution: OCI Security List CIDR Updater
+# The Solution: OCI Security List CIDR Updater
 
 This Go-based tool provides comprehensive automation for your OCI security operations:
 
