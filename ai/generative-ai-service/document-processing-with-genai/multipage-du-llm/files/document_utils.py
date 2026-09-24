@@ -5,7 +5,7 @@ MIT License — see LICENSE for details.
 
 Document Processing Utilities
 =============================
-Shared functions for document boundary detection, OCR, and classification.
+Shared functions for OCR and LLM-driven page grouping + classification.
 Used by both the CLI (classify_multi_document.py) and Streamlit app.
 """
 
@@ -18,7 +18,6 @@ from dataclasses import dataclass
 
 import numpy as np
 from PIL import Image
-import imagehash
 import oci
 
 from config import COMPARTMENT_ID, DEFAULT_MODEL_ID
@@ -115,107 +114,6 @@ def is_blank_page(image: Image.Image, threshold: float = 0.995) -> bool:
     return True
 
 
-def compute_image_hash(image: Image.Image, size: int = 64) -> imagehash.ImageHash:
-    """Compute perceptual hash for an image"""
-    img_gray = image.convert('L').resize((size, size))
-    return imagehash.phash(img_gray)
-
-
-# ============================================================================
-# Document Boundary Detection
-# ============================================================================
-
-def detect_document_boundaries(
-    images: List[Image.Image], 
-    hash_threshold: int = 15,
-    verbose: bool = False
-) -> Tuple[List[Tuple[int, int]], List[int]]:
-    """
-    Detect document boundaries using visual analysis.
-    
-    Args:
-        images: List of PIL Images (pages)
-        hash_threshold: Threshold for visual hash difference to detect boundary
-        verbose: Print detection details
-    
-    Returns:
-        Tuple of:
-        - List of (start_page, end_page) tuples (1-indexed)
-        - List of blank page indices (0-indexed)
-    """
-    if verbose:
-        print("\n🔍 Detecting document boundaries...")
-    
-    n_pages = len(images)
-    boundaries = [0]  # First page is always start of a document
-    
-    # Compute hashes for all pages
-    hashes = []
-    blank_pages = []
-    
-    for i, img in enumerate(images):
-        page_num = i + 1
-        
-        # Check if blank
-        if is_blank_page(img):
-            blank_pages.append(i)
-            hashes.append(None)
-            if verbose:
-                print(f"  Page {page_num}: BLANK")
-        else:
-            hashes.append(compute_image_hash(img))
-    
-    # Find boundaries based on blank pages and hash differences
-    for i in range(1, n_pages):
-        is_boundary = False
-        reason = ""
-        
-        # Method 1: Previous page was blank (separator)
-        if i - 1 in blank_pages and i not in blank_pages:
-            is_boundary = True
-            reason = "after blank separator"
-        
-        # Method 2: Large visual difference from previous non-blank page
-        elif hashes[i] is not None:
-            # Find previous non-blank page
-            prev_idx = i - 1
-            while prev_idx >= 0 and hashes[prev_idx] is None:
-                prev_idx -= 1
-            
-            if prev_idx >= 0 and hashes[prev_idx] is not None:
-                diff = hashes[i] - hashes[prev_idx]
-                if diff > hash_threshold:
-                    is_boundary = True
-                    reason = f"visual change (diff={diff})"
-        
-        if is_boundary:
-            boundaries.append(i)
-            if verbose:
-                print(f"  Page {i + 1}: NEW DOCUMENT ({reason})")
-    
-    # Convert boundaries to (start, end) ranges
-    segments = []
-    for i, start in enumerate(boundaries):
-        if i + 1 < len(boundaries):
-            end = boundaries[i + 1] - 1
-        else:
-            end = n_pages - 1
-        
-        # Skip if this segment is just blank pages
-        segment_pages = range(start, end + 1)
-        non_blank_count = sum(1 for p in segment_pages if p not in blank_pages)
-        
-        if non_blank_count > 0:
-            segments.append((start + 1, end + 1))  # Convert to 1-indexed
-    
-    if verbose:
-        print(f"\n✓ Found {len(segments)} document segments")
-        for i, (start, end) in enumerate(segments):
-            print(f"  Document {i + 1}: Pages {start}-{end} ({end - start + 1} pages)")
-    
-    return segments, blank_pages
-
-
 # ============================================================================
 # OCR Functions
 # ============================================================================
@@ -309,122 +207,121 @@ def fix_invalid_json_escapes(s: str) -> str:
     return ''.join(result)
 
 
-def batch_classify_documents(
+def parse_json_array(response_text: str) -> list:
+    """Extract and parse the first JSON array in an LLM response."""
+    if response_text.startswith("```"):
+        response_text = response_text.strip("`").strip()
+        if response_text.lower().startswith("json"):
+            response_text = response_text[4:].strip()
+    match = re.search(r'\[.*\]', response_text, re.DOTALL)
+    if match:
+        response_text = match.group()
+    return json.loads(fix_invalid_json_escapes(response_text))
+
+
+def segment_and_classify_pages(
     client,
     compartment_id: str,
-    segments: List[DocumentSegment],
+    page_texts: List[str],
     categories: List[str],
-    verbose: bool = False
+    max_chars_per_page: int = 600,
+    verbose: bool = False,
 ) -> List[DocumentSegment]:
     """
-    Classify multiple document segments in a single LLM call.
-    
+    Group consecutive pages into documents and classify each one in a single LLM call.
+
+    Visual heuristics cannot tell page 2 of a letter from a new document, so the
+    model reads the OCR text of every page and decides where documents start.
+
     Args:
         client: OCI Generative AI client
         compartment_id: OCI compartment ID
-        segments: List of DocumentSegment objects with first_page_text populated
+        page_texts: OCR text per page, in order (empty string = blank page)
         categories: List of allowed category names
+        max_chars_per_page: Characters of each page sent to the model
         verbose: Print progress
-    
+
     Returns:
-        Updated segments with classification results
+        List of classified DocumentSegment objects (1-indexed page ranges)
     """
     if verbose:
-        print("\n🤖 Classifying documents with Llama 3.3...")
-    
-    # Build categories list
-    categories_list = "\n".join([f"- {cat}" for cat in categories])
-    
-    # Build documents list for prompt
-    docs_text = ""
-    for i, seg in enumerate(segments):
-        text_preview = seg.first_page_text[:500] if seg.first_page_text else "No text extracted"
-        docs_text += f"""
---- DOCUMENT {i + 1} (Pages {seg.start_page}-{seg.end_page}) ---
-{text_preview}
-"""
-    
-    prompt = f"""
-You are a document classification expert. Analyze the following document excerpts and classify each one.
+        print("\n🤖 Grouping and classifying pages with Llama 3.3...")
 
-ALLOWED_CATEGORIES (choose exactly one per document):
+    categories_list = "\n".join(f"- {cat}" for cat in categories)
+    pages_text = ""
+    for i, text in enumerate(page_texts, start=1):
+        preview = text[:max_chars_per_page].strip() if text else "(blank page)"
+        pages_text += f"\n--- PAGE {i} ---\n{preview}\n"
+
+    prompt = f"""
+You are a document classification expert. A scanned bundle has been OCR'd page by page.
+Consecutive pages often belong to the same document (for example page 2 of a letter
+continues page 1). First group the pages into documents, then classify each document.
+
+Grouping rules:
+- A document is a contiguous page range. Documents never overlap and every non-blank page belongs to exactly one document.
+- A page STARTS a new document when it has its own letterhead, title, date, salutation or form header.
+- A page CONTINUES the previous document when it carries on a sentence, paragraph, list, table or closing (signature, "Yours sincerely", etc.) without a new heading.
+- Pages marked (blank page) are separators and belong to no document.
+
+ALLOWED_CATEGORIES (choose exactly one per document, or "INVALID_CATEGORY" if none fit):
 {categories_list}
 
-DOCUMENTS TO CLASSIFY:
-{docs_text}
+PAGES:
+{pages_text}
 
-For each document, provide:
-1. The category (must be from the allowed list, or "INVALID_CATEGORY" if none fit)
-2. Confidence level: high, medium, or low
-3. Confidence score: 0.0 to 1.0
-4. Brief reasoning (one sentence)
-
-OUTPUT FORMAT (JSON array):
+OUTPUT FORMAT (JSON array, ordered by start_page):
 [
   {{
-    "document": 1,
+    "start_page": 1,
+    "end_page": 2,
     "category": "Category Name",
     "confidence": "high",
     "confidence_score": 0.95,
-    "reasoning": "Contains employment contract terms and signatures"
-  }},
-  ...
+    "reasoning": "One sentence, including why these pages were grouped"
+  }}
 ]
 
 Return ONLY the JSON array, no other text.
 """
-    
-    # Create and send chat request
     chat_request = create_chat_request(prompt=prompt, max_tokens=4000, temperature=0.0)
-    chat_detail = create_chat_details(
-        chat_request,
-        model_id=DEFAULT_MODEL_ID,
-        compartment_id=compartment_id
-    )
-    
+    chat_detail = create_chat_details(chat_request, model_id=DEFAULT_MODEL_ID, compartment_id=compartment_id)
+
     try:
         response = client.chat(chat_detail)
-        response_text = (
-            response.data.chat_response.choices[0]
-            .message.content[0]
-            .text.strip()
-        )
-        
-        # Clean markdown if present
-        if response_text.startswith("```"):
-            response_text = response_text.strip("`").strip()
-            if response_text.lower().startswith("json"):
-                response_text = response_text[4:].strip()
-        
-        # Extract JSON array
-        json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
-        if json_match:
-            response_text = json_match.group()
-        
-        # Fix invalid escape sequences
-        response_text = fix_invalid_json_escapes(response_text)
-        
-        classifications = json.loads(response_text)
-        
-        # Apply classifications to segments
-        for cls in classifications:
-            doc_idx = cls.get("document", 0) - 1
-            if 0 <= doc_idx < len(segments):
-                segments[doc_idx].category = cls.get("category", "Unknown")
-                segments[doc_idx].confidence = cls.get("confidence", "unknown")
-                segments[doc_idx].confidence_score = cls.get("confidence_score", 0.0)
-                segments[doc_idx].reasoning = cls.get("reasoning", "")
-                
-                # Flag sensitive documents
-                if segments[doc_idx].category in SENSITIVE_CATEGORIES:
-                    segments[doc_idx].is_sensitive = True
-        
-        return segments
-    
+        raw = response.data.chat_response.choices[0].message.content[0].text.strip()
+        results = parse_json_array(raw)
     except Exception as e:
         print(f"  ❌ Classification error: {e}")
-        # Return segments with "Unknown" classification
-        for seg in segments:
-            seg.category = "Unknown"
-            seg.confidence = "low"
-        return segments
+        results = []
+
+    # Validate: keep well-formed, in-order, non-overlapping ranges
+    n = len(page_texts)
+    segments: List[DocumentSegment] = []
+    last_end = 0
+    for r in sorted(results, key=lambda r: r.get("start_page", 0)):
+        start, end = int(r.get("start_page", 0)), int(r.get("end_page", 0))
+        if start <= last_end or start > end or end > n:
+            continue
+        category = r.get("category", "Unknown")
+        segments.append(DocumentSegment(
+            start_page=start,
+            end_page=end,
+            category=category,
+            confidence=r.get("confidence", "unknown"),
+            confidence_score=float(r.get("confidence_score", 0.0)),
+            reasoning=r.get("reasoning", ""),
+            is_sensitive=category in SENSITIVE_CATEGORIES,
+            first_page_text=page_texts[start - 1],
+        ))
+        last_end = end
+
+    # Fallback: any non-blank page the model skipped becomes its own unclassified document
+    covered = {p for s in segments for p in range(s.start_page, s.end_page + 1)}
+    for i, text in enumerate(page_texts, start=1):
+        if text and i not in covered:
+            segments.append(DocumentSegment(start_page=i, end_page=i, category="Unknown",
+                                            confidence="low", confidence_score=0.0,
+                                            reasoning="Not grouped by the model", first_page_text=text))
+    segments.sort(key=lambda s: s.start_page)
+    return segments
