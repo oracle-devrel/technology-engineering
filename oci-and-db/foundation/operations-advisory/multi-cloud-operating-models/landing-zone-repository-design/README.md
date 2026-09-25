@@ -1,6 +1,6 @@
 # Architecture Blueprint: Repository Design and Lifecycle Governance for OCI Landing Zones
 
-Reviewed: 2026-09-23
+Reviewed: 2026-09-25
 
 ## What is this asset?
 
@@ -186,7 +186,7 @@ Project, platform and extra environment stacks are added later with the same tem
 | [Component distribution](docs/component-distribution.md) | Tenancy-wide vs. regional resources, compartments and groups, IAM placement, service limits |
 | [Dependencies and state](docs/dependencies-and-state.md) | Output files, project handoff, multi-step changes, state boundaries, naming and backends |
 | [Runtime](docs/runtime.md) | ORM vs. CI/CD runners, Day-2 operations, runner boundaries |
-| [Adoption path](docs/adoption.md) | Order of changes, moving resources between stacks, the technical debt trap |
+| [Adoption path](docs/adoption.md) | Order of changes, moving resources between stacks, splitting a network configuration into hub and spoke stacks |
 | [Worked example](docs/worked-example.md) | From one stack to the minimum split and a DR region, with configuration fragments |
 | [Anti-patterns and checklist](docs/checklist.md) | Common mistakes and a design review checklist |
 
