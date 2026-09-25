@@ -10,7 +10,10 @@ This presentation is ideal at the beginning of an Oracle Cloud Infrastructure (O
  
 # How to use this asset?
  
-Use the PDF file in the files folder.
+[Use the PDF file in the files folder.](./files/kick-off-cloud-journey.pdf)
+
+[![Kick-Off your Oracle Cloud Journey Presentation](./files/titlepage.png)](./files/kick-off-cloud-journey.pdf)
+
 
 # License
 
