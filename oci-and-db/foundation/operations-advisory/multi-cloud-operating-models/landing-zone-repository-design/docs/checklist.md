@@ -17,6 +17,7 @@ Use this page to review a design. Each item links to the page that explains it.
 | Project and foundation state in the same bucket or reachable by the same runner | A project pipeline can read or damage foundation state | Separate buckets and runner identities |
 | OCIDs copied by hand into configuration files | Hard to read, easy to break | Output files and keys ([output files](dependencies-and-state.md#output-files)) |
 | Security zone recipes that deny NSG deletion on network or project compartments | Projects cannot delete NSGs or be retired | Test the full NSG lifecycle before adding stricter targets ([component distribution](component-distribution.md#tenancy-wide-vs-regional)) |
+| Configuration or dependency files larger than 1 MB read by `rms-facade` from a bucket or GitHub | The stack fails to read its files | Split into stacks, keep dependency files small, or use Terraform CLI with local files ([runtime](runtime.md)) |
 | One configuration family spread across several files of one stack | Silent override; resources missing from the plan | One complete configuration set per stack |
 | Fully automated cascade of applies across stacks | The blast radius comes back | Reviewed multi-step changes ([changes that cross stacks](dependencies-and-state.md#changes-that-cross-stacks)) |
 | Git platform only available in the primary region | Single point of failure in DR | Git platform reachable from every region |

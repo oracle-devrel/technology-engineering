@@ -73,6 +73,8 @@ Solid arrows show the main chain. Dotted arrows show that these stacks also read
 > [!NOTE]
 > **ORM constraint.** `rms-facade` reads configurations from a private GitHub repository (including GitHub Enterprise), a private OCI bucket or plain reachable URLs, and reads and writes output files only in GitHub or an OCI bucket. Other Git platforms, such as OCI DevOps code repositories, are not supported sources. Teams that keep configuration in another Git platform and use ORM must publish the files to a bucket, or run Terraform CLI in their own pipelines (see [Runtime](runtime.md)).
 
+The same 1 MB limit applies to dependency files that `rms-facade` reads from a bucket or GitHub, so a large `network_output.json` can fail as a dependency. A dependency file written by hand with only the keys a stack references stays small (see the limit under [Runtime](runtime.md#comparison)).
+
 > [!IMPORTANT]
 > In a multi-region design, configuration and outputs must be reachable from every region. A Git service hosted only in the primary region (for example OCI DevOps in the home region) becomes a single point of failure during a DR event.
 

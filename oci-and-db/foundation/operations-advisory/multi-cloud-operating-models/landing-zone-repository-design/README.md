@@ -4,7 +4,9 @@ Reviewed: 2026-09-25
 
 ## What is this asset?
 
-A blueprint for splitting an OCI Landing Zone into small, independent Terraform stacks. It explains how to organize the Git repositories, where each resource belongs (tenancy-wide or regional), how stacks share information, how to separate state files, and which runtime to use (Oracle Resource Manager or CI/CD runners).
+A blueprint for designing an OCI Landing Zone as small, independent Terraform stacks from the first deployment. It explains how to organize the Git repositories, where each resource belongs (tenancy-wide or regional), how stacks share information, how to separate state files, and which runtime to use (Oracle Resource Manager or CI/CD runners).
+
+For Landing Zones that are already deployed in one stack, the [adoption path](docs/adoption.md) explains how to move to this design without recreating resources.
 
 | | |
 |---|---|
@@ -20,12 +22,12 @@ Read this page to understand the approach and decide whether it fits. The detail
 
 | If you... | Read |
 |---|---|
-| Need to decide whether to split your Landing Zone | This page, especially [Monolithic vs. multi-stack](#monolithic-vs-multi-stack) |
-| Already run one large stack and want to split it | [Minimum split](#minimum-split-for-a-small-team), then [Adoption path](docs/adoption.md) |
+| Are designing a new Landing Zone | This page, then [Repository structure](docs/repository-structure.md), [Component distribution](docs/component-distribution.md), [Dependencies and state](docs/dependencies-and-state.md) and [Runtime](docs/runtime.md) |
+| Need to choose between one stack and multi-stack | [Monolithic vs. multi-stack](#monolithic-vs-multi-stack) and [Minimum split](#minimum-split-for-a-small-team) |
 | Are adding a second region or a DR region | [Component distribution](docs/component-distribution.md) and [Dependencies and state](docs/dependencies-and-state.md) |
-| Are designing the repositories and pipelines | [Repository structure](docs/repository-structure.md), [Dependencies and state](docs/dependencies-and-state.md) and [Runtime](docs/runtime.md) |
-| Want to see it applied end to end | [Worked example](docs/worked-example.md) |
+| Want to see the design applied end to end | [Worked example](docs/worked-example.md) |
 | Want a final review of your design | [Anti-patterns and checklist](docs/checklist.md) |
+| Already run the Landing Zone in one large stack | [Adoption path](docs/adoption.md), to move to this design without recreating resources |
 
 ## Key terms
 
@@ -39,9 +41,9 @@ Read this page to understand the approach and decide whether it fits. The detail
 | **Handoff** | The reviewed boundary that Cloud Operations publishes when it onboards a project, for example `project-foundation-handoff.json`. It lists the compartments, networks and settings the project may use. |
 | **`rms-facade`** | The entry point of the orchestrator for ORM. It reads configurations from a private GitHub repository, a private OCI bucket or plain URLs, and reads and writes output files in GitHub or an OCI bucket. |
 
-## Why split the Landing Zone?
+## Why not one stack?
 
-Most organizations start with one Git repository, a few large configuration files and **one stack with one state file** for the whole Landing Zone. This is a good start: the Operating Entities repository offers a one-stack runtime for One-OE for exactly this reason. The same repository also recommends [one ORM stack per asset](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/blob/master/commons/content/orm_bp.md) once the Landing Zone grows, because three problems appear during Day-2 operations:
+Most organizations start with one Git repository, a few large configuration files and **one stack with one state file** for the whole Landing Zone. This is a good start: the Operating Entities repository offers a one-stack runtime for One-OE for exactly this reason. The same repository also recommends [one ORM stack per asset](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/blob/master/commons/content/orm_bp.md) once the Landing Zone grows, because three problems appear during Day-2 operations. This blueprint avoids them by design:
 
 | Problem | What happens |
 |---|---|
@@ -186,7 +188,7 @@ Project, platform and extra environment stacks are added later with the same tem
 | [Component distribution](docs/component-distribution.md) | Tenancy-wide vs. regional resources, compartments and groups, IAM placement, service limits |
 | [Dependencies and state](docs/dependencies-and-state.md) | Output files, project handoff, multi-step changes, state boundaries, naming and backends |
 | [Runtime](docs/runtime.md) | ORM vs. CI/CD runners, Day-2 operations, runner boundaries |
-| [Adoption path](docs/adoption.md) | Order of changes, moving resources between stacks, splitting a network configuration into hub and spoke stacks |
+| [Adoption path](docs/adoption.md) | For Landing Zones already deployed in one stack: order of changes, moving resources between stacks, splitting a network configuration into hub and spoke stacks |
 | [Worked example](docs/worked-example.md) | From one stack to the minimum split and a DR region, with configuration fragments |
 | [Anti-patterns and checklist](docs/checklist.md) | Common mistakes and a design review checklist |
 

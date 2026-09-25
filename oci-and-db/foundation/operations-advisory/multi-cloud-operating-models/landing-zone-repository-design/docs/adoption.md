@@ -2,7 +2,7 @@
 
 [Back to overview](../README.md)
 
-This page is for teams that already run a Landing Zone in one large stack and want to move to the multi-stack model without recreating resources. It ends with a detailed procedure for the most common case: splitting a network configuration into a hub stack and one stack per spoke.
+This page is an add-on to the blueprint. A new Landing Zone should follow the design from the first deployment and does not need it. It is for teams that already run a Landing Zone in one large stack and want to move to the recommended design without recreating resources. It ends with a detailed procedure for the most common case, splitting a network configuration into a hub stack and one stack per spoke; the same technique applies to the other configuration families, with the differences described in [Other configuration families](#other-configuration-families).
 
 ## The technical debt trap
 
@@ -34,6 +34,10 @@ Moving existing resources to a new stack must never recreate them:
 
 > [!WARNING]
 > Never apply a plan that shows destroy or replace actions on moved foundation resources such as compartments, VCNs or DRGs. Move one operation at a time, and start with a non-production environment.
+
+## Which stack keeps the original state
+
+The original stack does not move; everything else moves out of it. Keep in it the configuration that is hardest or riskiest to move. For a network split this is the hub, with the DRG and its routing. Each move is one operation, verified before the next one starts.
 
 ## Splitting a network configuration managed by the orchestrator
 
@@ -80,3 +84,11 @@ To roll back, restore the previous configuration of the original stack and load 
 `terraform state mv` is the recommended way to do step 4: it carries each entry unchanged and needs no import IDs. The alternative is to create each entry in the new state with the `terraform import` command and then remove it from the original state with `terraform state rm`. The command works with the orchestrator unchanged, because it does not need `import` blocks in the root module, but each resource needs its import ID as documented for that resource in the OCI provider, and its state is rebuilt by reading the real resource. If you use it, always import first and remove second. Teams that run Terraform CLI from their own root module can also declare `import` blocks there instead of using the command.
 
 Run the whole procedure in a test environment first, and continue only if it works there. Then move one spoke per change window, starting with a non-production spoke of low criticality and leaving the most critical platforms for the end. Moving state entries does not change the infrastructure or any OCID, so resources that use these subnets are not affected.
+
+## Other configuration families
+
+The procedure above (move the state entries on local copies, verify with a plan on both stacks, then load) applies to every configuration family. What changes is how each module builds its resource addresses, so check the module before assuming that an address stays the same.
+
+**IAM.** In the code of the IAM module used by orchestrator v2.1.4 (`terraform-oci-cis-landing-zone-iam` v0.3.5), policies are indexed by their key in a single map, but compartments are created in a different resource for each depth in the hierarchy: `oci_identity_compartment.these` for the first level and `level_2` to `level_6` below it. If a subtree of compartments moves to a stack where its parent is an external reference, the depth changes and so does the address. For example, a third-level compartment becomes first-level in the new stack. `terraform state mv` accepts different source and destination addresses, so build that mapping explicitly and confirm it with the verification plan. Remember that IAM changes are always applied in the home region.
+
+This has not been tested end to end either: include it in the test run before relying on it.

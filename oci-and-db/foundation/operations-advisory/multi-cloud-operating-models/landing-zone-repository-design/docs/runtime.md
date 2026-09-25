@@ -38,11 +38,14 @@ flowchart LR
 | Cost | No charge for the service | Compute for the runners |
 | Maintenance | None | Runner OS patching (can be automated with OCI services) and scaling |
 | Drift detection and job history | Built in, per stack | From the pipeline tool, or scheduled `plan` jobs |
-| Configuration sources | Private GitHub (including Enterprise), private OCI bucket or plain URLs | Any Git platform |
+| Configuration sources | Private GitHub (including Enterprise), private OCI bucket or plain URLs. Files from a bucket or GitHub must be 1 MB or smaller (see below). | Any Git platform, read from local files |
 | Change workflow | A change is a new plan/apply job on the same stack. If the configuration lives in a source ORM cannot read (for example OCI DevOps), the pipeline must package and upload the full stack for every change, even a one-line change. | The runner checks out code and configuration and runs Terraform directly. |
 | Authentication | ORM service | Instance principals; no long-lived keys in pipelines |
 | Scale | Fine for a moderate number of stacks | Horizontal scale on VMs, or on OKE when there are many runners |
 | Tools | **Terraform only** | Terraform, shell scripts, Ansible, API calls |
+
+> [!WARNING]
+> **1 MB file limit with `rms-facade`.** When configuration or dependency files are read from an OCI bucket or from GitHub, each file must be 1 MB or smaller. From a bucket, `rms-facade` uses the `oci_objectstorage_object` data source, whose `content_length_limit` defaults to 1 MB, and it does not change that default. From GitHub, the [repository contents API](https://docs.github.com/rest/repos/contents) returns no content for files between 1 and 100 MB unless the raw media type is used, and the `github_repository_file` data source fails ([terraform-provider-github#2836](https://github.com/integrations/terraform-provider-github/issues/2836)). Splitting one configuration family into several files of the same stack does not help, because only the first file that defines the family is used. Split into stacks so that each file stays below 1 MB, or run Terraform CLI with local files, where this limit does not apply.
 
 ## Day-2 operations
 
