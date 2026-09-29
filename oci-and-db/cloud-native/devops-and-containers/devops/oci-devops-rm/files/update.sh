@@ -16,7 +16,31 @@ cleanup() {
 }
 trap cleanup EXIT
 
+# Package only reviewed inputs, even when the working directory contains local
+# credentials, generated repositories, or one-off maintenance scripts.
+MANIFEST="$ROOT_DIR/release-files.txt"
+while IFS= read -r entry; do
+  case "$entry" in
+    ""|/*|../*|*/../*|*/..|./*|*/./*) echo "Unsafe release path: $entry" >&2; exit 1 ;;
+  esac
+  if [ ! -f "$ROOT_DIR/$entry" ]; then
+    echo "Missing release file: $entry" >&2
+    exit 1
+  fi
+  parent="$entry"
+  while [ "$parent" != "." ]; do
+    if [ -L "$ROOT_DIR/$parent" ]; then
+      echo "Release paths must not contain symlinks: $entry" >&2
+      exit 1
+    fi
+    parent="$(dirname "$parent")"
+  done
+done < "$MANIFEST"
+
+OUTPUT_ZIP="$(cd "$(dirname "$OUTPUT_ZIP")" && pwd)/$(basename "$OUTPUT_ZIP")"
+
 rsync -a \
+  --files-from="$MANIFEST" \
   --exclude ".git" \
   --exclude ".agents" \
   --exclude ".agents.zip" \
@@ -33,6 +57,9 @@ rsync -a \
   --exclude "script/package_user_skill.sh" \
   --exclude "terraform.tfstate*" \
   --exclude "*.tfvars" \
+  --exclude "*.tfvars.json" \
+  --exclude ".env" \
+  --exclude ".env.*" \
   --exclude ".DS_Store" \
   --exclude "*.zip" \
   --exclude "stack.zip.sha256" \
@@ -48,6 +75,11 @@ rm -f "$OUTPUT_ZIP"
 (
   cd "$STAGING_DIR"
   zip -qr "$OUTPUT_ZIP" .
+)
+
+(
+  cd "$(dirname "$OUTPUT_ZIP")"
+  shasum -a 256 "$(basename "$OUTPUT_ZIP")" > "$(basename "$OUTPUT_ZIP").sha256"
 )
 
 printf "Built %s in %s mode\n" "$OUTPUT_ZIP" "$([ "$DEVELOPMENT_MODE" = "true" ] && echo development || echo release)"

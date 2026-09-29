@@ -6,6 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Aligned cluster operations runbooks and the seeded repository README with shared orchestrators, immutable target plans, and explicit decommissioning without a confirmation parameter.
+- Restricted release packaging to an explicit file manifest, rejected missing or symlinked inputs, and generated a fresh SHA-256 checksum for each archive. Added packaging regression tests for local-file exclusions and release/development modes.
+
 ## [1.1.1] - 2026-09-18
 
 ### Fixed
