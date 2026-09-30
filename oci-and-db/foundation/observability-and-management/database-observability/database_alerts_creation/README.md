@@ -31,7 +31,7 @@ The editable source is available in [Draw.io format](files/database-alerts-archi
 
 ![OCI Database Alerts architecture](files/database-alerts-architecture1.png)
 
-[![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/raw/refs/heads/sciunzi_Db_alerts/oci-and-db/foundation/observability-and-management/database-observability/database_alerts/files/database-alerts-resource-manager.zip)
+[![Deploy to OCI](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/raw/refs/heads/esciunzi_dbalert2/oci-and-db/foundation/observability-and-management/database-observability/database_alerts_creation/files/database-alerts-resource-manager.zip)
 
 
 ## 2. Target
