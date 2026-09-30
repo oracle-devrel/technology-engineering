@@ -11,7 +11,7 @@ database topology in a Git-tracked inventory without making OCI IDs user input.
 **Architecture:** The project repository keeps a desired Terraform boundary for
 Cloud Exadata Infrastructure and VM Cluster, immutable operation requests under
 `oci/.../lifecycle_operations`, and a separate observed database inventory under
-`inventory/oci/...`. The shared Ansible action resolves its execution boundary
+`oci/.../inventory`. The shared Ansible action resolves its execution boundary
 from Terraform state, runs an allow-listed operation, verifies it, derives the
 observed inventory from OCI facts, and writes it only after success. The project
 workflow grants write access solely to the main-branch post-verification path.
@@ -46,9 +46,10 @@ include OCIDs or a mutable execution-status field.
 
 **Step 2: Define the empty observed inventory contract.**
 
-Use `inventory/oci/<environment>/<region>/exacs-databases.json` as the target
+Use `oci/<environment>/<region>/inventory/exacs-databases.json` as the target
 destination. The skeleton must carry a stable schema/version and empty DB Home,
-CDB, and PDB collections, while explaining that values are OCI-observed only.
+CDB, and PDB collections, while explaining that values are OCI-observed only
+and excluded from Terraform processing.
 
 **Step 3: Document the copy-and-run flow.**
 
@@ -120,7 +121,7 @@ git commit -m "feat: publish verified ExaCS database inventory"
 
 - Modify: `platform-ci/.github/workflows/exacs-ansible-shared.yaml`
 - Modify: `nonprod-exacs-project01/.github/workflows/ansible.yaml`
-- Add: `nonprod-exacs-project01/inventory/oci/dev/uk-london-1/exacs-databases.json`
+- Add: `nonprod-exacs-project01/oci/dev/uk-london-1/inventory/exacs-databases.json`
 
 **Step 1: Gate publication to trusted execution.**
 
@@ -165,7 +166,7 @@ git add .github/workflows/exacs-ansible-shared.yaml
 git commit -m "feat: publish verified ExaCS inventory"
 
 # ExaCS lab project main
-git add .github/workflows/ansible.yaml inventory/oci/dev/uk-london-1/exacs-databases.json
+git add .github/workflows/ansible.yaml oci/dev/uk-london-1/inventory/exacs-databases.json
 git commit -m "feat: initialize ExaCS database inventory"
 ```
 

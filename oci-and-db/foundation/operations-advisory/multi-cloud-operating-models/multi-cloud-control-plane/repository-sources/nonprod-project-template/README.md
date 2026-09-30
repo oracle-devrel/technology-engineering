@@ -26,9 +26,10 @@ and verifies the operation, and only then creates or refreshes the OCI-observed
 inventory at:
 
 ```text
-inventory/oci/<environment>/<region>/exacs-databases.json
+oci/<environment>/<region>/inventory/exacs-databases.json
 ```
 
 That inventory is a read-only observed record of DB Homes, CDBs, and PDBs. It
-is not an input to Terraform or Ansible, and it must not be used to supply OCI
-identifiers to either tool.
+is not an input to Terraform or Ansible: the `inventory/` directory is excluded
+from Terraform triggers and variable preparation. It must not be used to supply
+OCI identifiers to either tool.

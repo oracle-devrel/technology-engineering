@@ -13,9 +13,9 @@ publishing OCI identifiers or using Terraform to manage DB Homes, CDBs, or PDBs.
   VM Cluster.
 - `oci/<environment>/<region>/lifecycle_operations/crq-*.json` contains one
   immutable Day-2 request per CRQ. Adding one file invokes one Ansible operation.
-- `inventory/oci/<environment>/<region>/exacs-databases.json` is a Git-tracked,
-  observed inventory of DB Homes, CDBs, and PDBs. It is outside `oci/` so it is
-  not a Terraform variable file and cannot trigger Terraform.
+- `oci/<environment>/<region>/inventory/exacs-databases.json` is a Git-tracked,
+  observed inventory of DB Homes, CDBs, and PDBs. The `inventory/` directory is
+  explicitly excluded from Terraform triggers and variable preparation.
 
 ## Operation flow
 
