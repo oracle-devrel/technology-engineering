@@ -1,6 +1,6 @@
 # Application Development
 
-Use this repository to find reference architectures, sample applications, Terraform/IaC assets, CI/CD examples, and modernization patterns for building cloud-native and enterprise applications on OCI and Oracle technologies.
+Use this repository to find reference architectures, sample applications, Terraform/IaC assets, CI/CD examples, modernization patterns for building cloud-native enterprise applications on OCI and Open Source database & streaming technologies.
 
 Choose your goal:
 - Build a new cloud-native app
@@ -8,10 +8,12 @@ Choose your goal:
 - Automate CI/CD and infrastructure
 - Build APIs and integrations
 - Build low-code apps
+- Integrate Open Source Databases
+- Run real-time streaming, IoT, data processing pipelines
 
-Technologies covered: OCI, OKE, Java, WebLogic, GraalVM, Helidon, Micronaut, Terraform, OCI DevOps, Visual Builder, Integration Cloud, etc.
+Technologies covered: OCI, OKE, Java, WebLogic, GraalVM, Helidon, Micronaut, Terraform, OCI DevOps, Visual Builder, Integration Cloud, PostgreSQL, MySQL, OpenSearch, Redis, Valkey, Apache Kafka, Apache Spark, Hadoop, NoSQL.
 
-Reviewed: 07.09.2026
+Reviewed: 30.09.2026
 
 # Useful Links
 
