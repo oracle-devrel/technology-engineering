@@ -1,0 +1,11 @@
+{
+  "operation_type": "exacs-db-home-create",
+  "vm_cluster_display_name": "__VM_CLUSTER_DISPLAY_NAME__",
+  "db_version": "__DB_VERSION__",
+  "targets": [
+    {
+      "display_name": "__DB_HOME_DISPLAY_NAME__",
+      "timeout_minutes": 240
+    }
+  ]
+}

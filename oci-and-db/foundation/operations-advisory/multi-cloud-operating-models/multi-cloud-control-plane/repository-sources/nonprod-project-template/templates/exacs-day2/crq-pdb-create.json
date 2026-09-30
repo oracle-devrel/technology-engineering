@@ -1,0 +1,15 @@
+{
+  "operation_type": "exacs-pdb-create",
+  "vm_cluster_display_name": "__VM_CLUSTER_DISPLAY_NAME__",
+  "db_home_display_name": "__DB_HOME_DISPLAY_NAME__",
+  "db_name": "APPDB",
+  "db_unique_name": "APPDB01",
+  "targets": [
+    {
+      "pdb_name": "APPPDB",
+      "pdb_admin_password": "__PDB_ADMIN_PASSWORD__",
+      "tde_wallet_password": "__TDE_WALLET_PASSWORD__",
+      "timeout_minutes": 240
+    }
+  ]
+}

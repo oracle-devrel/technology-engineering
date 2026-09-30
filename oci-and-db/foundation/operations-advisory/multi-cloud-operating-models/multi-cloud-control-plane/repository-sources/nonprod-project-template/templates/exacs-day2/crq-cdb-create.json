@@ -1,0 +1,15 @@
+{
+  "operation_type": "exacs-cdb-create",
+  "vm_cluster_display_name": "__VM_CLUSTER_DISPLAY_NAME__",
+  "db_home_display_name": "__DB_HOME_DISPLAY_NAME__",
+  "targets": [
+    {
+      "db_name": "APPDB",
+      "db_unique_name": "APPDB01",
+      "admin_password": "__CDB_ADMIN_PASSWORD__",
+      "character_set": "AL32UTF8",
+      "ncharacter_set": "AL16UTF16",
+      "timeout_minutes": 240
+    }
+  ]
+}

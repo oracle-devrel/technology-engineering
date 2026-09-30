@@ -1,0 +1,8 @@
+{
+  "schema": "exacs-databases",
+  "version": 1,
+  "source": "OCI-observed only after successful lifecycle-operation verification; never Terraform or Ansible input.",
+  "db_homes": [],
+  "cdbs": [],
+  "pdbs": []
+}

@@ -1,0 +1,13 @@
+{
+  "operation_type": "exacs-database-out-of-place-patch",
+  "vm_cluster_display_name": "__VM_CLUSTER_DISPLAY_NAME__",
+  "targets": [
+    {
+      "db_name": "APPDB",
+      "db_unique_name": "APPDB01",
+      "target_db_home_display_name": "__TARGET_DB_HOME_DISPLAY_NAME__",
+      "target_db_version": "__TARGET_DB_VERSION__",
+      "timeout_minutes": 240
+    }
+  ]
+}
