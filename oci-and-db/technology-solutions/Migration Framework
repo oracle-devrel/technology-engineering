@@ -1,0 +1,19 @@
+Migration Framework 
+
+This framework provides a structured approach to migrating workloads to Oracle Cloud Infrastructure. It follows six stages: Qualify, Discover, Plan, Migrate, Validate, and Optimize.
+
+The stages connect the customer’s business objectives with the technical work needed to plan, execute, and sustain a successful migration.
+
+Each card summarizes the main activities. Clicking the plus sign reveals curated Confluence content and public resources, including assessment tools, design guidance, migration services, and testing resources. This makes the framework a practical starting point for finding support throughout the engagement.
+
+Although the stages follow a sequence, findings from discovery, planning, or testing may require us to revisit earlier decisions.
+
+Reviewed: 01.10.2026
+
+License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See LICENSE for more details.
