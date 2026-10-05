@@ -7,7 +7,7 @@ Reviewed: 21.08.2026
 
 # Useful Links
 
-- [Oracle Graph Homepage](https://www.oracle.com/database/graph/)
+- [Oracle Graph Homepage](https://www.oracle.com/database/integrated-graph-database/)
 - [Oracle Graph Features](https://www.oracle.com/database/integrated-graph-database/features/)
 - [Oracle Property Graph Documentation](https://docs.oracle.com/pls/topic/lookup?ctx=property-graph-latest&id=SPGDG)
 - [Oracle SQL Property Graph Documentation](https://docs.oracle.com/en/database/oracle/property-graph/25.4/spgdg/sql-property-graphs.html)
