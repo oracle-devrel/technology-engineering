@@ -4,8 +4,8 @@ This project provides two OCI Resource Manager stacks for creating an Oracle
 Kubernetes Engine cluster:
 
 1. The **infrastructure stack** creates or configures the network resources.
-2. The **OKE stack** creates the cluster and provides disabled-by-default worker
-   node examples that can be enabled later.
+2. The **OKE stack** creates the cluster, with worker pools configured in
+   Terraform code using disabled-by-default examples.
 
 Apply the infrastructure stack first. Its outputs provide the VCN, subnet, and
 network security group OCIDs required by the OKE stack.
@@ -31,6 +31,14 @@ The infrastructure stack supports two deployment modes:
 The OKE network security groups are always created. Database and messaging
 network resources are created only when their corresponding options are enabled.
 
+Select `opensearch` in `db_service_list` with `create_database_nsgs = true`
+to create one OpenSearch NSG for TCP 9200 (API) and 5601 (Dashboards). Both endpoints use
+the same database-access pattern, including access from Gateway API controller
+pods. Attach the generated NSG to the OpenSearch service; this stack does not
+provision an OpenSearch cluster. The optional dedicated client NSG behavior is
+unchanged. Managed Data Prepper and OpenTelemetry ingestion are outside this
+stack's scope.
+
 Before applying the stack:
 
 - Review the default CNI configuration. Flannel and VCN-native pod networking
@@ -45,7 +53,7 @@ Before applying the stack:
 See the [generated network-rules report](files/infra/network-rules-report.md)
 for every OKE, database, and messaging rule created by this stack.
 
-[![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.4.0/infra.zip)
+[![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.5.0/infra.zip)
 
 ### Control-plane CIDR lists
 
@@ -78,7 +86,33 @@ After the apply finishes, keep the stack outputs available for the next step.
 Create the OKE stack using the VCN, subnet, and network security group OCIDs
 returned by the infrastructure stack.
 
-[![Deploy OKE to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.4.0/oke.zip)
+The **Default Load Balancer Subnet** is optional. Leave it unselected to create
+the cluster without a default LB subnet. If selected, the stack detects whether
+the subnet is public or private and configures it as the cluster default.
+Load balancers are created later by Kubernetes `LoadBalancer` Services, not
+during cluster creation. Without a default subnet, configure the subnet through
+the appropriate Service annotations when creating a load balancer.
+
+[![Deploy OKE to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.5.0/oke.zip)
+
+### Reuse From Your Tenancy
+
+Install the networking and OKE configurations as Resource Manager private
+templates, so teams can create new stacks from within their tenancy without
+returning to this page.
+
+[Install private templates in OCI Cloud Shell](https://cloud.oracle.com/?region=home&cs_repo_url=https%3A%2F%2Fgithub.com%2Falcampag%2Foke-rm-private-templates.git&cs_branch=main&cs_initscript_path=install-private-templates.sh&cs_readme_path=README.md&cs_open_ce=false)
+
+The [private-template installer](https://github.com/alcampag/oke-rm-private-templates)
+clones only its small dedicated repository. It asks for the region, template
+compartment (default: tenancy root), release version, and template names.
+The defaults are `oke-rm-networking` and `oke-rm-cluster`; the release version
+is recorded in descriptions and tags. It downloads published release archives
+and creates templates only, not infrastructure or policies. Existing templates
+are never overwritten automatically.
+
+If the button does not automatically run the script, open Cloud Shell in the
+cloned repository and run `bash install-private-templates.sh`.
 
 ### IAM policies
 
@@ -98,40 +132,41 @@ after cluster creation.
 
 ## 3. Add worker nodes
 
-The OKE stack creates the control plane first. All example node pools in `oke.tf`
-are disabled by default so the project remains a reusable starter template.
+Worker pools are configured in Terraform code, not in the Resource Manager
+graphical form. Edit the default definitions in
+[`node-pools.tf`](files/oke/node-pools.tf), or supply `worker_pools` in a
+Terraform `.tfvars` file. The module configuration in
+[`oke.tf`](files/oke/oke.tf) passes those definitions to the OKE module.
 
-### Edit the existing Resource Manager stack
+Four disabled examples are included: managed nodes (`np-ad1`), managed nodes
+with GVA (`np-gva`), dedicated system nodes (`np-system`), and virtual nodes
+(`oke-virtual`). Set `create = true` on the pools you need, configure their
+shape and size, and review a plan before applying. Kubernetes version and
+network settings inherit the cluster defaults unless overridden.
 
-Open the OKE stack and edit its Terraform configuration:
+GVA is a managed-node networking feature. Check its subnet and shape
+prerequisites before enabling it. The `taints` input is supported only for
+virtual nodes; the system managed-node example configures its scheduling
+behavior through the bundled cloud-init.
 
-![Edit Terraform configurations](files/images/edit_oci_stack.png)
-
-Set `create = true` only on the node pool you want to provision. You can also
-clone this repository, edit `oke.tf`, and upload the modified OKE directory:
-
-![Upload edited Terraform configuration](files/images/edit_stack_with_source.png)
-
-Save the configuration, create a plan, and apply it:
-
-![Node pool creation](files/images/node_pool_create.png)
-
-### Available examples
-
-- **Oracle Linux managed node pool:** uses the latest compatible OKE-managed
-  Oracle Linux 9 image.
-- **Generic VNIC Attachment node pool:** demonstrates a secondary VNIC profile
-  and an OKE Application Resource. Enable it only after satisfying the subnet,
-  shape, and VCN-native CNI prerequisites documented in `oke.tf`.
-- **System node pool:** provides a dedicated pool for CoreDNS and Karpenter.
-- **Virtual node pool:** provides an OKE-managed virtual-node example.
+For Resource Manager, upload your customized Terraform configuration and run a
+plan before apply. Existing `worker_pools` stack inputs are preserved and take
+precedence over code defaults; update or remove an existing override deliberately
+when switching back to code defaults. Disabling or removing a pool can destroy
+it.
 
 The `cloud-init` directory also contains examples for storage configuration and
 custom worker hostnames. The hostname example expands the boot volume with
 `oci-growfs`.
 
+Cloud-init `content` can contain raw YAML, base64 content, or a bundled relative
+file path. The system example uses `cloud-init/system.yml`, which preserves its
+`CriticalAddonsOnly` taint. Custom cloud-init files must be included in the stack
+archive, or their content can be supplied directly in Terraform. CoreDNS add-on
+customization remains in `addons.tf`.
+
 To use Ubuntu workers, first create an Ubuntu custom image in your tenancy, then
-set the worker image type and image OCID as described in `oke.tf`.
+set the pool's `image_type` to `custom` and supply its `image_id`.
 
 For Karpenter installation and configuration, see the
 [Karpenter guide](files/oke-oci-karpenter-guide.md).

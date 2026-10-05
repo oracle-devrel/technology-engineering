@@ -246,8 +246,8 @@ variable "db_service_list" {
   type    = list(string)
   default = []
   validation {
-    condition     = alltrue([for service in var.db_service_list : contains(["postgres", "cache", "oracledb", "mysql"], service)])
-    error_message = "db_service_list supports only postgres, cache, oracledb, and mysql."
+    condition     = alltrue([for service in var.db_service_list : contains(["postgres", "cache", "oracledb", "mysql", "opensearch"], service)])
+    error_message = "db_service_list supports only postgres, cache, oracledb, mysql, and opensearch."
   }
 }
 

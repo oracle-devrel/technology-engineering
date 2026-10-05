@@ -13,8 +13,8 @@ module "oke" {
   subnets = {
     bastion  = { create = "never" }
     operator = { create = "never" }
-    pub_lb   = { create = "never", id = local.is_lb_subnet_private ? null : var.lb_subnet_id }
-    int_lb   = { create = "never", id = local.is_lb_subnet_private ? var.lb_subnet_id : null }
+    pub_lb   = { create = "never", id = local.is_lb_subnet_private ? null : local.lb_subnet_id }
+    int_lb   = { create = "never", id = local.is_lb_subnet_private ? local.lb_subnet_id : null }
     cp       = { create = "never", id = var.cp_subnet_id }
     workers  = { create = "never", id = var.worker_subnet_id }
     pods     = { create = "never", id = local.is_flannel ? null : var.pod_subnet_id }
@@ -129,100 +129,8 @@ module "oke" {
     areLegacyImdsEndpointsDisabled : "true"
   }
 
-  # This is a collection of example node pools that you can use with the OKE module. Set create = true to provision them
-  worker_pools = {
-
-    # ORACLE LINUX - MANAGED NODE POOL
-    np-ad1 = {
-      shape                        = "VM.Standard.E5.Flex"
-      size                         = 1
-      kubernetes_version           = var.kubernetes_version # You can set this variable with a constant, so that control plane and data plane are upgraded separately
-      placement_ads                = ["1"]                  # As best practice, one node pool should be associated only to one specific AD
-      ocpus                        = 1                      # No need to specify ocpus and memory if you are not using a Flex shape
-      memory                       = 8
-      node_cycling_enabled         = false # Option to enable/disable node pool cycling through Terraform. Only works with Enhanced clusters!
-      node_cycling_max_surge       = "50%"
-      node_cycling_max_unavailable = "0%"
-      node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. The boot_volume mode only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified.
-      boot_volume_size             = 100
-      # max_pods_per_node = 10                              # When using VCN_NATIVE CNI, configure maximum number of pods for each node in the node pool
-      create = false # Set it to true so that the node pool is created
-    }
-
-    # MANAGED NODE POOL WITH GENERIC VNIC ATTACHMENT (GVA)
-    # Prerequisites:
-    # - The cluster must use VCN-native pod networking (cni_type = "vcn_native").
-    # - The selected pod subnet must be IPv4-only and have more than one IPv4 CIDR block.
-    # - The selected shape must support the required number of VNIC attachments.
-    # Nodes exposing an Application Resource are tainted by OKE. Workloads must request
-    # exactly one oke-application-resource.oci.oraclecloud.com/frontend resource and
-    # tolerate the oci.oraclecloud.com/application-resource-only:NoSchedule taint.
-    np-gva = {
-      mode                = "node-pool"
-      shape               = "VM.Standard.E5.Flex"
-      size                = 1
-      kubernetes_version  = var.kubernetes_version
-      placement_ads       = ["1"]
-      ocpus               = 1
-      memory              = 8
-      boot_volume_size    = 100
-      network_launch_type = "PARAVIRTUALIZED"
-
-      gva_secondary_vnics = {
-        frontend = {
-          display_name           = "gva-frontend"
-          subnet_id              = var.pod_subnet_id
-          nsg_ids                = [var.pod_nsg_id]
-          ip_count               = 16
-          application_resources  = ["frontend"]
-          assign_public_ip       = false
-          skip_source_dest_check = false
-        }
-      }
-
-      create = false # Set to true only after the GVA prerequisites above are satisfied.
-    }
-
-    # Node Pool reserved for Karpenter and CoreDNS
-    # 1. Provision this node pool by setting create=true, set also local.override_coredns = true in addons.tf and apply
-    # 2. This node pool has a Taint, you can disable it, but it is not recommended
-    np-system = {
-      shape                        = "VM.Standard.E5.Flex"
-      size                         = 1
-      kubernetes_version           = var.kubernetes_version
-      ocpus                        = 1
-      memory                       = 8
-      node_cycling_enabled         = false
-      node_cycling_max_surge       = "25%"
-      node_cycling_max_unavailable = "0%"
-      node_cycling_mode            = ["instance"] # Valid values are instance and boot_volume. Only works when (kubernetes_version, image_id, boot_volume_size, node_metadata, ssh_public_key, volume_kms_key_id) are modified. If you need to change something else, switch to "instance"
-      # Label the node and use a nodeSelector with Karpenter
-      node_labels = {
-        "node-role/system" : "true"
-      }
-      # Node Tainting is done through a cloud init script
-      disable_default_cloud_init = true
-      cloud_init                 = [{ content_type = "text/cloud-config", content = file("cloud-init/system.yml") }]
-      boot_volume_size           = 100
-      create                     = false
-    }
-
-    # VIRTUAL NODE POOL
-    oke-virtual = {
-      description   = "OKE-managed Virtual Node Pool"
-      shape         = "Pod.Standard.E4.Flex"
-      mode          = "virtual-node-pool"
-      placement_ads = ["1"]
-      taints = {
-        virtual-node-workload = {
-          value  = "true"
-          effect = "NoSchedule"
-        }
-      }
-      size   = 1
-      create = false
-    }
-  }
+  # Configure worker pools through the Resource Manager form or Terraform inputs.
+  worker_pools = var.worker_pools
 
   providers = {
     oci.home = oci.home
