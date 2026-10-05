@@ -199,3 +199,87 @@ run "invalid_control_plane_cidr_entry" {
   }
   expect_failures = [var.cp_allowed_source_cidr, var.cp_egress_cidr]
 }
+
+run "opensearch_vcn_native_shared" {
+  command = plan
+  variables {
+    cni_type             = "vcn_native"
+    create_database_nsgs = true
+    db_service_list      = ["opensearch"]
+    separate_db_nsg      = false
+  }
+  assert {
+    condition     = keys(output.database_nsg_ids) == ["opensearch"] && module.network.nsg_names.database_opensearch == "opensearch-123e4567"
+    error_message = "OpenSearch must create exactly one database NSG using the standard naming convention."
+  }
+  assert {
+    condition     = length(output.database_client_nsg_ids) == 0
+    error_message = "OpenSearch must respect the existing dedicated-client NSG toggle."
+  }
+}
+
+run "opensearch_vcn_native_dedicated" {
+  command = plan
+  variables {
+    cni_type             = "vcn_native"
+    create_database_nsgs = true
+    db_service_list      = ["opensearch"]
+    separate_db_nsg      = true
+  }
+  assert {
+    condition     = keys(output.database_nsg_ids) == ["opensearch"] && module.network.nsg_names.database_opensearch == "opensearch-123e4567"
+    error_message = "OpenSearch must create exactly one database NSG using the standard naming convention."
+  }
+  assert {
+    condition     = length(output.database_client_nsg_ids) == 1
+    error_message = "OpenSearch must respect the existing dedicated-client NSG toggle."
+  }
+}
+
+run "opensearch_flannel_shared" {
+  command = plan
+  variables {
+    cni_type             = "flannel"
+    create_database_nsgs = true
+    db_service_list      = ["opensearch"]
+    separate_db_nsg      = false
+  }
+  assert {
+    condition     = keys(output.database_nsg_ids) == ["opensearch"] && module.network.nsg_names.database_opensearch == "opensearch-123e4567"
+    error_message = "OpenSearch must create exactly one database NSG using the standard naming convention."
+  }
+  assert {
+    condition     = length(output.database_client_nsg_ids) == 0
+    error_message = "OpenSearch must respect the existing dedicated-client NSG toggle."
+  }
+}
+
+run "opensearch_flannel_dedicated" {
+  command = plan
+  variables {
+    cni_type             = "flannel"
+    create_database_nsgs = true
+    db_service_list      = ["opensearch"]
+    separate_db_nsg      = true
+  }
+  assert {
+    condition     = keys(output.database_nsg_ids) == ["opensearch"] && module.network.nsg_names.database_opensearch == "opensearch-123e4567"
+    error_message = "OpenSearch must create exactly one database NSG using the standard naming convention."
+  }
+  assert {
+    condition     = length(output.database_client_nsg_ids) == 1
+    error_message = "OpenSearch must respect the existing dedicated-client NSG toggle."
+  }
+}
+
+run "opensearch_disabled" {
+  command = plan
+  variables {
+    create_database_nsgs = false
+    db_service_list      = ["opensearch"]
+  }
+  assert {
+    condition     = length(output.database_nsg_ids) == 0 && length(output.database_client_nsg_ids) == 0
+    error_message = "Selecting OpenSearch must not create NSGs when database NSG creation is disabled."
+  }
+}

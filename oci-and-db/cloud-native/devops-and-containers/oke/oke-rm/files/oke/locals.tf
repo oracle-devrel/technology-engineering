@@ -1,6 +1,8 @@
 locals {
+  # Module 5.5.1 requires a non-null LB subnet; an empty string produces no default subnet.
+  lb_subnet_id                                             = trimspace(var.lb_subnet_id)
   is_cp_subnet_private                                     = data.oci_core_subnet.cp_subnet_data.prohibit_public_ip_on_vnic
-  is_lb_subnet_private                                     = data.oci_core_subnet.lb_subnet_data.prohibit_public_ip_on_vnic
+  is_lb_subnet_private                                     = local.lb_subnet_id == "" ? false : data.oci_core_subnet.lb_subnet_data[0].prohibit_public_ip_on_vnic
   cni                                                      = var.cni_type == "vcn_native" ? "npn" : var.cni_type
   is_flannel                                               = var.cni_type == "flannel"
   enable_cert_manager                                      = var.cluster_type == "enhanced" && var.enable_cert_manager
