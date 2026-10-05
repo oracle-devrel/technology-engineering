@@ -29,6 +29,7 @@ Tenancy-injected defined tags can appear as unrelated plan drift. Review them se
 - Resource Manager graphical checks verified the optional LB subnet and code-only worker-pool configuration.
 - OpenSearch API and Dashboards connectivity succeeded from an OKE pod after removing all 12 OpenTelemetry-related rules. Both TLS certificates validated: API returned HTTP 401 without credentials; Dashboards returned HTTP 302 to login.
 - The test did not validate authenticated search operations or OpenTelemetry ingestion.
+- Cleanup removed the OKE cluster, both worker pools and boot volumes, all 166 infrastructure resources, and both temporary Resource Manager stacks. OpenSearch was deleted; the unused test Vault and key are pending deletion under OCI's mandatory retention period.
 
 ## SHA-256
 
