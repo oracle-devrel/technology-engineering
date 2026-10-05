@@ -58,7 +58,7 @@ The comparison uses the official release's `ADB-AskOracle-Chatbot-2026-08-06.sql
 
 
 Keep the supplied spellings: `mapliber`, `intreaction`, and `brser` are intentional filenames used by this package.
-
+More will be added . Check ### Map extension loading order for more information
 ### Other ZIP contents
 
 - `custom_app_file.css`: broader app styling, not just map CSS. Review its effect before replacing existing styles.
