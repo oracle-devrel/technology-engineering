@@ -461,7 +461,7 @@ variables:
 
   db_service_list:
     title: "Additional Database Services"
-    description: "Select the database services that workloads in the OKE cluster need to access. OpenSearch uses one NSG for API (9200) and Dashboards (5601). Managed Data Prepper and OpenTelemetry ingestion are outside this stack's scope."
+    description: "Select the database services that workloads in the OKE cluster need to access"
     type: enum
     additionalProps:
       allowMultiple: true
