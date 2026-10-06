@@ -22,12 +22,6 @@ pdf2image>=1.16.3
 # Windows: https://github.com/oschwartz10612/poppler-windows/releases
 
 # ============================================================================
-# Image Hashing (for document boundary detection)
-# ============================================================================
-imagehash>=4.3.0
-# Note: imagehash depends on scipy and PyWavelets (installed automatically)
-
-# ============================================================================
 # Oracle Cloud Infrastructure SDK
 # ============================================================================
 oci>=2.155.2
