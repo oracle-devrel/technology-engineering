@@ -10,9 +10,9 @@ Use these reusable components to add graph visualization, maps, drawing, browser
 
 If you have not installed Ask Oracle 5.0.0.1, follow the instructions in the [official Oracle repository](https://github.com/oracle-devrel/oracle-autonomous-database-samples/tree/main/apex/Ask-Oracle-Select-AI-Chatbot/V%205.0.0.1).
 
-1. **Dataset:** use your own data or the district sample in [sampledata/spatial](sampledata/spatial/).
-2. **Profile:** review the [Select AI notebook](Profile/Select%20AI.dsnb) and configure it for your schema and data.
-3. **App:** follow the [detailed installation and usage guide](AskOracle5.0.0.1/README.md) to assemble the plugins, PL/SQL, JavaScript, and CSS in your app.
+1. **Dataset:** use your own data or the district and bank  sampledata.zip. 
+2. **Profile:** review the Profile.zip and configure it for your schema and data.
+3. **App:** follow the [detailed installation and usage guide]([AskOracle5.0.0.1/README.md](https://github.com/oracle-devrel/technology-engineering/tree/main/oci-and-db/database/converged-database/oracle-graph/askoracle/AskOracleV5.0.0.1) to assemble the plugins, PL/SQL, JavaScript, and CSS in your app.
 
 The app guide explains each component, installation order, dependencies, testing, and known limitations. Test in a development copy before changing your working app.
 
