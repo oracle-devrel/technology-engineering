@@ -43,7 +43,7 @@ target selector. `compartment_id` takes precedence over `tags`.
 |---|---|---|---|
 | `compartment_id` | One target selector is required | `null` | OCI compartment OCID to monitor. Selects Database Management managed databases in that compartment and enables baseline Database Service event and native-metric alarms for the compartment. When set, `tags` is ignored. |
 | `tags` | One target selector is required when `compartment_id` is empty | `{}` | Free-form tag key/value pairs for selecting Database Management managed databases. Every supplied tag must match. |
-| `email_endpoint` | No | `test@acme.com` | Email address subscribed to created or reused Notifications topics. OCI requires recipient confirmation before delivery starts. |
+| `email_endpoint` | No | `test@example.com` | Email address subscribed to created or reused Notifications topics. OCI requires recipient confirmation before delivery starts. |
 | `notification_topic_name` | No | `database-alerts` | Baseline topic name for critical Database Service events and default alarm delivery. An active matching topic is reused. |
 | `operations_notification_topic_name` | No | `db-prod-operations` | Operational topic name for Backup Failure alarms and the daily SQL performance-degradation report. An active matching topic is reused. |
 | `freeform_tags` | No | `{}` | Free-form tags applied to resources created by the module. |
