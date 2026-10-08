@@ -1,0 +1,34 @@
+# Dependencies — reinstalled during build
+node_modules
+
+# Existing build output — rebuilt inside the container
+build
+
+# Environment files — secrets must not be baked into the image
+.env
+.env.*
+!.env.example
+
+# Version control
+.git
+.gitignore
+
+# IDE / editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation — not needed in the image
+*.md
+LICENSE
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Test / verification scripts
+verify-setup.sh
+
+# TypeScript incremental build info
+tsconfig.tsbuildinfo

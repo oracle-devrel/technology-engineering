@@ -1,0 +1,37 @@
+===========================================================
+  OCI Enterprise Chat Application — Deployed!
+===========================================================
+
+Namespace: {{ .Values.namespace }}
+
+Components:
+  - Backend:  {{ include "enterprise-chat-app.image" (dict "registry" .Values.registry "image" .Values.backend.image) }}
+  - Frontend: {{ include "enterprise-chat-app.image" (dict "registry" .Values.registry "image" .Values.frontend.image) }}
+
+{{- if .Values.ingress.enabled }}
+
+Access the application via the NGINX Ingress Controller:
+
+  kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+
+  Routes:
+    /        → Frontend (React SPA)
+    /api/*   → Backend  (FastAPI)
+    /docs    → Backend  (Swagger UI)
+    /health  → Backend  (Health check)
+{{- end }}
+
+Pre-requisites (created outside Helm):
+  1. OCIR pull secret:
+     kubectl create secret docker-registry {{ .Values.registry.pullSecret }} \
+       --docker-server={{ .Values.registry.server }} \
+       --docker-username='<namespace>/<user>' \
+       --docker-password='<auth-token>' \
+       --docker-email='<email>' \
+       -n {{ .Values.namespace }}
+
+  2. Oracle wallet secret:
+     kubectl create secret generic {{ .Values.backend.oracleWalletSecret }} \
+       --from-file=backend/config/wallet/ \
+       -n {{ .Values.namespace }}
+===========================================================

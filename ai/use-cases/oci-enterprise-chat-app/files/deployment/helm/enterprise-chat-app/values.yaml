@@ -1,0 +1,162 @@
+# =============================================================================
+# Default values for enterprise-chat-app Helm chart
+# =============================================================================
+
+# -- Global settings
+namespace: enterprise-chat-app
+
+# -- Container registry
+registry:
+  server: fra.ocir.io
+  repository: froszmh35vv3/aiq
+  # -- Name of the pre-created imagePullSecret for OCIR
+  pullSecret: ocir-credentials
+
+# =============================================================================
+# Backend
+# =============================================================================
+backend:
+  image:
+    name: aiq-backend
+    tag: v3
+  replicaCount: 2
+  port: 8000
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+  livenessProbe:
+    path: /health
+    initialDelaySeconds: 15
+    periodSeconds: 10
+
+  readinessProbe:
+    path: /health
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+  # -- Rolling update strategy
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+
+  # -- Autoscaling
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 70
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      pods: 2
+      periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      pods: 1
+      periodSeconds: 120
+
+  # -- Application config (non-sensitive)
+  config:
+    host: "0.0.0.0"
+    port: "8000"
+    reload: "false"
+    logLevel: "INFO"
+    uploadDir: "uploads"
+    # -- Oracle Database
+    oracleDbUsername: "ADMIN"
+    oracleDsn: "aiacceloracle26aiahxcfp_high"
+    oracleWalletDir: "/app/config/wallet"
+    # -- Vector store
+    oracleVectorTable: "document_vectors"
+    oracleEmbeddingDimension: "1024"
+    # -- AI models
+    embeddingModel: "oci/cohere.embed-multilingual-v3.0"
+    ragModel: "oci/meta.llama-4-maverick-17b-128e-instruct-fp8"
+    # -- Performance
+    maxBatchParallelism: "5"
+
+  # -- Secrets (base64-encoded)
+  secrets:
+    oracleDbPassword: "Y2hhbmdlLW1l"
+    ragEndpointUrl: "aHR0cHM6Ly9leGFtcGxlLmNvbQ=="
+    # -- Frontend admin login (ADMIN_USERNAME / ADMIN_PASSWORD)
+    adminUsername: "YWRtaW4="
+    adminPassword: "Y2hhbmdlLW1l"
+
+  # -- Oracle wallet secret name (created externally via kubectl)
+  oracleWalletSecret: oracle-wallet
+
+# =============================================================================
+# Frontend
+# =============================================================================
+frontend:
+  image:
+    name: aiq-frontend
+    tag: v3
+  replicaCount: 2
+  port: 80
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  livenessProbe:
+    path: /
+    initialDelaySeconds: 10
+    periodSeconds: 10
+
+  readinessProbe:
+    path: /
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 80
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      pods: 1
+      periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      pods: 1
+      periodSeconds: 120
+
+  config:
+    viteApiUrl: "http://backend-service:8000"
+
+# =============================================================================
+# Ingress
+# =============================================================================
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+
+# =============================================================================
+# Services
+# =============================================================================
+services:
+  backend:
+    type: ClusterIP
+  frontend:
+    type: ClusterIP

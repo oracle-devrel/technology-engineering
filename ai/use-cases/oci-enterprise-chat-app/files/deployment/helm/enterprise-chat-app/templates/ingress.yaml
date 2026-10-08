@@ -1,0 +1,53 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: enterprise-chat-ingress
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "enterprise-chat-app.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: {{ .Values.backend.port }}
+          - path: /docs
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: {{ .Values.backend.port }}
+          - path: /redoc
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: {{ .Values.backend.port }}
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: {{ .Values.backend.port }}
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
+{{- end }}

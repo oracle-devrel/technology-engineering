@@ -1,0 +1,230 @@
+{
+  "domain": "generic",
+  "checks": [
+    {
+      "id": "G001",
+      "type": "required_field",
+      "field_name": "document_title",
+      "category": "Document Identity",
+      "severity": "high",
+      "pass_message": "Document title identified",
+      "fail_message": "No document title \u2014 document cannot be properly identified, catalogued, or referenced"
+    },
+    {
+      "id": "G002",
+      "type": "required_field",
+      "field_name": "document_number",
+      "category": "Document Identity",
+      "severity": "high",
+      "pass_message": "Document reference number present",
+      "fail_message": "No reference number \u2014 document cannot be tracked in any management system"
+    },
+    {
+      "id": "G003",
+      "type": "required_field",
+      "field_name": "revision",
+      "category": "Document Identity",
+      "severity": "high",
+      "pass_message": "Version or revision stated",
+      "fail_message": "No version control \u2014 cannot confirm this is the current, latest, or superseded version"
+    },
+    {
+      "id": "G004",
+      "type": "required_field",
+      "field_name": "document_date",
+      "category": "Document Identity",
+      "severity": "high",
+      "pass_message": "Document date present",
+      "fail_message": "No date \u2014 currency and validity of the document cannot be verified"
+    },
+    {
+      "id": "G005",
+      "type": "required_field",
+      "field_name": "document_type",
+      "category": "Document Identity",
+      "severity": "medium",
+      "pass_message": "Document type classified",
+      "fail_message": "Document type not classified (report, contract, specification, policy, letter, proposal, etc.)"
+    },
+    {
+      "id": "G006",
+      "type": "required_field",
+      "field_name": "document_status",
+      "category": "Document Identity",
+      "severity": "high",
+      "pass_message": "Document status stated (draft, review, approved, final)",
+      "fail_message": "No status indicator \u2014 cannot determine if this is draft, under review, or formally approved for use"
+    },
+    {
+      "id": "G007",
+      "type": "required_field",
+      "field_name": "language",
+      "category": "Document Identity",
+      "severity": "low",
+      "pass_message": "Primary language identified",
+      "fail_message": "Language not identified \u2014 may cause issues for multilingual teams"
+    },
+    {
+      "id": "G010",
+      "type": "required_field",
+      "field_name": "author",
+      "category": "Authorship & Accountability",
+      "severity": "high",
+      "pass_message": "Author or preparer identified with name and role",
+      "fail_message": "No author \u2014 accountability for document content is not established"
+    },
+    {
+      "id": "G011",
+      "type": "required_field",
+      "field_name": "reviewer",
+      "category": "Authorship & Accountability",
+      "severity": "high",
+      "pass_message": "Reviewer or checker identified",
+      "fail_message": "No reviewer \u2014 document has not been independently checked or quality-assured"
+    },
+    {
+      "id": "G012",
+      "type": "required_field",
+      "field_name": "approver",
+      "category": "Authorship & Accountability",
+      "severity": "critical",
+      "pass_message": "Approver or authorizing signatory identified",
+      "fail_message": "NO APPROVER IDENTIFIED \u2014 document may not be formally authorized. Unsigned documents have been rejected, delayed, and legally challenged in past projects."
+    },
+    {
+      "id": "G013",
+      "type": "required_field",
+      "field_name": "organization",
+      "category": "Authorship & Accountability",
+      "severity": "high",
+      "pass_message": "Issuing organization identified",
+      "fail_message": "Issuing organization not identified \u2014 institutional accountability unclear"
+    },
+    {
+      "id": "G014",
+      "type": "required_field",
+      "field_name": "recipient",
+      "category": "Authorship & Accountability",
+      "severity": "medium",
+      "pass_message": "Recipient or addressee identified",
+      "fail_message": "No recipient specified \u2014 distribution and intended audience unclear"
+    },
+    {
+      "id": "G020",
+      "type": "required_field",
+      "field_name": "summary",
+      "category": "Content Completeness",
+      "severity": "high",
+      "pass_message": "Executive summary or abstract present",
+      "fail_message": "No executive summary \u2014 senior decision-makers require a concise overview before reviewing detail"
+    },
+    {
+      "id": "G021",
+      "type": "required_field",
+      "field_name": "scope",
+      "category": "Content Completeness",
+      "severity": "critical",
+      "pass_message": "Scope or purpose clearly stated",
+      "fail_message": "NO SCOPE OR PURPOSE \u2014 document intent is unclear. Without a defined scope, the document cannot be assessed for completeness or relevance."
+    },
+    {
+      "id": "G022",
+      "type": "required_field",
+      "field_name": "key_findings",
+      "category": "Content Completeness",
+      "severity": "high",
+      "pass_message": "Key findings, conclusions, or outcomes documented",
+      "fail_message": "No key findings or conclusions \u2014 the document does not clearly state what was determined or decided"
+    },
+    {
+      "id": "G023",
+      "type": "required_field",
+      "field_name": "action_items",
+      "category": "Content Completeness",
+      "severity": "high",
+      "pass_message": "Action items, recommendations, or next steps identified",
+      "fail_message": "No action items \u2014 no clear follow-up, recommendations, or next steps defined"
+    },
+    {
+      "id": "G030",
+      "type": "required_field",
+      "field_name": "key_dates",
+      "category": "Dates & Deadlines",
+      "severity": "high",
+      "pass_message": "Key dates identified (deadlines, milestones, effective dates)",
+      "fail_message": "No key dates extracted \u2014 deadlines and milestones may be missed"
+    },
+    {
+      "id": "G040",
+      "type": "required_field",
+      "field_name": "standards_referenced",
+      "category": "Standards & Compliance",
+      "severity": "high",
+      "pass_message": "Standards, regulations, or codes of practice referenced",
+      "fail_message": "No standards or regulations referenced \u2014 compliance basis not established"
+    },
+    {
+      "id": "G041",
+      "type": "required_field",
+      "field_name": "compliance_requirements",
+      "category": "Standards & Compliance",
+      "severity": "high",
+      "pass_message": "Compliance or regulatory requirements stated",
+      "fail_message": "No compliance requirements stated \u2014 legal and regulatory obligations may not be addressed"
+    },
+    {
+      "id": "G042",
+      "type": "required_field",
+      "field_name": "risks_identified",
+      "category": "Standards & Compliance",
+      "severity": "high",
+      "pass_message": "Risks, hazards, or concerns identified",
+      "fail_message": "No risks identified \u2014 risk assessment may be missing or incomplete"
+    },
+    {
+      "id": "G060",
+      "type": "keyword_present",
+      "keyword": "confidential",
+      "category": "Governance & Classification",
+      "severity": "medium",
+      "pass_message": "Confidentiality or security marking found",
+      "fail_message": "No confidentiality marking \u2014 document classification not stated"
+    },
+    {
+      "id": "G061",
+      "type": "keyword_present",
+      "keyword": "copyright",
+      "category": "Governance & Classification",
+      "severity": "low",
+      "pass_message": "Copyright or IP notice present",
+      "fail_message": "No copyright notice \u2014 intellectual property rights not asserted"
+    },
+    {
+      "id": "G070",
+      "type": "keyword_present",
+      "keyword": "approved",
+      "category": "Approval & Sign-off",
+      "severity": "high",
+      "pass_message": "Approval statement or sign-off found in document",
+      "fail_message": "No approval statement found \u2014 document may be in draft or unapproved state"
+    },
+    {
+      "id": "G071",
+      "type": "keyword_present",
+      "keyword": "signature",
+      "category": "Approval & Sign-off",
+      "severity": "medium",
+      "pass_message": "Signature block or electronic signature present",
+      "fail_message": "No signature block \u2014 formal sign-off mechanism not present"
+    },
+    {
+      "id": "G072",
+      "type": "keyword_present",
+      "keyword": "effective date",
+      "category": "Approval & Sign-off",
+      "severity": "medium",
+      "pass_message": "Effective date or validity period stated",
+      "fail_message": "No effective date \u2014 unclear when the document takes effect or expires"
+    }
+  ]
+}
