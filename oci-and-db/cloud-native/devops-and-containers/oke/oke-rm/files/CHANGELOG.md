@@ -1,3 +1,45 @@
+# OKE Resource Manager 1.5.0
+
+## Changes
+
+- Make the default load balancer subnet optional. An empty selection creates the OKE cluster without a default service load balancer subnet; no load balancer is created during cluster provisioning.
+- Move disabled managed, GVA, system, and virtual worker-pool examples into the code-configurable `worker_pools` input in `node-pools.tf`. Keep this input hidden in the Resource Manager form.
+- Preserve system-node cloud-init and support raw, base64, and bundled-file cloud-init content.
+- Validate worker-pool modes, pool sizes, availability-domain selections, managed-node GVA, and virtual-node-only taints.
+- Add OpenSearch to the optional database networking configuration. One service NSG permits TCP 9200 (API) and 5601 (Dashboards), with matching stateless return rules and existing shared/dedicated pod or worker client selection.
+- Keep managed Data Prepper and OpenTelemetry ingestion outside the OKE provisioning stack.
+- Correct Resource Manager policy visibility, tag compartment dependencies, and policy output types.
+- Document the private-template installer in OCI Cloud Shell, immediately after the two Deploy to Oracle Cloud buttons.
+- Update both deployment buttons to release `oke-rm-1.5.0`.
+
+## Upgrade Notes
+
+Existing LB subnet selections remain valid. If no default is configured, supply the appropriate subnet annotations on Kubernetes LoadBalancer Services when needed.
+
+Existing `worker_pools` stack inputs take precedence over code defaults. Review pool changes carefully: disabling or removing a pool can destroy it. The supplied examples remain disabled by default.
+
+The OpenSearch network feature does not provision OpenSearch. Attach its generated NSG to the service. Existing configurations that used the unreleased OpenTelemetry rules will remove ports 21890, 21891, and 21892 when applied.
+
+Tenancy-injected defined tags can appear as unrelated plan drift. Review them separately; this release does not introduce a tag-ownership policy or the unrelated frontend-rule lifecycle change.
+
+## Verification
+
+- Terraform formatting and validation passed for both stacks. All 47 native tests passed: 14 infrastructure and 33 OKE tests.
+- Functional testing in eu-amsterdam-1 created an ACTIVE public-endpoint, VCN-native OKE cluster without a default LB subnet, with managed and system worker pools.
+- Resource Manager graphical checks verified the optional LB subnet and code-only worker-pool configuration.
+- OpenSearch API and Dashboards connectivity succeeded from an OKE pod after removing all 12 OpenTelemetry-related rules. Both TLS certificates validated: API returned HTTP 401 without credentials; Dashboards returned HTTP 302 to login.
+- The test did not validate authenticated search operations or OpenTelemetry ingestion.
+- Cleanup removed the OKE cluster, both worker pools and boot volumes, all 166 infrastructure resources, and both temporary Resource Manager stacks. OpenSearch was deleted; the unused test Vault and key are pending deletion under OCI's mandatory retention period.
+
+## SHA-256
+
+```text
+986a878cc77a9809b070e897e8bcce2068ccac26a6b7976762b1e0bcf8aba1fb  infra.zip
+7359ea4b8d80fb803679285a3e3bdfa3c467e478f1de2fca59a1e221a78ed234  oke.zip
+```
+
+---
+
 # OKE Resource Manager 1.4.0
 
 ## Changes

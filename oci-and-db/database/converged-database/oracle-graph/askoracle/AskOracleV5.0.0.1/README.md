@@ -1,6 +1,6 @@
 # Visualization extensions for Ask Oracle
 
-If you already have **Ask Oracle Release Version: 5.0.0.1** installed, you can add the functionality provided in this repository. If not, first download Ask Oracle from the [official Oracle repository](https://github.com/oracle-devrel/oracle-autonomous-database-samples/tree/main/apex/Ask-Oracle-Select-AI-Chatbot/V%205.0.0.1)  or App zip here and follow its installation instructions. You can find the base application's prerequisites and setup details there.
+If you already have **Ask Oracle Release Version: 5.0.0.1** installed, you can add the functionality provided in this repository. If not, first download Ask Oracle from the [official Oracle repository](https://github.com/oracle-devrel/oracle-autonomous-database-samples/tree/main/apex/Ask-Oracle-Select-AI-Chatbot/V%205.0.0.1)  or App zip here and follow its installation instructions. You can find the base application's prerequisites and setup details there. [Please Read this blog post](https://medium.com/@maryam.oracle2025/askoracle-two-stories-from-natural-language-questions-to-graph-and-spatial-visualization-3621157ec86d?postPublishedType=repub) for more information. For active components check "Map extension loading order". 
 
 Then follow the instructions below to add these extensions to your own application.
 
@@ -13,7 +13,6 @@ Then follow the instructions below to add these extensions to your own applicati
 | Component | What it adds |
 | --- | --- |
 | Graph Visualization plugin and graph page | A graph viewer for generated property-graph SQL results. |
-| Cytoscape and D3 integrations | Alternative graph renderers for results containing recognized graph identity columns. |
 | MapLibre integration | A map for returned point, line, and polygon GeoJSON, including district boundaries. |
 | Map interactions | A selectable attributes table, yellow feature/row selection, Select All, Clear Selection, right-click sorting, and Shift+drag selection. |
 | Drawing | Draw points, lines, polygons, and rectangles; select drawings and inspect their attributes. |
@@ -49,8 +48,6 @@ The comparison uses the official release's `ADB-AskOracle-Chatbot-2026-08-06.sql
 | `execute_page_load.js` | Another large application runtime file with substantial overlap with `ask_oracle_function.js`. Its exact deployment role must be checked against the source app. **Do not automatically load both.** |
 | `ask_oracle_functions_old.js` | Legacy code; do not add it to a new loading sequence. |
 | `****` `ask_oracle_function_graph.js` | Graph UI enhancements, including handling recognized internal graph identity columns. Load after the applicable Ask Oracle runtime. |
-| `****` `ask_oracle_cytoscape_graph.js` | Cytoscape renderer integration; requires the separate Cytoscape library and `GET_SQL_RESULTS`. |
-| `****` `ask_oracle_d3_graph.js` | Our D3 integration, **not the D3 library itself**; requires the separate D3 library and `GET_SQL_RESULTS`. |
 | `****` `maplibre-gl.js` / `maplibre-gl.css` | MapLibre rendering library and its required matching stylesheet, supplied in this ZIP. |
 | `****` `ask_oracle_mapliber.js` | Our map integration, **not the MapLibre library itself**. Connects returned geometry to the map and adds Show Map. |
 | `****` `ask_oracle_mapliber_intreaction.js` | Attribute table, linked map selection, sorting, selection rectangle, and chart geometry-column filtering. Requires the map module. |
@@ -59,7 +56,6 @@ The comparison uses the official release's `ADB-AskOracle-Chatbot-2026-08-06.sql
 | `****` `ask_oracle_mapliber_analysis.js` | Analysis dropdown beside Drawing and relationship results. Requires drawing; loads JSTS on demand. |
 | `****` `ask_oracle_mapliber_export.js` | Map-specific PDF export. Requires map/interactions and the application's jsPDF loader; load after drawing. |
 
-The same additional-file designation applies to supplied minified counterparts of the marked integration scripts. The **D3 and Cytoscape libraries are external dependencies, not files inside this ZIP**; their loading URLs are listed in section 5. Do not upload an integration script expecting it to replace its underlying library.
 
 Keep the supplied spellings: `mapliber`, `intreaction`, and `brser` are intentional filenames used by this package.
 
@@ -136,11 +132,6 @@ Open **Shared Components → Application Processes**. For an on-demand callback,
 
 The supplied `GET_SQL_RESULTS` returns `id`, `totalRowCount`, `profile_name`, `conversation_time`, `sql`, and `results`. It fetches **at most 50 rows** using `p_max_rows => 50`. A larger total count does not mean all rows are available for a visualization.
 
-### Graph result columns
-
-The graph plugin and the Cy/D3 scripts do not necessarily use the same column contract. The exported plugin region declares `V_ID`, `E_ID`, and `P_ID`. The Cy/D3 integrations recognize names such as `GRAPH_SOURCE_ID`, `GRAPH_TARGET_ID`, and `GRAPH_EDGE_ID`; some paths also recognize `GRAPH_VERTEX_ID`.
-
-For an edge, its source/target identities must describe that edge's actual endpoints. Do not return customer IDs as endpoints for a transfer edge that connects accounts. Ordinary business columns alone are not always enough for these renderers. Node-only and arbitrary-alias results are not supported uniformly; D3's supplied property-row conversion requires source and target graph columns.
 
 ## 5. Upload and connect JavaScript/CSS
 
@@ -153,13 +144,22 @@ On the page where chat results appear, use **Page Designer → Page → JavaScri
 Add these entries **after your working Ask Oracle runtime**, one per line:
 
 ```text
-#APP_FILES#maplibre-gl.js
+[#APP_FILES#maplibre-gl.js
 #APP_FILES#ask_oracle_mapliber.js
 #APP_FILES#ask_oracle_mapliber_intreaction.js
 #APP_FILES#ask_oracle_mapliber_drawing.js
 #APP_FILES#ask_oracle_mapliber_storage_brser.js
 #APP_FILES#ask_oracle_mapliber_analysis.js
+#APP_FILES#ask_oracle_mapliber_export.js](https://cdn.jsdelivr.net/npm/chart.js
+https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels
+#APP_FILES#maplibre-gl.js
+#APP_FILES#ask_oracle_mapliber.js
 #APP_FILES#ask_oracle_mapliber_export.js
+#APP_FILES#ask_oracle_mapliber_intreaction.js
+#APP_FILES#ask_oracle_mapliber_drawing.js
+#APP_FILES#ask_oracle_mapliber_storage_brser.js
+#APP_FILES#ask_oracle_mapliber_analysis.js
+#APP_FILES#ask_oracle_mapliber_chat_analysis.js)
 ```
 
 Add the matching stylesheet:
@@ -174,12 +174,11 @@ body.ui-dialog-open .t-Footer {
   display: none !important;
 }
 ```
-Immediately below its closing }, append the following CSS to match the Show Map, Show GraphCy, and Show GraphD3 button sizes to Explore and Explain. Keep all existing CSS unchanged.
+Immediately below its closing }, append the following CSS to match the Show Map, button sizes to Explore and Explain. Keep all existing CSS unchanged.
 ```js
 /* Match Explore / Explain button sizes */
 body button.llm-conv-show-map-btn,
-body button.llm-conv-show-graphcy-btn,
-body button.llm-conv-show-graphd3-btn {
+{
   box-sizing: border-box !important;
   height: 22px !important;
   min-height: 22px !important;
@@ -201,21 +200,6 @@ window.askOracleMap.setResults(promptId, executedResultRows);
 
 Pass actual executed results, not an LLM's narrative or unexecuted SQL.
 
-
-
-### Optional graph renderer loading order
-
-After the compatible Ask Oracle runtime, use:
-
-```text
-#APP_FILES#ask_oracle_function_graph.js
-https://cdn.jsdelivr.net/npm/cytoscape@3.33.1/dist/cytoscape.min.js
-#APP_FILES#ask_oracle_cytoscape_graph.js
-https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js
-#APP_FILES#ask_oracle_d3_graph.js
-```
-
-These external renderer libraries are not in the supplied ZIP. You can host approved copies locally instead. The D3 URL selects major version 7; pin a tested exact version for a reproducible deployment. Keep the application's existing chart libraries if using charts; do not add duplicate Chart.js copies or incompatible chart plugins.
 
 ### Important runtime/style integration checkpoint
 
@@ -310,12 +294,12 @@ Open the populated map before exporting a map PDF. Wait for basemap tiles to fin
 
 The default basemap uses OpenFreeMap. Its tile/style services receive normal network requests, including requested map areas and client network information. Keep attribution visible. To use an approved map service, set `window.askOracleMapConfig.style` before loading the main map integration; setting `style: null` provides a blank background.
 
-External assets can include Cytoscape, D3, JSTS, chart/PDF libraries, map styles, glyphs, sprites, and tiles. Self-host approved dependencies where required and configure CSP for the resources actually used. Browser-only geometry storage/analysis does not mean the whole application is offline: Ask Oracle still uses its configured database/AI services.
+
 
 ## 9. Test before sharing with users
 
 1. Verify normal Ask Oracle questions still work and are submitted only once.
-2. Run a known-good property-graph query. Check the plugin view and, where the column contract matches, Cy/D3 views.
+2. Run a known-good property-graph query. Check the plugin view and, where the column contract matches.
 3. Return one polygon with readable attributes. Check Show Map and absence of raw geometry in the selectable attributes table.
 4. Verify row/map selection, sorting, Select All, Clear Selection, and Shift+drag.
 5. Draw a line; Finish; name/save it; clear the view; Load it. Verify its name and attributes.
@@ -347,7 +331,7 @@ Local syntax, topology, and simulated integration checks were performed for the 
 
 - Keep credentials, access tokens, wallets, personal datasets, and session-bearing App Builder URLs out of GitHub.
 - Exports contain source application/workspace IDs and schema/developer metadata. Review these before publication; never treat them as target installation values.
-- Preserve the copyright/license notices of Oracle, the graph plugin, MapLibre, Cytoscape, D3, JSTS, and other included dependencies. Verify redistribution terms before publishing; this README does not grant additional rights.
+- Preserve the copyright/license notices of Oracle, the graph plugin, MapLibre, JSTS, and other included dependencies. Verify redistribution terms before publishing; this README does not grant additional rights.
 - Document any local changes and the tested Ask Oracle/APEX/library versions when updating the package.
 
 References: [Ask Oracle 5.0.0.1](https://github.com/oracle-devrel/oracle-autonomous-database-samples/tree/main/apex/Ask-Oracle-Select-AI-Chatbot/V%205.0.0.1), [APEX plugin import](https://docs.oracle.com/en/database/oracle/apex/26.1/htmdb/importing-export-files.html), [APEX page export and restrictions](https://docs.oracle.com/en/database/oracle/apex/26.1/htmdb/exporting-an-application-page.html), [JSTS](https://github.com/bjornharrtell/jsts).
