@@ -470,6 +470,7 @@ variables:
       - cache
       - oracledb
       - mysql
+      - opensearch
     required: false
     default: []
     visible: ${create_database_nsgs}
