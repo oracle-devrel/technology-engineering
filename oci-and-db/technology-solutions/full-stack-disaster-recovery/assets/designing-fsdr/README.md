@@ -4,6 +4,10 @@ OCI Full Stack Disaster Recovery (FSDR) orchestrates recovery for complete appli
 
 Design and configure the underlying replication first. FSDR coordinates database, storage, compute, and application recovery; each service provides its own data protection mechanism.
 
+## Disclaimer
+
+The information, architectures, and examples in this guide are provided for general reference and may not fully suit your specific use case. You assume full responsibility for designing, implementing, testing, and maintaining your disaster recovery solution, including validating that it meets your application requirements and recovery objectives.
+
 ## Prerequisites
 
 Prepare the recovery environment before creating FSDR plans:
@@ -137,3 +141,11 @@ Avoid this model when applications can be recovered independently. It can increa
 - [ ] Review and update DR plans after each infrastructure change.
 - [ ] Train the operations team on DR execution procedures.
 - [ ] Establish a communication plan for DR events.
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
