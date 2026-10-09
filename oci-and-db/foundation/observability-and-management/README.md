@@ -50,6 +50,9 @@ Reviewed: Reviewed: 17.06.2026
 |---|---|
 | OCI Observability and Management best practices and checklist|[Link](https://blogs.oracle.com/observability/post/oci-observability-checklist)|
 | Observability Design Guide  | [Link](https://obs.octodemo.cloud/) |  
+| OCI Observability MCP server | [Link](https://github.com/oracle/mcp) |
+| DB AI Monitoring Skills | [Link](https://github.com/oracle/skills/tree/main/db/monitoring)|
+| DB AI Performance Skills | [Link](https://github.com/oracle/skills/tree/main/db/performance)|
 | AI agent skills for OCI observability  | [Link](https://github.com/adibirzu/oci-skills) | 
 | AI Agent Observability |[Link](https://www.ateam-oracle.com/ai-agent-observability-understand-how-ai-agents-behave-in-gen-ai-applications-and-ecosystems)|
 | OCI AI Ops Framework series for Cloud Operations and Autonomous Resilience|[Link](https://www.ateam-oracle.com/oci-ai-ops-framework-series-for-cloud-operation-autonomous-resilience)|
