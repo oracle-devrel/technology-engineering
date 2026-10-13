@@ -16,6 +16,9 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Use auth-token-capable, non-console automation users and the selected Identity Domains token API. Wait for fresh Vault KMS endpoint DNS propagation before creating the credential key.
+- Allow up to ten minutes for generated repository credentials and policy authorization to propagate during initial seeding.
+- Request Identity Domains group memberships and dynamic-group matching rules explicitly during refresh, and avoid drift on the write-only notification-suppression option.
 - Aligned cluster operations runbooks and the seeded repository README with shared orchestrators, immutable target plans, and explicit decommissioning without a confirmation parameter.
 - Restricted release packaging to an explicit file manifest, rejected missing or symlinked inputs, and generated a fresh SHA-256 checksum for each archive. Added packaging regression tests for local-file exclusions and release/development modes.
 

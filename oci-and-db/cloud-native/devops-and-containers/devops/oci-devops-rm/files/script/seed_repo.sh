@@ -60,7 +60,7 @@ chmod 600 "${HOME}/.netrc"
 # Newly created IAM groups/policies can take time to authorize Git operations.
 attempts=1
 if [ -n "${CREDENTIAL_POLICY_ID:-}" ]; then
-  attempts=30
+  attempts=60
 fi
 for ((attempt=1; attempt<=attempts; attempt++)); do
   if git clone "${REPO_CLONE_URL}" "${WORK_DIR}/repo"; then

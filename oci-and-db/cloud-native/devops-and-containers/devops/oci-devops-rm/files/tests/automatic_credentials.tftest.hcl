@@ -31,6 +31,7 @@ mock_provider "oci" {
 
 mock_provider "local" {}
 mock_provider "null" {}
+mock_provider "time" {}
 
 variables {
   region                    = "eu-milan-1"

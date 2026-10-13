@@ -30,7 +30,7 @@ class AutomaticCredentialTests(unittest.TestCase):
             source = self.read(filename)
             self.assertEqual(source.count("CREDENTIAL_POLICY_ID = var.credential_policy_ready"), expected)
             self.assertNotIn("credential_policy_ready", "".join(re.findall(r"triggers = \{(.*?)\n  \}", source, re.S)))
-        self.assertIn("attempts=30", self.read("script/seed_repo.sh"))
+        self.assertIn("attempts=60", self.read("script/seed_repo.sh"))
         self.assertIn('git clone "${REPO_CLONE_URL}"', self.read("script/seed_repo.sh"))
 
     def test_scoped_dynamic_group_includes_all_generated_execution_types(self):
@@ -54,12 +54,23 @@ class AutomaticCredentialTests(unittest.TestCase):
 
     def test_tokens_are_sensitive_and_not_outputs(self):
         source = self.read("credentials.tf")
-        self.assertIn('sensitive(oci_identity_auth_token.automation["bootstrap"].token)', source)
-        self.assertIn("sensitive(base64encode(oci_identity_auth_token.automation[each.key].token))", source)
+        self.assertIn('sensitive(oci_identity_domains_auth_token.automation["bootstrap"].token)', source)
+        self.assertIn("sensitive(base64encode(oci_identity_domains_auth_token.automation[each.key].token))", source)
         outputs = self.read("outputs.tf")
         self.assertNotIn(".token)", outputs)
         self.assertNotIn(".token\n", outputs)
         self.assertIn("credentials.tf", self.read("release-files.txt").splitlines())
+
+    def test_tokens_use_selected_domain(self):
+        source = self.read("credentials.tf")
+        self.assertNotIn('resource "oci_identity_auth_token"', source)
+        self.assertIn('resource "oci_identity_domains_auth_token"', source)
+        self.assertRegex(source, r"service_user\s*=\s*false")
+        self.assertRegex(source, r"can_use_auth_tokens\s*=\s*true")
+        self.assertRegex(source, r"can_use_console\s*=\s*false")
+        self.assertRegex(source, r'attribute_sets\s*=\s*\["all"\]')
+        self.assertRegex(self.read("modules/iam/dynamic-groups.tf"), r'attribute_sets\s*=\s*\["all"\]')
+        self.assertIn("time_sleep.credentials_vault_dns", source)
 
     def test_secret_access_is_only_for_bootstrap_pipelines(self):
         source = self.read("modules/iam/policies.tf")

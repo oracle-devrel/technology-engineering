@@ -51,7 +51,7 @@ and Kubernetes pull secret when run, not during Terraform apply.
 With external IAM, configure access for the derived groups before repository
 seeding can succeed. Merely creating users does not authorize them. Inspect
 `credentials.tf` for the generated policy templates. With IAM enabled, seeding
-waits for policy creation and retries initial Git access for up to five minutes
+waits for policy creation and retries initial Git access for up to ten minutes
 while authorization propagates.
 
 If permissions cannot be prepared until the new group OCIDs exist, the initial
@@ -64,6 +64,14 @@ OCIDs instead of all resources in the project compartment. Vault read access is
 limited to the application bootstrap pipeline identities.
 Automatic mode additionally restricts that access to the generated pull-token
 secret; manually supplied secrets remain scoped to the selected compartment.
+New pipelines created outside Terraform are not automatically added to this
+allowlist. Grant their execution identities explicitly through your approved
+IAM process. Group and policy propagation can temporarily delay the first Git
+operation or pipeline run; retry after propagation rather than widening grants.
+
+The pipeline group still shares the stack's compartment-scoped execution
+permissions. An exact identity allowlist is not isolation between pipeline
+roles: treat executable pipeline code as trusted, and review changes accordingly.
 
 ## Security And Upgrade Boundaries
 
@@ -71,6 +79,12 @@ The applying identity must be authorized to manage identity-domain users,
 groups, auth tokens, Vaults, keys and secrets, and policies when enabled.
 Identity resources use the tenancy home-region provider; Vault resources use
 the stack region. No console password or activation email is created.
+The accounts are ordinary identity-domain users with console and other
+credential capabilities disabled; only OCI auth tokens are enabled. They are
+not Identity Domains `serviceUser` accounts, which disable auth tokens.
+Tokens are created through the selected identity domain endpoint. A short
+Vault readiness delay allows its dedicated KMS DNS records to propagate
+before creating the key; retry the apply if regional propagation takes longer.
 
 Auth tokens are stored in Terraform state as well as Vault. Sensitive values
 are redacted, not removed from state: restrict Resource Manager state and job
