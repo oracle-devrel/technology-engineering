@@ -62,7 +62,7 @@ class DeveloperTemplateTests(unittest.TestCase):
     def test_development_mode_refreshes_generated_pipeline_specs(self):
         source = self.read("modules/devops/repositories.tf")
         self.assertIn('resource "null_resource" "refresh_platform_development"', source)
-        self.assertIn('SEED_MODE      = "refresh"', source)
+        self.assertRegex(source, r'SEED_MODE\s*=\s*"refresh"')
         self.assertIn("local.generated_component_build_specs", source)
         self.assertIn("component.build_spec_path", source)
         self.assertIn('"${name}-release-pipeline.yaml"', source)
@@ -155,10 +155,16 @@ class DeveloperTemplateTests(unittest.TestCase):
         )
         bootstrap = source[bootstrap_start:bootstrap_end]
 
-        for parameter_name in ("registry_username", "pull_password_secret_ocid"):
+        for parameter_name, variable_name in (
+            ("registry_username", "bootstrap_registry_username"),
+            ("pull_password_secret_ocid", "bootstrap_password_secret_id"),
+        ):
             parameter_start = bootstrap.index(f'name          = "{parameter_name}"')
             parameter = bootstrap[parameter_start:parameter_start + 200]
-            self.assertIn('default_value = null', parameter)
+            self.assertIn(f'default_value = var.{variable_name}', parameter)
+            variables = self.read("modules/devops/variables.tf")
+            start = variables.index(f'variable "{variable_name}"')
+            self.assertIn("default = null", variables[start:start + 100])
 
         self.assertNotIn('default_value = "0.1.0"', bootstrap)
 

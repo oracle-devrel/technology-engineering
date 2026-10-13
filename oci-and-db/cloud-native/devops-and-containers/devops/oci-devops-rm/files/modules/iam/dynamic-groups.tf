@@ -5,14 +5,7 @@ data "oci_identity_domain" "devops_domain" {
 locals {
   idcs_endpoint = data.oci_identity_domain.devops_domain.url
 
-  matching_rule = <<EOT
-ANY {
-  ALL {resource.type = 'devopsdeploypipeline', resource.compartment.id = '${var.compartment_id}'},
-  ALL {resource.type = 'devopsbuildpipeline', resource.compartment.id = '${var.compartment_id}'},
-  ALL {resource.type = 'devopsrepository', resource.compartment.id = '${var.compartment_id}'},
-  ALL {resource.type = 'devopstrigger', resource.compartment.id = '${var.compartment_id}'}
-}
-EOT
+  matching_rule = "ANY {${join(", ", [for id in var.resource_ids : "resource.id = '${id}'"])}}"
 }
 
 resource "oci_identity_domains_dynamic_resource_group" "devops_dynamic_group" {

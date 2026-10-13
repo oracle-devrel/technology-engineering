@@ -8,8 +8,11 @@ module "devops" {
   devops_pipeline_repository_name        = var.devops_pipeline_repository_name
   region                                 = var.region
   tenancy_id                             = var.tenancy_ocid
-  git_username                           = local.git_username
-  git_password                           = var.auth_token
+  git_username                           = local.effective_git_username
+  git_password                           = local.effective_git_password
+  credential_policy_ready                = try(oci_identity_policy.automation[0].id, "")
+  bootstrap_registry_username            = try(local.credential_usernames["pull"], null)
+  bootstrap_password_secret_id           = try(oci_vault_secret.automation["pull"].id, null)
   create_notification_topic              = var.create_notification_topic
   notification_topic_id                  = var.notification_topic_id
   notification_topic_name                = var.notification_topic_name
@@ -47,7 +50,10 @@ module "iam" {
   prod_network_compartment_id = var.prod_network_compartment_id
   oke_compartment_id          = coalesce(var.oke_compartment_id, var.compartment_ocid)
   prod_oke_compartment_id     = var.prod_oke_compartment_id
-  secret_compartment_id       = coalesce(var.namespace_init_secret_compartment_id, var.compartment_ocid)
+  secret_compartment_id       = var.create_automatic_credentials ? local.credentials_compartment_id : coalesce(var.namespace_init_secret_compartment_id, var.compartment_ocid)
+  resource_ids                = module.devops.execution_resource_ids
+  secret_reader_ids           = module.devops.bootstrap_pipeline_ids
+  secret_ids                  = var.create_automatic_credentials && local.application_delivery_enabled ? [oci_vault_secret.automation["pull"].id] : []
   devops_policy_name          = var.devops_policy_name
   dynamic_group_name          = var.devops_dynamic_group_name
   enable_oke_access           = local.oke_environments_required

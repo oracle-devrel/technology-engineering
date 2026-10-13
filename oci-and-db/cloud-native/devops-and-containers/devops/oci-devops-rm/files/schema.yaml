@@ -25,6 +25,7 @@ variableGroups:
       - devops_project_description
       - application_delivery_mode
       - devops_pipeline_repository_name
+      - create_automatic_credentials
       - auth_token
       - create_notification_topic
       - notification_topic_id
@@ -78,6 +79,8 @@ variableGroups:
       - iam_policy_compartment_id
       - iam_domain_compartment_id
       - devops_iam_domain_id
+      - automatic_credentials_compartment_id
+      - automatic_credentials_email
       - namespace_init_secret_compartment_id
       - devops_dynamic_group_name
       - devops_policy_name
@@ -492,6 +495,31 @@ variables:
     description: Auth token for the current OCI user. Resource Manager uses it once to seed the hosted DevOps repositories.
     type: password
     required: true
+    visible:
+      not:
+        - ${create_automatic_credentials}
+
+  create_automatic_credentials:
+    title: Create Automatic Credentials
+    description: Create service accounts in the selected identity domain, auth tokens, a regional Vault, encryption key and credential secrets. Generated tokens enter Terraform state. Enable Create IAM as well unless permissions are managed externally.
+    type: boolean
+    default: false
+
+  automatic_credentials_compartment_id:
+    title: Automatic Credentials Vault Compartment
+    description: Location for the generated Vault, key and secrets. The form defaults to the stack compartment; select the project's compartment or another permitted compartment.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+    visible: ${create_automatic_credentials}
+
+  automatic_credentials_email:
+    title: Automation Accounts Contact Email
+    description: Contact email for the generated service accounts. No console password or activation email is generated.
+    type: string
+    required: true
+    pattern: "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    visible: ${create_automatic_credentials}
 
   create_iam:
     title: Create DevOps IAM Policies And Dynamic Group
@@ -512,13 +540,19 @@ variables:
     type: oci:identity:compartment:id
     default: ${tenancy_ocid}
     required: true
-    visible: ${create_iam}
+    visible:
+      or:
+        - ${create_iam}
+        - ${create_automatic_credentials}
 
   devops_iam_domain_id:
     title: OCI DevOps Identity Domain
     type: oci:identity:domains:id
     required: true
-    visible: ${create_iam}
+    visible:
+      or:
+        - ${create_iam}
+        - ${create_automatic_credentials}
     dependsOn:
       compartmentId: ${iam_domain_compartment_id}
 
@@ -531,9 +565,12 @@ variables:
     visible:
       and:
         - ${create_iam}
-        - eq:
-            - ${application_delivery_mode}
-            - oci_devops
+        - and:
+            - not:
+                - ${create_automatic_credentials}
+            - eq:
+                - ${application_delivery_mode}
+                - oci_devops
 
   devops_dynamic_group_name:
     title: DevOps Dynamic Group Name
@@ -550,6 +587,10 @@ variables:
     visible: ${create_iam}
 
 outputs:
+  automatic_credentials:
+    title: Automatic Credential References
+    description: Generated usernames, group OCIDs, Vault/key OCIDs and token secret OCIDs. No auth token values are displayed.
+    type: string
   application_delivery_mode:
     title: Application Delivery Mode
     description: Indicates whether this stack owns application delivery or only builds images.
@@ -690,6 +731,7 @@ outputGroups:
       - ${devops_project_id}
       - ${devops_project_name}
       - ${application_delivery_mode}
+      - ${automatic_credentials}
       - ${application_components}
       - ${application_namespaces}
       - ${application_prod_namespaces}

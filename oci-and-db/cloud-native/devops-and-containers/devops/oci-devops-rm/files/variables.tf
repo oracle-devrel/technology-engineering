@@ -504,7 +504,35 @@ variable "namespace_init_secret_compartment_id" {
 }
 
 variable "auth_token" {
+  type      = string
+  default   = null
   sensitive = true
+}
+
+variable "create_automatic_credentials" {
+  type        = bool
+  default     = false
+  description = "Create automation users, auth tokens, a Vault, an AES key and credential secrets. IAM policies remain controlled by create_iam."
+}
+
+variable "automatic_credentials_compartment_id" {
+  type        = string
+  default     = null
+  description = "Vault and key compartment. Defaults to the resolved DevOps project compartment."
+  validation {
+    condition     = var.automatic_credentials_compartment_id == null ? true : can(regex("^ocid1\\.compartment\\.", var.automatic_credentials_compartment_id))
+    error_message = "Use a compartment OCID."
+  }
+}
+
+variable "automatic_credentials_email" {
+  type        = string
+  default     = ""
+  description = "Contact email for the generated service accounts, required by identity domains."
+  validation {
+    condition     = var.automatic_credentials_email == "" || can(regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", var.automatic_credentials_email))
+    error_message = "Use a valid contact email address."
+  }
 }
 
 variable "iam_policy_compartment_id" {

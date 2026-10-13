@@ -19,8 +19,9 @@ locals {
   ]
 
   secret_statements = [
-    "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devops_dynamic_group.ocid} to read secret-family in compartment id ${var.secret_compartment_id}"
+    "Allow dynamic-group id ${oci_identity_domains_dynamic_resource_group.devops_dynamic_group.ocid} to read secret-family in compartment id ${var.secret_compartment_id} where ${length(var.secret_ids) == 0 ? local.secret_reader_condition : "all {${local.secret_reader_condition}, any {${join(", ", [for id in var.secret_ids : "target.secret.id = '${id}'"])}}}"}"
   ]
+  secret_reader_condition = "any {${join(", ", [for id in var.secret_reader_ids : "request.principal.id = '${id}'"])}}"
 
   oke_statements = [
     for compartment_id in local.oke_compartment_ids :

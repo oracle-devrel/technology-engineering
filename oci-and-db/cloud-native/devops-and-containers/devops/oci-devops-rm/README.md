@@ -100,6 +100,7 @@ The default sample creates:
 - [Troubleshooting And Recovery](files/docs/troubleshooting-recovery.md): failure diagnosis, rollback behavior, partial failures, and drift.
 - [Template Ownership And Upgrades](files/docs/template-ownership.md): release/development modes, repository seeding, and adopting newer templates.
 - [Security Guidance](files/docs/security.md): credentials, IAM, networking, supply chain, and Kubernetes boundaries.
+- [Automatic Credentials](files/docs/automatic-credentials.md): optional service accounts, auth tokens, Vault creation and bootstrap defaults, independently selectable from IAM creation.
 - [Glossary](files/docs/glossary.md): concise definitions of the solution's core terms.
 
 ## Developer Quick Start
@@ -121,7 +122,7 @@ flowchart LR
 1. Select **Deploy to Oracle Cloud** at the top of this README.
 2. Choose `oci_devops` application delivery, then configure both OKE targets, the application list, and IAM options. Enable cluster administration only when this stack should also create the operations workflow.
 3. Apply the stack.
-4. Run `<application>-bootstrap` with the OCIR username and Vault secret OCID.
+4. Run `<application>-bootstrap` using automatic credential defaults, or supply the OCIR username and Vault secret OCID in manual mode.
 5. Its independent noprod and prod stages initialize both namespaces and pull secrets in parallel. Run either stage alone when only one cluster should be initialized.
 6. Publish the application baseline through `<application>-package`; it triggers `<application>-deploy` for noprod and approved prod delivery.
 7. Develop through pull requests in each component repository.

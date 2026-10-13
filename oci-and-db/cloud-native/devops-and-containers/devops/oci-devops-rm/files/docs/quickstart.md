@@ -19,8 +19,9 @@ Before opening the Resource Manager form, prepare:
 - At least one OKE cluster. A separate production cluster is recommended but not required for an evaluation.
 - A worker subnet for each cluster that OCI DevOps shell runners can use.
 - An optional worker NSG for each cluster.
-- An OCI auth token used once to seed the hosted Git repositories.
-- A Vault secret containing the OCIR pull credential used by application bootstrap.
+- Either an OCI auth token for repository seeding and a Vault secret containing
+  the OCIR pull credential, or permission to create these automatically in an
+  existing identity domain.
 - IAM permissions for OCI DevOps, OKE, OCIR, Vault, Logging, and Artifact Registry.
 
 The OKE API can be public or private. Deployment shell runners always use the private endpoint from the selected worker network.
@@ -34,6 +35,14 @@ Select **Deploy to Oracle Cloud** in the main README. Resource Manager opens wit
 Choose whether to create a new OCI DevOps project or reuse an existing one. For a new project, select its compartment and set its name. For reuse, paste the existing project OCID; Resource Manager has no DevOps project selector, so the stack discovers the name and compartment from that OCID. The resolved project name becomes part of every generated image and chart path.
 
 Provide the Git seeding credentials. New projects also expose logging and notification topic configuration; reused projects retain their existing logging, notification, and merge settings. Enable IAM creation only when the stack should create its dynamic group and policy.
+
+Alternatively, enable **Create Automatic Credentials**, select the identity
+domain, generated-Vault compartment and account contact email. Enable
+**Create IAM** too for stack-managed permissions. The stack creates service
+accounts and token secrets; new application bootstrap pipelines receive the
+pull username and secret OCID as defaults. See
+[Automatic Credentials](automatic-credentials.md), especially the state-access
+and upgrade boundaries.
 
 ### Applications
 

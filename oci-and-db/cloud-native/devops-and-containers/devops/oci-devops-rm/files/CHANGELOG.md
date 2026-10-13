@@ -6,6 +6,14 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Optional automatic credential creation in a selected identity domain: dedicated repository-bootstrap and read-only OCIR pull service accounts, auth tokens, a regional Vault, AES key and token secrets. Generated credentials feed repository seeding and new application bootstrap defaults; IAM creation remains independently selectable.
+
+### Security
+
+- Restricted generated DevOps dynamic-group membership to stack-owned resource OCIDs and Vault reads to application bootstrap pipelines. Generated credentials are sensitive Terraform-state data and require controlled state access.
+
 ### Fixed
 
 - Aligned cluster operations runbooks and the seeded repository README with shared orchestrators, immutable target plans, and explicit decommissioning without a confirmation parameter.

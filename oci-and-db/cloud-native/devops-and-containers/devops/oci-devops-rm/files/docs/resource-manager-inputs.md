@@ -31,6 +31,9 @@ Configure:
 - Shared build-assets repository name, default `devops-pipelines`.
 - For a new project: DevOps compartment, project name (default `oke-devops-starter`), description, and notification topic behavior.
 - Auth token used to seed OCI DevOps Code Repositories.
+- Alternatively, enable `create_automatic_credentials` to generate service
+  accounts, auth tokens and Vault secrets. The personal auth-token field is
+  hidden in this mode; see [Automatic Credentials](automatic-credentials.md).
 - For a new project: logging behavior, log group name, service log name, and retention.
 - Namespace-init pull secret name, default `ocirsecret`.
 
@@ -168,6 +171,11 @@ For early testing, prod can point to the same OKE cluster, subnet, and NSG as pr
 ## IAM
 
 The IAM section controls whether the stack creates the DevOps dynamic group and policies. The Vault compartment input is used by application bootstrap because the OCIR pull password is read from an OCI Vault secret at deployment time.
+
+Automatic credential creation is independent of `create_iam`. The identity
+domain picker also appears when credentials are enabled. Automatic mode shows
+a generated-Vault compartment and account contact email instead of the manual
+bootstrap-secret compartment. Enable both options for stack-managed permissions.
 
 When IAM creation is enabled, you can also configure the generated dynamic group name and policy name.
 

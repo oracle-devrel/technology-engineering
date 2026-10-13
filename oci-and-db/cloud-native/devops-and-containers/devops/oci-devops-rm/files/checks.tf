@@ -12,6 +12,14 @@ check "recommended_application_scale" {
 
 check "conditional_inputs" {
   assert {
+    condition     = var.create_automatic_credentials || try(trimspace(var.auth_token), "") != ""
+    error_message = "auth_token is required unless create_automatic_credentials is enabled."
+  }
+  assert {
+    condition     = !(var.create_automatic_credentials || var.create_iam) || can(regex("^ocid1\\.domain\\.", coalesce(var.devops_iam_domain_id, "")))
+    error_message = "Select an identity domain when creating credentials or IAM."
+  }
+  assert {
     condition = var.create_devops_project || can(regex(
       "^ocid1\\.devopsproject\\.",
       trimspace(coalesce(var.existing_devops_project_id, ""))
