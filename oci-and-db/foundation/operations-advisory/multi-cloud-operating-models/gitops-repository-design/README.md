@@ -1,20 +1,36 @@
-# Architecture Blueprint: Repository Design and Lifecycle Governance for OCI Landing Zones
+# GitOps Repository Design and Lifecycle Governance
 
-Reviewed: 2026-09-25
+Reviewed: 2026-09-30
+
+## Table of contents
+
+- [GitOps Repository Design and Lifecycle Governance](#gitops-repository-design-and-lifecycle-governance)
+  - [Table of contents](#table-of-contents)
+  - [What is this asset?](#what-is-this-asset)
+  - [How to use this asset?](#how-to-use-this-asset)
+  - [Why not one stack?](#why-not-one-stack)
+  - [Design Decisions](#design-decisions)
+    - [Landing Zone Cloud-Native Operations (What) and Cloud Operations Teams (Who)](#landing-zone-cloud-native-operations-what-and-cloud-operations-teams-who)
+  - [Repository layout at a glance](#repository-layout-at-a-glance)
+  - [Minimum split for a small team](#minimum-split-for-a-small-team)
+  - [Monolithic vs. multi-stack](#monolithic-vs-multi-stack)
+  - [Documentation](#documentation)
+  - [Related assets](#related-assets)
+- [License](#license)
+
 
 ## What is this asset?
 
-A blueprint for designing an OCI Landing Zone as small, independent Terraform stacks from the first deployment. It explains how to organize the Git repositories, where each resource belongs (tenancy-wide or regional), how stacks share information, how to separate state files, and which runtime to use (Oracle Resource Manager or CI/CD runners).
+This asset is a reference design to manage OCI Landing Zones and Workloads lifecyle state using Infrastructure as Code (IaC) with GitOps. 
+ 
+Use it when you need to design or follow a recommended approach to design and deploy complex Multi-Stack Terraform configurations for OCI Landing Zones and Workloads, managed by different teams. You'll learn how to organize the Git repositories, where each resource belongs (tenancy-wide or regional), how stacks share information, how to separate state files, and which runtime to use (OCI Resource Manager or CI/CD automation).
 
-For Landing Zones that are already deployed in one stack, the [adoption path](docs/adoption.md) explains how to move to this design without recreating resources.
+Managing resources with multiple Terraform Stacks allows you to avoid monolythic unmanageable configurations, remove blast radius on failure, aligns with complex organizations Operating Models and follows Operational Security best practices for Git and CICD security.
 
-| | |
-|---|---|
-| **Scope** | Repository design, Terraform state strategy and runtime model for OCI Landing Zones deployed with the [OCI Landing Zones orchestrator](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator) |
-| **Audience** | Cloud architects, platform engineers and DevOps teams who design, deploy and operate OCI Landing Zones |
-| **Applies to** | Single-region and multi-region tenancies, with one or more Landing Zone environments (for example production and non-production) |
+For Landing Zones already deployed in one stack, the [adoption path](docs/adoption.md) explains how to move to this design without recreating resources.
 
-This blueprint covers the **foundation** side: how Cloud Operations structures the Landing Zone repositories, state files and pipelines. On the **project** side, it only defines the boundary that Cloud Operations hands off to each project. How Project Teams then request changes inside that boundary is up to the organization: the [Multi-Cloud Control Plane](../multi-cloud-control-plane/README.md) (MCCP) is one implementation, and any [GitOps](../gitops/README.md) flow that respects the handoff works.
+To know more about about these individual topics, click on each of them: [GitOps](../gitops/README.md), [Git Security](../operational-security/git-security/README.md), and [CI/CD Security](../operational-security/cicd-security/README.md).
+
 
 ## How to use this asset?
 
@@ -22,28 +38,16 @@ Read this page to understand the approach and decide whether it fits. The detail
 
 | If you... | Read |
 |---|---|
-| Are designing a new Landing Zone | This page, then [Repository structure](docs/repository-structure.md), [Component distribution](docs/component-distribution.md), [Dependencies and state](docs/dependencies-and-state.md) and [Runtime](docs/runtime.md) |
-| Need to choose between one stack and multi-stack | [Monolithic vs. multi-stack](#monolithic-vs-multi-stack) and [Minimum split](#minimum-split-for-a-small-team) |
-| Are adding a second region or a DR region | [Component distribution](docs/component-distribution.md) and [Dependencies and state](docs/dependencies-and-state.md) |
-| Want to see the design applied end to end | [Worked example](docs/worked-example.md) |
-| Want a final review of your design | [Anti-patterns and checklist](docs/checklist.md) |
-| Already run the Landing Zone in one large stack | [Adoption path](docs/adoption.md), to move to this design without recreating resources |
-
-## Key terms
-
-| Term | Meaning in this blueprint |
-|---|---|
-| **Stack** | A set of configuration files plus its Terraform state. It can be an ORM stack or a Terraform CLI root with an Object Storage backend. |
-| **Operation (OP.xx)** | A repeatable Landing Zone change with a fixed scope and owner, for example "onboard a workload environment". |
-| **Landing Zone environment** | A group of shared resources (hub network, shared security) that serves several workload environments. A tenancy can have one or several, for example production and non-production. |
-| **Workload environment** | One environment where workloads run, for example prod, pre-prod, dev or test. It has its own spokes, security and observability. |
-| **Output file** | A JSON file (`*_output.json`) that the orchestrator generates after apply, with the keys and OCIDs other stacks need. |
-| **Handoff** | The reviewed boundary that Cloud Operations publishes when it onboards a project, for example `project-foundation-handoff.json`. It lists the compartments, networks and settings the project may use. |
-| **`rms-facade`** | The entry point of the orchestrator for ORM. It reads configurations from a private GitHub repository, a private OCI bucket or plain URLs, and reads and writes output files in GitHub or an OCI bucket. |
+| Are designing a complex Landing Zone Multi-Stack Deployment. | This page, then [Repository structure](docs/repository-structure.md), [Component distribution](docs/component-distribution.md), [dependencies and state](docs/dependencies-and-state.md), and [Runtime](docs/runtime.md) |
+| Need to choose between one-stack and multi-stack. | [Monolithic vs. multi-stack](#monolithic-vs-multi-stack), and [minimum split](#minimum-split-for-a-small-team) |
+| Are adding additional regions. | [Component distribution](docs/component-distribution.md) and [dependencies and state](docs/dependencies-and-state.md) |
+| Want to see the design applied end to end. | [Working example](docs/worked-example.md) |
+| Want to undestand risks and common mistakes. | [Anti-patterns and checklist](docs/checklist.md) |
+| Already running the Landing Zone in one large stack and want to migrate to Multi-Stack. | [Adoption path](docs/adoption.md), to move to this design without recreating resources |
 
 ## Why not one stack?
 
-Most organizations start with one Git repository, a few large configuration files and **one stack with one state file** for the whole Landing Zone. This is a good start: the Operating Entities repository offers a one-stack runtime for One-OE for exactly this reason. The same repository also recommends [one ORM stack per asset](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/blob/master/commons/content/orm_bp.md) once the Landing Zone grows, because three problems appear during Day-2 operations. This blueprint avoids them by design:
+Most organizations start with one Git repository, a few large configuration files and **one stack with one state file** for the whole Landing Zone. This is a good start: the Operating Entities repository offers a one-stack runtime for One-OE for exactly this reason. The same repository also recommends [one ORM stack per asset](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities/blob/master/commons/content/orm_bp.md) once the Landing Zone grows, because three problems appear during Day 2 operations:
 
 | Problem | What happens |
 |---|---|
@@ -51,11 +55,11 @@ Most organizations start with one Git repository, a few large configuration file
 | **Multi-region and DR** | A second region is added for DR or to run closer to users. Network, security and monitoring are regional. If the state of the second region lives in the first region, losing the first region also means losing the ability to manage the second. |
 | **Git governance and file size** | Git permissions apply to a whole repository. With one set of files, anyone who can change a project can also change IAM, the hub or security. Files such as a `network.json` with the hub and all spokes grow to thousands of lines. |
 
-## Principles
+## Design Decisions
 
 | # | Principle |
 |---|---|
-| 1 | **Repeatable operations.** The Landing Zone is split into operations (OP.00 to OP.04) that run many times during its life. |
+| 1 | **Repeatable operations.** The Landing Zone is split into repeatible operations, aligned to user stories. |
 | 2 | **Repositories follow separation of duties.** Folder and repository boundaries follow team boundaries. |
 | 3 | **No monoliths.** Each operation has its own configuration files, state file and pipeline job. |
 | 4 | **Everything through Git.** Changes are applied only after approval by a reviewer who is not the author. |
@@ -63,32 +67,29 @@ Most organizations start with one Git repository, a few large configuration file
 | 6 | **Segregated state.** No locking between environments, regions or projects. |
 | 7 | **Independent project teams.** Projects work in their own repositories and state, inside a boundary handed off by Cloud Operations. They never manage IAM and never hold cloud deployment credentials. |
 
-> [!IMPORTANT]
-> A Landing Zone is provisioned once and operated for many years. Judge the design by the cost of operating it, not by the cost of the first deployment.
 
-## Operations and teams
+### Landing Zone Cloud-Native Operations (What) and Cloud Operations Teams (Who)
 
-| Operation | Scope | Owner |
+| Operation | Scope | Who |
 |---|---|---|
-| **OP.00 Manage Global Landing Zone** | Tenancy-wide: compartments, identity domain, groups, dynamic groups, IAM policies, tag namespaces, budgets, Cloud Guard enablement, IAM and Cloud Guard event rules | Cloud Operations |
-| **OP.01 Manage Landing Zone Environment** | Per region: network hub, shared security, shared observability | Cloud Operations |
-| **OP.02 Manage Environment** | Per environment and region: spokes, environment security and observability | Workload Environment Team |
-| **OP.03 Manage Platform** | Platforms: the GitOps runner platform, or workload platforms such as ExaDB-D or OKE | Cloud Operations or Platform Team |
-| **OP.04 Manage Project** | Project onboarding: project compartments, groups and policies, and the handoff | Cloud Operations |
-| **Project requests** | Day 1 resources (NSGs, compute, databases) and Day 2 operations inside the handoff | Project Team, for example with the [MCCP request lifecycle](../multi-cloud-control-plane/docs/usage/request-lifecycle.md) |
+| **OP.00 Manage Global Landing Zone** | Tenancy-wide: compartments, identity domain, groups, dynamic groups, IAM policies, tag namespaces, budgets, Cloud Guard enablement, IAM and Cloud Guard event rules | Central Cloud Operations |
+| **OP.01 Manage Landing Zone Environment** | Per region: network hub, shared security, shared observability | Central Cloud Operations |
+| **OP.02 Manage Environment** | Per environment and region: spokes, environment security and observability | Workload Environment Team or Central Cloud Operations |
+| **OP.03 Manage Platform** | Platforms: the GitOps runner platform, or workload platforms such as ExaDB-D or OKE | Platform Team |
+| **OP.04 Manage Project** | Project onboarding by Cloud Operations: project compartments, groups and policies, and the handoff to Project Team (manages workloads) | Central Cloud Operations -> Project Team |
 
-In the diagram, colors show the layer (purple tenancy-wide, blue Landing Zone environment, green workload environment, grey platform, orange project) and the owner team is in italics. Each arrow is a reviewed change; its label is what the next operation needs from the previous one.
+In the diagram, colors show the layer (white tenancy-wide, white Landing Zone environment, green workload environment, dark grey platform, light grey project) and the owner team is in italics. Each arrow is a reviewed change; its label is what the next operation needs from the previous one.
 
 ```mermaid
 %%{init: {"flowchart": {"wrappingWidth": 320}}}%%
 flowchart TB
-    classDef tenancy fill:#ede7f6,stroke:#5e35b1,color:#1a1a1a
-    classDef lz fill:#e3f2fd,stroke:#1e88e5,color:#1a1a1a
-    classDef env fill:#e8f5e9,stroke:#43a047,color:#1a1a1a
-    classDef platform fill:#eceff1,stroke:#546e7a,color:#1a1a1a
-    classDef project fill:#fff3e0,stroke:#fb8c00,color:#1a1a1a
+    classDef tenancy fill:#ffffff,stroke:#000000,color:#1a1a1a
+    classDef lz fill:#ffffff,stroke:#cc0000,color:#1a1a1a
+    classDef env fill:#D5E8D4,stroke:#82B366,color:#1a1a1a
+    classDef platform fill:#808080,stroke:#808080,color:#1a1a1a
+    classDef project fill:#F5F5F5,stroke:#666666,color:#1a1a1a
 
-    OP00["<b>OP.00 Global Landing Zone</b><br/>tenancy-wide<br/><i>Cloud Operations</i>"]:::tenancy
+    OP00["<b>OP.00 Global Landing Zone</b><br/>tenancy-wide<br/><i>Central Cloud Operations</i>"]:::tenancy
     OP01["<b>OP.01 Landing Zone Environment</b><br/>per region<br/><i>Cloud Operations</i>"]:::lz
     OP03a["<b>OP.03 Shared Platform</b><br/><i>Cloud Operations</i>"]:::platform
     OP02["<b>OP.02 Environment</b><br/>per environment and region<br/><i>Workload Environment Team</i>"]:::env
@@ -96,8 +97,8 @@ flowchart TB
     OP04["<b>OP.04 Manage Project</b><br/>project IAM and handoff<br/><i>Cloud Operations</i>"]:::project
     PRJ["<b>Project repository</b><br/>Day 1 and Day 2 requests<br/><i>Project Team</i>"]:::project
 
-    OP00 -->|compartments| OP01
-    OP01 -->|subnets| OP03a
+    OP00 -->|global groups and policies| OP01
+    OP01 -->|dedicated security, network and observability| OP03a
     OP01 -->|DRG| OP02
     OP02 -->|subnets| OP03b
     OP02 -->|"spoke, topics"| OP04
