@@ -100,7 +100,7 @@ The default sample creates:
 - [Troubleshooting And Recovery](files/docs/troubleshooting-recovery.md): failure diagnosis, rollback behavior, partial failures, and drift.
 - [Template Ownership And Upgrades](files/docs/template-ownership.md): release/development modes, repository seeding, and adopting newer templates.
 - [Security Guidance](files/docs/security.md): credentials, IAM, networking, supply chain, and Kubernetes boundaries.
-- [Automatic Credentials](files/docs/automatic-credentials.md): optional service accounts, auth tokens, Vault creation and bootstrap defaults, independently selectable from IAM creation.
+- [Automatic Credentials](files/docs/automatic-credentials.md): optional automation users, auth tokens, Vault creation and bootstrap defaults, independently selectable from DevOps execution IAM.
 - [Glossary](files/docs/glossary.md): concise definitions of the solution's core terms.
 
 ## Developer Quick Start
