@@ -1,5 +1,5 @@
 locals {
-  credentials_compartment_id = coalesce(var.automatic_credentials_compartment_id, module.devops.devops_project_compartment_id)
+  credentials_compartment_id = module.devops.devops_project_compartment_id
   credential_prefix          = "${replace(lower(module.devops.devops_project_name), "/[^a-z0-9._-]+/", "-")}-${substr(sha256(module.devops.devops_project_id), 0, 8)}"
   credential_accounts = var.create_automatic_credentials ? merge(
     { bootstrap = "Repository bootstrap" },
@@ -9,8 +9,9 @@ locals {
     for key, user in oci_identity_domains_user.automation : key =>
     "${data.oci_artifacts_container_configuration.credentials[0].namespace}/${data.oci_identity_domain.credentials[0].display_name}/${user.user_name}"
   }
-  effective_git_username = var.create_automatic_credentials ? "${data.oci_identity_tenancy.current_tenancy.name}/${data.oci_identity_domain.credentials[0].display_name}/${oci_identity_domains_user.automation["bootstrap"].user_name}" : local.git_username
-  effective_git_password = var.create_automatic_credentials ? sensitive(oci_identity_domains_auth_token.automation["bootstrap"].token) : var.auth_token
+  # Initial repository seeding always uses the applying user's supplied token.
+  effective_git_username = local.git_username
+  effective_git_password = var.auth_token
 }
 
 data "oci_identity_domain" "credentials" {
@@ -118,7 +119,7 @@ resource "oci_kms_vault" "credentials" {
 # Fresh Vaults can become ACTIVE before their dedicated KMS DNS records resolve.
 resource "time_sleep" "credentials_vault_dns" {
   count           = var.create_automatic_credentials ? 1 : 0
-  create_duration = "120s"
+  create_duration = "60s"
   triggers = {
     vault_id = oci_kms_vault.credentials[0].id
   }
@@ -150,11 +151,18 @@ resource "oci_vault_secret" "automation" {
   }
 }
 
+resource "random_string" "automation_policy_suffix" {
+  count   = var.create_automatic_credentials ? 1 : 0
+  length  = 7
+  special = false
+  upper   = false
+}
+
 resource "oci_identity_policy" "automation" {
-  count          = var.create_automatic_credentials && var.create_iam ? 1 : 0
+  count          = var.create_automatic_credentials ? 1 : 0
   provider       = oci.home
-  compartment_id = coalesce(var.iam_policy_compartment_id, var.tenancy_ocid)
-  name           = "${local.credential_prefix}-credential-access"
+  compartment_id = module.devops.devops_project_compartment_id
+  name           = "${substr(replace(lower(module.devops.devops_project_name), "/[^a-z0-9._-]+/", "-"), 0, 60)}-automation-credentials-${random_string.automation_policy_suffix[0].result}"
   description    = "Repository bootstrap and read-only image pull permissions"
   statements = concat(
     [

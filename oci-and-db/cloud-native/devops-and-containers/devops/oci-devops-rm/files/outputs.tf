@@ -12,7 +12,9 @@ output "automatic_credentials" {
     group_ids         = { for key, group in oci_identity_domains_group.automation : key => group.ocid }
     token_secret_ids  = { for key, secret in oci_vault_secret.automation : key => secret.id }
     registry_username = try(local.credential_usernames["pull"], null)
-    iam_managed       = var.create_iam
+    iam_managed       = true
+    policy_id         = oci_identity_policy.automation[0].id
+    policy_name       = oci_identity_policy.automation[0].name
   } : null
 }
 

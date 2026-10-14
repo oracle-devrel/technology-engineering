@@ -183,7 +183,7 @@ class DependencyWaveTests(unittest.TestCase):
 
         self.assertGreater(len(default.splitlines()), 10)
         self.assertIn('\n      "repository": "https://kedacore.github.io/charts",', default)
-        self.assertEqual(json.loads(default)["tools"][1]["chart"], "kube-prometheus-stack")
+        self.assertEqual(json.loads(default)[1]["chart"], "kube-prometheus-stack")
 
     def test_cluster_admin_artifact_repository_name_is_configurable(self):
         root_variables = (ROOT / "variables.tf").read_text(encoding="utf-8")
@@ -232,14 +232,16 @@ class DependencyWaveTests(unittest.TestCase):
         self.assertNotRegex("OCISecret", secret["pattern"])
 
         applications = fields["applications"]
-        self.assertRegex('[\n  {"name": "app", "components": []}\n]', applications["pattern"])
-        self.assertNotRegex('{"tools": []}', applications["pattern"])
-        self.assertEqual(applications["maxLength"], 8192)
+        self.assertEqual(applications["type"], "list")
+        self.assertEqual(applications["valueType"], "application_entry")
+        self.assertEqual(fields["application_components"]["valueType"], "component_entry")
+        self.assertEqual(fields["application_name"]["actualName"], "name")
 
         cluster_admin = fields["cluster_administration"]
-        self.assertRegex('{\n  "tools": []\n}', cluster_admin["pattern"])
-        self.assertNotRegex('[]', cluster_admin["pattern"])
-        self.assertEqual(cluster_admin["maxLength"], 8192)
+        self.assertEqual(cluster_admin["type"], "list")
+        self.assertEqual(cluster_admin["valueType"], "administration_tool")
+        self.assertEqual(fields["administration_tools"]["actualName"], "tools")
+        self.assertEqual(fields["administration_tools"]["valueType"], "administration_tool")
 
     def test_cluster_wide_resources_are_dispatched_after_tools(self):
         source = (ROOT / "repos/cluster-admin/script/deploy-cluster.py").read_text(

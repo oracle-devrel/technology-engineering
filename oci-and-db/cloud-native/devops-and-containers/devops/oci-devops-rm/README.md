@@ -1,6 +1,6 @@
 # OKE DevOps Starter
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.1.1/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.2.0/stack.zip)
 
 This OCI Resource Manager stack bootstraps OCI DevOps workflows for both application developers and OKE cluster administrators.
 
@@ -10,10 +10,10 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](files/docs/quickstart.md)**.
 
-Reviewed: 18.09.2026
+Reviewed: 14.10.2026
 
-See the [1.1.1 upgrade notes](files/docs/release-1.1.1.md) for cross-compartment
-IAM policy placement, project-location validation, and explicit Helm reruns.
+See the [1.2.0 upgrade notes](files/docs/release-1.2.0.md) for automatic credentials,
+scoped IAM, and structured Resource Manager inputs.
 
 # When to use this asset?
 
