@@ -8,25 +8,9 @@ Released: 14.10.2026
 - Include upstream fixes for one-hour node-pool eviction grace duration normalization and explicit IPv6 CIDR handling. This stack continues to configure IPv4 only.
 - Update both deployment buttons to release `oke-rm-1.5.1`. The infrastructure archive is unchanged from 1.5.0.
 
-## Upgrade Notes
-
-No stack input or provider version changes. Review a Terraform plan before applying the module upgrade to an existing cluster.
+No stack input or provider version changes.
 
 Upstream details: [OKE module 5.5.2](https://github.com/oracle-terraform-modules/terraform-oci-oke/releases/tag/v5.5.2).
-
-## Verification
-
-- Terraform formatting and validation passed for both stacks with OKE module 5.5.2 installed.
-- All 47 mocked native Terraform tests passed: 14 infrastructure and 33 OKE tests.
-- The rebuilt OKE archive retains the existing 14-file manifest and matches the source configuration. The infrastructure archive is byte-identical to 1.5.0.
-- No live OCI apply was performed for this dependency-only patch.
-
-## SHA-256
-
-```text
-986a878cc77a9809b070e897e8bcce2068ccac26a6b7976762b1e0bcf8aba1fb  infra.zip
-aa82f3c214317f86e1f945d6dc84d3f9a3b620226d72d3a6c985d8f27ea95311  oke.zip
-```
 
 ---
 
