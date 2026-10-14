@@ -94,7 +94,7 @@ Cluster administration is optional and disabled by default. Set `enable_cluster_
 
 `cluster_admin_artifact_repository_name` optionally sets the OCI Generic Artifact repository display name used for immutable tool values and cluster deployment plans. Leave it empty to derive `<project-name>-cluster-admin-values`, preserving the existing convention.
 
-`cluster_administration` is a multiline JSON object defining one tool topology for both physical clusters. A missing namespace defaults to the tool name. Noprod starts immediately, while prod always requires one approval before any deployment stage starts.
+`cluster_administration` is a structured tool list defining one topology for both physical clusters. A missing namespace defaults to the tool name. Noprod starts immediately, while prod requires approval before deployment. The JSON object example below is the legacy Terraform representation; the Console list uses the contents of `tools` directly.
 
 ```json
 {
