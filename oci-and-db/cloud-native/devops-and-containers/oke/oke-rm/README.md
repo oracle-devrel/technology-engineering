@@ -13,7 +13,7 @@ network security group OCIDs required by the OKE stack.
 For GPU and RDMA clusters that need a complete specialized deployment, use the
 [OCI HPC OKE Quickstart](https://github.com/oracle-quickstart/oci-hpc-oke).
 
-Reviewed: 18.09.2026
+Reviewed: 14.10.2026
 
 ## Architecture
 
@@ -53,7 +53,7 @@ Before applying the stack:
 See the [generated network-rules report](files/infra/network-rules-report.md)
 for every OKE, database, and messaging rule created by this stack.
 
-[![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.5.0/infra.zip)
+[![Deploy infrastructure to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.5.1/infra.zip)
 
 ### Control-plane CIDR lists
 
@@ -77,7 +77,8 @@ to index zero; the optional egress rule already uses index zero. Append addition
 ranges where possible, as reordering lists can update indexed rules. Review the
 plan, including any tenancy-injected defined-tag drift, before applying.
 
-Both stacks pin OCI provider 9.2.0. See the [release notes](files/CHANGELOG.md).
+Both stacks pin OCI provider 9.2.0. The OKE stack pins the OKE module to 5.5.2.
+See the [release notes](files/CHANGELOG.md).
 
 After the apply finishes, keep the stack outputs available for the next step.
 
@@ -93,7 +94,7 @@ Load balancers are created later by Kubernetes `LoadBalancer` Services, not
 during cluster creation. Without a default subnet, configure the subnet through
 the appropriate Service annotations when creating a load balancer.
 
-[![Deploy OKE to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.5.0/oke.zip)
+[![Deploy OKE to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-rm-1.5.1/oke.zip)
 
 ### Reuse From Your Tenancy
 

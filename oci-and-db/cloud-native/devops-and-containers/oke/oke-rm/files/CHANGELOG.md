@@ -1,3 +1,19 @@
+# OKE Resource Manager 1.5.1
+
+Released: 14.10.2026
+
+## Changes
+
+- Upgrade `oracle-terraform-modules/oke/oci` from 5.5.1 to 5.5.2.
+- Include upstream fixes for one-hour node-pool eviction grace duration normalization and explicit IPv6 CIDR handling. This stack continues to configure IPv4 only.
+- Update both deployment buttons to release `oke-rm-1.5.1`. The infrastructure archive is unchanged from 1.5.0.
+
+No stack input or provider version changes.
+
+Upstream details: [OKE module 5.5.2](https://github.com/oracle-terraform-modules/terraform-oci-oke/releases/tag/v5.5.2).
+
+---
+
 # OKE Resource Manager 1.5.0
 
 ## Changes
