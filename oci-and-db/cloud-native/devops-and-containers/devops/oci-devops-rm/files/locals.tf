@@ -4,9 +4,23 @@ locals {
   cluster_admin_enabled        = var.enable_cluster_admin
   oke_environments_required    = local.application_delivery_enabled || local.cluster_admin_enabled
 
-  git_username       = "${data.oci_identity_tenancy.current_tenancy.name}/${data.oci_identity_user.current_user.name}"
-  application_config = jsondecode(var.applications)
-  application_count  = length(local.application_config)
+  git_username           = "${data.oci_identity_tenancy.current_tenancy.name}/${data.oci_identity_user.current_user.name}"
+  raw_application_config = try(jsondecode(var.applications), var.applications)
+  # RM complex controls can submit blank optional attributes instead of omitting them.
+  application_config = [for application in local.raw_application_config : merge(
+    { for key, value in application : key => value if key != "components" && (key == "name" || (value != null && value != "")) },
+    { components = [for component in application.components : {
+      for key, value in component : key => value if key == "name" || (value != null && value != "")
+    }] }
+  )]
+  raw_cluster_admin_config = try(jsondecode(var.cluster_administration), var.cluster_administration)
+  cluster_admin_config = {
+    tools = [for tool in try(local.raw_cluster_admin_config.tools, local.raw_cluster_admin_config.noprod.tools, local.raw_cluster_admin_config) : merge(
+      { for key, value in tool : key => value if contains(["name", "repository", "chart", "version"], key) || (value != null && value != "") },
+      { depends_on = compact(coalesce(try(tool.depends_on, null), [])) }
+    )]
+  }
+  application_count = length(local.application_config)
   component_count = length(flatten([
     for application in local.application_config : application.components
   ]))

@@ -1,4 +1,5 @@
 checks.tf
+credentials.tf
 data.tf
 locals.tf
 main.tf

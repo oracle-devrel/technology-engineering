@@ -1,6 +1,6 @@
 # OKE DevOps Starter
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.1.1/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.2.0/stack.zip)
 
 This OCI Resource Manager stack bootstraps OCI DevOps workflows for both application developers and OKE cluster administrators.
 
@@ -10,10 +10,10 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](files/docs/quickstart.md)**.
 
-Reviewed: 18.09.2026
+Reviewed: 14.10.2026
 
-See the [1.1.1 upgrade notes](files/docs/release-1.1.1.md) for cross-compartment
-IAM policy placement, project-location validation, and explicit Helm reruns.
+See the [1.2.0 upgrade notes](files/docs/release-1.2.0.md) for automatic credentials,
+scoped IAM, and structured Resource Manager inputs.
 
 # When to use this asset?
 
@@ -100,6 +100,7 @@ The default sample creates:
 - [Troubleshooting And Recovery](files/docs/troubleshooting-recovery.md): failure diagnosis, rollback behavior, partial failures, and drift.
 - [Template Ownership And Upgrades](files/docs/template-ownership.md): release/development modes, repository seeding, and adopting newer templates.
 - [Security Guidance](files/docs/security.md): credentials, IAM, networking, supply chain, and Kubernetes boundaries.
+- [Automatic Credentials](files/docs/automatic-credentials.md): optional automation users, auth tokens, Vault creation and bootstrap defaults, independently selectable from DevOps execution IAM.
 - [Glossary](files/docs/glossary.md): concise definitions of the solution's core terms.
 
 ## Developer Quick Start
@@ -121,7 +122,7 @@ flowchart LR
 1. Select **Deploy to Oracle Cloud** at the top of this README.
 2. Choose `oci_devops` application delivery, then configure both OKE targets, the application list, and IAM options. Enable cluster administration only when this stack should also create the operations workflow.
 3. Apply the stack.
-4. Run `<application>-bootstrap` with the OCIR username and Vault secret OCID.
+4. Run `<application>-bootstrap` using automatic credential defaults, or supply the OCIR username and Vault secret OCID in manual mode.
 5. Its independent noprod and prod stages initialize both namespaces and pull secrets in parallel. Run either stage alone when only one cluster should be initialized.
 6. Publish the application baseline through `<application>-package`; it triggers `<application>-deploy` for noprod and approved prod delivery.
 7. Develop through pull requests in each component repository.

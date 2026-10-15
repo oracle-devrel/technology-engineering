@@ -86,12 +86,12 @@ resource "oci_devops_deploy_pipeline" "application_bootstrap" {
   deploy_pipeline_parameters {
     items {
       name          = "registry_username"
-      default_value = null
+      default_value = var.bootstrap_registry_username
       description   = "OCIR pull username, for example tenancy-namespace/user"
     }
     items {
       name          = "pull_password_secret_ocid"
-      default_value = null
+      default_value = var.bootstrap_password_secret_id
       description   = "Vault secret OCID containing the OCIR pull password or auth token"
     }
     items {

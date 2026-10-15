@@ -153,13 +153,14 @@ resource "null_resource" "seed_cluster_admin" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
-      SEED_PATHS     = join("\n", ["README.md", "catalog", ".oci-devops", "script"])
-      SOURCE_REPO    = "/${local.cluster_admin_repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
+      SEED_PATHS           = join("\n", ["README.md", "catalog", ".oci-devops", "script"])
+      SOURCE_REPO          = "/${local.cluster_admin_repo_path}"
     }
     working_dir = path.root
   }
@@ -188,13 +189,14 @@ resource "null_resource" "sync_cluster_admin_catalog" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "refresh"
-      SEED_PATHS     = "catalog/tools.yaml"
-      SOURCE_REPO    = "/${local.cluster_admin_repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "refresh"
+      SEED_PATHS           = "catalog/tools.yaml"
+      SOURCE_REPO          = "/${local.cluster_admin_repo_path}"
     }
     working_dir = path.root
   }
@@ -213,11 +215,12 @@ resource "null_resource" "seed_cluster_admin_entities" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
       SEED_PATHS = join("\n", concat(
         [for cluster_name in sort(keys(local.cluster_admin_clusters)) : "clusters/${cluster_name}/baseline"],
         [
@@ -250,14 +253,15 @@ resource "null_resource" "refresh_cluster_admin_development" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      REMOVE_PATHS   = "script/deploy-production.py"
-      SEED_MODE      = "refresh"
-      SEED_PATHS     = join("\n", ["README.md", ".oci-devops", "script"])
-      SOURCE_REPO    = "/${local.cluster_admin_repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      REMOVE_PATHS         = "script/deploy-production.py"
+      SEED_MODE            = "refresh"
+      SEED_PATHS           = join("\n", ["README.md", ".oci-devops", "script"])
+      SOURCE_REPO          = "/${local.cluster_admin_repo_path}"
     }
     working_dir = path.root
   }

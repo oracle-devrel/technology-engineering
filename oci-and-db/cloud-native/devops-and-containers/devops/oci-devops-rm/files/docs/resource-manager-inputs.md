@@ -12,7 +12,7 @@ flowchart TB
   RM --> Apps["Applications\napplication names and component names"]
   RM --> Preprod["OKE pre-prod environment\ncluster, network compartment, subnet, optional NSG"]
   RM --> Prod["OKE prod environment\ncluster, network compartment, subnet, optional NSG"]
-  RM --> IAM["IAM\npolicy creation and Vault compartment"]
+  RM --> IAM["IAM\nauth token, policies, optional Vault credentials"]
   RM --> ClusterAdmin["Cluster administration\nshared tool topology"]
 
   DevOps --> DerivedProject["Derived project prefix\n<devops-project>"]
@@ -30,7 +30,6 @@ Configure:
 - Application delivery mode: `oci_devops` for the complete Helm promotion flow, or `build_only` for source, PR, and immutable image builds only.
 - Shared build-assets repository name, default `devops-pipelines`.
 - For a new project: DevOps compartment, project name (default `oke-devops-starter`), description, and notification topic behavior.
-- Auth token used to seed OCI DevOps Code Repositories.
 - For a new project: logging behavior, log group name, service log name, and retention.
 - Namespace-init pull secret name, default `ocirsecret`.
 
@@ -44,7 +43,7 @@ In `build_only` mode, application chart repositories, chart artifacts, release p
 
 ## Applications
 
-`applications` is entered as a formatted JSON array in a multiline editor. Keep the normal input small: an application name and one or more component names. Terraform validates and decodes the JSON before passing the strongly typed application list to the DevOps module.
+`applications` uses a structured list with nested component objects. Keep the normal input small: an application name and one or more component names. The JSON examples below show the equivalent configuration; legacy JSON-string Terraform inputs remain accepted.
 
 ```json
 [
@@ -95,7 +94,7 @@ Cluster administration is optional and disabled by default. Set `enable_cluster_
 
 `cluster_admin_artifact_repository_name` optionally sets the OCI Generic Artifact repository display name used for immutable tool values and cluster deployment plans. Leave it empty to derive `<project-name>-cluster-admin-values`, preserving the existing convention.
 
-`cluster_administration` is a multiline JSON object defining one tool topology for both physical clusters. A missing namespace defaults to the tool name. Noprod starts immediately, while prod always requires one approval before any deployment stage starts.
+`cluster_administration` is a structured tool list defining one topology for both physical clusters. A missing namespace defaults to the tool name. Noprod starts immediately, while prod requires approval before deployment. The JSON object example below is the legacy Terraform representation; the Console list uses the contents of `tools` directly.
 
 ```json
 {
@@ -167,7 +166,14 @@ For early testing, prod can point to the same OKE cluster, subnet, and NSG as pr
 
 ## IAM
 
-The IAM section controls whether the stack creates the DevOps dynamic group and policies. The Vault compartment input is used by application bootstrap because the OCIR pull password is read from an OCI Vault secret at deployment time.
+The IAM section contains your repository-seeding auth token, optional DevOps
+dynamic-group/execution policies, and optional Vault-backed automation credentials.
+The auth token is required in both credential modes.
+
+Credential creation always includes its Git/pull access policy in the DevOps
+project compartment. Vault/key/secrets also use that compartment; no separate
+Vault compartment or contact email is required. DevOps and automation identities
+have separate domain/compartment selectors. See [Automatic Credentials](automatic-credentials.md).
 
 When IAM creation is enabled, you can also configure the generated dynamic group name and policy name.
 
