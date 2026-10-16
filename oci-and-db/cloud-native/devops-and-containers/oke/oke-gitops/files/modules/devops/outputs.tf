@@ -3,6 +3,39 @@ output "gitops_bootstrap_pipeline_id" {
   value       = oci_devops_build_pipeline.bootstrap_gitops_agent.id
 }
 
+output "gitops_deploy_pipeline_id" {
+  value = oci_devops_deploy_pipeline.deploy_pipeline_helm.id
+}
+
+output "pipelines_repository_id" {
+  value = var.gitops_agent == "fluxcd" ? oci_devops_repository.devops_pipelines_repo_flux[0].id : oci_devops_repository.devops_pipelines_repo_argocd[0].id
+}
+
+output "gitops_deploy_environment_id" {
+  value = oci_devops_deploy_environment.oke_environment.id
+}
+
+output "gitops_deploy_artifact_ids" {
+  value = concat(
+    [oci_devops_deploy_artifact.gitops_bootstrap_prepare.id],
+    oci_devops_deploy_artifact.flux_operator_chart[*].id,
+    oci_devops_deploy_artifact.flux_operator_values[*].id,
+    oci_devops_deploy_artifact.argocd_operator_chart[*].id,
+    oci_devops_deploy_artifact.argocd_operator_values[*].id
+  )
+}
+
+output "gitops_repository_ids" {
+  description = "Runtime-readable cluster, application and optional fleet repositories"
+  value = concat(
+    oci_devops_repository.cluster_config_repo_flux[*].id,
+    oci_devops_repository.cluster_config_repo_argocd[*].id,
+    oci_devops_repository.apps_config_repo_flux[*].id,
+    oci_devops_repository.apps_config_repo_argocd[*].id,
+    oci_devops_repository.fleet_config_repo[*].id
+  )
+}
+
 output "gitops_mirror_pipeline_id" {
   description = "OCI DevOps build pipeline that mirrors the selected GitOps agent without deploying it"
   value       = oci_devops_build_pipeline.mirror_gitops_agent.id
