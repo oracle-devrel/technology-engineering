@@ -4,6 +4,9 @@ This OCI Resource Manager stack gives one existing OKE cluster a simple GitOps
 operating model. Users change Kubernetes configuration in Git; Argo CD or Flux
 CD continuously makes the cluster match that configuration.
 
+New stacks default to Argo CD with cluster administration only
+(`gitops_scope = cluster_admin`). Application delivery and Flux remain selectable.
+
 The default model is deliberately single-cluster. It does not require cluster
 types, profiles, variants, or fleet selectors. The optional fleet model is
 engine-specific: Argo CD uses a central hub with native ApplicationSets and
@@ -14,7 +17,7 @@ dedicated installation pipeline; every member then pulls only its own
 activation root from the shared `fleet-config` repository. Flux has no hub
 mode.
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.1.1/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oke-gitops-2.2.0/stack.zip)
 
 Reviewed: 17.09.2026
 
@@ -39,7 +42,7 @@ delivery, fleet operation, and AI-agent installation.
 
 - Stable repository contract: [contract v1](REPOSITORY-CONTRACT.md).
 - Combine this stack with OCI DevOps CI: [integration modes](INTEGRATION.md).
-- Current release: [2.1.1 release notes](RELEASE-NOTES.md).
+- Current release: [2.2.0 release notes](RELEASE-NOTES.md).
 - This README: stack deployment and the one-time GitOps handoff.
 - Bootstrap access:
   - [Argo CD IAM and Vault guide](repos/argocd/cluster-config/docs/README.md)
@@ -175,12 +178,9 @@ You need:
 - Git, `kubectl`, and access to the cluster kubeconfig.
 - A bootstrap auth token that Resource Manager can use to seed the OCI DevOps
   repositories.
-- A dedicated non-human identity with read-only access to `cluster-config` and
-  `apps-config`.
-- A different non-human identity with read-only access to the required OCIR
-  repositories.
-- Two OCI Vault secrets in the DevOps project compartment containing the
-  runtime identities as JSON.
+- Automatic credentials enabled, or separate non-human Git and OCIR reader
+  identities with two Vault JSON credential secrets in the DevOps project
+  compartment.
 - A subnet from which OCI DevOps Shell stages can reach the OKE API endpoint
   and OCI services.
 - IAM permissions from [policies.md](./policies.md), or `create_iam = true`.
@@ -191,8 +191,21 @@ common ancestor of the DevOps, OKE, and network compartments. Policy statements
 remain scoped to those resource compartments. The DevOps project itself must
 still be in a child compartment.
 
+### Automatic runtime credentials
+
+Enable **Create OCI Vault and Credentials** and select an **Automation Identity
+Domain** to generate separate Git and OCIR reader accounts, their tokens, a
+Vault, JSON secrets and scoped access policies. Vault resources are created in
+the DevOps project compartment. Bootstrap pipeline parameters default to the
+generated Secret OCIDs. See [Automatic runtime credentials](automatic-credentials.md).
+
+Execution IAM remains a separate option with its own DevOps identity-domain
+picker. Runtime-reader policies are created by the credential feature even when
+execution IAM is disabled. The seeding auth token is still required.
+
 ### Prepare bootstrap access
 
+In manual mode, prepare the two runtime reader credentials before bootstrap.
 The sensitive Resource Manager `auth_token` is used only to seed the hosted
 repositories. Runtime Git and OCIR access uses two dedicated read-only users
 and two OCI Vault secrets.
@@ -223,7 +236,9 @@ network policy requires one.
    shared `fleet-config` repository and activate this stack's selected cluster;
    it does not provision or connect additional clusters.
 4. Wait for the Resource Manager apply job to succeed.
-5. In the selected OCI DevOps project, run `bootstrap-gitops-agent`. Leave
+5. In the selected OCI DevOps project, run `bootstrap-gitops-agent`. With
+   automatic credentials enabled, keep the generated Secret OCID defaults.
+   In manual mode, leave
    `chart_version` as `LATEST` or set an exact chart version, and set:
    - `git_read_credentials_secret_ocid` to the Git reader Secret OCID;
    - `registry_pull_secret_ocid` to the OCIR reader Secret OCID.
@@ -272,6 +287,12 @@ Git. The parameter selects only what is mirrored; it never edits Git. The
 generated wildcard selects the highest mirrored semantic version. Pin or roll
 back the self-managed release by committing an exact version in
 `cluster-config` after that version exists in OCIR.
+
+Builds keep the requested `chart_version` separate from the exported
+`resolved_chart_version` to avoid OCI's input/export name collision. Bootstrap
+passes the resolved version to the internal installer automatically. When
+starting `install-gitops-agent` directly, supply `resolved_chart_version` with an
+exact already-mirrored chart version.
 
 ### Upgrade an existing stack to the split pipelines
 

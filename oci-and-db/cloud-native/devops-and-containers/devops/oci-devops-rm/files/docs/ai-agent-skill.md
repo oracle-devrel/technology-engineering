@@ -11,6 +11,10 @@ the extracted directory or its `SKILL.md` to the task context.
 
 ## Download
 
+Every new `oci-devops-rm-*` release includes `oke-devops-starter.zip` as a
+separate downloadable asset, built automatically from that release's tagged
+source. Use the skill from the same release as your stack.
+
 Download [oke-devops-starter.zip](../downloads/oke-devops-starter.zip).
 The archive contains one self-contained `oke-devops-starter` directory.
 

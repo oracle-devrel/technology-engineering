@@ -50,5 +50,18 @@ output "fleet_config_repository_url" {
 
 output "next_steps" {
   description = "How to install the agent and start Git reconciliation"
-  value       = "Create separate read-only Git and OCIR JSON credentials in OCI Vault. Run bootstrap-gitops-agent with git_read_credentials_secret_ocid and registry_pull_secret_ocid set to their Secret OCIDs. After its triggered install-gitops-agent deployment succeeds, clone cluster-config and apply its generated bootstrap manifest as documented in the repository README. Use mirror-gitops-agent only for later chart mirroring and self-managed upgrades."
+  value       = "${var.create_automatic_credentials ? "Runtime credential secrets are configured as bootstrap pipeline defaults." : "Create separate read-only Git and OCIR JSON credentials in OCI Vault and set git_read_credentials_secret_ocid and registry_pull_secret_ocid on bootstrap-gitops-agent."} Run bootstrap-gitops-agent. After its triggered install-gitops-agent deployment succeeds, clone cluster-config and apply its generated bootstrap manifest as documented in the repository README. Use mirror-gitops-agent only for later chart mirroring and self-managed upgrades."
+}
+
+output "automatic_credentials" {
+  description = "Generated runtime credential references; token values are not exposed"
+  value = var.create_automatic_credentials ? {
+    vault_id                         = oci_kms_vault.credentials[0].id
+    key_id                           = oci_kms_key.credentials[0].id
+    compartment_id                   = local.credentials_compartment_id
+    git_read_credentials_secret_ocid = oci_vault_secret.automation["git"].id
+    registry_pull_secret_ocid        = oci_vault_secret.automation["pull"].id
+    policy_id                        = oci_identity_policy.automation[0].id
+    policy_name                      = oci_identity_policy.automation[0].name
+  } : null
 }
