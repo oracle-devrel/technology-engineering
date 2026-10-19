@@ -1,63 +1,45 @@
-# OKE GitOps stack 2.1.1
+# OKE GitOps stack 2.2.0
 
-This patch corrects Resource Manager bootstrap failures and aligns the portable
-administration skills with the current repository and credential model.
+This release adds automatic runtime credentials, simplifies Resource Manager
+configuration, and improves Argo CD and Flux bootstrap workflows.
 
-## Fixes in 2.1.1
+## Features and Fixes
 
-- Reject new or reused DevOps projects in the tenancy root before deployment.
-- Attach IAM policies at the tenancy root by default, with a configurable
-  common ancestor for installations using sibling compartments.
-- Keep bootstrap credential Secrets in the DevOps project compartment and
-  remove the separate Vault-compartment input.
-- Ignore OCI-added dynamic-group schema extensions without ignoring matching rules.
-- Replace the unsupported Helm nonce override with ENFORCE_HELM_DEPLOYMENT.
-- Remove the deprecated shared-token parameter and fallback. Document exact
-  JSON credential examples with OCI-compatible parameter descriptions.
-- Omit apps-config, its seed and controller source in cluster_admin scope.
-- Manage Flux Operator as a normal platform application through the single
-  platform reconciliation root, with a documented existing-installation handoff.
-- Update both portable administrator skills with the corrected workflow.
+- Optionally create an OCI Vault, encryption key, dedicated Git and OCIR reader
+  accounts, auth tokens, credential secrets, and scoped runtime access policies.
+  The Vault and policy follow the actual DevOps project compartment, including
+  reused projects. Runtime policies are independent of execution-IAM creation.
+- Automatically connect generated secret OCIDs to bootstrap and installation
+  pipelines. The applying user's auth token remains repository-seeding-only;
+  runtime accounts have separate read-only credentials.
+- Separate build, bootstrap, and installer execution groups. Bound registry
+  access by repository prefix, restrict Kubernetes access to the selected
+  cluster, and use explicit secret allowlists for manually supplied credentials.
+  Bootstrap and installer DevOps management remains compartment-scoped.
+- Default new stacks to Argo CD and cluster-administration-only scope, with
+  `company-name/org` as the OCIR repository prefix. Helm charts use its `/charts`
+  subtree; container images use the base prefix.
+- Simplify the Resource Manager form with concise descriptions, independent
+  execution/automation identity-domain pickers, consecutive feature-dependent
+  fields, optional policy names, and hidden maintenance inputs.
+- Honor exact chart-version overrides without a LATEST lookup. Preserve resolved
+  versions across managed-build steps and the automatic installer handoff.
+- Keep transient credential files outside workspace snapshots, clear disabled
+  optional repository sources, and allow newly created Vault endpoints to settle.
+- Include `manage-oke-with-argocd.zip` and `manage-oke-with-flux.zip` alongside the
+  Resource Manager stack. Shared release automation also includes
+  `oke-devops-starter.zip` in future OCI DevOps Starter releases.
 
-Changing from full application scope to cluster_admin may delete the
-Terraform-managed apps-config repository. Existing Git content is preserved;
-the Flux ownership migration must be applied separately through Git.
+## Existing Installations
 
-Local validation covers Terraform, credentials command syntax, repository
-seeding, skill metadata, and archive integrity. The supplied Resource Manager
-log confirms a successful apply of the preceding bootstrap fixes; the final
-Flux ownership consolidation has not been applied to a live cluster here.
-
-## Inherited from 2.1.0
-
-This release makes the GitOps stack easier to combine with existing OCI DevOps
-delivery workflows while preserving clear Kubernetes object ownership.
-
-## Included
-
-- Create a new OCI DevOps project or reuse an existing project without
-  overwriting its project-level settings.
-- Select `cluster_admin` or `applications_and_cluster` GitOps scope according
-  to the desired ownership boundary.
-- Use the configurable `gitops-pipelines` repository alongside other delivery
-  systems in a shared OCI DevOps project.
-- Preserve cluster-administrator ownership of namespace-scoped infrastructure,
-  including quotas and policies inside application namespaces.
-- Seed existing repositories safely and expose migration guidance for legacy
-  pipeline repository names.
-- Validate cross-variable constraints through root checks compatible with the
-  Terraform version used by OCI Resource Manager.
-- Extend the Argo CD and Flux repository documentation and portable skills for
-  hybrid OCI DevOps/GitOps operation.
-
-## Acceptance status
-
-- Terraform, schema, repository seed, documentation, and skill validation
-  passed.
-- Hybrid OCI DevOps application delivery with Argo CD cluster administration
-  was exercised on OKE.
-- Karpenter and kube-prometheus were reconciled successfully through GitOps.
-- Resource Manager compatibility failures found during the clean-room test
-  were converted into regression tests.
+- Preserve explicitly selected agent/scope values when adopting the new defaults.
+- Existing Git repositories remain customer-owned. Merge updated build specs
+  before using the updated pipelines.
+- Build pipelines still accept `chart_version`. Direct calls to the internal
+  `install-gitops-agent` pipeline now use `resolved_chart_version` with an exact,
+  already-mirrored chart version.
+- Manual credentials with stack-managed execution IAM require an explicit
+  `execution_secret_ids` allowlist. An empty list grants no Vault secret access.
+- Generated auth tokens enter Terraform state; restrict access to that state.
 
 The authoritative layout is [REPOSITORY-CONTRACT.md](REPOSITORY-CONTRACT.md).

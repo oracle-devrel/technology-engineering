@@ -15,6 +15,8 @@ env:
     cluster_config_repo_url: "${cluster_config_repo_url}"
     apps_config_repo_url: "${apps_config_repo_url}"
     fleet_config_repo_url: "${fleet_config_repo_url}"
+    gitops_applications_enabled: "${applications_enabled}"
+    gitops_fleet_enabled: "${fleet_enabled}"
     git_read_credentials_secret_ocid: "$${git_read_credentials_secret_ocid}"
     registry_pull_secret_ocid: "$${registry_pull_secret_ocid}"
 
@@ -72,9 +74,8 @@ steps:
     command: |
       set -euo pipefail
       export KUBECONFIG="$${OCI_WORKSPACE_DIR}/kubeconfig"
-      credentials_dir="$${OCI_WORKSPACE_DIR}/gitops-credentials"
-      mkdir -p "$${credentials_dir}"
-      chmod 700 "$${credentials_dir}"
+      umask 077
+      credentials_dir="$(mktemp -d /tmp/gitops-credentials.XXXXXX)"
 
       git_json_path="$${credentials_dir}/git.json"
       ocir_json_path="$${credentials_dir}/ocir.json"
@@ -83,9 +84,8 @@ steps:
       ocir_username_path="$${credentials_dir}/ocir-username"
       ocir_password_path="$${credentials_dir}/ocir-password"
       dockerconfig_path="$${credentials_dir}/dockerconfig.json"
-      trap 'rm -f "$${git_json_path}" "$${ocir_json_path}" "$${git_username_path}" "$${git_password_path}" "$${ocir_username_path}" "$${ocir_password_path}" "$${dockerconfig_path}"' EXIT
+      trap 'rm -rf -- "$${credentials_dir}"' EXIT
 
-      umask 077
       read_vault_secret() {
         secret_id="$1"
         output_path="$2"
@@ -161,6 +161,12 @@ steps:
       git_runtime_username="$(cat "$${git_username_path}")"
       ocir_runtime_username="$(cat "$${ocir_username_path}")"
 
+      if [ "$${gitops_applications_enabled}" != true ]; then
+        apps_config_repo_url=""
+      fi
+      if [ "$${gitops_fleet_enabled}" != true ]; then
+        fleet_config_repo_url=""
+      fi
       cluster_repo_prefix="$${cluster_config_repo_url%/*}"
       apps_repo_prefix="$${apps_config_repo_url%/*}"
       if [ -n "$${apps_config_repo_url}" ] && [ "$${cluster_repo_prefix}" != "$${apps_repo_prefix}" ]; then

@@ -48,6 +48,18 @@ variable "git_password" {
   sensitive   = true
 }
 
+variable "git_read_credentials_secret_ocid" {
+  description = "Default runtime Git JSON credential Secret OCID"
+  type        = string
+  default     = "CHANGE_ME"
+}
+
+variable "registry_pull_secret_ocid" {
+  description = "Default runtime OCIR JSON credential Secret OCID"
+  type        = string
+  default     = "CHANGE_ME"
+}
+
 # TEMPLATE
 variable "ocir_repo_path_prefix" {}
 variable "pipelines_repository_name" {
