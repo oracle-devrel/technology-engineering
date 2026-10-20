@@ -1,4 +1,4 @@
-https://docs.oracle.com/en/learn/oci-hyok-fortanix/# OCI KMS
+# OCI KMS
  
 OCI KMS lets you centrally manage and control the use of keys and secrets across a wide range of OCI services and applications. OCI KMS is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
  
