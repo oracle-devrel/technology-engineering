@@ -1,5 +1,11 @@
 # Resource Manager Inputs
 
+Application environment names default to `dev`, `staging`, and `prod`;
+cluster target names default to `noprod` and `prod`. These are independent
+of the selected OKE cluster names and application namespaces. See
+[Environment Names](environment-names.md) for the inputs, generated names,
+and existing-installation migration requirements.
+
 The Resource Manager schema is organized around the decisions a developer platform team must make up front. Most names and paths are derived.
 
 Application configuration supports the [developer workflow](developers.md). The optional cluster-administration configuration supports the independent [cluster operations workflow](cluster-operations.md). Select `application_delivery_mode` first because it controls whether the OKE application-delivery inputs and resources are needed.

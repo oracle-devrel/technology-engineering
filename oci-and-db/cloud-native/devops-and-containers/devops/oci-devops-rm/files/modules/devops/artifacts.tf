@@ -66,7 +66,7 @@ resource "oci_devops_deploy_artifact" "application_baseline_values" {
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content       = base64encode(templatefile("${path.root}/templates/application-baseline-values.yaml.tpl", {}))
+    base64encoded_content       = base64encode(templatefile("${path.module}/../../templates/application-baseline-values.yaml.tpl", {}))
     deploy_artifact_source_type = "INLINE"
   }
 
@@ -80,15 +80,15 @@ resource "oci_devops_deploy_artifact" "application_prod_values" {
 
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_type       = "GENERIC_FILE"
-  description                = "prod cluster baseline values for the ${each.value.name} Helm release"
-  display_name               = "${each.value.name}-values-prod"
+  description                = "${var.environment_names.prod_cluster} cluster baseline values for the ${each.value.name} Helm release"
+  display_name               = "${each.value.name}-values-${var.environment_names.prod_cluster}"
   freeform_tags = {
     application = each.value.name
   }
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content       = base64encode(templatefile("${path.root}/templates/application-baseline-values.yaml.tpl", {}))
+    base64encoded_content       = base64encode(templatefile("${path.module}/../../templates/application-baseline-values.yaml.tpl", {}))
     deploy_artifact_source_type = "INLINE"
   }
 
@@ -111,10 +111,11 @@ resource "oci_devops_deploy_artifact" "component_values" {
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content = base64encode(templatefile("${path.root}/templates/component-values.yaml.tpl", {
+    base64encoded_content = base64encode(templatefile("${path.module}/../../templates/component-values.yaml.tpl", {
       application_chart_name = each.value.application_name
       component_name         = each.value.name
       environment            = each.value.environment
+      environment_role       = each.value.environment_role
       image_tag_parameter    = "image_tag"
     }))
     deploy_artifact_source_type = "INLINE"
@@ -130,8 +131,8 @@ resource "oci_devops_deploy_artifact" "component_prod_values" {
 
   argument_substitution_mode = "SUBSTITUTE_PLACEHOLDERS"
   deploy_artifact_type       = "GENERIC_FILE"
-  description                = "prod values for the ${each.value.name} Helm release"
-  display_name               = "${each.value.name}-values-prod"
+  description                = "${var.environment_names.prod} values for the ${each.value.name} Helm release"
+  display_name               = "${each.value.name}-values-${var.environment_names.prod}"
   freeform_tags = {
     application = each.value.application_name
     component   = each.value.name
@@ -139,10 +140,11 @@ resource "oci_devops_deploy_artifact" "component_prod_values" {
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content = base64encode(templatefile("${path.root}/templates/component-values.yaml.tpl", {
+    base64encoded_content = base64encode(templatefile("${path.module}/../../templates/component-values.yaml.tpl", {
       application_chart_name = each.value.application_name
       component_name         = each.value.name
-      environment            = "prod"
+      environment            = var.environment_names.prod
+      environment_role       = "prod"
       image_tag_parameter    = "image_tag"
     }))
     deploy_artifact_source_type = "INLINE"
@@ -158,7 +160,7 @@ resource "oci_devops_deploy_artifact" "application_bootstrap_command_spec" {
 
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "COMMAND_SPEC"
-  description                = "Initializes an application namespace and OCIR image pull secret on noprod or prod"
+  description                = "Initializes an application namespace and OCIR image pull secret on ${var.environment_names.noprod_cluster} or ${var.environment_names.prod_cluster}"
   display_name               = "application-bootstrap-command-spec"
   freeform_tags = {
     purpose = "application-bootstrap"
@@ -167,12 +169,14 @@ resource "oci_devops_deploy_artifact" "application_bootstrap_command_spec" {
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content = base64encode(templatefile("${path.root}/templates/application-bootstrap-command-spec.yaml.tpl", {
+    base64encoded_content = base64encode(templatefile("${path.module}/../../templates/application-bootstrap-command-spec.yaml.tpl", {
       kube_endpoint         = local.kube_endpoint
       noprod_oke_cluster_id = var.oke_cluster_id
       prod_oke_cluster_id   = local.prod_oke_cluster_id
       region                = var.region
       region_key            = local.region_key
+      noprod_cluster_name   = var.environment_names.noprod_cluster
+      prod_cluster_name     = var.environment_names.prod_cluster
     }))
     deploy_artifact_source_type = "INLINE"
   }
@@ -188,7 +192,7 @@ resource "oci_devops_deploy_artifact" "component_verify_deployment_command_spec"
   argument_substitution_mode = "NONE"
   deploy_artifact_type       = "COMMAND_SPEC"
   description                = "Reports a completed production component Helm release status"
-  display_name               = "component-prod-status-command-spec"
+  display_name               = "component-${var.environment_names.prod}-status-command-spec"
   freeform_tags = {
     purpose = "component-delivery"
     role    = "deployment-status"
@@ -196,7 +200,7 @@ resource "oci_devops_deploy_artifact" "component_verify_deployment_command_spec"
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content = base64encode(templatefile("${path.root}/templates/verify-component-production-command-spec.yaml.tpl", {
+    base64encoded_content = base64encode(templatefile("${path.module}/../../templates/verify-component-production-command-spec.yaml.tpl", {
       kube_endpoint       = local.kube_endpoint
       prod_oke_cluster_id = local.prod_oke_cluster_id
       region              = var.region
@@ -223,7 +227,7 @@ resource "oci_devops_deploy_artifact" "promote_release_image_command_spec" {
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content = base64encode(templatefile("${path.root}/templates/promote-release-image-command-spec.yaml.tpl", {
+    base64encoded_content = base64encode(templatefile("${path.module}/../../templates/promote-release-image-command-spec.yaml.tpl", {
       region = var.region
     }))
     deploy_artifact_source_type = "INLINE"
@@ -248,7 +252,7 @@ resource "oci_devops_deploy_artifact" "tag_release_commit_command_spec" {
   project_id = local.devops_project_id
 
   deploy_artifact_source {
-    base64encoded_content = base64encode(templatefile("${path.root}/templates/tag-release-commit-command-spec.yaml.tpl", {
+    base64encoded_content = base64encode(templatefile("${path.module}/../../templates/tag-release-commit-command-spec.yaml.tpl", {
       region = var.region
     }))
     deploy_artifact_source_type = "INLINE"

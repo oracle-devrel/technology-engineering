@@ -45,6 +45,16 @@ variableGroups:
     variables:
       - applications
 
+  - title: Application Environment Names
+    visible:
+      eq:
+        - ${application_delivery_mode}
+        - oci_devops
+    variables:
+      - dev_environment_name
+      - staging_environment_name
+      - prod_environment_name
+
   - title: OKE Pre-Prod Environment
     visible:
       or:
@@ -53,6 +63,7 @@ variableGroups:
             - oci_devops
         - ${enable_cluster_admin}
     variables:
+      - noprod_cluster_name
       - oke_compartment_id
       - oke_cluster_id
       - network_compartment_id
@@ -68,6 +79,7 @@ variableGroups:
             - oci_devops
         - ${enable_cluster_admin}
     variables:
+      - prod_cluster_name
       - prod_oke_compartment_id
       - prod_oke_cluster_id
       - prod_network_compartment_id
@@ -95,6 +107,47 @@ variableGroups:
       - cluster_administration
 
 variables:
+
+  dev_environment_name:
+    type: string
+    title: Development environment name
+    description: Name used by development pipelines, Helm releases and Kubernetes labels.
+    default: dev
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+  staging_environment_name:
+    type: string
+    title: Staging environment name
+    description: Name of the release-candidate environment before production approval.
+    default: staging
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+  prod_environment_name:
+    type: string
+    title: Production environment name
+    description: Name of the production application environment. Approval remains required.
+    default: prod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+  noprod_cluster_name:
+    type: string
+    title: Nonproduction target name
+    description: Name used by bootstrap, cluster administration and baseline releases.
+    default: noprod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+  prod_cluster_name:
+    type: string
+    title: Production target name
+    description: Name used by bootstrap and approved cluster administration.
+    default: prod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
 
   application_entry:
     type: object
@@ -749,6 +802,11 @@ variables:
     visible: ${create_iam}
 
 outputs:
+  environment_names:
+    title: Environment Names
+    description: Configured application and cluster target names by stable workflow role.
+    type: map
+
   automatic_credentials:
     title: Automatic Credential References
     description: Generated usernames, group OCIDs, Vault/key OCIDs and token secret OCIDs. No auth token values are displayed.
@@ -837,7 +895,7 @@ outputs:
 
   component_deploy_pipeline_ids:
     title: Component Deployment Pipelines
-    description: Component and environment to deployment pipeline OCID.
+    description: Component and stable workflow role to deployment pipeline OCID; see Environment Names for configured names.
     type: map
 
   oke_noprod_deploy_environment_id:
@@ -893,6 +951,7 @@ outputGroups:
       - ${devops_project_id}
       - ${devops_project_name}
       - ${application_delivery_mode}
+      - ${environment_names}
       - ${automatic_credentials}
       - ${application_components}
       - ${application_namespaces}

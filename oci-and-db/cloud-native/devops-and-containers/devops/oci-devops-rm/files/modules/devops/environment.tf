@@ -4,8 +4,8 @@ resource "oci_devops_deploy_environment" "oke_environment" {
   deploy_environment_type = "OKE_CLUSTER"
   project_id              = local.devops_project_id
   cluster_id              = var.oke_cluster_id
-  display_name            = data.oci_containerengine_cluster.oke_cluster[0].name
-  description             = "Pre-prod OKE cluster for Helm delivery"
+  display_name            = var.environment_names.noprod_cluster == "noprod" ? data.oci_containerengine_cluster.oke_cluster[0].name : var.environment_names.noprod_cluster
+  description             = "${var.environment_names.noprod_cluster} OKE target for Helm delivery"
 
   network_channel {
     network_channel_type = "PRIVATE_ENDPOINT_CHANNEL"
@@ -27,8 +27,8 @@ resource "oci_devops_deploy_environment" "prod_oke_environment" {
   deploy_environment_type = "OKE_CLUSTER"
   project_id              = local.devops_project_id
   cluster_id              = local.prod_oke_cluster_id
-  display_name            = data.oci_containerengine_cluster.prod_oke_cluster[0].name
-  description             = "Production OKE cluster for release deployments"
+  display_name            = var.environment_names.prod_cluster == "prod" ? data.oci_containerengine_cluster.prod_oke_cluster[0].name : var.environment_names.prod_cluster
+  description             = "${var.environment_names.prod_cluster} OKE target for approved release deployments"
 
   network_channel {
     network_channel_type = "PRIVATE_ENDPOINT_CHANNEL"

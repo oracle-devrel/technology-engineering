@@ -35,12 +35,22 @@ mock_provider "time" {}
 mock_provider "random" {}
 
 variables {
-  region                    = "eu-milan-1"
-  tenancy_ocid              = "ocid1.tenancy.oc1..test"
-  current_user_ocid         = "ocid1.user.oc1..test"
-  compartment_ocid          = "ocid1.compartment.oc1..test"
-  application_delivery_mode = "build_only"
-  auth_token                = "mock-manual-token"
+  region                      = "eu-milan-1"
+  tenancy_ocid                = "ocid1.tenancy.oc1..test"
+  current_user_ocid           = "ocid1.user.oc1..test"
+  compartment_ocid            = "ocid1.compartment.oc1..test"
+  application_delivery_mode   = "build_only"
+  auth_token                  = "mock-manual-token"
+  oke_compartment_id          = "ocid1.compartment.oc1..test"
+  prod_oke_compartment_id     = "ocid1.compartment.oc1..test"
+  network_compartment_id      = "ocid1.compartment.oc1..test"
+  prod_network_compartment_id = "ocid1.compartment.oc1..test"
+  oke_cluster_id              = "ocid1.cluster.oc1.eu-milan-1.test"
+  prod_oke_cluster_id         = "ocid1.cluster.oc1.eu-milan-1.test"
+  oke_vcn_id                  = "ocid1.vcn.oc1.eu-milan-1.test"
+  prod_oke_vcn_id             = "ocid1.vcn.oc1.eu-milan-1.test"
+  oke_worker_subnet_id        = "ocid1.subnet.oc1.eu-milan-1.test"
+  prod_oke_worker_subnet_id   = "ocid1.subnet.oc1.eu-milan-1.test"
 }
 
 run "manual_mode_preserved" {
@@ -217,4 +227,66 @@ run "automatic_multiple_applications_and_operations" {
     condition     = length(module.devops.repository_ids) == 7 && length(module.devops.bootstrap_pipeline_ids) == 2
     error_message = "Scopes must include shared, chart, source and operator repositories across all applications."
   }
+}
+run "reject_duplicate_application_environments" {
+  command = plan
+  variables { staging_environment_name = "dev" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_duplicate_cluster_targets" {
+  command = plan
+  variables { noprod_cluster_name = "prod" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_unsafe_environment_names" {
+  command = plan
+  variables { prod_environment_name = "../live" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_empty_environment_names" {
+  command = plan
+  variables { dev_environment_name = "" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_oversized_environment_names" {
+  command = plan
+  variables { prod_cluster_name = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkl" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "custom_environment_output" {
+  command = plan
+  variables {
+    dev_environment_name     = "development"
+    staging_environment_name = "uat"
+    prod_environment_name    = "live"
+    noprod_cluster_name      = "sandbox"
+    prod_cluster_name        = "production"
+  }
+  assert {
+    condition     = output.environment_names.dev == "development" && output.environment_names.prod == "live" && output.environment_names.noprod_cluster == "sandbox"
+    error_message = "Outputs must expose configured names under stable workflow roles."
+  }
+}
+
+run "reject_overlong_derived_release_name" {
+  command = plan
+  variables {
+    application_delivery_mode = "oci_devops"
+    dev_environment_name      = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+  }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_shared_cluster_release_collision" {
+  command = plan
+  variables {
+    application_delivery_mode = "oci_devops"
+    applications              = [{ name = "shop", components = [{ name = "shop" }] }]
+  }
+  expect_failures = [terraform_data.environment_names]
 }

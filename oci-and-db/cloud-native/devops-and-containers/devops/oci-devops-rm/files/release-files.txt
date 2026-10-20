@@ -1,6 +1,7 @@
 checks.tf
 credentials.tf
 data.tf
+environment-names.tf
 locals.tf
 main.tf
 modules/devops/artifacts.tf

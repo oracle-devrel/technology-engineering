@@ -94,7 +94,7 @@ output "application_bootstrap_pipeline_ids" {
 }
 
 output "component_deploy_pipeline_ids" {
-  description = "Component and environment to deployment pipeline OCID."
+  description = "Component and stable workflow role to deployment pipeline OCID; see environment_names for configured names."
   value       = module.devops.component_deploy_pipeline_ids
 }
 

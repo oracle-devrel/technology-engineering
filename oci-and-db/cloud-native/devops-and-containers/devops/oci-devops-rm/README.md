@@ -74,6 +74,8 @@ The default sample creates:
 
 ## Documentation
 
+- [Environment Names](files/docs/environment-names.md): configure application and cluster target names while preserving workflow roles and production approvals.
+
 - [Quickstart](files/docs/quickstart.md): configure the Resource Manager form, apply the stack, deploy the first application, promote a release, and enable cluster operations.
 
 ### Application Developers

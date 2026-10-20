@@ -6,6 +6,17 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Configurable development, staging and production application environment names,
+  plus independent nonproduction and production cluster target names. Generated
+  pipelines, Helm values, labels, bootstrap stages and cluster-admin paths use
+  the configured names while production approvals and image promotion remain
+  tied to stable workflow roles. Defaults preserve existing naming conventions.
+- Validation of unsafe names, duplicate targets, generated Helm release lengths
+  and same-cluster namespace/release collisions, plus guidance for coordinated
+  migration of existing installations.
+
 ## [1.2.0] - 2026-10-14
 
 ### Added
