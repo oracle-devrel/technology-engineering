@@ -20,6 +20,13 @@ names must also be distinct. Application and cluster names may overlap because
 they describe separate layers. Generated Helm release names are checked against
 Helm's 53-character limit and for collisions within a cluster and namespace.
 
+For stacks created or updated through the Resource Manager API, submit
+`cluster_administration` as a JSON array of tool objects, or `[]` for
+baseline-only administration. The graphical list control cannot render a
+legacy wrapper such as `{"tools": []}`. Wrapped configurations remain accepted
+by Terraform, but must be converted to the equivalent array before graphical
+editing. The same array format applies to `applications`.
+
 ## Generated Naming
 
 With the example settings above, component `invoice` has releases

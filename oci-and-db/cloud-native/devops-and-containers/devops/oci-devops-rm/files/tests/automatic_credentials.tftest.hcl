@@ -94,6 +94,17 @@ run "native_blank_optional_inputs" {
   }
 }
 
+run "graphical_empty_tool_list" {
+  command = plan
+  variables {
+    cluster_administration = []
+  }
+  assert {
+    condition     = length(local.cluster_admin_config.tools) == 0
+    error_message = "A graphical tools list may be empty for baseline-only cluster administration."
+  }
+}
+
 run "automatic_build_only_without_iam" {
   command = plan
   variables {

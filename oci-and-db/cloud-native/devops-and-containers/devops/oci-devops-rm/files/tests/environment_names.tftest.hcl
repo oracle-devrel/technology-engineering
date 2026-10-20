@@ -78,6 +78,8 @@ run "custom_names_keep_roles_and_keys" {
     condition = (
       length(local.component_environment_pairs) == 6 &&
       oci_devops_deploy_stage.deploy_component["invoice:dev"].release_name == "invoice-development" &&
+      oci_devops_build_pipeline_stage.trigger_dev_deployment["invoice"].display_name == "Invoice Development Deploy" &&
+      oci_devops_build_pipeline_stage.trigger_application_baseline_deployment["shop"].display_name == "Shop Sandbox Deploy" &&
       oci_devops_deploy_stage.deploy_component["fulfillment:staging"].release_name == "fulfillment-uat" &&
       oci_devops_deploy_pipeline.deploy_component["checkout:staging"].display_name == "checkout-release" &&
       oci_devops_deploy_stage.deploy_component_prod["invoice"].release_name == "invoice"

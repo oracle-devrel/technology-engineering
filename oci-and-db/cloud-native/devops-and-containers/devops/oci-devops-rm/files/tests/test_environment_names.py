@@ -48,6 +48,13 @@ class EnvironmentNameTests(unittest.TestCase):
         self.assertEqual(group["visible"], {"eq": ["${application_delivery_mode}", "oci_devops"]})
         self.assertIn("environment-names.tf", (ROOT / "release-files.txt").read_text().splitlines())
 
+    def test_graphical_tools_input_is_an_optional_native_list(self):
+        schema = yaml.safe_load((ROOT / "schema.yaml").read_text())
+        field = schema["variables"]["cluster_administration"]
+        self.assertEqual(field["type"], "list")
+        self.assertIsInstance(json.loads(field["default"]), list)
+        self.assertFalse(field["required"])
+
     def test_bootstrap_resolves_renamed_clusters(self):
         template = render_command_template(
             "application-bootstrap-command-spec.yaml.tpl",

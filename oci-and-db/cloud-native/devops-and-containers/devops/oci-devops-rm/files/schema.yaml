@@ -664,7 +664,7 @@ variables:
     description: Shared Kubernetes tool topology. Repository accepts an HTTPS Helm repository or an OCI base path; chart is appended to OCI paths. Every tool requires a pinned version. Namespaces default to tool names.
     type: list
     valueType: administration_tool
-    required: true
+    required: false
     visible: ${enable_cluster_admin}
     default: |
       [

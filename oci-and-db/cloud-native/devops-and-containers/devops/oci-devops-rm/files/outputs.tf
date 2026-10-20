@@ -89,7 +89,7 @@ output "application_deploy_pipeline_ids" {
 }
 
 output "application_bootstrap_pipeline_ids" {
-  description = "Application name to parallel noprod/prod namespace bootstrap deployment pipeline OCID."
+  description = "Application name to parallel nonproduction/production namespace bootstrap deployment pipeline OCID."
   value       = module.devops.application_bootstrap_pipeline_ids
 }
 
