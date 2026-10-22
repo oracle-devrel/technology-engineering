@@ -22,7 +22,7 @@ Reviewed: 12.11.2025
 ## OpenShift Day-2 - Operations
 - [Using OCI Object storage for the OpenShift Internal Registry](enable-image-registry/README.md)
 - [Add a New Worker Node to an Existing OpenShift Cluster Using the Assisted Installer](https://github.com/oracle-devrel/technology-engineering/blob/main/cloud-infrastructure/virtualization-solutions/openshift-on-oci/add-new-host-assisted-method/files/index.md)
- 
+ - [Add a VM based worker node to an Existing OpenShift Cluster deployed using Agent-Based Setup](./deploy-vm-worker-node-for-agent-based-setup/index.md)
 
 # Reusable Assets
 
