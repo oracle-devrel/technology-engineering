@@ -35,6 +35,15 @@ To connect to a given database in a multiple database pool scenario, when Databa
 
     then schema name and password in the login-password portion.
 
+## Database Actions Updates
+
+As per new Oracle Rest Data Services [Release 26.3](https://www.oracle.com/tools/ords/ords-changelog.html), the following Database Actions issues have been fixed:
+
+- Corrected sorting in the Database Actions table list;
+- Corrected the MongoDB API connection dialog so long connection strings are no longer clipped;
+- Executing Scheduler job from jobs menu fails with "ORA-02248: invalid option for alter session
+
+
 # Useful Links
 
 - [Signing-in to Database Actions](https://docs.oracle.com/en/database/oracle/sql-developer-web/25.4/sdweb/signing-database-actions.html)

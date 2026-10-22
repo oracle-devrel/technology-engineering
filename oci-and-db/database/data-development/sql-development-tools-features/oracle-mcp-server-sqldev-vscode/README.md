@@ -54,7 +54,19 @@ Main properties:
   - <i><b>schema_informations</i></b>: returns schema metadata for a MCP-authorized database connection;
   - <i><b>sql_run</i></b>: Executes SQL or PL/SQL for an authorized MCP database connection
 
-Reviewed: 26.08.2026
+
+Following, a table structure which sums up a brief comparison of our Oracle AI Database MCP Servers:
+
+|  | SQLcl | ORDS | OCI Managed MCP |
+|---|---|---|---|
+| Best fit | Devs, DBAs, power users | Devs, DBAs, power users across the enterprise | Business users, analysts, shared AI agents, developers, devOps |
+| Ideal workflow | Local DB exploration, dev tasks, troubleshooting | Local DB exploration, dev tasks, troubleshooting | Governed natural language access to approved databases, validated reports, and SQL tools |
+| Transport | STDIO | Streaming HTTPs | Streaming HTTPS |
+| Access model | DB credentials avail to the local OS user | OAuth2.0, JWT w/scopes or roles from your identity provider of choice | OAuth 2.0, OCI IAM groups, federated or local users, MCP roles |
+| Tools | list-connections, connect, run-sql, run-sqlcl, schema-information | list-databases, run-sql, schema-information | run-sql, list-reports, run-reports, schema-information, any number of custom tools |
+
+
+Reviewed: 14.10.2026
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
@@ -81,7 +93,7 @@ Reviewed: 26.08.2026
 
 ## Latest SQLcl Version
 
-- [SQLcl 26.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.1/sqcug/changes-release-26.1-oracle-sqlcl.html)
+- [SQLcl 26.3](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.3/sqcug/changes-release-26_3-oracle-sqlcl.html#SQCUG-GUID-6A7574A3-10C7-4911-883A-3C11F0D7D1D0)
 
 # License
 
