@@ -57,7 +57,23 @@ machine devops.scmservice.${REGION}.oci.oraclecloud.com
 EOF
 chmod 600 "${HOME}/.netrc"
 
-git clone "${REPO_CLONE_URL}" "${WORK_DIR}/repo"
+# Newly created IAM groups/policies can take time to authorize Git operations.
+attempts=1
+if [ -n "${CREDENTIAL_POLICY_ID:-}" ]; then
+  attempts=60
+fi
+for ((attempt=1; attempt<=attempts; attempt++)); do
+  if git clone "${REPO_CLONE_URL}" "${WORK_DIR}/repo"; then
+    break
+  fi
+  if [ "$attempt" -eq "$attempts" ]; then
+    echo "Repository authentication failed after $attempt attempts." >&2
+    exit 1
+  fi
+  rm -rf "${WORK_DIR}/repo"
+  echo "Waiting for repository access to propagate ($attempt/$attempts)."
+  sleep 10
+done
 
 if [ "$SEED_MODE" = "empty-repository" ] && git -C "${WORK_DIR}/repo" rev-parse --verify HEAD >/dev/null 2>&1; then
   echo "Repository already contains a commit; preserving developer-owned content."

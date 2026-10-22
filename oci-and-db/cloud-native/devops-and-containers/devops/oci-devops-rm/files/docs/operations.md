@@ -6,6 +6,23 @@ Before distributing or upgrading the stack, review [Template Ownership And Upgra
 
 ## Applying The Stack
 
+From the asset's `files` directory, run `bash update.sh`. Packaging defaults to
+release mode, retaining template ownership protection. `release-files.txt` is
+the explicit list of distributable Terraform, templates, seed content, and
+runtime scripts. Add new required inputs to this list; local files outside it
+are never copied. Missing listed files and symlinked inputs fail packaging.
+
+The command creates an archive and its fresh `.sha256` sidecar. Use
+`STACK_ZIP_PATH=/absolute/path/stack.zip` to write elsewhere, and verify it with
+`shasum -a 256 -c stack.zip.sha256` from the output directory. Only maintainer
+tests should set `STACK_DEVELOPMENT_MODE=true`; this removes template ownership
+protection from the staged copy without modifying source files.
+
+Before publishing, inspect archive contents and review the allowed files for
+credentials: an allowlist excludes unrelated files but cannot detect secrets
+accidentally written into approved templates. Keep the main README's Deploy to
+Oracle Cloud button aligned with the published release asset version.
+
 Build and upload a fresh stack zip when the Terraform templates change. Keep generated local context out of the zip, especially:
 
 - `AGENT.md`
@@ -35,7 +52,7 @@ After a successful apply, the stack's Application Information tab organizes outp
 - Build Pipelines: PR, build, release-build, and application package pipeline OCIDs.
 - Deployment Pipelines And Environments: namespace initialization, application/component deployment pipelines, and both OKE environments.
 - OCIR: application charts, component charts, and component image repositories.
-- Cluster Administration: admin repository, shared admin build pipelines, Generic Artifact repository, and cluster/tool deployment pipelines.
+- Cluster Administration: admin repository, shared admin build pipelines, Generic Artifact repository, and cluster deployment and decommission pipelines.
 
 Map-valued outputs are rendered as structured JSON instead of single-line copyable strings. The primary action opens the shared pipelines repository.
 
@@ -81,12 +98,12 @@ For chart lifecycle:
 For cluster administration:
 
 1. Open a PR changing one cluster baseline or one tool path and verify `cluster-admin-pr` succeeds.
-2. Merge the PR and verify `cluster-admin-build` selects only changed stages.
+2. Merge the PR and verify `cluster-admin-build` selects changed targets and required downstream dependents.
 3. Verify `cluster-admin-mirror-charts` skips chart versions already present in OCIR.
 4. Verify the values artifact version equals the full Git commit SHA.
 5. Verify `cluster-admin-noprod` runs its orchestrator immediately and deploys only selected changes.
 6. Verify `cluster-admin-prod` pauses for approval and then runs the same orchestration behavior.
-7. Change independent tools together and verify their stages run in parallel; declare `depends_on` and verify the dependent tool waits.
+7. Change independent tools together and verify the orchestrator runs them in parallel waves; declare `depends_on` and verify the dependent tool waits.
 8. Confirm supplemental resources are created only in the configured tool namespace.
 
 ## Cleanup
