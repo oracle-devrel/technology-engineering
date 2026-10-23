@@ -2,7 +2,7 @@
  
 OCI KMS lets you centrally manage and control the use of keys and secrets across a wide range of OCI services and applications. OCI KMS is a secure, resilient managed service that lets you focus on your data encryption needs without worrying about time-consuming administrative tasks such as hardware provisioning, software patching, and high availability.
  
-Reviewed: 28.08.2026
+Reviewed: 20.10.2026
 
 # Table of Contents
  
@@ -15,7 +15,9 @@ Reviewed: 28.08.2026
 - [Import your key into OCI Vault](https://blogs.oracle.com/coretec/post/import-your-own-key-in-oci-vault-with-cloud-console-ui)
    - This is a blog showcasing the process of importing your key into the OCI Vault
 - [Strengthen key sovereignty on OCI with Fortanix DSM and External Key Management](https://blogs.oracle.com/cloud-infrastructure/strengthen-key-sovereignty)
-   - This blog is describing how customers can achieve key sovereignty thanks to our integration with an external key manager system like Fortanix 
+   - This blog is describing how customers can achieve key sovereignty thanks to our integration with an external key manager system like Fortanix
+- [Tutorial to implement Fortanix DSM and OCI EKMS integration](https://docs.oracle.com/en/learn/oci-hyok-fortanix/)
+   - This is a step by step guide to implement integration between OCI EKMS and Fortanix DSM, to use encryption keys from Fortanix DSM to encrypt data at rest in OCI services.
  
 # Useful Links
  
