@@ -42,10 +42,17 @@ class EnvironmentNameTests(unittest.TestCase):
             field = schema["variables"][name]
             self.assertEqual(field["default"], default)
             self.assertTrue(field["required"])
+            self.assertEqual(field["visible"], "${customize_environment_names}")
             for invalid in ("", "../live", "Production", "production/blue", "-live"):
                 self.assertIsNone(re.fullmatch(field["pattern"], invalid))
-        group = next(group for group in schema["variableGroups"] if group["title"] == "Application Environment Names")
-        self.assertEqual(group["visible"], {"eq": ["${application_delivery_mode}", "oci_devops"]})
+        group = next(group for group in schema["variableGroups"] if group["title"] == "Environment Names")
+        self.assertEqual(group["variables"], ["customize_environment_names", *defaults])
+        self.assertEqual(group["visible"], {"or": [{"eq": ["${application_delivery_mode}", "oci_devops"]}, "${enable_cluster_admin}"]})
+        toggle = schema["variables"]["customize_environment_names"]
+        self.assertEqual(toggle["type"], "boolean")
+        self.assertFalse(toggle["default"])
+        source = (ROOT / "environment-names.tf").read_text()
+        self.assertEqual(source.count("var.customize_environment_names"), 0)
         self.assertIn("environment-names.tf", (ROOT / "release-files.txt").read_text().splitlines())
 
     def test_graphical_tools_input_is_an_optional_native_list(self):
@@ -54,6 +61,28 @@ class EnvironmentNameTests(unittest.TestCase):
         self.assertEqual(field["type"], "list")
         self.assertIsInstance(json.loads(field["default"]), list)
         self.assertFalse(field["required"])
+
+    def test_flat_application_names_retain_terraform_validation(self):
+        variables = (ROOT / "modules/application-config/main.tf").read_text()
+        for name, limit in (("application", 46), ("component", 45)):
+            self.assertIn(f'can(regex("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$", {name}.name))', variables)
+            self.assertIn(f"length({name}.name) <= {limit}", variables)
+
+    def test_applications_editor_uses_two_flat_lists(self):
+        fields = yaml.safe_load((ROOT / "schema.yaml").read_text())["variables"]
+        for name in ("application_definitions", "components"):
+            field = fields[name]
+            self.assertEqual(field["type"], "list")
+            self.assertTrue(json.loads(field["default"]))
+            for attribute in fields[field["valueType"]]["attributes"]:
+                self.assertEqual(fields[attribute]["type"], "string")
+                self.assertNotIn("pattern", fields[attribute])
+                self.assertNotIn("maxLength", fields[attribute])
+        self.assertEqual(fields["component_application"]["actualName"], "application")
+        self.assertNotIn("applications", fields)
+        self.assertNotIn('variable "applications"', (ROOT / "variables.tf").read_text())
+        self.assertEqual(fields["noprod_cluster_name"]["title"], "Non-production cluster target name")
+        self.assertEqual(fields["prod_cluster_name"]["title"], "Production cluster target name")
 
     def test_bootstrap_resolves_renamed_clusters(self):
         template = render_command_template(

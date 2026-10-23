@@ -2,7 +2,7 @@ title: OKE Helm Starter Stack
 description: Bootstrap OCI DevOps component builds, optional Helm delivery, and optional OKE cluster administration.
 stackDescription: Creates configurable OCI DevOps CI and, when selected, application delivery and OKE administration workflows.
 schemaVersion: 1.1.0
-version: "20261014"
+version: "20261023"
 locale: en
 informationalText: "Start with the Pipelines Repository button and the Next Steps output. Full delivery mode continues from component builds into Helm promotion; build-only mode publishes SHA7 images for an external delivery system."
 
@@ -43,17 +43,23 @@ variableGroups:
 
   - title: Applications
     variables:
-      - applications
+      - application_definitions
+      - components
 
-  - title: Application Environment Names
+  - title: Environment Names
     visible:
-      eq:
-        - ${application_delivery_mode}
-        - oci_devops
+      or:
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
+        - ${enable_cluster_admin}
     variables:
+      - customize_environment_names
       - dev_environment_name
       - staging_environment_name
       - prod_environment_name
+      - noprod_cluster_name
+      - prod_cluster_name
 
   - title: OKE Pre-Prod Environment
     visible:
@@ -63,7 +69,6 @@ variableGroups:
             - oci_devops
         - ${enable_cluster_admin}
     variables:
-      - noprod_cluster_name
       - oke_compartment_id
       - oke_cluster_id
       - network_compartment_id
@@ -79,7 +84,6 @@ variableGroups:
             - oci_devops
         - ${enable_cluster_admin}
     variables:
-      - prod_cluster_name
       - prod_oke_compartment_id
       - prod_oke_cluster_id
       - prod_network_compartment_id
@@ -108,46 +112,13 @@ variableGroups:
 
 variables:
 
-  dev_environment_name:
-    type: string
-    title: Development environment name
-    description: Name used by development pipelines, Helm releases and Kubernetes labels.
-    default: dev
-    required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
-  staging_environment_name:
-    type: string
-    title: Staging environment name
-    description: Name of the release-candidate environment before production approval.
-    default: staging
-    required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
-  prod_environment_name:
-    type: string
-    title: Production environment name
-    description: Name of the production application environment. Approval remains required.
-    default: prod
-    required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
-  noprod_cluster_name:
-    type: string
-    title: Nonproduction target name
-    description: Name used by bootstrap, cluster administration and baseline releases.
-    default: noprod
-    required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
-  prod_cluster_name:
-    type: string
-    title: Production target name
-    description: Name used by bootstrap and approved cluster administration.
-    default: prod
-    required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
+  application_definitions:
+    type: list
+    title: Applications
+    description: Shared namespace and chart settings for each application.
+    valueType: application_entry
+    default: '[{"name":"sample-app"}]'
+    required: false
 
   application_entry:
     type: object
@@ -155,7 +126,6 @@ variables:
     visible: false
     attributes:
       - application_name
-      - application_components
       - application_namespace
       - application_prod_namespace
       - application_chart_repository
@@ -168,58 +138,67 @@ variables:
     title: Application name
     visible: false
     required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
-  application_components:
-    type: list
-    actualName: components
-    title: Components
-    visible: false
-    required: true
-    valueType: component_entry
+
   application_namespace:
     type: string
     actualName: namespace
-    title: Pre-prod namespace
-    description: Defaults to the application name when omitted.
+    title: Nonproduction namespace
+    description: Defaults to the application name.
     visible: false
 
   application_prod_namespace:
     type: string
     actualName: prod_namespace
     title: Production namespace
-    description: Defaults to the pre-prod namespace when omitted.
+    description: Defaults to the nonproduction namespace.
     visible: false
 
   application_chart_repository:
     type: string
     actualName: chart_repository_name
     title: Chart repository name
-    description: Defaults to <application-name>-chart when omitted.
+    description: Defaults to <application-name>-chart.
     visible: false
 
   application_chart_path:
     type: string
     actualName: chart_path
     title: Chart path
-    description: Defaults to the application name when omitted.
+    description: Defaults to the application name.
     visible: false
 
   application_chart_version:
     type: string
     actualName: chart_version
     title: Initial chart version
-    description: Defaults to 0.1.0 when omitted. Later versions are maintained in Git.
+    description: Defaults to 0.1.0; later versions are maintained in Git.
     visible: false
+
+  components:
+    type: list
+    title: Components
+    description: Each component references an application above. Component names must be globally unique.
+    valueType: component_entry
+    default: '[{"application":"sample-app","name":"sample-api"},{"application":"sample-app","name":"sample-worker"}]'
+    required: false
 
   component_entry:
     type: object
     title: Component
     visible: false
     attributes:
+      - component_application
       - component_name
       - component_build_spec_path
       - component_chart_version
+
+  component_application:
+    type: string
+    actualName: application
+    title: Application name
+    description: Name of an application in the Applications list.
+    visible: false
+    required: true
 
   component_name:
     type: string
@@ -227,21 +206,72 @@ variables:
     title: Component name
     visible: false
     required: true
-    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
-    maxLength: 63
+
   component_build_spec_path:
     type: string
     actualName: build_spec_path
     title: Build specification path
-    description: Leave blank to use <component-name>-build-pipeline.yaml in the configured DevOps pipelines repository. A custom path is relative to that repository; if missing, the stack creates the file and parent folders from the default template without overwriting existing files.
+    description: Defaults to <component-name>-build-pipeline.yaml in the pipelines repository.
     visible: false
 
   component_chart_version:
     type: string
     actualName: chart_version
     title: Initial chart version
-    description: Leave blank to start the component chart at 0.1.0. This seeds Chart.yaml only; subsequent versions are maintained in the chart repository, without overwriting existing files.
+    description: Defaults to 0.1.0; later versions are maintained in Git.
     visible: false
+
+  customize_environment_names:
+    type: boolean
+    title: Customize environment names
+    description: Show custom naming inputs. Saving with this off restores default names.
+    default: false
+
+  dev_environment_name:
+    type: string
+    title: Development environment name
+    description: Name used by development pipelines, Helm releases and Kubernetes labels.
+    default: dev
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  staging_environment_name:
+    type: string
+    title: Staging environment name
+    description: Name of the release-candidate environment before production approval.
+    default: staging
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  prod_environment_name:
+    type: string
+    title: Production environment name
+    description: Name of the production application environment. Approval remains required.
+    default: prod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  noprod_cluster_name:
+    type: string
+    title: Non-production cluster target name
+    description: Name used by bootstrap, cluster administration and baseline releases.
+    default: noprod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  prod_cluster_name:
+    type: string
+    title: Production cluster target name
+    description: Name used by bootstrap and approved cluster administration.
+    default: prod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
 
   administration_tools:
     type: list
@@ -585,28 +615,6 @@ variables:
       ]
 
       The optional build_spec_path is relative to the configured DevOps pipelines repository. When omitted, the stack generates <component>-build-pipeline.yaml. When specified, the stack creates the file and any parent folders from the default template only if it is missing. After that first commit the specification is user-owned and is never refreshed or overwritten. Multiple components can reference the same specification.
-
-  applications:
-    title: Applications
-    description: Applications and globally unique components to bootstrap. Optional build specification paths reference user-owned files in the pipelines repository.
-    type: list
-    valueType: application_entry
-    required: true
-    default: |
-      [
-        {
-          "name": "sample-app",
-          "components": [
-            {
-              "name": "sample-api"
-            },
-            {
-              "name": "sample-worker"
-            }
-          ]
-        }
-      ]
-
   enable_cluster_admin:
     title: Enable Cluster Administration
     description: Create the optional cluster-admin repository, immutable values repository, validation and mirror builds, and noprod/prod orchestration pipelines.

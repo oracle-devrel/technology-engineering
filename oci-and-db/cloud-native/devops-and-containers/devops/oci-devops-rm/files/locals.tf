@@ -5,14 +5,15 @@ locals {
   oke_environments_required    = local.application_delivery_enabled || local.cluster_admin_enabled
 
   git_username           = "${data.oci_identity_tenancy.current_tenancy.name}/${data.oci_identity_user.current_user.name}"
-  raw_application_config = try(jsondecode(var.applications), var.applications)
+  raw_application_config = local.grouped_application_config
   # RM complex controls can submit blank optional attributes instead of omitting them.
-  application_config = [for application in local.raw_application_config : merge(
+  normalized_application_config = [for application in local.raw_application_config : merge(
     { for key, value in application : key => value if key != "components" && (key == "name" || (value != null && value != "")) },
     { components = [for component in application.components : {
       for key, value in component : key => value if key == "name" || (value != null && value != "")
     }] }
   )]
+  application_config       = module.application_config.applications
   raw_cluster_admin_config = try(jsondecode(var.cluster_administration), var.cluster_administration)
   cluster_admin_config = {
     tools = [for tool in try(local.raw_cluster_admin_config.tools, local.raw_cluster_admin_config.noprod.tools, local.raw_cluster_admin_config) : merge(

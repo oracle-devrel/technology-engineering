@@ -1,9 +1,11 @@
+application-inputs.tf
 checks.tf
 credentials.tf
 data.tf
 environment-names.tf
 locals.tf
 main.tf
+modules/application-config/main.tf
 modules/devops/artifacts.tf
 modules/devops/build_pipelines.tf
 modules/devops/cluster_admin_artifacts.tf

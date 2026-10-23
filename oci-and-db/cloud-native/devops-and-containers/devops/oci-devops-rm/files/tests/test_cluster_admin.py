@@ -194,8 +194,8 @@ class DependencyWaveTests(unittest.TestCase):
         self.assertIn('"repository": "https://kedacore.github.io/charts"', schema)
         self.assertIn('"chart": "kube-prometheus-stack"', schema)
         self.assertIn('"version": "87.10.1"', schema)
-        self.assertIn('"name": "sample-api"', schema)
-        self.assertIn('"name": "sample-worker"', schema)
+        self.assertIn('"name":"sample-api"', schema)
+        self.assertIn('"name":"sample-worker"', schema)
 
     def test_cluster_admin_schema_default_is_pretty_printed_json(self):
         schema = yaml.safe_load((ROOT / "schema.yaml").read_text(encoding="utf-8"))
@@ -251,11 +251,11 @@ class DependencyWaveTests(unittest.TestCase):
         self.assertRegex("ocirsecret", secret["pattern"])
         self.assertNotRegex("OCISecret", secret["pattern"])
 
-        applications = fields["applications"]
+        applications = fields["application_definitions"]
         self.assertEqual(applications["type"], "list")
         self.assertEqual(applications["valueType"], "application_entry")
-        self.assertEqual(fields["application_components"]["valueType"], "component_entry")
-        self.assertEqual(fields["application_name"]["actualName"], "name")
+        self.assertNotIn("application_components", fields["application_entry"]["attributes"])
+        self.assertEqual(fields["components"]["valueType"], "component_entry")
 
         cluster_admin = fields["cluster_administration"]
         self.assertEqual(cluster_admin["type"], "list")

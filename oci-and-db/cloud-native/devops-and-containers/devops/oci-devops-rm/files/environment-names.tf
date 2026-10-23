@@ -1,3 +1,9 @@
+variable "customize_environment_names" {
+  description = "Show environment and cluster target naming inputs in Resource Manager."
+  type        = bool
+  default     = false
+}
+
 variable "dev_environment_name" {
   type        = string
   default     = "dev"

@@ -12,8 +12,11 @@ do not add stages, change cluster selection, or change approval requirements.
 | `noprod_cluster_name` | `noprod` | `sandbox` |
 | `prod_cluster_name` | `prod` | `production` |
 
-Configure the application names in **Application Environment Names**, and the
-cluster target names alongside their OKE selectors in Resource Manager. Names
+Select **Customize environment names** in **Environment Names** to reveal all
+five inputs in Resource Manager. Unchecking hides all five inputs; saving the
+Console form with customization off restores their defaults. Leave customization
+enabled when saving a configuration with custom names.
+The same inputs remain directly configurable through Terraform or the API. Names
 must be lowercase DNS labels, with no slashes, spaces, or leading/trailing
 hyphens. Application names must be distinct from each other; the two target
 names must also be distinct. Application and cluster names may overlap because
@@ -25,7 +28,9 @@ For stacks created or updated through the Resource Manager API, submit
 baseline-only administration. The graphical list control cannot render a
 legacy wrapper such as `{"tools": []}`. Wrapped configurations remain accepted
 by Terraform, but must be converted to the equivalent array before graphical
-editing. The same array format applies to `applications`.
+editing. Applications and Components use separate flat graphical lists to avoid
+Resource Manager's nested-list serialization defect. Components reference their
+application by name. See the [Quickstart](quickstart.md#applications) for inputs.
 
 ## Generated Naming
 
@@ -56,29 +61,9 @@ Terraform resource keys and existing pipeline-ID output keys remain role-based
 the configured names for those roles. Build-only mode does not create application
 deployment resources; cluster administration remains independently selectable.
 
-## Existing Installations
+## Template Ownership
 
-Keeping the defaults preserves existing release identities and workflow keys.
-Changing the inputs is **not** an automatic rename or migration of an installed
-solution. Customer-owned pipelines, stages, artifacts and repository paths retain
-their ownership protections; a newer stack does not overwrite their internals.
-The generated cluster catalog remains stack-managed, so do not change target
-names on a live stack until its pipelines and repository directories are ready.
-
-For an existing installation:
-
-1. Inventory the current releases, namespaces, pipeline overrides and Git paths.
-2. Prepare reviewed repository changes, including the chart's `environmentRole`,
-   custom directory names, runtime scripts, command specs and pipeline defaults.
-3. Plan the coordinated OCI resource/catalog changes explicitly. Stable Terraform
-   keys alone do not update resources protected by lifecycle ignores.
-4. Treat changed Helm release names as new releases. Kubernetes selector labels
-   are immutable, and production names can stay the same while selectors change;
-   plan controlled replacement or a separate namespace rather than expecting
-   an in-place Helm rename. Check Service selectors and traffic before retiring
-   old workloads.
-5. Retain production approvals and run the full delivery and cluster-admin
-   workflow before removing old resources. Nothing is automatically pruned.
-
-Choose names before the first apply whenever possible. There is no automatic
-destructive migration in this feature.
+Choose names before the first apply. Changing names does not rename existing
+Helm releases, update immutable Kubernetes selectors, or overwrite customer-owned
+repository files and pipeline internals. Default names preserve the established
+release identities and workflow keys.

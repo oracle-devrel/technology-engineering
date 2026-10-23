@@ -221,7 +221,7 @@ class DeveloperTemplateTests(unittest.TestCase):
         self.assertNotIn("--deploy-stage-id", command_spec)
 
     def test_application_input_validates_derived_names_and_collisions(self):
-        variables = self.read("variables.tf")
+        variables = self.read("modules/application-config/main.tf")
         self.assertIn("Applications are limited to 46 characters", variables)
         self.assertIn("components to 45", variables)
         self.assertIn("Application namespaces must be unique", variables)
