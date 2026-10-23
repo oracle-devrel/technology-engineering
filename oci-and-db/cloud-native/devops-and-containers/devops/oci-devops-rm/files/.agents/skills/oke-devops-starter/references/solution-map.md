@@ -28,6 +28,12 @@ outputs over deriving OCIDs manually.
 
 ## Naming
 
+These examples use defaults. Read the `environment_names` stack output and
+actual stage parameters for custom application environments and cluster targets.
+Terraform and pipeline-ID output keys remain role-based. Helm `environmentRole`
+controls production naming and final-image behavior, independently of the
+configured label. Never infer production approval requirements from a name.
+
 - Image: `<project>/<application>/<component>:<sha7-or-release>`
 - Umbrella chart: `<project>/charts/<application>`
 - Component chart: `<project>/charts/<application>/<component>`
@@ -38,6 +44,11 @@ outputs over deriving OCIDs manually.
 - Application production baseline: `<application>`
 
 Application names are unique. Component names are globally unique.
+
+Changing names on an installed stack requires a coordinated migration of Git
+paths, starter pipeline internals, Helm releases and immutable Kubernetes
+selectors. Stack applies do not overwrite customer-owned files or automatically
+rename running releases. See `docs/environment-names.md` in the asset.
 
 ## Template Ownership
 

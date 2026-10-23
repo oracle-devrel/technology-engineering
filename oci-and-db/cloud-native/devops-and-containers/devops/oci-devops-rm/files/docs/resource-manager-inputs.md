@@ -1,5 +1,11 @@
 # Resource Manager Inputs
 
+Application environment names default to `dev`, `staging`, and `prod`;
+cluster target names default to `noprod` and `prod`. These are independent
+of the selected OKE cluster names and application namespaces. See
+[Environment Names](environment-names.md) for the inputs, generated names,
+and generated names.
+
 The Resource Manager schema is organized around the decisions a developer platform team must make up front. Most names and paths are derived.
 
 Application configuration supports the [developer workflow](developers.md). The optional cluster-administration configuration supports the independent [cluster operations workflow](cluster-operations.md). Select `application_delivery_mode` first because it controls whether the OKE application-delivery inputs and resources are needed.
@@ -43,29 +49,16 @@ In `build_only` mode, application chart repositories, chart artifacts, release p
 
 ## Applications
 
-`applications` uses a structured list with nested component objects. Keep the normal input small: an application name and one or more component names. The JSON examples below show the equivalent configuration; legacy JSON-string Terraform inputs remain accepted.
+Use two flat graphical lists: `application_definitions` for shared application
+settings, and `components` for component settings. Each component references its
+application by name. Both inputs also accept JSON arrays through the API.
 
-```json
-[
-  {
-    "name": "shop",
-    "components": [
-      { "name": "invoice" }
-    ]
-  },
-  {
-    "name": "orders",
-    "components": [
-      {
-        "name": "checkout",
-        "build_spec_path": "java/java-build-pipeline.yaml"
-      },
-      {
-        "name": "fulfillment",
-        "build_spec_path": "java/java-build-pipeline.yaml"
-      }
-    ]
-  }
+```hcl
+application_definitions = [{ name = "shop" }, { name = "orders" }]
+components = [
+  { application = "shop", name = "invoice" },
+  { application = "orders", name = "checkout", build_spec_path = "java/java-build-pipeline.yaml" },
+  { application = "orders", name = "fulfillment", build_spec_path = "java/java-build-pipeline.yaml" }
 ]
 ```
 

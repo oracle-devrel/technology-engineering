@@ -48,21 +48,23 @@ and upgrade boundaries.
 
 ### Applications
 
-Use the structured Applications list to add applications and their components.
-The following JSON shows the equivalent configuration; existing JSON-string
-Terraform inputs remain supported. The default shape is:
+Use two graphical lists: **Applications** for shared namespace and chart settings,
+and **Components** for component names, build paths and initial chart versions.
+Each component's `application` must match an application name. Every application
+needs at least one component, and component names must be globally unique.
 
-```json
-[
-  {
-    "name": "sample-app",
-    "components": [
-      { "name": "sample-api" },
-      { "name": "sample-worker" }
-    ]
-  }
+The Terraform/API inputs are `application_definitions` and `components`:
+
+```hcl
+application_definitions = [{ name = "shop" }, { name = "orders" }]
+components = [
+  { application = "shop", name = "shop-api" },
+  { application = "shop", name = "shop-worker" },
+  { application = "orders", name = "orders-api" }
 ]
 ```
+
+The default lists define sample-app with sample-api and sample-worker.
 
 Use application names for namespaces and umbrella charts. Component names must be globally unique because they become top-level repository, pipeline, chart, and image identities.
 
