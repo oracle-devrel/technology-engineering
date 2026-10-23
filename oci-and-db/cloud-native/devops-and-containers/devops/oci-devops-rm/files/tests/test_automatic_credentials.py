@@ -49,7 +49,7 @@ class AutomaticCredentialTests(unittest.TestCase):
     def test_form_group_order_and_help_length(self):
         schema = yaml.safe_load(self.read("schema.yaml"))
         groups = {group["title"]: group["variables"] for group in schema["variableGroups"]}
-        self.assertEqual(groups["Applications"], ["applications"])
+        self.assertEqual(groups["Applications"], ["application_definitions", "components"])
         for name in ("application_namespace_help", "cluster_administration_help", "automatic_credentials_compartment_id", "namespace_init_secret_compartment_id"):
             self.assertIn(name, groups["Hidden"])
         self.assertRegex(self.read("credentials.tf"), r"credentials_compartment_id\s*=\s*module.devops.devops_project_compartment_id")

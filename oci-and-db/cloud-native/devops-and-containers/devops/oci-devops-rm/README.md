@@ -1,6 +1,6 @@
 # OKE DevOps Starter
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.2.0/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.3.0/stack.zip)
 
 This OCI Resource Manager stack bootstraps OCI DevOps workflows for both application developers and OKE cluster administrators.
 
@@ -10,10 +10,10 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](files/docs/quickstart.md)**.
 
-Reviewed: 14.10.2026
+Reviewed: 23.10.2026
 
-See the [1.2.0 upgrade notes](files/docs/release-1.2.0.md) for automatic credentials,
-scoped IAM, and structured Resource Manager inputs.
+See the [1.3.0 release notes](files/docs/release-1.3.0.md) for configurable
+environment names and the flat graphical application editor.
 
 # When to use this asset?
 
@@ -73,6 +73,8 @@ The default sample creates:
 - Optional cluster administration repository when enabled: `cluster-admin`
 
 ## Documentation
+
+- [Environment Names](files/docs/environment-names.md): configure application and cluster target names while preserving workflow roles and production approvals.
 
 - [Quickstart](files/docs/quickstart.md): configure the Resource Manager form, apply the stack, deploy the first application, promote a release, and enable cluster operations.
 
@@ -162,21 +164,15 @@ Before execution, `cluster-admin-build` prints the selected clusters, dependency
 
 ## Application Configuration Example
 
-```json
-[
-  {
-    "name": "shop",
-    "components": [
-      { "name": "invoice" }
-    ]
-  },
-  {
-    "name": "orders",
-    "components": [
-      { "name": "checkout" },
-      { "name": "fulfillment" }
-    ]
-  }
+Use the separate Applications and Components lists in Resource Manager, or pass
+the equivalent Terraform inputs:
+
+```hcl
+application_definitions = [{ name = "shop" }, { name = "orders" }]
+components = [
+  { application = "shop", name = "invoice" },
+  { application = "orders", name = "checkout" },
+  { application = "orders", name = "fulfillment" }
 ]
 ```
 

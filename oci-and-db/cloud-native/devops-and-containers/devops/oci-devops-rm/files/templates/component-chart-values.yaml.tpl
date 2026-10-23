@@ -1,5 +1,7 @@
 replicaCount: 1
 environment: ""
+# Stable workflow role; an empty value preserves legacy environment-based behavior.
+environmentRole: ""
 nameOverride: ""
 
 application:

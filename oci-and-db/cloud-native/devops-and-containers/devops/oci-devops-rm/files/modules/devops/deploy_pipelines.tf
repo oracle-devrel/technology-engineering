@@ -3,7 +3,7 @@ resource "oci_devops_deploy_pipeline" "deploy_application" {
 
   project_id   = local.devops_project_id
   display_name = "${each.value.name}-deploy"
-  description  = "Promotes the ${each.value.name} namespace baseline through noprod approval and production"
+  description  = "Promotes the ${each.value.name} namespace baseline from ${var.environment_names.noprod_cluster} to approved ${var.environment_names.prod_cluster}"
   freeform_tags = {
     application = each.value.name
   }
@@ -30,8 +30,8 @@ resource "oci_devops_deploy_pipeline" "deploy_component" {
   for_each = local.component_environment_pairs
 
   project_id   = local.devops_project_id
-  display_name = each.value.environment == "staging" ? "${each.value.name}-release" : "${each.value.name}-${each.value.environment}-deploy"
-  description  = each.value.environment == "staging" ? "Promotes ${each.value.name} through staging approval and production" : "Deploys the ${each.value.environment} ${each.value.name} Helm release from OCIR"
+  display_name = each.value.environment_role == "staging" ? "${each.value.name}-release" : "${each.value.name}-${each.value.environment}-deploy"
+  description  = each.value.environment_role == "staging" ? "Promotes ${each.value.name} from ${var.environment_names.staging} to approved ${var.environment_names.prod}" : "Deploys the ${each.value.environment} ${each.value.name} Helm release from OCIR"
   freeform_tags = {
     application = each.value.application_name
     component   = each.value.name
@@ -56,7 +56,7 @@ resource "oci_devops_deploy_pipeline" "deploy_component" {
     items {
       name          = "image_tag"
       default_value = ""
-      description   = each.value.environment == "staging" ? "Release candidate image tag to deploy, for example 1.0.0-rc.1" : "Image tag for ${each.value.name}; set explicitly for manual deployments"
+      description   = each.value.environment_role == "staging" ? "Release candidate image tag to deploy, for example 1.0.0-rc.1" : "Image tag for ${each.value.name}; set explicitly for manual deployments"
     }
 
     items {
@@ -77,7 +77,7 @@ resource "oci_devops_deploy_pipeline" "application_bootstrap" {
 
   project_id   = local.devops_project_id
   display_name = "${each.value.name}-bootstrap"
-  description  = "Initializes the ${each.value.name} namespace and OCIR pull secret on noprod and prod"
+  description  = "Initializes the ${each.value.name} namespace and OCIR pull secret on ${var.environment_names.noprod_cluster} and ${var.environment_names.prod_cluster}"
   freeform_tags = {
     application = each.value.name
     role        = "application-bootstrap"
@@ -193,8 +193,8 @@ resource "oci_devops_deploy_stage" "approve_application_prod_baseline" {
 
   deploy_pipeline_id = oci_devops_deploy_pipeline.deploy_application[each.key].id
   deploy_stage_type  = "MANUAL_APPROVAL"
-  description        = "Approve promotion of ${each.value.name} namespace baseline from noprod to production"
-  display_name       = "${each.value.name}-prod-approve"
+  description        = "Approve promotion of ${each.value.name} namespace baseline from ${var.environment_names.noprod_cluster} to ${var.environment_names.prod_cluster}"
+  display_name       = "${each.value.name}-${var.environment_names.prod_cluster}-approve"
 
   deploy_stage_predecessor_collection {
     items {
@@ -213,8 +213,8 @@ resource "oci_devops_deploy_stage" "deploy_application_prod" {
   are_hooks_enabled                 = true
   deploy_pipeline_id                = oci_devops_deploy_pipeline.deploy_application[each.key].id
   deploy_stage_type                 = "OKE_HELM_CHART_DEPLOYMENT"
-  description                       = "Install or upgrade the prod ${each.value.name} baseline Helm chart from OCIR"
-  display_name                      = "${each.value.name}-prod-deploy"
+  description                       = "Install or upgrade the ${var.environment_names.prod_cluster} ${each.value.name} baseline Helm chart from OCIR"
+  display_name                      = "${each.value.name}-${var.environment_names.prod_cluster}-deploy"
   helm_chart_deploy_artifact_id     = oci_devops_deploy_artifact.application_chart[each.key].id
   max_history                       = 5
   namespace                         = each.value.prod_namespace
@@ -283,8 +283,8 @@ resource "oci_devops_deploy_stage" "approve_component_prod_release" {
 
   deploy_pipeline_id = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
   deploy_stage_type  = "MANUAL_APPROVAL"
-  description        = "Approve promotion of ${each.value.name} from staging to production"
-  display_name       = "${each.value.name}-prod-approve"
+  description        = "Approve promotion of ${each.value.name} from ${var.environment_names.staging} to ${var.environment_names.prod}"
+  display_name       = "${each.value.name}-${var.environment_names.prod}-approve"
 
   deploy_stage_predecessor_collection {
     items {
@@ -341,8 +341,8 @@ resource "oci_devops_deploy_stage" "deploy_component_prod" {
   are_hooks_enabled                 = true
   deploy_pipeline_id                = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
   deploy_stage_type                 = "OKE_HELM_CHART_DEPLOYMENT"
-  description                       = "Install or upgrade the prod ${each.value.name} Helm chart from OCIR"
-  display_name                      = "${each.value.name}-prod-deploy"
+  description                       = "Install or upgrade the ${var.environment_names.prod} ${each.value.name} Helm chart from OCIR"
+  display_name                      = "${each.value.name}-${var.environment_names.prod}-deploy"
   helm_chart_deploy_artifact_id     = oci_devops_deploy_artifact.component_chart[each.key].id
   max_history                       = 5
   namespace                         = each.value.application_prod_namespace
@@ -375,12 +375,12 @@ resource "oci_devops_deploy_stage" "verify_component_prod" {
   deploy_pipeline_id              = oci_devops_deploy_pipeline.deploy_component["${each.key}:staging"].id
   deploy_stage_type               = "SHELL"
   description                     = "Report the completed production Helm release status"
-  display_name                    = "${each.value.name}-prod-status"
+  display_name                    = "${each.value.name}-${var.environment_names.prod}-status"
   timeout_in_seconds              = 600
   freeform_tags = {
     application = each.value.application_name
     component   = each.value.name
-    environment = "prod"
+    environment = var.environment_names.prod
     namespace   = each.value.application_prod_namespace
     release     = each.value.name
     role        = "deployment-status"
