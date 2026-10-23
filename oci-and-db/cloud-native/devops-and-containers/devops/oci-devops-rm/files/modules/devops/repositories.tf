@@ -259,10 +259,11 @@ resource "null_resource" "seed_platform_shared" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.platform_pipelines.http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
+      REPO_CLONE_URL       = oci_devops_repository.platform_pipelines.http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
       # OCI can create a hosted repository with an empty initial commit. Add-only
       # seeds missing starter paths without overwriting adopted repository content.
       SEED_MODE = "add-only"
@@ -290,11 +291,12 @@ resource "null_resource" "seed_platform_entities" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.platform_pipelines.http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
+      REPO_CLONE_URL       = oci_devops_repository.platform_pipelines.http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
       SEED_PATHS = join("\n", concat(
         [for name in sort(keys(local.delivery_applications_by_name)) : "${name}-package-pipeline.yaml"],
         [for name in sort(keys(local.generated_component_build_specs)) : local.generated_component_build_specs[name].build_spec_path],
@@ -330,11 +332,12 @@ resource "null_resource" "refresh_platform_development" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.platform_pipelines.http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "refresh"
+      REPO_CLONE_URL       = oci_devops_repository.platform_pipelines.http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "refresh"
       SEED_PATHS = join("\n", concat(
         concat(["README.md", "script"], local.application_delivery_enabled ? ["helm-chart-pipeline.yaml"] : []),
         [for name in sort(keys(local.delivery_applications_by_name)) : "${name}-package-pipeline.yaml"],
@@ -372,13 +375,14 @@ resource "null_resource" "seed_application_source" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.application_source[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
-      SEED_PATHS     = join("\n", ["README.md", "Dockerfile", ".oci-devops"])
-      SOURCE_REPO    = "/${each.value.repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.application_source[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
+      SEED_PATHS           = join("\n", ["README.md", "Dockerfile", ".oci-devops"])
+      SOURCE_REPO          = "/${each.value.repo_path}"
     }
     working_dir = path.root
   }
@@ -403,11 +407,12 @@ resource "null_resource" "seed_application_chart_baseline" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.application_chart[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
+      REPO_CLONE_URL       = oci_devops_repository.application_chart[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
       SEED_PATHS = join("\n", [
         "README.md",
         "${each.value.chart_path}/Chart.yaml",
@@ -439,11 +444,12 @@ resource "null_resource" "seed_application_chart_components" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.application_chart[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
+      REPO_CLONE_URL       = oci_devops_repository.application_chart[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
       SEED_PATHS = join("\n", [
         for component in each.value.components : "${each.value.chart_path}/charts/${component.name}"
       ])

@@ -3,6 +3,45 @@ output "devops_project_id" {
   value       = local.devops_project_id
 }
 
+output "repository_ids" {
+  description = "Only hosted repositories created by this stack."
+  value = concat(
+    [oci_devops_repository.platform_pipelines.id],
+    [for repo in oci_devops_repository.application_source : repo.id],
+    [for repo in oci_devops_repository.application_chart : repo.id],
+    [for repo in oci_devops_repository.cluster_admin : repo.id]
+  )
+}
+
+output "bootstrap_pipeline_ids" {
+  value = [for pipeline in oci_devops_deploy_pipeline.application_bootstrap : pipeline.id]
+}
+
+output "execution_resource_ids" {
+  description = "Exact identities permitted to join the pipeline dynamic group."
+  value = concat(
+    [oci_devops_repository.platform_pipelines.id],
+    [for repo in oci_devops_repository.application_source : repo.id],
+    [for repo in oci_devops_repository.application_chart : repo.id],
+    [for repo in oci_devops_repository.cluster_admin : repo.id],
+    [for pipeline in oci_devops_build_pipeline.application_delivery : pipeline.id],
+    [for pipeline in oci_devops_build_pipeline.application_pull_request : pipeline.id],
+    [for pipeline in oci_devops_build_pipeline.release_application : pipeline.id],
+    [for pipeline in oci_devops_build_pipeline.application_baseline_package : pipeline.id],
+    [for pipeline in oci_devops_build_pipeline.cluster_admin_build : pipeline.id],
+    [for pipeline in oci_devops_build_pipeline.cluster_admin_pr : pipeline.id],
+    [for pipeline in oci_devops_build_pipeline.cluster_admin_mirror : pipeline.id],
+    [for pipeline in oci_devops_deploy_pipeline.deploy_application : pipeline.id],
+    [for pipeline in oci_devops_deploy_pipeline.deploy_component : pipeline.id],
+    [for pipeline in oci_devops_deploy_pipeline.application_bootstrap : pipeline.id],
+    [for pipeline in oci_devops_deploy_pipeline.cluster_admin : pipeline.id],
+    [for pipeline in oci_devops_deploy_pipeline.cluster_admin_decommission : pipeline.id],
+    [for trigger in oci_devops_trigger.application_source_commit : trigger.id],
+    [for trigger in oci_devops_trigger.application_chart_commit : trigger.id],
+    [for trigger in oci_devops_trigger.cluster_admin_commit : trigger.id]
+  )
+}
+
 output "devops_project_name" {
   description = "Resolved name of the created or reused OCI DevOps project."
   value       = local.devops_project_name

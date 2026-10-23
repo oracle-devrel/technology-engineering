@@ -9,7 +9,7 @@ flowchart LR
   PR["Cluster admin pull request"] --> Validate["cluster-admin-pr"]
   Validate --> Merge["Merge to main"]
   Merge --> Build["cluster-admin-build"]
-  Build --> Detect["Detect changed stages"]
+  Build --> Detect["Detect changed targets"]
   Detect --> Mirror["Mirror missing charts"]
   Detect --> Target{"Target cluster"}
   Target -->|noprod| Wave1["Dependency wave 1"]
@@ -17,7 +17,7 @@ flowchart LR
   Approval --> Wave1
   Wave1 --> Wave2["Dependency wave 2"]
   Wave2 --> Baseline["Cluster-wide resources"]
-  Baseline --> Done["Selected stages complete"]
+  Baseline --> Done["Selected targets complete"]
 ```
 
 ## Repository Layout
@@ -49,7 +49,7 @@ clusters/
 <devops-project>/charts/cluster-tools/<chart>
 ```
 
-The target path uses the upstream chart name because Helm derives the OCI repository name from chart metadata. The logical tool name remains the pipeline, stage, namespace-default, and tagging identity.
+The target path uses the upstream chart name because Helm derives the OCI repository name from chart metadata. The logical tool name remains the deployment-plan, namespace-default, and tagging identity.
 
 The mirror pipeline removes only non-ASCII chart annotations before pushing because OCIR normalizes that OCI manifest metadata. Chart templates, values, dependencies, and runtime behavior are unchanged.
 
@@ -93,12 +93,12 @@ Before any chart mirror, approval, or mutation, the build prints a deterministic
 
 | Changed path | Selected action |
 | --- | --- |
-| `clusters/<cluster>/baseline/*.yaml` | Baseline stage |
-| `clusters/<cluster>/tools/<tool>/values.yaml` | Tool Helm stage |
-| `clusters/<cluster>/tools/<tool>/tool.yaml` | Tool Helm stage |
-| `clusters/<cluster>/tools/<tool>/resources/*.yaml` | Supplemental resources stage |
-| `clusters/<cluster>/tools/<tool>/verify.sh` | Supplemental resources stage |
-| `catalog/tools.yaml` | Helm stages for configured tools |
+| `clusters/<cluster>/baseline/*.yaml` | Apply baseline resources |
+| `clusters/<cluster>/tools/<tool>/values.yaml` | Tool Helm action |
+| `clusters/<cluster>/tools/<tool>/tool.yaml` | Tool Helm action |
+| `clusters/<cluster>/tools/<tool>/resources/*.yaml` | Apply supplemental resources and run verification |
+| `clusters/<cluster>/tools/<tool>/verify.sh` | Apply supplemental resources and run verification |
+| `catalog/tools.yaml` | Helm actions for configured tools |
 
 When both parts of a tool change, Helm runs first and supplemental resources follow. Independent tools run in dependency waves. If cluster-wide resources are selected in the same change, the baseline runs only after all selected tool work completes. Prod pauses inside `cluster-admin-prod` before its orchestrator mutates the cluster; noprod begins immediately.
 
@@ -106,7 +106,7 @@ When both parts of a tool change, Helm runs first and supplemental resources fol
 
 Place ClusterRoles, ClusterRoleBindings, StorageClasses, custom resources, and other non-namespaced objects not owned by a tool chart under `clusters/<cluster>/baseline`.
 
-Tool Helm stages install chart-bundled CRDs. The baseline stage then downloads the exact Git commit, performs a server-side dry run, rejects objects resolved to a namespace, and applies them with field manager `oci-devops-cluster-admin`. This ordering allows baseline custom resources to use APIs introduced by the tool charts.
+The orchestrator uses the exact Git commit and installs chart-bundled CRDs through the selected Helm actions first. For baseline resources, it performs a server-side dry run, rejects objects resolved to a namespace, and applies them with field manager `oci-devops-cluster-admin`. This ordering allows baseline custom resources to use APIs introduced by the tool charts.
 
 ## Tool Deployment
 

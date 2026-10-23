@@ -19,8 +19,9 @@ Before opening the Resource Manager form, prepare:
 - At least one OKE cluster. A separate production cluster is recommended but not required for an evaluation.
 - A worker subnet for each cluster that OCI DevOps shell runners can use.
 - An optional worker NSG for each cluster.
-- An OCI auth token used once to seed the hosted Git repositories.
-- A Vault secret containing the OCIR pull credential used by application bootstrap.
+- Either an OCI auth token for repository seeding and a Vault secret containing
+  the OCIR pull credential, or permission to create these automatically in an
+  existing identity domain.
 - IAM permissions for OCI DevOps, OKE, OCIR, Vault, Logging, and Artifact Registry.
 
 The OKE API can be public or private. Deployment shell runners always use the private endpoint from the selected worker network.
@@ -35,9 +36,21 @@ Choose whether to create a new OCI DevOps project or reuse an existing one. For 
 
 Provide the Git seeding credentials. New projects also expose logging and notification topic configuration; reused projects retain their existing logging, notification, and merge settings. Enable IAM creation only when the stack should create its dynamic group and policy.
 
+Optionally, enable **Create OCI Vault and Credentials**, select the identity
+domain. Automation accounts use a placeholder email. The Vault and secrets use the DevOps project
+compartment automatically. Enable
+**Create IAM** too for stack-managed permissions. The stack creates service
+accounts and token secrets; your supplied auth token still seeds repositories.
+New application bootstrap pipelines receive the
+pull username and secret OCID as defaults. See
+[Automatic Credentials](automatic-credentials.md), especially the state-access
+and upgrade boundaries.
+
 ### Applications
 
-Define applications and their components as formatted JSON. The default shape is:
+Use the structured Applications list to add applications and their components.
+The following JSON shows the equivalent configuration; existing JSON-string
+Terraform inputs remain supported. The default shape is:
 
 ```json
 [

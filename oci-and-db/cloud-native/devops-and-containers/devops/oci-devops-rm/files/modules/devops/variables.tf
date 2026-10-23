@@ -11,6 +11,18 @@ variable "git_username" {}
 variable "git_password" {
   sensitive = true
 }
+variable "credential_policy_ready" {
+  type    = string
+  default = ""
+}
+variable "bootstrap_registry_username" {
+  type    = string
+  default = null
+}
+variable "bootstrap_password_secret_id" {
+  type    = string
+  default = null
+}
 
 variable "create_notification_topic" {
   type = bool

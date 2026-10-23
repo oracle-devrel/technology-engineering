@@ -10,6 +10,11 @@ resource "oci_devops_deploy_pipeline" "deploy_application" {
 
   deploy_pipeline_parameters {
     items {
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Run Helm even when artifacts and stage parameters are unchanged"
+    }
+    items {
       name          = "chart_version"
       default_value = each.value.chart_version
       description   = "Application baseline chart version to deploy"
@@ -33,6 +38,11 @@ resource "oci_devops_deploy_pipeline" "deploy_component" {
   }
 
   deploy_pipeline_parameters {
+    items {
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Run Helm even when artifacts and stage parameters are unchanged"
+    }
     items {
       name          = "component_chart_version"
       default_value = each.value.chart_version
@@ -76,12 +86,12 @@ resource "oci_devops_deploy_pipeline" "application_bootstrap" {
   deploy_pipeline_parameters {
     items {
       name          = "registry_username"
-      default_value = null
+      default_value = var.bootstrap_registry_username
       description   = "OCIR pull username, for example tenancy-namespace/user"
     }
     items {
       name          = "pull_password_secret_ocid"
-      default_value = null
+      default_value = var.bootstrap_password_secret_id
       description   = "Vault secret OCID containing the OCIR pull password or auth token"
     }
     items {
