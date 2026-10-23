@@ -5,11 +5,11 @@ Oracle Database 12c JSON Document store and higher and the Oracle NoSQL Database
 
 Oracle Database Actions is a web-based interface that uses Oracle REST Data Services to provide development, data studio, administration and monitoring features for Oracle Autonomous Database, Oracle Database Cloud Services and on-premises Oracle Database. Database Actions comes already configured, via ORDS, on Autonomous Database.
 
-Reviewed: 26.08.2026
+Reviewed: 23.10.2026
 
 # Team Publications
 
-- [ORDS version 26.2 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
+- [ORDS version 26.3 is now available, time to upgrade!](https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/)
 
 - [JSON & Customer Managed ORDS with ADB](https://medium.com/@devpiotrekk/cloud-scalability-using-customer-managed-oracle-rest-data-service-with-autonomous-json-275fa06e8d22)
     - Article demonstrating the performance of Customer Managed ORDS combined with the Autonomous Database
@@ -24,6 +24,7 @@ Reviewed: 26.08.2026
 # Useful Links
 
 - [ORDS - Latest Release](https://www.oracle.com/tools/ords/ords-changelog.html#tab-id-84383ebb-2b68-42e5-95e4-e4ba2456ad70)
+- [ORDS MCP 26.3 SQL Reports](https://www.thatjeffsmith.com/archive/2026/10/ords-mcp-26-3-a-look-at-sql-reports/)
 - [SQL Developer Web/Database Actions](https://docs.oracle.com/en/database/oracle/sql-developer-web/)
 - [Webinar - ORDS & DevOps](https://www.youtube.com/watch?v=GIRdoGlqIDE)
 - [High Availability (HA) with ORDS](https://docs.oracle.com/en/solutions/deploy-ords-ha-oci/index.html)

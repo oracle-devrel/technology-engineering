@@ -5,7 +5,7 @@ Oracle Database Actions is formerly known as SQL Developer Web and is a web-base
 
 Database Actions, (here also abbreviated as DB Actions), runs in Oracle REST Data Services and access to it is provided through schema-based authentication. To access Database Actions, you must sign in as a database user whose schema has been enabled for Database Actions.
 
-Reviewed: 26.08.2026
+Reviewed: 23.10.2026
 
 # When to use this asset?
 
@@ -32,6 +32,12 @@ To connect to a given database in a multiple database pool scenario, when Databa
     <i><database_pool_name>/<schema_name></i>
 
     then schema name and password in the login-password portion.
+
+## Database Actions - ORDS updates
+Since the releasing of [Oracle REST Data Services 26.3 version](https://www.oracle.com/tools/ords/ords-changelog.html) several fixes on Database Actions issues have been added:
+- Corrected sorting in the Database Actions table list;
+- Corrected the MongoDB API connection dialog so long connection strings are no longer clipped;
+- Executing Scheduler job from jobs menu fails with "ORA-02248: invalid option for alter session".
 
 # Useful Links
 
