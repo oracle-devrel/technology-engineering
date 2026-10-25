@@ -1,0 +1,87 @@
+{
+  "_note": "All patients are fictional and created for this demonstration. Any resemblance to real persons is coincidental.",
+  "patients": [
+    {
+      "mrn": "PT-100234",
+      "name": "Fatimah Al-Harbi",
+      "name_ar": "فاطمة الحربي",
+      "sex": "F",
+      "age": 54,
+      "conditions": ["Type 2 diabetes", "Hypertension"],
+      "allergies": ["Penicillin"],
+      "medications": ["Metformin 1000 mg", "Amlodipine 5 mg", "Atorvastatin 20 mg"],
+      "results": [
+        { "code": "CBC", "value": "Hb 12.8 g/dL, WBC 6.1, Plt 254", "date": "2026-09-18", "source": "Hospital Laboratory" },
+        { "code": "CMP", "value": "Creatinine 68 µmol/L, eGFR 88, K 4.2, Na 139", "date": "2026-09-18", "source": "Hospital Laboratory" },
+        { "code": "UA", "value": "Normal, no protein, no glucose", "date": "2026-09-18", "source": "Hospital Laboratory" },
+        { "code": "HBA1C", "value": "7.1 %", "date": "2026-08-02", "source": "Hospital Laboratory" },
+        { "code": "LIPID", "value": "LDL 2.4 mmol/L, HDL 1.3, TG 1.6", "date": "2026-03-14", "source": "Hospital Laboratory" },
+        { "code": "UACR", "value": "1.8 mg/mmol", "date": "2026-03-14", "source": "Hospital Laboratory" },
+        { "code": "TSH", "value": "2.1 mIU/L", "date": "2026-01-20", "source": "Hospital Laboratory" },
+        { "code": "VITD", "value": "41 nmol/L (insufficient)", "date": "2025-11-05", "source": "Hospital Laboratory" },
+        { "code": "ABO", "value": "O positive", "date": "2019-04-11", "source": "Hospital Blood Bank" }
+      ],
+      "visits": [
+        { "date": "2026-03-14", "reason": "Diabetes annual review", "summary": "Stable glycaemic control. Lipids and kidney screen repeated as due. Statin continued.", "ordered": ["HBA1C", "LIPID", "UACR", "CMP"], "skipped": [], "full_cost": 590, "cost": 590, "saved": 0 },
+        { "date": "2026-08-02", "reason": "Diabetes follow-up", "summary": "HbA1c 7.1%, slightly above target. Metformin dose unchanged, diet counselling given. Lipid panel from March still valid and was not repeated.", "ordered": ["HBA1C"], "skipped": ["LIPID"], "full_cost": 300, "cost": 140, "saved": 160 },
+        { "date": "2026-09-18", "reason": "Dizziness and fatigue", "summary": "Blood count, metabolic panel and urinalysis ordered to investigate dizziness. All within normal range. HbA1c from August not repeated.", "ordered": ["CBC", "CMP", "UA"], "skipped": ["HBA1C"], "full_cost": 500, "cost": 360, "saved": 140 }
+      ]
+    },
+    {
+      "mrn": "PT-100871",
+      "name": "Mohammed Al-Qahtani",
+      "name_ar": "محمد القحطاني",
+      "sex": "M",
+      "age": 38,
+      "conditions": [],
+      "allergies": [],
+      "medications": [],
+      "results": [
+        { "code": "LIPID", "value": "LDL 3.6 mmol/L (borderline high), HDL 1.0, TG 2.1", "date": "2025-12-01", "source": "Hospital Laboratory" },
+        { "code": "CBC", "value": "Hb 15.1 g/dL, WBC 7.4, Plt 230", "date": "2026-01-10", "source": "Hospital Laboratory" },
+        { "code": "CMP", "value": "Creatinine 84 µmol/L, eGFR 96", "date": "2026-01-10", "source": "Hospital Laboratory" },
+        { "code": "HEPB", "value": "HBsAg negative, anti-HBs 120 IU/L (immune)", "date": "2025-12-01", "source": "Hospital Laboratory" },
+        { "code": "ABO", "value": "A positive", "date": "2025-12-01", "source": "Hospital Blood Bank" }
+      ],
+      "visits": [
+        { "date": "2025-12-01", "reason": "Pre-employment check", "summary": "Routine screening. Borderline LDL, advised lifestyle change and recheck in a year.", "ordered": ["LIPID", "HEPB", "ABO"], "skipped": [], "full_cost": 390, "cost": 390, "saved": 0 },
+        { "date": "2026-01-10", "reason": "Fever and sore throat", "summary": "Viral pharyngitis. Blood count and metabolic panel unremarkable.", "ordered": ["CBC", "CMP"], "skipped": [], "full_cost": 300, "cost": 300, "saved": 0 }
+      ]
+    },
+    {
+      "mrn": "PT-101455",
+      "name": "Noura Al-Shehri",
+      "name_ar": "نورة الشهري",
+      "sex": "F",
+      "age": 29,
+      "conditions": ["Iron-deficiency anaemia"],
+      "allergies": [],
+      "medications": ["Ferrous sulfate 200 mg"],
+      "results": [
+        { "code": "CBC", "value": "Hb 11.2 g/dL (low), MCV 76, Plt 310", "date": "2026-09-01", "source": "Hospital Laboratory" },
+        { "code": "FERR", "value": "Ferritin 14 µg/L (low), TSAT 12 %", "date": "2026-09-01", "source": "Hospital Laboratory" },
+        { "code": "VITD", "value": "58 nmol/L", "date": "2026-07-10", "source": "Hospital Laboratory" },
+        { "code": "B12", "value": "380 pmol/L", "date": "2026-06-15", "source": "Hospital Laboratory" },
+        { "code": "TSH", "value": "1.7 mIU/L", "date": "2026-04-01", "source": "Hospital Laboratory" },
+        { "code": "ABO", "value": "B positive", "date": "2024-02-19", "source": "Hospital Blood Bank" }
+      ],
+      "visits": [
+        { "date": "2026-04-01", "reason": "Tiredness", "summary": "Thyroid normal. Advised to return if symptoms persist.", "ordered": ["TSH", "CBC"], "skipped": [], "full_cost": 270, "cost": 270, "saved": 0 },
+        { "date": "2026-06-15", "reason": "Persistent fatigue", "summary": "Mild anaemia found. Iron studies and B12 ordered; iron deficiency confirmed, oral iron started.", "ordered": ["CBC", "FERR", "B12", "VITD"], "skipped": ["TSH"], "full_cost": 850, "cost": 700, "saved": 150 },
+        { "date": "2026-09-01", "reason": "Anaemia follow-up", "summary": "Haemoglobin improving on oral iron. Ferritin still low, continue treatment for three more months. Vitamin D and B12 still valid, not repeated.", "ordered": ["CBC", "FERR"], "skipped": ["VITD", "B12"], "full_cost": 700, "cost": 310, "saved": 390 }
+      ]
+    },
+    {
+      "mrn": "PT-102003",
+      "name": "Khalid Al-Dossari",
+      "name_ar": "خالد الدوسري",
+      "sex": "M",
+      "age": 62,
+      "conditions": ["Hypertension"],
+      "allergies": ["Sulfa drugs"],
+      "medications": ["Losartan 50 mg"],
+      "results": [],
+      "visits": []
+    }
+  ]
+}
