@@ -1,6 +1,8 @@
 
 # Oracle Cloud Infrastructure (OCI) Bastion Service
 
+Reviewed: 14.09.2026
+
 This reusable asset consist of a Python script that creates a bastion session with the Oracle OCI Bastion Service.  The main purposes of this asset are:  
 
 -	Demonstrate the usage of OCI Python SDK

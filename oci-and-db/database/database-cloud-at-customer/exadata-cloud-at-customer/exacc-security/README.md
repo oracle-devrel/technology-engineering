@@ -4,6 +4,12 @@ Exadata Cloud@Customer incorporates multiple layers of security across the infra
 
 <img src="./../images/exadb-infra.png" alt="Infrastructure"> 
 
+Reviewed: 30/07/26
+
+# Table of Contents
+- [Useful Links](#useful-links)
+- [License](#license)
+
 # Useful Links
 
 - [Security Documentation](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-secguide.html)
@@ -21,8 +27,6 @@ Exadata Cloud@Customer incorporates multiple layers of security across the infra
 - [ExaDB-C@C Key Management](./exacc-key-management)
 
 - [ExaDB-C@C Operator Access Control](./exacc-opctls)
-
-Reviewed: 06/26/26
 
 # License
 

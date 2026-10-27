@@ -2,7 +2,7 @@
  
 This document covers the insertion of a vector into a simple table containing the vector data type.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

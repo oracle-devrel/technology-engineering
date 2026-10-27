@@ -2,7 +2,7 @@
  
 Oracle Cloud provides a set of data management services built on self-driving Oracle Autonomous Database technology to deliver automated patching, upgrades, and tuning, including performing all routine database maintenance tasks while the system is running, without human intervention.
 
-Reviewed: 28.10.2025
+Reviewed: 29.07.2026
  
 # Table of Contents
  
@@ -88,8 +88,10 @@ Reviewed: 28.10.2025
     - The blog explains step-by-step how to create a dblink from a serverless ADB to a MS SQL Server using an Oracle Database Gateway as a forwarder. 
 
  - [Best Practices for Parquet File Ingestion with Geospatial Data on Autonomous AI Lakehouse](https://blogs.oracle.com/autonomous-ai-database/best-practices-for-parquet-file-ingestion-with-geospatial-data-on-autonomous-ai-lakehouse)
-    -  The blog explains an efficient method to ingest huge quantity of geospatial data from parquet files into Autonomous AI Data Lakehouse leveraging on technical details as partitioning, interleaving cluster and exchange partition. 
+    -  The blog explains an efficient method to ingest huge quantity of geospatial data from parquet files into Autonomous AI Data Lakehouse leveraging on technical details as partitioning, interleaving cluster and exchange partition.
 
+ - [Post-Quantum Cryptography Readiness in Oracle Autonomous AI Database: AES-256 at Rest and Hybrid TLS 1.3 in Transit](https://medium.com/@adrian.capitanu/post-quantum-cryptography-readiness-for-autonomous-database-aes-256-at-rest-and-hybrid-tls-in-54a1f3810ae8)
+    -  Exploring Autonomous Database’s post-quantum readiness through AES-256 encryption at rest and hybrid TLS.
 
       
 ## Tip of the Day

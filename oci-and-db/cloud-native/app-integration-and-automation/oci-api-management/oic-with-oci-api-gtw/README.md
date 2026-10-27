@@ -2,7 +2,7 @@
  
 *Architecture pattern for exposing APIs deployed in OIC using OCI API Gateway*
 
-Review Date: 03.11.2023
+Review Date: 02.09.2026
 
 # When to use this asset?
  

@@ -2,6 +2,8 @@
 
 Analyze an uploaded video with Gemini models on Oracle Cloud Infrastructure Generative AI.
 
+Reviewed: 04.08.2026
+
 ![OCI GenAI Video Analysis Studio screenshot](./assets/video-analysis-studio-screenshot.png)
 
 ## Publication Status

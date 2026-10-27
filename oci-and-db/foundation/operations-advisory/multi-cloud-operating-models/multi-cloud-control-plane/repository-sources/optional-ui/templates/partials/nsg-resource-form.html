@@ -1,0 +1,136 @@
+{% import "partials/_form_macros.html" as form_macros %}
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <h2 class="card-title text-2xl font-extrabold tracking-tight">Configure Project NSG</h2>
+        <p class="text-base-content/40 text-sm font-medium">Create a project NSG or add approved TCP rules to an existing one.</p>
+    </div>
+</div>
+
+<div class="card bg-base-100">
+    <div class="card-body">
+        <form id="nsg-resource-form" hx-post="/partials/deploy-resource" hx-target="#result">
+            <input type="hidden" name="project" value="{{ project }}">
+            <input type="hidden" name="template_path" value="{{ template_path }}">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Environment</span></label>
+                    <select name="environment" class="select select-bordered w-full" required>
+                        {% for item in environment_options %}
+                        <option value="{{ item }}" {% if item == environment %}selected{% endif %}>{{ item }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Region</span></label>
+                    <select name="region" class="select select-bordered w-full" required>
+                        {% for region in region_options %}
+                        <option value="{{ region }}" {% if region == (selected_region or default_region) %}selected{% endif %}>{{ region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-control mt-4">
+                <label class="label"><span class="label-text">Request type</span></label>
+                <select id="nsg-mode" name="nsg_mode" class="select select-bordered w-full" onchange="updateNsgMode()" required>
+                    <option value="new">Create a new project NSG</option>
+                    <option value="existing">Add rules to an existing project NSG</option>
+                </select>
+            </div>
+
+            <div id="existing-nsg-fields" class="hidden mt-4">
+                <div class="form-control">
+                    <label class="label"><span class="label-text">Existing NSG</span></label>
+                    <input id="existing-nsg-key" name="existing_nsg_key" list="existing-nsg-options" class="input input-bordered w-full" disabled>
+                    <datalist id="existing-nsg-options">
+                        {% for option in nsg_options %}
+                        <option value="{{ option.value }}" label="{{ option.label }}"></option>
+                        {% endfor %}
+                    </datalist>
+                    <label class="label"><span class="label-text-alt text-base-content/50">The NSG list is for the initially selected region. If you choose another region, enter a key that exists in that region.</span></label>
+                </div>
+            </div>
+
+            <div id="new-nsg-fields" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for field in nsg_fields %}
+                <div class="form-control">
+                    <label class="label"><span class="label-text">{{ field.label }}</span></label>
+                    <input class="input input-bordered w-full new-nsg-input" name="{{ field.name }}"
+                        value="{{ field.suggested_value }}" required>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="divider mt-6">Optional TCP ingress rules</div>
+            <p class="text-sm text-base-content/50 mb-3">Add only explicitly requested sources and port ranges. `0.0.0.0/0` is public exposure.</p>
+            <div id="nsg-ingress-rules" class="space-y-4"></div>
+            <button type="button" class="btn btn-outline btn-sm mt-3" onclick="addNsgRule('ingress')">+ Add ingress rule</button>
+
+            <div class="divider mt-6">Optional TCP egress rules</div>
+            <div id="nsg-egress-rules" class="space-y-4"></div>
+            <button type="button" class="btn btn-outline btn-sm mt-3" onclick="addNsgRule('egress')">+ Add egress rule</button>
+
+            {{ form_macros.change_reference_field() }}
+
+            <div class="flex gap-4 mt-6">
+                <button type="submit" class="btn btn-primary">Create governed request</button>
+                <a class="btn btn-ghost" hx-get="/partials/resources-catalog?project={{ project }}" hx-target="#main">Cancel</a>
+            </div>
+        </form>
+        <div id="result" class="mt-4"></div>
+    </div>
+</div>
+
+<template id="nsg-ingress-rule-template">
+    <fieldset class="border border-base-300 rounded-box p-4 space-y-3">
+        <div class="flex justify-between items-center"><strong>Ingress rule</strong><button type="button" class="btn btn-ghost btn-xs" onclick="this.closest('fieldset').remove()">Remove</button></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <input class="input input-bordered" name="nsg_ingress___INDEX___key" placeholder="Rule key" required>
+            <input class="input input-bordered" name="nsg_ingress___INDEX___description" placeholder="Description" required>
+            <input class="input input-bordered" name="nsg_ingress___INDEX___source" placeholder="Source CIDR or NSG" required>
+            <input class="input input-bordered" name="nsg_ingress___INDEX___source_type" placeholder="Source type, for example CIDR_BLOCK" required>
+            <input class="input input-bordered" type="number" min="0" max="65535" name="nsg_ingress___INDEX___port_min" placeholder="Destination port minimum" required>
+            <input class="input input-bordered" type="number" min="0" max="65535" name="nsg_ingress___INDEX___port_max" placeholder="Destination port maximum" required>
+        </div>
+    </fieldset>
+</template>
+
+<template id="nsg-egress-rule-template">
+    <fieldset class="border border-base-300 rounded-box p-4 space-y-3">
+        <div class="flex justify-between items-center"><strong>Egress rule</strong><button type="button" class="btn btn-ghost btn-xs" onclick="this.closest('fieldset').remove()">Remove</button></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <input class="input input-bordered" name="nsg_egress___INDEX___key" placeholder="Rule key" required>
+            <input class="input input-bordered" name="nsg_egress___INDEX___description" placeholder="Description" required>
+            <input class="input input-bordered" name="nsg_egress___INDEX___destination" placeholder="Destination CIDR or NSG" required>
+            <input class="input input-bordered" name="nsg_egress___INDEX___destination_type" placeholder="Destination type, for example CIDR_BLOCK" required>
+            <input class="input input-bordered" type="number" min="0" max="65535" name="nsg_egress___INDEX___port_min" placeholder="Destination port minimum" required>
+            <input class="input input-bordered" type="number" min="0" max="65535" name="nsg_egress___INDEX___port_max" placeholder="Destination port maximum" required>
+        </div>
+    </fieldset>
+</template>
+
+<script>
+    (() => {
+        const counters = { ingress: 0, egress: 0 };
+        window.updateNsgMode = () => {
+            const creating = document.getElementById('nsg-mode').value === 'new';
+            document.getElementById('new-nsg-fields').classList.toggle('hidden', !creating);
+            document.getElementById('existing-nsg-fields').classList.toggle('hidden', creating);
+            document.querySelectorAll('.new-nsg-input').forEach((input) => {
+                input.disabled = !creating;
+            });
+            document.getElementById('existing-nsg-key').disabled = creating;
+        };
+        window.addNsgRule = (direction) => {
+            const template = document.getElementById(`nsg-${direction}-rule-template`);
+            const row = template.content.firstElementChild.cloneNode(true);
+            row.querySelectorAll('[name]').forEach((input) => {
+                input.name = input.name.replace('__INDEX__', counters[direction]);
+            });
+            counters[direction] += 1;
+            document.getElementById(`nsg-${direction}-rules`).appendChild(row);
+        };
+        window.updateNsgMode();
+    })();
+</script>

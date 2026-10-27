@@ -2,6 +2,8 @@
 
 We play with the OCI services and Oracle Software. Here is the list of our favorite components we have expertise in. Our skills include containers, cloud networks, APIs, messaging, developer tools, patterns, open source tooling...
 
+Reviewed: 07.09.2026
+
 # Team Publications
 
 - [GitHub Self Hosted Runner in OCI Container Instances](https://www.youtube.com/watch?v=7sA87-JOMdo)[May 2023]

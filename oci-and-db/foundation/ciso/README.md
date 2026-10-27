@@ -2,7 +2,7 @@
 
 The Technology Engineering Security Specialists team provides end-end Oracle security specialists coverage through Field CISO, Security Design, and IAM sub-areas. Our specialists work closely with Infra Security and Data Security specialists with a mission to transform the IT landscape of strategic customers into a secure, compliant, resilient, and successful workload deployment by evangelizing and applying Oracle’s leading security best practices and services.
 
-Reviewed: 01.02.2024
+Reviewed: 14.09.2026
 
 # Table of Contents
  
@@ -15,13 +15,7 @@ Reviewed: 01.02.2024
  
 - [Approaching Zero Trust Security with Oracle Cloud Infrastructure](https://www.oracle.com/a/ocom/docs/whitepaper-zero-trust-security-oci.pdf)
     - How Oracle Cloud Infrastructure can help organizations adopt a Zero Trust Security model as recommended by the UK National Cyber Security Centre’s 8 principles
- 
-## Oracle Blogs
-
-- [Zero Trust Security - Not a buzz word; but elixir of Cyber Security?](https://blogs.oracle.com/cloudsecurity/post/zero-trust-security-elixir-of-cyber-security)
-    - We hear very frequently of our customers’ plans to adopt a zero-trust model to improve their overall approach to cyber security. Read this blog to understand how Oracle Cloud Infrastructure (OCI) can help accelerate your Zero Trust Security journey.
-
-      
+     
 ## Cloud Coaching Webinars
 
 -  [Oracle's Approach To Cloud Security](https://community.oracle.com/customerconnect/events/604931-oci-oracles-approach-to-cloud-security)
@@ -40,4 +34,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

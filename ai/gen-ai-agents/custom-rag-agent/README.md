@@ -3,7 +3,7 @@ This repository contains the code for the development of a **custom RAG Agent**,
 
 **Author**: L. Saetta
 
-**Reviewed**: 28.01.2026
+**Reviewed**: 04.08.2026
 
 ![UI](images/ui_image.png)
 

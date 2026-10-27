@@ -2,6 +2,8 @@
 
 An autonomous document-processing system built on Oracle Cloud Infrastructure (OCI) Generative AI. It has two modes: an **interactive Gradio UI** for manual document ingestion and RAG queries, and an **autonomous agent** that watches a directory, classifies incoming documents, and produces structured reports with full audit trail.
 
+Reviewed: 04.08.2026
+
 ## Quick Start
 
 ```bash

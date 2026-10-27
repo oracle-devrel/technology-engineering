@@ -1,0 +1,26 @@
+# Customer-local secrets
+.env
+.secrets/
+
+# Local rendering and infrastructure outputs
+staging/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/
+# The resource catalog contains versioned input templates, not environment state.
+!repository-sources/gitops-templates/resources-catalog/**/*.auto.tfvars.json
+__pycache__/
+.pytest_cache/
+.venv/
+
+# Maintainer-only validation; never publish these files.
+/.github/actionlint.yaml
+/validation/
+/scripts/
+**/tests/
+**/test_*.py
+**/*.tftest.hcl
+
+# macOS Finder metadata
+.DS_Store

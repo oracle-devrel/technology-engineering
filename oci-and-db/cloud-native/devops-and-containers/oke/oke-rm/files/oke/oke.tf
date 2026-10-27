@@ -1,0 +1,141 @@
+# NOTE: OKE often requires some policies to work with depending on the use case. You can find a complete list at this link:
+# https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/cloud-native/devops-and-containers/oke/oke-policies/policies.md
+
+module "oke" {
+  source         = "oracle-terraform-modules/oke/oci"
+  version        = "5.5.2"
+  compartment_id = var.oke_compartment_id
+  # Network module - VCN
+  create_vcn                        = false
+  vcn_id                            = var.vcn_id
+  network_compartment_id            = var.network_compartment_id
+  assign_public_ip_to_control_plane = !local.is_cp_subnet_private
+  subnets = {
+    bastion  = { create = "never" }
+    operator = { create = "never" }
+    pub_lb   = { create = "never", id = local.is_lb_subnet_private ? null : local.lb_subnet_id }
+    int_lb   = { create = "never", id = local.is_lb_subnet_private ? local.lb_subnet_id : null }
+    cp       = { create = "never", id = var.cp_subnet_id }
+    workers  = { create = "never", id = var.worker_subnet_id }
+    pods     = { create = "never", id = local.is_flannel ? null : var.pod_subnet_id }
+  }
+  nsgs = {
+    bastion  = { create = "never" }
+    operator = { create = "never" }
+    pub_lb   = { create = "never" }
+    int_lb   = { create = "never" }
+    cp       = { create = "never", id = var.cp_nsg_id }
+    workers  = { create = "never", id = var.worker_nsg_id }
+    pods     = { create = "never", id = var.cni_type == "flannel" ? null : var.pod_nsg_id }
+  }
+  # Network module - security
+  control_plane_allowed_cidrs = var.cp_allowed_cidr_list
+  control_plane_is_public     = !local.is_cp_subnet_private
+  load_balancers              = local.is_lb_subnet_private ? "internal" : "public"
+  preferred_load_balancer     = local.is_lb_subnet_private ? "internal" : "public"
+  # Cluster module
+  create_cluster     = true
+  cluster_kms_key_id = var.cluster_kms_key_id
+  cluster_name       = var.cluster_name
+  cluster_type       = var.cluster_type
+  cni_type           = local.cni
+  kubernetes_version = var.kubernetes_version
+  oke_ip_families    = ["IPv4"]
+  services_cidr      = var.services_cidr
+  pods_cidr          = var.pods_cidr
+
+  # OIDC
+  oidc_discovery_enabled           = local.oidc_discovery_enabled
+  oidc_token_auth_enabled          = local.oidc_authentication_enabled
+  oidc_token_authentication_config = local.oidc_token_authentication_config
+
+  cluster_freeform_tags = local.tag_value.freeformTags
+  cluster_defined_tags  = local.tag_value.definedTags
+
+  # Bastion
+  create_bastion = false
+  # Operator
+  create_operator = false
+
+  ########################## OKE DATA PLANE (to configure) ##############################
+
+  # These are global configurations valid for all the node pools declared. You can see that the prefix is "worker_" because they apply to all workers of the cluster
+  # You can override these global configurations in the node pool definition, and it will have precedence over the global ones.
+
+  worker_pool_mode = "node-pool" # Default mode should be node-pool for managed nodes, other modes are available for self-managed nodes, like instance and instance-pool, but be careful to have the required policy: https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdynamicgrouppolicyforselfmanagednodes.htm
+  #ssh_public_key = ""    # Insert the ssh public key to access worker nodes
+  worker_image_type       = "oke" # The oke mode fetches the latest compatible OKE worker image.
+  worker_image_os_version = "9"   # Default to OKE-managed Oracle Linux 9 worker images.
+  #worker_image_id = ""                     # The image id to use for the worker nodes. For Oracle Linux image details, see https://docs.oracle.com/en-us/iaas/images/
+  # For Ubuntu images, you need to create an Ubuntu custom image in your tenancy first, and then set the OCID of the custom image here
+  # NOTE: set worker_image_type to "custom" and specify an image id to use custom images for all workers
+
+  # Set this to true to enable in-transit encryption on all node pools by default
+  # NOTE: in-transit encryption is supported only for paravirtualized attached block volumes and boot volumes, hence you will need to create another StorageClass in the cluster to attach volume through paravirtualization, as the default oci-bv StorageClass uses iSCSI
+  # Also note that Bare Metal instances do not support paravirtualized volumes, the oke module won't enable it on BM shapes, even if you set this to true
+  worker_pv_transit_encryption = false
+
+  # Enable encryption of volumes with a key managed by you, in your OCI Vault. KMS OCID of the key used for in-transit and at-rest encryption of block volumes
+  #worker_volume_kms_key_id = ""
+
+  /* ABOUT CLOUD INIT
+  The OKE module will automatically generate an optimal cloud-init for both Oracle Linux and Ubuntu nodes. This auto-generated cloud-init is called "default cloud-init".
+  There is the possibility to disable this and to define your own cloud-init. This is not suggested unless you know what you are doing.
+  For Oracle Linux, the oci-growfs command is already inserted in the default cloud-init.
+   */
+
+  # Cloud init to add to all node pools. This will be added to the default_cloud_init
+  #worker_cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/storage.yml")}]
+
+  # To set custom Kubernetes node names on Kubernetes 1.32 or later, use the complete
+  # cloud-init example in cloud-init/custom-hostname.yml on the relevant worker pool:
+  # disable_default_cloud_init = true
+  # cloud_init = [{ content_type = "text/cloud-config", content = file("cloud-init/custom-hostname.yml") }]
+
+
+  # Default Persistent Volume Tags
+  #persistent_volume_defined_tags = {}
+  #persistent_volume_freeform_tags = {}
+
+  # Default Load Balancer Tags
+  #service_lb_defined_tags = {}
+  #service_lb_freeform_tags = {}
+
+  # GLOBAL TAGS TO BE APPLIED ON ALL NODES
+  # NOTE: tags will be applied to both the node pool and the nodes
+  #workers_freeform_tags = {}
+  #workers_defined_tags = {}
+
+  # GLOBAL NODE POOL LABELS TO BE APPLIED ON ALL NODES (Kubernetes labels)
+  #worker_node_labels = {}
+
+  # Additional NSGs to ba attached to all pods
+  # pod_nsg_ids = []
+
+  # Additional NSGs to be attached to all workers
+  #worker_nsg_ids = []
+
+  # Additional NSGs to be attached to the control plane API server
+  #control_plane_nsg_ids = []
+
+  # When using VCN_NATIVE_CNI, set the maximum number of pods for all nodes, must be between 1 and 110
+  #max_pods_per_node = 31
+
+  # Disable IMDSv1 endpoints for self-managed nodes
+  worker_legacy_imds_endpoints_disabled = true
+
+  # Disable IMDSv1 endpoints for managed nodes
+  worker_node_metadata = {
+    areLegacyImdsEndpointsDisabled : "true"
+  }
+
+  # Configure worker pools through the Resource Manager form or Terraform inputs.
+  worker_pools = var.worker_pools
+
+  providers = {
+    oci.home = oci.home
+  }
+  depends_on = [
+    time_sleep.await_precluster_policies
+  ]
+}

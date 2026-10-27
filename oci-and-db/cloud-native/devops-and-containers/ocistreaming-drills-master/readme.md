@@ -1,11 +1,19 @@
-# Start by cloning this repository into your OCI Cloud Shell:
+# OCI Streaming Drills Master
+
+Reviewed: 07.09.2026
+
+# When to use this asset?
+
+# How to use this asset?
+
+## Start by cloning this repository into your OCI Cloud Shell:
 
 ```git
 git clone https://github.com/fharris/ocistreaming-drills
 cd ocistreaming-drills/
 ```
 
-# Producing messages to OCI Streaming with Go
+## Producing messages to OCI Streaming with Go
 
 
 *Example from documentation* 
@@ -38,7 +46,7 @@ go run .
 You sould be able to see a bunch of new messages being sent to OCI Streaming.
 
 
-# Consuming messages from OCI Streaming with Java
+## Consuming messages from OCI Streaming with Java
 
 *Example from documentation* 
 https://docs.oracle.com/en-us/iaas/Content/Streaming/Tasks/streaming-quickstart-oci-sdk-for-java.htm#java-sdk-streaming-quickstart
@@ -91,3 +99,11 @@ mvn install exec:java -Dexec.mainClass=com.oci.stream.Consumer
 ```
 
 You should be able to see the output with the captured messages 
+
+# License
+ 
+Copyright (c) 2026 Oracle and/or its affiliates.
+ 
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+ 
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.

@@ -1,0 +1,26 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: fleet-common-cluster-resources
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: fleet-config
+      namespace: flux-system
+  resources:
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: fleet-common-cluster-resources
+        namespace: flux-system
+      spec:
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: fleet-config
+        path: ./profiles/common/cluster-resources/resources
+        prune: true
+        wait: true
+        timeout: 3m

@@ -6,7 +6,7 @@ This tool allows insurance professionals and adjusters to upload accident images
 
 **Author:** Ali Ottoman  
 
-**Reviewed date:** 19.01.2026
+**Reviewed date:** 04.08.2026
 
 ---
 

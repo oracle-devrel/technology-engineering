@@ -1,0 +1,58 @@
+<!-- Global overview — all projects -->
+<div class="card bg-base-100 mb-6">
+    <div class="card-body">
+        <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+                <h2 class="card-title text-2xl font-extrabold tracking-tight">All Projects</h2>
+                <p class="text-base-content/40 text-sm font-medium">{{ projects | length }} project{{ 's' if projects | length != 1 else '' }} accessible &middot; select one to manage it</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if projects %}
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    {% for p in projects %}
+    <div class="card bg-base-100 hover:border-primary/40 transition-all duration-200 cursor-pointer group"
+         hx-get="/partials/dashboard?project={{ p.name }}"
+         hx-target="#main"
+         hx-indicator="#loading-overlay"
+         onclick="document.getElementById('projectSelector').value='{{ p.name }}'">
+        <div class="card-body">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h3 class="card-title text-base font-bold group-hover:text-primary transition-colors">{{ p.name }}</h3>
+                    {% if p.description %}
+                    <p class="text-sm text-base-content/40 mt-1">{{ p.description }}</p>
+                    {% endif %}
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-base-content/15 group-hover:text-primary/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+            </div>
+            <div class="card-actions justify-end mt-2">
+                <span class="text-xs text-base-content/25 group-hover:text-base-content/40 transition-colors font-medium flex items-center gap-1">
+                    Open
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card bg-base-100">
+    <div class="card-body items-center text-center py-12">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-base-content/15 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+        <h3 class="card-title font-bold">No project repositories are visible</h3>
+        <p class="text-base-content/40 text-sm max-w-xl">Ask the platform/admin team to complete the project handoff and grant access to the handed-off project repository.</p>
+    </div>
+</div>
+{% endif %}

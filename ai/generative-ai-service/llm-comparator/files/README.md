@@ -1,5 +1,7 @@
 # LLM Performance Comparator - Technical Documentation
 
+Reviewed: 04.08.2026
+
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)

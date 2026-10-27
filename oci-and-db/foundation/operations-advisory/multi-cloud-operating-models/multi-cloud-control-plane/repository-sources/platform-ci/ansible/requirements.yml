@@ -1,0 +1,4 @@
+---
+collections:
+  - name: oracle.oci
+    version: "5.5.0"

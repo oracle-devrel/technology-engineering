@@ -2,6 +2,8 @@
 
 Support for Oracle's RTS, GenAI, and TTS services.
 
+Reviewed: 04.08.2026
+
 See [https://docs.livekit.io/agents/integrations/oracle/](https://docs.livekit.io/agents/integrations/oracle/) for more information.
 
 ## Installation

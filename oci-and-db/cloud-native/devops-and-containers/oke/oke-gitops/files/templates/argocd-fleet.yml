@@ -1,0 +1,340 @@
+# Native Argo CD fleet delivery.
+#
+# Each cluster object declares exactly one clusterResourcesPath in
+# clusters/<cluster>/cluster.yaml. Only namespaced and Helm workloads use
+# descriptors below clusters/<cluster>/applications/.
+#
+# The descriptor's `cluster` value matches the
+# fleet.oke.oracle.com/cluster label on an Argo CD cluster Secret. Descriptor
+# paths point to an umbrella profile under profiles/<profile>/. A profile may
+# be shared or intentionally dedicated to one cluster.
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: fleet
+  namespace: argocd
+spec:
+  description: Fleet administrator configuration for registered clusters
+  sourceRepos:
+    - '*'
+  destinations:
+    - server: '*'
+      namespace: '*'
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: fleet-cluster-resources
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: ${fleet_config_repo_url}
+              revision: HEAD
+              files:
+                - path: clusters/*/cluster.yaml
+          - clusters:
+              selector:
+                matchLabels:
+                  fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+  template:
+    metadata:
+      name: 'fleet-cluster-resources-{{ .nameNormalized }}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/part-of: fleet
+        app.kubernetes.io/component: cluster-resources
+        fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+    spec:
+      project: fleet
+      source:
+        repoURL: ${fleet_config_repo_url}
+        targetRevision: HEAD
+        path: '{{ .clusterResourcesPath }}'
+      destination:
+        server: '{{ .server }}'
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+        automated:
+          prune: true
+          selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: fleet-kustomize
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: ${fleet_config_repo_url}
+              revision: HEAD
+              files:
+                - path: clusters/*/applications/*/kustomize.application.yaml
+          - clusters:
+              selector:
+                matchLabels:
+                  fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+  template:
+    metadata:
+      name: '{{ .application }}-{{ .nameNormalized }}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/part-of: fleet
+        fleet.oke.oracle.com/application: '{{ .application }}'
+        fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+    spec:
+      project: fleet
+      source:
+        repoURL: ${fleet_config_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: fleet-helm-repository
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: ${fleet_config_repo_url}
+              revision: HEAD
+              files:
+                - path: clusters/*/applications/*/helm-repository.application.yaml
+          - clusters:
+              selector:
+                matchLabels:
+                  fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+  template:
+    metadata:
+      name: '{{ .application }}-{{ .nameNormalized }}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/part-of: fleet
+        fleet.oke.oracle.com/application: '{{ .application }}'
+        fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+    spec:
+      project: fleet
+      sources:
+        - repoURL: '{{ .helm.repository }}'
+          chart: '{{ .helm.chart }}'
+          targetRevision: '{{ .helm.version }}'
+          helm:
+            releaseName: '{{ .helm.releaseName }}'
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          path: '{{ .resourcesPath }}'
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+  # templatePatch adds the ordered list because Go templates cannot render
+  # arrays in spec.template. MergePatch replaces arrays atomically, so all
+  # three sources must be repeated here to preserve them.
+  templatePatch: |
+    spec:
+      sources:
+        - repoURL: {{ .helm.repository | toJson }}
+          chart: {{ .helm.chart | toJson }}
+          targetRevision: {{ .helm.version | toJson }}
+          helm:
+            releaseName: {{ .helm.releaseName | toJson }}
+            valueFiles:
+            {{- range $valueFile := .helm.valueFiles }}
+              - {{ printf "$values/%s" $valueFile | toJson }}
+            {{- end }}
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          path: {{ .resourcesPath | toJson }}
+
+---
+# Logical applications use one hub-side parent Application. The parent owns
+# infrastructure and a component ApplicationSet, ordered with sync waves. The
+# generated component Applications deploy directly to the registered spoke.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: fleet-applications
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: ${fleet_config_repo_url}
+              revision: HEAD
+              files:
+                - path: clusters/*/applications/*/application.yaml
+          - clusters:
+              selector:
+                matchLabels:
+                  fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+  template:
+    metadata:
+      name: '{{ .application }}-{{ .nameNormalized }}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/part-of: fleet
+        app.kubernetes.io/name: '{{ .application }}'
+        app.kubernetes.io/component: application-parent
+        fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+    spec:
+      project: fleet
+      source:
+        repoURL: ${fleet_config_repo_url}
+        targetRevision: HEAD
+        path: '{{ .resourcesPath }}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        syncOptions:
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+        automated:
+          prune: true
+          selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: fleet-helm-git
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: ${fleet_config_repo_url}
+              revision: HEAD
+              files:
+                - path: clusters/*/applications/*/helm-git.application.yaml
+          - clusters:
+              selector:
+                matchLabels:
+                  fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+  template:
+    metadata:
+      name: '{{ .application }}-{{ .nameNormalized }}'
+      namespace: argocd
+      labels:
+        app.kubernetes.io/part-of: fleet
+        fleet.oke.oracle.com/application: '{{ .application }}'
+        fleet.oke.oracle.com/cluster: '{{ .cluster }}'
+    spec:
+      project: fleet
+      sources:
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          path: '{{ .helm.path }}'
+          helm:
+            releaseName: '{{ .helm.releaseName }}'
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          path: '{{ .resourcesPath }}'
+      destination:
+        server: '{{ .server }}'
+        namespace: '{{ .namespace }}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+          - PruneLast=true
+          - SkipDryRunOnMissingResource=true
+        automated:
+          prune: true
+          selfHeal: true
+  # See the repository-Helm ApplicationSet above: replacing sources[0] to add
+  # valueFiles replaces the complete sources list, so every source is repeated.
+  templatePatch: |
+    spec:
+      sources:
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          path: {{ .helm.path | toJson }}
+          helm:
+            releaseName: {{ .helm.releaseName | toJson }}
+            valueFiles:
+            {{- range $valueFile := .helm.valueFiles }}
+              - {{ printf "$values/%s" $valueFile | toJson }}
+            {{- end }}
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          ref: values
+        - repoURL: ${fleet_config_repo_url}
+          targetRevision: HEAD
+          path: {{ .resourcesPath | toJson }}

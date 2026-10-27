@@ -1,0 +1,96 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: kube-prometheus-stack
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: v1
+      kind: ConfigMap
+      name: kube-prometheus-stack-values
+      namespace: flux-system
+  inputs:
+    - name: kube-prometheus-stack
+      namespace: monitoring
+      chart: kube-prometheus-stack
+      version: 87.19.1
+      repository: https://prometheus-community.github.io/helm-charts
+      valuesFrom:
+        - kind: ConfigMap
+          name: kube-prometheus-stack-values
+          valuesKey: 00-base.yaml
+        - kind: ConfigMap
+          name: kube-prometheus-stack-values
+          valuesKey: 90-overrides.yaml
+      readyPath: ./platform/applications/kube-prometheus-stack/ready
+      resourcesPath: ./platform/applications/kube-prometheus-stack/resources
+  resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: << inputs.namespace >>
+
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: HelmRepository
+      metadata:
+        name: << inputs.name >>
+        namespace: flux-system
+      spec:
+        interval: 30m
+        url: << inputs.repository >>
+
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: << inputs.name >>
+        namespace: flux-system
+      spec:
+        interval: 30m
+        releaseName: << inputs.name >>
+        targetNamespace: << inputs.namespace >>
+        chart:
+          spec:
+            chart: << inputs.chart >>
+            version: << inputs.version | quote >>
+            sourceRef:
+              kind: HelmRepository
+              name: << inputs.name >>
+        valuesFrom: << inputs.valuesFrom | toYaml | nindent 10 >>
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: << inputs.name >>-ready
+        namespace: flux-system
+      spec:
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+        path: << inputs.readyPath >>
+        prune: true
+        wait: true
+        timeout: 10m
+        healthChecks:
+          - apiVersion: helm.toolkit.fluxcd.io/v2
+            kind: HelmRelease
+            name: << inputs.name >>
+            namespace: flux-system
+
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: << inputs.name >>-resources
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: << inputs.name >>-ready
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+        path: << inputs.resourcesPath >>
+        targetNamespace: << inputs.namespace >>
+        prune: true
+        wait: true
+        timeout: 3m

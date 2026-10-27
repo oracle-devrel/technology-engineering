@@ -1,47 +1,13 @@
-<!--
-Copyright (c) 2026 Oracle and/or its affiliates.
-
-The Universal Permissive License (UPL), Version 1.0
-
-Subject to the condition set forth below, permission is hereby granted to any
-person obtaining a copy of this software, associated documentation and/or data
-(collectively the "Software"), free of charge and under any and all copyright
-rights in the Software, and any and all patent rights owned or freely
-licensable by each licensor hereunder covering either (i) the unmodified
-Software as contributed to or provided by such licensor, or (ii) the Larger
-Works (as defined below), to deal in both
-
-(a) the Software, and
-(b) any piece of software and/or hardware listed in the lrgrwrks.txt file if
-one is included with the Software (each a "Larger Work" to which the Software
-is contributed by such licensors),
-
-without restriction, including without limitation the rights to copy, create
-derivative works of, display, perform, and distribute the Software and make,
-use, sell, offer for sale, import, export, have made, and have sold the
-Software and the Larger Work(s), and to sublicense the foregoing rights on
-either these or other terms.
-
-This license is subject to the following condition:
-The above copyright notice and either this complete permission notice or at
-a minimum a reference to the UPL must be included in all copies or
-substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
--->
 
 # OCI Container Instances Grafana and Prometheus example with Java Sprinboot
-## With multiple volumes and a custom sidecar to tail access log to OCI Logging and mount the Grafana and Prometheus configs from OCI Object Storage bucket for live changes  
 
-Reviewed: 4.12.2025
+With multiple volumes and a custom sidecar to tail access log to OCI Logging and mount the Grafana and Prometheus configs from OCI Object Storage bucket for live changes  
+
+Author <a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
+
+Reviewed: 07.09.2026
  
-## When to use this asset?
+# When to use this asset?
  
 Anyone who wants to experiment with OCI Container Instances and setup a multi-container instance with multiple volumes and have a setup for Prometheus and Grafana. Including:
 
@@ -52,10 +18,7 @@ Anyone who wants to experiment with OCI Container Instances and setup a multi-co
 <li>Custom sidecar also pulls configs in 30s intervals from a Object Storage private bucket for easy config changes to <code>/etc</code> of Prometheus and Grafana containers' shared volume</li>
 </ul>
 
-## Author
-<a href="https://github.com/mikarinneoracle">mikarinneoracle</a>
-
-## How to use this asset?
+# How to use this asset?
 
 ## Build containers
 
@@ -111,7 +74,7 @@ Once created git clone this repo and drag&drop the terraform folder to OCI Resou
 Then, configure the stack vars and apply to have the stack deployed for testing. Destroy and delete after finishing the test.
 
 
-## Useful Links
+# Useful Links
  
 - [OCI Container Instances](https://www.oracle.com/cloud/cloud-native/container-instances/)
     - Learn how OCI Container Instances lets you easily run applications on serverless compute optimized for containers
@@ -124,7 +87,7 @@ Then, configure the stack vars and apply to have the stack deployed for testing.
 - [Oracle](https://www.oracle.com/)
     - Oracle Website
 
-## License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 

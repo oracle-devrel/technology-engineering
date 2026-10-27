@@ -1,0 +1,13 @@
+# Recovery template only. install-gitops-agent normally creates this Secret from OCI Vault.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oci-devops-git-credentials
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+stringData:
+  type: git
+  url: ${git_repo_url_prefix}
+  username: "<tenancy-name>/<identity-domain-name>/<gitops-reader-name>"
+  password: "<gitops-reader-auth-token>"

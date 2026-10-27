@@ -3,6 +3,9 @@ Welcome to this guide on building a groundbreaking application that uses Oracle'
 The application is designed to streamline podcast production through advanced AI capabilities. Starting from a simple text input, the app uses GenAI to generate a structured podcast script. It then enhances the speech output with SSML (Speech Synthesis Markup Language), which gives the audio a natural flow, making it sound like a professional recording. The result is a high-quality audio experience that can cater to a wide range of content needs and audiences.
 This application is built using Oracle Visual Builder Cloud Service (VBCS), a powerful low-code platform that simplifies development and accelerates the creation of robust applications without extensive coding. With this low-code approach, even complex workflows are straightforward to set up, allowing developers to focus on leveraging AI's potential for high-quality audio synthesis.
 This AI-powered solution not only automates and optimizes the podcast creation process but also allows content creators to deliver professional audio content at scale efficiently.
+
+Reviewed: 04.08.2026
+
 # **1. Prepare your user**
    
    In Oracle Cloud Infrastructure (OCI), API keys are used for secure authentication when accessing OCI resources through REST APIs. OCI API keys consist of two parts: a Public key and a Private key. You use the OCI console to generate the Private/Public key pair.

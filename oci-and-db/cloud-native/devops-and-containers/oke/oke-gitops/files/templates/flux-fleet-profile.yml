@@ -1,0 +1,18 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: fleet-${profile_name}
+  namespace: flux-system
+spec:
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: fleet-config
+  path: ./profiles/${profile_name}
+  prune: true
+  wait: true
+  timeout: 5m
+%{ if depends_on != "" ~}
+  dependsOn:
+    - name: fleet-${depends_on}
+%{ endif ~}

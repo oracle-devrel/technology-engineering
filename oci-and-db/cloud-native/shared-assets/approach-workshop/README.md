@@ -1,6 +1,8 @@
 # Approach Workshop
 
-## When to use this asset?
+Reviewed: 07.09.2026
+
+# When to use this asset?
 Do you consider
 - Adopting a cloud native enterprise approach?
 - Automating on-demand services?
@@ -8,7 +10,7 @@ Do you consider
 - Building and running apps that are highly available, resilient, fully secure, and compliant?
 - Modernizing and simplifying your deployments and operations?
 
-## How to use this asset?
+# How to use this asset?
 We will discuss
 - Design principles and best practices that govern application architectures
 - The core requirements that apply to your application

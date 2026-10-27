@@ -1,6 +1,6 @@
 # Document Evaluation Tool using Oracle Generative AI, OCI Document Understanding and Oracle Integration Cloud
 
-Reviewed: 23.09.2025
+Reviewed: 04.08.2026
 
 # Introduction
 

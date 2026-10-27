@@ -1,0 +1,5 @@
+/.github/ __PLATFORM_OWNERS__
+/environments/ __PLATFORM_OWNERS__
+/oci/prod/ __PROD_OWNERS__
+/azure/prod/ __PROD_OWNERS__
+/gcp/prod/ __PROD_OWNERS__

@@ -1,0 +1,42 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: reference-app-components
+  namespace: flux-system
+spec:
+  dependsOn:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: apps-config
+      namespace: flux-system
+  inputs:
+    - name: reference-app-frontend-dev
+      namespace: reference-app
+      resourcesPath: ./applications/reference-app/kustomize/components/frontend/environments/dev
+    - name: reference-app-api-dev
+      namespace: reference-app
+      resourcesPath: ./applications/reference-app/kustomize/components/api/environments/dev
+    - name: reference-app-frontend-staging
+      namespace: reference-app
+      resourcesPath: ./applications/reference-app/kustomize/components/frontend/environments/staging
+    - name: reference-app-api-staging
+      namespace: reference-app
+      resourcesPath: ./applications/reference-app/kustomize/components/api/environments/staging
+  resources:
+    - apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: << inputs.name >>
+        namespace: flux-system
+      spec:
+        dependsOn:
+          - name: reference-app-infrastructure
+        interval: 5m
+        sourceRef:
+          kind: GitRepository
+          name: apps-config
+        path: << inputs.resourcesPath >>
+        targetNamespace: << inputs.namespace >>
+        prune: true
+        wait: true
+        timeout: 3m

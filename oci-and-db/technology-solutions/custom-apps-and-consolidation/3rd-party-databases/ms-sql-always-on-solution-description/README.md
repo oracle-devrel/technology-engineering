@@ -2,7 +2,7 @@
 
 In this folder, we are making available several useful resources that can be used when deploying, using or configuring MS SQL Server.
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # When to use this asset?
 

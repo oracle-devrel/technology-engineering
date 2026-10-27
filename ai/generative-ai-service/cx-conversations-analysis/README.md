@@ -5,7 +5,7 @@ The following example transcribes audio from Call Centers using OCI Speech and t
 
 Example to test it out: [Gridspace-Stanford Harper Valley Dataset](https://github.com/cricketclub/gridspace-stanford-harper-valley)
  
-Reviewed: 11.12.2025
+Reviewed: 04.08.2026
 
 Authors: Yainuvis Socarras and Cristina Granes
  

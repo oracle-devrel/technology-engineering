@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIDP + HeatWave MySQL: End-to-End Integration and Performance Lab</title>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #667085;
+    --line: #d9dee7;
+    --accent: #1f6feb;
+    --accent-soft: #eaf2ff;
+    --code: #111827;
+    --success: #067647;
+    --warn: #b54708;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.65;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 36px 24px 64px; }
+  header {
+    background: linear-gradient(135deg, #102a43, #1f6feb);
+    color: #fff;
+    border-radius: 18px;
+    padding: 42px 44px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 28px rgba(16,42,67,.18);
+  }
+  h1 { margin: 0 0 12px; font-size: 2.35rem; line-height: 1.15; }
+  h2 { margin-top: 42px; font-size: 1.65rem; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+  h3 { margin-top: 28px; font-size: 1.2rem; }
+  p { margin: 10px 0 16px; }
+  .subtitle { font-size: 1.1rem; opacity: .92; max-width: 860px; }
+  .meta { margin-top: 16px; font-size: .92rem; opacity: .86; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(16,24,40,.04);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .stat {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 14px 16px;
+    border-radius: 10px;
+  }
+  .stat strong { display:block; font-size: .92rem; margin-bottom: 4px; }
+  pre {
+    background: var(--code);
+    color: #f3f4f6;
+    padding: 18px 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .inline-code {
+    background: #eef2f7;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-family: ui-monospace, monospace;
+  }
+  .flow {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 12px;
+    padding: 22px;
+    font-family: ui-monospace, monospace;
+    white-space: pre-wrap;
+    overflow-x: auto;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+  th, td { border: 1px solid var(--line); padding: 11px 12px; text-align: left; vertical-align: top; }
+  th { background: #f1f4f8; }
+  .ok { color: var(--success); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .note {
+    border-left: 4px solid #98a2b3;
+    background: #f2f4f7;
+    padding: 14px 16px;
+    border-radius: 8px;
+  }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc li { margin: 6px 0; }
+  footer {
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .9rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>AIDP + HeatWave MySQL: End-to-End Integration and Performance Lab</h1>
+  <div class="subtitle">
+    A practical record of building an OCI AI Data Platform (AIDP) workbench,
+    private workspace and Spark 3.5 compute, connecting an External Catalog to
+    MySQL HeatWave, enabling JDBC access from notebooks, and testing SQL and
+    HeatWave secondary-engine execution modes.
+  </div>
+  <div class="meta">Lab article • 20 August 2026</div>
+</header>
+
+<section class="card">
+  <h2 style="margin-top:0">Executive summary</h2>
+  <p>
+    This lab established an end-to-end path from AIDP notebook execution to a
+    MySQL HeatWave database hosted in an OCI compartment. The work covered the
+    AIDP workbench, private networking, Spark 3.5 compute, an External Catalog,
+    MySQL Connector/J, Spark environment variables, JDBC SQL execution, Spark
+    <span class="inline-code">%sql</span>, transaction/autocommit validation, and
+    performance experiments using HeatWave's secondary engine.
+  </p>
+  <div class="grid">
+    <div class="stat"><strong>AIDP Workbench</strong>Created and configured for the lab.</div>
+    <div class="stat"><strong>Workspace</strong><span class="inline-code">heatwavse_ws</span> with private subnet connectivity.</div>
+    <div class="stat"><strong>Compute</strong> Spark 3.5 compute, referenced as <span class="inline-code">spark35</span>.</div>
+    <div class="stat"><strong>External Catalog</strong><span class="inline-code">heatwave_catalog</span> connected to HeatWave MySQL.</div>
+    <div class="stat"><strong>JDBC</strong> MySQL Connector/J JAR installed for Spark connectivity.</div>
+    <div class="stat"><strong>Credentials</strong> Host, port, user and password supplied through Spark environment variables.</div>
+  </div>
+</section>
+
+<section class="card toc">
+  <h2 style="margin-top:0">Contents</h2>
+  <ol>
+    <li><a href="#architecture">Target architecture</a></li>
+    <li><a href="#workbench">AIDP Workbench and workspace setup</a></li>
+    <li><a href="#catalog">External MySQL catalog</a></li>
+    <li><a href="#jdbc">JDBC driver and environment variables</a></li>
+    <li><a href="#notebook">Notebook and Spark 3.5 validation</a></li>
+    <li><a href="#sql">Executing SQL and using %sql</a></li>
+    <li><a href="#transaction">Autocommit and transaction checks</a></li>
+    <li><a href="#performance">HeatWave secondary-engine testing</a></li>
+    <li><a href="#lessons">What the lab established</a></li>
+    <li><a href="#next">Next steps</a></li>
+  </ol>
+</section>
+
+<section id="architecture" class="card">
+  <h2>1. Target architecture</h2>
+  <div class="flow">AIDP Workbench
+    |
+    +-- Master / External Catalog
+    |      heatwave_catalog
+    |          |
+    |          +---- MySQL HeatWave
+    |
+    +-- Workspace
+           heatwavse_ws
+              |
+              +-- Private subnet / VCN connectivity
+              |
+              +-- Spark 3.5 compute
+                     spark35
+                       |
+                       +-- MySQL Connector/J JAR
+                       |
+                       +-- Environment variables
+                              HEATWAVE_HOST
+                              HEATWAVE_PORT
+                              HEATWAVE_USER
+                              HEATWAVE_PASSWORD
+                       |
+                       +-- Notebook
+                              |
+                              +-- JDBC -> HeatWave MySQL
+                              +-- Spark SQL / %sql</div>
+
+  <p>
+    The important distinction is that the AIDP External Catalog is a platform
+    integration point, while direct Spark access to MySQL HeatWave uses JDBC.
+    The lab deliberately tested both the AIDP catalog setup and the Spark/JDBC
+    data path.
+  </p>
+</section>
+
+<section id="workbench" class="card">
+  <h2>2. AIDP Workbench and workspace setup</h2>
+
+  <h3>2.1 Create the AIDP Workbench</h3>
+  <p>
+    The AIDP Workbench was created as the main authoring and execution environment
+    for the experiment. It provides the workspace, notebook and compute lifecycle
+    used by the rest of the lab.
+  </p>
+
+  <h3>2.2 Create the private workspace</h3>
+  <p>
+    Workspace <span class="inline-code">heatwavse_ws</span> was created with
+    compute networking associated with the HeatWave/private network. The design
+    objective was for Spark to reach the HeatWave private endpoint without
+    exposing the database through a public listener.
+  </p>
+
+  <table>
+    <tr><th>Component</th><th>Lab value</th><th>Purpose</th></tr>
+    <tr><td>Workspace</td><td><code>heatwavse_ws</code></td><td>Notebook and compute execution boundary</td></tr>
+    <tr><td>Network</td><td>Private subnet</td><td>Private path to HeatWave</td></tr>
+    <tr><td>Compute</td><td><code>spark35</code></td><td>Spark 3.5 notebook execution</td></tr>
+  </table>
+
+  <div class="note">
+    <strong>Connectivity principle:</strong> successful catalog creation does not by itself
+    prove that a Spark executor can reach the HeatWave listener. Network routing,
+    subnet security and the database listener still need to permit the Spark path.
+  </div>
+</section>
+
+<section id="catalog" class="card">
+  <h2>3. External MySQL catalog</h2>
+  <p>
+    A master/external catalog named <span class="inline-code">heatwave_catalog</span>
+    was created and configured against the MySQL HeatWave database in the OCI compartment.
+  </p>
+
+  <div class="flow">AIDP
+  |
+  +-- heatwave_catalog
+          |
+          +-- Host / Port
+          +-- Database
+          +-- Credentials
+          |
+          v
+     MySQL HeatWave</div>
+
+  <p>
+    The catalog provides the AIDP integration layer for the HeatWave source. The
+    Spark notebook JDBC path was tested separately because Spark SQL does not
+    automatically treat every AIDP External Catalog as a native Spark SQL catalog.
+  </p>
+</section>
+
+<section id="jdbc" class="card">
+  <h2>4. JDBC driver and environment variables</h2>
+
+  <h3>4.1 Install MySQL Connector/J</h3>
+  <p>
+    The MySQL JDBC driver JAR (Connector/J) was added as a workspace/compute
+    library so the Spark runtime could use:
+  </p>
+
+  <pre><code>com.mysql.cj.jdbc.Driver</code></pre>
+
+  <h3>4.2 Define connection information as Spark environment variables</h3>
+
+  <pre><code>HEATWAVE_HOST
+HEATWAVE_PORT
+HEATWAVE_USER
+HEATWAVE_PASSWORD</code></pre>
+
+  <p>
+    The notebook reads these values at runtime rather than embedding connection
+    information in the source code.
+  </p>
+
+  <pre><code>import os
+
+heatwave_host = os.environ["HEATWAVE_HOST"]
+heatwave_port = int(os.environ["HEATWAVE_PORT"])
+heatwave_user = os.environ["HEATWAVE_USER"]
+heatwave_password = os.environ["HEATWAVE_PASSWORD"]
+
+print("HeatWave host:", heatwave_host)
+print("HeatWave port:", heatwave_port)
+print("HeatWave user:", heatwave_user)
+print("Password configured:", bool(heatwave_password))</code></pre>
+
+  <div class="note">
+    Do not print the actual password. The notebook should verify only that the
+    variable exists.
+  </div>
+</section>
+
+<section id="notebook" class="card">
+  <h2>5. Notebook and Spark 3.5 validation</h2>
+
+  <h3>5.1 Attach the compute</h3>
+  <p>
+    A notebook was attached to the <span class="inline-code">spark35</span>
+    Spark 3.5 compute in <span class="inline-code">heatwavse_ws</span>.
+  </p>
+
+  <h3>5.2 Validate Spark</h3>
+
+  <pre><code>print("Spark version:", spark.version)
+print("Spark application:", spark.sparkContext.applicationId)</code></pre>
+
+  <h3>5.3 Validate the JDBC driver</h3>
+
+  <pre><code>spark.sparkContext._jvm.java.lang.Class.forName(
+    "com.mysql.cj.jdbc.Driver"
+)
+
+print("MySQL JDBC driver loaded successfully")</code></pre>
+
+  <h3>5.4 Validate network connectivity</h3>
+
+  <pre><code>import socket
+
+with socket.create_connection(
+    (heatwave_host, heatwave_port),
+    timeout=10
+):
+    print("HeatWave network connectivity: OK")</code></pre>
+
+  <p>
+    This separates network problems from JDBC or SQL problems. A connection
+    timeout points to networking, routing or security configuration; a driver
+    class error points to the JAR/classpath; a JDBC authentication error points
+    to database credentials/TLS.
+  </p>
+</section>
+
+<section id="sql" class="card">
+  <h2>6. Executing SQL and using %sql</h2>
+
+  <h3>6.1 Direct HeatWave SQL through JDBC</h3>
+
+  <pre><code>database = "YOUR_DATABASE"
+
+jdbc_url = (
+    f"jdbc:mysql://{heatwave_host}:{heatwave_port}/{database}"
+    "?useSSL=true"
+)
+
+result_df = (
+    spark.read
+    .format("jdbc")
+    .option("url", jdbc_url)
+    .option("dbtable", "my_schema.my_table")
+    .option("user", heatwave_user)
+    .option("password", heatwave_password)
+    .option("driver", "com.mysql.cj.jdbc.Driver")
+    .load()
+)
+
+result_df.show(10, truncate=False)</code></pre>
+
+  <h3>6.2 Spark SQL with %sql</h3>
+  <p>
+    The AIDP notebook's <span class="inline-code">%sql</span> magic executes
+    Spark SQL. It does not mean that arbitrary MySQL session syntax is sent
+    directly to HeatWave.
+  </p>
+
+  <pre><code>result_df.createOrReplaceTempView("heatwave_table")</code></pre>
+
+  <pre><code>%sql
+SELECT *
+FROM heatwave_table
+LIMIT 10</code></pre>
+
+  <div class="note">
+    MySQL session expressions such as <span class="inline-code">@@autocommit</span>
+    are not Spark SQL. Those need a MySQL/JDBC session.
+  </div>
+</section>
+
+<section id="transaction" class="card">
+  <h2>7. Autocommit and transaction checks</h2>
+
+  <h3>7.1 MySQL autocommit check</h3>
+
+  <p>
+    The SQL below was used to test MySQL session state. It belongs to the
+    MySQL/HeatWave SQL layer, not Spark SQL.
+  </p>
+
+  <pre><code>SELECT @@autocommit;</code></pre>
+
+  <p>
+    A typical result is <span class="inline-code">1</span> for autocommit enabled
+    and <span class="inline-code">0</span> for autocommit disabled.
+  </p>
+
+  <h3>7.2 Transaction state</h3>
+
+  <pre><code>START TRANSACTION;
+
+SELECT
+    trx_id,
+    trx_started,
+    trx_state
+FROM information_schema.innodb_trx
+WHERE trx_mysql_thread_id = CONNECTION_ID();
+
+COMMIT;</code></pre>
+
+  <div class="note">
+    Transaction state is session-specific. For a reliable transaction test,
+    START TRANSACTION, inspection, and COMMIT/ROLLBACK should use the same
+    underlying MySQL/JDBC connection.
+  </div>
+</section>
+
+<section id="performance" class="card">
+  <h2>8. HeatWave secondary-engine execution testing</h2>
+
+  <p>
+    The lab tested the same analytical SQL with HeatWave secondary-engine
+    behavior controlled through the MySQL optimizer hint:
+  </p>
+
+  <pre><code>/*+ SET_VAR(use_secondary_engine=forced) */</code></pre>
+
+  <h3>8.1 Test query</h3>
+
+  <pre><code>SELECT /*+ SET_VAR(use_secondary_engine=forced) */
+    airline.airlinename,
+    AVG(DATEDIFF(departure, birthdate) / 365.25) AS avg_age,
+    COUNT(*) AS nb_people
+FROM booking, flight, airline, passengerdetails
+WHERE booking.flight_id = flight.flight_id
+  AND airline.airline_id = flight.airline_id
+  AND booking.passenger_id = passengerdetails.passenger_id
+  AND country IN ('SWITZERLAND', 'FRANCE', 'ITALY')
+GROUP BY airline.airlinename
+ORDER BY airline.airlinename, avg_age
+LIMIT 10;</code></pre>
+
+  <h3>8.2 Measure end-to-end elapsed time from Spark</h3>
+
+  <pre><code>import time
+
+start_time = time.perf_counter()
+
+rows = result_df.collect()
+
+execution_time = time.perf_counter() - start_time
+
+print(f"Execution time: {execution_time:.3f} seconds")
+print(f"Rows returned : {len(rows)}")</code></pre>
+
+  <h3>8.3 Compare execution modes</h3>
+
+  <table>
+    <tr>
+      <th>Mode</th>
+      <th>Purpose</th>
+      <th>Measured time</th>
+      <th>Observation</th>
+    </tr>
+    <tr>
+      <td><code>use_secondary_engine=off</code></td>
+      <td>Baseline / disable secondary-engine use</td>
+      <td>________ s</td>
+      <td>Fill with measured notebook timing</td>
+    </tr>
+    <tr>
+      <td><code>use_secondary_engine=on</code></td>
+      <td>Allow secondary-engine use when eligible</td>
+      <td>________ s</td>
+      <td>Fill with measured notebook timing</td>
+    </tr>
+    <tr>
+      <td><code>use_secondary_engine=forced</code></td>
+      <td>Force the query to use the secondary engine</td>
+      <td>________ s</td>
+      <td>Fill with measured notebook timing</td>
+    </tr>
+  </table>
+
+  <p>
+    For repeatability, run each mode several times and record minimum, average
+    and maximum. The Spark-side number is an end-to-end JDBC measurement and
+    therefore includes connection/setup, network transfer and Spark materialization,
+    not only pure server-side HeatWave execution.
+  </p>
+
+  <h3>8.4 Repeat-run benchmark template</h3>
+
+  <pre><code>import time
+
+times = []
+
+for run in range(1, 6):
+    start = time.perf_counter()
+    rows = result_df.collect()
+    elapsed = time.perf_counter() - start
+
+    times.append(elapsed)
+
+    print(
+        f"Run {run}: "
+        f"{elapsed:.3f} seconds, "
+        f"{len(rows)} rows"
+    )
+
+print()
+print(f"Minimum: {min(times):.3f} seconds")
+print(f"Maximum: {max(times):.3f} seconds")
+print(f"Average: {sum(times) / len(times):.3f} seconds")</code></pre>
+</section>
+
+<section id="lessons" class="card">
+  <h2>9. What the lab established</h2>
+
+  <ol>
+    <li>
+      <strong>AIDP workbench and workspace:</strong>
+      An AIDP workbench was created with a private workspace and Spark 3.5 compute.
+    </li>
+    <li>
+      <strong>Network path:</strong>
+      The workspace/compute was configured for private-subnet access to the HeatWave environment.
+    </li>
+    <li>
+      <strong>Catalog:</strong>
+      <span class="inline-code">heatwave_catalog</span> was created as an external
+      MySQL/HeatWave catalog.
+    </li>
+    <li>
+      <strong>JDBC:</strong>
+      MySQL Connector/J was added so the Spark runtime could connect directly to HeatWave.
+    </li>
+    <li>
+      <strong>Runtime configuration:</strong>
+      Host, port, user and password were supplied with Spark environment variables.
+    </li>
+    <li>
+      <strong>Notebook validation:</strong>
+      Spark runtime, JDBC driver and TCP connectivity were tested independently.
+    </li>
+    <li>
+      <strong>SQL execution:</strong>
+      MySQL/HeatWave SQL was executed through JDBC, while <span class="inline-code">%sql</span>
+      was used for Spark SQL over DataFrames/temporary views.
+    </li>
+    <li>
+      <strong>Session state:</strong>
+      MySQL <span class="inline-code">@@autocommit</span> was identified as a
+      MySQL-session property rather than Spark SQL syntax.
+    </li>
+    <li>
+      <strong>Performance:</strong>
+      HeatWave execution was benchmarked with secondary-engine modes
+      <span class="inline-code">off</span>, <span class="inline-code">on</span>,
+      and <span class="inline-code">forced</span>.
+    </li>
+  </ol>
+</section>
+
+<section id="next" class="card">
+  <h2>10. Next steps</h2>
+
+  <ol>
+    <li>Capture the measured timings for <code>off</code>, <code>on</code> and <code>forced</code>.</li>
+    <li>Compare repeated runs to separate first-run effects from steady-state performance.</li>
+    <li>Measure server-side HeatWave execution independently from Spark/JDBC end-to-end time.</li>
+    <li>Investigate whether the AIDP External Catalog can be exposed directly as a Spark SQL catalog in the current runtime.</li>
+    <li>Prototype Object Storage CSV ingestion into HeatWave tables, potentially using Spark as the controlled ingestion layer.</li>
+  </ol>
+</section>
+
+<footer>
+  This article documents the lab configuration and execution approach established during the
+  AIDP + HeatWave MySQL exploration. Measured performance values should be filled from the
+  actual notebook runs rather than inferred.
+</footer>
+
+</div>
+</body>
+</html>

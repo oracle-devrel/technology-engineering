@@ -1,42 +1,32 @@
 # VM Cluster Scaling
 
-- [1. VM Cluster Scaling](#VMClusterScaling-Introduction)
-- [2. VM Cluster Scaling based on CPU load](#VMClusterScaling-VMClusterScalingbasedonCPUload)
-    - [2.1. Installation Best Practices](#VMClusterScaling-InstallationBestPractices)
-- [3. Scaling recommendations for Autonomous Databases](#VMClusterScaling-ScaliongrecommendationforAutonomousDatabases)
-- [4. Autonomous VM Cluster Scaling](#VMClusterScaling-AutonomousVMClusterScaling)
-- [5. Autonomous Database Scaling](#VMClusterScaling-AutonomousDatabaseScaling)
-- [6. Autonomous Database Scaling based on CPU load](#VMClusterScaling-AutonomousDatabaseScalinebasedonCPUload)
-    - [6.1. Installation Best Practices](#VMClusterScaling-InstallationBestPractices)
-- [7. Automation of billing stopping and starting](#VMClusterScaling-Automationofbillingstoppingandstarting)
-    - [7.1. Non-autonomous Database Service](#VMClusterScaling-Non-autonomousDatabaseService)
-    - [7.2. Autonomous Database Service](#VMClusterScaling-AutonomousDatabaseService)
-- [8. Useful Links](#VMClusterScaling-Useful-Links)
-- [9. VM Cluster CPU scale up/scale down time observtions]
-
-
-## 1. Introduction
-
 Scaling the number of OCPUs allocated to a VM Cluster manually can be done in the Cloud Console or by using OCI REST API.
 With the REST API the scaling can be scheduled by time using simple scripts and crontab execution.
+
+Reviewed: 30/07/06
+
+# When to use this asset?
+
 
 If ExaDB-C@C system is disconnected from internet/OCI Region and scaling needs to be performed then use dbaascli (see below).
 
 In Exadata Database Service on ExaDB-C@C the billing occurs on the size of the VM Cluster.
 
+# How to use this asset?
+
 To be able to achieve the best possible consumption results it is highly advisable to set up automated scaling for the VM clusters running on Exadata Cloud@Customer.
 
 <img src="./images/vm-cl-scaling.png" width="600" alt="VM Cluster Scaling">
 
-## 2. VM Cluster Scaling based on CPU load
+## VM Cluster Scaling based on CPU load
 
 Scaling the number of OCPUs allocated to a VM cluster based on CPU load is possible by using Dynamic Scaling. Dynamic Scaling is currently not part of the official cloud tooling, therefore it can not be configured from the OCI console.
 
-### 2.1. Installation Best Practices
+### Installation Best Practices
 
 Please follow the installation instructions in the bellow linked MOS notes. The system running the Dynamic Scaling scripts has to have internet access to be able to connect to OCI. Oracle Dynamic Scaling can be executed as standalone executable or as daemon on VM cluster nodes. Dynamic Scaling is leveraging on oci-cli or REST API to perform the scale operations hence you have same network requirements to access OSN (Oracle Service Network). You can find the link for oci-cli GitHub page below.
 
-## 3. Scaling recommendations for Autonomous Databases
+## Scaling recommendations for Autonomous Databases
 
 Scaling for Autonomous Databases involves several different settings.
 
@@ -48,7 +38,7 @@ The OCPU/ECPU size of the Autonomous Database:
 - can be scaled up/down to accommodate changes over times, day vs night, weekday vs weekend, end of month, etc. This is the base line.
 - can be enabled to use Auto Scaling to automatically scale the Autonomous Database up to 3x the base line value, measured and billed per second.
 
-## 4. Autonomous VM Cluster Scaling
+## Autonomous VM Cluster Scaling
 
 Scaling the number of OCPUs/ECPUs allocated to an Autonomous VM Cluster does not incur any billing or change in billing.
 In Autonomous the billing occurs on the Autonomous Database level (see below).
@@ -57,7 +47,7 @@ Scaling the Autonomous VM Cluster can be done to make room for additional Autono
 
 <img src="./images/autonomous-scaling.png" width="600" alt="Autonomous VM Cluster Scaling">
 
-## 5. Autonomous Database Scaling
+## Autonomous Database Scaling
 
 Scaling the number of OCPUs/ECPUs allocated to an Autonomous Database involves selecting the base OCPU/ECPU Count as well as enabling/disabling OCPU/ECPU Auto Scaling (see below for Auto Scaling).
 
@@ -65,7 +55,7 @@ In Autonomous Database Service on ExaDB-C@C the billing occurs on the size of th
 
 <img src="./images/autonomous-db-scaling.png" width="600" alt="Autonomous Database Scaling">
 
-## 6. Autonomous Database Scaling based on CPU load
+## Autonomous Database Scaling based on CPU load
 
 Scaling the number of OCPUs/ECPUs allocated to an Autonomous Database is possible by activating the Auto Scaling feature, which is part of the official Cloud Tooling and can be activated at the creation of an Autonomous environment or at any later point (see example above).
 Auto Scaling is able to scale the Autonomous Database up to 3x the selected OCPU/ECPU count. This Auto Scaling is a per second billing mechanism rather than an actual resource scaling.
@@ -75,14 +65,14 @@ The underlying Autonomous VM Cluster must have sufficient OCPU/ECPU resources fo
 At no point will the billing go below the currently selected OCPU/ECPU count, even it the CPU load is lower. This setting is the base line.
 As described above, the setting can be changed in order to accommodate changes in workload over time (day vs. night, weekday vs weekend, etc.). Auto Scaling will work on top of this, if enabled.
 
-### 6.1. Installation Best Practices
+### Installation Best Practices
 
 With auto-scaling enabled, the database can use up to three times more CPU and IO resources than specified by the number of CPUs currently shown in the Scale Up/Down dialog. If auto-scaling is disabled while more CPU cores are in use than the database's currently assigned number of cores, then Autonomous Database scales the number of CPU cores in use down to the assigned number.
 
-## 7. Automation of billing stopping and starting
+## Automation of billing stopping and starting
 For environments, where 7/24 availability is not required it is highly advisable to implement automatic stop of the database service *(for example during outside of office hours like weekday nights and weekends)*. This will stop billing for the period of time and improves cost efficiency. Then automatically start the database service when required. 
 
-### 7.1. Non-autonomous Database Service
+### Non-autonomous Database Service
 Stop billing of non-autonomous Database Service is done by setting the OCPU count for the VM Cluster to 0 (zero) which in turn gracefully brings down the VM's of the VM Cluster. Starting the VM's again is done by raising the OCPU count per VM to minimum 2 OCPU or any desired value above that. Automating this is done by using the REST API and executing a simple script in a scheduler like crontab. There is an example written in Python on the GitHub link in the Public Resources section below.
 
 Please note:
@@ -98,7 +88,7 @@ Setting --cpu-core-count to 0 (zero) will gracefully shutdown the VM's of the VM
 oci db vm-cluster update  --vm-cluster-id <VM_Cluster_OCID> --cpu-core-count <#OCPUs>
 ```
 
-### 7.2. Autonomous Database Service
+### Autonomous Database Service
 Since billing of Autonomous Database Service incur on the Autonomous Database and not the Autonomous VM Cluster there is no need to scale the Autonomous VM Cluster down to 0 (zero).
 
 To stop billing of Autonomous Database Service you must stop the Autonomous Database. And when service is to resume then start the Autonomous Database again. Automating this is done by using the REST API and executing a simple script in a scheduler like crontab.
@@ -115,7 +105,7 @@ autonomous_database_id=$(oci db autonomous-database create --compartment-id $com
 oci db autonomous-database stop --autonomous-database-id $autonomous_database_id
 ```
 
-## 9. VM Cluster CPU scale up/scale down time observtions
+## VM Cluster CPU scale up/scale down time observtions
 
 There is a difference in time taken to scale up a VM Cluster depending on the number of VM's in the VM Cluster and the CPU delta of the scale operation.
 VM's are scaled sequentially, not in parallell. And there are prechecks/verifications in the process that means the time taken to scale a given VM might be shorter or longer.
@@ -141,8 +131,6 @@ Generic scaling guidelines:
 - [Scale the CPU Core Count or Storage of an Autonomous Database](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcf/#articletitle)
 - [CPU Allocation When Auto-Scaling](https://docs.oracle.com/en-us/iaas/autonomous-database/doc/ocpu-management-and-billing.html#ADBOR-GUID-E1D93E1C-76D5-43EC-A24A-40420601EC2D)
 - [Cloud Coaching Video on Scaling Your Oracle Database Workloads on Exadata Cloud@Customer](https://youtu.be/PxscD5EedAQ)
-
-Reviewed: 06/29/26
 
 # License
 

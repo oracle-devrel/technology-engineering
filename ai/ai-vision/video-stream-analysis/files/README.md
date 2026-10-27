@@ -1,5 +1,7 @@
 # OCI Vision Streaming — Setup & Stream Consumption Guide
 
+Reviewed: 04.08.2026
+
 ##  Overview
 This demo includes two main components:
 

@@ -1,0 +1,5 @@
+# Resource Manager replaces this file with the private OCIR coordinates.
+image:
+  repository: region.ocir.io/namespace/repository/flux-operator
+  pullSecrets:
+    - name: ocirsecret

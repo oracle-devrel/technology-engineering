@@ -7,6 +7,12 @@ This project uses Packer to create custom images for Oracle Kubernetes Engine (O
 4. Stop the `dnf-makecache` timer to improve stability and resource utilization.
 5. Upgrading to cgroups v2.
 
+Reviewed 07.09.2026
+
+# When to use this asset?
+ 
+# How to use this asset?
+
 ## Prerequisites
 - Packer installed (version compatible with the oracle plugin ~>1).
 - Oracle Cloud Infrastructure (OCI) CLI configured with necessary credentials.
@@ -77,3 +83,11 @@ For more details on Packer and OCI integration, refer to the [Packer OCI Plugin 
 For users who prefer to use the cloud shell, there is a version of this script that runs on a cloud shell.
 
 [![Open in Code Editor](https://raw.githubusercontent.com/oracle-devrel/oci-code-editor-samples/main/images/open-in-code-editor.png)](https://cloud.oracle.com/?region=home&cs_repo_url=https://github.com/alcampag/oke-node-packer-cs.git&cs_branch=main&cs_readme_path=README.md&cs_open_ce=true)
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

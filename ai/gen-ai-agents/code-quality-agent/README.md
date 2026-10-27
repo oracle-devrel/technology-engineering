@@ -11,7 +11,7 @@ A lightweight **LangGraph-based** agent that scans a local codebase (read-only) 
 
 It produces artifacts in a separate output folder (no in-place edits).
 
-**Reviewed**: 26.01.2026
+**Reviewed**: 04.08.2026
 
 ---
 

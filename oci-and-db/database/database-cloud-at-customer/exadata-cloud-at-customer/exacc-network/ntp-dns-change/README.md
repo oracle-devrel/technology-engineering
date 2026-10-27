@@ -1,11 +1,11 @@
 # ExaDB-C@C Change NTP/DNS on ExaDB-C@C configuration
 
-## Changing the NTP/DNS configuration on the CPS network
+Reviewed: 30/07/26
 
+# When to use this asset?
 To change the NTP/DNS on the Control Plane Server (CPS) network, the customer must open an SR and cloudOps can make the changes.
 
-## Changing the NTP/DNS configuration for a VM cluster
-
+# How to use this asset?
 The only supported way to do so is to recreate the VM cluster : 
 
 1. Terminate the Databases in the VM Cluster - destroys the database
@@ -19,8 +19,6 @@ The only supported way to do so is to recreate the VM cluster : 
 # Useful Links
 
 - [Documentation - Manage VM Cluster Networks](https://docs.oracle.com/en/engineered-systems/exadata-cloud-at-customer/ecccm/ecc-manage-vm-cluster-network.html#GUID-0BC2881E-8B56-4432-B24A-959A090800D8)
-
-Reviewed: 06/23/26
 
 # License
 

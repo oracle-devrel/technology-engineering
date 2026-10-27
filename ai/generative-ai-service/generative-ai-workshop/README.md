@@ -1,6 +1,6 @@
 # Generative AI Approach Workshop
 
-Reviewed date: 22.09.2025
+Reviewed date: 04.08.2026
 
 ## Overview
 

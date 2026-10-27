@@ -1,0 +1,6 @@
+apiVersion: v2
+name: git-tool
+description: Lightweight Git-hosted Helm functional-test chart
+type: application
+version: 0.1.0
+appVersion: "1.0"

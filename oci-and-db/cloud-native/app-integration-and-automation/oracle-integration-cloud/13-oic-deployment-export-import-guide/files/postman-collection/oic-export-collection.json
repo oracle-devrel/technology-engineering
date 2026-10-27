@@ -1,0 +1,334 @@
+{
+  "info": {
+    "_postman_id": "1301db2b-b2cb-4c8e-becb-87a10f64b697",
+    "name": "OIC Project Export Import",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1644679"
+  },
+  "item": [
+    {
+      "name": "Get Project Deployments",
+      "request": {
+        "auth": {
+          "type": "oauth2",
+          "oauth2": [
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "string"
+            },
+            {
+              "key": "accessTokenUrl",
+              "value": "{{access_token_url}}",
+              "type": "string"
+            },
+            {
+              "key": "clientId",
+              "value": "{{client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "clientSecret",
+              "value": "{{client_secret}}",
+              "type": "string"
+            },
+            {
+              "key": "scope",
+              "value": "{{scope}}",
+              "type": "string"
+            },
+            {
+              "key": "tokenName",
+              "value": "teamoic3_token",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/{{project_id}}/deployments?integrationInstance={{integration_instance}}",
+          "protocol": "https",
+          "host": [
+            "design",
+            "integration",
+            "eu-frankfurt-1",
+            "ocp",
+            "oraclecloud",
+            "com"
+          ],
+          "path": [
+            "ic",
+            "api",
+            "integration",
+            "v1",
+            "projects",
+            "{{project_id}}",
+            "deployments"
+          ],
+          "query": [
+            {
+              "key": "integrationInstance",
+              "value": "{{integration_instance}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Export Project",
+      "request": {
+        "auth": {
+          "type": "oauth2",
+          "oauth2": [
+            {
+              "key": "clientId",
+              "value": "{{client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "accessTokenUrl",
+              "value": "{{access_token_url}}",
+              "type": "string"
+            },
+            {
+              "key": "tokenName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            },
+            {
+              "key": "clientSecret",
+              "value": "{{client_secret}}",
+              "type": "string"
+            },
+            {
+              "key": "scope",
+              "value": "{{scope}}",
+              "type": "string"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"HQ ERP PROJECT\",\r\n    \"code\": \"HQ_ERP_PROJECT\",\r\n    \"type\": \"DEVELOPED\",\r\n    \"builtBy\": \"\",\r\n    \"label\": \"\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/{{project_id}}/archive?integrationInstance={{integration_instance}}",
+          "protocol": "https",
+          "host": [
+            "design",
+            "integration",
+            "eu-frankfurt-1",
+            "ocp",
+            "oraclecloud",
+            "com"
+          ],
+          "path": [
+            "ic",
+            "api",
+            "integration",
+            "v1",
+            "projects",
+            "{{project_id}}",
+            "archive"
+          ],
+          "query": [
+            {
+              "key": "integrationInstance",
+              "value": "{{integration_instance}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Export Deployment",
+      "request": {
+        "auth": {
+          "type": "oauth2",
+          "oauth2": [
+            {
+              "key": "clientId",
+              "value": "{{client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "accessTokenUrl",
+              "value": "{{access_token_url}}",
+              "type": "string"
+            },
+            {
+              "key": "tokenName",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            },
+            {
+              "key": "clientSecret",
+              "value": "{{client_secret}}",
+              "type": "string"
+            },
+            {
+              "key": "scope",
+              "value": "{{scope}}",
+              "type": "string"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"HQ ERP PROJECT\",\r\n    \"code\": \"HQ_ERP_PROJECT\",\r\n    \"type\": \"DEVELOPED\",\r\n    \"builtBy\": \"\",\r\n    \"label\": \"DEPLOYMENT1\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/{{project_id}}/archive?integrationInstance={{integration_instance}}",
+          "protocol": "https",
+          "host": [
+            "design",
+            "integration",
+            "eu-frankfurt-1",
+            "ocp",
+            "oraclecloud",
+            "com"
+          ],
+          "path": [
+            "ic",
+            "api",
+            "integration",
+            "v1",
+            "projects",
+            "{{project_id}}",
+            "archive"
+          ],
+          "query": [
+            {
+              "key": "integrationInstance",
+              "value": "{{integration_instance}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Import Project or Deployment",
+      "request": {
+        "auth": {
+          "type": "oauth2",
+          "oauth2": [
+            {
+              "key": "addTokenTo",
+              "value": "header",
+              "type": "string"
+            },
+            {
+              "key": "grant_type",
+              "value": "client_credentials",
+              "type": "string"
+            },
+            {
+              "key": "accessTokenUrl",
+              "value": "{{access_token_url}}",
+              "type": "string"
+            },
+            {
+              "key": "clientId",
+              "value": "{{client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "clientSecret",
+              "value": "{{client_secret}}",
+              "type": "string"
+            },
+            {
+              "key": "scope",
+              "value": "{{scope}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [
+                "/C:/Users/Harris/Downloads/HQ_ERP_PROJECT-DEPLOYMENT1.car"
+              ]
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://design.integration.eu-frankfurt-1.ocp.oraclecloud.com/ic/api/integration/v1/projects/archive?integrationInstance={{integration_instance}}",
+          "protocol": "https",
+          "host": [
+            "design",
+            "integration",
+            "eu-frankfurt-1",
+            "ocp",
+            "oraclecloud",
+            "com"
+          ],
+          "path": [
+            "ic",
+            "api",
+            "integration",
+            "v1",
+            "projects",
+            "archive"
+          ],
+          "query": [
+            {
+              "key": "integrationInstance",
+              "value": "{{integration_instance}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

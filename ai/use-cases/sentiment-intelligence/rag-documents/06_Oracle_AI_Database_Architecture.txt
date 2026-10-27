@@ -1,0 +1,227 @@
+Oracle AI Database Architecture for Sentiment Intelligence
+==========================================================
+
+1. OVERVIEW
+
+This document describes the technical architecture of the Sentiment Intelligence platform built on Oracle Autonomous Database (ADB) with integrated AI services. The architecture leverages three key Oracle AI capabilities: DBMS_CLOUD_AI for in-database AI processing, Select AI for natural language to SQL (NL2SQL), and Select AI RAG for vector-based document retrieval.
+
+
+2. DATABASE SCHEMA
+
+2.1 Core Tables
+
+SCRAPED_REVIEWS
+Purpose: Stores raw customer reviews collected from web sources
+Columns:
+- ID (NUMBER, PK): Auto-generated unique identifier
+- SOURCE (VARCHAR2): Platform name (e.g., Amazon, Trustpilot, Reddit)
+- URL (VARCHAR2): Original review URL
+- AUTHOR (VARCHAR2): Reviewer name or handle
+- REVIEW_TEXT (VARCHAR2(4000)): Full review text content
+- SCRAPED_AT (TIMESTAMP): When the review was collected
+- BRAND (VARCHAR2): Associated brand name
+- PRODUCT (VARCHAR2): Product name or identifier
+- REGION (VARCHAR2): Geographic region
+- RATING (NUMBER): Numerical rating (1-5 scale)
+Indexes: Primary key on ID, index on BRAND, index on SCRAPED_AT
+
+SENTIMENT_RESULTS
+Purpose: Stores AI-generated sentiment analysis for each review
+Columns:
+- ID (NUMBER, PK): Auto-generated unique identifier
+- REVIEW_ID (NUMBER, FK): References SCRAPED_REVIEWS.ID
+- SENTIMENT (VARCHAR2): Classification (Positive/Neutral/Negative)
+- SCORE (NUMBER): Numeric sentiment score (0.0 to 1.0)
+- ASPECTS_JSON (VARCHAR2(4000)): JSON structure with aspect-level analysis
+- EXPLANATION (VARCHAR2): AI reasoning for the classification
+- EMOTIONS (VARCHAR2): Detected emotions as JSON array
+- ANALYZED_AT (TIMESTAMP): When sentiment analysis was performed
+Indexes: Primary key on ID, foreign key on REVIEW_ID, index on SENTIMENT
+
+SENTIMENT_TRENDS
+Purpose: Pre-computed weekly sentiment aggregations for dashboard charts
+Columns:
+- ID (NUMBER, PK): Auto-generated unique identifier
+- WEEK_LABEL (VARCHAR2): Human-readable week label (e.g., "Week 7 Feb 2026")
+- WEEK_START (DATE): First day of the week
+- POSITIVE_PCT (NUMBER): Percentage of positive reviews
+- NEUTRAL_PCT (NUMBER): Percentage of neutral reviews
+- NEGATIVE_PCT (NUMBER): Percentage of negative reviews
+- TOTAL_REVIEWS (NUMBER): Total reviews analyzed in the week
+- AVG_SCORE (NUMBER): Average sentiment score for the week
+
+SENTIMENT_ALERTS
+Purpose: AI-detected alert conditions requiring human attention
+Columns:
+- ID (NUMBER, PK): Auto-generated unique identifier
+- ALERT_TYPE (VARCHAR2): Category of alert (e.g., negative_spike, aspect_decline)
+- TITLE (VARCHAR2): Short descriptive title
+- DESCRIPTION (VARCHAR2(4000)): Detailed alert description
+- SEVERITY (VARCHAR2): Critical, High, Medium, or Low
+- SOURCE_COUNT (NUMBER): Number of reviews contributing to the alert
+- SOURCES (VARCHAR2): List of source platforms
+- DETECTED_AT (TIMESTAMP): When the alert was generated
+
+ACTION_RECOMMENDATIONS
+Purpose: AI-generated action items based on alert analysis
+Columns:
+- ID (NUMBER, PK): Auto-generated unique identifier
+- ALERT_ID (NUMBER, FK): References SENTIMENT_ALERTS.ID
+- ACTION_TEXT (VARCHAR2): Recommended action description
+- PRIORITY (VARCHAR2): Critical, High, Medium, or Low
+- IMPACT (VARCHAR2): Expected impact description
+- CATEGORY (VARCHAR2): Action category (product, communication, campaign, etc.)
+- STATUS (VARCHAR2): Pending, Approved, In Progress, Completed
+- CREATED_AT (TIMESTAMP): When the recommendation was generated
+
+
+3. AI INTEGRATION ARCHITECTURE
+
+3.1 DBMS_CLOUD_AI — In-Database AI Processing
+The primary AI integration uses DBMS_CLOUD_AI.GENERATE for sentiment analysis:
+
+How it works:
+1. Review text is passed to DBMS_CLOUD_AI.GENERATE as a prompt
+2. The function calls OCI Generative AI Service (Cohere Command A model)
+3. The AI model returns structured sentiment analysis
+4. Results are parsed and stored in SENTIMENT_RESULTS table
+
+Advantages:
+- Data never leaves the database — maximum security
+- SQL-native integration — no external API calls needed from application code
+- Automatic scaling with ADB compute resources
+- Built-in retry and error handling
+
+Configuration:
+- AI Profile: SENTIMENT_PROFILE
+- Model: cohere.command-a-03-2025
+- Endpoint: OCI GenAI service endpoint in tenancy region
+- Authentication: OCI resource principal (no API keys needed)
+
+3.2 Select AI — Natural Language to SQL (NL2SQL)
+Select AI enables business users to query sentiment data using plain English:
+
+How it works:
+1. User types a natural language question (e.g., "Show negative reviews for Nike")
+2. Select AI translates the question into valid Oracle SQL
+3. The generated SQL is executed against the database
+4. Results are returned along with a narrative explanation
+
+Capabilities:
+- Understands table relationships and joins automatically
+- Handles aggregations, grouping, filtering, and sorting
+- Generates narrative summaries of query results
+- Supports follow-up questions for drill-down analysis
+
+Configuration:
+- Profile: SENTIMENT_PROFILE
+- Model: cohere.command-a-03-2025
+- Object list: SCRAPED_REVIEWS, SENTIMENT_RESULTS, SENTIMENT_TRENDS, SENTIMENT_ALERTS, ACTION_RECOMMENDATIONS
+
+3.3 Select AI RAG — Retrieval Augmented Generation
+Select AI RAG enables Q&A over document collections using vector search:
+
+How it works:
+1. Documents are uploaded to OCI Object Storage
+2. Documents are chunked into manageable segments (typically 512-1024 tokens)
+3. Each chunk is embedded using Cohere Embed Multilingual v3.0 model
+4. Embeddings are stored as vectors in the APP_RAG_DOCUMENTS table
+5. A vector index (APP_RAG_DOCUMENTS_IDX) enables efficient similarity search
+6. When a user asks a question:
+   a. The question is embedded using the same embedding model
+   b. Vector similarity search finds the most relevant document chunks
+   c. Retrieved chunks are passed as context to the generative model
+   d. The model synthesizes an answer grounded in the retrieved documents
+   e. Source documents are cited in the response
+
+Configuration:
+- Profile: OCI_SELECTAI_RAG
+- Generative model: cohere.command-a-03-2025
+- Embedding model: cohere.embed-multilingual-v3.0
+- Vector index: APP_RAG_DOCUMENTS_IDX on APP_RAG_DOCUMENTS
+- Action: narrate (for conversational answers with citations)
+
+RAG Table Schema (APP_RAG_DOCUMENTS):
+- CONTENT (CLOB): The text content of the document chunk
+- ATTRIBUTES (JSON): Metadata including object name, size, location, offsets
+- EMBEDDING (VECTOR): The vector embedding of the content chunk
+
+Calling RAG from PL/SQL:
+  SELECT DBMS_CLOUD_AI.GENERATE(
+    prompt       => 'What are the crisis communication guidelines?',
+    profile_name => 'OCI_SELECTAI_RAG',
+    action       => 'narrate'
+  ) AS answer FROM DUAL;
+
+
+4. APPLICATION ARCHITECTURE
+
+4.1 Backend (Python FastAPI)
+The backend provides REST API endpoints:
+- GET /api/dashboard: Aggregated sentiment metrics with optional brand filter
+- POST /api/analyze: SSE-streamed 6-step analysis pipeline
+- POST /api/query: NL2SQL queries via Select AI
+- POST /api/rag-query: Knowledge base Q&A via Select AI RAG
+- POST /api/generate-campaign: AI-generated marketing campaigns
+- GET /api/history: Historical trend data
+
+4.2 Agent Architecture
+The system uses specialized agents:
+- Orchestrator: Coordinates the 6-step analysis pipeline
+- Web Source Agent: Generates search queries and scrapes web reviews
+- Ingestion Agent: Cleans and stores reviews in the database
+- Sentiment Agent: Runs DBMS_CLOUD_AI.GENERATE for sentiment analysis
+- Analytics Agent: Computes dashboard statistics and runs Select AI queries
+- Action Agent: Generates strategic recommendations using OCI GenAI
+- Campaign Agent: Creates marketing email variants using OCI GenAI
+
+4.3 Frontend (React + TypeScript)
+Single-page application with:
+- Dashboard page: Real-time sentiment analytics with charts and metrics
+- Agents page: Visual representation of the agent pipeline
+- Chat modal: Dual-mode AI assistant (NL2SQL + RAG)
+- Campaign modal: Marketing campaign generation studio
+- Brand filtering: Focus analytics on specific brands
+
+
+5. SECURITY ARCHITECTURE
+
+5.1 Database Security
+- Oracle Autonomous Database with automatic patching and encryption
+- TDE (Transparent Data Encryption) for data at rest
+- Network encryption (TLS 1.2+) for data in transit
+- Database Vault for privileged user controls
+- Audit logging for all AI service calls
+
+5.2 AI Service Security
+- OCI Resource Principal authentication (no stored API keys)
+- Private endpoints for AI service calls (no internet traversal)
+- Data processed within OCI tenancy boundaries
+- No training on customer data — inference only
+
+5.3 Application Security
+- CORS configuration for frontend-backend communication
+- Input validation on all API endpoints (Pydantic models)
+- SQL parameterization to prevent injection
+- Rate limiting on AI-intensive endpoints
+
+
+6. PERFORMANCE CONSIDERATIONS
+
+6.1 Database Optimization
+- Autonomous Database auto-tuning for query performance
+- Appropriate indexes on frequently filtered columns (brand, sentiment, dates)
+- Pre-computed aggregations in SENTIMENT_TRENDS table
+- Connection pooling for concurrent request handling
+
+6.2 AI Processing Performance
+- Batch processing for bulk sentiment analysis (up to 20 reviews per batch)
+- Asynchronous processing with SSE progress streaming
+- Caching of frequent NL2SQL queries
+- Vector index optimization for RAG similarity search (approximate nearest neighbor)
+
+6.3 Frontend Performance
+- Lazy loading of dashboard components
+- Optimistic UI updates during API calls
+- Chart.js canvas rendering for smooth visualizations
+- Debounced brand filter selection

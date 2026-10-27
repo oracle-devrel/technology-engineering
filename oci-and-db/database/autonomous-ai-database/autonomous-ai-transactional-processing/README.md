@@ -2,7 +2,7 @@
  
 Oracle Autonomous Transaction Processing is a fully automated database service optimized to run transactional, analytical, and batch workloads concurrently. To accelerate performance, it’s preconfigured for row format, indexes, and data caching while providing scalability, availability, transparent security, and real-time operational analytics.
 
-Reviewed: 28.10.2025
+Reviewed: 29.07.2026
  
 # Table of Contents
  

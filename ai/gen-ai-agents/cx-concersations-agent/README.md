@@ -6,7 +6,7 @@ Drop in one audio file or a full batch. The agent transcribes each call using **
 
 Example dataset to test it out: [Gridspace-Stanford Harper Valley Dataset](https://github.com/cricketclub/gridspace-stanford-harper-valley)
 
-Reviewed: 27.02.2026
+Reviewed: 04.08.2026
 
 Authors: Yainuvis Socarras and Cristina Granes
 

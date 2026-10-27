@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Multi Cloud Control Plane{% endblock %}
+{% block page_title %}Welcome to the Multi Cloud Control Plane{% endblock %}
+{% block page_subtitle %}Unified GitOps Orchestration for OCI, Azure, and GCP{% endblock %}
+
+{% block content %}
+<!-- Stats Cards -->
+<div class="stats stats-vertical lg:stats-horizontal w-full bg-base-100 mb-8">
+    <div class="stat">
+        <div class="stat-figure text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block w-8 h-8 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+            </svg>
+        </div>
+        <div class="stat-title text-base-content/40">Total Projects</div>
+        <div class="stat-value text-primary">{{ projects|length }}</div>
+        <div class="stat-desc text-base-content/30">Active GitOps Repos</div>
+    </div>
+
+    <div class="stat">
+        <div class="stat-figure text-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block w-8 h-8 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+            </svg>
+        </div>
+        <div class="stat-title text-base-content/40">Cloud Providers</div>
+        <div class="stat-value">3</div>
+        <div class="stat-desc text-base-content/30">OCI &middot; Azure &middot; GCP</div>
+    </div>
+</div>
+
+{% if user and not projects %}
+<div class="alert alert-warning mb-8">
+    <span>No handed-off project repositories are visible for your GitHub authorization. Confirm that this OAuth application is approved for the configured organization, then sign out and sign in again.</span>
+</div>
+{% endif %}
+
+<!-- Quick Actions -->
+<div class="card bg-base-100">
+    <div class="card-body">
+        <h2 class="card-title font-bold">Project Operations</h2>
+        <p class="text-base-content/40 text-sm">Select a handed-off project repository to manage resources, operations, audit history, and pull request plans.</p>
+    </div>
+</div>
+{% endblock %}

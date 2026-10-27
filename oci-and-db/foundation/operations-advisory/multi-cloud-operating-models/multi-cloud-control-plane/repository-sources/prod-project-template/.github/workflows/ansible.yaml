@@ -1,0 +1,94 @@
+name: Production OCI operations
+
+on:
+  pull_request_target:
+    branches: [main]
+    paths: ["oci/prod/**/lifecycle_operations/**"]
+  push:
+    branches: [main]
+    paths: ["oci/prod/**/lifecycle_operations/**"]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-path:
+    if: >-
+      github.event_name != 'push' ||
+      github.event.before != '0000000000000000000000000000000000000000'
+    runs-on: [self-hosted, control-plane-resolver]
+    outputs:
+      operation_file: ${{ steps.path.outputs.operation_file }}
+      runner_labels: ${{ steps.path.outputs.runner_labels }}
+      execute_operation: ${{ steps.path.outputs.execute_operation }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - id: path
+        shell: bash
+        env:
+          PR_HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+        run: |
+          set -euo pipefail
+          fail() { echo "ERROR: $*" >&2; exit 1; }
+          if [ "${{ github.event_name }}" = pull_request_target ]; then
+            [ "$PR_HEAD_REPOSITORY" = "$GITHUB_REPOSITORY" ] || \
+              fail "Fork pull requests are not accepted."
+          fi
+          base_sha="${{ github.event.pull_request.base.sha || github.event.before }}"
+          head_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          git fetch --no-tags origin "$base_sha" "$head_sha"
+          all_changed=$(git diff --name-only "$base_sha" "$head_sha")
+          if printf '%s\n' "$all_changed" | \
+            rg -q '^oci/(dev|test|uat|production|prd|live)/'; then
+            fail "Production lifecycle requests must use the oci/prod path."
+          fi
+          changed=$(printf '%s\n' "$all_changed" | \
+            rg '^oci/prod/[A-Za-z0-9._-]+/lifecycle_operations/[A-Za-z0-9._-]+\.json$' || true)
+          [ -n "$changed" ] || fail "No supported production lifecycle manifest was changed."
+          [ "$all_changed" = "$changed" ] || \
+            fail "The change includes a non-lifecycle or unsupported file."
+          execute_operation="true"
+          while IFS= read -r path; do
+            head_entry=$(git ls-tree "$head_sha" -- "$path")
+            if [ -n "$head_entry" ]; then
+              printf '%s\n' "$head_entry" | \
+                rg '^100644 blob [0-9a-f]{40}\t' >/dev/null || \
+                fail "Lifecycle path is not a regular 100644 file: $path"
+              git show "$head_sha:$path" | jq -e . >/dev/null || \
+                fail "Lifecycle manifest is not valid JSON: $path"
+            else
+              git ls-tree "$base_sha" -- "$path" | \
+                rg '^100644 blob [0-9a-f]{40}\t' >/dev/null || \
+                fail "Lifecycle path is not a regular 100644 file: $path"
+              execute_operation="false"
+            fi
+          done <<< "$changed"
+          tuple_count=$(printf '%s\n' "$changed" | cut -d/ -f1-3 | sort -u | wc -l | tr -d ' ')
+          [ "$tuple_count" = 1 ] || \
+            fail "Exactly one OCI production region tuple is allowed."
+          lifecycle_count=$(printf '%s\n' "$changed" | sed '/^$/d' | wc -l | tr -d ' ')
+          [ "$lifecycle_count" = 1 ] || \
+            fail "Exactly one lifecycle manifest is allowed."
+          operation_file=$(printf '%s\n' "$changed" | head -1)
+          runner_labels=$(jq -nc '["self-hosted", "oci", "prod"]')
+          {
+            echo "operation_file=$operation_file"
+            echo "runner_labels=$runner_labels"
+            echo "execute_operation=$execute_operation"
+          } >> "$GITHUB_OUTPUT"
+  execute:
+    needs: validate-path
+    if: needs.validate-path.outputs.execute_operation == 'true'
+    uses: __CUSTOMER_ORG__/platform-ci/.github/workflows/ansible-shared.yaml@main
+    with:
+      mode: ${{ github.event_name == 'push' && 'execute' || 'check' }}
+      cloud: oci
+      environment_name: prod
+      security_profile: repository-secrets
+      manifest_ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      operation_file: ${{ needs.validate-path.outputs.operation_file }}
+      runner_labels: ${{ needs.validate-path.outputs.runner_labels }}
+      bucket_name: __STATE_BUCKET__

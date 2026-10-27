@@ -1,6 +1,6 @@
 # OCI GoldenGate Service: Migrate Oracle GoldenGate Marketplace to OCI GoldenGate Service
 
-Reviewed: 26.11.2025
+Reviewed: 09.09.2026
 
 # Team Publications
 

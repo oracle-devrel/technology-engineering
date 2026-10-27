@@ -1,0 +1,30 @@
+---
+# OCI Compute software-agent reference operation.
+# Keep the same wrapper pattern as adb-lifecycle: execution-mode gate followed
+# by platform-owned common precheck, apply, and verify phases.
+
+- name: Deploy Agent
+  hosts: compute_instances
+  become: true
+  gather_facts: true
+
+  pre_tasks:
+    - name: Require an explicit execution mode
+      ansible.builtin.assert:
+        quiet: true
+        that:
+          - operation_execution_mode is defined
+          - operation_execution_mode in ['precheck', 'execute']
+        fail_msg: operation_execution_mode must be precheck or execute.
+
+  tasks:
+    - name: Precheck software-agent installation
+      ansible.builtin.import_tasks: ../common/oci/deploy-agent/precheck.yml
+
+    - name: Apply software-agent installation
+      ansible.builtin.import_tasks: ../common/oci/deploy-agent/apply.yml
+      when: operation_execution_mode == 'execute'
+
+    - name: Verify software-agent installation
+      ansible.builtin.import_tasks: ../common/oci/deploy-agent/verify.yml
+      when: operation_execution_mode == 'execute'

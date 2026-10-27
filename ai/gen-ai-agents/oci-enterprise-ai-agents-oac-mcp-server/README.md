@@ -2,6 +2,8 @@
 
 A React assistant that lets [OCI Enterprise AI](https://www.oracle.com/artificial-intelligence/enterprise-ai/) query **governed Oracle Analytics Cloud data** through the **OAC MCP server**. The model reasons through the OCI Generative AI Responses API, the app executes the delegated OAC MCP tool calls, and every numeric result is rendered as a chart - with the Logical SQL and the full tool timeline shown next to it.
 
+Reviewed: 04.08.2026
+
 Built with **Next.js 16**, **React 19**, **Recharts**, and a small **Python bridge**.
 
 ![Result chart](images/02-demo-chart.png)

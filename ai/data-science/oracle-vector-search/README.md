@@ -4,7 +4,7 @@ Oracle AI Vector Search is designed for Artificial Intelligence (AI) workloads a
 
 The Autonomous AI Vector Database (Limited Availability) is a fully managed vector database that helps AI developers and data scientists quickly build semantic search, RAG, and agentic applications using easy-to-use vector APIs with enterprise-grade reliability, security, and stock-exchange robustness to help you meet compliance requirements.
 
-Reviewed: 2026.04.23
+Reviewed: 2026.08.13
 </br></br>
 
 # Table of Contents
@@ -30,20 +30,21 @@ Reviewed: 2026.04.23
 
 # Team Publications
 
-- [Provisioning Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/provisioning-oracle-ai-db-base-service-26ai)
-- [Connecting to Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/connecting-26ai)
-- [Loading Documents into Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/loading-documents-26ai)
-- [Configuring In-Memory Index in Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/configuring-in-memory-vector-index)
+- [Provisioning Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/provisioning-oracle-ai-db-base-service-26ai)
+- [Connecting to Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/connecting-26ai)
+- [Loading Documents into Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/loading-documents-26ai)
+- [Configuring In-Memory Index in Oracle AI Database Base Service 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/configuring-in-memory-vector-index)
 - [Getting Started with Vectors in Oracle AI Database 26ai](https://blogs.oracle.com/coretec/post/getting-started-with-vectors-in-23ai)
-- [Create Simple Vector Table (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/python-create-simple-vector-table)
-- [Vector Search using Sentence Transformer Embeddings (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/python-create-embeddings-sentence-transformer)
-- [Vector Search using OCI GenAI Embeddings (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/python-create-embeddings-cohere)
+- [Create Simple Vector Table (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/python-create-simple-vector-table)
+- [Vector Search using Sentence Transformer Embeddings (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/python-create-embeddings-sentence-transformer)
+- [Vector Search using OCI GenAI Embeddings (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/python-create-embeddings-cohere)
 - [Hybrid Vector Index - A Combination of AI Vector Search with Text Search](https://blogs.oracle.com/coretec/post/hybrid-vector-index-the-combination-of-full-text-and-semantic-vector-search)
 - [Hybrid Vector Index - More Examples](https://blogs.oracle.com/coretec/post/more-examples-on-hybrid-vector-search)
 - [Securing AI Workflows in Healthcare with Oracle AI Database 26ai](https://www.youtube.com/watch?v=N_x-F8VAQ2w)
-- [Importing ONNX Embedding Models into Oracle AI Database 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/importing-onnx-embedding-models-26ai)
-- [RAG Wikipedia Search (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/python-rag-wikipedia-search)
-- [Your First Vector Project (SQL)](https://github.com/oracle-devrel/technology-engineering/tree/main/data-platform/data-science/oracle-vector-search/sql-your-first-vector-project)
+- [Importing ONNX Embedding Models into Oracle AI Database 26ai](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/importing-onnx-embedding-models-26ai)
+- [RAG Wikipedia Search (Python)](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/python-rag-wikipedia-search)
+- [Your First Vector Project (SQL)](https://github.com/oracle-devrel/technology-engineering/tree/main/ai/data-science/oracle-vector-search/sql-your-first-vector-project)
+- [Scaling RAG with Semantic Caching](https://medium.com/@harrysnart/scaling-rag-with-semantic-caching-f84c95586d44)]
 </br></br>
 
 # License

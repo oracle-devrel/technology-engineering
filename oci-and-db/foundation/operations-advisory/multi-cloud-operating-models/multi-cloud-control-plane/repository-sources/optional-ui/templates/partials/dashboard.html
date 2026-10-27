@@ -1,0 +1,224 @@
+<!-- Dashboard -->
+{% from "partials/_alerts.html" import loading_error %}
+{% import "partials/_status_macros.html" as status_macros %}
+{% if load_error %}
+{{ loading_error(load_error) }}
+{% endif %}
+
+<div class="card bg-base-100 mb-8">
+    <div class="card-body">
+        <h2 class="card-title text-3xl font-extrabold tracking-tight">{{ project }}</h2>
+        <p class="text-base-content/40 text-sm font-medium">Project Overview</p>
+    </div>
+</div>
+
+<div class="stats stats-vertical lg:stats-horizontal w-full bg-base-100">
+    <button type="button" class="stat text-left hover:bg-base-200/50 transition-colors cursor-pointer"
+        hx-get="/partials/resources?project={{ project }}" hx-target="#main" hx-indicator="#loading-overlay">
+        <div class="stat-figure text-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block w-8 h-8 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+                </path>
+            </svg>
+        </div>
+        <div class="stat-title text-base-content/40">Resources</div>
+        <div class="stat-value text-primary">{{ stats.total_resources or 0 }}</div>
+        <div class="stat-desc text-base-content/30">Total Managed</div>
+    </button>
+
+    <button type="button" class="stat text-left hover:bg-base-200/50 transition-colors cursor-pointer"
+        hx-get="/partials/cloud-regions?project={{ project }}" hx-target="#main" hx-indicator="#loading-overlay">
+        <div class="stat-figure text-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block w-8 h-8 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+            </svg>
+        </div>
+        <div class="stat-title text-base-content/40">Clouds</div>
+        <div class="stat-value">{{ stats.total_clouds or 0 }}</div>
+        <div class="stat-desc text-base-content/30">Active Providers</div>
+    </button>
+
+    <button type="button" class="stat text-left hover:bg-base-200/50 transition-colors cursor-pointer"
+        hx-get="/partials/cloud-regions?project={{ project }}" hx-target="#main" hx-indicator="#loading-overlay">
+        <div class="stat-figure text-accent">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block w-8 h-8 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                </path>
+            </svg>
+        </div>
+        <div class="stat-title text-base-content/40">Regions</div>
+        <div class="stat-value">{{ stats.total_regions or 0 }}</div>
+        <div class="stat-desc text-base-content/30">Global Deployments</div>
+    </button>
+</div>
+
+<!-- Pending PRs -->
+<div class="card bg-base-100 mt-8">
+    <div class="card-body">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="card-title flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+                Pending Approvals
+                {% if pending_prs %}
+                <span class="badge badge-warning badge-sm font-mono">{{ pending_prs | length }}</span>
+                {% endif %}
+            </h2>
+            <span class="text-xs text-base-content/30 font-medium">PRs waiting for review</span>
+        </div>
+
+        {% if pending_prs %}
+        <div class="overflow-x-auto">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr class="text-base-content/40">
+                        <th>PR</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Opened</th>
+                        <th>Branch</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pr in pending_prs %}
+                    <tr>
+                        <td class="font-mono font-bold text-warning">#{{ pr.number }}</td>
+                        <td class="max-w-xs truncate">{{ pr.title }}</td>
+                        <td class="text-sm text-base-content/50">{{ pr.author }}</td>
+                        <td class="text-xs text-base-content/40">{{ pr.created_at }}</td>
+                        <td class="font-mono text-xs text-base-content/40">{{ pr.branch }}</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn btn-xs btn-outline btn-info"
+                                    hx-get="/partials/pr-plan?pr_number={{ pr.number }}&project={{ project }}"
+                                    hx-target="#main">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Checks
+                                </button>
+                                <a href="{{ pr.url }}" target="_blank" class="btn btn-xs btn-primary">
+                                    Review
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="flex items-center gap-3 text-base-content/30 py-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm font-medium">No pending approvals — all clear.</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Recent Deployments -->
+<div class="card bg-base-100 mt-8">
+    <div class="card-body">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="card-title flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Recent Deployments
+            </h2>
+            <span class="text-xs text-base-content/30 font-medium">GitHub Actions runs</span>
+        </div>
+
+        {% if deployments %}
+        <div class="overflow-x-auto">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr class="text-base-content/40">
+                        <th>Status</th>
+                        <th>Workflow</th>
+                        <th>Commit</th>
+                        <th>Branch</th>
+                        <th>Triggered by</th>
+                        <th>When</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for run in deployments %}
+                    <tr>
+                        <td>
+                            {{ status_macros.deployment_badge(run.status, run.conclusion) }}
+                        </td>
+                        <td class="font-medium text-sm">{{ run.name }}</td>
+                        <td class="text-xs text-base-content/50 max-w-xs truncate">{{ run.commit_msg }}</td>
+                        <td class="font-mono text-xs text-base-content/40">{{ run.branch }}</td>
+                        <td class="text-sm text-base-content/50">{{ run.actor }}</td>
+                        <td class="text-xs text-base-content/40">{{ run.created_at }}</td>
+                        <td>
+                            <a href="{{ run.url }}" target="_blank" class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary">
+                                Logs
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="flex items-center gap-3 text-base-content/30 py-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-base-content/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-sm font-medium">No workflow runs yet for this project.</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Actions Toolbar -->
+<div class="flex gap-3 mt-8 flex-wrap">
+    <button class="btn btn-primary gap-2" hx-get="/partials/resources-catalog?project={{ project }}" hx-target="#main">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+        </svg>
+        Deploy Resource
+    </button>
+    <button class="btn btn-secondary gap-2" hx-get="/partials/operations?project={{ project }}" hx-target="#main">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Operations
+    </button>
+    <button class="btn btn-ghost gap-2" hx-get="/partials/tree?project={{ project }}" hx-target="#main">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+        Browse Manifests
+    </button>
+    <button class="btn btn-ghost gap-2" hx-get="/partials/resources?project={{ project }}" hx-target="#main">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+        Inventory
+    </button>
+</div>

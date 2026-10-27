@@ -1,0 +1,215 @@
+Product Review Analysis Framework
+===================================
+
+1. OVERVIEW
+
+This framework defines how product reviews are collected, processed, analyzed, and transformed into actionable product intelligence. It covers the complete lifecycle from raw review ingestion to strategic product decisions, using AI-powered sentiment analysis and natural language processing.
+
+
+2. REVIEW DATA MODEL
+
+2.1 Core Review Attributes
+Each review record contains:
+- Review ID: Unique identifier across all sources
+- Source: Platform where the review was collected (Amazon, Trustpilot, Google, etc.)
+- Author: Reviewer display name or handle
+- Review Text: Full text content of the review
+- Rating: Numerical rating (normalized to 1-5 scale)
+- Brand: Brand name associated with the product
+- Product: Specific product name or SKU
+- Region: Geographic region of the reviewer
+- Scraped At: Timestamp when the review was collected
+- URL: Original source URL for verification
+
+2.2 Sentiment Analysis Output
+After AI processing, each review is enriched with:
+- Sentiment: Positive, Neutral, or Negative classification
+- Score: Numeric sentiment score from 0.0 (most negative) to 1.0 (most positive)
+- Aspects JSON: Structured data listing each aspect mentioned with its individual sentiment
+- Explanation: AI-generated reasoning for the sentiment classification
+- Emotions: Detected emotions (joy, frustration, anger, surprise, trust, etc.)
+- Analyzed At: Timestamp of sentiment analysis
+
+2.3 Example Aspects JSON Structure
+{
+  "aspects": [
+    {"aspect": "battery life", "sentiment": "positive", "score": 0.85, "snippet": "battery lasts all day"},
+    {"aspect": "screen quality", "sentiment": "positive", "score": 0.92, "snippet": "the display is gorgeous"},
+    {"aspect": "price", "sentiment": "negative", "score": 0.25, "snippet": "way too expensive for what you get"},
+    {"aspect": "build quality", "sentiment": "neutral", "score": 0.55, "snippet": "feels okay in hand"}
+  ]
+}
+
+
+3. ASPECT TAXONOMY
+
+3.1 Standard Aspect Categories
+Reviews are analyzed across these standard aspects:
+
+Product Performance:
+- Functionality: Does the product work as advertised?
+- Reliability: Does it work consistently over time?
+- Speed/Performance: Is it fast enough for the use case?
+- Battery Life: (for electronics) How long does the charge last?
+- Durability: How well does it hold up to regular use?
+
+Design and Aesthetics:
+- Visual Design: How does it look?
+- Size/Fit: Is the sizing appropriate?
+- Weight: Is it too heavy or too light?
+- Color Options: Are there enough choices?
+- Packaging: How was the unboxing experience?
+
+Value and Pricing:
+- Price: Is the price point acceptable?
+- Value for Money: Does the product justify its cost?
+- Comparison: How does it compare to alternatives?
+- Hidden Costs: Are there unexpected additional costs?
+- Promotions: Were deals or discounts a factor?
+
+Customer Experience:
+- Ease of Use: How intuitive is the product?
+- Setup/Installation: How easy is initial setup?
+- Documentation: Are instructions clear and helpful?
+- Compatibility: Does it work with existing tools/devices?
+- Learning Curve: How long to become proficient?
+
+Support and Service:
+- Customer Service: How responsive and helpful was support?
+- Warranty: Is the warranty coverage adequate?
+- Return Process: How easy was it to return/exchange?
+- Response Time: How quickly did support respond?
+- Resolution: Was the issue actually resolved?
+
+Delivery and Logistics:
+- Shipping Speed: How quickly did the order arrive?
+- Package Condition: Was the product well-protected?
+- Tracking: Was shipment tracking accurate?
+- Availability: Was the product in stock?
+
+
+4. ANALYSIS METHODOLOGY
+
+4.1 Sentiment Scoring Pipeline
+Step 1: Text preprocessing
+- Remove HTML tags and special characters
+- Normalize unicode characters
+- Handle emoji sentiment (positive/negative emoji mapping)
+- Language detection and routing
+
+Step 2: In-database AI analysis (DBMS_CLOUD_AI.GENERATE)
+- Pass review text to OCI GenAI via DBMS_CLOUD_AI
+- Model: Cohere Command A (cohere.command-a-03-2025)
+- Prompt includes aspect taxonomy for consistent extraction
+- Returns structured JSON with sentiment, score, aspects, emotions
+
+Step 3: Post-processing
+- Validate score ranges (0.0-1.0)
+- Verify aspect names match taxonomy (fuzzy matching for variants)
+- Store results in SENTIMENT_RESULTS table
+- Trigger alert checks for threshold violations
+
+4.2 Aggregation Levels
+Reviews are aggregated at multiple levels for different stakeholders:
+
+Product Level:
+- Average sentiment score per product
+- Aspect breakdown per product
+- Trend over time (weekly rolling average)
+- Comparison to category average
+
+Brand Level:
+- Overall brand sentiment score
+- Brand vs. competitor comparison
+- Source channel distribution
+- Geographic sentiment variation
+
+Category Level:
+- Category-wide trends
+- Emerging aspects (new topics appearing in reviews)
+- Market sentiment shifts
+- Innovation opportunity identification
+
+4.3 Trend Detection
+The system monitors for:
+- Sudden shifts: >10% change in sentiment within 48 hours
+- Gradual decline: Consistent downward trend over 3+ consecutive weeks
+- Aspect emergence: New aspect appearing in >5% of reviews within a week
+- Seasonal patterns: Year-over-year sentiment comparison by month
+- Competitive shifts: Relative sentiment movement between competitors
+
+
+5. REPORTING AND DASHBOARDS
+
+5.1 Real-Time Dashboard Metrics
+- Sentiment gauge: Current positive/neutral/negative distribution
+- Average score: Weighted sentiment score across all recent reviews
+- Trend chart: Weekly sentiment trends over the past 90 days
+- Source breakdown: Review volume and sentiment by platform
+- Top aspects: Most frequently mentioned aspects with their sentiment
+- Emotion distribution: Breakdown of detected emotions
+- Recent reviews: Latest reviews with sentiment annotations
+- Active alerts: Current alert conditions requiring attention
+
+5.2 Executive Summary Report (Monthly)
+- Brand health score (composite of all metrics)
+- Month-over-month sentiment change with highlights
+- Top 3 positive themes and top 3 areas for improvement
+- Competitive positioning (if competitor data available)
+- Recommended strategic actions
+- Campaign effectiveness (if campaigns were run in response to insights)
+
+5.3 Product Team Report (Weekly)
+- Aspect-level sentiment matrix for all products
+- New or emerging issues flagged
+- Feature request aggregation from reviews
+- Bug/defect pattern identification
+- Prioritized improvement recommendations
+
+
+6. ACTION RECOMMENDATIONS
+
+6.1 Automatic Recommendation Generation
+The system uses OCI GenAI to generate action recommendations based on:
+- Current sentiment patterns and trends
+- Active alerts and their severity
+- Aspect-level analysis across products
+- Historical effectiveness of similar actions
+
+6.2 Recommendation Categories
+Each recommendation is classified into:
+- Product Improvement: Changes to the product itself
+- Communication/PR: External messaging to address perceptions
+- Customer Service: Changes to support processes or policies
+- Operations/Logistics: Improvements to fulfillment and delivery
+- Pricing/Promotion: Pricing strategy adjustments
+- Campaign/Engagement: Marketing campaigns to drive engagement
+
+6.3 Priority Framework
+- Critical: Immediate action needed (safety, viral negative, regulatory)
+- High: Action within 1 week (sustained negative trend, key aspect failing)
+- Medium: Action within 1 month (moderate issue, competitive pressure)
+- Low: Include in next planning cycle (minor improvement, nice-to-have)
+
+
+7. QUALITY ASSURANCE
+
+7.1 Data Quality Checks
+- Duplicate detection: Same review appearing on multiple collection passes
+- Bot detection: Identify potentially fake or automated reviews
+- Relevance filtering: Exclude reviews not related to the target product
+- Language verification: Ensure reviews are in a supported language
+- Completeness: Flag reviews with missing critical fields
+
+7.2 Model Accuracy Monitoring
+- Weekly spot-check: 50 random reviews manually evaluated vs. AI prediction
+- Accuracy target: >85% agreement between AI and human on 3-class sentiment
+- Aspect extraction precision: >80% of extracted aspects match human annotation
+- Emotion detection recall: >75% of human-identified emotions detected by AI
+- Drift monitoring: Track accuracy metrics over time to detect model degradation
+
+7.3 Feedback Loop
+- Business users can flag incorrect sentiment classifications
+- Flagged reviews are collected for retraining data
+- Quarterly model recalibration using accumulated feedback
+- New aspect terms added to taxonomy based on emerging review language

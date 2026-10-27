@@ -1,5 +1,11 @@
 # Reserve Memory and CPU for Kubernetes System Daemons
 
+Reviewed: 07.09.2026
+
+# When to use this asset?
+ 
+# How to use this asset?
+
 Kubernetes resources can be reserved at the node pool level and applied to every worker node with cloud-init execution at boot time. Remember, OKE uses cloud-init to set up the worker node customizations.
 
 If you wonder what the magic number for CPU and memory reservations is, the answer is hidden in the node shape and size correlation. The implementation below is based on well-known algorithms from the market described [here](https://learnk8s.io/allocatable-resources).
@@ -69,3 +75,11 @@ echo "Memory $kube_memory_allocation in total"
 # configure kubelet with image credential provider
 bash /var/run/oke-init.sh --kubelet-extra-args "--kube-reserved=cpu="$kube_cpu_allocation"m,memory="$kube_memory_allocation"Mi"
 ```
+
+# License
+
+Copyright (c) 2026 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

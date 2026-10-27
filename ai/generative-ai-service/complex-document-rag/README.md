@@ -2,7 +2,7 @@
 
 An enterprise-grade Retrieval-Augmented Generation (RAG) system for generating comprehensive business reports from multiple document sources using Oracle Cloud Infrastructure (OCI) Generative AI services.
 
-Reviewed date: 03.11.2025
+Reviewed date: 04.08.2026
 
 ---
 # When to use this asset?

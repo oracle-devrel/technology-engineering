@@ -1,14 +1,15 @@
 # AWR dumps collection - Customer Guide
 
-## Introduction
+Reviewed: 30/07/26
+
+# When to use this asset?
 Below the instructions to generate the AWR Dump, required to proceed with the DB Performance Health Check.
 
 Specifically for the Performance Health Check an AWR dump collected for at least a 24 hour period is needed.
 
 NOTE: The scripts ask for Begin/End Snap which should be midnight to the next midnight to cover the 24 hour period.
 
-
-## Generate AWR Dump
+# How to use this asset?
 
 - Connect on the Database Server where the DB that you want to analyse reside
 
@@ -62,7 +63,7 @@ NOTE: The scripts ask for Begin/End Snap which should be midnight to the next mi
 
 - The amount of AWR data that needs to be extracted will determine the processing time for the AWR extract operation. After the dump file is created, Data Pump can be used to transport the file to another system.
 
-### Example of Generating AWR Dump
+## Example of Generating AWR Dump
 
 
     $ sqp
@@ -215,9 +216,7 @@ NOTE: The scripts ask for Begin/End Snap which should be midnight to the next mi
     
     End of AWR Extract
 
-Reviewed: 06/11/26
-
-## License
+# License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
 

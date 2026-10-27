@@ -2,7 +2,7 @@
  
 This pattern address one specific need when using Oracle Integration Cloud OIC for invoking an external web service: define a custom IP address as outbound address for OIC external calls, in order to reach the external service. Some external services need to whitelist the client IP address to allow proper client filtering security.
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # When to use this asset?
  

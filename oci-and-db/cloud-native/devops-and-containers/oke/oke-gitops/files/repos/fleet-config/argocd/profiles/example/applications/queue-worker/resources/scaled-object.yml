@@ -1,0 +1,18 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: queue-worker
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  scaleTargetRef:
+    name: queue-worker
+  minReplicaCount: 1
+  maxReplicaCount: 2
+  triggers:
+    - type: cron
+      metadata:
+        timezone: Europe/Rome
+        start: 0 8 * * 1-5
+        end: 0 18 * * 1-5
+        desiredReplicas: "2"

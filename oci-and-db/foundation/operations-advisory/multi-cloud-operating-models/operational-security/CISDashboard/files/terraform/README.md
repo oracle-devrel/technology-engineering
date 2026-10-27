@@ -1,6 +1,12 @@
 # Oracle Cloud Infrastructure Log Analytics Custom Content Import
 
+## What is this asset?
+
 This Terraform code is used to import custom content into Oracle Cloud Infrastructure (OCI) Log Analytics.
+
+## How to use this asset?
+
+Configure the required variables, then follow the [Usage](#usage) steps to initialize and apply the Terraform configuration.
 
 ## Prerequisites
 

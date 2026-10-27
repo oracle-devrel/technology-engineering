@@ -2,6 +2,8 @@
 
 An Oracle Generative AI Services application that uses AI to evaluate documents based on objective criteria.
 
+Reviewed: 04.08.2026
+
 ## Features
 
 - **AI-Powered Analysis**: Integration with Oracle Generative AI for intelligent document evaluation

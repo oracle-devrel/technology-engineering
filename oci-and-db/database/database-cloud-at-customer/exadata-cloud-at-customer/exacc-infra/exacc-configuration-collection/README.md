@@ -2,6 +2,8 @@
 
 A script utilising the OCI Python SDK to collect the information on an existing ExaDB-C@C or ExaDB-D configuration. 
 
+Reviewed: 30/07/26
+
 # When to use this asset?
  
 The asset is designed to collect configuration options and settings of resources on an ExaDB-C@C and/or ExaDB-D environment. This configuration options include Exadata Infrastructure and VM cluster related settings mainly. 
@@ -40,8 +42,6 @@ options:
                         Exadata Cloud Service Type [CS, CC, ALL]
 ```
 The above script is creating JSON file with all the configuration information which can be shared with Oracle for further analysis. 
-
-Reviewed: 06/11/26
 
 # License
  

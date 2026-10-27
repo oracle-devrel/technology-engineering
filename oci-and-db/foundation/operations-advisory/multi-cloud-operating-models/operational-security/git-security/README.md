@@ -1,6 +1,14 @@
-# Git Security <!-- omit in toc --> 
+# Git Security 
 
-Reviewed: 2026-07-08
+Reviewed: 2026-09-04
+
+## What is this asset?
+
+This asset describes Git platform security practices for separating duties, protecting code and configuration, and maintaining an auditable GitOps operating model.
+
+## How to use this asset?
+
+Use the recommended practices in this guide when defining Git repository access, branch-protection, authentication, and review controls.
 
 One of the considerations within Operational Security is to align the end-to-end for people, tools and processes involved in the design and implementation of the Landing Zone and workloads lifecycle management in GitOps Multi-Cloud Operating Model. These practices falls in the DevSecOps and implies to follow some best practices on the Git platform side, that might be dependant on the vendors to offer more or less capabilities over the Git open standard.
 
@@ -23,7 +31,6 @@ A more detailed description of these best practices:
 6) **Git users forced to use MFA Authentication and SSO:** Multi-Factor authentication for secondary devices or SSO integration with federated Identity Providers are encouraged to allow the users management lifecycle process to block users that left the company. Strict control over tokens capabilities should be established also on only access need permissions to the repository features.
    
 7) **Require branch protection and N reviewers:** These features must be enabled to avoid that a single individual can just commit or merge changes in the main branch (production), requiring that different reviewers must review and approve the changes before they're merged. This reduces individuals making unauthorised changes or malicious changes. The force to protect main/master branch also forces to track better the changes history on Git. This can also be enhanced with some proprietary options, as the use os CODEOWNERS (present in GitHub/GitLab), that forces to certain files to be reviewed by specific team(s) members, as it could be in those customers where a Product Owner might want to do the review for their domain area of expertise (typical examples are Security/Networking admins).
-
 
 # License
 

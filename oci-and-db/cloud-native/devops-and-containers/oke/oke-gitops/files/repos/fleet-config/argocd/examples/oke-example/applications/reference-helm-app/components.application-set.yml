@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: reference-helm-app-components-oke-example
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  labels:
+    app.kubernetes.io/name: reference-helm-app
+    app.kubernetes.io/component: workloads
+    fleet.oke.oracle.com/cluster: oke-example
+spec:
+  goTemplate: true
+  goTemplateOptions: [missingkey=error]
+  generators:
+    - list:
+        elements:
+          - {component: frontend, environment: dev}
+          - {component: api, environment: dev}
+  template:
+    metadata:
+      name: 'reference-helm-app-{{ .component }}-{{ .environment }}-oke-example'
+      namespace: argocd
+      finalizers: [resources-finalizer.argocd.argoproj.io]
+      labels:
+        app.kubernetes.io/name: reference-helm-app
+        app.kubernetes.io/component: '{{ .component }}'
+        app.kubernetes.io/environment: '{{ .environment }}'
+        fleet.oke.oracle.com/cluster: oke-example
+    spec:
+      project: applications
+      sources:
+        - repoURL: ${apps_config_repo_url}
+          targetRevision: HEAD
+          path: applications/reference-helm-app/helm
+          helm:
+            releaseName: 'reference-helm-app-{{ .component }}-{{ .environment }}'
+            valueFiles:
+              - $values/applications/reference-helm-app/helm/values.yaml
+              - '$values/applications/reference-helm-app/helm/values/{{ .environment }}/{{ .component }}.yml'
+        - repoURL: ${apps_config_repo_url}
+          targetRevision: HEAD
+          ref: values
+      destination:
+        name: oke-example
+        namespace: reference-helm-app
+      syncPolicy:
+        syncOptions: [ServerSideApply=true, ApplyOutOfSyncOnly=true, SkipDryRunOnMissingResource=true, FailOnSharedResource=true, PruneLast=true]
+        automated:
+          prune: true
+          selfHeal: true
+        retry:
+          limit: 10
+          backoff: {duration: 5s, factor: 2, maxDuration: 3m}

@@ -2,6 +2,8 @@
 
 Owner: Paul Toal
 
+Reviewed: 14.09.2026
+
 Within OCI, the [Load Balancer Service](https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm) enables you to create resilient connections to backend resources such as web servers.
 
 Sometimes when you are testing backend services it is necessary to use a HTTPS connection. Normally, TLS certificates are issued against fully qualified domain names. However, it isn't always possible or quick and easy to register your testing resources with a domain.
@@ -235,4 +237,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

@@ -1,0 +1,19 @@
+---
+- name: Read the deployed software-agent marker
+  ansible.builtin.stat:
+    path: "/opt/agents/{{ agent_type }}.installed"
+  register: agent_marker
+
+- name: Verify the software-agent marker
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - agent_marker.stat.exists
+      - agent_marker.stat.isreg
+    fail_msg: The software-agent marker was not created.
+
+- name: Report the verified software-agent marker
+  ansible.builtin.debug:
+    msg: >-
+      {{ inventory_hostname }}: {{ agent_type }}
+      {{ agent_version | default('latest') }} installed

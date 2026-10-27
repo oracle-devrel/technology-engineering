@@ -2,7 +2,7 @@
  
 This technical guide describes how to download and import pre-configured and HuggingFace sourced ONNX Embedding Models into the Oracle AI Database 26ai.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

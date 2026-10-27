@@ -2,7 +2,7 @@
  
 This document covers Oracle Cloud Infrastructure Artificial Intelligence, Machine Learning and Data Science architecture templates.
 
-Reviewed: 2026.01.05
+Reviewed: 2026.08.13
  
 
 # When to use this asset?

@@ -2,7 +2,7 @@
 
 This is a Generative AI-powered application that extracts key information from patient referral letters (in `.docx` format) and processes them using the OCI Generative AI services. This application allows users to simply and efficiently extract key data from patient referrals for expedited patient handling.
 
-Reviewed date: 22.09.2025
+Reviewed date: 04.08.2026
 
 ## Demo
 ![Demo of Patient Letter Extraction](./files/patient_letter_demo.gif)

@@ -1,7 +1,7 @@
 ## Oracle Text Overview Presentation
 This presentation provides information about general Oracle Text features and highlights Oracle Database 23 features. 
 
-Reviewed: 19.04.2024
+Reviewed: 31.07.2026
 
 # When to use this asset?
 

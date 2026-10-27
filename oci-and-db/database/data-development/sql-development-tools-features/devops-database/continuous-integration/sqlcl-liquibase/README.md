@@ -4,21 +4,19 @@
 
 [Liquibase](https://www.liquibase.org/) is an open-source database-independent library for tracking, managing and applying database schema changes. This feature is included in the standalone SQLcl offering, which is different from the SQL Developer installation.
 
-You may use the open-source or Pro version of Liquibase to track and manage your database changes. It has support for additional technologies through the use of JDBC driver connections but is limited to standard database metadata. i.e. Data Dictionary. Liquibase also reads and writes all changesets to a single changelog. 
+You may use the open-source or Pro version of Liquibase to track and manage your database changes. It has support for additional technologies through the use of JDBC driver connections but is limited to standard database metadata. i.e. Data Dictionary. Liquibase also reads and writes all changesets to a single changelog.
 
 The Liquibase feature is SQLcl extends the base utility with additional metadata changesets, such as APEX and ORDS, and adds and automates the file splitting capabilities, generating changelog and changesets written using the DBMS_METADATA SXML data format.
 
 You can add the functionality to read these specialized changelogs to the Liquibase client by following the instructions in the [Requirements for Using Liquibase](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/23.4/sqcug/using-liquibase.html#GUID-673321E9-1C06-4B9A-A373-52C2CB5AB7B0) section of the documentation.
 
-# The Liquibase Feature in SQLcl
-SQLcl Liquibase with Oracle Database provides extended functionality to the Liquibase experience compared to the open-source Liquibase client. The Liquibase feature in SQLcl enables you to execute commands to generate a changelog for a single object or for a full schema in specialized changelogs and changesets.
-
-Reviewed: 01.12.2025
+Reviewed: 26.08.2026
 
 # Table of Contents
- 
+
 1. [Team Publications](#team-publications)
 2. [Useful Links](#useful-links)
+3. [Reusable Assets Overview](#reusable-assets-overview)
 
 # Team Publications
 
@@ -37,7 +35,7 @@ Reviewed: 01.12.2025
 ## Blogs
 - [ThatJeffSmith - Getting started with Oracle Database CI/CD & SQLcl Projects](https://www.thatjeffsmith.com/archive/2025/05/getting-started-with-sqlcl-projects/)
 
-## Videos & Demos 
+## Videos & Demos
 - [YouTube - Automating Your SQL and PL/SQL Deployments](https://www.youtube.com/watch?app=desktop&v=oyU11sk51ao)
 - [YouTube - Using SQLcl and Liquibase to version your Oracle Database](https://www.youtube.com/watch?v=7A-anQoi6tI)
 - [DevOps with Oracle Application Express](https://gotsysdba.com/demo-oci-adb-apex-devops-part1)
@@ -54,9 +52,15 @@ Reviewed: 01.12.2025
 - [Take Control of Your Database With Automated Schema Changes](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3692)
 - [Oracle LiveLabs - Oracle Database Operator for Kubernetes + DevOps](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=3393)
 
+# Reusable Assets Overview
+
+## The Liquibase Feature in SQLcl
+SQLcl Liquibase with Oracle Database provides extended functionality to the Liquibase experience compared to the open-source Liquibase client. The Liquibase feature in SQLcl enables you to execute commands to generate a changelog for a single object or for a full schema in specialized changelogs and changesets.
 
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
+
 Licensed under the Universal Permissive License (UPL), Version 1.0.
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+
+See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

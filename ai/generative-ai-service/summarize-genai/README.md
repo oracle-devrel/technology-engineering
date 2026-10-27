@@ -6,7 +6,7 @@ This project will show you how to set up such a system, feed it documents, and h
 <img src="./files/docSummarizeScreen.png">
 </img>
 
-Reviewed date: 23.09.2025
+Reviewed date: 04.08.2026
 
 # When to use this asset
 

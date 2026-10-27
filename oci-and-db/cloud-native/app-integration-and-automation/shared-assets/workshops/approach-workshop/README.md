@@ -2,6 +2,8 @@
 
 This section contains workshop offerings from the Application Integration Specialist team within Oracle Technology Engineering organization.
 
+Review Date: 02.09.2026
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.

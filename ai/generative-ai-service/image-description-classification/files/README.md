@@ -5,6 +5,8 @@
 This demo allows you to upload images and generate short descriptions, as well
 as categorizing the main object(s) and generating a JSON with properties.
 
+Reviewed: 04.08.2026
+
 ### Applications
 
 - Classifying objects for insurance purposes

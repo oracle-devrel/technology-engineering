@@ -10,7 +10,7 @@ This repository contains code and examples to help in the following tasks:
 
 **Author**: L. Saetta
 
-**Reviewed**: 28.01.2026
+**Reviewed**: 04.08.2026
 
 ![MCP console](./images/mcp_cli.png)
 

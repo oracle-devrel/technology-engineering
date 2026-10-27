@@ -5,6 +5,8 @@ fronted by a public Load Balancer. Designed for OCI Resource Manager Stacks, but
 it also runs with the Terraform CLI (uncomment the security variables that
 Resource Manager would otherwise inject).
 
+Reviewed: 04.08.2026
+
 ## Deploy with the Terraform CLI
 
 ```bash

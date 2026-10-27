@@ -6,7 +6,7 @@ It’s accessible via Console, REST, CLI, and SDKs. Outputs are written to your 
 
 Recent updates include Live Transcribe for real-time ASR and Whisper model support for multilingual transcription alongside Oracle’s native ASR models.
 
-Reviewed: 25.09.2025
+Reviewed: 04.08.2026
 
 # Table of Contents
  

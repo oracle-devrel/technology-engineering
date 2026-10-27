@@ -5,6 +5,8 @@ Group PLC) for the same scope: managed IT infrastructure and cloud operations fo
 430-server hybrid estate. Designed to showcase the Planner → Section Writer → Report
 Writer pipeline on a multi-entity comparison with chartable numeric differences.
 
+Reviewed: 04.08.2026
+
 - `NorthBridge_MSA.pdf` — NorthBridge Digital Services Ltd (premium: shorter term, strict
   SLAs, client-friendly risk terms, higher price).
 - `Velocita_MSA.pdf` — Velocita Cloud Solutions S.A. (cheaper: long lock-in, weaker SLAs,

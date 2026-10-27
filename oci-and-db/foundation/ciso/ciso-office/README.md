@@ -8,7 +8,7 @@ The Field CISO Specialists team is responsible for building trusted relationship
 - Reduce risk, Incident response, Resiliency and Optimize costs
 - Adopt OCI to meet their compliance needs with securely built and operated workloads
 
-Last updated: 28.10.2024
+Reviewed: 14.09.2026
 
 # Table of Contents
  
@@ -22,24 +22,6 @@ Last updated: 28.10.2024
 
 - [Managing access across multiple Oracle SaaS and PaaS environments](https://blogs.oracle.com/cloud-infrastructure/post/managing-access-across-multiple-oracle-cloud-envs)
     - This article follows on from a previous post and looks at the recommended approach for structuring OCI IAM identity domains for providing SSO within your Oracle Cloud estate across multiple environments.
-
-- [Quick tip 10: MFA user enrollment status within OCI IAM](https://blogs.oracle.com/cloudsecurity/post/quick-tip-10-mfa-user-enrollment-status-within-oci-iam)
-    - In this quick tip, we look at various options for how you can report on which users have enrolled for MFA within your tenancy.
-
-- [Quick tip 9: My sign-on policy denies access. Help!](https://blogs.oracle.com/cloudsecurity/post/quick-tip-9-my-signon-policy-denies-access-help)
-    - This blog post looks at what you can do if you make changes to your sign-on policies and lock yourself out of your OCI IAM identity domain.
-
-- [Quick tip 8: Managing authentication through sign-on policies](https://blogs.oracle.com/cloudsecurity/post/quick-tip-8-managing-authentication-through-signon-policies)
-    - This blog post looks at Sign-on policies and how users are challenged to authenticate.
-
-- [A huge step forward for Security Zones in Oracle Cloud Infrastructure](https://blogs.oracle.com/cloudsecurity/post/a-huge-step-forward-for-security-zones-in-oci)
-    - This blog post will examine changes to customize a security recipe for a security zone and help you understand the benefits that the new approach has.
-
-- [Native Cloud Security Services or Heterogeneous Tools?](https://blogs.oracle.com/cloudsecurity/post/native-cloud-security-services-or-heterogeneous-tools)
-    - This blog post examines the common question of whether should you use existing security tools, which can monitor all your different cloud environments, not just OCI, or should you use OCI-native security services.
-
-- [The recommended approach for using external identities with Oracle Cloud](https://blogs.oracle.com/cloudsecurity/post/the-recommended-approach-for-using-external-identities-with-oracle-cloud)
-    - This article looks at the recommended approach for delivering SSO across your Oracle SaaS, PaaS, and IaaS estate by using OCI IAM.
 
 ## External Blogs
 
@@ -63,19 +45,13 @@ Last updated: 28.10.2024
 - [OCI Monitoring Integration with 3rd party SIEM](https://www.youtube.com/watch?v=UPdPZPWOZIs)    
     - In this session, you will see how to integrate your existing SIEM with the OCI Monitoring Capabilities following a well-known pattern.
     
-- [Myth #3 My workload is too sensitive to put into the Public Cloud](https://go.oracle.com/LP=133641?elqCampaignId=372556)
-    - In this third episode, we will cover: Oracle’s approach to security within OCI and Adopting a zero-trust security model as recommended by industry compliance standards 
-    
 - [Oracle Espresso - Be More Resilient Against Ransomware Attacks](https://go.oracle.com/LP=114881?elqCampaignId=312068#On-Demand-Webinars)
   - The webinar addresses a number of design architectures, best practices, automation tooling, and services for your inspiration and consideration. Let us show you how to become more resilient in a systematic and consistent way.
 
 - [Cybersecurity First: why Security is better in the cloud](https://go.oracle.com/LP=122806?)
    - Join us to hear from Oracle Security expert, how your solutions could benefit from OCI built-in security. 
 
-- [OCI Tech Talk - OCI Strategy Update and Security Deep Dive](https://videohub.oracle.com/media/t/1_s6juw6by)
-    - Watch this webinar as the Oracle experts will briefly go through some of the latest updates of OCI, before going in-depth into the security topic. Oracle believes security should be foundational and built-in, and customers shouldn’t be forced to make tradeoffs between security and cost.
-
- ## Oracle Live Labs
+## Oracle Live Labs
 
 - [Security workshop for ORDS Deployment](https://apexapps.oracle.com/pls/apex/r/dbpm/livelabs/run-workshop?p210_wid=3338&p210_wec=&session=107996902425576)
     - This hands-on workshop lab will help you understand how to set up a standalone ORDS (Oracle REST Data Services) server on OCI in a secure way, protecting all the resources involved through bastion services, private end-point ADB-S database, API Gateway, and monitoring with Oracle Data Safe.
@@ -87,9 +63,7 @@ Last updated: 28.10.2024
 
 ## Reusable Assets Overview
 
-- [Identity Token Propagation Script](shared-assets/oic_iam_token_exchange_demo/readme.md)
-- [Adding a Group to an OCI IAM Admin Role](shared-assets/oci_iam_adding_group_to_admin_role/)
-- [Adding OCI Observability alarms to security monitoring](shared-assets/security-alarms/README.md)
+- [List of assets](../security-design/README.md)
 
 # Useful Links
  
@@ -108,4 +82,4 @@ Copyright (c) 2026 Oracle and/or its affiliates.
 
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 
-See [LICENSE](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE) for more details.
+See [LICENSE.txt](https://github.com/oracle-devrel/technology-engineering/blob/main/LICENSE.txt) for more details.

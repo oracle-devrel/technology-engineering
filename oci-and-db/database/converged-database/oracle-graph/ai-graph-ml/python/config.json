@@ -1,0 +1,10 @@
+{
+    "oracle":  {
+                   "user":  "Your_user",
+                   "password_env":  "DB_PASSWORD",
+                   "dsn":  "db_tp",
+                   "wallet_dir":  "C:\\YOur_Wallet_Path",
+                   "config_dir":  "",
+                   "connection_mode":  "thick"
+               }
+}

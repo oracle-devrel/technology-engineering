@@ -2,6 +2,8 @@
 
 This project includes three parts:
 
+Reviewed: 04.08.2026
+
 1. The **LiveKit voice agent** (Python) — `main.py`
 2. The **OCI Semantic Store / NL2SQL setup and enrichment script** (Python) — `demo_nl2sql.py`
 3. The **React frontend UI**

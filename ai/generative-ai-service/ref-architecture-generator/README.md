@@ -2,6 +2,8 @@
 
 A Streamlit demo that turns a natural-language description of an Oracle Cloud Infrastructure workload into a production-quality reference architecture diagram. The user describes the components, zones, and numbered data-flow steps; the app prepends a strict OCI visual style guide and sends the combined prompt to one of three image models on OCI Generative AI: Qwen-Image-Edit on a Dedicated AI Cluster, Grok Imagine. An iterative refinement loop lets the user nudge successive regenerations without losing history, and Qwen runs in style-transfer mode against an uploaded reference architecture image.
 
+Reviewed: 04.08.2026
+
 ## When to Use This Asset?
 
 Use this asset to show enterprise and government clients how OCI Generative AI accelerates solution-architecture work, converting an analyst's written description of a system into a visual reference diagram in seconds with a refinement loop that mirrors the back-and-forth of real architecture-review sessions. It is particularly relevant for:

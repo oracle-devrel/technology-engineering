@@ -2,7 +2,7 @@
 
 The following asset is a tool designed to showcase the full pipeline from creating an OCI vision streaming job to deleting it in order to consume frames from RTSP live streams to extract key insights.
 
-Reviewed: 19.01.2026
+Reviewed: 04.08.2026
 
 Author: David Attia.
 

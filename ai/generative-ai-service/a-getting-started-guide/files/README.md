@@ -2,6 +2,8 @@
 
 Run commands in this directory.
 
+Reviewed: 04.08.2026
+
 1. Install dependencies with `uv sync`.
 2. Copy `.env.example` to `.env`.
 3. Replace placeholder values in `.env`.

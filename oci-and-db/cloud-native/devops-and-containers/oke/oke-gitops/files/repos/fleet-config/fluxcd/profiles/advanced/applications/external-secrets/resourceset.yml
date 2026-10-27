@@ -1,0 +1,96 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: fleet-external-secrets
+  namespace: flux-system
+spec:
+  steps:
+    - name: install-operator
+      timeout: 10m
+      resources:
+        - apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: external-secrets
+            annotations:
+              fluxcd.controlplane.io/prune: disabled
+
+        - apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: eso-demo
+            annotations:
+              fluxcd.controlplane.io/prune: disabled
+
+        - apiVersion: source.toolkit.fluxcd.io/v1
+          kind: HelmRepository
+          metadata:
+            name: external-secrets
+            namespace: flux-system
+          spec:
+            interval: 30m
+            url: https://charts.external-secrets.io
+
+        - apiVersion: helm.toolkit.fluxcd.io/v2
+          kind: HelmRelease
+          metadata:
+            name: external-secrets
+            namespace: flux-system
+          spec:
+            interval: 15m
+            releaseName: external-secrets
+            targetNamespace: external-secrets
+            chart:
+              spec:
+                chart: external-secrets
+                version: "2.8.0"
+                sourceRef:
+                  kind: HelmRepository
+                  name: external-secrets
+            values:
+              installCRDs: true
+              serviceAccount:
+                create: true
+                name: external-secrets
+              resources:
+                requests:
+                  cpu: 20m
+                  memory: 64Mi
+                limits:
+                  cpu: 200m
+                  memory: 256Mi
+              webhook:
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 32Mi
+                  limits:
+                    cpu: 100m
+                    memory: 128Mi
+              certController:
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 32Mi
+                  limits:
+                    cpu: 100m
+                    memory: 128Mi
+
+    - name: reconcile-vault-secret
+      timeout: 3m
+      resources:
+        - apiVersion: kustomize.toolkit.fluxcd.io/v1
+          kind: Kustomization
+          metadata:
+            name: fleet-external-secrets-resources
+            namespace: flux-system
+          spec:
+            interval: 5m
+            sourceRef:
+              kind: GitRepository
+              name: fleet-config
+            path: ./profiles/advanced/applications/external-secrets/resources
+            targetNamespace: eso-demo
+            prune: true
+            wait: true
+            timeout: 3m

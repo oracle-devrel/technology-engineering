@@ -1,6 +1,6 @@
 # Modular GenAI-based Knowledge Search Engine using OCI Generative AI, OCI DB 23ai, and Oracle Integration Cloud
 
-Reviewed: 07.11.2024
+Reviewed: 04.08.2026
 
 # Introduction
 

@@ -1,0 +1,999 @@
+title: OKE Helm Starter Stack
+description: Bootstrap OCI DevOps component builds, optional Helm delivery, and optional OKE cluster administration.
+stackDescription: Creates configurable OCI DevOps CI and, when selected, application delivery and OKE administration workflows.
+schemaVersion: 1.1.0
+version: "20261023"
+locale: en
+informationalText: "Start with the Pipelines Repository button and the Next Steps output. Full delivery mode continues from component builds into Helm promotion; build-only mode publishes SHA7 images for an external delivery system."
+
+variableGroups:
+  - title: Hidden
+    visible: false
+    variables:
+      - tenancy_ocid
+      - region
+      - current_user_ocid
+      - compartment_ocid
+      - development_mode
+      - automatic_credentials_compartment_id
+      - namespace_init_secret_compartment_id
+      - application_namespace_help
+      - cluster_administration_help
+      - automatic_credentials_email
+
+  - title: OCI DevOps
+    variables:
+      - create_devops_project
+      - existing_devops_project_id
+      - devops_compartment_id
+      - devops_project_name
+      - devops_project_description
+      - application_delivery_mode
+      - devops_pipeline_repository_name
+      - create_notification_topic
+      - notification_topic_id
+      - notification_topic_name
+      - notification_topic_description
+      - devops_log_is_enabled
+      - devops_log_group_name
+      - devops_log_group_description
+      - devops_log_name
+      - devops_log_retention_period_in_days
+      - namespace_init_secret_name
+
+  - title: Applications
+    variables:
+      - application_definitions
+      - components
+
+  - title: Environment Names
+    visible:
+      or:
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
+        - ${enable_cluster_admin}
+    variables:
+      - customize_environment_names
+      - dev_environment_name
+      - staging_environment_name
+      - prod_environment_name
+      - noprod_cluster_name
+      - prod_cluster_name
+
+  - title: OKE Pre-Prod Environment
+    visible:
+      or:
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
+        - ${enable_cluster_admin}
+    variables:
+      - oke_compartment_id
+      - oke_cluster_id
+      - network_compartment_id
+      - oke_vcn_id
+      - oke_worker_subnet_id
+      - oke_worker_nsg_id
+
+  - title: OKE Prod Environment
+    visible:
+      or:
+        - eq:
+            - ${application_delivery_mode}
+            - oci_devops
+        - ${enable_cluster_admin}
+    variables:
+      - prod_oke_compartment_id
+      - prod_oke_cluster_id
+      - prod_network_compartment_id
+      - prod_oke_vcn_id
+      - prod_oke_worker_subnet_id
+      - prod_oke_worker_nsg_id
+
+  - title: IAM
+    variables:
+      - auth_token
+      - create_iam
+      - iam_policy_compartment_id
+      - devops_policy_name
+      - pipeline_iam_domain_compartment_id
+      - pipeline_iam_domain_id
+      - devops_dynamic_group_name
+      - create_automatic_credentials
+      - iam_domain_compartment_id
+      - devops_iam_domain_id
+
+  - title: Cluster Administration (Optional)
+    variables:
+      - enable_cluster_admin
+      - cluster_admin_artifact_repository_name
+      - cluster_administration
+
+variables:
+
+  application_definitions:
+    type: list
+    title: Applications
+    description: Shared namespace and chart settings for each application.
+    valueType: application_entry
+    default: '[{"name":"sample-app"}]'
+    required: false
+
+  application_entry:
+    type: object
+    title: Application
+    visible: false
+    attributes:
+      - application_name
+      - application_namespace
+      - application_prod_namespace
+      - application_chart_repository
+      - application_chart_path
+      - application_chart_version
+
+  application_name:
+    type: string
+    actualName: name
+    title: Application name
+    visible: false
+    required: true
+
+  application_namespace:
+    type: string
+    actualName: namespace
+    title: Nonproduction namespace
+    description: Defaults to the application name.
+    visible: false
+
+  application_prod_namespace:
+    type: string
+    actualName: prod_namespace
+    title: Production namespace
+    description: Defaults to the nonproduction namespace.
+    visible: false
+
+  application_chart_repository:
+    type: string
+    actualName: chart_repository_name
+    title: Chart repository name
+    description: Defaults to <application-name>-chart.
+    visible: false
+
+  application_chart_path:
+    type: string
+    actualName: chart_path
+    title: Chart path
+    description: Defaults to the application name.
+    visible: false
+
+  application_chart_version:
+    type: string
+    actualName: chart_version
+    title: Initial chart version
+    description: Defaults to 0.1.0; later versions are maintained in Git.
+    visible: false
+
+  components:
+    type: list
+    title: Components
+    description: Each component references an application above. Component names must be globally unique.
+    valueType: component_entry
+    default: '[{"application":"sample-app","name":"sample-api"},{"application":"sample-app","name":"sample-worker"}]'
+    required: false
+
+  component_entry:
+    type: object
+    title: Component
+    visible: false
+    attributes:
+      - component_application
+      - component_name
+      - component_build_spec_path
+      - component_chart_version
+
+  component_application:
+    type: string
+    actualName: application
+    title: Application name
+    description: Name of an application in the Applications list.
+    visible: false
+    required: true
+
+  component_name:
+    type: string
+    actualName: name
+    title: Component name
+    visible: false
+    required: true
+
+  component_build_spec_path:
+    type: string
+    actualName: build_spec_path
+    title: Build specification path
+    description: Defaults to <component-name>-build-pipeline.yaml in the pipelines repository.
+    visible: false
+
+  component_chart_version:
+    type: string
+    actualName: chart_version
+    title: Initial chart version
+    description: Defaults to 0.1.0; later versions are maintained in Git.
+    visible: false
+
+  customize_environment_names:
+    type: boolean
+    title: Customize environment names
+    description: Show custom naming inputs. Saving with this off restores default names.
+    default: false
+
+  dev_environment_name:
+    type: string
+    title: Development environment name
+    description: Name used by development pipelines, Helm releases and Kubernetes labels.
+    default: dev
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  staging_environment_name:
+    type: string
+    title: Staging environment name
+    description: Name of the release-candidate environment before production approval.
+    default: staging
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  prod_environment_name:
+    type: string
+    title: Production environment name
+    description: Name of the production application environment. Approval remains required.
+    default: prod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  noprod_cluster_name:
+    type: string
+    title: Non-production cluster target name
+    description: Name used by bootstrap, cluster administration and baseline releases.
+    default: noprod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+  prod_cluster_name:
+    type: string
+    title: Production cluster target name
+    description: Name used by bootstrap and approved cluster administration.
+    default: prod
+    required: true
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    maxLength: 63
+    visible: ${customize_environment_names}
+
+  administration_tools:
+    type: list
+    actualName: tools
+    title: Tools
+    visible: false
+    required: true
+    valueType: administration_tool
+  administration_tool:
+    type: object
+    title: Tool
+    visible: false
+    attributes:
+      - tool_name
+      - tool_repository
+      - tool_chart
+      - tool_version
+      - tool_namespace
+      - tool_dependencies
+
+  tool_name:
+    type: string
+    actualName: name
+    title: Tool name
+    visible: false
+    required: true
+
+  tool_repository:
+    type: string
+    actualName: repository
+    title: Chart repository URL
+    visible: false
+    required: true
+
+  tool_chart:
+    type: string
+    actualName: chart
+    title: Chart name
+    visible: false
+    required: true
+
+  tool_version:
+    type: string
+    actualName: version
+    title: Pinned chart version
+    visible: false
+    required: true
+
+  tool_namespace:
+    type: string
+    actualName: namespace
+    title: Namespace
+    description: Leave blank to use the tool name as its Kubernetes namespace.
+    visible: false
+
+  tool_dependencies:
+    type: list
+    actualName: depends_on
+    title: Dependencies
+    description: Leave the list empty for no dependencies. Add names of other configured tools that must complete before this tool starts. Independent tools run in parallel; dependencies must not form a cycle. For example, add external-dns here to deploy this tool after external-dns.
+    visible: false
+    valueType: tool_dependency
+  tool_dependency:
+    type: string
+    title: Prerequisite tool name
+    description: Name of another configured tool, not its chart or namespace. Remove unused entries to leave the dependency list empty.
+    visible: false
+  application_delivery_mode:
+    title: Application Delivery Mode
+    description: Choose full OCI DevOps application delivery, or build-only CI when GitOps or another external system owns application releases.
+    type: enum
+    enum:
+      - oci_devops
+      - build_only
+    default: oci_devops
+    required: true
+
+  devops_pipeline_repository_name:
+    title: DevOps Pipelines Repository Name
+    description: Shared repository containing this stack's build specifications and helper scripts. Use a distinct name when sharing an OCI DevOps project with another stack.
+    type: string
+    default: devops-pipelines
+    pattern: "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    minLength: 1
+    maxLength: 100
+    required: true
+
+  create_devops_project:
+    title: Create OCI DevOps Project
+    description: Create a new project for this starter. Disable this option to install the generated repositories and pipelines in an existing OCI DevOps project.
+    type: boolean
+    default: true
+
+  existing_devops_project_id:
+    title: Existing OCI DevOps Project OCID
+    description: Resource Manager does not provide an OCI DevOps project selector. Paste the OCID of the project to reuse; its name and compartment are discovered automatically.
+    type: string
+    pattern: "^ocid1\\.devopsproject\\..+$"
+    required: true
+    visible:
+      not:
+        - ${create_devops_project}
+
+  devops_compartment_id:
+    title: DevOps Compartment
+    description: Compartment where this stack creates the new OCI DevOps project. Defaults to the stack compartment.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+    visible: ${create_devops_project}
+
+  devops_project_name:
+    title: DevOps Project Name
+    description: Name of the OCI DevOps project.
+    type: string
+    default: oke-devops-starter
+    pattern: ".*\\S.*"
+    minLength: 1
+    maxLength: 100
+    required: true
+    visible: ${create_devops_project}
+
+  devops_project_description:
+    title: DevOps Project Description
+    type: string
+    default: Beginner-friendly OCI DevOps project for OKE Helm delivery
+    visible: ${create_devops_project}
+
+  devops_log_group_name:
+    title: Log Group Name
+    type: string
+    default: oke-helm-starter-logs
+    required: true
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
+
+  devops_log_group_description:
+    title: Log Group Description
+    type: string
+    default: OCI DevOps logs for the OKE Helm starter project
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
+
+  devops_log_name:
+    title: DevOps Service Log Name
+    description: Optional name for the OCI Logging service log that captures DevOps project logs. Leave empty to derive it from the log group and project name.
+    type: string
+    default: ""
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
+
+  devops_log_is_enabled:
+    title: Enable DevOps Service Log
+    description: Create an OCI Logging log group and service log for this DevOps project.
+    type: boolean
+    default: true
+    visible: ${create_devops_project}
+
+  devops_log_retention_period_in_days:
+    title: Log Retention
+    description: Number of days to retain OCI DevOps logs.
+    type: integer
+    minimum: 30
+    maximum: 180
+    multipleOf: 30
+    default: 30
+    required: true
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${devops_log_is_enabled}
+
+  create_notification_topic:
+    title: Create Notification Topic
+    description: Create an OCI Notifications topic for the DevOps project.
+    type: boolean
+    default: true
+    visible: ${create_devops_project}
+
+  notification_topic_id:
+    title: Existing Notification Topic OCID
+    description: Existing topic used when a new topic is not created.
+    type: string
+    required: true
+    visible:
+      and:
+        - ${create_devops_project}
+        - not:
+            - ${create_notification_topic}
+
+  notification_topic_name:
+    title: Notification Topic Name
+    type: string
+    default: oke-helm-starter-topic
+    required: true
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${create_notification_topic}
+
+  notification_topic_description:
+    title: Notification Topic Description
+    type: string
+    default: OCI DevOps notifications for the OKE Helm starter project
+    visible:
+      and:
+        - ${create_devops_project}
+        - ${create_notification_topic}
+
+  oke_compartment_id:
+    title: OKE Pre-Prod Compartment
+    description: Compartment containing the existing pre-prod OKE cluster.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  oke_cluster_id:
+    title: OKE Pre-Prod Cluster
+    description: Existing pre-prod OKE cluster that receives development and staging Helm deployments.
+    type: oci:container:cluster:id
+    required: true
+    dependsOn:
+      compartmentId: ${oke_compartment_id}
+
+  prod_oke_cluster_id:
+    title: OKE Prod Cluster
+    description: Existing prod OKE cluster that receives production Helm deployments.
+    type: oci:container:cluster:id
+    required: true
+    dependsOn:
+      compartmentId: ${prod_oke_compartment_id}
+
+  prod_oke_compartment_id:
+    title: OKE Prod Compartment
+    description: Compartment containing the existing prod OKE cluster.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  prod_network_compartment_id:
+    title: OKE Prod Network Compartment
+    description: Network compartment containing the prod worker subnet and optional NSG.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  prod_oke_vcn_id:
+    title: OKE Prod VCN
+    description: VCN containing the worker subnet used for OCI DevOps private endpoint access to the prod OKE cluster.
+    type: oci:core:vcn:id
+    required: true
+    dependsOn:
+      compartmentId: ${prod_network_compartment_id}
+
+  network_compartment_id:
+    title: OKE Pre-Prod Network Compartment
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+
+  oke_vcn_id:
+    title: OKE Pre-Prod VCN
+    description: VCN containing the worker subnet used for OCI DevOps private endpoint access to the pre-prod OKE cluster.
+    type: oci:core:vcn:id
+    required: true
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+
+  oke_worker_subnet_id:
+    title: OKE Pre-Prod Worker Subnet
+    description: Worker subnet used by OCI DevOps private endpoint connections and shell stages. It must reach the Kubernetes private endpoint.
+    type: oci:core:subnet:id
+    required: true
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${oke_vcn_id}
+
+  oke_worker_nsg_id:
+    title: OKE Pre-Prod Worker NSG
+    description: Optional worker NSG attached to OCI DevOps private endpoint connections and shell stage container networking.
+    type: oci:core:nsg:id
+    required: false
+    dependsOn:
+      compartmentId: ${network_compartment_id}
+      vcnId: ${oke_vcn_id}
+
+  prod_oke_worker_subnet_id:
+    title: OKE Prod Worker Subnet
+    description: Worker subnet used by OCI DevOps private endpoint connections and shell stages for production.
+    type: oci:core:subnet:id
+    required: true
+    dependsOn:
+      compartmentId: ${prod_network_compartment_id}
+      vcnId: ${prod_oke_vcn_id}
+
+  prod_oke_worker_nsg_id:
+    title: OKE Prod Worker NSG
+    description: Optional worker NSG for production private endpoint access and shell stages.
+    type: oci:core:nsg:id
+    required: false
+    dependsOn:
+      compartmentId: ${prod_network_compartment_id}
+      vcnId: ${prod_oke_vcn_id}
+
+  application_namespace_help:
+    visible: false
+    title: How Applications Work
+    type: text
+    multiline: true
+    maxLength: 8192
+    default: |
+      Configure one or more applications with globally unique component names. In OCI DevOps delivery mode, each application gets chart and deployment resources. In build-only mode, each component gets only its source repository, PR pipeline, and SHA7 image build pipeline; deployment configuration remains external.
+
+      Example:
+      [
+        {
+          "name": "orders",
+          "components": [
+            {
+              "name": "orders-api",
+              "build_spec_path": "java/java-build-pipeline.yaml"
+            },
+            {
+              "name": "orders-worker",
+              "build_spec_path": "java/java-build-pipeline.yaml"
+            }
+          ]
+        },
+        {
+          "name": "payments",
+          "components": [
+            { "name": "payments-api" }
+          ]
+        }
+      ]
+
+      The optional build_spec_path is relative to the configured DevOps pipelines repository. When omitted, the stack generates <component>-build-pipeline.yaml. When specified, the stack creates the file and any parent folders from the default template only if it is missing. After that first commit the specification is user-owned and is never refreshed or overwritten. Multiple components can reference the same specification.
+  enable_cluster_admin:
+    title: Enable Cluster Administration
+    description: Create the optional cluster-admin repository, immutable values repository, validation and mirror builds, and noprod/prod orchestration pipelines.
+    type: boolean
+    default: false
+
+  cluster_admin_artifact_repository_name:
+    title: Cluster Administration Artifact Repository Name
+    description: Optional Generic Artifact repository display name for immutable tool values and cluster deployment plans. Leave empty to derive <project-name>-cluster-admin-values.
+    type: string
+    default: ""
+    pattern: "^$|^[A-Za-z0-9]([A-Za-z0-9._ -]*[A-Za-z0-9._-])?$"
+    maxLength: 255
+    visible: ${enable_cluster_admin}
+
+  development_mode:
+    title: Development Mode
+    description: Internal packaging mode used only by the maintained development stack.
+    type: boolean
+    default: false
+    visible: false
+
+  cluster_administration_help:
+    visible: false
+    title: How Cluster Administration Works
+    type: text
+    multiline: true
+    default: |
+      Configure one shared Kubernetes tool topology and its pinned public Helm chart sources for the existing noprod and prod OKE clusters. Each cluster gets one orchestrator; prod adds an approval before execution. Values, supplemental resources, and cluster-wide manifests remain separate in Git. Independent tools run in parallel; depends_on places a tool after its prerequisites.
+
+      Public charts are pinned in the generated cluster-admin repository and mirrored into OCIR. Pull requests validate configuration without cluster access. After merge, the build publishes immutable values and runs only affected stages. Noprod starts immediately; prod requires approval before any selected mutation.
+
+      Traditional Helm repository example:
+      {
+        "name": "keda",
+        "repository": "https://kedacore.github.io/charts",
+        "chart": "keda",
+        "version": "2.20.1",
+        "namespace": "keda",
+        "depends_on": []
+      }
+
+      OCI chart repository example (the chart name is appended to the repository path):
+      {
+        "name": "external-dns",
+        "repository": "oci://registry-1.docker.io/bitnamicharts",
+        "chart": "external-dns",
+        "version": "9.0.3",
+        "namespace": "external-dns",
+        "depends_on": []
+      }
+
+  cluster_administration:
+    title: Tools
+    description: Shared Kubernetes tool topology. Repository accepts an HTTPS Helm repository or an OCI base path; chart is appended to OCI paths. Every tool requires a pinned version. Namespaces default to tool names.
+    type: list
+    valueType: administration_tool
+    required: false
+    visible: ${enable_cluster_admin}
+    default: |
+      [
+          {
+            "name": "keda",
+            "repository": "https://kedacore.github.io/charts",
+            "chart": "keda",
+            "version": "2.20.1",
+            "namespace": "keda",
+            "depends_on": []
+          },
+          {
+            "name": "kube-prometheus",
+            "repository": "https://prometheus-community.github.io/helm-charts",
+            "chart": "kube-prometheus-stack",
+            "version": "87.10.1",
+            "namespace": "monitoring",
+            "depends_on": []
+          }
+      ]
+
+  namespace_init_secret_name:
+    title: Application Bootstrap Pull Secret Name
+    description: Docker-registry secret created by each application's noprod and prod bootstrap stages.
+    type: string
+    default: ocirsecret
+    pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+    minLength: 1
+    maxLength: 63
+    required: true
+    visible:
+      eq:
+        - ${application_delivery_mode}
+        - oci_devops
+
+  auth_token:
+    title: Auth Token
+    description: Auth token for the current OCI user. Resource Manager uses it once to seed the hosted DevOps repositories.
+    type: password
+    required: true
+    visible: true
+
+  create_automatic_credentials:
+    title: Create OCI Vault and Credentials
+    description: Create automation users and auth tokens, plus a Vault, key, secrets and access policy in the DevOps project compartment. Tokens enter Terraform state; restrict state access.
+    type: boolean
+    default: false
+
+  automatic_credentials_compartment_id:
+    title: Automatic Credentials Vault Compartment
+    description: Location for the generated Vault, key and secrets. The form defaults to the stack compartment; select the project's compartment or another permitted compartment.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+    visible: false
+
+  automatic_credentials_email:
+    title: Automation Accounts Contact Email
+    description: Contact email for the generated service accounts. No console password or activation email is generated.
+    type: string
+    default: automation@example.com
+    required: false
+    pattern: "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    visible: false
+
+  create_iam:
+    title: Create DevOps IAM Policies And Dynamic Group
+    description: Enable only if you want this stack to create the DevOps dynamic group and policy. Leave off when IAM has already been prepared.
+    type: boolean
+    default: false
+
+  iam_policy_compartment_id:
+    title: IAM Policy Compartment
+    description: Choose a common ancestor of the DevOps, OKE, and network compartments. Defaults to the tenancy root; permissions remain scoped to the selected resource compartments. Creating the policy requires permission at this location.
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_iam}
+
+  iam_domain_compartment_id:
+    title: Automation Domain Compartment
+    description: Compartment containing the identity domain for automation users.
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_automatic_credentials}
+
+  devops_iam_domain_id:
+    title: Automation Identity Domain
+    description: Identity domain where automation users and groups are created.
+    type: oci:identity:domains:id
+    required: true
+    visible: ${create_automatic_credentials}
+    dependsOn:
+      compartmentId: ${iam_domain_compartment_id}
+
+  pipeline_iam_domain_compartment_id:
+    title: DevOps Domain Compartment
+    description: Compartment containing the identity domain for the pipeline dynamic group.
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_iam}
+
+  pipeline_iam_domain_id:
+    title: DevOps Identity Domain
+    description: Identity domain where the DevOps pipeline dynamic group is created.
+    type: oci:identity:domains:id
+    required: true
+    visible: ${create_iam}
+    dependsOn:
+      compartmentId: ${pipeline_iam_domain_compartment_id}
+
+  namespace_init_secret_compartment_id:
+    title: Vault Compartment
+    description: Compartment containing the Vault secret used as the OCIR pull password during application bootstrap.
+    type: oci:identity:compartment:id
+    default: ${compartment_ocid}
+    required: true
+    visible: false
+
+  devops_dynamic_group_name:
+    title: DevOps Dynamic Group Name
+    type: string
+    default: OkeHelmStarterDevOpsDynamicGroup
+    required: true
+    visible: ${create_iam}
+
+  devops_policy_name:
+    title: DevOps Policy Name
+    description: Leave blank to use oke-helm-starter-devops-policy.
+    type: string
+    default: oke-helm-starter-devops-policy
+    required: false
+    visible: ${create_iam}
+
+outputs:
+  environment_names:
+    title: Environment Names
+    description: Configured application and cluster target names by stable workflow role.
+    type: map
+
+  automatic_credentials:
+    title: Automatic Credential References
+    description: Generated usernames, group OCIDs, Vault/key OCIDs and token secret OCIDs. No auth token values are displayed.
+    type: string
+  application_delivery_mode:
+    title: Application Delivery Mode
+    description: Indicates whether this stack owns application delivery or only builds images.
+    type: string
+
+  devops_project_id:
+    title: DevOps Project
+    description: OCI DevOps project created or reused by this stack.
+    type: ocid
+
+  devops_project_name:
+    title: DevOps Project Name
+    description: Resolved name used for generated image and chart prefixes.
+    type: string
+
+  pipelines_repository_url:
+    title: Pipelines Repository
+    description: Shared build specifications and helper scripts.
+    type: link
+    displayText: Open Pipelines Repository
+
+  cluster_admin_repository_url:
+    title: Cluster Administration Repository
+    description: Cluster-wide resources, tool catalog, per-cluster Helm values, and supplemental resources.
+    type: link
+    displayText: Open Cluster Administration Repository
+
+  cluster_admin_values_repository_id:
+    title: Cluster Administration Values Repository
+    description: Generic Artifact repository containing immutable per-commit Helm values and cluster deployment plans.
+    type: ocid
+
+  cluster_admin_build_pipeline_ids:
+    title: Cluster Administration Build Pipelines
+    description: PR validation, chart mirroring, and changed-target dispatch pipelines.
+    type: map
+
+  cluster_admin_deploy_pipeline_ids:
+    title: Cluster Administration Deployment Pipelines
+    description: Noprod and approved prod orchestration pipelines plus explicit decommission pipelines.
+    type: map
+
+  component_source_repository_urls:
+    title: Component Source Repositories
+    description: Component name to source repository URL.
+    type: map
+
+  application_chart_repository_urls:
+    title: Application Chart Repositories
+    description: Application name to chart repository URL.
+    type: map
+
+  component_build_pipeline_ids:
+    title: Component Build Pipelines
+    description: Component name to build pipeline OCID.
+    type: map
+
+  component_pr_pipeline_ids:
+    title: Component PR Pipelines
+    description: Component name to pull request validation pipeline OCID.
+    type: map
+
+  component_release_build_pipeline_ids:
+    title: Component Release Build Pipelines
+    description: Component name to release build pipeline OCID.
+    type: map
+
+  application_package_pipeline_ids:
+    title: Application Package Pipelines
+    description: Application name to baseline chart package pipeline OCID.
+    type: map
+
+  application_deploy_pipeline_ids:
+    title: Application Deployment Pipelines
+    description: Application name to baseline deployment pipeline OCID.
+    type: map
+
+  application_bootstrap_pipeline_ids:
+    title: Application Bootstrap Pipelines
+    description: Application name to the idempotent parallel noprod/prod namespace and pull-secret bootstrap pipeline.
+    type: map
+
+  component_deploy_pipeline_ids:
+    title: Component Deployment Pipelines
+    description: Component and stable workflow role to deployment pipeline OCID; see Environment Names for configured names.
+    type: map
+
+  oke_noprod_deploy_environment_id:
+    title: OKE Pre-Prod Deployment Environment
+    type: ocid
+
+  oke_prod_deploy_environment_id:
+    title: OKE Prod Deployment Environment
+    type: ocid
+
+  application_components:
+    title: Applications And Components
+    description: Application name to component names.
+    type: map
+
+  application_namespaces:
+    title: Pre-Prod Namespaces
+    type: map
+
+  application_prod_namespaces:
+    title: Prod Namespaces
+    type: map
+
+  application_ocir_charts:
+    title: Application OCIR Charts
+    type: map
+
+  component_ocir_charts:
+    title: Component OCIR Charts
+    type: map
+
+  component_image_repositories:
+    title: Component Image Repositories
+    type: map
+
+  estimated_devops_resources:
+    title: Estimated DevOps Resources
+    description: Estimated repository, build pipeline, deployment pipeline, and deployment stage counts for service-limit review.
+    type: map
+
+  next_steps:
+    title: Next Steps
+    description: Suggested workflow derived from the configured applications and components.
+    type: string
+
+primaryOutputButton: ${pipelines_repository_url}
+
+outputGroups:
+  - title: Start Here
+    outputs:
+      - ${pipelines_repository_url}
+      - ${cluster_admin_repository_url}
+      - ${devops_project_id}
+      - ${devops_project_name}
+      - ${application_delivery_mode}
+      - ${environment_names}
+      - ${automatic_credentials}
+      - ${application_components}
+      - ${application_namespaces}
+      - ${application_prod_namespaces}
+      - ${application_bootstrap_pipeline_ids}
+      - ${estimated_devops_resources}
+      - ${next_steps}
+
+  - title: Repositories
+    outputs:
+      - ${cluster_admin_repository_url}
+      - ${component_source_repository_urls}
+      - ${application_chart_repository_urls}
+
+  - title: Build Pipelines
+    outputs:
+      - ${cluster_admin_build_pipeline_ids}
+      - ${component_pr_pipeline_ids}
+      - ${component_build_pipeline_ids}
+      - ${component_release_build_pipeline_ids}
+      - ${application_package_pipeline_ids}
+
+  - title: Deployment Pipelines And Environments
+    outputs:
+      - ${cluster_admin_deploy_pipeline_ids}
+      - ${application_bootstrap_pipeline_ids}
+      - ${application_deploy_pipeline_ids}
+      - ${component_deploy_pipeline_ids}
+      - ${oke_noprod_deploy_environment_id}
+      - ${oke_prod_deploy_environment_id}
+
+  - title: OCIR
+    outputs:
+      - ${cluster_admin_values_repository_id}
+      - ${application_ocir_charts}
+      - ${component_ocir_charts}
+      - ${component_image_repositories}

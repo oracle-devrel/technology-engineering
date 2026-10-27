@@ -3,14 +3,17 @@
 Oracle XML DB is a set of Oracle Database technologies related to high-performance handling of XML data: storing, generating, accessing, searching, validating, transforming, evolving, and indexing. It provides native XML support by encompassing both the SQL and XML data models in an interoperable way. Oracle XML DB is included as part of Oracle Database starting with Oracle9i Release 2 (9.2).
 
 Oracle XML DB and the XMLType abstract data type make Oracle Database XML-aware. Storing XML data as an XMLType column or table lets the database perform XML-specific operations on the content. This includes XML validation and optimization. XMLType storage allows highly efficient processing of XML content in the database. Because there is a broad spectrum of XML usage, there is no one-size-fits-all storage model that offers optimal performance and flexibility for every use case. Oracle XML DB offers different storage models for XMLType, and several indexing methods appropriate to these different storage models. You can tailor performance and functionality to best fit the kind of XML data you have and the ways you use it. Oracle Database Release 23 introduced Transportable Binary XML (TBX) as a storage option, a variant built on top of CSX but without the dependency of a central dictionary.
-Transportable Binary XML is the recommended method for storing XML documents natively in the Oracle Database beginning with Oracle Database 23. 
+Transportable Binary XML is the recommended method for storing XML documents natively in the Oracle Database beginning with Oracle Database 23.
 
-Reviewed: 19.03.2025
+Relevant new features, like XML sharding and XML search indexes were introduced in release 23ai.
+
+Reviewed: 31.07.2026
 
 # Useful Links
 
 ## Documentation  
  
+- [Oracle XML DB Release 26] (https://docs.oracle.com/en/database/oracle/oracle-database/26/adxdb/index.html)
 - [Oracle XML DB Release 23](https://docs.oracle.com/en/database/oracle/oracle-database/23/adxdb/index.html)
 - [Oracle XML DB Release 19](https://docs.oracle.com/en/database/oracle/oracle-database/19/adxdb/index.html)
 - [Oracle XMl DB on oracle.com](https://www.oracle.com/de/database/technologies/appdev/xmldb.html)

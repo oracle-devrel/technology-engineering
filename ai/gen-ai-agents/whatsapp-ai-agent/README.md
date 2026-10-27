@@ -4,7 +4,7 @@ This repo helps you set up a WhatsApp Generative AI Agent on Oracle Cloud Infras
 
 **Author**: matsliwins
 
-**Last review date**: 19/09/2025
+**Last review date**: 04/08/2026
 
 ![](files/images/WhatsAPP.png)
 

@@ -2,6 +2,8 @@
 
 This Streamlit-based application demonstrates a modular, AI-powered HR chatbot system designed to help employees and managers align their goals through structured, data-informed conversations.
 
+Reviewed: 04.08.2026
+
 The system integrates with Oracle Database and uses OCI's Generative AI models to simulate goal alignment and cascading throughout an organization.
 
 ---

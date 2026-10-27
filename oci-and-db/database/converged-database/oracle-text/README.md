@@ -6,7 +6,7 @@ Nevertheless, Oracle Text, Oracle’s full-text search tool, included in all dat
 
 In addition there is a deep integration with other Oracle Database features and technologies including but not limited to JSON, Spatial, Graph, but also security, availability, performance, partitioning, sharding (aka Oracle Global Distributed Databases), RAC, Exadata, and more. In general, data held in the Oracle Database can be directly accessed via SQL, without the need to convert it into an intermediary form. Combining data in different formats is easy – all you need to do is join! 
 
-Reviewed Date: 09.09.2025
+Reviewed Date: 31.07.2026
 
 # Useful Links
 

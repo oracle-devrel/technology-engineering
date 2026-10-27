@@ -4,7 +4,7 @@ In this article, we'll explore how to make a handy tool that helps to enable rea
 This application combines a low-code approach to orchestrate LLM AI services and applications using Oracle Integration Cloud
 and Generative AI prompting techniques for tasks like text-to-SQL transformations.
 
-Reviewed: 23.09.2025
+Reviewed: 04.08.2026
  
 # When to use this asset?
  

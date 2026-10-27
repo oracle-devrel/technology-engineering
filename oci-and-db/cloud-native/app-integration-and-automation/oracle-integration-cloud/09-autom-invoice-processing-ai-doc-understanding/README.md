@@ -8,7 +8,7 @@ Discover how Oracle Integration with AI Document Understanding Service can seaml
 - [Automate Invoice - DU Demo](./files/demos/Automate%20Invoice%20-%20DU%20Demo.mp4)
 - [Automate Invoice - OIC Demo](./files/demos/Automate%20Invoice%20-%20OIC%20Demo.mp4)
 
-Review Date: 14.11.2025
+Review Date: 02.09.2026
 
 # When to use these assets?
 

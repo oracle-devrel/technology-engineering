@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage OKE with Flux"
+  short_description: "Operate OKE safely through Git and decentralized Flux"
+  default_prompt: "Use $manage-oke-with-flux to plan, validate, and perform this OKE GitOps change."

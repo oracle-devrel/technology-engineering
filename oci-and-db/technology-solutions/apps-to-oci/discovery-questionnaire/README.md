@@ -2,6 +2,8 @@
 
 This document can be used as a reference questionnaire to collect the required details for an EBS application project implementation.
 
+Review Date: 28.07.2026
+
 ## When to use this asset?
 
 This questionnaire can be used to capture details for the EBS application migration workloads.
