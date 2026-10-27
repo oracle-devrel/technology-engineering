@@ -12,6 +12,7 @@ Open Source Data Platforms continue to extend the Oracle Data Platform with Key 
 - OCI OpenSearch
 - OCI NoSQL
 
+🏡 Visit our Open Source Hub for more [**OCI Open Source Hub**](https://noellaabraham.github.io/oci-open-source-hub/)
 
 # License
 

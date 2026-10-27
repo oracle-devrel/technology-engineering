@@ -52,14 +52,14 @@ check "conditional_inputs" {
 
 check "repository_names_are_unique" {
   assert {
-    condition = can(try(jsondecode(var.applications), var.applications)) ? length(distinct(concat(
+    condition = can(local.application_config) ? length(distinct(concat(
       [lower(var.devops_pipeline_repository_name), "cluster-admin"],
-      [for application in try(jsondecode(var.applications), var.applications) : coalesce(try(application.chart_repository_name, null), "${application.name}-chart")],
-      flatten([for application in try(jsondecode(var.applications), var.applications) : [for component in application.components : component.name]])
+      [for application in local.application_config : coalesce(try(application.chart_repository_name, null), "${application.name}-chart")],
+      flatten([for application in local.application_config : [for component in application.components : component.name]])
       ))) == length(concat(
       [lower(var.devops_pipeline_repository_name), "cluster-admin"],
-      [for application in try(jsondecode(var.applications), var.applications) : coalesce(try(application.chart_repository_name, null), "${application.name}-chart")],
-      flatten([for application in try(jsondecode(var.applications), var.applications) : [for component in application.components : component.name]])
+      [for application in local.application_config : coalesce(try(application.chart_repository_name, null), "${application.name}-chart")],
+      flatten([for application in local.application_config : [for component in application.components : component.name]])
     )) : true
     error_message = "Derived repository names must be unique and cannot collide with the configured DevOps pipelines or cluster-admin repositories."
   }

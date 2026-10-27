@@ -5,6 +5,7 @@ module "devops" {
   create_devops_project                  = var.create_devops_project
   existing_devops_project_id             = var.existing_devops_project_id
   application_delivery_mode              = var.application_delivery_mode
+  environment_names                      = local.environment_names
   devops_pipeline_repository_name        = var.devops_pipeline_repository_name
   region                                 = var.region
   tenancy_id                             = var.tenancy_ocid

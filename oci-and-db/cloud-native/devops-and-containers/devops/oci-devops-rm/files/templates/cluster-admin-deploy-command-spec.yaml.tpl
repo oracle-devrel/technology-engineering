@@ -23,7 +23,7 @@ steps:
       set -euo pipefail
       : "$${config_commit:?config_commit deployment parameter is required}"
       : "$${cluster_id:?cluster_id deployment parameter is required}"
-      case "$${cluster_name}" in noprod|prod) ;; *) echo "cluster_name must be noprod or prod" >&2; exit 1;; esac
+      case "$${cluster_name}" in ${noprod_cluster_name}|${prod_cluster_name}) ;; *) echo "Unknown configured cluster_name" >&2; exit 1;; esac
       printf '%s' "$${config_commit}" | grep -Eq '^[0-9a-f]{40}$' || { echo "config_commit must be a full Git SHA" >&2; exit 1; }
 
   - type: Command

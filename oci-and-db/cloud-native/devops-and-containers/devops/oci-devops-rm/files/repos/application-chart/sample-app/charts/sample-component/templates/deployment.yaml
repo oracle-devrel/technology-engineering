@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ default (ternary (printf "%s-%s" .Values.component.name .Values.environment) .Values.component.name (and (ne .Values.environment "") (ne .Values.environment "prod"))) .Values.nameOverride }}
+  name: {{ default (ternary (printf "%s-%s" .Values.component.name .Values.environment) .Values.component.name (and (ne .Values.environment "") (ne (default .Values.environment .Values.environmentRole) "prod"))) .Values.nameOverride }}
   labels:
     app.kubernetes.io/name: {{ .Values.application.name }}
     app.kubernetes.io/component: {{ .Values.component.name }}
@@ -29,12 +29,12 @@ spec:
         env: {{ .Values.environment }}
         {{- end }}
     spec:
-      serviceAccountName: {{ default (ternary (printf "%s-%s" .Values.component.name .Values.environment) .Values.component.name (and (ne .Values.environment "") (ne .Values.environment "prod"))) .Values.serviceAccount.name }}
+      serviceAccountName: {{ default (ternary (printf "%s-%s" .Values.component.name .Values.environment) .Values.component.name (and (ne .Values.environment "") (ne (default .Values.environment .Values.environmentRole) "prod"))) .Values.serviceAccount.name }}
       automountServiceAccountToken: false
       containers:
         - name: app
           {{- $imageTag := .Values.image.tag }}
-          {{- if eq .Values.environment "prod" }}
+          {{- if eq (default .Values.environment .Values.environmentRole) "prod" }}
           {{- $imageTag = regexReplaceAll "-rc\\.[0-9]+$" .Values.image.tag "" }}
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ $imageTag }}"

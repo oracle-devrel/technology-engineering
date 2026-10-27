@@ -52,7 +52,7 @@ class DeveloperTemplateTests(unittest.TestCase):
             'id = oci_devops_deploy_stage.deploy_component["${each.key}:staging"].id',
             source,
         )
-        self.assertIn("Approve promotion of ${each.value.name} from staging to production", source)
+        self.assertIn("Approve promotion of ${each.value.name} from ${var.environment_names.staging} to ${var.environment_names.prod}", source)
 
     def test_promotion_exports_generic_final_tag(self):
         source = self.read("templates/promote-release-image-command-spec.yaml.tpl")
@@ -221,7 +221,7 @@ class DeveloperTemplateTests(unittest.TestCase):
         self.assertNotIn("--deploy-stage-id", command_spec)
 
     def test_application_input_validates_derived_names_and_collisions(self):
-        variables = self.read("variables.tf")
+        variables = self.read("modules/application-config/main.tf")
         self.assertIn("Applications are limited to 46 characters", variables)
         self.assertIn("components to 45", variables)
         self.assertIn("Application namespaces must be unique", variables)

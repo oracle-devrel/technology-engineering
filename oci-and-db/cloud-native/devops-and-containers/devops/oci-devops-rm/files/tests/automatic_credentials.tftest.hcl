@@ -35,12 +35,71 @@ mock_provider "time" {}
 mock_provider "random" {}
 
 variables {
-  region                    = "eu-milan-1"
-  tenancy_ocid              = "ocid1.tenancy.oc1..test"
-  current_user_ocid         = "ocid1.user.oc1..test"
-  compartment_ocid          = "ocid1.compartment.oc1..test"
-  application_delivery_mode = "build_only"
-  auth_token                = "mock-manual-token"
+  region                      = "eu-milan-1"
+  tenancy_ocid                = "ocid1.tenancy.oc1..test"
+  current_user_ocid           = "ocid1.user.oc1..test"
+  compartment_ocid            = "ocid1.compartment.oc1..test"
+  application_delivery_mode   = "build_only"
+  auth_token                  = "mock-manual-token"
+  oke_compartment_id          = "ocid1.compartment.oc1..test"
+  prod_oke_compartment_id     = "ocid1.compartment.oc1..test"
+  network_compartment_id      = "ocid1.compartment.oc1..test"
+  prod_network_compartment_id = "ocid1.compartment.oc1..test"
+  oke_cluster_id              = "ocid1.cluster.oc1.eu-milan-1.test"
+  prod_oke_cluster_id         = "ocid1.cluster.oc1.eu-milan-1.test"
+  oke_vcn_id                  = "ocid1.vcn.oc1.eu-milan-1.test"
+  prod_oke_vcn_id             = "ocid1.vcn.oc1.eu-milan-1.test"
+  oke_worker_subnet_id        = "ocid1.subnet.oc1.eu-milan-1.test"
+  prod_oke_worker_subnet_id   = "ocid1.subnet.oc1.eu-milan-1.test"
+}
+
+run "flat_application_lists" {
+  command = plan
+  variables {
+    application_definitions = [
+      { name = "shop", namespace = "shop-test", prod_namespace = "shop-live", chart_repository_name = "shop-charts", chart_path = "deploy/shop", chart_version = "0.2.0" },
+      { name = "orders" }
+    ]
+    components = [
+      { application = "shop", name = "invoice", build_spec_path = "java/build.yaml", chart_version = "0.3.0" },
+      { application = "orders", name = "orders-api" },
+      { application = "shop", name = "checkout" }
+    ]
+  }
+  assert {
+    condition = (
+      local.application_count == 2 && local.component_count == 3 &&
+      local.application_config[0].components[0].name == "invoice" &&
+      local.application_config[0].components[1].name == "checkout" &&
+      local.application_config[1].components[0].name == "orders-api" &&
+      local.application_config[0].components[0].build_spec_path == "java/build.yaml" &&
+      local.application_config[0].components[0].chart_version == "0.3.0" &&
+      local.application_config[0].chart_path == "deploy/shop" &&
+      local.application_config[0].prod_namespace == "shop-live"
+    )
+    error_message = "Flat lists must group components without losing application or component settings."
+  }
+}
+
+run "flat_json_and_blank_optional_fields" {
+  command = plan
+  variables {
+    application_definitions = "[{\"name\":\"shop\",\"namespace\":\"\",\"chart_path\":\"\"}]"
+    components              = "[{\"application\":\"shop\",\"name\":\"invoice\",\"build_spec_path\":\"\",\"chart_version\":\"\"}]"
+  }
+  assert {
+    condition     = jsonencode(local.application_config) == jsonencode([{ name = "shop", components = [{ name = "invoice" }] }])
+    error_message = "Resource Manager JSON strings and blank optional fields must normalize correctly."
+  }
+}
+
+run "reject_unknown_component_application" {
+  command = plan
+  variables {
+    application_definitions = [{ name = "shop" }]
+    components              = [{ application = "shop", name = "invoice" }, { application = "missing", name = "checkout" }]
+  }
+  expect_failures = [terraform_data.application_inputs]
 }
 
 run "manual_mode_preserved" {
@@ -58,7 +117,8 @@ run "manual_mode_preserved" {
 run "native_complex_inputs" {
   command = plan
   variables {
-    applications = [{ name = "shop", components = [{ name = "invoice" }, { name = "checkout" }] }]
+    application_definitions = [{ name = "shop" }]
+    components              = [{ application = "shop", name = "invoice" }, { application = "shop", name = "checkout" }]
     cluster_administration = {
       tools = [{ name = "keda", repository = "https://kedacore.github.io/charts", chart = "keda", version = "2.20.1" }]
     }
@@ -72,15 +132,24 @@ run "native_complex_inputs" {
 run "native_blank_optional_inputs" {
   command = plan
   variables {
-    applications = [{
-      name       = "shop", namespace = "", prod_namespace = null, chart_path = "", chart_version = "", chart_repository_name = "",
-      components = [{ name = "invoice", build_spec_path = "", chart_version = "" }]
-    }]
-    cluster_administration = [{ name = "keda", repository = "https://kedacore.github.io/charts", chart = "keda", version = "2.20.1", namespace = "", depends_on = [""] }]
+    application_definitions = [{ name = "shop", namespace = "", prod_namespace = null, chart_path = "", chart_version = "", chart_repository_name = "" }]
+    components              = [{ application = "shop", name = "invoice", build_spec_path = "", chart_version = "" }]
+    cluster_administration  = [{ name = "keda", repository = "https://kedacore.github.io/charts", chart = "keda", version = "2.20.1", namespace = "", depends_on = [""] }]
   }
   assert {
     condition     = !contains(keys(local.application_config[0]), "namespace") && !contains(keys(local.application_config[0].components[0]), "build_spec_path") && length(local.cluster_admin_config.tools[0].depends_on) == 0
     error_message = "Blank RM optional fields must behave like omitted values and use conventional defaults."
+  }
+}
+
+run "graphical_empty_tool_list" {
+  command = plan
+  variables {
+    cluster_administration = []
+  }
+  assert {
+    condition     = length(local.cluster_admin_config.tools) == 0
+    error_message = "A graphical tools list may be empty for baseline-only cluster administration."
   }
 }
 
@@ -186,9 +255,11 @@ run "reject_missing_account_email" {
 run "automatic_multiple_applications_and_operations" {
   command = plan
   variables {
-    applications = jsonencode([
-      { name = "shop", components = [{ name = "invoice" }, { name = "checkout" }] },
-      { name = "orders", components = [{ name = "fulfillment" }] }
+    application_definitions = jsonencode([{ name = "shop" }, { name = "orders" }])
+    components = jsonencode([
+      { application = "shop", name = "invoice" },
+      { application = "shop", name = "checkout" },
+      { application = "orders", name = "fulfillment" }
     ])
     application_delivery_mode            = "oci_devops"
     enable_cluster_admin                 = true
@@ -217,4 +288,67 @@ run "automatic_multiple_applications_and_operations" {
     condition     = length(module.devops.repository_ids) == 7 && length(module.devops.bootstrap_pipeline_ids) == 2
     error_message = "Scopes must include shared, chart, source and operator repositories across all applications."
   }
+}
+run "reject_duplicate_application_environments" {
+  command = plan
+  variables { staging_environment_name = "dev" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_duplicate_cluster_targets" {
+  command = plan
+  variables { noprod_cluster_name = "prod" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_unsafe_environment_names" {
+  command = plan
+  variables { prod_environment_name = "../live" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_empty_environment_names" {
+  command = plan
+  variables { dev_environment_name = "" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_oversized_environment_names" {
+  command = plan
+  variables { prod_cluster_name = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkl" }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "custom_environment_output" {
+  command = plan
+  variables {
+    dev_environment_name     = "development"
+    staging_environment_name = "uat"
+    prod_environment_name    = "live"
+    noprod_cluster_name      = "sandbox"
+    prod_cluster_name        = "production"
+  }
+  assert {
+    condition     = output.environment_names.dev == "development" && output.environment_names.prod == "live" && output.environment_names.noprod_cluster == "sandbox"
+    error_message = "Outputs must expose configured names under stable workflow roles."
+  }
+}
+
+run "reject_overlong_derived_release_name" {
+  command = plan
+  variables {
+    application_delivery_mode = "oci_devops"
+    dev_environment_name      = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
+  }
+  expect_failures = [terraform_data.environment_names]
+}
+
+run "reject_shared_cluster_release_collision" {
+  command = plan
+  variables {
+    application_delivery_mode = "oci_devops"
+    application_definitions   = [{ name = "shop" }]
+    components                = [{ application = "shop", name = "shop" }]
+  }
+  expect_failures = [terraform_data.environment_names]
 }

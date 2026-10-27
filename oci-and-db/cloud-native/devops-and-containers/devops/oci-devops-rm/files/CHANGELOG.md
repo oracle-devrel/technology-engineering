@@ -6,6 +6,28 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-10-23
+
+### Added
+
+- Configurable development, staging and production application environment names,
+  plus independent nonproduction and production cluster target names. Generated
+  pipelines, Helm values, labels, bootstrap stages and cluster-admin paths use
+  the configured names while production approvals and image promotion remain
+  tied to stable workflow roles. Defaults preserve existing naming conventions.
+- A Customize environment names checkbox shows or hides all five naming inputs.
+- Validation of unsafe names, duplicate targets, generated Helm release lengths
+  and same-cluster namespace/release collisions.
+- Updated portable agent skill covering custom environment and cluster target
+  names while preserving stable delivery roles and production approvals.
+
+### Fixed
+
+- Applications and Components use separate graphical lists to avoid Resource
+  Manager's nested-list data loss. Components reference applications by name;
+  the legacy application configuration field has been removed. Application
+  naming, chart and build-path validation remain enforced.
+
 ## [1.2.0] - 2026-10-14
 
 ### Added

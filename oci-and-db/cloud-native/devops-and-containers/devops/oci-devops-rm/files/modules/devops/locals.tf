@@ -85,7 +85,8 @@ locals {
   component_environment_pairs = merge([
     for component_name, component in local.delivery_components_by_name : {
       for environment in ["dev", "staging"] : "${component_name}:${environment}" => merge(component, {
-        environment = environment
+        environment_role = environment
+        environment      = var.environment_names[environment]
       })
     }
   ]...)
@@ -94,14 +95,14 @@ locals {
     for application_name, application in local.delivery_applications_by_name : {
       "${application_name}:noprod" = {
         application_name = application_name
-        cluster_name     = "noprod"
+        cluster_name     = var.environment_names.noprod_cluster
         namespace        = application.namespace
         subnet_id        = var.oke_worker_subnet_id
         nsg_ids          = local.oke_worker_nsg_ids
       }
       "${application_name}:prod" = {
         application_name = application_name
-        cluster_name     = "prod"
+        cluster_name     = var.environment_names.prod_cluster
         namespace        = application.prod_namespace
         subnet_id        = local.prod_oke_worker_subnet_id
         nsg_ids          = local.prod_oke_worker_nsg_ids
@@ -109,8 +110,8 @@ locals {
     }
   ]...)
 
-  default_application_environment = "dev"
-  baseline_cluster_name           = "noprod"
+  default_application_environment = var.environment_names.dev
+  baseline_cluster_name           = var.environment_names.noprod_cluster
   kube_endpoint                   = "PRIVATE_ENDPOINT"
 
   prod_oke_cluster_id       = var.prod_oke_cluster_id
@@ -138,7 +139,7 @@ locals {
   ) : []
   cluster_admin_clusters = var.enable_cluster_admin ? {
     noprod = {
-      name              = "noprod"
+      name              = var.environment_names.noprod_cluster
       approval_required = false
       cluster_id        = var.oke_cluster_id
       environment_id    = local.oke_environment_id
@@ -147,7 +148,7 @@ locals {
       tools             = local.cluster_admin_tools
     }
     prod = {
-      name              = "prod"
+      name              = var.environment_names.prod_cluster
       approval_required = true
       cluster_id        = local.prod_oke_cluster_id
       environment_id    = local.prod_oke_environment_id
@@ -160,7 +161,7 @@ locals {
   cluster_admin_tool_pairs = merge([
     for cluster_name, cluster in local.cluster_admin_clusters : {
       for tool in cluster.tools : "${cluster_name}:${tool.name}" => {
-        cluster_name      = cluster_name
+        cluster_name      = cluster.name
         tool_name         = tool.name
         namespace         = coalesce(tool.namespace, tool.name)
         dependencies      = try(tool.depends_on, [])

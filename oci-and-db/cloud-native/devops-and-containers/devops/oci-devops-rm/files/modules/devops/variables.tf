@@ -126,3 +126,13 @@ variable "development_mode" {
   type    = bool
   default = false
 }
+variable "environment_names" {
+  type = object({
+    dev            = optional(string, "dev")
+    staging        = optional(string, "staging")
+    prod           = optional(string, "prod")
+    noprod_cluster = optional(string, "noprod")
+    prod_cluster   = optional(string, "prod")
+  })
+  default = {}
+}

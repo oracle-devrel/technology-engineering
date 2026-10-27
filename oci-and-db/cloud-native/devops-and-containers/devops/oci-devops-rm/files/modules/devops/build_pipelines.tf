@@ -82,8 +82,8 @@ resource "oci_devops_build_pipeline_stage" "trigger_dev_deployment" {
   build_pipeline_id              = oci_devops_build_pipeline.application_delivery[each.key].id
   build_pipeline_stage_type      = "TRIGGER_DEPLOYMENT_PIPELINE"
   deploy_pipeline_id             = oci_devops_deploy_pipeline.deploy_component["${each.key}:dev"].id
-  display_name                   = "${title(replace(each.value.name, "-", " "))} Dev Deploy"
-  description                    = "Triggers the dev component deployment after a successful build"
+  display_name                   = "${title(replace(each.value.name, "-", " "))} ${title(var.environment_names.dev)} Deploy"
+  description                    = "Triggers the ${var.environment_names.dev} component deployment after a successful build"
   is_pass_all_parameters_enabled = true
 
   build_pipeline_stage_predecessor_collection {
@@ -106,7 +106,7 @@ resource "oci_devops_build_pipeline" "application_baseline_package" {
 
   project_id   = local.devops_project_id
   display_name = "${each.value.name}-package"
-  description  = "Packages the ${each.value.name} application baseline chart and deploys it to the noprod cluster"
+  description  = "Packages the ${each.value.name} application baseline chart and deploys it to the ${var.environment_names.noprod_cluster} target"
 
   lifecycle {
     # OCI rejects some updates to parameterless pipeline containers.
@@ -168,8 +168,8 @@ resource "oci_devops_build_pipeline_stage" "trigger_application_baseline_deploym
   build_pipeline_id              = oci_devops_build_pipeline.application_baseline_package[each.key].id
   build_pipeline_stage_type      = "TRIGGER_DEPLOYMENT_PIPELINE"
   deploy_pipeline_id             = oci_devops_deploy_pipeline.deploy_application[each.key].id
-  display_name                   = "${title(replace(each.value.name, "-", " "))} Noprod Deploy"
-  description                    = "Triggers the noprod application baseline deployment after packaging"
+  display_name                   = "${title(replace(each.value.name, "-", " "))} ${title(var.environment_names.noprod_cluster)} Deploy"
+  description                    = "Triggers the ${var.environment_names.noprod_cluster} application baseline deployment after packaging"
   is_pass_all_parameters_enabled = true
 
   build_pipeline_stage_predecessor_collection {
