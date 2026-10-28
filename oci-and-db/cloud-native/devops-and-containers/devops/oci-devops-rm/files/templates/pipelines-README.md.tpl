@@ -7,7 +7,7 @@ It is the primary source for shared build pipelines. Component source repositori
 Generated build specs:
 
 %{ if delivery_enabled ~}
-- `${component_name}-build-pipeline.yaml` builds component source changes, packages that component chart when needed, and exports deployment parameters for dev.
+- `${component_name}-build-pipeline.yaml` builds component source changes, packages that component chart when needed, and exports deployment parameters for `${dev_environment_name}`.
 - `${application_name}-package-pipeline.yaml` packages the `${application_name}` umbrella baseline chart and starts the baseline deployment pipeline.
 - `${component_name}-release-pipeline.yaml` creates the OCI DevOps Git tag, retags the matching 7-character SHA image as a SemVer release candidate such as `1.0.0-rc.1`, and starts the component release deployment.
 - `helm-chart-pipeline.yaml` is a generic chart packager retained for future reuse.

@@ -2,7 +2,7 @@
 
 Oracle Cloud Infrastructure GoldenGate is a fully managed, native cloud service that moves data in real-time, at scale. OCI GoldenGate processes data as it moves from one or more data management systems to target databases. You can also design, run, orchestrate, and monitor data replication tasks without having to allocate or manage any Compute environment.
 
-Reviewed: 09.09.2026
+Reviewed: 22.09.2026
 
 
 # Table of Contents
@@ -40,6 +40,9 @@ Reviewed: 09.09.2026
 
 
 # Useful Links
+
+- [Deploy GG@Azure using Azure Native UI](https://blogs.oracle.com/dataintegration/announcing-native-ui-for-oracle-goldengate-on-oracle-ai-databaseazure)
+  - Blog that will guide you step-by-step how you can deploy GG@Azure and create connections using Azure Native UI 
 
 - [OCI GoldenGate Stream Analytics Documentation](https://docs.oracle.com/en/cloud/paas/goldengate-service/apead/)
   - Public documentation for OCI GoldenGate Stream Analytics 26ai.

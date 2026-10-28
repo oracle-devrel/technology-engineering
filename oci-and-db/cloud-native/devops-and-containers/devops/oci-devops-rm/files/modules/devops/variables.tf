@@ -11,6 +11,18 @@ variable "git_username" {}
 variable "git_password" {
   sensitive = true
 }
+variable "credential_policy_ready" {
+  type    = string
+  default = ""
+}
+variable "bootstrap_registry_username" {
+  type    = string
+  default = null
+}
+variable "bootstrap_password_secret_id" {
+  type    = string
+  default = null
+}
 
 variable "create_notification_topic" {
   type = bool
@@ -113,4 +125,14 @@ variable "cluster_administration" {
 variable "development_mode" {
   type    = bool
   default = false
+}
+variable "environment_names" {
+  type = object({
+    dev            = optional(string, "dev")
+    staging        = optional(string, "staging")
+    prod           = optional(string, "prod")
+    noprod_cluster = optional(string, "noprod")
+    prod_cluster   = optional(string, "prod")
+  })
+  default = {}
 }

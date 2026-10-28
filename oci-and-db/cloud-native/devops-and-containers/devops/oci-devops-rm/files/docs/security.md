@@ -4,6 +4,12 @@ The stack creates delivery capabilities with access to source repositories, OCIR
 
 ## Credentials And Secrets
 
+Optional [automatic credentials](automatic-credentials.md) create distinct
+bootstrap and read-only pull users in a selected identity domain, with token
+secrets in a generated Vault. Tokens enter Terraform state; restrict state
+access even though outputs contain only references. IAM creation remains a
+separate choice and networking is unchanged.
+
 - Store the OCIR pull password or auth token in OCI Vault and pass only its secret OCID to `<application>-bootstrap`.
 - Never commit secret material to application charts, component repositories, cluster values, or supplemental resource YAML.
 - Do not use plain Kubernetes `Secret` manifests in the cluster-admin repository; use External Secrets or an equivalent external-secret reference.

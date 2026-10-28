@@ -12,6 +12,11 @@ conventions, and troubleshooting workflow needed to operate this solution.
 
 ## Prerequisites
 
+You can also obtain the complete skill from `manage-oke-with-flux.zip`,
+included as a separate download in every new OKE GitOps release. Extract the
+archive and install its `manage-oke-with-flux` directory using the same
+instructions below. Choose the release matching your stack.
+
 The workstation needs Git, `kubectl` with Kustomize support, and Helm when
 managing charts. Network, kubeconfig, and OCI CLI access are needed only for
 authorized live-cluster or OCI operations. Planning and rendering are local.

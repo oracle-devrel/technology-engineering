@@ -37,8 +37,10 @@ resource "local_file" "cluster_admin_readme" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/README.md"
-  content = templatefile("${path.root}/templates/cluster-admin-README.md.tpl", {
-    project_name = local.devops_project_name
+  content = templatefile("${path.module}/../../templates/cluster-admin-README.md.tpl", {
+    project_name        = local.devops_project_name
+    noprod_cluster_name = var.environment_names.noprod_cluster
+    prod_cluster_name   = var.environment_names.prod_cluster
   })
 }
 
@@ -46,8 +48,10 @@ resource "local_file" "cluster_admin_catalog" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/catalog/tools.yaml"
-  content = templatefile("${path.root}/templates/cluster-admin-tools.yaml.tpl", {
-    tools = local.cluster_admin_tools
+  content = templatefile("${path.module}/../../templates/cluster-admin-tools.yaml.tpl", {
+    tools               = local.cluster_admin_tools
+    noprod_cluster_name = var.environment_names.noprod_cluster
+    prod_cluster_name   = var.environment_names.prod_cluster
   })
 }
 
@@ -55,7 +59,7 @@ resource "local_file" "cluster_admin_build_spec" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/.oci-devops/build-pipeline.yaml"
-  content = templatefile("${path.root}/templates/cluster-admin-build-pipeline.yaml.tpl", {
+  content = templatefile("${path.module}/../../templates/cluster-admin-build-pipeline.yaml.tpl", {
     artifact_repository_id = oci_artifacts_repository.cluster_admin_values[each.key].id
     compartment_id         = local.devops_project_compartment_id
     mirror_pipeline_id     = oci_devops_build_pipeline.cluster_admin_mirror[each.key].id
@@ -71,7 +75,7 @@ resource "local_file" "cluster_admin_mirror_spec" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/.oci-devops/mirror-charts-pipeline.yaml"
-  content = templatefile("${path.root}/templates/cluster-admin-mirror-pipeline.yaml.tpl", {
+  content = templatefile("${path.module}/../../templates/cluster-admin-mirror-pipeline.yaml.tpl", {
     compartment_id    = local.devops_project_compartment_id
     region            = var.region
     region_key        = local.region_key
@@ -84,14 +88,14 @@ resource "local_file" "cluster_admin_pr_spec" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/.oci-devops/pull-request-pipeline.yaml"
-  content  = templatefile("${path.root}/templates/cluster-admin-pr-pipeline.yaml.tpl", {})
+  content  = templatefile("${path.module}/../../templates/cluster-admin-pr-pipeline.yaml.tpl", {})
 }
 
 resource "local_file" "cluster_admin_baseline_example" {
   for_each = local.cluster_admin_clusters
 
-  filename = "${path.root}/${local.cluster_admin_repo_path}/clusters/${each.key}/baseline/README.md"
-  content  = "# ${title(each.key)} cluster baseline\n\nPlace cluster-scoped Kubernetes YAML here. Removing a file does not delete the live object.\n"
+  filename = "${path.root}/${local.cluster_admin_repo_path}/clusters/${each.value.name}/baseline/README.md"
+  content  = "# ${title(each.value.name)} cluster baseline\n\nPlace cluster-scoped Kubernetes YAML here. Removing a file does not delete the live object.\n"
 }
 
 resource "local_file" "cluster_admin_tool_values" {
@@ -123,28 +127,28 @@ resource "local_file" "cluster_admin_validate_script" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/script/validate-config.py"
-  content  = file("${path.root}/repos/cluster-admin/script/validate-config.py")
+  content  = file("${path.module}/../../repos/cluster-admin/script/validate-config.py")
 }
 
 resource "local_file" "cluster_admin_mirror_script" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/script/mirror-charts.py"
-  content  = file("${path.root}/repos/cluster-admin/script/mirror-charts.py")
+  content  = file("${path.module}/../../repos/cluster-admin/script/mirror-charts.py")
 }
 
 resource "local_file" "cluster_admin_publish_script" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/script/publish-and-dispatch.py"
-  content  = file("${path.root}/repos/cluster-admin/script/publish-and-dispatch.py")
+  content  = file("${path.module}/../../repos/cluster-admin/script/publish-and-dispatch.py")
 }
 
 resource "local_file" "cluster_admin_deploy_script" {
   for_each = local.cluster_admin_singleton
 
   filename = "${path.root}/${local.cluster_admin_repo_path}/script/deploy-cluster.py"
-  content  = file("${path.root}/repos/cluster-admin/script/deploy-cluster.py")
+  content  = file("${path.module}/../../repos/cluster-admin/script/deploy-cluster.py")
 }
 
 resource "null_resource" "seed_cluster_admin" {
@@ -153,13 +157,14 @@ resource "null_resource" "seed_cluster_admin" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
-      SEED_PATHS     = join("\n", ["README.md", "catalog", ".oci-devops", "script"])
-      SOURCE_REPO    = "/${local.cluster_admin_repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
+      SEED_PATHS           = join("\n", ["README.md", "catalog", ".oci-devops", "script"])
+      SOURCE_REPO          = "/${local.cluster_admin_repo_path}"
     }
     working_dir = path.root
   }
@@ -188,13 +193,14 @@ resource "null_resource" "sync_cluster_admin_catalog" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "refresh"
-      SEED_PATHS     = "catalog/tools.yaml"
-      SOURCE_REPO    = "/${local.cluster_admin_repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "refresh"
+      SEED_PATHS           = "catalog/tools.yaml"
+      SOURCE_REPO          = "/${local.cluster_admin_repo_path}"
     }
     working_dir = path.root
   }
@@ -213,13 +219,14 @@ resource "null_resource" "seed_cluster_admin_entities" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      SEED_MODE      = "add-only"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      SEED_MODE            = "add-only"
       SEED_PATHS = join("\n", concat(
-        [for cluster_name in sort(keys(local.cluster_admin_clusters)) : "clusters/${cluster_name}/baseline"],
+        [for cluster in values(local.cluster_admin_clusters) : "clusters/${cluster.name}/baseline"],
         [
           for key in sort(keys(local.cluster_admin_tool_pairs)) :
           "clusters/${local.cluster_admin_tool_pairs[key].cluster_name}/tools/${local.cluster_admin_tool_pairs[key].tool_name}"
@@ -231,8 +238,9 @@ resource "null_resource" "seed_cluster_admin_entities" {
   }
 
   triggers = {
-    repo_id = oci_devops_repository.cluster_admin[each.key].id
-    targets = join(",", sort(keys(local.cluster_admin_tool_pairs)))
+    repo_id       = oci_devops_repository.cluster_admin[each.key].id
+    targets       = join(",", sort(keys(local.cluster_admin_tool_pairs)))
+    cluster_names = jsonencode({ for role, cluster in local.cluster_admin_clusters : role => cluster.name })
   }
 
   depends_on = [
@@ -250,14 +258,15 @@ resource "null_resource" "refresh_cluster_admin_development" {
   provisioner "local-exec" {
     command = "chmod +x ./script/seed_repo.sh && ./script/seed_repo.sh"
     environment = {
-      REPO_CLONE_URL = oci_devops_repository.cluster_admin[each.key].http_url
-      GIT_USERNAME   = var.git_username
-      GIT_PASSWORD   = var.git_password
-      REGION         = var.region
-      REMOVE_PATHS   = "script/deploy-production.py"
-      SEED_MODE      = "refresh"
-      SEED_PATHS     = join("\n", ["README.md", ".oci-devops", "script"])
-      SOURCE_REPO    = "/${local.cluster_admin_repo_path}"
+      REPO_CLONE_URL       = oci_devops_repository.cluster_admin[each.key].http_url
+      GIT_USERNAME         = var.git_username
+      GIT_PASSWORD         = var.git_password
+      CREDENTIAL_POLICY_ID = var.credential_policy_ready
+      REGION               = var.region
+      REMOVE_PATHS         = "script/deploy-production.py"
+      SEED_MODE            = "refresh"
+      SEED_PATHS           = join("\n", ["README.md", ".oci-devops", "script"])
+      SOURCE_REPO          = "/${local.cluster_admin_repo_path}"
     }
     working_dir = path.root
   }
