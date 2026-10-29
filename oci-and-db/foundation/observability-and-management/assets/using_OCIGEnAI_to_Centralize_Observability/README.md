@@ -214,7 +214,7 @@ The sequence is an example workflow, not a claim that every database has complet
 
 The following excerpts show three completed interactions from the recorded prototype. Names and identifiers are masked, and waiting time is shortened. Each answer retains its own evidence window; these examples do not establish a shared incident or a causal connection between database and application symptoms.
 
-[Watch or download the full 2:30 demo](Files/db-assistant-demo.mp4), including the reference architecture, control selection, the three investigations, APM execution visibility and the extension architecture.
+[Watch or download the full 2:30 demo](Files/db-assistant-demo-under-10MB.mp4), including the reference architecture, control selection, the three investigations, APM execution visibility and the extension architecture.
 
 ### 1. Check database CPU
 
