@@ -11,7 +11,8 @@ flowchart LR
   Merge --> Build["cluster-admin-build"]
   Build --> Detect["Detect changed targets"]
   Detect --> Mirror["Mirror missing charts"]
-  Detect --> Target{"Target cluster"}
+  Mirror --> Images["Mirror opted-in tool images"]
+  Images --> Target{"Target cluster"}
   Target -->|noprod| Wave1["Dependency wave 1"]
   Target -->|prod| Approval["Approve production changes"]
   Approval --> Wave1
@@ -54,6 +55,78 @@ The target path uses the upstream chart name because Helm derives the OCI reposi
 The mirror pipeline removes only non-ASCII chart annotations before pushing because OCIR normalizes that OCI manifest metadata. Chart templates, values, dependencies, and runtime behavior are unchanged.
 
 Chart sources may be traditional `https://` Helm repositories or `oci://` repository base paths. HTTPS sources use `helm repo add`; OCI sources are pulled directly from `<repository>/<chart>`. Public OCI sources require no extra credentials. Private sources require credentials already available to Helm; the standard pipeline authenticates only to the target OCIR registry.
+
+## Optional Container Image Mirroring
+
+Each tool supports `mirror_images`, disabled by default, and an optional
+`additional_images` list. Configure them through Resource Manager or Terraform:
+
+```hcl
+cluster_administration = [{
+  name              = "keda"
+  repository        = "https://kedacore.github.io/charts"
+  chart             = "keda"
+  version           = "2.20.1"
+  mirror_images     = true
+  additional_images = ["ghcr.io/example/operator-workload:1.0.0"]
+}]
+```
+
+Terraform writes both fields into the stack-managed catalog. Changes to either
+field update the catalog synchronization hash and produce a configuration commit
+that selects tool builds. Values-only changes also select the relevant target,
+even when the chart is already mirrored.
+
+After chart mirroring, `cluster-admin-build` renders each selected, opted-in
+tool with its own target's values, namespace and release name. The catalog and
+values are read from the exact selected Git commit. Non-production and production
+can therefore discover different images from the same chart version. Install
+and upgrade rendering includes standard workload containers, init containers,
+Jobs, CronJobs and hook workloads. Shared image copies are deduplicated.
+
+`additional_images` covers operator-created workloads and other images not
+visible in those rendered resources. Local Helm rendering does not execute
+live-cluster `lookup` calls or discover arbitrary custom-resource image fields.
+Kubernetes/API-capability conditions use Helm's local rendering capabilities,
+not a live cluster query. Declare otherwise-undiscovered images explicitly.
+No cluster access is needed for discovery.
+
+Images are resolved to SHA-256 digests and copied with all platforms using the
+same pinned Skopeo container used by application image promotion. Source and
+destination manifest digests are compared after copying. Private OCIR
+repositories use this layout:
+
+```text
+<registry>/<tenancy-namespace>/<project>/images/cluster-tools/<source-registry>/<source-repository>:sha256-<digest>
+```
+
+Docker Hub shorthand expands to `docker.io/library/...`; a source registry port
+is encoded with an underscore in its destination path. Source registry identity
+is retained so identically named images from different registries cannot collide.
+Images already in the target OCIR tenancy namespace are reported without being
+mirrored recursively. Existing matching destination digests are not copied again.
+Removing an additional image never deletes an OCIR image or repository.
+
+Each target publishes `cluster-admin/<cluster>/tools/<tool>/images.json` to the
+existing Generic Artifact repository, versioned by the full configuration commit.
+The report contains source references, source/destination digests, destination
+tag and digest references, chart version and a hash of the target values.
+Build logs also print the source-to-destination mappings. Report preparation
+must succeed before deployment dispatch; production approval is unchanged.
+
+This feature does not edit values, rewrite manifests, configure pull secrets or
+enforce registry use during deployment. Administrators must set the chart's
+registry/repository and tag or digest fields using the report, and arrange
+private OCIR pull authentication. Destination tags are digest-derived, not copies
+of upstream version tags. Deployment stages do not mirror images or download
+mirroring tools.
+
+The build runner needs upstream registry connectivity and Docker, Helm and OCI
+CLI. OKE nodes and deployment runners need only their existing approved OCI
+service access. Optional source-registry credentials can be supplied through a
+private `REGISTRY_AUTH_FILE` in containers-auth.json format; no credentials are
+stored in the catalog, values or mapping reports. Keep upstream TLS verification
+enabled and configure trusted certificate authorities on the runner as needed.
 
 ## Tool Dependencies
 
