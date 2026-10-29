@@ -337,7 +337,7 @@ The measure of progress is the team's ability to answer a meaningful question, s
 
 ## Deploy your own DB Assistant
 
-Follow the [step-by-step OCI deployment guide](Deploy-DB-Assistant-on-OCI.md) to configure company sign-in, backend permissions, GenAI, MCP connections, OKE deployment and optional APM tracing. The guide includes verification steps and troubleshooting, with the [reference code and deployment templates](Files/code/README.md) provided under `Files/code`. All supplied configuration uses example values; replace them privately with your own settings.
+This is my own prototype, shared so you can try the idea and build on it. It may need changes to work in your tenancy, and it is not an Oracle-supported solution. If you want to give it a try, see the [how-to guide](Deploy-DB-Assistant-on-OCI.md).
 
 ## References and further reading
 
