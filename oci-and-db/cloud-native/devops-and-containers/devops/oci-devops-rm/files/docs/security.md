@@ -32,6 +32,15 @@ separate choice and networking is unchanged.
 
 ## Supply Chain
 
+- Optional cluster-tool image mirroring runs only in connected build runners.
+  Destination repositories are private, references are digest-based and copies
+  preserve all platforms. Digest equality establishes copy identity, not image
+  trust or vulnerability status. Registry writes use the existing DevOps project
+  compartment permissions; no additional IAM or cluster privileges are created.
+- Source-registry credentials use a private runtime auth file, not catalog/values
+  fields. OCIR tokens are kept in temporary auth files and sent to Helm via stdin.
+  Administrators remain responsible for chart image overrides and pull secrets.
+
 - Pin every cluster tool repository, chart, and version in the Resource Manager tool definition; the generated `catalog/tools.yaml` must not contain floating versions.
 - Keep image, chart, and values versions immutable.
 - Use multi-stage Dockerfiles to keep compilers, package managers, credentials, and test tools out of runtime images.

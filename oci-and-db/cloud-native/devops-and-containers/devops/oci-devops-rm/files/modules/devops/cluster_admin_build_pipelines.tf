@@ -56,8 +56,16 @@ resource "oci_devops_build_pipeline" "cluster_admin_mirror" {
   display_name = "cluster-admin-mirror-charts"
   description  = "Mirrors all missing public Kubernetes tool chart versions from the cluster-admin catalog into OCIR"
 
+  build_pipeline_parameters {
+    items {
+      name          = "config_commit"
+      default_value = "SOURCE"
+      description   = "Expected full source commit supplied by the configuration build; SOURCE uses the selected source commit for a manual run."
+    }
+  }
+
   lifecycle {
-    # OCI rejects some updates to parameterless pipeline containers.
+    # Preserve administrator-owned pipeline configuration.
     ignore_changes = all
   }
 }

@@ -83,6 +83,12 @@ Adding an application or component later creates its OCI resources and adds only
 
 ## Cluster Administration
 
+Tool entries also accept `mirror_images` (boolean, default `false`) and
+`additional_images` (list of image references, default empty). The build renders
+each selected cluster's values and mirrors discovered images plus additional
+references into OCIR. It publishes per-target mapping reports but never changes
+Helm values. See [Container Image Mirroring](cluster-administration.md#optional-container-image-mirroring).
+
 Cluster administration is optional and disabled by default. Set `enable_cluster_admin=true` to create the operations repository, immutable values repository, build pipelines, one orchestrator per cluster, triggers, artifacts, and branch protection. The production orchestrator has a mandatory approval predecessor. The topology editor and help text appear only after the feature is enabled.
 
 `cluster_admin_artifact_repository_name` optionally sets the OCI Generic Artifact repository display name used for immutable tool values and cluster deployment plans. Leave it empty to derive `<project-name>-cluster-admin-values`, preserving the existing convention.
