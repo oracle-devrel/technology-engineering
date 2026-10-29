@@ -12,10 +12,10 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
             </svg>
             <div>
-                <h2 class="card-title text-2xl font-extrabold tracking-tight">Audit Log</h2>
-                <p class="text-base-content/40 text-sm font-medium">
+                <h2 class="card-title text-2xl font-extrabold tracking-tight">Request activity</h2>
+                <p class="text-muted text-sm font-medium">
                     {% if audit_mode == "gitops" %}
-                    GitOps events for {{ project }} (infra-only changes)
+                    Infrastructure requests and execution evidence for {{ project }}
                     {% else %}
                     Recent commits for {{ project }}
                     {% endif %}
@@ -31,7 +31,7 @@
         <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
                 <thead>
-                    <tr class="text-base-content/40">
+                    <tr class="text-muted">
                         <th>SHA</th>
                         <th>Message</th>
                         <th>Author</th>
@@ -56,13 +56,13 @@
                                target="_blank"
                                class="hover:text-primary transition-colors">{{ c.message[:80] }}</a>
                         </td>
-                        <td class="text-sm text-base-content/50">{{ c.author }}</td>
+                        <td class="text-sm text-muted">{{ c.author }}</td>
                         <td class="text-sm">
                             {% if c.pr_number %}
                             <a href="{{ c.pr_url }}" target="_blank"
                                class="link link-secondary font-mono">#{{ c.pr_number }}</a>
                             {% else %}
-                            <span class="text-base-content/20">&mdash;</span>
+                            <span class="text-muted">&mdash;</span>
                             {% endif %}
                         </td>
                         <td class="text-sm">
@@ -73,20 +73,20 @@
                             {% if c.ci_status %}
                             {{ status_macros.ci_badge(c.ci_state, c.ci_status) }}
                             {% else %}
-                            <span class="text-base-content/20">&mdash;</span>
+                            <span class="text-muted">&mdash;</span>
                             {% endif %}
                         </td>
                         {% endif %}
-                        <td class="text-xs text-base-content/40">{{ c.date }}</td>
+                        <td class="text-xs text-muted">{{ c.date }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
         {% else %}
-        <p class="text-center py-8 text-base-content/40">
+        <p class="text-center py-8 text-muted">
             {% if audit_mode == "gitops" %}
-            No GitOps events found for configured infrastructure paths.
+            No recorded infrastructure requests found for this project.
             {% else %}
             No commits found
             {% endif %}

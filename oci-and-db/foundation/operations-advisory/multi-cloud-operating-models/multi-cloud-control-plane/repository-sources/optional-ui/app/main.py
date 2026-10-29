@@ -16,7 +16,7 @@ from app.auth import (
     get_github_client,
     store_oauth_token,
 )
-from app.routers import dashboard, operations, resources, audit
+from app.routers import dashboard, operations, resources, audit, chat
 from app.services.project_service import ProjectService
 
 # Logging — only configure if no handlers are set, so uvicorn/pytest config wins.
@@ -25,7 +25,7 @@ if not logging.getLogger().handlers:
 logger = logging.getLogger(__name__)
 
 # App
-app = FastAPI(title="Multi Cloud Control Plane", version="2.1.0")
+app = FastAPI(title="Multi Cloud Control Plane", version="2.1.0", lifespan=chat.lifespan)
 app.add_middleware(SessionMiddleware, secret_key=settings.session_secret)
 app.add_middleware(CORSMiddleware, allow_origins=[settings.app_url], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
@@ -34,6 +34,8 @@ app.include_router(dashboard.router, prefix="/partials")
 app.include_router(operations.router, prefix="/partials")
 app.include_router(resources.router, prefix="/partials")
 app.include_router(audit.router, prefix="/partials")
+app.include_router(chat.router)
+templates.env.globals["chat_settings"] = settings
 
 
 @app.exception_handler(GuardResponseException)
@@ -89,6 +91,8 @@ async def logout(request: Request):
     """Clear session."""
     user = get_current_user(request) or {}
     clear_oauth_token(user.get("session_id"))
+    if user.get("session_id"):
+        await chat.close_session(user["session_id"])
     request.session.clear()
     return RedirectResponse(url="/static/login.html")
 

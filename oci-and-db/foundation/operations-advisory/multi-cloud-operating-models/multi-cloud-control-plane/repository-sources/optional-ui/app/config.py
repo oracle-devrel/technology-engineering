@@ -40,6 +40,14 @@ class Settings(BaseSettings):
     app_port: int = Field(default=8011, validation_alias=AliasChoices("APP_PORT", "PORT"))
     app_url: str = "http://localhost:8011"  # Browser origin allowed by CORS
 
+    # Optional local, single-presenter chat demo.
+    chat_enabled: bool = False
+    chat_demo_login: str = ""
+    chat_demo_project: str = ""
+    chat_codex_binary: str = "codex"
+    chat_skill_path: str = ""
+    chat_model: str = ""
+
     # Default values for operations
     default_cloud: str = "oci"
     default_region: str = "eu-frankfurt-1"

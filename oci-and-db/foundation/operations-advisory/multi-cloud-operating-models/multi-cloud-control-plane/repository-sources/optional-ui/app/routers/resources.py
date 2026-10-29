@@ -1,5 +1,6 @@
 """Resources HTMX partials - resource management and deployment."""
 from copy import deepcopy
+import asyncio
 import logging
 import re
 from html import escape
@@ -808,12 +809,18 @@ async def resources_catalog_partial(
     """List available resources to deploy from resources-catalog."""
     try:
         github_client = request.state.github_client
-        _, entries = await _resource_catalog_with_entries(github_client)
+        catalog, entries = await _resource_catalog_with_entries(github_client)
+        templates = await asyncio.gather(*(catalog.load_json_template(entry.id) for entry in entries), return_exceptions=True)
         resources_by_cloud = {}
-        for entry in entries:
-            resources_by_cloud.setdefault(entry.cloud, []).append(entry.model_dump())
+        for entry, template in zip(entries, templates):
+            facts = catalog.resource_facts(template) if template is not None and not isinstance(template, BaseException) else []
+            resources_by_cloud.setdefault(entry.cloud, []).append({**entry.model_dump(), "facts": facts})
+        def profile_order(item):
+            words = item["name"].lower().split()
+            rank = next((index for index, size in enumerate(("small", "medium", "large")) if size in words), 3)
+            return item["category"], rank, item["name"]
         resources_by_cloud = {
-            cloud: sorted(resources, key=lambda item: (item["category"], item["name"]))
+            cloud: sorted(resources, key=profile_order)
             for cloud, resources in sorted(
                 resources_by_cloud.items(),
                 key=lambda item: _cloud_sort_key(item[0]),

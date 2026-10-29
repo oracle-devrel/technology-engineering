@@ -7,7 +7,7 @@
             </svg>
             <div>
                 <h2 class="card-title text-xl font-bold tracking-tight font-mono">{{ path }}</h2>
-                <p class="text-base-content/40 text-sm font-medium">Manifest file</p>
+                <p class="text-muted text-sm font-medium">Manifest file</p>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
     <div class="card-body">
         <div class="form-control mb-4">
             <label class="label">
-                <span class="label-text text-base-content/50 text-xs font-bold uppercase tracking-wider">JSON Content</span>
+                <span class="label-text text-muted text-xs font-bold uppercase tracking-wider">JSON Content</span>
             </label>
             <pre class="p-4 rounded-lg bg-base-300/50 border border-base-300 h-96 overflow-auto font-mono text-sm leading-relaxed">{{ content|tojson(indent=2) }}</pre>
         </div>
