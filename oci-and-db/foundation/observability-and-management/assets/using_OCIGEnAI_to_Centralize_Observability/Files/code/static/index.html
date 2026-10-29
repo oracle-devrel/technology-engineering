@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>DB Assistant</title><link rel="stylesheet" href="/static/style.css"><script defer src="/static/app.js"></script></head>
+<body>
+<script>
+if (location.protocol === 'file:') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const notice = document.createElement('section');
+    notice.style.cssText = 'padding:32px;font:18px system-ui;background:#fff4d6;color:#302b1b;border:1px solid #dcc888;margin:24px';
+    const message = document.createElement('p');
+    message.textContent = 'DB Assistant needs its running server. This file cannot sign in, load models, or run investigations.';
+    const link = document.createElement('a');
+    link.href = 'http://localhost:8000/';
+    link.textContent = 'Open DB Assistant at localhost:8000 →';
+    notice.append(message, link);
+    document.body.prepend(notice);
+  });
+}
+</script>
+<header><a class="brand" href="/">◈ <span>DB Assistant</span></a><div><span id="identity"></span><a id="configuration-link" class="quiet" href="/configuration" hidden>Configuration</a><button id="logout" class="quiet" hidden>Sign out</button></div></header>
+<main>
+<section id="welcome"><p class="eyebrow">YOUR OBSERVABILITY WORKSPACE</p><h1>Ask a question.<br>Follow the evidence.</h1><p class="intro">Explore database health, investigate errors, and understand monitoring gaps through one shared assistant.</p><a class="primary" href="/auth/login">Sign in with your company account →</a><p class="note">Access follows your team’s approved environments.</p></section>
+<section id="workspace" hidden>
+<div class="heading"><div><p class="eyebrow">OBSERVABILITY / INVESTIGATIONS</p><h1>What would you like to understand?</h1></div><span class="badge">Read-only access</span></div>
+<div id="demo" class="notice" hidden>Demo preview · No OCI connections or live findings.</div>
+<div id="denied" class="notice" hidden>Your account has no assigned environments. Ask your administrator to grant access.</div>
+<div class="layout"><div>
+<div class="conversation-bar"><h2 id="conversation-title">New conversation</h2><button id="new-conversation" class="quiet" type="button">＋ New conversation</button></div>
+<p id="conversation-meta" class="note">Ask a question, then continue with follow-ups in the same environment.</p>
+<section id="transcript" aria-label="Conversation" aria-live="polite" hidden></section>
+<form id="ask"><div class="filters"><div class="environment-picker"><label for="environment-toggle">Environment</label><select id="environment" class="visually-hidden" aria-hidden="true" aria-label="Selected compartment" tabindex="-1" required></select><button type="button" id="environment-toggle" class="environment-toggle" aria-haspopup="dialog" aria-expanded="false" aria-controls="environment-panel"><span id="environment-caption">Choose compartment</span><span aria-hidden="true">▾</span></button><div id="environment-panel" class="environment-panel" role="dialog" aria-label="Choose compartment" hidden><label class="visually-hidden" for="environment-search">Search compartments</label><input id="environment-search" type="search" placeholder="Search compartments…" autocomplete="off"><p id="environment-count" class="note" aria-live="polite"></p><div id="environment-tree" class="environment-tree" aria-label="Compartment hierarchy"></div><p class="environment-scope note">One compartment per conversation. Child compartments are selected separately.</p></div><p id="environment-lock" class="environment-lock note" hidden>Start a new conversation to change compartment.</p></div><label>LLM model<select id="model" required></select></label><label>Look back<select id="hours"><option value="1">Last hour</option><option value="24">Last 24 hours</option><option value="48">Last 2 days</option><option value="168">Last 7 days</option></select></label><label>Workflow<select id="skill"><option value="auto">Choose for me</option><option value="observability-coverage-checker">Monitoring coverage</option><option value="application-error-investigator">Error investigation</option><option value="oracle-incident-correlator">Incident correlation</option><option value="database-sql-performance">SQL performance</option></select></label></div>
+<div class="routing-controls"><label>Preferred MCP<select id="preferred-mcp"><option value="auto">Choose for me</option></select></label><label>Preferred operation (optional)<select id="preferred-tool"><option value="auto">Choose for me</option></select></label></div><p id="routing-help" class="note">Applies to your next message. Required discovery and access checks still run.</p>
+<div class="model-controls"><p id="catalog-status" class="note" aria-live="polite">Loading OCI models…</p><button type="button" id="refresh-models" class="quiet">↻ Refresh OCI models</button></div>
+<p class="note">The selected model applies to your next investigation.</p>
+<label class="question-label" for="question">Your message</label><textarea id="question" maxlength="4000" required placeholder="Are there any monitoring gaps in this environment?"></textarea><div class="submit-row"><span>Follow-ups use recent exchanges. Each message has its own evidence window.</span><button class="primary" id="submit">Send →</button></div></form>
+<div class="suggestions"><button data-question="Show the top SQL statements by elapsed time from AWR in this window. Identify the database and actual snapshot interval.">Top SQL</button><button data-question="Check database and log monitoring coverage. Identify stale or missing data.">Check coverage</button><button data-question="Show the main application errors in the selected window. Separate current and historical evidence.">Explore errors</button><button data-question="Check whether application errors and database resource pressure are related. Verify the resource mapping first.">Correlate symptoms</button></div>
+<div id="error" class="notice" hidden role="alert"></div>
+<article id="result" hidden aria-live="polite"><div class="result-head"><h2>Investigation</h2><span id="status" class="badge"></span></div><p id="run-question"></p><p id="run-model" class="note"></p><pre id="answer"></pre><a id="download" hidden>Download report and tool timeline ↓</a><details><summary>Evidence collection</summary><ol id="events"></ol></details></article>
+</div><aside><h2>Conversations</h2><div id="history"></div><details id="legacy-reports" hidden><summary>Earlier reports</summary><div id="legacy-history"></div></details><div class="aside-note"><strong>Evidence comes first</strong><p>Conversations are private to your account and stay in one environment. Recent exchanges provide context; current findings still require fresh evidence.</p></div></aside></div>
+</section></main><footer>DB Assistant · OCI Generative AI · Team observability skills</footer></body></html>

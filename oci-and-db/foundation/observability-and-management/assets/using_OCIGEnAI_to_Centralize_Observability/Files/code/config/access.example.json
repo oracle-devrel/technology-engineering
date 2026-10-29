@@ -1,0 +1,19 @@
+{
+  "environments": {
+    "example": {
+      "label": "Example database environment",
+      "compartment_name": "ExampleObservability",
+      "compartment_id": "ocid1.compartment.REPLACE_WITH_EXAMPLE_COMPARTMENT",
+      "groups": [
+        "DBA-Observability"
+      ],
+      "subjects": []
+    }
+  },
+  "administrators": {
+    "subjects": [
+      "REPLACE_WITH_VERIFIED_ADMIN_SUBJECT"
+    ],
+    "groups": []
+  }
+}
