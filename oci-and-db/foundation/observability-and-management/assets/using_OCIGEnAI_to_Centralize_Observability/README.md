@@ -38,7 +38,7 @@ The prototype described here performs governed, read-only investigations. Remedi
 
 ![DB Assistant architecture: a browser application on OKE connects OCI Generative AI to governed MCP access, Oracle observability services, persistent conversation state and OCI APM.](Files/db-assistant-architecture.png)
 
-*Figure 1. The DB Assistant prototype. Generic compartment and resource names are used, with service icons from the [Oracle OCI architecture toolkit](https://docs.oracle.com/en-us/iaas/Content/General/Reference/graphicsfordiagrams.htm). [Editable draw.io diagram](assets/db-assistant-architecture.drawio) · [Vector image](Files/db-assistant-architecture.svg) · [High-level design](assets/db-assistant-high-level-design.pdf).*
+*Figure 1. The DB Assistant prototype
 
 The architecture has three connected paths:
 
@@ -268,7 +268,7 @@ The current APM connection observes DB Assistant's execution. Querying applicati
 
 ![A central GenAI operations brain connects domain skills through governed MCPs and API adapters to Oracle databases, applications, networks, security, infrastructure and service-management environments. A separate future path shows approved remediation, recovery checks and human escalation.](Files/genai-observability-extension.png)
 
-*Figure 2. How the architecture can expand beyond the database prototype. Solid borders identify the Oracle pilot foundation; dashed borders identify conceptual extensions. [Editable draw.io diagram](assets/genai-observability-extension.drawio) · [Vector image](Files/genai-observability-extension.svg).*
+*Figure 2. How the architecture can expand beyond the database prototype. 
 
 The administration page can register additional **Database Observability** or **LogAn** connections. An administrator provides connection details, performs a scoped read test, assigns the connection to an environment and grants access to users or groups.
 
