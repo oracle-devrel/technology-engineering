@@ -180,7 +180,10 @@
             }
             if (panel.manifest_path) field('Manifest', panel.manifest_path, true);
             if (panel.files) field('Changed files', panel.files.join('\n'), true);
-            if (panel.secret_keys && panel.secret_keys.length) field('Runtime secret keys · values stay outside chat', panel.secret_keys.join(', '), true);
+            for (const reference of panel.secret_references || []) {
+                field('Vault secret · ' + reference.resource, reference.secret_id, true);
+            }
+            if (panel.secret_keys && panel.secret_keys.length) field('Required Vault bindings', panel.secret_keys.join(', '), true);
             content.append(list);
             if (panel.kind === 'pr' && Number.isInteger(panel.pr_number) && panel.pr_number > 0) {
                 link.href = 'https://github.com/multicloud-control-plane/' + encodeURIComponent(root.dataset.project) + '/pull/' + panel.pr_number;

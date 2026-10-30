@@ -8,12 +8,13 @@ from fastapi import HTTPException
 from githubkit.exception import RequestFailed
 
 from app.services.catalog_service import CatalogService
+from app.services.manifest_service import validate_oci_adb_secret_references
 
 
 def _panel(project, environment, region):
     return {
         "project": project, "environment": environment, "region": region,
-        "kind": "empty", "resources": [], "secret_keys": [],
+        "kind": "empty", "resources": [], "secret_keys": [], "secret_references": [],
         "stages": [
             {"label": label, "state": "waiting", "detail": ""}
             for label in ("Proposal", "Confirmation", "PR & checks", "Review & merge", "Execution")
@@ -48,6 +49,7 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
 
     records = []
     secrets = set()
+    native_references = validate_oci_adb_secret_references(data)
     if is_clear:
         panel = _panel(project, environment, region)
         panel.update(kind="proposal", request_type="operation_clear", crq=crq, manifest_path=manifest_path,
@@ -60,6 +62,9 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
     def walk(value, key=""):
         if isinstance(value, dict):
             for field, content in value.items():
+                if (field == "admin_password_secret_id" and key in native_references
+                        and value is data["autonomous_databases_configuration"]["databases"][key]):
+                    continue
                 if re.search(r"password|private_key|secret_value|access_token", field, re.I) and content:
                     if not isinstance(content, str) or not re.fullmatch(r"__[A-Z0-9_]+__", content):
                         raise ValueError("The candidate contains a literal credential. Use runtime placeholders.")
@@ -99,6 +104,8 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
                 details.append(f"{len(record[field])} {label}")
         name = record.get("display_name") or record.get("name") or record.get("db_name") or key
         panel["resources"].append({"name": str(name)[:160], "key": key, "details": " · ".join(details)})
+        if key in native_references:
+            panel["secret_references"].append({"resource": str(name)[:160], "secret_id": native_references[key]})
     panel["stages"][0].update(state="done", detail="Candidate prepared; review the chat before confirming.")
     panel["stages"][1].update(state="current", detail="Reply confirm only after reviewing the proposal.")
     return panel

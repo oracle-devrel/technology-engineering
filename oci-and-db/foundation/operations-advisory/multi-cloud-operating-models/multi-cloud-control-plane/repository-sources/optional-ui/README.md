@@ -37,6 +37,12 @@ The application reads `.env` itself, including its configured host and port. `AP
 
 The UI creates GitHub issues, branches, commits, and pull requests. It does not hold cloud credentials, approve or merge requests, or execute Terraform or Ansible. See the canonical MCCP [security guidance](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md).
 
+## Workload secret references
+
+For OCI ADB, both catalog forms and AI Operations require an existing OCI Vault secret OCID in `admin_password_secret_id`. Each database needs a distinct secret in the project's approved Vault scope and deployment region. Project Team manages its password and CURRENT version; Cloud Operations prepares the runner's read permissions. The UI accepts references only and never reads or creates secret values. It does not require a GitHub secret bundle.
+
+The form validates the complete merged ADB manifest before publishing, including existing databases. The AI request panel displays the selected databases' Vault references and rejects literal passwords, legacy OCI password tokens, missing references, and a secret reused by two ADBs. For catalog fields without native secret-reference support, use the approved Vault runtime binding name; values remain outside the UI and Git.
+
 ## Local chat demo
 
 The optional chat runs the existing `project-gitops` skill through a local Codex app-server process. It is a single-presenter MVP for the governed projects available to that presenter, disabled by default. Existing catalog forms remain available. This prototype relies on the skill for semantic previews and the standalone `confirm` gate; it is not a shared production agent service.
@@ -45,7 +51,7 @@ Install Codex CLI, GitHub CLI (`gh`), and Git on the UI host, and authenticate C
 
 Sign in as the configured presenter, select any project you can write to, and open **AI Operations**. Ask for an inventory or a supported catalog resource in the selected OCI scope. Non-production repositories use dev; production repositories use prod. Supply the CRQ and any missing values, review the skill's proposal, then send `confirm` as its own message to publish the PR. Human approval and merge remain necessary before the existing protected workflow deploys the resource. A supported demonstration can use a Small Compute request followed by a PR status query.
 
-The request panel reads selected resources or operation targets from the skill's local candidate JSON. It shows the scope, CRQ, capacity or operation action, manifest and runtime secret key names. Values are never displayed in the panel. The full semantic preview in chat remains the confirmation reference. The integration uses Codex's experimental dynamic-tool interface to update this panel; keep the checked CLI version for the demo.
+The request panel reads selected resources or operation targets from the skill's local candidate JSON. It shows the scope, CRQ, capacity or operation action, manifest, native Vault secret references and required runtime binding names. Secret values are never displayed in the panel. The full semantic preview in chat remains the confirmation reference. The integration uses Codex's experimental dynamic-tool interface to update this panel; keep the checked CLI version for the demo.
 
 For a published or existing PR, the panel reads GitHub independently. **Refresh status** checks the latest PR head, matching workflows, merge commit and execution jobs. A successful Terraform apply is shown only when its push workflow and execution step succeeded for that merge commit. Missing, skipped or unavailable evidence stays unverified. An Ansible wrapper can succeed without running an operation, so its job status alone does not verify execution. Confirmation of an existing PR is not inferred from its merge. PR links open a separate tab.
 

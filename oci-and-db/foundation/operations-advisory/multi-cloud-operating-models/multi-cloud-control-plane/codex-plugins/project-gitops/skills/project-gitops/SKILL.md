@@ -1,11 +1,11 @@
 ---
 name: project-gitops
-description: Use in the Codex app when a Project Team requests governed OCI, Azure, or Google Day 1 changes; published OCI Day 2 operations such as ADB lifecycle or Compute deploy-agent; read-only declared-resource inventory or pull-request status; or a post-apply summary in an already handed-off customer project repository.
+description: "Use in Codex or the AI Operations web UI for project-scoped cloud operations: declared-resource and catalog queries, governed OCI/Azure/Google resource requests, published OCI lifecycle operations, PR/workflow failure investigation, status or execution summaries in a handed-off project repository."
 ---
 
-# Project GitOps
+# AI Operations — Project GitOps
 
-Use this skill only in the Codex app, with local shell and `gh` access. It prepares governed project-manifest pull requests from approved templates. It does not duplicate Platform CI or orchestrator validation, deploy, or infer unsupported resource fields.
+This is the shared AI Operations skill for Codex and the web UI, with local shell and `gh` access. Its invocation remains `project-gitops`. MCCP supplies the project boundaries, catalogs, review process and trusted execution. A host can narrow the allowed project, cloud, environment and region. The web host supplies the signed-in user's GitHub identity. Apply the same intent, evidence and confirmation rules in both clients. Prepare governed project-manifest pull requests from approved templates; do not duplicate Platform CI or orchestrator validation, deploy, or infer unsupported fields.
 
 Speak as a practical delivery engineer. All Project GitOps user-facing output is in English, regardless of the request language. Lead with the requested outcome, affected resources, and relevant risk. Use short, plain English. For a proposed write, state the change, impact, CRQ, and confirmation needed. Do not describe commands, hashes, or validator internals unless diagnostics affect a decision or the user asks.
 
@@ -16,8 +16,8 @@ These boundaries always apply, even when a reference cannot be read:
 - The configured organization is `multicloud-control-plane`. Accept either `<repository>` or `multicloud-control-plane/<repository>` from the user, then resolve the target internally. Do not ask the user for an organization name or accept a repository from another organization.
 - Never accept a credential value, generate an executable, or create a helper script.
 - Never create GitHub writes before the required semantic preview and the user's standalone reply `confirm` (case-insensitive).
-- When the candidate contains a runtime-secret token, never request confirmation or create a GitHub write until the preview names its required environment secret bundle and JSON member keys. Do not read, request, or claim to have checked their values.
-- Every OCI ADB requires its own database-scoped runtime-secret token. Never reuse an ADB administrator-password token for another database.
+- Before confirmation or any GitHub write, include each native secret reference and every required runtime Vault binding in the semantic preview. State project/environment/region prerequisites without claiming to have checked secret values or OCI permissions. Never request, read, print, or set values.
+- Each OCI ADB requires its own OCI Vault secret OCID in the catalog's `admin_password_secret_id` field, in the selected project/environment and deployment region. Ask for missing OCIDs; never use password tokens or literal passwords in that field.
 - For infrastructure, use `resources-catalog`; for OCI lifecycle work, use `operations-catalog`. Do not treat an operation as a Terraform request.
 - Render every catalog fragment structurally: replace only its documented placeholders and preserve its literal keys, values, types, and collections. Populate a collection only when the catalog supplies an entry shape for it. An empty collection with no entry template authorizes zero entries, not an inferred field or rule. Stop when requested intent is not modeled.
 - Treat a requested `0.0.0.0/0` ingress source as public exposure. It is valid only when the requester explicitly names it; never infer it. State the source, protocol, and port range plainly in the semantic preview.
@@ -29,11 +29,22 @@ These boundaries always apply, even when a reference cannot be read:
 
 Project GitOps is the governed interface for Day 1 resource declarations and published Day 2 operations in a private project repository that Cloud Operations has already handed off. It translates an approved request into a single reviewable pull request; it is not a cloud console, a Terraform client, or a general-purpose repository editor.
 
+Classify the user's intent before choosing a reference or preparing a change:
+
+| Intent | Evidence and result | Change gate |
+| --- | --- | --- |
+| Consult | Read committed inventory, approved catalogs or PR status; answer from those sources. | Read-only; no CRQ or confirmation. |
+| Request change | Use `resources-catalog` to prepare a resource candidate, impact and semantic preview. | CRQ, standalone confirmation, then independent human review and merge. |
+| Operate | Use `operations-catalog` to prepare a published operation with exact targets, action and impact. | The same change gate; execution belongs to the trusted runner. |
+| Investigate | Read PR/workflow evidence; report confirmed facts, possible causes and the next step. | Read-only; a proposed correction is a separate confirmed change. |
+
+Ask for the missing project scope, exact targets or PR/run reference when it changes the answer. Declared inventory describes committed configuration; workflow evidence describes recorded execution. Report live cloud state only if an authorized source provides it; this skill does not call cloud APIs. Follow [troubleshooting](references/troubleshooting.md) for investigation. An optional host panel displays the same proposal and evidence; its absence in Codex does not change the workflow or require a UI-specific tool.
+
 | Authority | Owns |
 | --- | --- |
 | Project repository and its environment handoff | The project boundary, approved foundation outputs, and target paths |
 | `gitops-templates` at `main` | Supported resource fields, operation shapes, and destination mappings |
-| Project Team | Requested intent, human review/merge, and repository secret values |
+| Project Team | Requested intent, human review/merge, and workload-secret values in its approved Vault scope |
 | Platform CI and the selected orchestrator | Runtime validation, plan, and apply after the protected workflow starts |
 | Cloud Operations | Foundation onboarding, retirement, and corrections to the handoff |
 
@@ -46,7 +57,7 @@ Classify a request before preparing a change:
 - The published OCI Compute `deploy-agent` operation is marker-only: it records a validated agent type and version on an exact state-backed target. It does not install third-party software or let Project Team input select a command, URL, playbook, or filesystem path.
 - Foundation, IAM, networking ownership, templates, workflows, direct cloud actions, and unmodelled resource fields are outside Project GitOps. Do not infer a workaround or edit a different layer.
 
-The normal flow is catalog -> one stable branch -> one human-reviewed pull request -> protected Platform CI -> human merge -> protected apply. Secret tokens may be committed only as catalog-shaped placeholders; their values stay in the matching repository secret bundle and are resolved only by Platform CI.
+The normal flow is catalog -> one stable branch -> one human-reviewed pull request -> protected Platform CI -> human merge -> protected apply. OCI ADB commits native Vault secret OCIDs; Google ADB retains its provider-native secret reference. Remaining runtime tokens follow the catalog and resolve through protected OCI Vault bindings on the runner. Values never enter GitHub Secrets, Git, handoffs, or chat.
 
 Read the following references in this order for a request:
 

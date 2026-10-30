@@ -35,7 +35,13 @@ from app.services.project_context import environment_options as project_environm
 from app.services.dashboard_service import DashboardService
 from app.services.git_service import GitService, RepositoryStateError
 from app.services.handoff_service import HandoffService
-from app.services.manifest_service import ManifestError, get_resource, remove_resource
+from app.services.manifest_service import (
+    ManifestError,
+    VAULT_SECRET_OCID_RE as _VAULT_SECRET_OCID_RE,
+    get_resource,
+    remove_resource,
+    validate_oci_adb_secret_references,
+)
 from app.services.nsg_service import (
     NsgRequestError,
     add_rules_to_existing_nsg,
@@ -110,20 +116,15 @@ _SKIP_COLLECTION_NORMALIZATION = {
     "network_security_groups",
 }
 _CUSTOM_ERRORS = {}
-_OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER = "__ADB_ADMIN_PASSWORD__"
+_OCI_ADB_SECRET_PLACEHOLDER = "__ADB_ADMIN_PASSWORD_SECRET_OCID__"
 _RUNTIME_SECRET_PLACEHOLDERS = {
-    "__ADB_ADMIN_PASSWORD__",
     "__AZURE_ADB_ADMIN_PASSWORD__",
     "__AZURE_VM_SSH_PUBLIC_KEY__",
     "__GCP_VM_SSH_PUBLIC_KEY__",
 }
 _OCI_ADB_CONFIGURATION_KEY = "autonomous_databases_configuration"
-_ACTIONS_SECRET_NAME_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
+_RUNTIME_SECRET_NAME_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
 _RUNTIME_SECRET_TOKEN_RE = re.compile(r"^__(DEV|TEST|UAT|PROD)_[A-Z_][A-Z0-9_]*__$")
-_ACTIONS_SECRET_NAME_EXAMPLE = "ADB_PROD_PROJ9_02_ADMIN_PASSWORD"
-_ACTIONS_SECRET_HELP = (
-    "The secret must already exist in the selected project repository."
-)
 _NSG_FORM_FIELDS = (
     ("category", "Project NSG Category", "__PROJECT_NSG_CATEGORY__"),
     ("vcn_key", "Project VCN Key", "__PROJECT_VCN_KEY__"),
@@ -142,11 +143,11 @@ def _is_oci_adb_configuration(data: Any) -> bool:
     )
 
 
-def _is_oci_adb_admin_password_field(template: Any, field: dict) -> bool:
+def _is_oci_adb_secret_reference_field(template: Any, field: dict) -> bool:
     return (
         _is_oci_adb_configuration(template)
-        and field.get("placeholder") == _OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER
-        and str(field.get("path") or "").endswith(".admin_password")
+        and field.get("placeholder") == _OCI_ADB_SECRET_PLACEHOLDER
+        and str(field.get("path") or "").endswith(".admin_password_secret_id")
     )
 
 
@@ -155,22 +156,27 @@ def _apply_oci_adb_secret_field_metadata(
     fields: list[dict],
 ) -> None:
     for field in fields:
-        if not _is_oci_adb_admin_password_field(template, field):
+        if not _is_oci_adb_secret_reference_field(template, field):
             continue
-        field["label"] = "GitHub Actions secret name"
+        field["label"] = "OCI Vault secret OCID"
         field["input_type"] = "text"
-        field["input_placeholder"] = _ACTIONS_SECRET_NAME_EXAMPLE
-        field["help_text"] = _ACTIONS_SECRET_HELP
+        field["input_placeholder"] = "ocid1.vaultsecret..."
+        field["help_text"] = (
+            "Use a distinct secret for this database in the same region and approved "
+            "project/environment boundary. Enter its OCID, never its password. "
+            "The runner reads the CURRENT version during plan and apply."
+        )
 
     for field in fields:
         if field.get("placeholder") not in _RUNTIME_SECRET_PLACEHOLDERS:
             continue
-        field["label"] = "Environment secret name"
+        field["label"] = "Vault runtime binding name"
         field["input_type"] = "text"
         field["input_placeholder"] = "WORKLOAD_SECRET_NAME"
         field["help_text"] = (
-            "Enter the repository-secret key without its environment prefix. "
-            "The UI writes an environment-qualified runtime placeholder."
+            "Enter the approved OCI Vault binding name without its environment prefix. "
+            "The UI writes an environment-qualified runtime placeholder. "
+            "Project Team manages its value in Vault; Cloud Operations registers the binding."
         )
 
 
@@ -180,12 +186,17 @@ def _prepare_runtime_secrets(
     environment: str,
 ) -> tuple[dict[str, Any], set[str], str | None]:
     prepared = dict(payload)
+    if _is_oci_adb_configuration(template) and _OCI_ADB_SECRET_PLACEHOLDER in find_raw_placeholders(template):
+        reference = str(prepared.get(_OCI_ADB_SECRET_PLACEHOLDER) or "").strip()
+        if not _VAULT_SECRET_OCID_RE.fullmatch(reference):
+            return prepared, set(), "Enter an OCI Vault secret OCID, never a password or runtime token."
+        prepared[_OCI_ADB_SECRET_PLACEHOLDER] = reference
     allowed: set[str] = set()
     for placeholder in find_raw_placeholders(template) & _RUNTIME_SECRET_PLACEHOLDERS:
         secret_name = str(prepared.get(placeholder) or "").strip()
         wrapped = secret_name.startswith("__") and secret_name.endswith("__")
-        if not _ACTIONS_SECRET_NAME_RE.fullmatch(secret_name) or wrapped:
-            return prepared, set(), "Enter a valid environment secret name."
+        if not _RUNTIME_SECRET_NAME_RE.fullmatch(secret_name) or wrapped:
+            return prepared, set(), "Enter a valid Vault runtime binding name."
         token = f"__{environment.upper()}_{secret_name}__"
         prepared[placeholder] = token
         allowed.add(token)
@@ -1128,6 +1139,7 @@ async def deploy_resource_submit(
             data=data,
             search_existing_collections=search_existing_collections,
         )
+        validate_oci_adb_secret_references(data)
         result = await git.write_manifest(
             cloud=cloud,
             environment=environment,

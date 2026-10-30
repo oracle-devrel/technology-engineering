@@ -1,10 +1,33 @@
 """Safe, generic updates to aggregate Terraform resource manifests."""
 from copy import deepcopy
+import re
 from typing import Any
+
+VAULT_SECRET_OCID_RE = re.compile(r"^ocid1\.vaultsecret\.[A-Za-z0-9._-]+$")
 
 
 class ManifestError(ValueError):
     """Raised when a manifest cannot identify one resource unambiguously."""
+
+
+def validate_oci_adb_secret_references(manifest: dict[str, Any]) -> dict[str, str]:
+    """Check native ADB references without reading secret values or OCI."""
+    if "autonomous_databases_configuration" not in manifest:
+        return {}
+    configuration = manifest["autonomous_databases_configuration"]
+    if not isinstance(configuration, dict) or not isinstance(configuration.get("databases", {}), dict):
+        raise ManifestError("OCI ADB configuration must contain a databases map.")
+    references: dict[str, str] = {}
+    for key, database in configuration.get("databases", {}).items():
+        if not isinstance(database, dict) or "admin_password" in database:
+            raise ManifestError("OCI ADB requires a Vault secret OCID, never a password or runtime token.")
+        reference = database.get("admin_password_secret_id")
+        if not isinstance(reference, str) or not VAULT_SECRET_OCID_RE.fullmatch(reference):
+            raise ManifestError("OCI ADB requires a Vault secret OCID, never a password or runtime token.")
+        if reference in references.values():
+            raise ManifestError("Each OCI ADB must use a distinct Vault secret OCID.")
+        references[key] = reference
+    return references
 
 
 def _resource_collections(
