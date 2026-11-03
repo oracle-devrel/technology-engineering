@@ -15,6 +15,9 @@ variableGroups:
       - region
       - current_user_ocid
       - compartment_ocid
+      - automatic_credentials_email
+      - development_overwrite_repositories
+      - execution_secret_ids
 
   - title: "GitOps Agent"
     variables:
@@ -22,15 +25,6 @@ variableGroups:
       - gitops_scope
       - enable_multicluster
       - flux_fleet_member_name
-
-  - title: Create policies
-    variables:
-      - create_iam
-      - iam_domain_compartment_id
-      - devops_iam_domain_id
-      - devops_dynamic_group_name
-      - devops_policy_name
-      - kms_compartment_id
 
   - title: DevOps Project
     variables:
@@ -51,7 +45,6 @@ variableGroups:
     variables:
       - pipelines_repository_name
       - ocir_repo_path_prefix
-      - auth_token
 
   - title: OKE Environment
     variables:
@@ -65,30 +58,50 @@ variableGroups:
       - oke_worker_subnet_id
       - oke_worker_nsg_id
 
+  - title: IAM
+    variables:
+      - auth_token
+      - create_iam
+      - iam_policy_compartment_id
+      - devops_policy_name
+      - iam_domain_compartment_id
+      - devops_iam_domain_id
+      - devops_dynamic_group_name
+      - create_automatic_credentials
+      - automation_iam_domain_compartment_id
+      - automation_iam_domain_id
+
 variables:
+
+  execution_secret_ids:
+    type: array
+    items:
+      type: string
+    visible: false
 
   gitops_agent:
     title: "GitOps Agent"
     description: "GitOps Agent to use for deployments on the cluster"
     type: enum
     enum:
-      - fluxcd
       - argocd
+      - fluxcd
+    default: argocd
     required: true
 
   gitops_scope:
     title: "GitOps scope"
-    description: "Choose whether the initial repositories manage cluster administration only or both developer applications and cluster configuration. Cluster administration still supports namespaced resources such as quotas, policies, and tool configuration. This choice affects the initial seed only; later stack applies preserve customer-owned repository content."
+    description: "Initial repository scope: cluster administration only, or applications and cluster administration. Existing Git content is preserved."
     type: enum
     enum:
       - cluster_admin
       - applications_and_cluster
-    default: applications_and_cluster
+    default: cluster_admin
     required: true
 
   enable_multicluster:
     title: "Enable optional multi-cluster repository"
-    description: "Create fleet-config. Argo CD uses native centralized management. Flux CD activates the selected cluster for decentralized reconciliation; administrators manually create an OCI DevOps environment and installation pipeline for every additional member."
+    description: "Create fleet-config for centralized Argo CD or decentralized Flux management. Additional Flux members are onboarded separately."
     type: boolean
     default: false
     required: true
@@ -126,7 +139,7 @@ variables:
 
   devops_compartment_id:
     title: "DevOps Compartment"
-    description: "Compartments where to create the OCI DevOps project"
+    description: "Child compartment where the OCI DevOps project and the bootstrap Shell stage Container Instance will be created. The tenancy root is not supported."
     type: oci:identity:compartment:id
     default: ${compartment_ocid}
     required: true
@@ -217,9 +230,10 @@ variables:
     required: true
 
   ocir_repo_path_prefix:
-    title: "OCIR Repo prefix"
-    description: "The DevOps build pipeline will create a repository with this prefix"
+    title: "OCIR repository prefix"
+    description: "Base OCIR path for your company and organization. Helm charts add /charts; images use this prefix directly."
     type: string
+    default: "company-name/org"
     pattern: "^[a-z0-9]+([._-][a-z0-9]+)*(/[a-z0-9]+([._-][a-z0-9]+)*)*$"
     required: true
 
@@ -298,13 +312,21 @@ variables:
     required: false
 
   create_iam:
-    title: "Create DevOps IAM policies and dynamic group"
-    description: "Let this stack create OCI DevOps policies and dynamic group"
+    title: "Create DevOps IAM policies and dynamic groups"
+    description: "Grant bootstrap and installer devops-family management in the DevOps project compartment. Mirror and OCI resource access remain separately scoped."
     type: boolean
 
+  iam_policy_compartment_id:
+    title: "IAM policy compartment"
+    description: "Where to create the policy. Use the tenancy root for sibling compartments, or a common ancestor of the DevOps, OKE, and network compartments. Permissions remain scoped to the selected resource compartments."
+    type: oci:identity:compartment:id
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_iam}
+
   iam_domain_compartment_id:
-    title: "Domain Compartment"
-    description: "Compartment where the IAM domain is located"
+    title: "DevOps Domain Compartment"
+    description: "Compartment containing the identity domain for the DevOps dynamic group."
     type: oci:identity:compartment:id
     default: ${tenancy_ocid}
     required: true
@@ -312,7 +334,7 @@ variables:
 
   devops_iam_domain_id:
     type: oci:identity:domains:id
-    title: "OCI DevOps Identity Domain"
+    title: "DevOps Identity Domain"
     description: "Domain where to create the OCI DevOps Dynamic Group"
     dependsOn:
       compartmentId: ${iam_domain_compartment_id}
@@ -320,22 +342,48 @@ variables:
     visible: ${create_iam}
 
   devops_dynamic_group_name:
-    title: "DevOps dynamic group name"
-    description: "OCI DevOps dynamic group name, MUST BE UNIQUE in the tenancy!"
+    title: "DevOps dynamic group name prefix"
+    description: "Unique base name for the build, bootstrap-trigger, and installer dynamic groups."
     type: string
     required: true
     visible: ${create_iam}
 
   devops_policy_name:
     title: "DevOps policy name"
-    description: "Name of the policy for the OCI DevOps service"
+    description: "Leave blank to use <project-name>-gitops-policy."
     type: string
-    required: true
+    required: false
     visible: ${create_iam}
 
-  kms_compartment_id:
-    title: "Vault Compartment"
-    description: "Compartments where the Vault Secrets will be located"
+  create_automatic_credentials:
+    title: "Create OCI Vault and Credentials"
+    description: "Create runtime reader accounts in the selected domain, plus a Vault, secrets and access policy in the DevOps project compartment. Tokens enter Terraform state."
+    type: boolean
+    default: false
+
+  automation_iam_domain_compartment_id:
+    title: "Automation Domain Compartment"
+    description: "Compartment containing the identity domain for runtime reader accounts."
     type: oci:identity:compartment:id
-    default: ${compartment_ocid}
-    visible: ${create_iam}
+    default: ${tenancy_ocid}
+    required: true
+    visible: ${create_automatic_credentials}
+
+  automation_iam_domain_id:
+    title: "Automation Identity Domain"
+    description: "Identity domain where the Git and OCIR reader accounts and groups are created."
+    type: oci:identity:domains:id
+    dependsOn:
+      compartmentId: ${automation_iam_domain_compartment_id}
+    required: true
+    visible: ${create_automatic_credentials}
+
+  automatic_credentials_email:
+    type: string
+    default: "automation@example.com"
+    visible: false
+
+  development_overwrite_repositories:
+    type: boolean
+    default: false
+    visible: false

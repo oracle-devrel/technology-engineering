@@ -247,6 +247,8 @@ Database NSGs are independent from database subnet creation. When `create_databa
 
 When `separate_db_nsg` is `false`, those database NSGs communicate directly with the main pod NSG in VCN-native mode or the worker NSG in Flannel mode. When it is `true`, the stack creates a dedicated client-side NSG per selected service so customers can attach database access only to the intended applications.
 
+OpenSearch follows the same database NSG pattern. Selecting `opensearch` creates one database-side NSG containing two TCP endpoints: 9200 (API) and 5601 (Dashboards). There is no separate administrative NSG or source restriction for Dashboards. Each endpoint creates four stateless rules: database ingress and client egress match the destination port; database egress and client ingress match the source port for replies. Thus four rules are attached to the OpenSearch NSG and four to the selected client NSG. When enabled, dedicated client NSGs follow the existing pod/worker selection. This creates network access only, not an OpenSearch cluster. Managed Data Prepper and OpenTelemetry ingestion are outside this stack's scope.
+
 When `create_streaming_nsg` is enabled, the stack creates an OCI Streaming NSG and bidirectional stateless rules for Kafka on TCP 9092 and the REST API on TCP 443. The peer is the pod NSG in VCN-native mode or the worker NSG in Flannel mode.
 
 ## 6) Important conditional behavior

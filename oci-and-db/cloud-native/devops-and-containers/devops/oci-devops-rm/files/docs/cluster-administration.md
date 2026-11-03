@@ -9,15 +9,16 @@ flowchart LR
   PR["Cluster admin pull request"] --> Validate["cluster-admin-pr"]
   Validate --> Merge["Merge to main"]
   Merge --> Build["cluster-admin-build"]
-  Build --> Detect["Detect changed stages"]
+  Build --> Detect["Detect changed targets"]
   Detect --> Mirror["Mirror missing charts"]
-  Detect --> Target{"Target cluster"}
+  Mirror --> Images["Mirror opted-in tool images"]
+  Images --> Target{"Target cluster"}
   Target -->|noprod| Wave1["Dependency wave 1"]
   Target -->|prod| Approval["Approve production changes"]
   Approval --> Wave1
   Wave1 --> Wave2["Dependency wave 2"]
   Wave2 --> Baseline["Cluster-wide resources"]
-  Baseline --> Done["Selected stages complete"]
+  Baseline --> Done["Selected targets complete"]
 ```
 
 ## Repository Layout
@@ -49,11 +50,83 @@ clusters/
 <devops-project>/charts/cluster-tools/<chart>
 ```
 
-The target path uses the upstream chart name because Helm derives the OCI repository name from chart metadata. The logical tool name remains the pipeline, stage, namespace-default, and tagging identity.
+The target path uses the upstream chart name because Helm derives the OCI repository name from chart metadata. The logical tool name remains the deployment-plan, namespace-default, and tagging identity.
 
 The mirror pipeline removes only non-ASCII chart annotations before pushing because OCIR normalizes that OCI manifest metadata. Chart templates, values, dependencies, and runtime behavior are unchanged.
 
 Chart sources may be traditional `https://` Helm repositories or `oci://` repository base paths. HTTPS sources use `helm repo add`; OCI sources are pulled directly from `<repository>/<chart>`. Public OCI sources require no extra credentials. Private sources require credentials already available to Helm; the standard pipeline authenticates only to the target OCIR registry.
+
+## Optional Container Image Mirroring
+
+Each tool supports `mirror_images`, disabled by default, and an optional
+`additional_images` list. Configure them through Resource Manager or Terraform:
+
+```hcl
+cluster_administration = [{
+  name              = "keda"
+  repository        = "https://kedacore.github.io/charts"
+  chart             = "keda"
+  version           = "2.20.1"
+  mirror_images     = true
+  additional_images = ["ghcr.io/example/operator-workload:1.0.0"]
+}]
+```
+
+Terraform writes both fields into the stack-managed catalog. Changes to either
+field update the catalog synchronization hash and produce a configuration commit
+that selects tool builds. Values-only changes also select the relevant target,
+even when the chart is already mirrored.
+
+After chart mirroring, `cluster-admin-build` renders each selected, opted-in
+tool with its own target's values, namespace and release name. The catalog and
+values are read from the exact selected Git commit. Non-production and production
+can therefore discover different images from the same chart version. Install
+and upgrade rendering includes standard workload containers, init containers,
+Jobs, CronJobs and hook workloads. Shared image copies are deduplicated.
+
+`additional_images` covers operator-created workloads and other images not
+visible in those rendered resources. Local Helm rendering does not execute
+live-cluster `lookup` calls or discover arbitrary custom-resource image fields.
+Kubernetes/API-capability conditions use Helm's local rendering capabilities,
+not a live cluster query. Declare otherwise-undiscovered images explicitly.
+No cluster access is needed for discovery.
+
+Images are resolved to SHA-256 digests and copied with all platforms using the
+same pinned Skopeo container used by application image promotion. Source and
+destination manifest digests are compared after copying. Private OCIR
+repositories use this layout:
+
+```text
+<registry>/<tenancy-namespace>/<project>/images/cluster-tools/<source-registry>/<source-repository>:sha256-<digest>
+```
+
+Docker Hub shorthand expands to `docker.io/library/...`; a source registry port
+is encoded with an underscore in its destination path. Source registry identity
+is retained so identically named images from different registries cannot collide.
+Images already in the target OCIR tenancy namespace are reported without being
+mirrored recursively. Existing matching destination digests are not copied again.
+Removing an additional image never deletes an OCIR image or repository.
+
+Each target publishes `cluster-admin/<cluster>/tools/<tool>/images.json` to the
+existing Generic Artifact repository, versioned by the full configuration commit.
+The report contains source references, source/destination digests, destination
+tag and digest references, chart version and a hash of the target values.
+Build logs also print the source-to-destination mappings. Report preparation
+must succeed before deployment dispatch; production approval is unchanged.
+
+This feature does not edit values, rewrite manifests, configure pull secrets or
+enforce registry use during deployment. Administrators must set the chart's
+registry/repository and tag or digest fields using the report, and arrange
+private OCIR pull authentication. Destination tags are digest-derived, not copies
+of upstream version tags. Deployment stages do not mirror images or download
+mirroring tools.
+
+The build runner needs upstream registry connectivity and Docker, Helm and OCI
+CLI. OKE nodes and deployment runners need only their existing approved OCI
+service access. Optional source-registry credentials can be supplied through a
+private `REGISTRY_AUTH_FILE` in containers-auth.json format; no credentials are
+stored in the catalog, values or mapping reports. Keep upstream TLS verification
+enabled and configure trusted certificate authorities on the runner as needed.
 
 ## Tool Dependencies
 
@@ -93,12 +166,12 @@ Before any chart mirror, approval, or mutation, the build prints a deterministic
 
 | Changed path | Selected action |
 | --- | --- |
-| `clusters/<cluster>/baseline/*.yaml` | Baseline stage |
-| `clusters/<cluster>/tools/<tool>/values.yaml` | Tool Helm stage |
-| `clusters/<cluster>/tools/<tool>/tool.yaml` | Tool Helm stage |
-| `clusters/<cluster>/tools/<tool>/resources/*.yaml` | Supplemental resources stage |
-| `clusters/<cluster>/tools/<tool>/verify.sh` | Supplemental resources stage |
-| `catalog/tools.yaml` | Helm stages for configured tools |
+| `clusters/<cluster>/baseline/*.yaml` | Apply baseline resources |
+| `clusters/<cluster>/tools/<tool>/values.yaml` | Tool Helm action |
+| `clusters/<cluster>/tools/<tool>/tool.yaml` | Tool Helm action |
+| `clusters/<cluster>/tools/<tool>/resources/*.yaml` | Apply supplemental resources and run verification |
+| `clusters/<cluster>/tools/<tool>/verify.sh` | Apply supplemental resources and run verification |
+| `catalog/tools.yaml` | Helm actions for configured tools |
 
 When both parts of a tool change, Helm runs first and supplemental resources follow. Independent tools run in dependency waves. If cluster-wide resources are selected in the same change, the baseline runs only after all selected tool work completes. Prod pauses inside `cluster-admin-prod` before its orchestrator mutates the cluster; noprod begins immediately.
 
@@ -106,7 +179,7 @@ When both parts of a tool change, Helm runs first and supplemental resources fol
 
 Place ClusterRoles, ClusterRoleBindings, StorageClasses, custom resources, and other non-namespaced objects not owned by a tool chart under `clusters/<cluster>/baseline`.
 
-Tool Helm stages install chart-bundled CRDs. The baseline stage then downloads the exact Git commit, performs a server-side dry run, rejects objects resolved to a namespace, and applies them with field manager `oci-devops-cluster-admin`. This ordering allows baseline custom resources to use APIs introduced by the tool charts.
+The orchestrator uses the exact Git commit and installs chart-bundled CRDs through the selected Helm actions first. For baseline resources, it performs a server-side dry run, rejects objects resolved to a namespace, and applies them with field manager `oci-devops-cluster-admin`. This ordering allows baseline custom resources to use APIs introduced by the tool charts.
 
 ## Tool Deployment
 

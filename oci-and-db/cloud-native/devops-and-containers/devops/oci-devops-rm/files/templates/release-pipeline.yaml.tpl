@@ -81,4 +81,4 @@ steps:
         -e "$${application_release_env_file}" \
         -p "$${application_release_image_env_file}"
 
-      printf "Component staging deployment chart version: %s\n" "$${component_chart_version}"
+      printf "Component ${staging_environment_name} deployment chart version: %s\n" "$${component_chart_version}"

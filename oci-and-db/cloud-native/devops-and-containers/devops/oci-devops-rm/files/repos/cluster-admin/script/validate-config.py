@@ -45,12 +45,18 @@ def changed_files(repo, commit, mode):
 
 
 def validate(repo, commit, mode):
-    clusters = {"noprod", "prod"}
-
     catalog = load_yaml(repo / "catalog/tools.yaml")
     tools = catalog.get("tools") if isinstance(catalog, dict) else None
     if not isinstance(tools, dict):
         fail("catalog/tools.yaml must contain a tools mapping")
+    cluster_names = catalog.get("clusters", {"noprod": "noprod", "prod": "prod"})
+    if not isinstance(cluster_names, dict) or set(cluster_names) != {"noprod", "prod"}:
+        fail("catalog clusters must map the noprod and prod workflow roles to target names")
+    for role, name in cluster_names.items():
+        validate_label(name, f"{role} cluster target")
+    clusters = set(cluster_names.values())
+    if len(clusters) != 2:
+        fail("Cluster target names must be distinct")
 
     for tool_name, chart in tools.items():
         validate_label(tool_name, f"catalog tool {tool_name}")
@@ -62,6 +68,14 @@ def validate(repo, commit, mode):
             fail(f"Catalog tool {tool_name} must use an HTTPS Helm repository or OCI chart repository")
         if not isinstance(chart.get("version"), str) or not VERSION.fullmatch(chart["version"]):
             fail(f"Catalog tool {tool_name} has an invalid chart version")
+        if not isinstance(chart.get("mirror_images", False), bool):
+            fail(f"Catalog tool {tool_name} mirror_images must be a boolean")
+        images = chart.get("additional_images", [])
+        if not isinstance(images, list) or not all(
+            isinstance(image, str) and image and not re.search(r"\s|://", image) and not image.startswith("-")
+            for image in images
+        ):
+            fail(f"Catalog tool {tool_name} additional_images must be a list of image references")
 
     configured = {}
     for cluster_name in sorted(clusters):

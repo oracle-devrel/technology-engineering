@@ -64,7 +64,7 @@ steps:
         -t "$${tenancy_namespace}"
 
   - type: Command
-    name: Export component dev deployment parameters
+    name: Export component ${dev_environment_name} deployment parameters
     failImmediatelyOnError: true
     command: |
       source "$${component_delivery_env_file}"
@@ -81,4 +81,4 @@ steps:
       export image_tag
       export component_chart_version
 
-      printf "Component dev deployment chart version: %s\n" "$${component_chart_version}"
+      printf "Component ${dev_environment_name} deployment chart version: %s\n" "$${component_chart_version}"

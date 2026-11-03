@@ -22,7 +22,7 @@ git init --bare "$TEST_ROOT/seed.git" >/dev/null
     GIT_USERNAME=test \
     GIT_PASSWORD=test \
     SEED_EXCLUDE_PATHS=$'gitops/argocd/apps.yml\nplatform/applications/reference-app' \
-    "$PROJECT_ROOT/script/push_repo.sh" >/dev/null
+    bash "$PROJECT_ROOT/script/push_repo.sh" >/dev/null
 )
 
 seeded_files="$(git --git-dir="$TEST_ROOT/seed.git" ls-tree -r --name-only main)"
@@ -39,7 +39,7 @@ printf '%s\n' 'changed template' > "$TEST_ROOT/source/platform/applications/admi
     SOURCE_REPO=source \
     GIT_USERNAME=test \
     GIT_PASSWORD=test \
-    "$PROJECT_ROOT/script/push_repo.sh" >/dev/null
+    bash "$PROJECT_ROOT/script/push_repo.sh" >/dev/null
 )
 
 preserved_content="$(git --git-dir="$TEST_ROOT/seed.git" show main:platform/applications/admin-tool/resource.yml)"
@@ -52,7 +52,7 @@ git init --bare "$TEST_ROOT/full.git" >/dev/null
     SOURCE_REPO=source \
     GIT_USERNAME=test \
     GIT_PASSWORD=test \
-    "$PROJECT_ROOT/script/push_repo.sh" >/dev/null
+    bash "$PROJECT_ROOT/script/push_repo.sh" >/dev/null
 )
 full_files="$(git --git-dir="$TEST_ROOT/full.git" ls-tree -r --name-only main)"
 grep -qx 'gitops/argocd/apps.yml' <<<"$full_files"

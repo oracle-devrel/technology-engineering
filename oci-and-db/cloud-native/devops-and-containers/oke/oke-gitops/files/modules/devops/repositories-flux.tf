@@ -77,16 +77,6 @@ resource "local_file" "export_flux_bootstrap" {
   count = var.gitops_agent == "fluxcd" ? 1 : 0
 }
 
-resource "local_file" "export_flux_operator" {
-  filename = "${path.root}/${local.base_repo_path}/cluster-config/gitops/fluxcd/flux-operator.yml"
-  content = templatefile("${path.root}/templates/flux-operator.yml", {
-    region_key        = local.region_key
-    tenancy_namespace = local.namespace
-    repo_prefix       = var.ocir_repo_path_prefix
-  })
-  count = var.gitops_agent == "fluxcd" ? 1 : 0
-}
-
 resource "local_file" "export_flux_operator_application" {
   filename = "${path.root}/${local.base_repo_path}/cluster-config/platform/applications/flux-operator/resourceset.yml"
   content = templatefile("${path.root}/templates/flux-operator-application.yml", {
@@ -102,7 +92,7 @@ resource "local_file" "export_flux_apps" {
   content = templatefile("${path.root}/templates/flux-apps.yml", {
     git_repo_url = oci_devops_repository.apps_config_repo_flux.0.http_url
   })
-  count = var.gitops_agent == "fluxcd" ? 1 : 0
+  count = var.gitops_agent == "fluxcd" && local.applications_enabled ? 1 : 0
 }
 
 resource "local_file" "export_flux_application_placements" {
@@ -113,7 +103,8 @@ resource "local_file" "export_flux_application_placements" {
 
     # Cluster administrators may add cluster or namespace administration here.
     # Reference developer placements are active only in the full scope.
-    resources:${local.applications_enabled ? "\n  - reference-app\n  - reference-helm-app" : " []"}
+    resources:
+      - flux-operator${local.applications_enabled ? "\n  - reference-app\n  - reference-helm-app" : ""}
   EOT
   count    = var.gitops_agent == "fluxcd" ? 1 : 0
 }
@@ -170,6 +161,7 @@ resource "null_resource" "push_cluster_config_repo_content_flux" {
       SOURCE_REPO          = "/${local.base_repo_path}/cluster-config"
       OVERWRITE_REPOSITORY = tostring(var.development_overwrite_repositories)
       SEED_EXCLUDE_PATHS = local.applications_enabled ? "" : join("\n", [
+        "gitops/fluxcd/apps.yml",
         "platform/applications/reference-app",
         "platform/applications/reference-helm-app"
       ])
@@ -189,7 +181,6 @@ resource "null_resource" "push_cluster_config_repo_content_flux" {
     local_file.export_variables_pipelines_flux,
     local_file.export_flux_values,
     local_file.export_flux_bootstrap,
-    local_file.export_flux_operator,
     local_file.export_flux_operator_application,
     local_file.export_flux_apps,
     local_file.export_flux_application_placements,
@@ -203,7 +194,7 @@ resource "oci_devops_repository" "apps_config_repo_flux" {
   project_id      = local.devops_project_id
   description     = "Repository containing Kubernetes application configurations, to be used by developers"
   repository_type = "HOSTED"
-  count           = var.gitops_agent == "fluxcd" ? 1 : 0
+  count           = var.gitops_agent == "fluxcd" && local.applications_enabled ? 1 : 0
 }
 
 resource "null_resource" "push_apps_config_repo_content_flux" {
@@ -226,5 +217,5 @@ resource "null_resource" "push_apps_config_repo_content_flux" {
     development_overwrite = var.development_overwrite_repositories ? timestamp() : "false"
   }
   depends_on = [local_file.export_variables_pipelines_flux]
-  count      = var.gitops_agent == "fluxcd" ? 1 : 0
+  count      = var.gitops_agent == "fluxcd" && local.applications_enabled ? 1 : 0
 }

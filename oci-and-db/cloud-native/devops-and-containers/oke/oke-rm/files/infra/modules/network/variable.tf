@@ -45,6 +45,7 @@ variable "cp_subnet_private" {
 }
 
 variable "cp_allowed_source_cidr" {
+  type = list(string)
 }
 
 variable "cp_external_nat" {}
@@ -53,7 +54,9 @@ variable "allow_external_cp_traffic" {
   type = bool
 }
 
-variable "cp_egress_cidr" {}
+variable "cp_egress_cidr" {
+  type = list(string)
+}
 
 # WORKER SUBNET
 
