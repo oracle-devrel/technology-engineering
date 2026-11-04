@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-assistant
+  namespace: db-assistant
+spec:
+  podSelector:
+    matchLabels: {app: db-assistant}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        # REQUIRED: replace this documentation-only CIDR with your actual LB/node source CIDRs.
+        - ipBlock: {cidr: 192.0.2.0/24}
+      ports:
+        - {protocol: TCP, port: 8000}
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: kube-system}
+      ports:
+        - {protocol: UDP, port: 53}
+        - {protocol: TCP, port: 53}
+    - ports:
+        - {protocol: TCP, port: 443}
