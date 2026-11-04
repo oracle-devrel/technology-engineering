@@ -40,7 +40,7 @@ In addition, we provide a range of predefined templates for various different us
 - [Hyperion](../../oci-and-db/technology-solutions/apps-to-oci/hyperion-essbase/hyperion-solution-definition/)
 - [Siebel](../../oci-and-db/technology-solutions/apps-to-oci/siebel/siebel-solution-definition/)
 - [Red Hat OpenShift](../../oci-and-db/virtualization/openshift-on-oci/openshift-solution-definition-document/)
-- [Oracle Cloud Migrations / VMware](../../oci-and-db/virtualization/oracle-cloud-migrations/ocm-solution-definition-document/)
+- [Oracle Cloud Migrations / VMware](../../oci-and-db/virtualization/vm-migrations/oracle-cloud-migrations/ocm-solution-definition-document/)
 - [Oracle Cloud VMware Solution – Disaster Recovery](../../oci-and-db/virtualization/oracle-cloud-vmware-solution/disaster-recovery-to-ocvs-solution-definition/)
 - [Oracle Cloud VMware Solution – Migration](../../oci-and-db/virtualization/oracle-cloud-vmware-solution/vmware-migration-solution-definition/)
 - [Oracle Secure Desktops](../../oci-and-db/virtualization/oracle-secure-desktops/secure-desktops-solution-definition/)
