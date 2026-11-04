@@ -74,7 +74,7 @@ Manager must not manage this pipeline. Define these parameters:
 | Parameter | Value |
 |---|---|
 | `target_cluster_id` | Additional OKE cluster OCID |
-| `chart_version` | Exact Flux Operator chart version already mirrored to OCIR |
+| `resolved_chart_version` | Exact Flux Operator chart version already mirrored to OCIR |
 | `chart_name` | `flux-operator` |
 | `namespace` | `flux-system` |
 | `region_key` | OCIR region key, for example `lin` |

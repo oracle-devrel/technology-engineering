@@ -26,7 +26,7 @@ Normal development flow:
 2. The `${component_name}-pr` pipeline runs the component-owned checks.
 3. After merge, `${component_name}-build` builds a multi-architecture image tagged with the 7-character commit SHA.
 %{ if delivery_enabled ~}
-4. The successful build deploys the dev release.
+4. The successful build deploys the `${dev_environment_name}` release.
 5. Run `${component_name}-release-build` with a release candidate tag such as `1.0.0-rc.1` to promote the selected image.
 6. After production deployment and final Git tagging, OCI DevOps finishes by reporting the Helm release status, resources, history, notes, and namespace release listing.
 %{ else ~}

@@ -56,13 +56,13 @@ resource "oci_devops_build_pipeline" "bootstrap_gitops_agent" {
     }
     items {
       name          = "git_read_credentials_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "Enter the Secret OCID, not JSON. Create the secret in the DevOps project compartment with plaintext JSON (replace all example values): {\"username\":\"example-tenancy/Default/git-reader\",\"password\":\"REPLACE_WITH_GIT_AUTH_TOKEN\"}. Use a dedicated read-only Git user. Password is an OCI auth token, not the console password. Do not base64-encode the JSON in the Console."
+      default_value = var.git_read_credentials_secret_ocid
+      description   = "Vault Secret OCID containing read-only Git credentials as username/password JSON. Defaults to the generated secret in automatic mode."
     }
     items {
       name          = "registry_pull_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "Enter the Secret OCID, not JSON. Create the secret in the DevOps project compartment with plaintext JSON (replace all example values): {\"username\":\"example-namespace/Default/ocir-reader\",\"password\":\"REPLACE_WITH_OCIR_AUTH_TOKEN\"}. Use a dedicated pull-only OCIR user. Tenancy namespace is the Object Storage namespace, not the tenancy name or OCID. Do not base64-encode the JSON in the Console."
+      default_value = var.registry_pull_secret_ocid
+      description   = "Vault Secret OCID containing pull-only OCIR credentials as username/password JSON. Defaults to the generated secret in automatic mode."
     }
   }
 }

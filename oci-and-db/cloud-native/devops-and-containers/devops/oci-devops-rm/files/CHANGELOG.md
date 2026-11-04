@@ -4,12 +4,79 @@ All notable changes to the OKE DevOps Starter are documented in this file.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.4.0] - 2026-10-29
+
+### Added
+
+- Optional per-tool container image mirroring in cluster-admin builds, disabled
+  by default. Discovery uses each selected cluster's committed Helm values and
+  includes conditional workloads, hooks and init containers.
+- Additional image declarations for operator-created workloads, digest-preserving
+  multi-platform copies to private OCIR repositories, and immutable per-target
+  image mapping reports. Terraform catalog changes and values-only changes
+  trigger preparation without rewriting administrator-owned Helm values.
+- Updated portable agent skill covering image mirroring, per-target mapping
+  reports, and explicit Helm values and pull authentication for air-gapped OKE.
+
+## [1.3.0] - 2026-10-23
+
+### Added
+
+- Configurable development, staging and production application environment names,
+  plus independent nonproduction and production cluster target names. Generated
+  pipelines, Helm values, labels, bootstrap stages and cluster-admin paths use
+  the configured names while production approvals and image promotion remain
+  tied to stable workflow roles. Defaults preserve existing naming conventions.
+- A Customize environment names checkbox shows or hides all five naming inputs.
+- Validation of unsafe names, duplicate targets, generated Helm release lengths
+  and same-cluster namespace/release collisions.
+- Updated portable agent skill covering custom environment and cluster target
+  names while preserving stable delivery roles and production approvals.
 
 ### Fixed
 
+- Applications and Components use separate graphical lists to avoid Resource
+  Manager's nested-list data loss. Components reference applications by name;
+  the legacy application configuration field has been removed. Application
+  naming, chart and build-path validation remain enforced.
+
+## [1.2.0] - 2026-10-14
+
+### Added
+
+- Updated the portable `oke-devops-starter` skill with automatic-credential discovery and the separate execution/credential IAM boundaries.
+
+- Structured Resource Manager inputs for applications/components and cluster-administration tools, with legacy JSON-string compatibility. Credential controls are grouped in the IAM section.
+
+- Optional automatic credential creation in a selected identity domain: dedicated repository automation and read-only OCIR pull accounts, auth tokens, a regional Vault, AES key and token secrets. Repository seeding keeps the user-supplied auth token; generated pull credentials feed new application bootstrap defaults. IAM creation remains independently selectable.
+
+### Security
+
+- Automatic credentials always include their scoped Git/pull access policy in the DevOps project compartment, independently of pipeline IAM creation. Policy names include a stable random seven-character suffix.
+
+- Restricted generated DevOps dynamic-group membership to stack-owned resource OCIDs and Vault reads to application bootstrap pipelines. Generated credentials are sensitive Terraform-state data and require controlled state access.
+
+### Fixed
+
+- Use auth-token-capable, non-console automation users and the selected Identity Domains token API. Wait for fresh Vault KMS endpoint DNS propagation before creating the credential key.
+- Allow up to ten minutes for repository access authorization to propagate during initial seeding with the user-supplied token.
+- Request Identity Domains group memberships and dynamic-group matching rules explicitly during refresh, and avoid drift on the write-only notification-suppression option.
+- Treat blank optional Resource Manager attributes as omitted values, preserving namespace, chart-version and build-spec defaults.
 - Aligned cluster operations runbooks and the seeded repository README with shared orchestrators, immutable target plans, and explicit decommissioning without a confirmation parameter.
 - Restricted release packaging to an explicit file manifest, rejected missing or symlinked inputs, and generated a fresh SHA-256 checksum for each archive. Added packaging regression tests for local-file exclusions and release/development modes.
+
+### Upgrade Notes
+
+- Repository seeding always requires the current user's auth token, including automatic-credentials mode.
+- Generated Vaults and secrets use the resolved DevOps project compartment. Deprecated credential-compartment overrides no longer change placement or secret-read policy scope.
+- DevOps dynamic-group and automation-user identity domains have separate selectors. Legacy Terraform inputs retain the previous shared-domain fallback.
+- Existing Resource Manager stacks must convert the saved cluster-administration object from `{ "tools": [...] }` (or legacy `noprod.tools`) to the tools list before opening the new Console form. Terraform still accepts legacy representations.
+- Review the plan for credential policy name/location changes. Release-mode protections continue preserving customized DevOps starter resources.
+
+### Verification
+
+- Amsterdam functional testing covered automatic identities, bootstrap, two-component PR-to-production delivery, image digests, cluster tools, negative access checks and credential stability.
+- Later form/policy refinements passed local validation, 74 regression tests and eight mocked plans. A child-domain comparison was blocked by domain-creation permissions; no hard domain-placement rule was added.
 
 ## [1.1.1] - 2026-09-18
 

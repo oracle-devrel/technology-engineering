@@ -42,6 +42,8 @@ Reviewed: 26.08.2026
     - Detailed, step-by-step instructions for performing Physical online migration to Exadata Database Service on Dedicated Infrastructure with Cloud Native DR , available on Amalraj Puthenchira's public platform
 - [ZDM: Physical Online Migration with Refreshable Clone ](https://carlosal.wordpress.com/2026/06/16/zero-downtime-migration-v26-1-physical-online-migrations-with-refreshable-clone/)
     - Detailed, step-by-step instructions for performing Physical Online Migration using the ZDM 26.1 support for Refreshable Clone PDBs, available on Carlos Álvarez's public platform
+- [ZDM: Handling TDE encryption algorithm during ZDM Physical Database Migration ](https://amalrajputhenchira.com/2026/09/21/handling-tde-encryption-algorithm-during-zdm-physical-database-migration/)
+    - Detailed, step-by-step instructions for handling TDE encryption of the Target Database during Physical Migration using ZDM , available on on Amalraj Puthenchira's public platform
 
 ## LiveLabs Workshops
 - [Zero Downtime Migration: Physical Offline Migration to Co-Managed Databases in OCI](https://apexapps.oracle.com/pls/apex/dbpm/r/livelabs/view-workshop?wid=3568)

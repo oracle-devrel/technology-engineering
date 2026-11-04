@@ -4,6 +4,12 @@ The stack creates delivery capabilities with access to source repositories, OCIR
 
 ## Credentials And Secrets
 
+Optional [automatic credentials](automatic-credentials.md) create distinct
+bootstrap and read-only pull users in a selected identity domain, with token
+secrets in a generated Vault. Tokens enter Terraform state; restrict state
+access even though outputs contain only references. IAM creation remains a
+separate choice and networking is unchanged.
+
 - Store the OCIR pull password or auth token in OCI Vault and pass only its secret OCID to `<application>-bootstrap`.
 - Never commit secret material to application charts, component repositories, cluster values, or supplemental resource YAML.
 - Do not use plain Kubernetes `Secret` manifests in the cluster-admin repository; use External Secrets or an equivalent external-secret reference.
@@ -25,6 +31,15 @@ The stack creates delivery capabilities with access to source repositories, OCIR
 - Configure pre-prod and prod subnet and NSG inputs independently, even when a temporary test setup points both environments to the same cluster.
 
 ## Supply Chain
+
+- Optional cluster-tool image mirroring runs only in connected build runners.
+  Destination repositories are private, references are digest-based and copies
+  preserve all platforms. Digest equality establishes copy identity, not image
+  trust or vulnerability status. Registry writes use the existing DevOps project
+  compartment permissions; no additional IAM or cluster privileges are created.
+- Source-registry credentials use a private runtime auth file, not catalog/values
+  fields. OCIR tokens are kept in temporary auth files and sent to Helm via stdin.
+  Administrators remain responsible for chart image overrides and pull secrets.
 
 - Pin every cluster tool repository, chart, and version in the Resource Manager tool definition; the generated `catalog/tools.yaml` must not contain floating versions.
 - Keep image, chart, and values versions immutable.

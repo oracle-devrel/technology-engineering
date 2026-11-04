@@ -1,7 +1,11 @@
+application-inputs.tf
 checks.tf
+credentials.tf
 data.tf
+environment-names.tf
 locals.tf
 main.tf
+modules/application-config/main.tf
 modules/devops/artifacts.tf
 modules/devops/build_pipelines.tf
 modules/devops/cluster_admin_artifacts.tf
@@ -43,6 +47,7 @@ repos/application-source/Dockerfile
 repos/application-source/README.md
 repos/cluster-admin/script/deploy-cluster.py
 repos/cluster-admin/script/mirror-charts.py
+repos/cluster-admin/script/mirror-images.py
 repos/cluster-admin/script/publish-and-dispatch.py
 repos/cluster-admin/script/validate-config.py
 repos/pipelines/README.md

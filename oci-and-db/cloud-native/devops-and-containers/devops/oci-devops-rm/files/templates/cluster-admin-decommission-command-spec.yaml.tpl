@@ -30,21 +30,21 @@ steps:
 
       stage_json="$${OCI_WORKSPACE_DIR}/decommission-stage.json"
       context_file="$${OCI_WORKSPACE_DIR}/decommission-context.env"
-      oci devops deploy-stage get --deploy-stage-id "$${OCI_STAGE_ID}" >"$${stage_json}"
+      oci devops deploy-stage get --stage-id "$${OCI_STAGE_ID}" >"$${stage_json}"
       python3 - "$${stage_json}" >"$${context_file}" <<'PY'
       import json, shlex, sys
 
       stage = json.load(open(sys.argv[1], encoding="utf-8"))["data"]
       tags = stage.get("freeform-tags") or stage.get("free-form-tags") or {}
       cluster = tags.get("cluster")
-      if cluster not in ("noprod", "prod"):
+      if cluster not in ("${noprod_cluster_name}", "${prod_cluster_name}"):
           raise SystemExit(f"Decommission stage has invalid cluster tag: {cluster!r}")
       print(f"cluster_name={shlex.quote(cluster)}")
       PY
       source "$${context_file}"
       case "$${cluster_name}" in
-        noprod) cluster_id="$${noprod_cluster_id}" ;;
-        prod) cluster_id="$${prod_cluster_id}" ;;
+        ${noprod_cluster_name}) cluster_id="$${noprod_cluster_id}" ;;
+        ${prod_cluster_name}) cluster_id="$${prod_cluster_id}" ;;
       esac
       printf 'cluster_id=%q\n' "$${cluster_id}" >>"$${context_file}"
 

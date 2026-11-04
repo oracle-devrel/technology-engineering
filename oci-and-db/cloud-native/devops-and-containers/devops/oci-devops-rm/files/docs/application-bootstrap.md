@@ -20,6 +20,12 @@ Each application bootstrap pipeline has only three parameters:
 - `pull_password_secret_ocid`: OCI Vault secret OCID containing the OCIR pull password or auth token.
 - `secret_name`: Kubernetes docker-registry secret name, default `ocirsecret`.
 
+With `create_automatic_credentials=true`, newly created pipelines default the
+first two parameters to the generated read-only pull account and its Vault
+token-secret OCID. In manual mode they remain unset and must be supplied.
+Existing customized pipelines retain their defaults; pass the generated
+references explicitly or update their defaults when adopting automatic mode.
+
 Cluster OCIDs and namespaces are not user parameters. Terraform fixes them through stage tags and the configured noprod/prod OKE inputs, preventing a stage from initializing a namespace on the wrong cluster.
 
 ## How It Works

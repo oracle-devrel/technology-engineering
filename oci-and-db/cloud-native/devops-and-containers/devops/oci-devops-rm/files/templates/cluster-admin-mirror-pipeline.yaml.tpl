@@ -25,6 +25,12 @@ steps:
     command: |
       set -euo pipefail
       export OCI_CLI_REGION="$${region}"
+      expected_commit="$${config_commit:-SOURCE}"
+      if [ "$${expected_commit}" = SOURCE ]; then
+        expected_commit="$${OCI_PRIMARY_SOURCE_COMMIT_HASH:-}"
+      fi
+      : "$${expected_commit:?The chart mirror source commit is unavailable}"
+      test "$(git -C "$${OCI_PRIMARY_SOURCE_DIR}" rev-parse HEAD)" = "$${expected_commit}"
 
       python3 "$${OCI_PRIMARY_SOURCE_DIR}/script/mirror-charts.py" \
         --catalog "$${OCI_PRIMARY_SOURCE_DIR}/catalog/tools.yaml" \

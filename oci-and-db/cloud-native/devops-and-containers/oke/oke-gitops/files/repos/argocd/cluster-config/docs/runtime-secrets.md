@@ -2,7 +2,13 @@
 
 [Previous: IAM identities and policies](iam.md) · [Documentation index](README.md)
 
-Create two OCI Vault secrets after the two users and auth tokens exist. The
+With **Create OCI Vault and Credentials** enabled in Resource Manager, the stack
+creates both reader accounts and JSON secrets and sets their OCIDs as pipeline
+defaults. Skip manual creation and use those defaults for bootstrap. The
+rotation guidance below still applies; Terraform-managed tokens and secrets
+must be updated through their owning stack rather than changed independently.
+
+In manual mode, create two OCI Vault secrets after the two users and auth tokens exist. The
 pipeline accepts Secret OCIDs; it never accepts the token values as pipeline
 parameters.
 

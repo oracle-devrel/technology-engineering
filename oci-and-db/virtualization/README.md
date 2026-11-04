@@ -5,9 +5,9 @@ Cloud Virtualization Solutions area focuses on providing deep technical guidance
 - Oracle Cloud VMware Solution (OCVS)
 - OpenShift on OCI
 - Oracle Secure Desktops
-- Oracle Cloud Migrations (OCM)
+- Virtual Machine Migrations
 
-Reviewed: 12.11.2025
+Reviewed: 04.11.2026
 
 # License
 

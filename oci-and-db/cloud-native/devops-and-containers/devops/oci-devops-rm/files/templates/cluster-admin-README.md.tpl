@@ -15,13 +15,36 @@ Changes must reach `main` through a pull request. The PR pipeline validates conf
 
 Before mirroring charts, requesting approval, or mutating a cluster, `cluster-admin-build` prints an execution plan containing the configuration commit, selected cluster, dependency waves, actions, namespaces, chart versions, values versions, and final baseline work. The production deployment includes a compact target summary in its display name and tags.
 
-Both cluster pipelines use the same shell orchestrator and immutable commit-versioned deployment plan. `cluster-admin-noprod` starts its orchestrator immediately; `cluster-admin-prod` requires approval first. Each orchestrator deploys only selected targets in dependency waves and applies baseline resources last. Cluster-specific values and supplemental resources remain under their respective `clusters/<cluster>` directories.
+Both cluster pipelines use the same shell orchestrator and immutable commit-versioned deployment plan. `cluster-admin-${noprod_cluster_name}` starts its orchestrator immediately; `cluster-admin-${prod_cluster_name}` requires approval first. Each orchestrator deploys only selected targets in dependency waves and applies baseline resources last. Cluster-specific values and supplemental resources remain under their respective `clusters/<cluster>` directories. The stack-managed `clusters` mapping in `catalog/tools.yaml` associates target names with stable nonproduction and production roles; change names through Resource Manager, not directly in the catalog.
 
 Cluster pipelines expose only `config_commit`, `cluster_id`, and `cluster_name`. The orchestrator reads chart/value versions and tool identities from the immutable deployment plan selected by `config_commit`, so adding tools does not expand the pipeline parameter list.
 
 Resource Manager regenerates only `catalog/tools.yaml` and adds missing cluster/tool directories when its cluster administration JSON changes. Other existing repository files are never replaced. Every JSON tool entry must include the public Helm repository, upstream chart name, and pinned version; edit those coordinates through Resource Manager rather than directly in the generated catalog.
 
 The repository field accepts either an HTTPS Helm repository or an OCI repository base path. OCI charts are resolved as `<repository>/<chart>`. Public OCI sources work without additional authentication; private sources require Helm credentials for the source registry.
+
+## Optional Image Mirroring
+
+Set `mirror_images=true` on a tool through Resource Manager to mirror container
+images during `cluster-admin-build`; it defaults to false. `additional_images`
+lists extra references for operator-created or otherwise undiscoverable workloads.
+Terraform updates these settings in `catalog/tools.yaml`, triggering a build.
+
+Each selected cluster's values are rendered independently from the exact source
+commit, including install/upgrade hooks and init containers. Images are copied
+with all platforms into `<project>/images/cluster-tools/<source-registry>/<source-repository>`
+with digest-derived tags, and destination digests are verified. Values-only
+changes rerun discovery even when the chart version is unchanged. Existing images
+in the target OCIR namespace are not recursively mirrored.
+
+The immutable mapping report is `cluster-admin/<cluster>/tools/<tool>/images.json`
+in the values artifact repository, versioned by the configuration commit. It
+contains source and destination references and digests. Administrators must
+configure chart values and private pull credentials themselves; mirroring does
+not rewrite values or manifests. Rendering cannot infer all operator-created
+images or live-cluster lookup results. Use `additional_images` for those cases.
+The connected build runner performs copying; deployment stages do not. Removing
+an image declaration does not delete images from OCIR.
 
 Removing a manifest does not delete the live object, and out-of-band drift is not continuously reconciled. Plain Kubernetes `Secret` resources are rejected; use External Secrets Operator resources instead.
 

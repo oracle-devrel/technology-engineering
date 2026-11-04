@@ -5,13 +5,13 @@ variable "compartment_ocid" {}
 
 
 variable "gitops_agent" {
-  default = "fluxcd"
+  default = "argocd"
 }
 
 variable "gitops_scope" {
   description = "Initial GitOps repository scope: cluster administration only, or cluster administration plus developer application placements"
   type        = string
-  default     = "applications_and_cluster"
+  default     = "cluster_admin"
 
   validation {
     condition     = contains(["cluster_admin", "applications_and_cluster"], var.gitops_scope)
@@ -36,7 +36,7 @@ variable "flux_fleet_member_name" {
   }
 }
 
-# Hidden maintainer switch. It is intentionally absent from schema.yaml.
+# Maintainer switch, explicitly hidden in the Resource Manager schema.
 # Customer stacks preserve every Git change after the initial seed. Stack
 # developers may set this only in controlled test environments to reset all
 # generated repositories to the current local templates on every apply.
@@ -110,11 +110,18 @@ variable "pipelines_repository_name" {
 }
 
 variable "ocir_repo_path_prefix" {
-  default = "acme/helm"
+  description = "Base OCIR path for your company and organization; charts add /charts and images use the prefix directly"
+  type        = string
+  default     = "company-name/org"
 }
 variable "auth_token" {
   description = "Bootstrap-only auth token used by Resource Manager to seed OCI DevOps repositories; never installed in Kubernetes"
   sensitive   = true
+  type        = string
+  validation {
+    condition     = try(trimspace(var.auth_token) != "", false)
+    error_message = "Provide the applying user's auth token for initial repository seeding."
+  }
 }
 
 # OKE ENVIRONMENT
@@ -171,4 +178,28 @@ variable "devops_dynamic_group_name" {
 
 variable "devops_policy_name" {
   default = null
+}
+
+variable "create_automatic_credentials" {
+  description = "Create runtime Git and OCIR reader accounts, a Vault, JSON credential secrets and their access policy"
+  type        = bool
+  default     = false
+}
+
+variable "automation_iam_domain_compartment_id" {
+  description = "Compartment filtering the automation identity-domain picker"
+  type        = string
+  default     = null
+}
+
+variable "automation_iam_domain_id" {
+  description = "Identity domain for generated runtime reader accounts and groups"
+  type        = string
+  default     = null
+}
+
+variable "automatic_credentials_email" {
+  description = "Contact address for non-human automation accounts; no activation email is sent"
+  type        = string
+  default     = "automation@example.com"
 }

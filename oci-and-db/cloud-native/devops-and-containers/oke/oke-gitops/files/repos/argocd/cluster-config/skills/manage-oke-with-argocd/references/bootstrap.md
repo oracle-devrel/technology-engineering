@@ -14,7 +14,14 @@
   and network compartments in its subtree. Statements remain scoped to those
   compartments. OCI-added dynamic-group schema extensions are ignored;
   matching rules remain managed.
-- Create two credential Secrets in the DevOps project compartment. The Git
+- With `create_automatic_credentials = true`, Resource Manager creates separate
+  runtime Git and OCIR readers, a Vault and two JSON credential secrets in the
+  actual DevOps project compartment. The bootstrap and installation pipelines
+  default to those Secret OCIDs. Runtime-reader access policies are created
+  independently of `create_iam`; execution IAM must still exist. Account domains
+  and execution dynamic-group domains have separate selectors. Generated tokens
+  enter Terraform state. The applying user's `auth_token` still seeds Git.
+- In manual mode, create two credential Secrets in the DevOps project compartment. The Git
   JSON is `{"username":"example-tenancy/Default/git-reader","password":"REPLACE_WITH_GIT_AUTH_TOKEN"}`.
   The OCIR JSON is `{"username":"example-namespace/Default/ocir-reader","password":"REPLACE_WITH_OCIR_AUTH_TOKEN"}`.
   Replace every example value. OCIR uses the Object Storage namespace; Git
