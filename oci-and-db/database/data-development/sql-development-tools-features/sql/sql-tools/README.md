@@ -8,7 +8,7 @@ An additional managed offering in Oracle Cloud Infrastructure (OCI) called <b>Or
 You establish the connection and then access your database resources via web-based SQL Worksheet or use the SQLcl connection via OCI Cloud Shell.
 Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource.
 
-Reviewed: 26.08.2026
+Reviewed: 05.11.2026
 
 # Table of Contents
 
@@ -38,11 +38,11 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 
 - **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
 
-- **SQL Developer for VS Code**: Microsoft Visual Studio Code (VS Code) extension which brings the ability to execute your SQL queries and scripts, perform PL/SQL development, and interact with your database schema objects. SQL Developer for VS Code is the evolution of our popular SQL Developer desktop application embracing, thus, the familiar richness of our desktop version, reimagined into a lighter and more flexible tool that adapts to your needs. Including our SQLcl as a modern command-line interface.
+- **SQL Developer for VS Code**: Microsoft Visual Studio Code (VS Code) extension which brings the ability to execute your SQL queries and scripts, perform PL/SQL development, and interact with your database schema objects. SQL Developer for VS Code is the evolution of our popular SQL Developer desktop application embracing, thus, the familiar richness of our desktop version, reimagined into a lighter and more flexible tool that adapts to your needs. Including our SQLcl as a modern command-line interface. Now version [26.3.1 is published!](https://marketplace.visualstudio.com/items/Oracle.sql-developer/changelog)
 
 - **sqlplus**: Master the command-line interface for Oracle Database with sqlplus. Learn essential commands and best practices for efficient SQL execution.
 
-- **SQLcl**: Dive into the versatile command-line interface for Oracle Database with SQLcl. Experience its advanced features and customization options for enhanced SQL scripting and execution.
+- **SQLcl**: Dive into the versatile command-line interface for Oracle Database with SQLcl. Experience its advanced features and customization options for enhanced SQL scripting and execution.  SQL Command Line Interface [latest release is 26.3.1!](https://www.oracle.com/tools/sqlcl/sqlcl-changelog.html)
 
 - **Oracle Database Connection**: the main OCI-native Database Tools Service which enables you to create connections to any Oracle Database in OCI that can be reused by multiple users, resources, and services. Managed MCP Servers for Oracle AI Database is available as well.
 
@@ -51,6 +51,7 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 - [SQL Developer](https://www.oracle.com/uk/database/sqldeveloper/)
 - [SQL Developer Releases](https://docs.oracle.com/en/database/oracle/sql-developer/)
 - [SQL Developer - Jeff Smith Page](https://www.thatjeffsmith.com/sql-developer/)
+- [SQL Developer for VS Code - 26.3.1 Updates!](https://www.thatjeffsmith.com/archive/2026/11/oracle-sql-developer-for-vs-code-26-3-1-faster-new-toys/)
 - [SQL Developer - Data Modeler](https://www.oracle.com/database/sqldeveloper/technologies/sql-data-modeler/)
 - [SQL Developer - Developer Community](https://forums.oracle.com/ords/apexds/domain/dev-community/category/sql_developer?tags=sql-developer)
 - [Oracle SQLcl](https://www.oracle.com/uk/database/sqldeveloper/technologies/sqlcl/)
@@ -61,22 +62,22 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 - [SQL Dev Extension for VS Code for MCP with Cline](https://www.thatjeffsmith.com/archive/2025/11/using-sqlcl-in-sql-developer-for-vs-code-for-mcp-with-cline/)
 
 
-## Dev Gyms
-- [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::)
-    - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
-- [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
-
-- [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
-
+## Public Portal Tools 
 - [The amazing Dev Gym](https://devgym.oracle.com/pls/apex/f?p=10001:20011::::20011::)
     - Join the Oracle Product Management Dev Gym (FREE!) and build your Oracle technology muscles by taking workouts, quizzes, and even entire classes on SQL, PL/SQL, database design, logic and more.
 - [Dev Gym Workout Class - Getting Started on Oracle Cloud](https://devgym.oracle.com/pls/apex/f?p=10001:29:4444375111375:::29:P29_CLASS_ID:20342&cs=1qfK8bInptu93se5QM5iMzsT-iih_gFsY78j308d3ZUzrCzX2c0-kgiimo59pm0c_NblFShALC1oOB8MosiaSYQ)
 
 - [Dev Gym Workout Class Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q)
     - Learn SQL in this FREE 12-part boot camp. It will help you get started with Oracle Database and SQL. The course is a series of videos to teach you database concepts,   interactive SQL tutorials, and quizzes to reinforce the ideas.
+
+- [Database For Developers: Foundations](https://devgym.oracle.com/pls/apex/f?p=10001:29:112499394488989:::29:P29_CLASS_ID:5481&cs=1Nx3TDJgh0w-ygq3icYMX7urIWoNPCEJuXLH5pqVOkknGnq2I33EJh57LsiiynySdqwMpwClQNviXsLC73e3-0Q);
+
 - [Database For Developers: Next Level](https://devgym.oracle.com/pls/apex/dg/class/databases-for-developers-next-level.html)
     - Complete the course to get your free certificate. This course continues where Databases for Developers: Foundations left off, taking you further on your SQL journey. The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
 
+- [Oracle FreeSQL.com](http://freesql.com) 
+    - Public Web-based SQL Development IDE portal for public access and SQL Tutorials. From 19c to 26ai database connections, SQL Worksheet SQL and PL/SQL execution capabilities and schema objects browsing, together with integrated Database Connections via SQL Developer for VS Code, sqlcl and NodeJS. 
+ 
 
 ## SQL Best Practices
 Periodical sharing of Standard Query Language Best Practices links and blog, video publications from Advocate SQL and PL/SQL Developers and PMs
