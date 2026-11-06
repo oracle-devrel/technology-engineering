@@ -97,14 +97,14 @@ resource "local_file" "export_argocd_apps" {
   content = templatefile("${path.root}/templates/argocd-apps.yml", {
     cluster_config_repo_url = oci_devops_repository.cluster_config_repo_argocd.0.http_url
   })
-  count = var.gitops_agent == "argocd" ? 1 : 0
+  count = var.gitops_agent == "argocd" && local.applications_enabled ? 1 : 0
 }
 
 resource "local_file" "export_argocd_projects" {
   filename = "${path.root}/${local.base_repo_path}/cluster-config/gitops/argocd/projects.yml"
   content = templatefile("${path.root}/templates/argocd-projects.yml", {
     cluster_config_repo_url = oci_devops_repository.cluster_config_repo_argocd.0.http_url
-    apps_config_repo_url    = oci_devops_repository.apps_config_repo_argocd.0.http_url
+    apps_config_repo_url    = local.apps_repository_url
   })
   count = var.gitops_agent == "argocd" ? 1 : 0
 }
@@ -122,7 +122,7 @@ resource "local_file" "export_argocd_reference_app_components" {
   content = templatefile("${path.root}/templates/argocd-reference-app-components.yml", {
     apps_config_repo_url = oci_devops_repository.apps_config_repo_argocd.0.http_url
   })
-  count = var.gitops_agent == "argocd" ? 1 : 0
+  count = var.gitops_agent == "argocd" && local.applications_enabled ? 1 : 0
 }
 
 resource "local_file" "export_argocd_reference_helm_app_infrastructure" {
@@ -138,7 +138,7 @@ resource "local_file" "export_argocd_reference_helm_app_components" {
   content = templatefile("${path.root}/templates/argocd-reference-helm-app-components.yml", {
     apps_config_repo_url = oci_devops_repository.apps_config_repo_argocd.0.http_url
   })
-  count = var.gitops_agent == "argocd" ? 1 : 0
+  count = var.gitops_agent == "argocd" && local.applications_enabled ? 1 : 0
 }
 
 resource "local_file" "export_argocd_fleet" {
@@ -249,7 +249,7 @@ resource "oci_devops_repository" "apps_config_repo_argocd" {
   project_id      = local.devops_project_id
   description     = "Repository containing Kubernetes application configurations, to be used by developers"
   repository_type = "HOSTED"
-  count           = var.gitops_agent == "argocd" ? 1 : 0
+  count           = var.gitops_agent == "argocd" && local.applications_enabled ? 1 : 0
 }
 
 resource "null_resource" "push_apps_config_repo_content_argocd" {
@@ -272,5 +272,5 @@ resource "null_resource" "push_apps_config_repo_content_argocd" {
     development_overwrite = var.development_overwrite_repositories ? timestamp() : "false"
   }
   depends_on = [local_file.export_variables_pipelines_argocd]
-  count      = var.gitops_agent == "argocd" ? 1 : 0
+  count      = var.gitops_agent == "argocd" && local.applications_enabled ? 1 : 0
 }

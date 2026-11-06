@@ -7,7 +7,8 @@ data "oci_identity_region_subscriptions" "home" {
 }
 
 data "oci_core_subnet" "lb_subnet_data" {
-  subnet_id = var.lb_subnet_id
+  count     = local.lb_subnet_id == "" ? 0 : 1
+  subnet_id = local.lb_subnet_id
 }
 
 data "oci_core_subnet" "cp_subnet_data" {

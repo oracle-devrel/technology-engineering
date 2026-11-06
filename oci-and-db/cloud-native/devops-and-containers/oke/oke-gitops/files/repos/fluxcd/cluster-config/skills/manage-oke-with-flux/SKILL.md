@@ -27,6 +27,11 @@ observation surfaces. Do not repair managed objects directly.
 
 ## Repository ownership
 
+For stack scope, bootstrap credentials, IAM placement, or upgrades, read
+[references/bootstrap.md](references/bootstrap.md). In `cluster_admin`,
+`apps-config` is absent by design; do not create its source or developer
+placements unless the user explicitly enables application management.
+
 - `cluster-config`: one primary cluster's bootstrap, Flux self-management,
   cluster resources (including every resource rendered into `kube-system`),
   namespace infrastructure, and local placement.
@@ -85,7 +90,7 @@ kubectl -n flux-system describe kustomization <name>
 ```
 
 Expect every relevant object to report `Ready=True`. Additional members have
-only `fleet-config` and `apps-config` sources; the primary also has
+only `fleet-config` and, in the full application scope, `apps-config` sources; the primary also has
 `cluster-config`. Read conditions and events before changing Git.
 
 ## Report every result

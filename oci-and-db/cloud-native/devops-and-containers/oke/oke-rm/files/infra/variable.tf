@@ -96,11 +96,12 @@ variable "cp_subnet_private" {
 }
 
 variable "cp_allowed_source_cidr" {
-  type    = string
-  default = "0.0.0.0/0"
+  type     = list(string)
+  default  = ["0.0.0.0/0"]
+  nullable = false
   validation {
-    condition     = can(cidrnetmask(var.cp_allowed_source_cidr))
-    error_message = "cp_allowed_source_cidr must be a valid IPv4 CIDR block."
+    condition     = alltrue([for cidr in var.cp_allowed_source_cidr : can(cidrnetmask(cidr))])
+    error_message = "Every cp_allowed_source_cidr entry must be a valid IPv4 CIDR block."
   }
 }
 
@@ -221,11 +222,12 @@ variable "allow_external_cp_traffic" {
 }
 
 variable "cp_egress_cidr" {
-  type    = string
-  default = "0.0.0.0/0"
+  type     = list(string)
+  default  = ["0.0.0.0/0"]
+  nullable = false
   validation {
-    condition     = can(cidrnetmask(var.cp_egress_cidr))
-    error_message = "cp_egress_cidr must be a valid IPv4 CIDR block."
+    condition     = alltrue([for cidr in var.cp_egress_cidr : can(cidrnetmask(cidr))])
+    error_message = "Every cp_egress_cidr entry must be a valid IPv4 CIDR block."
   }
 }
 
@@ -244,8 +246,8 @@ variable "db_service_list" {
   type    = list(string)
   default = []
   validation {
-    condition     = alltrue([for service in var.db_service_list : contains(["postgres", "cache", "oracledb", "mysql"], service)])
-    error_message = "db_service_list supports only postgres, cache, oracledb, and mysql."
+    condition     = alltrue([for service in var.db_service_list : contains(["postgres", "cache", "oracledb", "mysql", "opensearch"], service)])
+    error_message = "db_service_list supports only postgres, cache, oracledb, mysql, and opensearch."
   }
 }
 

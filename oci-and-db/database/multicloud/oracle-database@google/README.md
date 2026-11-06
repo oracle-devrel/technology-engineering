@@ -32,6 +32,7 @@ Reviewed: 14.08.2026
 - [Calling Cloud Run Functions from Autonomous Database@Google Cloud](https://medium.com/@miguelferreiragarces/calling-cloud-run-functions-from-autonomous-database-google-cloud-33ea7b84f83b?postPublishedType=initial)
 - [Mounting Google Cloud Filestore on Oracle AI Database@Google Cloud Exadata DB Nodes](https://medium.com/@miguelferreiragarces/mounting-google-cloud-filestore-on-oracle-ai-database-google-cloud-exadata-db-nodes-762d84cda10a)
 - [Oracle GoldenGate Google Cloud: CDC to Pub/Sub via Cloud Storage](https://medium.com/@miguelferreiragarces/oracle-goldengate-google-cloud-cdc-to-pub-sub-via-cloud-storage-a-step-by-step-pattern-09a29af1b484?sharedUserId=miguelferreiragarces)
+- [Writing to Google Cloud Storage from Oracle Database (Google Cloud ExaDB-D)](https://medium.com/@miguelferreiragarces/writing-to-google-cloud-storage-from-oracle-database-google-cloud-exadb-d-ba05258e2856?postPublishedType=initial)
 # LiveLabs
 - [Live Lab: Getting started with ODB@GCP](https://livelabs.oracle.com/pls/apex/f?p=133:180:10012957921970::::wid:4113)
 

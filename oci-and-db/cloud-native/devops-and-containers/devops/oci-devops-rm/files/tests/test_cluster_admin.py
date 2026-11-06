@@ -80,6 +80,26 @@ depends_on:
         result = validate_config.validate(self.repo, commit, "changed")
         return {(target["kind"], target.get("tool")): target for target in result["targets"]}
 
+    def test_custom_cluster_names_select_changes(self):
+        catalog = yaml.safe_load((self.repo / "catalog/tools.yaml").read_text())
+        catalog["clusters"] = {"noprod": "sandbox", "prod": "production"}
+        self.write("catalog/tools.yaml", yaml.safe_dump(catalog))
+        (self.repo / "clusters/noprod").rename(self.repo / "clusters/sandbox")
+        (self.repo / "clusters/prod").rename(self.repo / "clusters/production")
+        self.commit("Adopt custom target names")
+        self.write("clusters/sandbox/tools/traefik/values.yaml", "replicas: 3\n")
+        targets = self.targets(self.commit("Change custom nonproduction target"))
+        self.assertEqual(targets[("tool", "traefik")]["cluster"], "sandbox")
+        self.assertEqual(len(targets), 1)
+
+    def test_cluster_catalog_rejects_duplicates_and_unsafe_names(self):
+        catalog = yaml.safe_load((self.repo / "catalog/tools.yaml").read_text())
+        for names in ({"noprod": "same", "prod": "same"}, {"noprod": "../bad", "prod": "live"}, {"development": "dev", "prod": "live"}):
+            catalog["clusters"] = names
+            self.write("catalog/tools.yaml", yaml.safe_dump(catalog))
+            with self.subTest(names=names), self.assertRaises(ValueError):
+                validate_config.validate(self.repo, self.git("rev-parse", "HEAD"), "all")
+
     def test_values_change_selects_helm_only(self):
         self.write("clusters/noprod/tools/traefik/values.yaml", "replicas: 2\n")
         targets = self.targets(self.commit("Change Traefik values"))
@@ -174,8 +194,8 @@ class DependencyWaveTests(unittest.TestCase):
         self.assertIn('"repository": "https://kedacore.github.io/charts"', schema)
         self.assertIn('"chart": "kube-prometheus-stack"', schema)
         self.assertIn('"version": "87.10.1"', schema)
-        self.assertIn('"name": "sample-api"', schema)
-        self.assertIn('"name": "sample-worker"', schema)
+        self.assertIn('"name":"sample-api"', schema)
+        self.assertIn('"name":"sample-worker"', schema)
 
     def test_cluster_admin_schema_default_is_pretty_printed_json(self):
         schema = yaml.safe_load((ROOT / "schema.yaml").read_text(encoding="utf-8"))
@@ -183,7 +203,7 @@ class DependencyWaveTests(unittest.TestCase):
 
         self.assertGreater(len(default.splitlines()), 10)
         self.assertIn('\n      "repository": "https://kedacore.github.io/charts",', default)
-        self.assertEqual(json.loads(default)["tools"][1]["chart"], "kube-prometheus-stack")
+        self.assertEqual(json.loads(default)[1]["chart"], "kube-prometheus-stack")
 
     def test_cluster_admin_artifact_repository_name_is_configurable(self):
         root_variables = (ROOT / "variables.tf").read_text(encoding="utf-8")
@@ -231,15 +251,17 @@ class DependencyWaveTests(unittest.TestCase):
         self.assertRegex("ocirsecret", secret["pattern"])
         self.assertNotRegex("OCISecret", secret["pattern"])
 
-        applications = fields["applications"]
-        self.assertRegex('[\n  {"name": "app", "components": []}\n]', applications["pattern"])
-        self.assertNotRegex('{"tools": []}', applications["pattern"])
-        self.assertEqual(applications["maxLength"], 8192)
+        applications = fields["application_definitions"]
+        self.assertEqual(applications["type"], "list")
+        self.assertEqual(applications["valueType"], "application_entry")
+        self.assertNotIn("application_components", fields["application_entry"]["attributes"])
+        self.assertEqual(fields["components"]["valueType"], "component_entry")
 
         cluster_admin = fields["cluster_administration"]
-        self.assertRegex('{\n  "tools": []\n}', cluster_admin["pattern"])
-        self.assertNotRegex('[]', cluster_admin["pattern"])
-        self.assertEqual(cluster_admin["maxLength"], 8192)
+        self.assertEqual(cluster_admin["type"], "list")
+        self.assertEqual(cluster_admin["valueType"], "administration_tool")
+        self.assertEqual(fields["administration_tools"]["actualName"], "tools")
+        self.assertEqual(fields["administration_tools"]["valueType"], "administration_tool")
 
     def test_cluster_wide_resources_are_dispatched_after_tools(self):
         source = (ROOT / "repos/cluster-admin/script/deploy-cluster.py").read_text(
@@ -288,7 +310,7 @@ class DependencyWaveTests(unittest.TestCase):
         source = (ROOT / "modules/devops/cluster_admin_deploy_pipelines.tf").read_text(
             encoding="utf-8"
         )
-        self.assertIn('display_name = "cluster-admin-${each.key}-decommission"', source)
+        self.assertIn('display_name = "cluster-admin-${each.value.name}-decommission"', source)
         self.assertIn(
             "oci_devops_deploy_stage.cluster_admin_decommission_approval[each.key].id",
             source,
@@ -341,7 +363,7 @@ class DependencyWaveTests(unittest.TestCase):
             "data": {"lifecycle-state": "SUCCEEDED"}
         }
         try:
-            for cluster in ("noprod", "prod"):
+            for cluster in ("noprod", "prod", "sandbox", "production"):
                 dispatch.run_pipeline(
                     f"{cluster}-pipeline",
                     cluster,
@@ -352,8 +374,8 @@ class DependencyWaveTests(unittest.TestCase):
         finally:
             dispatch.oci = original
 
-        self.assertEqual(len(calls), 2)
-        for cluster, command in zip(("noprod", "prod"), calls):
+        self.assertEqual(len(calls), 4)
+        for cluster, command in zip(("noprod", "prod", "sandbox", "production"), calls):
             self.assertIn("create-pipeline-deployment", command)
             self.assertNotIn("create-single-stage-deployment", command)
             arguments = json.loads(command[command.index("--deployment-arguments") + 1])["items"]

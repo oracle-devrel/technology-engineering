@@ -29,9 +29,7 @@ The OCIR secret must contain a different pull-only registry identity:
 Set `git_read_credentials_secret_ocid` and
 `registry_pull_secret_ocid` to their respective Secret OCIDs. The
 build passes only the OCIDs to `install-gitops-agent`; the deployment reads the
-values directly from Vault. `auth_token_secret_ocid` is a deprecated
-one-release fallback for existing stacks and must not be used for new
-installations. Leave `chart_version` at its `LATEST` default, or provide the
+values directly from Vault. Both dedicated credential secrets are required. Leave `chart_version` at its `LATEST` default, or provide the
 exact chart version to bootstrap.
 
 Wait for the build and deployment runs to succeed; do not manually start a

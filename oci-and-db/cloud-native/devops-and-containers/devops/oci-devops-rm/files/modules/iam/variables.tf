@@ -1,4 +1,7 @@
 variable "compartment_id" {}
+variable "policy_compartment_id" {
+  type = string
+}
 variable "iam_domain_id" {}
 variable "network_compartment_id" {}
 variable "prod_network_compartment_id" {}
@@ -7,6 +10,16 @@ variable "prod_oke_compartment_id" {}
 variable "secret_compartment_id" {}
 variable "devops_policy_name" {}
 variable "dynamic_group_name" {}
+variable "resource_ids" {
+  type = list(string)
+}
+variable "secret_reader_ids" {
+  type = list(string)
+}
+variable "secret_ids" {
+  type    = list(string)
+  default = []
+}
 variable "enable_oke_access" {
   type = bool
 }

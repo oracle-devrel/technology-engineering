@@ -45,24 +45,24 @@ resource "oci_devops_build_pipeline" "bootstrap_gitops_agent" {
 
   build_pipeline_parameters {
     items {
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Request Helm execution on every bootstrap deployment, including same-version reinstalls"
+    }
+    items {
       name          = "chart_version"
       default_value = "LATEST"
       description   = "Exact Helm chart version to mirror and install, or LATEST to resolve the current upstream version"
     }
     items {
       name          = "git_read_credentials_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "OCI Vault secret OCID containing JSON username/password credentials for read-only Git access"
+      default_value = var.git_read_credentials_secret_ocid
+      description   = "Vault Secret OCID containing read-only Git credentials as username/password JSON. Defaults to the generated secret in automatic mode."
     }
     items {
       name          = "registry_pull_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "OCI Vault secret OCID containing JSON username/password credentials for read-only OCIR access"
-    }
-    items {
-      name          = "auth_token_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "Deprecated legacy OCI Vault secret OCID containing one raw auth token for Git and OCIR"
+      default_value = var.registry_pull_secret_ocid
+      description   = "Vault Secret OCID containing pull-only OCIR credentials as username/password JSON. Defaults to the generated secret in automatic mode."
     }
   }
 }

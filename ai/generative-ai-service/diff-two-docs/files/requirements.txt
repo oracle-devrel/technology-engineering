@@ -1,0 +1,6 @@
+oci>=2.150
+pypdfium2>=4.30
+pillow>=10
+numpy>=1.26
+opencv-python-headless>=4.9
+streamlit>=1.40

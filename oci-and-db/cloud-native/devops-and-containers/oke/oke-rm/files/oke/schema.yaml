@@ -13,6 +13,7 @@ variableGroups:
     variables:
       - tenancy_ocid
       - region
+      - worker_pools
 
   - title: "Network"
     variables:
@@ -119,13 +120,13 @@ variables:
 
   lb_subnet_id:
     title: "Default Load Balancer Subnet"
-    description: "Existing Subnet where all Load Balancer services will be created by default"
+    description: "Optional existing subnet used by LoadBalancer Services by default. Leave unselected to create the cluster without a default load balancer subnet."
     type: oci:core:subnet:id
     dependsOn:
       compartmentId: ${network_compartment_id}
       vcnId: ${vcn_id}
       hideAdSubnet: true
-    required: true
+    required: false
 
   cp_subnet_id:
     title: "Control Plane Subnet"
@@ -254,6 +255,12 @@ variables:
         - ${cni_type}
         - flannel
 
+
+  worker_pools:
+    type: string
+    visible: false
+
+
 # ADD-ONS
 
   enable_cert_manager:
@@ -380,8 +387,9 @@ variables:
     visible:
       and:
         - ${enable_policies}
-        - ${create_karpenter_policies}
-        - ${create_karpenter_tag_policy_optional}
+        - and:
+            - ${create_karpenter_policies}
+            - ${create_karpenter_tag_policy_optional}
 
   create_karpenter_capacity_reservation_policy_optional:
     title: "Create Karpenter optional policy - capacity reservation"
@@ -469,6 +477,8 @@ variables:
   tag_value:
     type: oci:identity:tag:value
     title: Tags
+    dependsOn:
+      compartmentId: ${oke_compartment_id}
 
 
 # OUTPUT SECTION
@@ -497,7 +507,7 @@ outputs:
     title: OIDC Discovery Endpoint
 
   policy_statements:
-    type: array
+    type: list
     title: Required policies
 
   policy_statements_by_feature:

@@ -3,6 +3,21 @@ output "devops_project_id" {
   value       = module.devops.devops_project_id
 }
 
+output "automatic_credentials" {
+  description = "Generated credential references only. Auth tokens are never exposed as outputs."
+  value = var.create_automatic_credentials ? {
+    vault_id          = oci_kms_vault.credentials[0].id
+    key_id            = oci_kms_key.credentials[0].id
+    account_usernames = { for key, user in oci_identity_domains_user.automation : key => user.user_name }
+    group_ids         = { for key, group in oci_identity_domains_group.automation : key => group.ocid }
+    token_secret_ids  = { for key, secret in oci_vault_secret.automation : key => secret.id }
+    registry_username = try(local.credential_usernames["pull"], null)
+    iam_managed       = true
+    policy_id         = oci_identity_policy.automation[0].id
+    policy_name       = oci_identity_policy.automation[0].name
+  } : null
+}
+
 output "devops_project_name" {
   description = "Resolved name of the created or reused OCI DevOps project."
   value       = module.devops.devops_project_name
@@ -74,12 +89,12 @@ output "application_deploy_pipeline_ids" {
 }
 
 output "application_bootstrap_pipeline_ids" {
-  description = "Application name to parallel noprod/prod namespace bootstrap deployment pipeline OCID."
+  description = "Application name to parallel nonproduction/production namespace bootstrap deployment pipeline OCID."
   value       = module.devops.application_bootstrap_pipeline_ids
 }
 
 output "component_deploy_pipeline_ids" {
-  description = "Component and environment to deployment pipeline OCID."
+  description = "Component and stable workflow role to deployment pipeline OCID; see environment_names for configured names."
   value       = module.devops.component_deploy_pipeline_ids
 }
 
