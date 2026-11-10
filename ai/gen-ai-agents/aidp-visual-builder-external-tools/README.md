@@ -3,7 +3,7 @@
 This tutorial builds the vendor feedback agent shown in the screenshots. It runs in AI Data Platform Workbench and uses two tools:
 
 1. **Query Supplier Feedback** calls Select AI in Autonomous AI Database through the database MCP server.
-2. **Document Search** searches an OCI Generative AI Vector Store through an AIDP HTTP tool.
+2. **Document Search** searches an OCI Enterprise AI Vector Store through an AIDP HTTP tool.
 
 The agent uses results from both tools in one answer. It does not update records or make a vendor decision.
 
