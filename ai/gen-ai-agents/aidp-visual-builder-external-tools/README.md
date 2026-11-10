@@ -15,7 +15,7 @@ The package includes the Custom Tool source and upload ZIP, setup instructions, 
 
 Follow [`files/docs/quick-start.md`](files/docs/quick-start.md) from top to bottom. It links to Oracle's instructions for [Select AI profiles](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/select-ai-manage-profiles.html), [the Autonomous Database MCP server](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/use-mcp-server.html), [Vector Store APIs](https://docs.oracle.com/en-us/iaas/Content/generative-ai/vector-store-api-key-tutorial.htm), and [AIDP agent tools](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/agent-flow-tools.html).
 
-The guide uses OCI Generative AI Vector Store + HTTP for document search. If you want AIDP to manage document ingestion, see Oracle's [Knowledge Base and RAG guide](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html).
+The guide uses OCI Enterprise AI Vector Store + HTTP for document search. If you want AIDP to manage document ingestion, see Oracle's [Knowledge Base and RAG guide](https://docs.oracle.com/en/cloud/paas/ai-data-platform/aidug/knowledge-bases.html).
 
 ## Files
 
