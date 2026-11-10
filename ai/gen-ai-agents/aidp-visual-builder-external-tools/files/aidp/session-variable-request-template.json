@@ -1,0 +1,11 @@
+{
+  "sessionvariables": {
+    "cred": {
+      "http": {
+        "documentsearch": {
+          "bearer": "<server-side credential reference or value required by your configured HTTP tool>"
+        }
+      }
+    }
+  }
+}
