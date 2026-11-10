@@ -1,6 +1,6 @@
 # Quick start: build the vendor feedback review agent
 
-This guide builds the agent shown in the screenshots: one AIDP agent, a Select AI Custom Tool for table questions, and an HTTP tool that searches an OCI Generative AI Vector Store. Use your own permitted table and approved files. No data or credentials are bundled.
+This guide builds the agent shown in the screenshots: one AIDP agent, a Select AI Custom Tool for table questions, and an HTTP tool that searches an OCI Enterprise AI Vector Store. Use your own permitted table and approved files. No data or credentials are bundled.
 
 ## 1. Prepare the database and Select AI
 
@@ -18,7 +18,7 @@ Official setup: [Select AI profiles](https://docs.oracle.com/en/cloud/paas/auton
 
 Use the [OCI Vector Store API-key tutorial](https://docs.oracle.com/en-us/iaas/Content/generative-ai/vector-store-api-key-tutorial.htm). It provides both a Python SDK path and a curl path. Follow one path from top to bottom:
 
-1. Choose the region, compartment, and Generative AI project. Confirm your API key is allowed to manage Files and Vector Stores in that compartment.
+1. Choose the region, compartment, and project. Confirm your API key is allowed to manage Files and Vector Stores in that compartment.
 2. Set the region-specific base URL, compartment OCID, and project OCID. Enter the API key through a hidden prompt or a local secret environment variable. Keep the same region/project/compartment for each request.
 3. Create a vector store and save the returned store ID in your private notes.
 4. Upload each approved PDF/TXT/DOCX document through the Files API with the project header; save each returned file ID.
@@ -33,9 +33,9 @@ The screenshot shows files with completed status in the vector store:
 ## 3. Set up AIDP credentials and egress
 
 1. In the AIDP workspace's **Credential Store**, create a **Secret Token** credential for the database login. Add keys named `username` and `password`; enter your own database user and password.
-2. Create a second **Secret Token** credential for the OCI Generative AI API key. Use the key name required by the HTTP node/session variable you configure.
+2. Create a second **Secret Token** credential for the OCI Enterprise AI API key. Use the key name required by the HTTP node/session variable you configure.
 3. Add egress for the database MCP host `dataaccess.adb.<region>.oraclecloudapps.com` and the regional Generative AI inference host `inference.generativeai.<region>.oci.oraclecloud.com`.
-4. Do not put any secret values in the source, agent instructions, or GitHub. The Select AI Custom Tool obtains a short-lived database bearer token on each run; the vector-search HTTP tool uses the Generative AI API key.
+4. Do not put any secret values in the source, agent instructions, or GitHub. The Select AI Custom Tool obtains a short-lived database bearer token on each run; the vector-search HTTP tool uses the Enterprise AI API key.
 
 ## 4. Add the Select AI Custom Tool
 
