@@ -1,4 +1,4 @@
-# Build this AIDP agent
+# Connecting Enterprise AI tools and Select AI with AI DP
 
 This tutorial builds the vendor feedback agent shown in the screenshots. It runs in AI Data Platform Workbench and uses two tools:
 
