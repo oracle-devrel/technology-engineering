@@ -88,6 +88,10 @@ Reviewed: 18.08.2026
 
 ## LiveLabs
 - [Oracle Database@AWS- Autonomous Database on dedicated infrastructure](https://livelabs.oracle.com/pls/apex/r/dbpm/livelabs/view-workshop?wid=4203)
+- [Create an Oracle Exadata Database on Dedicated Infrastructure with Oracle AI Database@AWS](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=4399)
+- [Create an Oracle Autonomous AI Database on Dedicated Exadata Infrastructure on Oracle AI Database@AWS](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=4405)
+- [Observability for Oracle Database@AWS Using Amazon CloudWatch and EventBridge](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=4524)
+- [Bring Your Laptop, Leave with a Migration: Move a Live Workload to Multicloud](https://livelabs.oracle.com/ords/r/dbpm/livelabs/view-workshop?wid=4553)
 
 
 ## Videos
