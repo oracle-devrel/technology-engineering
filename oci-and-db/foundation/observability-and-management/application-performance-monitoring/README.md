@@ -15,6 +15,7 @@ Reviewed: 27.07.2026
 
 |APM Asset| Asset page|
 |---|---|
+| How to Use OCI APM|[Link](how-to-use-apm/README.md)|
 | OCI APM and Log Analytics improve stack visibility with continuous workflows|[Link](https://blogs.oracle.com/observability/post/connect-apm-with-log-analytics-and-more)|
 | OCI APM for JD Edwards: Pinpoint performance bottlenecks in business-critical services|[Link](https://blogs.oracle.com/observability/post/enable-oci-apm-for-oracle-jd-edwards)|
 
