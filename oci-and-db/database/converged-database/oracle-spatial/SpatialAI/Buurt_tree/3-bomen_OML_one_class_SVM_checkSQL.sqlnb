@@ -1,0 +1,222 @@
+cells:
+  - kind: 1
+    value: >
+      # One-class SVM: source-data checks
+
+
+      These checks inspect BOMEN_TREES before building an anomaly model. Results
+
+      below are the observed outputs supplied on 28 October 2026. 
+
+
+      Candidate question: Which trees have unusual recorded age and
+      trunk-diameter
+
+      combinations compared with trees of the same species, and where are they?
+
+      A flag means review the record; it is not a diagnosis of tree health.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Confirm source columns
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT column_name, data_type, data_type_owner
+      FROM user_tab_columns
+      WHERE table_name = 'BOMEN_TREES'
+      ORDER BY column_id;
+
+      -- COLUMN_NAME                   DATA_TYPE    DATA_TYPE_OWNER
+      -- ----------------------------- ------------ ---------------
+      -- SOURCE_TREE_NUMBER            NUMBER       null
+      -- SPECIES_COMMON_NAME           VARCHAR2     null
+      -- SRT_WETENS                    VARCHAR2     null
+      -- TREE_AGE                      NUMBER       null
+      -- AGE_CLASS_CATEGORY            VARCHAR2     null
+      -- TRUNK_DIAMETER                VARCHAR2     null
+      -- OWNER                         VARCHAR2     null
+      -- MANAGER                       VARCHAR2     null
+      -- PRUNING_FORM                  VARCHAR2     null
+      -- MONUMENTAL_FIELD              VARCHAR2     null
+      -- SOURCE_WORK_PACKAGE_CODE      VARCHAR2     null
+      -- SOURCE_WORK_PACKAGE           VARCHAR2     null
+      -- GROWING_SITE                  VARCHAR2     null
+      -- STREET_NAME                   VARCHAR2     null
+      -- CITY_DISTRICT                 VARCHAR2     null
+      -- COUNTER                       NUMBER       null
+      -- SOURCE_RECORD_ID              NUMBER       null
+      -- DISTRICT_NAME                 VARCHAR2     null
+      -- NEIGHBOURHOOD                 VARCHAR2     null
+      -- WGS84_LONGITUDE               NUMBER       null
+      -- WGS84_LATITUDE                NUMBER       null
+      -- SOURCE_PROJECTED_X_COORDINATE NUMBER       null
+      -- SOURCE_PROJECTED_Y_COORDINATE NUMBER       null
+      -- SOURCE_TEXT_IEPVAK_OMS        VARCHAR2     null
+      -- SOURCE_CODE_PKBZ              VARCHAR2     null
+      -- GEOMETRY                      SDO_GEOMETRY MDSYS
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. Check diameter classes
+
+      TRUNK_DIAMETER is a category, not a measured numeric diameter. 
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT TRUNK_DIAMETER, COUNT(*) AS TREE_COUNT
+      FROM BOMEN_TREES
+      GROUP BY TRUNK_DIAMETER
+      ORDER BY TREE_COUNT DESC
+      FETCH FIRST 20 ROWS ONLY;
+
+      -- TRUNK_DIAMETER TREE_COUNT
+      -- -------------- ----------
+      -- 25-50 cm            61446
+      -- 10-25 cm            44603
+      -- 0-10 cm             27782
+      -- 50-75 cm            12304
+      -- 75-100 cm            2236
+      -- >100 cm               680
+      -- (null)                 23
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 3. Check species coverage and missing inputs
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT SRT_WETENS AS SPECIES,
+             COUNT(*) AS TREES,
+             COUNT(TREE_AGE) AS WITH_AGE,
+             COUNT(TRUNK_DIAMETER) AS WITH_DIAMETER
+      FROM BOMEN_TREES
+      GROUP BY SRT_WETENS
+      ORDER BY TREES DESC
+      FETCH FIRST 20 ROWS ONLY;
+
+      -- SPECIES                              TREES WITH_AGE WITH_DIAMETER
+      -- ------------------------------------ ----- -------- -------------
+      -- Quercus robur                         8068     8068          8066
+      -- Alnus glutinosa                       5773     5773          5769
+      -- Tilia x europaea                      4851     4851          4851
+      -- Platanus x hispanica                  3762     3762          3762
+      -- Fraxinus excelsior                    3703     3703          3702
+      -- Salix alba                            3342     3342          3342
+      -- Tilia x europaea 'Pallida'            3323     3323          3323
+      -- Acer pseudoplatanus                   3152     3152          3151
+      -- Fraxinus excelsior 'Westhofs Glorie'  3000     3000          3000
+      -- Ulmus 'Lobel'                         2843     2843          2843
+      -- Fagus sylvatica                       2799     2799          2799
+      -- Robinia pseudoacacia 'Bessoniana'     2595     2595          2595
+      -- Ulmus hollandica 'Groeneveld'         2573     2573          2573
+      -- Pyrus calleryana 'Chanticleer'        2298     2298          2298
+      -- Ulmus 'Clusius'                       2116     2116          2116
+      -- Prunus avium 'Plena'                  2019     2019          2019
+      -- Acer pseudoplatanus 'Erectum'         1812     1812          1812
+      -- Acer campestre                        1787     1787          1786
+      -- Alnus x spaethii 'Spaeth'             1724     1724          1724
+      -- Tilia x europaea 'Euchlora'           1649     1649          1649
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 4. Verify unique case IDs and age range
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT COUNT(*) AS TREES,
+             COUNT(DISTINCT SOURCE_RECORD_ID) AS UNIQUE_IDS,
+             MIN(TREE_AGE) AS MIN_AGE,
+             MAX(TREE_AGE) AS MAX_AGE,
+             SUM(CASE WHEN SRT_WETENS IS NULL
+                        OR TREE_AGE IS NULL
+                        OR TRUNK_DIAMETER IS NULL
+                      THEN 1 ELSE 0 END) AS INCOMPLETE_ROWS
+      FROM BOMEN_TREES;
+
+      -- TREES UNIQUE_IDS MIN_AGE MAX_AGE INCOMPLETE_ROWS
+      -- ------ ---------- ------- ------- ---------------
+      -- 149074     149074       0    1016              27
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 5. Inspect the oldest recorded trees
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT SOURCE_RECORD_ID, SRT_WETENS, TREE_AGE, TRUNK_DIAMETER
+      FROM BOMEN_TREES
+      WHERE TREE_AGE >= 300
+      ORDER BY TREE_AGE DESC
+      FETCH FIRST 20 ROWS ONLY;
+
+      -- SOURCE_RECORD_ID SRT_WETENS                  TREE_AGE TRUNK_DIAMETER
+      -- ---------------- --------------------------- -------- --------------
+      --          1431948 Ulmus resista 'New Horizon'     1016 10-25 cm
+      --          1424283 Pyrus communis 'Juttepeer'       384 75-100 cm
+      --          1322978 Quercus robur                    326 50-75 cm
+      --          1376278 Quercus robur                    303 >100 cm
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 6. Compare numeric ages with age classes
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT AGE_CLASS_CATEGORY,
+             COUNT(*) AS TREES,
+             MIN(TREE_AGE) AS MIN_AGE,
+             MAX(TREE_AGE) AS MAX_AGE
+      FROM BOMEN_TREES
+      GROUP BY AGE_CLASS_CATEGORY
+      ORDER BY TREES DESC;
+
+      -- AGE_CLASS_CATEGORY TREES MIN_AGE MAX_AGE
+      -- ------------------ ----- ------- -------
+      -- Volwassen          81258      21    1016
+      -- Halfwas            38529      11      30
+      -- Jong               29283       0      15
+      -- (null)                 4      65     100
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 7. Size the per-species model population
+    languageId: markdown
+  - kind: 2
+    value: >
+      SELECT COUNT(*) AS SPECIES,
+             SUM(CASE WHEN TREES >= 100 THEN 1 ELSE 0 END) AS SPECIES_WITH_100_PLUS,
+             SUM(CASE WHEN TREES < 100 THEN TREES ELSE 0 END) AS TREES_IN_SMALL_SPECIES
+      FROM (
+          SELECT SRT_WETENS, COUNT(*) AS TREES
+          FROM BOMEN_TREES
+          WHERE SRT_WETENS IS NOT NULL
+            AND TREE_AGE IS NOT NULL
+            AND TRUNK_DIAMETER IS NOT NULL
+          GROUP BY SRT_WETENS
+      );
+
+
+      -- SPECIES SPECIES_WITH_100_PLUS TREES_IN_SMALL_SPECIES
+
+      -- ------- --------------------- ----------------------
+
+      --    1148                   203                  15405
+    languageId: oracle-sql
+  - kind: 1
+    value: >
+      ## Model-design notes
+
+
+      - First pilot species: Quercus robur (8,066 complete age/diameter rows).
+
+      - Species with fewer than 100 complete records need an explicit
+        "insufficient comparison data" outcome, not an automatic normal flag.
+      - The 1,016-year record is a review candidate, not a health diagnosis.
+
+      - BOMEN_TREES has no update timestamp. Saved model results need an
+      explicit
+        source-change check before reuse; row count alone cannot detect edits.
+      - This notebook performs checks only. It does not create models, tables,
+        views, agents, or map layers.
+    languageId: markdown

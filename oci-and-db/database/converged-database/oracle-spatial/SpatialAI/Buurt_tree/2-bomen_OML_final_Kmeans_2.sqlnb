@@ -1,0 +1,548 @@
+cells:
+  - kind: 1
+    value: >
+      # OML K-means: tree groups for the existing supervised team
+
+
+      Pilot question: How do Quercus robur (oak) trees group by recorded
+      TREE_AGE
+
+      (numeric) and TRUNK_DIAMETER (categorical class), and where are those
+
+      trees? The source is BOMEN_TREES. SVM flags and density values are not
+
+      model inputs. A cluster is a description of records, not a health claim.
+
+
+      The tool creates its own storage, trains when the source or cluster count
+
+      changes, saves all scored tree points, and returns a RUN_ID. The existing
+
+      APEX GET_RESPONSE can read their GeoJSON from AGENT_MAP_RESULTS. All map
+
+      points are saved; a large response may take time in Ask Oracle.
+
+
+      Prerequisite: BOMEN_TREES exists. Run this notebook after the density,
+
+      SVM, and discovery worker definitions. The final cell replaces only the
+
+      existing TREE_DENSITY_MAP_TEAM and its supervisor, adding discovery and
+
+      K-means workers. Run it when no team request is active. Tests live only
+
+      in 2-bomen_OML_discovery_Kmeans_tests.sqlnb.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Automatic storage setup
+
+      Creates missing K-means tables and views, plus the shared map table if
+      needed. Saved runs and rows are never dropped here.
+    languageId: markdown
+  - kind: 1
+    value: "1- “Do you see any candidate issues in my tree datasets?”\r
+
+      \r
+
+      2- “Group Quercus robur trees into three clusters by age and
+      trunk-diameter class.”\r
+
+      \r
+
+      3- “Show those tree clusters on the map.”"
+    languageId: markdown
+  - kind: 2
+    value: |
+      CREATE OR REPLACE PROCEDURE prepare_tree_kmeans_storage AS
+          v_count NUMBER;
+      BEGIN
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'BOMEN_TREES';
+          IF v_count = 0 THEN
+              RAISE_APPLICATION_ERROR(-20300, 'BOMEN_TREES is missing.');
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'TREE_KMEANS_RESULTS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_KMEANS_RESULTS (
+                      RUN_ID VARCHAR2(32) NOT NULL,
+                      SOURCE_RECORD_ID NUMBER NOT NULL,
+                      SPECIES_NAME VARCHAR2(254 CHAR),
+                      TREE_AGE NUMBER,
+                      TRUNK_DIAMETER VARCHAR2(50 CHAR),
+                      CLUSTER_ID NUMBER NOT NULL,
+                      CLUSTER_PROBABILITY NUMBER,
+                      WGS84_LONGITUDE NUMBER,
+                      WGS84_LATITUDE NUMBER,
+                      GEOMETRY MDSYS.SDO_GEOMETRY,
+                      CREATED_AT TIMESTAMP DEFAULT SYSTIMESTAMP,
+                      CONSTRAINT TREE_KMEANS_RESULTS_PK
+                          PRIMARY KEY (RUN_ID, SOURCE_RECORD_ID)
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'TREE_KMEANS_RUNS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_KMEANS_RUNS (
+                      RUN_ID VARCHAR2(32) PRIMARY KEY,
+                      SPECIES_NAME VARCHAR2(254 CHAR) NOT NULL,
+                      REQUESTED_CLUSTERS NUMBER NOT NULL,
+                      SOURCE_DATA_OBJECT_ID NUMBER NOT NULL,
+                      SOURCE_ROW_COUNT NUMBER NOT NULL,
+                      SOURCE_MAX_SCN NUMBER NOT NULL,
+                      SCORED_COUNT NUMBER NOT NULL,
+                      CREATED_AT TIMESTAMP DEFAULT SYSTIMESTAMP
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'TREE_KMEANS_SETTINGS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_KMEANS_SETTINGS (
+                      SETTING_NAME VARCHAR2(30),
+                      SETTING_VALUE VARCHAR2(4000)
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'AGENT_MAP_RESULTS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE AGENT_MAP_RESULTS (
+                      RUN_ID VARCHAR2(32) NOT NULL,
+                      FEATURE_ORDER NUMBER NOT NULL,
+                      FEATURE_JSON CLOB CHECK (FEATURE_JSON IS JSON),
+                      CONSTRAINT AGENT_MAP_RESULTS_PK
+                          PRIMARY KEY (RUN_ID, FEATURE_ORDER)
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_objects
+          WHERE object_name = 'TREE_KMEANS_INPUT_V'
+            AND object_type = 'VIEW' AND status = 'VALID';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE OR REPLACE VIEW TREE_KMEANS_INPUT_V AS
+                  SELECT SOURCE_RECORD_ID, TREE_AGE, TRUNK_DIAMETER
+                  FROM BOMEN_TREES
+                  WHERE SRT_WETENS = 'Quercus robur'
+                    AND SOURCE_RECORD_ID IS NOT NULL
+                    AND TREE_AGE IS NOT NULL
+                    AND TRUNK_DIAMETER IS NOT NULL~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_objects
+          WHERE object_name = 'TREE_KMEANS_RESULTS_V'
+            AND object_type = 'VIEW' AND status = 'VALID';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE OR REPLACE VIEW TREE_KMEANS_RESULTS_V AS
+                  SELECT RUN_ID, SOURCE_RECORD_ID, SPECIES_NAME, TREE_AGE,
+                         TRUNK_DIAMETER, CLUSTER_ID, CLUSTER_PROBABILITY,
+                         WGS84_LONGITUDE, WGS84_LATITUDE, CREATED_AT
+                  FROM TREE_KMEANS_RESULTS~';
+          END IF;
+      END prepare_tree_kmeans_storage;
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: >
+      ## 2. Agent-callable build and score function
+
+
+      Null species selects the Quercus robur pilot. Null cluster count selects
+
+      three groups. A repeated request reuses a complete run with the same
+
+      source signature and parameters. Force refresh is available for uncertain
+
+      source changes. Each model rebuild replaces only
+      TREE_QUERCUS_KMEANS_MODEL;
+
+      saved RUN_ID rows remain available.
+    languageId: markdown
+  - kind: 2
+    value: >
+      CREATE OR REPLACE FUNCTION tree_kmeans_agent_fn (
+          p_species IN VARCHAR2 DEFAULT NULL,
+          p_clusters IN NUMBER DEFAULT NULL,
+          p_force_refresh IN VARCHAR2 DEFAULT 'N'
+      ) RETURN CLOB AS
+          PRAGMA AUTONOMOUS_TRANSACTION;
+          v_species VARCHAR2(254) := NVL(TRIM(p_species), 'Quercus robur');
+          v_clusters NUMBER := NVL(p_clusters, 3);
+          v_force VARCHAR2(1) := UPPER(NVL(TRIM(p_force_refresh), 'N'));
+          v_data_object_id NUMBER;
+          v_source_count NUMBER;
+          v_source_scn NUMBER;
+          v_usable_count NUMBER;
+          v_final_count NUMBER;
+          v_final_scn NUMBER;
+          v_model_count NUMBER;
+          v_saved_count NUMBER;
+          v_scored_count NUMBER;
+          v_mappable_count NUMBER;
+          v_map_count NUMBER;
+          v_actual_clusters NUMBER;
+          v_run_id VARCHAR2(32);
+          v_reused VARCHAR2(1) := 'N';
+          v_cluster_summary CLOB;
+          v_response CLOB;
+      BEGIN
+          IF UPPER(v_species) <> 'QUERCUS ROBUR' THEN
+              RAISE_APPLICATION_ERROR(-20301,
+                  'This K-means pilot supports Quercus robur only.');
+          END IF;
+          v_species := 'Quercus robur';
+          IF v_clusters <> TRUNC(v_clusters)
+             OR v_clusters < 2 OR v_clusters > 8 THEN
+              RAISE_APPLICATION_ERROR(-20302,
+                  'Clusters must be a whole number between 2 and 8.');
+          END IF;
+          IF v_force NOT IN ('Y', 'N') THEN
+              RAISE_APPLICATION_ERROR(-20303,
+                  'p_force_refresh must be Y or N.');
+          END IF;
+
+          prepare_tree_kmeans_storage;
+          SELECT data_object_id INTO v_data_object_id
+          FROM user_objects
+          WHERE object_name = 'BOMEN_TREES' AND object_type = 'TABLE';
+          SELECT COUNT(*), NVL(MAX(ORA_ROWSCN), 0),
+                 COUNT(CASE WHEN SOURCE_RECORD_ID IS NOT NULL
+                             AND TREE_AGE IS NOT NULL
+                             AND TRUNK_DIAMETER IS NOT NULL THEN 1 END)
+          INTO v_source_count, v_source_scn, v_usable_count
+          FROM BOMEN_TREES WHERE SRT_WETENS = v_species;
+          IF v_usable_count < 100 THEN
+              RAISE_APPLICATION_ERROR(-20304,
+                  'Fewer than 100 complete trees for the pilot species.');
+          END IF;
+
+          IF v_force = 'N' THEN
+              BEGIN
+                  EXECUTE IMMEDIATE q'~
+                      SELECT RUN_ID, SCORED_COUNT
+                      FROM TREE_KMEANS_RUNS
+                      WHERE SPECIES_NAME = :species
+                        AND REQUESTED_CLUSTERS = :clusters
+                        AND SOURCE_DATA_OBJECT_ID = :object_id
+                        AND SOURCE_ROW_COUNT = :row_count
+                        AND SOURCE_MAX_SCN = :source_scn
+                      ORDER BY CREATED_AT DESC
+                      FETCH FIRST 1 ROW ONLY~'
+                  INTO v_run_id, v_scored_count
+                  USING v_species, v_clusters, v_data_object_id,
+                        v_source_count, v_source_scn;
+                  EXECUTE IMMEDIATE q'~
+                      SELECT COUNT(*) FROM TREE_KMEANS_RESULTS
+                      WHERE RUN_ID = :run_id~'
+                  INTO v_saved_count USING v_run_id;
+                  IF v_saved_count = v_scored_count
+                     AND v_scored_count = v_usable_count THEN
+                      v_reused := 'Y';
+                  END IF;
+              EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+              END;
+          END IF;
+
+          IF v_reused = 'N' THEN
+              SELECT COUNT(*) INTO v_model_count FROM user_mining_models
+              WHERE model_name = 'TREE_QUERCUS_KMEANS_MODEL';
+              IF v_model_count > 0 THEN
+                  DBMS_DATA_MINING.DROP_MODEL('TREE_QUERCUS_KMEANS_MODEL');
+              END IF;
+              EXECUTE IMMEDIATE 'DELETE FROM TREE_KMEANS_SETTINGS';
+              EXECUTE IMMEDIATE
+                  'INSERT INTO TREE_KMEANS_SETTINGS VALUES (:1, :2)'
+                  USING DBMS_DATA_MINING.ALGO_NAME,
+                        DBMS_DATA_MINING.ALGO_KMEANS;
+              EXECUTE IMMEDIATE
+                  'INSERT INTO TREE_KMEANS_SETTINGS VALUES (:1, :2)'
+                  USING DBMS_DATA_MINING.CLUS_NUM_CLUSTERS,
+                        TO_CHAR(v_clusters);
+              COMMIT;
+
+              DBMS_DATA_MINING.CREATE_MODEL(
+                  model_name => 'TREE_QUERCUS_KMEANS_MODEL',
+                  mining_function => DBMS_DATA_MINING.CLUSTERING,
+                  data_table_name => 'TREE_KMEANS_INPUT_V',
+                  case_id_column_name => 'SOURCE_RECORD_ID',
+                  settings_table_name => 'TREE_KMEANS_SETTINGS'
+              );
+
+              v_run_id := RAWTOHEX(SYS_GUID());
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO TREE_KMEANS_RESULTS (
+                      RUN_ID, SOURCE_RECORD_ID, SPECIES_NAME, TREE_AGE,
+                      TRUNK_DIAMETER, CLUSTER_ID, CLUSTER_PROBABILITY,
+                      WGS84_LONGITUDE, WGS84_LATITUDE, GEOMETRY
+                  )
+                  SELECT :run_id, b.SOURCE_RECORD_ID, b.SRT_WETENS,
+                         b.TREE_AGE, b.TRUNK_DIAMETER,
+                         CLUSTER_ID(TREE_QUERCUS_KMEANS_MODEL USING
+                             b.TREE_AGE AS TREE_AGE,
+                             b.TRUNK_DIAMETER AS TRUNK_DIAMETER),
+                         CLUSTER_PROBABILITY(TREE_QUERCUS_KMEANS_MODEL USING
+                             b.TREE_AGE AS TREE_AGE,
+                             b.TRUNK_DIAMETER AS TRUNK_DIAMETER),
+                         b.WGS84_LONGITUDE, b.WGS84_LATITUDE, b.GEOMETRY
+                  FROM BOMEN_TREES b
+                  WHERE b.SRT_WETENS = 'Quercus robur'
+                    AND b.SOURCE_RECORD_ID IS NOT NULL
+                    AND b.TREE_AGE IS NOT NULL
+                    AND b.TRUNK_DIAMETER IS NOT NULL~'
+              USING v_run_id;
+
+              EXECUTE IMMEDIATE q'~
+                  SELECT COUNT(*) FROM TREE_KMEANS_RESULTS
+                  WHERE RUN_ID = :run_id~'
+              INTO v_scored_count USING v_run_id;
+              SELECT COUNT(*), NVL(MAX(ORA_ROWSCN), 0)
+              INTO v_final_count, v_final_scn
+              FROM BOMEN_TREES WHERE SRT_WETENS = v_species;
+              IF v_final_count <> v_source_count
+                 OR v_final_scn <> v_source_scn THEN
+                  RAISE_APPLICATION_ERROR(-20305,
+                      'BOMEN_TREES changed during scoring; retry.');
+              END IF;
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO TREE_KMEANS_RUNS (
+                      RUN_ID, SPECIES_NAME, REQUESTED_CLUSTERS,
+                      SOURCE_DATA_OBJECT_ID, SOURCE_ROW_COUNT,
+                      SOURCE_MAX_SCN, SCORED_COUNT
+                  ) VALUES (:1, :2, :3, :4, :5, :6, :7)~'
+              USING v_run_id, v_species, v_clusters, v_data_object_id,
+                    v_source_count, v_source_scn, v_scored_count;
+              COMMIT;
+          END IF;
+
+          EXECUTE IMMEDIATE q'~
+              SELECT COUNT(*) FROM TREE_KMEANS_RESULTS
+              WHERE RUN_ID = :run_id
+                AND WGS84_LONGITUDE IS NOT NULL
+                AND WGS84_LATITUDE IS NOT NULL~'
+          INTO v_mappable_count USING v_run_id;
+          EXECUTE IMMEDIATE q'~
+              SELECT COUNT(*) FROM AGENT_MAP_RESULTS
+              WHERE RUN_ID = :run_id~'
+          INTO v_map_count USING v_run_id;
+          IF v_map_count <> v_mappable_count THEN
+              EXECUTE IMMEDIATE q'~
+                  DELETE FROM AGENT_MAP_RESULTS
+                  WHERE RUN_ID = :run_id~' USING v_run_id;
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO AGENT_MAP_RESULTS
+                      (RUN_ID, FEATURE_ORDER, FEATURE_JSON)
+                  SELECT r.RUN_ID,
+                         ROW_NUMBER() OVER
+                             (ORDER BY r.CLUSTER_ID, r.SOURCE_RECORD_ID),
+                         JSON_OBJECT(
+                             'RUN_ID' VALUE r.RUN_ID,
+                             'SOURCE_RECORD_ID' VALUE r.SOURCE_RECORD_ID,
+                             'SPECIES_NAME' VALUE r.SPECIES_NAME,
+                             'TREE_AGE' VALUE r.TREE_AGE,
+                             'TRUNK_DIAMETER' VALUE r.TRUNK_DIAMETER,
+                             'CLUSTER_ID' VALUE r.CLUSTER_ID,
+                             'CLUSTER_PROBABILITY' VALUE r.CLUSTER_PROBABILITY,
+                             'GEOJSON' VALUE SDO_UTIL.TO_GEOJSON(
+                                 MDSYS.SDO_GEOMETRY(
+                                     2001, 4326,
+                                     MDSYS.SDO_POINT_TYPE(
+                                         r.WGS84_LONGITUDE,
+                                         r.WGS84_LATITUDE, NULL
+                                     ), NULL, NULL
+                                 )
+                             ) RETURNING CLOB
+                         )
+                  FROM TREE_KMEANS_RESULTS r
+                  WHERE r.RUN_ID = :run_id
+                    AND r.WGS84_LONGITUDE IS NOT NULL
+                    AND r.WGS84_LATITUDE IS NOT NULL~'
+              USING v_run_id;
+              COMMIT;
+          END IF;
+
+          EXECUTE IMMEDIATE q'~
+              SELECT COUNT(DISTINCT CLUSTER_ID)
+              FROM TREE_KMEANS_RESULTS WHERE RUN_ID = :run_id~'
+          INTO v_actual_clusters USING v_run_id;
+          EXECUTE IMMEDIATE q'~
+              SELECT JSON_ARRAYAGG(
+                         JSON_OBJECT(
+                             'cluster_id' VALUE CLUSTER_ID,
+                             'tree_count' VALUE N,
+                             'min_tree_age' VALUE MIN_AGE,
+                             'mean_tree_age' VALUE MEAN_AGE,
+                             'max_tree_age' VALUE MAX_AGE,
+                             'most_common_diameter_class' VALUE MODE_DIAMETER
+                             RETURNING CLOB
+                         ) ORDER BY CLUSTER_ID RETURNING CLOB)
+              FROM (
+                  SELECT CLUSTER_ID, COUNT(*) N,
+                         MIN(TREE_AGE) MIN_AGE,
+                         ROUND(AVG(TREE_AGE), 2) MEAN_AGE,
+                         MAX(TREE_AGE) MAX_AGE,
+                         STATS_MODE(TRUNK_DIAMETER) MODE_DIAMETER
+                  FROM TREE_KMEANS_RESULTS
+                  WHERE RUN_ID = :run_id
+                  GROUP BY CLUSTER_ID
+              )~'
+          INTO v_cluster_summary USING v_run_id;
+          SELECT JSON_OBJECT(
+              'status' VALUE 'success',
+              'run_id' VALUE v_run_id,
+              'species' VALUE v_species,
+              'requested_clusters' VALUE v_clusters,
+              'actual_clusters' VALUE v_actual_clusters,
+              'scored_trees' VALUE v_scored_count,
+              'mapped_trees' VALUE v_mappable_count,
+              'cache_reused' VALUE v_reused,
+              'cluster_profiles' VALUE v_cluster_summary FORMAT JSON,
+              'interpretation' VALUE
+                  'Groups are based on recorded age and diameter class; they do not diagnose health or imply geographic continuity.'
+              RETURNING CLOB
+          ) INTO v_response FROM dual;
+          RETURN v_response;
+      END tree_kmeans_agent_fn;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 3. Tool, task, and worker
+
+      No separate team is created. The task calls the tool once and uses the
+      saved map rows from its returned RUN_ID. The test notebook contains the
+      direct RUN_TOOL and team checks.
+    languageId: markdown
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_KMEANS_TOOL', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_KMEANS_TOOL',
+              attributes => q'~{
+                  "function":"TREE_KMEANS_AGENT_FN",
+                  "instruction":"Group Quercus robur tree records by recorded age and trunk-diameter class. Save the scores and map points; return measured counts and RUN_ID. Groups are not health diagnoses.",
+                  "tool_inputs":[
+                      {"name":"p_species","description":"Optional species. This pilot accepts Quercus robur only; null uses Quercus robur."},
+                      {"name":"p_clusters","description":"Optional whole number from 2 to 8. Null uses 3."},
+                      {"name":"p_force_refresh","description":"Y rebuilds even when the source signature matches; otherwise N."}
+                  ]
+              }~',
+              description => 'Saves and reuses Quercus robur K-means tree clusters.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- DBMS_CLOUD_AI_AGENT.CREATE_TASK: TREE_KMEANS_TASK
+
+      DECLARE
+          v_instruction VARCHAR2(4000) := q'|
+      Answer the user's tree-grouping question: {query}
+
+      1. This pilot supports Quercus robur in BOMEN_TREES only.
+
+      2. Call TREE_KMEANS_TOOL exactly once for a supported request.
+
+      3. Use the requested cluster count, or null for three groups.
+
+      4. Rebuild only when requested; otherwise pass N.
+
+      5. Report measured group sizes, scored/mapped counts, and RUN_ID.
+
+      6. Do not describe clusters as unhealthy trees, anomaly flags, or
+         necessarily neighbouring locations.
+      7. The tool saves GeoJSON points for the map. Do not claim that the
+         browser rendered them unless the application confirms it.
+      |';
+          v_attributes CLOB;
+      BEGIN
+          SELECT JSON_OBJECT(
+              'instruction' VALUE v_instruction,
+              'tools' VALUE JSON_ARRAY('TREE_KMEANS_TOOL') FORMAT JSON
+              RETURNING CLOB
+          ) INTO v_attributes FROM dual;
+          DBMS_CLOUD_AI_AGENT.DROP_TASK('TREE_KMEANS_TASK', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TASK(
+              task_name => 'TREE_KMEANS_TASK',
+              attributes => v_attributes,
+              description => 'Groups Quercus robur trees by recorded age and diameter class.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_KMEANS_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_KMEANS_AGENT',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You are the tree K-means worker. Follow TREE_KMEANS_TASK. Report measured cluster sizes and RUN_ID, and avoid health claims."
+              }~',
+              description => 'Tree K-means clustering worker.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 4. Extend the existing supervised team
+
+      Run after all four worker agents and their tasks exist. This is the only
+      team rebuild in these new notebooks. It does not drop saved results or
+      create another Ask Oracle team.
+    languageId: markdown
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TEAM('TREE_DENSITY_MAP_TEAM', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT(
+              'TREE_DENSITY_SUPERVISOR', force => TRUE
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_DENSITY_SUPERVISOR',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You supervise one Den Haag tree team. Route a request to the relevant worker: TREE_DISCOVERY_AGENT for an open-ended inspection of approved datasets; TREE_DENSITY_AGENT for neighbourhood tree density or green-area questions; TREE_ANOMALY_AGENT for Quercus robur one-class SVM review; TREE_KMEANS_AGENT for Quercus robur grouping by recorded age and trunk-diameter class. Ask a focused clarification when the requested analysis is unclear. For greetings, give brief examples of these four supported requests. Use measured tool results only. A discovery candidate or model group is not a health diagnosis. Do not claim the browser map rendered unless the application confirms it. Use only the relevant worker for a single-topic request.",
+                  "supervisor":true
+              }~',
+              description => 'Routes discovery, density, anomaly, and K-means requests.'
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_TEAM(
+              team_name => 'TREE_DENSITY_MAP_TEAM',
+              attributes => q'~{
+                  "process":"sequential",
+                  "supervisor_agent":"TREE_DENSITY_SUPERVISOR",
+                  "agents":[
+                      {"name":"TREE_DISCOVERY_AGENT","task":"TREE_DISCOVERY_TASK"},
+                      {"name":"TREE_DENSITY_AGENT","task":"TREE_DENSITY_TASK"},
+                      {"name":"TREE_ANOMALY_AGENT","task":"TREE_ANOMALY_TASK"},
+                      {"name":"TREE_KMEANS_AGENT","task":"TREE_KMEANS_TASK"}
+                  ]
+              }~',
+              description => 'One supervised tree team with four specialist workers.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:01.380
+    languageId: oracle-sql

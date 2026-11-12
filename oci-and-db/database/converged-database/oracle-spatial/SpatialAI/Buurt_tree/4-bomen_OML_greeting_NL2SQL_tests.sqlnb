@@ -1,0 +1,169 @@
+cells:
+  - kind: 1
+    value: |
+      # Greeting and NL2SQL tests — run one at a time
+
+      Run the definition cells in 4-bomen_OML_greeting_NL2SQL.sqlnb first.
+      These tests are separate from the implementation. Expected behaviour is
+      described here; this notebook has not run against your Oracle database.
+
+      The greeting should be fixed and include the 26 BOMEN_TREES columns,
+      eight GEZOND_GREEN_NEIGHBOURHOOD columns, and sample questions with
+      table/view and column names. NL2SQL should query only available approved
+      objects. The supervisor should still route new density, SVM, and K-means
+      calculations to their existing workers.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Fixed greeting
+
+      The direct function should return valid JSON with column_count 26 and 8.
+      RUN_TOOL should return the same fixed content through the agent tool.
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT JSON_VALUE(tree_greeting_fn(),
+                        '$.original_datasets[0].column_count') AS TREE_COLUMNS,
+             JSON_VALUE(tree_greeting_fn(),
+                        '$.original_datasets[1].column_count') AS NEIGHBOURHOOD_COLUMNS,
+             JSON_VALUE(tree_greeting_fn(),
+                        '$.original_datasets[0].table') AS TREE_TABLE,
+             JSON_VALUE(tree_greeting_fn(),
+                        '$.original_datasets[1].table') AS NEIGHBOURHOOD_TABLE
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_GREETING_TOOL',
+                 input => '{}'
+             ) AS GREETING_TOOL_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. NL2SQL context and missing objects
+
+      The first context call should list available approved objects. The
+      second should confirm an existing source table. The third should report
+      an unsupported made-up object without inventing data. If an actual
+      supported result object is missing, context should point to its worker.
+      No source/result table is created by these calls.
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_SQL_CONTEXT_TOOL',
+                 input => '{"P_OBJECT_NAME":null}'
+             ) AS CONTEXT_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_SQL_CONTEXT_TOOL',
+                 input => '{"P_OBJECT_NAME":"BOMEN_TREES"}'
+             ) AS CONTEXT_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Use an intentionally nonexistent name. It should say exists=false
+      -- and outside the approved tree-project SQL scope.
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_SQL_CONTEXT_TOOL',
+                 input => '{"P_OBJECT_NAME":"TREE_KMEANS_MISSING_V"}'
+             ) AS CONTEXT_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Verify the separate SQL profile exists; existing tree and district
+      -- profile names are not dropped by the new notebook.
+      SELECT profile_name
+      FROM user_cloud_ai_profiles
+      WHERE profile_name IN (
+          'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',
+          'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',
+          'OCI_GROK_4_3_REDISTRICT_PROFILE'
+      )
+      ORDER BY profile_name;
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 3. Ask Oracle routing checks
+
+      Run each prompt in Ask Oracle with TREE_DENSITY_MAP_TEAM selected. Record
+      the actual answer and tool history. A greeting should use the greeting
+      worker. A factual question should use the SQL worker; a new model run
+      should use its specialist worker. The last two prompts check that saved
+      results can be combined only with explicit run filters.
+    languageId: markdown
+  - kind: 2
+    value: |
+      -- Prompt 1 (greeting; expected TREE_GREETING_AGENT):
+      -- Hi. What original datasets and columns are available, and what
+      -- example questions can I ask? Include the table/view and columns used.
+      -- Expected: BOMEN_TREES (26 columns) and
+      -- GEZOND_GREEN_NEIGHBOURHOOD (8 columns), then examples.
+      SELECT DBMS_CLOUD_AI_AGENT.DESCRIBE_TEAM(
+                 team_name => 'TREE_DENSITY_MAP_TEAM'
+             ) AS TEAM_DESCRIPTION
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Prompt 2 (factual; expected TREE_NL2SQL_AGENT):
+      -- How many Quercus robur tree records are in BOMEN_TREES?
+      -- Check the SQL tool history and compare the answer with this query.
+      SELECT COUNT(*) AS QUERCUS_ROBUR_RECORDS
+      FROM BOMEN_TREES
+      WHERE SRT_WETENS = 'Quercus robur';
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Prompt 3 (missing object; expected TREE_NL2SQL_AGENT):
+      -- Is TREE_KMEANS_MISSING_V available? If not, what should I run?
+      -- Expected: absent and outside scope; no SQL on that view.
+      SELECT COUNT(*) AS EXISTS_NOW
+      FROM user_objects
+      WHERE object_name = 'TREE_KMEANS_MISSING_V'
+        AND object_type IN ('TABLE','VIEW');
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Prompt 4 (new model run; expected TREE_KMEANS_AGENT):
+      -- Group Quercus robur trees into three K-means clusters by age and
+      -- trunk-diameter class, and show them on the map.
+      -- Expected: new or reused K-means RUN_ID and saved map points.
+      -- Prompt 5 (saved result query; expected TREE_NL2SQL_AGENT):
+      -- For the latest K-means run, how many trees are in each cluster?
+      -- Prompt 6 (new anomaly run; expected TREE_ANOMALY_AGENT):
+      -- Run the Quercus robur SVM anomaly check and show flagged trees.
+      -- Prompt 7 (saved result join; expected TREE_NL2SQL_AGENT):
+      -- In the latest saved SVM run and latest saved K-means run, how many
+      -- flagged trees are in each cluster? Use one RUN_ID from each result.
+      SELECT 'Run prompts 4–7 in Ask Oracle; inspect the worker and RUN_IDs.'
+             AS TEST_INSTRUCTION
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 4. Independent join check for prompt 7
+
+      Replace both RUN_IDs with those actually returned by the workers.
+      The query counts only SVM-flagged trees that were also scored by the
+      selected K-means run. Do not mix rows from earlier runs.
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT k.CLUSTER_ID, COUNT(*) AS FLAGGED_TREES
+      FROM TREE_KMEANS_RESULTS_V k
+      JOIN TREE_ANOMALY_RESULTS_V a
+        ON a.SOURCE_RECORD_ID = k.SOURCE_RECORD_ID
+      WHERE k.RUN_ID = 'PASTE_KMEANS_RUN_ID_HERE'
+        AND a.RUN_ID = 'PASTE_SVM_RUN_ID_HERE'
+        AND a.ANOMALY_FLAG = 1
+      GROUP BY k.CLUSTER_ID
+      ORDER BY k.CLUSTER_ID;
+    languageId: oracle-sql
