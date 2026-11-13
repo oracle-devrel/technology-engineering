@@ -19,7 +19,7 @@ cryptography==44.0.3
 cyclopts==3.24.0
 dataclasses-json==0.6.7
 dill==0.4.0
-dnspython==2.8.0
+dnspython==2.9.2
 docstring_parser==0.17.0
 docutils==0.22
 email-validator==2.3.0
