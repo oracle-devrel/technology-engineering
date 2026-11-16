@@ -1,0 +1,15 @@
+{
+  "name": "DOCUMENT_SEARCH",
+  "method": "POST",
+  "url": "https://inference.generativeai.<region>.oci.oraclecloud.com/20231130/openai/v1/vector_stores/<vector_store_id>/search",
+  "headers": {
+    "Authorization": "Bearer {{credential}}",
+    "opc-compartment-id": "<compartment_ocid>",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "query": "{{query}}",
+    "max_num_results": 5
+  },
+  "description": "Find relevant passages in the configured document store for a user's question. Returns matching text passages and filenames; it does not write the final answer."
+}
