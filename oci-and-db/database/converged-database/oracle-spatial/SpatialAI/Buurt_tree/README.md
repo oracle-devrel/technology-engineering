@@ -1,5 +1,5 @@
 # Oracle Spatial and AI Agents Getting Started - Den Haag Trees and Neighbourhoods
-Use this asset as a reference for exploring Den Haag tree and green-neighbourhood data with Oracle Spatial, Select AI Agents, and Oracle Machine Learning (OML) in Oracle AI Database. The notebooks define SQL functions, procedures, tools, tasks, agents, and teams for natural-language analysis. Reviewed: 2026.11.04
+Use this asset as a reference for exploring Den Haag tree and green-neighbourhood data with Oracle Spatial, Select AI Agents, and Oracle Machine Learning (OML) in Oracle AI Database. The notebooks define SQL functions, procedures, tools, tasks, agents, and teams for natural-language analysis. Reviewed: 2026.11.16
 
 ## When to use this asset?
 
