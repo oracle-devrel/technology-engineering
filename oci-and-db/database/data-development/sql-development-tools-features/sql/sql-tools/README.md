@@ -8,7 +8,9 @@ An additional managed offering in Oracle Cloud Infrastructure (OCI) called <b>Or
 You establish the connection and then access your database resources via web-based SQL Worksheet or use the SQLcl connection via OCI Cloud Shell.
 Security is preserved as passwords and ADB credentials are securely stored and encrypted in OCI Vault resource.
 
-Reviewed: 05.11.2026
+In the <b>files</b> subfolder you can find short useful videos on how to interact with SQL Development tools, like FreeSQL and Visual Studio Code integration and others. 
+
+Reviewed: 13.11.2026
 
 # Table of Contents
 
@@ -28,13 +30,14 @@ Reviewed: 05.11.2026
 
 - SQL and ADB - [Oracle ADB ADMIN is not a SYSDBA..not even a DBA](https://medium.com/@paulbrad71/oracle-adb-admin-is-not-a-sysdba-not-even-a-dba-50bc6f2bbb33) - Published on [Medium](http://www.medium.com) on 14th April 2025.
 
+
 # Useful Links
 
 ## Public Oracle SQL Tools
 
 Explore a variety of Oracle SQL tools to streamline your database management tasks:
 
-- **Learn and share SQL**: the new [Livesql Portal](https://livesql.oracle.com/landing/) including Scripts, Tutorials, Tips and a Live SQL Developer Web environment to quickly get hands on practice. You can start coding straight away or access the useful Scripts and Tutorial Library section from the landing page.
+- **Learn and share SQL**: the new [Oracle FreeSQL.com](http://freesql.com) Public Web-based SQL Development IDE portal for public access and SQL Tutorials. From 19c to 26ai database connections, SQL Worksheet SQL and PL/SQL execution capabilities and schema objects browsing, together with integrated Database Connections via SQL Developer for VS Code, sqlcl and NodeJS. You can quickly get hands on practice. You can start coding straight away or access the useful Scripts and Tutorial Library section from the landing page.
 
 - **SQL Developer**: Oracle SQL Developer provides a powerful integrated development environment (IDE) for Oracle Database. Discover its features and functionalities to optimize your SQL workflow.
 
@@ -74,9 +77,6 @@ Explore a variety of Oracle SQL tools to streamline your database management tas
 
 - [Database For Developers: Next Level](https://devgym.oracle.com/pls/apex/dg/class/databases-for-developers-next-level.html)
     - Complete the course to get your free certificate. This course continues where Databases for Developers: Foundations left off, taking you further on your SQL journey. The class consists of a series of videos introducing concepts, interactive coding sections, and quizzes to test your understanding.
-
-- [Oracle FreeSQL.com](http://freesql.com) 
-    - Public Web-based SQL Development IDE portal for public access and SQL Tutorials. From 19c to 26ai database connections, SQL Worksheet SQL and PL/SQL execution capabilities and schema objects browsing, together with integrated Database Connections via SQL Developer for VS Code, sqlcl and NodeJS. 
  
 
 ## SQL Best Practices
