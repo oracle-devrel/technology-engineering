@@ -2,7 +2,7 @@
 
 Oracle GoldenGate is a comprehensive software package for enabling the replication of data in heterogeneous data environments. The product set enables high-availability solutions, real-time data integration, transactional change data capture, data replication, transformations, and verification between operational and analytical enterprise systems.
 
-Reviewed: 04.06.2026
+Reviewed: 17.11.2026
 
 # Table of Contents
  
@@ -10,7 +10,9 @@ Reviewed: 04.06.2026
 2. [Useful Links](#useful-links)
  
 # Team Publications
-
+- [GoldenGate 26ai AUTOSCHEMA: Automating Heterogeneous Database Instantiation and Replication from MySQL to Oracle](https://blogs.oracle.com/dataintegration/goldengate-26ai-autoschema-automating-heterogeneous-database-instantiation-and-replication-from-mysql-to-oracle)
+    - A practical MySQL-to-Oracle example of GoldenGate 26ai AUTOSCHEMA, covering automatic table creation, controlled recreation, custom datatype mappings, and the transition from initial load to CDC..
+      
 - [Integrating Oracle GoldenGate for DAA 26ai with RabbitMQ Using JMS](https://blogs.oracle.com/dataintegration/integrating-oracle-goldengate-for-daa-26ai-with-rabbitmq-using-jms)
     - A practical, lab-tested guide to publishing Oracle Database changes to RabbitMQ with Oracle GoldenGate for Distributed Applications and Analytics (Oracle GoldenGate for DAA) 26ai and the standard JMS Handler.
 
