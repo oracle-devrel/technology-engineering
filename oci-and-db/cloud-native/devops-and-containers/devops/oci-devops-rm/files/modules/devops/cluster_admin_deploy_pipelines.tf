@@ -2,10 +2,10 @@ resource "oci_devops_deploy_pipeline" "cluster_admin" {
   for_each = local.cluster_admin_clusters
 
   project_id   = local.devops_project_id
-  display_name = "cluster-admin-${each.key}"
-  description  = "Applies the cluster baseline and Kubernetes tool DAG to the ${each.key} OKE cluster"
+  display_name = "cluster-admin-${each.value.name}"
+  description  = "Applies the cluster baseline and Kubernetes tool DAG to the ${each.value.name} OKE cluster"
   freeform_tags = merge(local.cluster_admin_tags, {
-    cluster = each.key
+    cluster = each.value.name
     role    = "cluster-pipeline"
   })
 
@@ -24,7 +24,7 @@ resource "oci_devops_deploy_pipeline" "cluster_admin" {
 
     items {
       name          = "cluster_name"
-      default_value = each.key
+      default_value = each.value.name
       description   = "Cluster configuration directory name"
     }
 
@@ -39,10 +39,10 @@ resource "oci_devops_deploy_pipeline" "cluster_admin_decommission" {
   for_each = local.cluster_admin_clusters
 
   project_id   = local.devops_project_id
-  display_name = "cluster-admin-${each.key}-decommission"
-  description  = "Manually uninstalls one cluster tool from the ${each.key} OKE cluster"
+  display_name = "cluster-admin-${each.value.name}-decommission"
+  description  = "Manually uninstalls one cluster tool from the ${each.value.name} OKE cluster"
   freeform_tags = merge(local.cluster_admin_tags, {
-    cluster = each.key
+    cluster = each.value.name
     role    = "decommission-pipeline"
   })
 
@@ -74,10 +74,10 @@ resource "oci_devops_deploy_stage" "cluster_admin_approval" {
 
   deploy_pipeline_id = oci_devops_deploy_pipeline.cluster_admin[each.key].id
   deploy_stage_type  = "MANUAL_APPROVAL"
-  description        = "Approve cluster administration changes for the ${each.key} OKE cluster"
-  display_name       = "Approve ${title(each.key)} Cluster Changes"
+  description        = "Approve cluster administration changes for the ${each.value.name} OKE cluster"
+  display_name       = "Approve ${title(each.value.name)} Cluster Changes"
   freeform_tags = merge(local.cluster_admin_tags, {
-    cluster = each.key
+    cluster = each.value.name
     role    = "approval"
   })
 
@@ -98,11 +98,11 @@ resource "oci_devops_deploy_stage" "cluster_admin_orchestrator" {
   command_spec_deploy_artifact_id = oci_devops_deploy_artifact.cluster_admin_deploy_command["enabled"].id
   deploy_pipeline_id              = oci_devops_deploy_pipeline.cluster_admin[each.key].id
   deploy_stage_type               = "SHELL"
-  description                     = "Deploy the selected cluster administration change plan to ${each.key}"
-  display_name                    = "Deploy ${title(each.key)} Cluster Changes"
+  description                     = "Deploy the selected cluster administration change plan to ${each.value.name}"
+  display_name                    = "Deploy ${title(each.value.name)} Cluster Changes"
   timeout_in_seconds              = 10000
   freeform_tags = merge(local.cluster_admin_tags, {
-    cluster = each.key
+    cluster = each.value.name
     role    = "cluster-orchestrator"
   })
 
@@ -154,10 +154,10 @@ resource "oci_devops_deploy_stage" "cluster_admin_decommission_approval" {
 
   deploy_pipeline_id = oci_devops_deploy_pipeline.cluster_admin_decommission[each.key].id
   deploy_stage_type  = "MANUAL_APPROVAL"
-  description        = "Approve explicit removal of a tool from the ${each.key} OKE cluster"
-  display_name       = "Approve ${title(each.key)} Tool Decommission"
+  description        = "Approve explicit removal of a tool from the ${each.value.name} OKE cluster"
+  display_name       = "Approve ${title(each.value.name)} Tool Decommission"
   freeform_tags = merge(local.cluster_admin_tags, {
-    cluster = each.key
+    cluster = each.value.name
     role    = "decommission-approval"
   })
 
@@ -178,11 +178,11 @@ resource "oci_devops_deploy_stage" "cluster_admin_decommission" {
   command_spec_deploy_artifact_id = oci_devops_deploy_artifact.cluster_admin_decommission_command["enabled"].id
   deploy_pipeline_id              = oci_devops_deploy_pipeline.cluster_admin_decommission[each.key].id
   deploy_stage_type               = "SHELL"
-  description                     = "Delete supplemental resources and uninstall one Helm release from ${each.key}"
-  display_name                    = "Decommission ${title(each.key)} Tool"
+  description                     = "Delete supplemental resources and uninstall one Helm release from ${each.value.name}"
+  display_name                    = "Decommission ${title(each.value.name)} Tool"
   timeout_in_seconds              = 1200
   freeform_tags = merge(local.cluster_admin_tags, {
-    cluster = each.key
+    cluster = each.value.name
     role    = "decommission"
   })
 

@@ -3,13 +3,20 @@
 The repository includes a portable skill that helps users operate the OKE
 DevOps Starter. It covers application PR validation, immutable builds, release
 promotion, application bootstrap, cluster-tool administration, deployment
-verification, rollback, and troubleshooting.
+verification, rollback, and troubleshooting. Cluster-tool guidance includes
+optional per-target container image mirroring, additional images, immutable OCIR
+mapping reports, and the explicit values and pull-authentication setup required
+for air-gapped clusters.
 
 The skill follows the Agent Skills `SKILL.md` convention. Any AI agent that can
 load that format can use it. For agents without automatic skill discovery, add
 the extracted directory or its `SKILL.md` to the task context.
 
 ## Download
+
+Every new `oci-devops-rm-*` release includes `oke-devops-starter.zip` as a
+separate downloadable asset, built automatically from that release's tagged
+source. Use the skill from the same release as your stack.
 
 Download [oke-devops-starter.zip](../downloads/oke-devops-starter.zip).
 The archive contains one self-contained `oke-devops-starter` directory.

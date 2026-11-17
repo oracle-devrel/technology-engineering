@@ -1,0 +1,886 @@
+cells:
+  - kind: 1
+    value: >
+      # Tree density Agent — simplified
+
+
+      This notebook defines only two database routines: one setup procedure and
+      one Agent-callable calculation function. The calculation function runs
+      setup itself, so the user never creates the results table or views
+      manually.
+
+
+      Prerequisites: the translated physical tables BOMEN_TREES and
+      GEZOND_GREEN_NEIGHBOURHOOD already exist. Their creation is a separate
+      source-loading workflow. This notebook does not drop existing density
+      results or modify Ask Oracle APEX code.
+
+
+      Run the cells in order. This tree dataset covers Den Haag (GM0518), which
+      is used when no municipality is named. Other municipalities are rejected
+      rather than reported with misleading zero-tree counts. Omitting the green
+      threshold means all Den Haag neighbourhoods with geometry.
+    languageId: markdown
+  - kind: 1
+    value: >
+      ## 1. Setup procedure
+
+
+      Creates TREE_DENSITY_RESULTS if absent. Creates or repairs BOMEN_TREES_V,
+      GEZOND_GREEN_NEIGHBOURHOOD_V, and TREE_DENSITY_RESULTS_V only when needed.
+      The views exclude SDO_GEOMETRY; the results table retains it for maps.
+      Existing run rows are preserved.
+    languageId: markdown
+  - kind: 2
+    value: "DROP VIEW IF EXISTS TREE_DENSITY_RESULTS_V;\r
+
+      DROP TABLE IF EXISTS TREE_DENSITY_RESULTS;"
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      
+      -- prepare_tree_density_storage creates TREE_DENSITY_RESULTS if absent and
+      creates or 
+
+      -- repairs three nonspatial views: BOMEN_TREES_V,
+      GEZOND_GREEN_NEIGHBOURHOOD_V, and
+
+      -- TREE_DENSITY_RESULTS_V. It requires the two source tables to exist; it
+      does not 
+
+      -- calculate density.
+
+
+
+
+      CREATE OR REPLACE PROCEDURE prepare_tree_density_storage AS
+          v_count NUMBER;
+
+          PROCEDURE ensure_nonspatial_view(p_table_name IN VARCHAR2) AS
+              v_view_name VARCHAR2(128) := p_table_name || '_V';
+              v_columns   VARCHAR2(32767);
+              v_exists    NUMBER;
+          BEGIN
+              -- This local helper accepts only the three known tables.
+              IF p_table_name NOT IN (
+                  'BOMEN_TREES',
+                  'GEZOND_GREEN_NEIGHBOURHOOD',
+                  'TREE_DENSITY_RESULTS'
+              ) THEN
+                  RAISE_APPLICATION_ERROR(-20020, 'Unsupported view source.');
+              END IF;
+
+              SELECT COUNT(*) INTO v_exists
+              FROM user_tables
+              WHERE table_name = p_table_name;
+
+              IF v_exists = 0 THEN
+                  RAISE_APPLICATION_ERROR(-20021,
+                      'Required table is missing: ' || p_table_name);
+              END IF;
+
+              SELECT COUNT(*) INTO v_exists
+              FROM user_objects o
+              WHERE o.object_name = v_view_name
+                AND o.object_type = 'VIEW'
+                AND o.status = 'VALID'
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM user_tab_columns c
+                    WHERE c.table_name = v_view_name
+                      AND c.data_type = 'SDO_GEOMETRY'
+                );
+
+              IF v_exists > 0 THEN
+                  RETURN;
+              END IF;
+
+              FOR c IN (
+                  SELECT column_name
+                  FROM user_tab_columns
+                  WHERE table_name = p_table_name
+                    AND NOT (
+                        data_type = 'SDO_GEOMETRY'
+                        AND data_type_owner = 'MDSYS'
+                    )
+                  ORDER BY column_id
+              ) LOOP
+                  IF v_columns IS NOT NULL THEN
+                      v_columns := v_columns || ', ';
+                  END IF;
+                  v_columns := v_columns ||
+                      't."' || REPLACE(c.column_name, '"', '""') || '"';
+              END LOOP;
+
+              IF v_columns IS NULL THEN
+                  RAISE_APPLICATION_ERROR(-20022,
+                      'No nonspatial columns: ' || p_table_name);
+              END IF;
+
+              EXECUTE IMMEDIATE
+                  'CREATE OR REPLACE VIEW "' || v_view_name ||
+                  '" AS SELECT ' || v_columns ||
+                  ' FROM "' || p_table_name || '" t';
+          END ensure_nonspatial_view;
+      BEGIN
+          -- The translated physical source tables must already exist.
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables
+          WHERE table_name IN (
+              'BOMEN_TREES', 'GEZOND_GREEN_NEIGHBOURHOOD'
+          );
+
+          IF v_count <> 2 THEN
+              RAISE_APPLICATION_ERROR(-20023,
+                  'Translated source tables are missing. Load them first.');
+          END IF;
+
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables
+          WHERE table_name = 'TREE_DENSITY_RESULTS';
+
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_DENSITY_RESULTS (
+                      RUN_ID             VARCHAR2(32) NOT NULL,
+                      NEIGHBOURHOOD_ID   NUMBER NOT NULL,
+                      NEIGHBORHOOD_NAME  VARCHAR2(254 CHAR),
+                      MUNICIPALITY_CODE  VARCHAR2(30 CHAR),
+                      DATA_YEAR          VARCHAR2(30 CHAR),
+                      GREEN_THRESHOLD    NUMBER,
+                      GREEN_PERCENTAGE   NUMBER,
+                      TREE_COUNT         NUMBER,
+                      AREA_SQ_KM         NUMBER,
+                      TREES_PER_SQ_KM    NUMBER,
+                      GEOMETRY           MDSYS.SDO_GEOMETRY,
+                      CREATED_AT         TIMESTAMP DEFAULT SYSTIMESTAMP,
+                      CONSTRAINT TREE_DENSITY_RESULTS_PK
+                          PRIMARY KEY (RUN_ID, NEIGHBOURHOOD_ID)
+                  )~';
+          END IF;
+
+          ensure_nonspatial_view('BOMEN_TREES');
+          ensure_nonspatial_view('GEZOND_GREEN_NEIGHBOURHOOD');
+          ensure_nonspatial_view('TREE_DENSITY_RESULTS');
+      END prepare_tree_density_storage;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: >
+      ## 2. Calculation function
+
+
+      This is the only function exposed as an Agent tool. It first calls the
+      setup procedure, then inserts one saved run and returns measured values
+      plus the five highest-density neighbourhoods. Dynamic SQL for the result
+      table lets the function remain compilable when that table has been dropped
+      and needs recreation.
+    languageId: markdown
+  - kind: 2
+    value: "-- tree_density_agent_fn is the calculation tool. It calls the setup
+      procedure, \r
+
+      -- counts trees inside each qualifying neighbourhood polygon, calculates
+      trees per km², \r
+
+      -- and saves the results and polygons in TREE_DENSITY_RESULTS under a new
+      RUN_ID. \r
+
+      -- It returns a JSON summary; p_map_scope tells the app which saved
+      polygons to display.\r
+
+      \r
+
+      -- RUN_ID is the unique ID for one calculation. It keeps results from
+      different questions—such \r
+
+      -- as under 30% and under 50% green area—separate, so the answer and map
+      use the correct saved\r
+
+      --  polygons.\r
+
+      \r
+
+      CREATE OR REPLACE FUNCTION tree_density_agent_fn (\r
+
+      \    p_municipality    IN VARCHAR2 DEFAULT NULL,\r
+
+      \    p_green_threshold IN NUMBER   DEFAULT NULL,\r
+
+      \    p_map_scope       IN VARCHAR2 DEFAULT NULL\r
+
+      ) RETURN CLOB AS\r
+
+      \    PRAGMA AUTONOMOUS_TRANSACTION;\r
+
+      \r
+
+      \    v_requested       VARCHAR2(254);\r
+
+      \    v_code            VARCHAR2(30);\r
+
+      \    v_matches         NUMBER;\r
+
+      \    v_year            VARCHAR2(30);\r
+
+      \    v_run_id          VARCHAR2(32);\r
+
+      \    v_count           NUMBER;\r
+
+      \    v_total_trees     NUMBER;\r
+
+      \    v_highest_density NUMBER;\r
+
+      \    v_top_five        CLOB;\r
+
+      \    v_result          CLOB;\r
+
+      \    v_map_scope       VARCHAR2(10);\r
+
+      BEGIN\r
+
+      \    -- The function creates missing result storage before calculating.\r
+
+      \    prepare_tree_density_storage;\r
+
+      \r
+
+      \    v_map_scope := NVL(UPPER(TRIM(p_map_scope)), 'NONE');\r
+
+      \r
+
+      \    IF v_map_scope NOT IN ('TOP_1', 'TOP_5', 'ALL', 'NONE') THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20035, 'Invalid map scope.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    IF p_green_threshold IS NOT NULL AND\r
+
+      \       (p_green_threshold < 0 OR p_green_threshold > 100) THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20030,\r
+
+      \            'Green-area threshold must be between 0 and 100.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    v_requested := UPPER(TRIM(p_municipality));\r
+
+      \r
+
+      \    IF v_requested IS NOT NULL AND v_requested NOT IN (\r
+
+      \        'GM0518', 'DEN HAAG', 'THE HAGUE',\r
+
+      \        'S-GRAVENHAGE', '''S-GRAVENHAGE'\r
+
+      \    ) THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20031,\r
+
+      \            'This tree-density dataset supports Den Haag only.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    v_code := 'GM0518';\r
+
+      \r
+
+      \    SELECT COUNT(*) INTO v_matches\r
+
+      \    FROM GEZOND_GREEN_NEIGHBOURHOOD\r
+
+      \    WHERE MUNICIPALITY_CODE = v_code;\r
+
+      \r
+
+      \    IF v_matches = 0 THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20034,\r
+
+      \            'Den Haag neighbourhoods are missing from the source
+      table.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    SELECT MAX(YEAR) INTO v_year\r
+
+      \    FROM GEZOND_GREEN_NEIGHBOURHOOD\r
+
+      \    WHERE MUNICIPALITY_CODE = v_code;\r
+
+      \r
+
+      \    IF v_year IS NULL THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20032,\r
+
+      \            'No neighbourhood year for municipality ' || v_code);\r
+
+      \    END IF;\r
+
+      \r
+
+      \    v_run_id := RAWTOHEX(SYS_GUID());\r
+
+      \r
+
+      \    -- Save every qualifying polygon for this run. The map scope below\r
+
+      \    -- controls which saved rows GET_RESPONSE will display.\r
+
+      \    EXECUTE IMMEDIATE q'~\r
+
+      \        INSERT INTO TREE_DENSITY_RESULTS (\r
+
+      \            RUN_ID, NEIGHBOURHOOD_ID, NEIGHBORHOOD_NAME,\r
+
+      \            MUNICIPALITY_CODE, DATA_YEAR, GREEN_THRESHOLD,\r
+
+      \            GREEN_PERCENTAGE, TREE_COUNT, AREA_SQ_KM,\r
+
+      \            TREES_PER_SQ_KM, GEOMETRY\r
+
+      \        )\r
+
+      \        WITH eligible AS (\r
+
+      \            SELECT n.ID,\r
+
+      \                   n.NEIGHBORHOOD_NAME,\r
+
+      \                   n.MUNICIPALITY_CODE,\r
+
+      \                   n.YEAR,\r
+
+      \                   n.PERCENTAGE,\r
+
+      \                   n.GEOMETRY,\r
+
+      \                   SDO_GEOM.SDO_AREA(\r
+
+      \                       n.GEOMETRY, 0.05, 'unit=SQ_KM'\r
+
+      \                   ) AS AREA_SQ_KM\r
+
+      \            FROM GEZOND_GREEN_NEIGHBOURHOOD n\r
+
+      \            WHERE n.MUNICIPALITY_CODE = :municipality_code\r
+
+      \              AND n.YEAR = :data_year\r
+
+      \              AND (:threshold_null IS NULL OR\r
+
+      \                   n.PERCENTAGE < :threshold_filter)\r
+
+      \              AND n.GEOMETRY IS NOT NULL\r
+
+      \        ), counted AS (\r
+
+      \            SELECT e.*,\r
+
+      \                   (SELECT COUNT(*)\r
+
+      \                    FROM BOMEN_TREES b\r
+
+      \                    WHERE SDO_RELATE(\r
+
+      \                        b.GEOMETRY, e.GEOMETRY, 'mask=INSIDE'\r
+
+      \                    ) = 'TRUE') AS TREE_COUNT\r
+
+      \            FROM eligible e\r
+
+      \        )\r
+
+      \        SELECT :run_id,\r
+
+      \               ID, NEIGHBORHOOD_NAME, MUNICIPALITY_CODE,\r
+
+      \               YEAR, :saved_threshold, PERCENTAGE,\r
+
+      \               TREE_COUNT, AREA_SQ_KM,\r
+
+      \               CASE WHEN AREA_SQ_KM > 0\r
+
+      \                    THEN ROUND(TREE_COUNT / AREA_SQ_KM, 2)\r
+
+      \               END,\r
+
+      \               GEOMETRY\r
+
+      \        FROM counted~'\r
+
+      \    USING v_code, v_year, p_green_threshold,\r
+
+      \          p_green_threshold, v_run_id, p_green_threshold;\r
+
+      \r
+
+      \    v_count := SQL%ROWCOUNT;\r
+
+      \r
+
+      \    IF v_count = 0 THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20033,\r
+
+      \            'No neighbourhoods matched this request.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    EXECUTE IMMEDIATE q'~\r
+
+      \        SELECT SUM(TREE_COUNT), MAX(TREES_PER_SQ_KM)\r
+
+      \        FROM TREE_DENSITY_RESULTS\r
+
+      \        WHERE RUN_ID = :run_id~'\r
+
+      \    INTO v_total_trees, v_highest_density\r
+
+      \    USING v_run_id;\r
+
+      \r
+
+      \    EXECUTE IMMEDIATE q'~\r
+
+      \        SELECT JSON_ARRAYAGG(\r
+
+      \                   JSON_OBJECT(\r
+
+      \                       'name' VALUE NEIGHBORHOOD_NAME,\r
+
+      \                       'trees_per_sq_km' VALUE TREES_PER_SQ_KM\r
+
+      \                       RETURNING CLOB\r
+
+      \                   )\r
+
+      \                   ORDER BY TREES_PER_SQ_KM DESC\r
+
+      \                   RETURNING CLOB\r
+
+      \               )\r
+
+      \        FROM (\r
+
+      \            SELECT NEIGHBORHOOD_NAME, TREES_PER_SQ_KM\r
+
+      \            FROM TREE_DENSITY_RESULTS\r
+
+      \            WHERE RUN_ID = :run_id\r
+
+      \            ORDER BY TREES_PER_SQ_KM DESC, NEIGHBOURHOOD_ID\r
+
+      \            FETCH FIRST 5 ROWS ONLY\r
+
+      \        )~'\r
+
+      \    INTO v_top_five\r
+
+      \    USING v_run_id;\r
+
+      \r
+
+      \    SELECT JSON_OBJECT(\r
+
+      \               'status' VALUE 'success',\r
+
+      \               'run_id' VALUE v_run_id,\r
+
+      \               'map_scope' VALUE v_map_scope,\r
+
+      \               'municipality_code' VALUE v_code,\r
+
+      \               'data_year' VALUE v_year,\r
+
+      \               'green_threshold' VALUE p_green_threshold,\r
+
+      \               'neighbourhood_count' VALUE v_count,\r
+
+      \               'total_trees' VALUE v_total_trees,\r
+
+      \               'highest_density' VALUE v_highest_density,\r
+
+      \               'top_five' VALUE v_top_five FORMAT JSON\r
+
+      \               RETURNING CLOB\r
+
+      \           )\r
+
+      \    INTO v_result\r
+
+      \    FROM dual;\r
+
+      \r
+
+      \    COMMIT;\r
+
+      \    RETURN v_result;\r
+
+      EXCEPTION\r
+
+      \    WHEN OTHERS THEN\r
+
+      \        ROLLBACK;\r
+
+      \        RAISE;\r
+
+      END tree_density_agent_fn;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 1
+    value: >
+      ## 3. Agent definitions
+
+
+      One tool invokes the calculation function. The function itself guarantees
+      setup before calculation. Reuse the existing team name so Ask Oracle does
+      not gain another density team. The supervisor routes density questions to
+      the worker. The task lists only questions supported by the returned
+      metrics; it must not claim that the map rendered.
+    languageId: markdown
+  - kind: 2
+    value: >
+      -- Replace only this density team's metadata. Saved result rows are
+      untouched.
+
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TEAM(
+              'TREE_DENSITY_MAP_TEAM', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT(
+              'TREE_DENSITY_SUPERVISOR', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT(
+              'TREE_DENSITY_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_TASK(
+              'TREE_DENSITY_TASK', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL(
+              'TREE_DENSITY_TOOL', force => TRUE);
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      \r
+
+      -- tool_inputs 're input parameters of tree_density_agent_fn, passed in by
+      TREE_DENSITY_TOOL\r
+
+      BEGIN\r
+
+      \    DBMS_CLOUD_AI_AGENT.DROP_TOOL(\r
+
+      \        'TREE_DENSITY_TOOL', force => TRUE\r
+
+      \    );\r
+
+      \r
+
+      \    DBMS_CLOUD_AI_AGENT.CREATE_TOOL(\r
+
+      \        tool_name => 'TREE_DENSITY_TOOL',\r
+
+      \        attributes => q'~{\r
+
+      \            \"function\": \"TREE_DENSITY_AGENT_FN\",\r
+
+      \            \"instruction\": \"Calculate and save Den Haag neighbourhood
+      tree density. Return the measured JSON result, including RUN_ID and
+      MAP_SCOPE. Use TOP_1 for the single highest-density neighbourhood, TOP_5
+      for the five highest, ALL when the user asks to show every qualifying
+      neighbourhood, and NONE for a counts-only question.\",\r
+
+      \            \"tool_inputs\": [\r
+
+      \                {\r
+
+      \                    \"name\": \"p_municipality\",\r
+
+      \                    \"description\": \"Optional Den Haag name or GM0518;
+      null defaults to Den Haag.\"\r
+
+      \                },\r
+
+      \                {\r
+
+      \                    \"name\": \"p_green_threshold\",\r
+
+      \                    \"description\": \"Optional green-area percentage
+      threshold; null means no threshold.\"\r
+
+      \                },\r
+
+      \                {\r
+
+      \                    \"name\": \"p_map_scope\",\r
+
+      \                    \"description\": \"TOP_1, TOP_5, ALL, or NONE. Select
+      according to the user's requested map result.\"\r
+
+      \                }\r
+
+      \            ]\r
+
+      \        }~',\r
+
+      \        description => 'Saves density polygons and returns the run ID and
+      requested map scope.'\r
+
+      \    );\r
+
+      END;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "BEGIN\r
+
+      \    DBMS_CLOUD_AI_AGENT.DROP_TASK(\r
+
+      \        'TREE_DENSITY_TASK', force => TRUE\r
+
+      \    );\r
+
+      END;\r
+
+      /\r
+
+      BEGIN\r
+
+      \    DBMS_CLOUD_AI_AGENT.CREATE_TASK(\r
+
+      \        task_name => 'TREE_DENSITY_TASK',\r
+
+      \        attributes =>\r
+
+      \            '{\"instruction\":\"' ||\r
+
+      \            q'|Answer the user's tree-density question: {query}\\n\\n|'
+      ||\r
+
+      \            q'|1. Call TREE_DENSITY_TOOL exactly once.\\n|' ||\r
+
+      \            q'|2. Pass the municipality when given; otherwise pass null.
+      Den Haag/GM0518 is the default.\\n|' ||\r
+
+      \            q'|3. Pass the stated green-area percentage; otherwise pass
+      null. Never assume 30%.\\n|' ||\r
+
+      \            q'|4. Set p_map_scope to match the neighbourhoods named in
+      the answer. Use ALL only when asked for every qualifying neighbourhood,
+      and NONE for counts-only questions. Say when a requested selection is
+      unsupported.\\n|' ||\r
+
+      \            q'|5. Report only measured values and neighbourhood names
+      returned by the tool.\\n|' ||\r
+
+      \            q'|6. The percentage filters green area, not tree
+      counts.\\n|' ||\r
+
+      \            q'|7. Do not claim the browser map rendered unless the
+      application confirms it.\\n|' ||\r
+
+      \            q'|8. This dataset supports Den Haag only.|' ||\r
+
+      \            '\",\"tools\":[\"TREE_DENSITY_TOOL\"]}',\r
+
+      \        description => 'Answers measured Den Haag tree-density
+      questions.'\r
+
+      \    );\r
+
+      END;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_DENSITY_AGENT',
+              attributes => q'~{
+                  "profile_name": "OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role": "You are the density worker. Follow TREE_DENSITY_TASK, call its tool once, and report only measured results."
+              }~',
+              description => 'Tree-density worker.'
+          );
+
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_DENSITY_SUPERVISOR',
+              attributes => q'~{
+                  "profile_name": "OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role": "You supervise the Den Haag tree-density team. For a greeting, briefly describe the supported density questions with examples. For a density request, delegate once to TREE_DENSITY_AGENT and return its measured answer. Do not invent a result or claim a map rendered. If the request is outside tree density, explain this team's scope.",
+                  "supervisor": true
+              }~',
+              description => 'Routes supported density requests to the worker.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.CREATE_TEAM(
+              team_name => 'TREE_DENSITY_MAP_TEAM',
+              attributes => q'~{
+                  "process": "sequential",
+                  "supervisor_agent": "TREE_DENSITY_SUPERVISOR",
+                  "agents": [
+                      {
+                          "name": "TREE_DENSITY_AGENT",
+                          "task": "TREE_DENSITY_TASK"
+                      }
+                  ]
+              }~',
+              description => 'One supervised tree-density team; no second map team.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: >
+      ## 4. Tests
+
+
+      Run these one at a time. They append new results; they do not drop the
+      results table. The first tool test should return JSON with a new RUN_ID, a
+      neighbourhood count, and top_five names. For Den Haag under 30% green
+      area, the earlier notebook observed 33 neighbourhoods, but live data
+      should be checked rather than assumed. The team test uses a new
+      conversation. Map rendering is not tested by this notebook.
+    languageId: markdown
+  - kind: 2
+    value: |+
+      -- Verify the tool and its automatic setup without manually creating tables/views.
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_DENSITY_TOOL',
+                 input     => '{"P_MUNICIPALITY":null,"P_GREEN_THRESHOLD":30}'
+             ) AS tool_result
+      FROM dual;
+      -- TOOL_RESULT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+      -- {"status":"success","result":"{\"status\":\"success\",\"run_id\":\"5EE510F02FE53AFFE063AB11000A1BBD\",\"municipality_code\":\"GM0518\",\"data_year\":\"2022\",\"green_threshold\":30,\"neighbourhood_count\":33,\"total_trees\":25186,\"highest_density\":3084.74,\"top_five\":[{\"name\":\"Transvaalkwartier-Midden\",\"trees_per_sq_km\":3084.74},{\"name\":\"Kerketuinen en Zichtenburg\",\"trees_per_sq_km\":2558.09},{\"name\":\"Transvaalkwartier-Noord\",\"trees_per_sq_km\":2306.46},{\"name\":\"Laakkwartier-Oost\",\"trees_per_sq_km\":2254.1},{\"name\":\"Schildersbuurt-Noord\",\"trees_per_sq_km\":2184.5}]}"} 
+
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Check that the Agent-created objects are valid.
+      SELECT object_name, object_type, status
+      FROM user_objects
+      WHERE object_name IN (
+          'TREE_DENSITY_RESULTS', 'TREE_DENSITY_RESULTS_V',
+          'BOMEN_TREES_V', 'GEZOND_GREEN_NEIGHBOURHOOD_V'
+      )
+      ORDER BY object_name;
+
+      -- OBJECT_NAME                  OBJECT_TYPE STATUS 
+      -- ---------------------------- ----------- ------ 
+      -- BOMEN_TREES_V                VIEW        VALID  
+      -- GEZOND_GREEN_NEIGHBOURHOOD_V VIEW        VALID  
+      -- TREE_DENSITY_RESULTS         TABLE       VALID  
+      -- TREE_DENSITY_RESULTS_V       VIEW        VALID  
+
+
+      -- Elapsed: 00:00:00.002
+      -- 4 rows selected.
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Check the latest saved run, including geometry retained in the table.
+      SELECT RUN_ID,
+             COUNT(*) AS NEIGHBOURHOODS,
+             COUNT(DISTINCT NEIGHBOURHOOD_ID) AS UNIQUE_NEIGHBOURHOODS,
+             SUM(CASE WHEN GEOMETRY IS NOT NULL THEN 1 ELSE 0 END) AS POLYGONS,
+             MIN(TREES_PER_SQ_KM) AS MIN_DENSITY,
+             MAX(TREES_PER_SQ_KM) AS MAX_DENSITY
+      FROM TREE_DENSITY_RESULTS
+      WHERE RUN_ID = (
+          SELECT RUN_ID
+          FROM TREE_DENSITY_RESULTS
+          GROUP BY RUN_ID
+          ORDER BY MAX(CREATED_AT) DESC
+          FETCH FIRST 1 ROW ONLY
+      )
+      GROUP BY RUN_ID;
+
+      -- RUN_ID                           NEIGHBOURHOODS UNIQUE_NEIGHBOURHOODS POLYGONS MIN_DENSITY MAX_DENSITY 
+      -- -------------------------------- -------------- --------------------- -------- ----------- ----------- 
+      -- 5EE510F02FE53AFFE063AB11000A1BBD             33                    33       33       88.59     3084.74 
+
+
+      -- Elapsed: 00:00:00.012
+      -- 1 rows selected.
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- End-to-end team test. The question does not require a municipality
+      code.
+
+      DECLARE
+          v_conversation_id VARCHAR2(4000);
+          v_response        CLOB;
+      BEGIN
+          v_conversation_id := DBMS_CLOUD_AI.CREATE_CONVERSATION();
+
+          v_response := DBMS_CLOUD_AI_AGENT.RUN_TEAM(
+              team_name   => 'TREE_DENSITY_MAP_TEAM',
+              user_prompt => 'Which five Den Haag neighbourhoods have the highest tree density despite having less than 30% green area?',
+              params      => '{"conversation_id":"' || v_conversation_id || '"}'
+          );
+
+          DBMS_OUTPUT.PUT_LINE(DBMS_LOB.SUBSTR(v_response, 4000, 1));
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: >
+      ## Questions this agent can answer
+
+
+      - Which Den Haag neighbourhood has the highest tree density (trees per
+      km2)?
+
+      - Which five Den Haag neighbourhoods have the highest tree density despite
+      having less than 30% green area? (You can choose another percentage.)
+
+      - How many neighbourhoods meet that green-area threshold, and how many
+      trees are in them?
+
+      -
+
+
+      The percentage filters green area, not tree counts. The agent uses the Den
+      Haag dataset (GM0518) when no municipality code is supplied. It saves
+      density polygons in TREE_DENSITY_RESULTS, but this notebook alone does not
+      display them in the Ask Oracle map.
+    languageId: markdown
+  - kind: 1
+    value: >
+      ## Next step
+
+
+      This notebook does not create a K-means model. Once the density team is
+      verified, OML can read one RUN_ID from TREE_DENSITY_RESULTS_V. The stored
+      GEOMETRY remains in TREE_DENSITY_RESULTS for later map integration. Do not
+      drop the old BUILD_TREE_DENSITY_LAYER or GET_TREE_DENSITY_MAP_LAYER
+      routines until their database/APEX dependencies have been checked.
+    languageId: markdown

@@ -7,15 +7,15 @@ These runbooks assume `enable_cluster_admin=true` and an initialized `cluster-ad
 Adding a tool changes the administrator-owned repository and the topology consumed by both orchestrators; it does not create per-tool OCI stages.
 
 1. Add the globally unique tool name, public Helm repository, upstream chart name, pinned version, namespace, and direct `depends_on` entries to the Resource Manager `cluster_administration.tools` list.
-2. Apply the stack to create the tool stages in both `cluster-admin-noprod` and `cluster-admin-prod`.
+2. Apply the stack to seed the missing tool configuration for both clusters; the existing orchestrator stages are reused.
 3. Confirm the stack added the configured chart source to `catalog/tools.yaml`.
 4. Review the seeded `tool.yaml` and `values.yaml` under both `clusters/noprod/tools/<tool>` and `clusters/prod/tools/<tool>`.
 5. Configure noprod first. Keep prod values valid, but deploy the prod configuration only through a reviewed prod change and approval.
 6. Add optional `resources/*.yaml` and `verify.sh` files.
 7. Open a pull request and make `cluster-admin-pr` pass.
-8. Merge to `main` and confirm the missing chart is mirrored before the selected deployment stages run.
+8. Merge to `main` and confirm the missing chart is mirrored before the selected deployment actions run.
 
-The shared topology creates the tool stages for both clusters. The namespace defaults to the tool name; keep explicit namespaces synchronized between Resource Manager and both generated `tool.yaml` files.
+The shared topology describes the tools and dependencies consumed by both cluster orchestrators. The namespace defaults to the tool name; keep explicit namespaces synchronized between Resource Manager and both generated `tool.yaml` files.
 
 ## Define Tool Dependencies
 
@@ -31,8 +31,8 @@ When a prerequisite changes, the dispatcher also selects downstream dependents.
 1. Edit only `clusters/<cluster>/tools/<tool>/values.yaml`.
 2. Open and merge a pull request.
 3. Confirm `cluster-admin-build` publishes an immutable Generic Artifact with the full Git commit SHA as its version.
-4. Confirm only the selected cluster/tool Helm stage runs, plus any required downstream dependents.
-5. For prod, approve the production approval deployment before mutation begins.
+4. Confirm the orchestrator runs only the selected cluster/tool Helm action, plus any required downstream dependents.
+5. For prod, approve the approval stage inside `cluster-admin-prod` before mutation begins.
 6. Verify the Helm release in the tool namespace.
 
 Noprod and prod values are independent even though the tool topology is shared.
@@ -43,7 +43,7 @@ Noprod and prod values are independent even though the tool topology is shared.
 2. Set the resource namespace to the configured tool namespace, or omit it when the resource type and script safely default it.
 3. Do not commit plain Kubernetes `Secret` objects. Use External Secrets or another reference to an external secret store.
 4. Open and merge a pull request.
-5. Confirm the tool Helm stage runs before the supplemental-resource stage when both are selected.
+5. Confirm the orchestrator runs the tool's Helm action before applying supplemental resources when both are selected.
 
 Validation rejects explicit cross-namespace resources.
 
@@ -52,8 +52,8 @@ Validation rejects explicit cross-namespace resources.
 1. Add non-namespaced YAML under `clusters/<cluster>/baseline`.
 2. Use this location for resources such as ClusterRoles, ClusterRoleBindings, StorageClasses, and custom resources that are not owned by a tool chart.
 3. Open and merge a pull request.
-4. Confirm the baseline stage validates that every object is cluster-scoped.
-5. Confirm selected tool waves finish before the baseline stage, allowing baseline objects to use tool-installed CRDs.
+4. Confirm baseline validation checks that every object is cluster-scoped.
+5. Confirm selected tool waves finish before baseline resources are applied, allowing baseline objects to use tool-installed CRDs.
 
 ## Promote A Tool Configuration To Prod
 

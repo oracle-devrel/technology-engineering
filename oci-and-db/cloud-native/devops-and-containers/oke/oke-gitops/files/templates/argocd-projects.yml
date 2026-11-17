@@ -46,8 +46,7 @@ metadata:
   namespace: argocd
 spec:
   description: Developer-owned namespaced workloads from apps-config
-  sourceRepos:
-    - ${apps_config_repo_url}
+  sourceRepos: ${jsonencode(apps_config_repo_url == "" ? [] : [apps_config_repo_url])}
   destinations:
     - server: '*'
       namespace: '*'

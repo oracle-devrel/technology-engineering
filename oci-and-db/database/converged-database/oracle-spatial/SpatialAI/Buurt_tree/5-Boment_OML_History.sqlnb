@@ -1,0 +1,834 @@
+cells:
+  - kind: 1
+    value: |
+      # Conversation memory with vector retrieval
+
+      `TREE_HISTORY_MAP_TEAM` reuses the existing greeting, NL2SQL, discovery,
+      density, SVM, and K-means workers and adds a history worker. This notebook
+      does not drop or change `TREE_DENSITY_MAP_TEAM` or its workers.
+
+      A history answer is a saved result, not a fresh calculation. The memory
+      table stores the UI question, the supervisor's final answer, the time,
+      prompt and team execution IDs, and any reported RUN_ID. An embedding of
+      the question supports paraphrases. Search uses the original tree team's
+      answers, excluding the history team's own replies. The source history
+      views remain intact.
+
+      Run the definition cells in order. The history tool creates its own
+      storage and configuration on first use. The first request may take longer
+      while old questions are embedded; later requests reuse their vectors.
+      This pilot reads the current database schema's Agent history. For a
+      multi-user customer deployment, add an authenticated APEX-user-to-prompt
+      mapping before exposing cross-conversation search: the observed
+      CLIENT_IDENTIFIER values were null and cannot isolate users.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Storage prepared by the history tool
+
+      The procedure creates missing objects and switches the failed pilot OCI
+      embedding configuration to the local ONNX model. It preserves prior
+      memory rows and never changes conversation history.
+      Other procedures use dynamic SQL for these tables so all definitions
+      compile before the Agent's first call creates them.
+    languageId: markdown
+  - kind: 2
+    value: >
+      CREATE OR REPLACE PROCEDURE prepare_tree_memory_storage AS
+          v_count NUMBER;
+          v_local_params CLOB := q'~{"provider":"database","model":"ALL_MINILM_L12_V2"}~';
+      BEGIN
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'TREE_MEMORY_CONFIG';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_MEMORY_CONFIG (
+                      CONFIG_KEY VARCHAR2(30) PRIMARY KEY,
+                      EMBEDDING_PARAMS CLOB CHECK (EMBEDDING_PARAMS IS JSON)
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count FROM user_tables
+          WHERE table_name = 'TREE_MEMORY_ITEMS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_MEMORY_ITEMS (
+                      CONVERSATION_PROMPT_ID VARCHAR2(36) PRIMARY KEY,
+                      CONVERSATION_ID VARCHAR2(36) NOT NULL,
+                      TEAM_EXEC_ID VARCHAR2(128) NOT NULL,
+                      TEAM_NAME VARCHAR2(128) NOT NULL,
+                      QUESTION_CREATED TIMESTAMP NOT NULL,
+                      QUESTION CLOB NOT NULL,
+                      ANSWER CLOB NOT NULL,
+                      RESULT_RUN_ID VARCHAR2(32),
+                      QUESTION_VECTOR VECTOR,
+                      ANSWER_VECTOR VECTOR,
+                      INDEXED_AT TIMESTAMP,
+                      ANSWER_INDEXED_AT TIMESTAMP
+                  )~';
+          END IF;
+
+          -- Add answer embeddings to an existing pilot table without
+          -- removing its saved questions or question embeddings.
+          SELECT COUNT(*) INTO v_count FROM user_tab_columns
+          WHERE table_name = 'TREE_MEMORY_ITEMS'
+            AND column_name = 'ANSWER_VECTOR';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE
+                  'ALTER TABLE TREE_MEMORY_ITEMS ADD (ANSWER_VECTOR VECTOR)';
+          END IF;
+          SELECT COUNT(*) INTO v_count FROM user_tab_columns
+          WHERE table_name = 'TREE_MEMORY_ITEMS'
+            AND column_name = 'ANSWER_INDEXED_AT';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE
+                  'ALTER TABLE TREE_MEMORY_ITEMS ADD (ANSWER_INDEXED_AT TIMESTAMP)';
+          END IF;
+
+          -- Use the installed local ONNX model for new memory storage.
+          EXECUTE IMMEDIATE
+              'SELECT COUNT(*) FROM TREE_MEMORY_CONFIG WHERE CONFIG_KEY = :key'
+              INTO v_count USING 'QUESTION';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE
+                  'INSERT INTO TREE_MEMORY_CONFIG ' ||
+                  '(CONFIG_KEY, EMBEDDING_PARAMS) VALUES (:key, :params)'
+              USING 'QUESTION', v_local_params;
+          ELSE
+              -- Migrate only this notebook's failed OCI default.
+              EXECUTE IMMEDIATE q'~
+                  UPDATE TREE_MEMORY_CONFIG
+                  SET EMBEDDING_PARAMS = :params
+                  WHERE CONFIG_KEY = :key
+                    AND JSON_VALUE(EMBEDDING_PARAMS, '$.provider') = 'ocigenai'
+                    AND JSON_VALUE(EMBEDDING_PARAMS, '$.model') =
+                        'cohere.embed-english-v3.0'
+              ~' USING v_local_params, 'QUESTION';
+          END IF;
+      END prepare_tree_memory_storage;
+
+      /
+
+
+
+
+      -- Procedure PREPARE_TREE_MEMORY_STORAGE compiled
+
+
+      -- Elapsed: 00:00:00.105
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. Embedding configuration installed automatically
+
+      The default uses the installed `ALL_MINILM_L12_V2` ONNX model inside the
+      database. No OCI embedding endpoint or credential is needed. Setup also
+      migrates the failed pilot OCI configuration already saved in the table.
+      The same model embeds stored questions and new questions.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 3. Pair each UI question with one final Agent answer
+
+      `PROMPT_RESPONSE` was empty for the observed AGENT prompts. This loader
+      matches each prompt to the latest team run in its conversation that
+      started before the prompt was stored. It takes the supervisor task's
+      `RESULT`, avoiding duplicate worker and supervisor answers. Repeated
+      calls insert only new prompts. The limit bounds each refresh.
+    languageId: markdown
+  - kind: 2
+    value: |
+      CREATE OR REPLACE PROCEDURE sync_tree_memory (
+          p_max_new IN PLS_INTEGER DEFAULT 100
+      ) AS
+          v_cursor SYS_REFCURSOR;
+          v_prompt_id VARCHAR2(36);
+          v_conversation_id VARCHAR2(36);
+          v_created TIMESTAMP;
+          v_question CLOB;
+          v_team_exec_id VARCHAR2(128);
+          v_team_name VARCHAR2(128);
+          v_answer CLOB;
+          v_run_id VARCHAR2(32);
+      BEGIN
+          IF p_max_new IS NULL OR p_max_new < 1 OR p_max_new > 1000 THEN
+              RAISE_APPLICATION_ERROR(-20501,
+                  'p_max_new must be between 1 and 1000.');
+          END IF;
+          prepare_tree_memory_storage;
+
+          OPEN v_cursor FOR q'~
+              WITH paired AS (
+                  SELECT p.conversation_prompt_id,
+                         p.conversation_id,
+                         p.created AS question_created,
+                         p.prompt AS question,
+                         h.team_exec_id,
+                         h.team_name,
+                         t.result AS answer,
+                         ROW_NUMBER() OVER (
+                             PARTITION BY p.conversation_prompt_id
+                             ORDER BY h.start_date DESC, t.start_date DESC
+                         ) AS rn
+                  FROM user_cloud_ai_conversation_prompts p
+                  JOIN user_ai_agent_team_history h
+                    ON h.conversation_id = p.conversation_id
+                   AND h.start_date <= p.created
+                   AND h.team_name = 'TREE_DENSITY_MAP_TEAM'
+                  JOIN user_ai_agent_task_history t
+                    ON t.team_exec_id = h.team_exec_id
+                   AND t.task_name LIKE '%$TASK'
+                   AND t.state = 'SUCCEEDED'
+                   AND t.result IS NOT NULL
+                  WHERE p.prompt_action = 'AGENT'
+                    AND p.prompt IS NOT NULL
+                    AND NOT EXISTS (
+                        SELECT 1 FROM TREE_MEMORY_ITEMS m
+                        WHERE m.conversation_prompt_id =
+                              p.conversation_prompt_id
+                    )
+              )
+              SELECT conversation_prompt_id, conversation_id,
+                     question_created, question, team_exec_id,
+                     team_name, answer
+              FROM paired
+              WHERE rn = 1
+              ORDER BY question_created DESC
+              FETCH FIRST :max_new ROWS ONLY
+          ~' USING p_max_new;
+          LOOP
+              FETCH v_cursor INTO v_prompt_id, v_conversation_id,
+                  v_created, v_question, v_team_exec_id,
+                  v_team_name, v_answer;
+              EXIT WHEN v_cursor%NOTFOUND;
+              v_run_id := REGEXP_SUBSTR(
+                  DBMS_LOB.SUBSTR(v_answer, 4000, 1),
+                  'RUN_ID[[:space:]:=]*([0-9A-F]{32})',
+                  1, 1, 'i', 1
+              );
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO TREE_MEMORY_ITEMS (
+                      CONVERSATION_PROMPT_ID, CONVERSATION_ID,
+                      TEAM_EXEC_ID, TEAM_NAME, QUESTION_CREATED,
+                      QUESTION, ANSWER, RESULT_RUN_ID
+                  ) VALUES (:prompt_id, :conversation_id,
+                      :team_exec_id, :team_name, :question_created,
+                      :question, :answer, :run_id)
+              ~' USING v_prompt_id, v_conversation_id,
+                  v_team_exec_id, v_team_name, v_created,
+                  v_question, v_answer, UPPER(v_run_id);
+          END LOOP;
+          CLOSE v_cursor;
+          COMMIT;
+      END sync_tree_memory;
+      /
+      -- Procedure SYNC_TREE_MEMORY compiled
+
+      -- Elapsed: 00:00:00.111
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 4. Embed saved questions and answers once
+
+      Each saved question and answer is embedded once. A failure leaves its
+      vector null so the next call can retry. Use one configuration throughout.
+      For a large existing history, call this procedure in batches before a
+      demo; the history tool also indexes a bounded batch when it runs.
+    languageId: markdown
+  - kind: 2
+    value: |-
+      CREATE OR REPLACE PROCEDURE index_tree_memory (
+          p_max_new IN PLS_INTEGER DEFAULT 25
+      ) AS
+          v_params CLOB;
+          v_vector VECTOR;
+          v_cursor SYS_REFCURSOR;
+          v_prompt_id VARCHAR2(36);
+          v_question CLOB;
+          v_answer CLOB;
+          v_has_question NUMBER;
+          v_has_answer NUMBER;
+      BEGIN
+          IF p_max_new IS NULL OR p_max_new < 1 OR p_max_new > 1000 THEN
+              RAISE_APPLICATION_ERROR(-20502,
+                  'p_max_new must be between 1 and 1000.');
+          END IF;
+          EXECUTE IMMEDIATE q'~
+              SELECT EMBEDDING_PARAMS FROM TREE_MEMORY_CONFIG
+              WHERE CONFIG_KEY = :key
+          ~' INTO v_params USING 'QUESTION';
+          IF v_params IS NULL THEN
+              RAISE_APPLICATION_ERROR(-20503,
+                  'Configure the QUESTION embedding model first.');
+          END IF;
+
+          OPEN v_cursor FOR q'~
+              SELECT CONVERSATION_PROMPT_ID, QUESTION, ANSWER,
+                     CASE WHEN QUESTION_VECTOR IS NULL THEN 0 ELSE 1 END,
+                     CASE WHEN ANSWER_VECTOR IS NULL THEN 0 ELSE 1 END
+              FROM TREE_MEMORY_ITEMS
+              WHERE (QUESTION_VECTOR IS NULL OR ANSWER_VECTOR IS NULL)
+                AND TEAM_NAME = 'TREE_DENSITY_MAP_TEAM'
+              ORDER BY QUESTION_CREATED DESC
+              FETCH FIRST :max_new ROWS ONLY
+          ~' USING p_max_new;
+          LOOP
+              FETCH v_cursor INTO v_prompt_id, v_question, v_answer,
+                  v_has_question, v_has_answer;
+              EXIT WHEN v_cursor%NOTFOUND;
+              IF v_has_question = 0 THEN
+                  SELECT DBMS_VECTOR.UTL_TO_EMBEDDING(
+                             v_question, JSON(v_params)
+                         ) INTO v_vector FROM dual;
+                  EXECUTE IMMEDIATE q'~
+                      UPDATE TREE_MEMORY_ITEMS
+                         SET QUESTION_VECTOR = :embedding,
+                             INDEXED_AT = SYSTIMESTAMP
+                       WHERE CONVERSATION_PROMPT_ID = :prompt_id
+                  ~' USING v_vector, v_prompt_id;
+              END IF;
+              IF v_has_answer = 0 THEN
+                  SELECT DBMS_VECTOR.UTL_TO_EMBEDDING(
+                             TO_CLOB(DBMS_LOB.SUBSTR(v_answer, 1800, 1)),
+                             JSON(v_params)
+                         ) INTO v_vector FROM dual;
+                  EXECUTE IMMEDIATE q'~
+                      UPDATE TREE_MEMORY_ITEMS
+                         SET ANSWER_VECTOR = :embedding,
+                             ANSWER_INDEXED_AT = SYSTIMESTAMP
+                       WHERE CONVERSATION_PROMPT_ID = :prompt_id
+                  ~' USING v_vector, v_prompt_id;
+              END IF;
+          END LOOP;
+          CLOSE v_cursor;
+          COMMIT;
+      END index_tree_memory;
+      /
+      -- Procedure INDEX_TREE_MEMORY compiled
+
+      -- Elapsed: 00:00:00.078
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 5. History search function and tool
+
+      The function refreshes bounded history. For a latest-result question it
+      sorts by saved time; otherwise it ranks both question and answer meaning
+      and checks an exact RUN_ID. It returns saved answers, dates, and IDs.
+      Existing vectors are reused. No source data is changed.
+    languageId: markdown
+  - kind: 2
+    value: >-
+      CREATE OR REPLACE FUNCTION tree_history_agent_fn (
+          p_question IN VARCHAR2,
+          p_sort_mode IN VARCHAR2 DEFAULT 'RELEVANCE'
+      ) RETURN CLOB AS
+          PRAGMA AUTONOMOUS_TRANSACTION;
+          v_params CLOB;
+          v_query_vector VECTOR;
+          v_matches CLOB;
+          v_response CLOB;
+          v_run_id VARCHAR2(32);
+          v_mode VARCHAR2(10) := UPPER(TRIM(NVL(p_sort_mode, 'RELEVANCE')));
+      BEGIN
+          IF p_question IS NULL OR LENGTH(TRIM(p_question)) < 3 THEN
+              RAISE_APPLICATION_ERROR(-20504, 'A history question is required.');
+          END IF;
+          IF v_mode NOT IN ('RECENT', 'RELEVANCE') THEN
+              RAISE_APPLICATION_ERROR(-20505,
+                  'p_sort_mode must be RECENT or RELEVANCE.');
+          END IF;
+          prepare_tree_memory_storage;
+          sync_tree_memory(1000);
+          IF v_mode = 'RELEVANCE' THEN
+              index_tree_memory(1000);
+              EXECUTE IMMEDIATE q'~
+                  SELECT EMBEDDING_PARAMS FROM TREE_MEMORY_CONFIG
+                  WHERE CONFIG_KEY = :key
+              ~' INTO v_params USING 'QUESTION';
+              SELECT DBMS_VECTOR.UTL_TO_EMBEDDING(
+                         TO_CLOB(p_question), JSON(v_params)
+                     ) INTO v_query_vector FROM dual;
+          END IF;
+          v_run_id := REGEXP_SUBSTR(
+              UPPER(p_question), '[0-9A-F]{32}', 1, 1
+          );
+
+          IF v_mode = 'RECENT' THEN
+              EXECUTE IMMEDIATE q'~
+                  SELECT COALESCE(JSON_ARRAYAGG(
+                      JSON_OBJECT(
+                          'conversation_prompt_id' VALUE x.conversation_prompt_id,
+                          'team_exec_id' VALUE x.team_exec_id,
+                          'team_name' VALUE x.team_name,
+                          'question_date' VALUE TO_CHAR(
+                              (FROM_TZ(x.question_created, 'UTC')
+                                  AT TIME ZONE 'Europe/Amsterdam'),
+                              'YYYY-MM-DD HH24:MI:SS TZH:TZM'),
+                          'question_time_zone' VALUE 'Europe/Amsterdam',
+                          'question' VALUE DBMS_LOB.SUBSTR(x.question, 2000, 1),
+                          'past_answer' VALUE DBMS_LOB.SUBSTR(x.answer, 4000, 1),
+                          'run_id' VALUE x.result_run_id
+                          RETURNING CLOB
+                      ) ORDER BY x.question_created DESC RETURNING CLOB
+                  ), TO_CLOB('[]'))
+                  FROM (
+                      SELECT conversation_prompt_id, team_exec_id, team_name,
+                             question_created, question, answer, result_run_id
+                      FROM TREE_MEMORY_ITEMS
+                      WHERE team_name = 'TREE_DENSITY_MAP_TEAM'
+                      ORDER BY question_created DESC
+                      FETCH FIRST 5 ROWS ONLY
+                  ) x
+              ~' INTO v_matches;
+          ELSE
+              EXECUTE IMMEDIATE q'~
+                  SELECT COALESCE(JSON_ARRAYAGG(
+                      JSON_OBJECT(
+                          'conversation_prompt_id' VALUE x.conversation_prompt_id,
+                          'team_exec_id' VALUE x.team_exec_id,
+                          'team_name' VALUE x.team_name,
+                          'question_date' VALUE TO_CHAR(
+                              (FROM_TZ(x.question_created, 'UTC')
+                                  AT TIME ZONE 'Europe/Amsterdam'),
+                              'YYYY-MM-DD HH24:MI:SS TZH:TZM'),
+                          'question_time_zone' VALUE 'Europe/Amsterdam',
+                          'question' VALUE DBMS_LOB.SUBSTR(x.question, 2000, 1),
+                          'past_answer' VALUE DBMS_LOB.SUBSTR(x.answer, 4000, 1),
+                          'run_id' VALUE x.result_run_id,
+                          'question_distance' VALUE x.question_distance,
+                          'answer_distance' VALUE x.answer_distance,
+                          'relevance_distance' VALUE x.relevance_distance
+                          RETURNING CLOB
+                      ) ORDER BY x.match_order, x.relevance_distance,
+                                 x.question_created DESC RETURNING CLOB
+                  ), TO_CLOB('[]'))
+                  FROM (
+                      SELECT y.*,
+                             (y.question_distance + COALESCE(
+                                 y.answer_distance, y.question_distance
+                             )) / 2 AS relevance_distance
+                      FROM (
+                          SELECT m.conversation_prompt_id, m.team_exec_id,
+                                 m.team_name, m.question_created, m.question,
+                                 m.answer, m.result_run_id,
+                                 CASE WHEN :run_id IS NOT NULL
+                                        AND m.result_run_id = :run_id_again
+                                      THEN 0 ELSE 1 END AS match_order,
+                                 VECTOR_DISTANCE(m.question_vector,
+                                     :query_vector_1, COSINE) AS question_distance,
+                                 VECTOR_DISTANCE(m.answer_vector,
+                                     :query_vector_2, COSINE) AS answer_distance
+                          FROM TREE_MEMORY_ITEMS m
+                          WHERE m.question_vector IS NOT NULL
+                            AND m.team_name = 'TREE_DENSITY_MAP_TEAM'
+                      ) y
+                      ORDER BY y.match_order, relevance_distance,
+                               y.question_created DESC
+                      FETCH FIRST 5 ROWS ONLY
+                  ) x
+              ~' INTO v_matches USING v_run_id, v_run_id,
+                  v_query_vector, v_query_vector;
+          END IF;
+
+          SELECT JSON_OBJECT(
+                     'status' VALUE 'success',
+                     'memory_type' VALUE 'past_agent_answers',
+                     'sort_mode' VALUE v_mode,
+                     'matches' VALUE v_matches FORMAT JSON
+                     RETURNING CLOB
+                 ) INTO v_response FROM dual;
+          COMMIT;
+          RETURN v_response;
+      END tree_history_agent_fn;
+
+      /
+
+      -- Function TREE_HISTORY_AGENT_FN compiled
+
+
+      -- Elapsed: 00:00:00.061
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      -- TREE_HISTORY_TOOL reads existing history through TREE_HISTORY_AGENT_FN.
+
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_HISTORY_TOOL', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_HISTORY_TOOL',
+              attributes => q'~{
+                  "function":"TREE_HISTORY_AGENT_FN",
+                  "instruction":"Search saved Agent questions and answers. Use RECENT for the newest past result, or RELEVANCE for semantic matching. Return actual answers, dates, and RUN_IDs. This tool does not run a new analysis.",
+                  "tool_inputs":[
+                      {"name":"p_question","description":"The user's complete question about a past answer or analysis."},
+                      {"name":"p_sort_mode","description":"RECENT when the user asks for their latest or last saved interaction; otherwise RELEVANCE. Optional; defaults to RELEVANCE."}
+                  ]
+              }~',
+              description => 'Vector retrieval of saved Agent questions and answers.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.046
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 6. Reopen the exact saved map features
+
+      `GET_RESPONSE` already accepts a tool result with a saved RUN_ID in
+      `AGENT_MAP_RESULTS`, or an array of rows containing GEOJSON. This tool
+      emits one of those existing shapes for the matched original team run.
+      It does not change `GET_RESPONSE` or either existing team.
+    languageId: markdown
+  - kind: 2
+    value: >-
+      CREATE OR REPLACE FUNCTION tree_history_map_fn (
+          p_team_exec_id IN VARCHAR2
+      ) RETURN CLOB AS
+          v_count NUMBER;
+          v_found NUMBER;
+          v_payload CLOB;
+          v_next CLOB;
+          v_run_id VARCHAR2(32);
+          v_scope VARCHAR2(10);
+          v_limit NUMBER;
+          v_answer CLOB;
+          v_question CLOB;
+          v_answer_text VARCHAR2(32767);
+          v_id_text VARCHAR2(40);
+          v_ids SYS.ODCINUMBERLIST := SYS.ODCINUMBERLIST();
+      BEGIN
+          IF p_team_exec_id IS NULL THEN
+              RAISE_APPLICATION_ERROR(-20506, 'A matched team execution is required.');
+          END IF;
+          SELECT COUNT(*) INTO v_count
+          FROM user_ai_agent_team_history
+          WHERE team_exec_id = p_team_exec_id
+            AND team_name = 'TREE_DENSITY_MAP_TEAM';
+          IF v_count = 0 THEN
+              RAISE_APPLICATION_ERROR(-20507,
+                  'The selected execution is not a saved tree-team result.');
+          END IF;
+
+          FOR t IN (
+              SELECT tool_name, output
+              FROM user_ai_agent_tool_history
+              WHERE team_exec_id = p_team_exec_id
+              ORDER BY start_date DESC
+          ) LOOP
+              v_payload := t.output;
+              -- Unwrap the tool's result until a GeoJSON row array or
+              -- the original function result is reached.
+              FOR depth IN 1..4 LOOP
+                  SELECT CASE WHEN JSON_EXISTS(v_payload, '$[0].GEOJSON')
+                                 OR JSON_EXISTS(v_payload, '$[0].geojson')
+                              THEN 1 ELSE 0 END
+                    INTO v_count FROM dual;
+                  IF v_count = 1 THEN
+                      RETURN v_payload;
+                  END IF;
+                  v_next := JSON_VALUE(v_payload,
+                      '$.result' RETURNING CLOB NULL ON ERROR);
+                  IF v_next IS NULL THEN
+                      v_next := JSON_QUERY(v_payload,
+                          '$.result' RETURNING CLOB NULL ON ERROR);
+                  END IF;
+                  EXIT WHEN v_next IS NULL;
+                  v_payload := v_next;
+              END LOOP;
+
+              v_run_id := UPPER(JSON_VALUE(v_payload,
+                  '$.run_id' RETURNING VARCHAR2(32) NULL ON ERROR));
+              IF REGEXP_LIKE(v_run_id, '^[0-9A-F]{32}$') THEN
+                  SELECT COUNT(*) INTO v_count FROM user_tables
+                  WHERE table_name = 'AGENT_MAP_RESULTS';
+                  IF v_count = 1 THEN
+                      EXECUTE IMMEDIATE
+                          'SELECT COUNT(*) FROM AGENT_MAP_RESULTS WHERE RUN_ID = :id'
+                          INTO v_count USING v_run_id;
+                      IF v_count > 0 THEN
+                          SELECT JSON_OBJECT('run_id' VALUE v_run_id
+                              RETURNING CLOB) INTO v_payload FROM dual;
+                          RETURN v_payload;
+                      END IF;
+                  END IF;
+
+                  IF t.tool_name = 'TREE_DENSITY_TOOL' THEN
+                      v_scope := UPPER(JSON_VALUE(v_payload,
+                          '$.map_scope' RETURNING VARCHAR2(10) NULL ON ERROR));
+                      IF v_scope IN ('TOP_1', 'TOP_5', 'ALL') THEN
+                          v_limit := CASE v_scope
+                              WHEN 'TOP_1' THEN 1
+                              WHEN 'TOP_5' THEN 5
+                              ELSE NULL END;
+                          SELECT JSON_ARRAYAGG(
+                              JSON_OBJECT(
+                                  'RUN_ID' VALUE d.run_id,
+                                  'NEIGHBOURHOOD_ID' VALUE d.neighbourhood_id,
+                                  'NEIGHBORHOOD_NAME' VALUE d.neighborhood_name,
+                                  'GREEN_PERCENTAGE' VALUE d.green_percentage,
+                                  'TREE_COUNT' VALUE d.tree_count,
+                                  'AREA_SQ_KM' VALUE d.area_sq_km,
+                                  'TREES_PER_SQ_KM' VALUE d.trees_per_sq_km,
+                                  'GEOJSON' VALUE SDO_UTIL.TO_GEOJSON(
+                                      SDO_CS.TRANSFORM(d.geometry, 4326))
+                                  RETURNING CLOB)
+                              ORDER BY d.rn
+                              RETURNING CLOB)
+                            INTO v_payload
+                            FROM (
+                                SELECT t.*,
+                                       ROW_NUMBER() OVER (
+                                           ORDER BY t.trees_per_sq_km DESC
+                                                    NULLS LAST,
+                                                    t.neighbourhood_id
+                                       ) AS rn
+                                FROM TREE_DENSITY_RESULTS t
+                                WHERE t.run_id = v_run_id
+                                  AND t.geometry IS NOT NULL
+                            ) d
+                           WHERE v_limit IS NULL OR d.rn <= v_limit;
+                          IF v_payload IS NOT NULL THEN
+                              RETURN v_payload;
+                          END IF;
+                      END IF;
+                  END IF;
+              END IF;
+          END LOOP;
+
+          -- If an older SQL answer listed source tree IDs but its tool
+          -- history did not retain GeoJSON, reconstruct only those IDs.
+          EXECUTE IMMEDIATE q'~
+              SELECT question, answer FROM TREE_MEMORY_ITEMS
+              WHERE team_exec_id = :id
+                AND team_name = 'TREE_DENSITY_MAP_TEAM'
+              FETCH FIRST 1 ROW ONLY
+          ~' INTO v_question, v_answer USING p_team_exec_id;
+          IF REGEXP_LIKE(DBMS_LOB.SUBSTR(v_question, 4000, 1),
+                         'tree|bomen|boom', 'i') THEN
+              v_answer_text := DBMS_LOB.SUBSTR(v_answer, 16000, 1);
+              FOR i IN 1..100 LOOP
+                  v_id_text := REGEXP_SUBSTR(v_answer_text,
+                      '(^|[^[:alnum:]_])(SOURCE_RECORD_ID|ID)[[:space:]#:]*([0-9]+)',
+                      1, i, 'i', 3);
+                  EXIT WHEN v_id_text IS NULL;
+                  v_ids.EXTEND;
+                  v_ids(v_ids.COUNT) := TO_NUMBER(v_id_text);
+              END LOOP;
+              IF v_ids.COUNT > 0 THEN
+                  SELECT COUNT(DISTINCT column_value) INTO v_count
+                  FROM TABLE(v_ids);
+                  SELECT COUNT(DISTINCT b.source_record_id) INTO v_found
+                  FROM BOMEN_TREES b
+                  WHERE b.geometry IS NOT NULL
+                    AND b.source_record_id IN (
+                        SELECT column_value FROM TABLE(v_ids));
+                  IF v_found <> v_count THEN
+                      RETURN TO_CLOB('{"status":"no_map_data",' ||
+                          '"reason":"Some saved tree IDs have no geometry"}');
+                  END IF;
+                  SELECT JSON_ARRAYAGG(
+                      JSON_OBJECT(
+                          'SOURCE_RECORD_ID' VALUE b.source_record_id,
+                          'SPECIES' VALUE b.species_common_name,
+                          'TREE_AGE' VALUE b.tree_age,
+                          'GEOJSON' VALUE SDO_UTIL.TO_GEOJSON(
+                              SDO_CS.TRANSFORM(b.geometry, 4326))
+                          RETURNING CLOB)
+                      ORDER BY b.source_record_id RETURNING CLOB)
+                    INTO v_payload
+                    FROM BOMEN_TREES b
+                   WHERE b.geometry IS NOT NULL
+                     AND b.source_record_id IN (
+                         SELECT column_value FROM TABLE(v_ids));
+                  IF v_payload IS NOT NULL THEN
+                      RETURN v_payload;
+                  END IF;
+              END IF;
+          END IF;
+          RETURN TO_CLOB('{"status":"no_map_data"}');
+      EXCEPTION
+          WHEN NO_DATA_FOUND THEN
+              RETURN TO_CLOB('{"status":"no_map_data"}');
+      END tree_history_map_fn;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      -- TREE_HISTORY_MAP_TOOL returns saved map rows for one matched run.
+
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_HISTORY_MAP_TOOL', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_HISTORY_MAP_TOOL',
+              attributes => q'~{
+                  "function":"TREE_HISTORY_MAP_FN",
+                  "instruction":"Return the exact saved spatial features for a matched past tree-team execution. The result is either a run_id backed by AGENT_MAP_RESULTS or an array of rows with GEOJSON; do not invent features.",
+                  "tool_inputs":[
+                      {"name":"p_team_exec_id","description":"Exact team_exec_id from the selected TREE_HISTORY_TOOL match."}
+                  ]
+              }~',
+              description => 'Reopens a matched saved map layer.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 7. History worker
+
+      The worker receives only retrieved evidence. If the match is uncertain,
+      it says so and asks for a date, topic, tree ID, or RUN_ID. It never
+      invents a prior answer or claims that a saved result was recalculated.
+    languageId: markdown
+  - kind: 2
+    value: |-
+      -- DBMS_CLOUD_AI_AGENT.CREATE_TASK: TREE_HISTORY_TASK
+      DECLARE
+          v_instruction CLOB := q'|
+      Answer the user's question about an earlier Agent interaction: {query}
+
+      1. Call TREE_HISTORY_TOOL once with the complete user question. Pass
+         p_sort_mode=RECENT when the user asks for their latest or last saved
+         interaction; otherwise pass RELEVANCE. Do not infer a fixed topic.
+
+      2. For RECENT, use the newest returned saved result. For RELEVANCE,
+         compare the returned question, answer, date and IDs with the user's
+         intent. Similarity alone is not proof that a match is correct.
+      3. Report the matching past answer, its question_date as
+         Europe/Amsterdam local time, and RUN_ID when available.
+
+      4. If the user asks to show or revisit the matched result on the map,
+         call TREE_HISTORY_MAP_TOOL exactly once with the selected match's
+         exact team_exec_id. This tool returns saved map rows with GEOJSON or
+         a RUN_ID whose GeoJSON rows are in AGENT_MAP_RESULTS. Do not replace
+         those rows with coordinates in prose. If it reports no_map_data,
+         say the exact past map features could not be recovered.
+      5. For further detail about a matched RUN_ID, use the same context and
+         SQL tools to read only that run's rows. Keep the original question
+         date separate from saved-result data timestamps.
+      6. Say clearly when the answer is a past result or a read of saved rows.
+         Do not claim a new calculation or a newly rendered map.
+      7. If matches are ambiguous or absent, ask for a date, topic, tree ID,
+         or RUN_ID. Never invent past questions or answers.
+      |';
+          v_attributes CLOB;
+      BEGIN
+          SELECT JSON_OBJECT(
+                     'instruction' VALUE v_instruction,
+                     'tools' VALUE JSON_ARRAY(
+                         'TREE_HISTORY_TOOL',
+                         'TREE_HISTORY_MAP_TOOL',
+                         'TREE_SQL_CONTEXT_TOOL',
+                         'TREE_NL2SQL_TOOL'
+                     ) FORMAT JSON
+                     RETURNING CLOB
+                 ) INTO v_attributes FROM dual;
+          DBMS_CLOUD_AI_AGENT.DROP_TASK('TREE_HISTORY_TASK', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TASK(
+              task_name => 'TREE_HISTORY_TASK',
+              attributes => v_attributes,
+              description => 'Answers questions about saved Agent history.'
+          );
+      END;
+      /
+      -- PL/SQL procedure successfully completed.
+
+      -- Elapsed: 00:00:00.033
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_HISTORY_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_HISTORY_AGENT',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You answer requests about earlier Agent questions and results. Use TREE_HISTORY_TASK. Quote only retrieved history, identify its date and RUN_ID, and distinguish past results from new analysis. Never invent a memory."
+              }~',
+              description => 'Retrieves dated past Agent answers.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.037
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 8. New supervised team
+
+      The existing six workers are reused. Only the new history team and its
+      own supervisor are dropped/recreated here. Run this cell when no request
+      to `TREE_HISTORY_MAP_TEAM` is in progress. The old team remains available.
+    languageId: markdown
+  - kind: 2
+    value: >-
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TEAM(
+              'TREE_HISTORY_MAP_TEAM', force => TRUE
+          );
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT(
+              'TREE_HISTORY_SUPERVISOR', force => TRUE
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_HISTORY_SUPERVISOR',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You supervise Den Haag tree and green-neighbourhood questions. Route requests about what the user asked, saw, calculated, or learned previously to TREE_HISTORY_AGENT. Route greetings and examples to TREE_GREETING_AGENT. Route open-ended data-quality discovery to TREE_DISCOVERY_AGENT. Route new neighbourhood density calculations to TREE_DENSITY_AGENT, new one-class SVM flagging to TREE_ANOMALY_AGENT, and new K-means grouping to TREE_KMEANS_AGENT. Route factual questions about existing tables or saved rows, including spatial SQL, to TREE_NL2SQL_AGENT. A past-result request is not a new calculation. If past and new intent are unclear, ask one focused clarification. Use measured evidence only and do not claim the browser map rendered without application confirmation.",
+                  "supervisor":true
+              }~',
+              description => 'Routes history, SQL, greeting, density, SVM and K-means.'
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_TEAM(
+              team_name => 'TREE_HISTORY_MAP_TEAM',
+              attributes => q'~{
+                  "process":"sequential",
+                  "supervisor_agent":"TREE_HISTORY_SUPERVISOR",
+                  "agents":[
+                      {"name":"TREE_HISTORY_AGENT","task":"TREE_HISTORY_TASK"},
+                      {"name":"TREE_GREETING_AGENT","task":"TREE_GREETING_TASK"},
+                      {"name":"TREE_NL2SQL_AGENT","task":"TREE_NL2SQL_TASK"},
+                      {"name":"TREE_DISCOVERY_AGENT","task":"TREE_DISCOVERY_TASK"},
+                      {"name":"TREE_DENSITY_AGENT","task":"TREE_DENSITY_TASK"},
+                      {"name":"TREE_ANOMALY_AGENT","task":"TREE_ANOMALY_TASK"},
+                      {"name":"TREE_KMEANS_AGENT","task":"TREE_KMEANS_TASK"}
+                  ]
+              }~',
+              description => 'Existing tree workers plus dated semantic history retrieval.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:01.150
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## Before the demo
+
+      The history tool creates missing memory tables and configuration on
+      first use, copies new Agent questions with their answers, and embeds a
+      bounded batch. The first request can be slower because it makes one
+      provider call per newly indexed question. A dedicated test
+      notebook can validate question-to-answer pairing, semantic matches,
+      dates, RUN_IDs, and both team definitions without changing this file.
+
+      Oracle references:
+      - https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/dbms-cloud-ai-agent-views-history.html
+      - https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/utl_to_embedding-and-utl_to_embeddings-dbms_vector.html
+      - https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/vector_distance.html
+    languageId: markdown

@@ -1,0 +1,18 @@
+[project]
+name = "labsense"
+version = "0.1.0"
+description = "LabSense: redundant lab-test avoidance demo on an imported OCI Generative AI model"
+requires-python = ">=3.11"
+dependencies = [
+  "oci>=2.187.1",
+  "fastapi>=0.115",
+  "uvicorn>=0.34",
+  "python-multipart>=0.0.20",
+  "python-dotenv>=1.0",
+  "pymupdf>=1.25",
+  "httpx>=0.28",
+  "pillow>=11",
+]
+
+[tool.setuptools]
+packages = ["gateway"]

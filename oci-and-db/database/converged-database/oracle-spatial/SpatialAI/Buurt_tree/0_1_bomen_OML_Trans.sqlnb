@@ -1,0 +1,586 @@
+cells:
+  - kind: 1
+    value: "This notebook is for translating the columns "
+    languageId: markdown
+  - kind: 2
+    value: "SELECT column_name, data_type\r
+
+      FROM user_tab_columns\r
+
+      WHERE table_name = 'BOMEN'\r
+
+      ORDER BY column_id;\r
+
+      \r
+
+      \r
+
+      -- COLUMN_NAME DATA_TYPE    \r
+
+      -- ----------- ------------ \r
+
+      -- BOOMNUMMER  NUMBER       \r
+
+      -- SOORT_NL    VARCHAR2     \r
+
+      -- SRT_WETENS  VARCHAR2     \r
+
+      -- LEEFTIJD    NUMBER       \r
+
+      -- LFTDKLASSE  VARCHAR2     \r
+
+      -- STAMDIAMET  VARCHAR2     \r
+
+      -- EIGENAAR    VARCHAR2     \r
+
+      -- BEHEERDER   VARCHAR2     \r
+
+      -- SNOEIVORM   VARCHAR2     \r
+
+      -- MONUMENTAA  VARCHAR2     \r
+
+      -- WERKPCODE   VARCHAR2     \r
+
+      -- WERKPAKKET  VARCHAR2     \r
+
+      -- GROEIPLATS  VARCHAR2     \r
+
+      -- STRAATNAAM  VARCHAR2     \r
+
+      -- STADSDEEL   VARCHAR2     \r
+
+      -- COUNTER     NUMBER       \r
+
+      -- ID          NUMBER       \r
+
+      -- WIJK        VARCHAR2     \r
+
+      -- BUURT       VARCHAR2     \r
+
+      -- WGS84LONG   NUMBER       \r
+
+      -- WGS84LAT    NUMBER       \r
+
+      -- X           NUMBER       \r
+
+      -- Y           NUMBER       \r
+
+      -- IEPVAK_OMS  VARCHAR2     \r
+
+      -- PKBZ        VARCHAR2     \r
+
+      -- GEOM        SDO_GEOMETRY \r
+
+      \r
+
+      \r
+
+      Elapsed: 00:00:00.133\r
+
+      26 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      ----comments\r
+
+      \r
+
+      COMMENT ON TABLE BOMEN IS\r
+
+      'Individual tree records for Den Haag. Each row describes one tree and its
+      point location. Dutch names and administrative labels are source data; do
+      not infer botanical family from a common name.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.BOOMNUMMER IS\r
+
+      'Tree number recorded by the source system; do not assume it is the
+      database row ID.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.SOORT_NL IS\r
+
+      'Dutch common name of the tree species. Translate using botanical context;
+      do not translate individual words literally.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.SRT_WETENS IS\r
+
+      'Scientific botanical name of the tree species. Preserve the name; do not
+      translate it.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.LEEFTIJD IS\r
+
+      'Recorded age of the tree; confirm the source unit before interpreting
+      numeric values.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.LFTDKLASSE IS\r
+
+      'Source age-class category for the tree.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.STAMDIAMET IS\r
+
+      'Source trunk-diameter field; inspect values to determine whether it
+      contains measurements or diameter classes.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.EIGENAAR IS\r
+
+      'Recorded owner of the tree. Names of people or organisations are proper
+      names, not translation targets.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.BEHEERDER IS\r
+
+      'Recorded manager or organisation responsible for managing the tree.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.SNOEIVORM IS\r
+
+      'Recorded pruning form or pruning category for the tree.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.MONUMENTAA IS\r
+
+      'Source monumental-tree field. Its exact values and whether it represents
+      status or a reference number must be verified.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.WERKPCODE IS\r
+
+      'Source work-package code. Preserve code values; do not translate
+      them.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.WERKPAKKET IS\r
+
+      'Source work-package description or category associated with tree
+      management.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.GROEIPLATS IS\r
+
+      'Source growing-site or planting-site construction category.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.STRAATNAAM IS\r
+
+      'Street name associated with the tree. It is a proper place name; do not
+      translate it.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.STADSDEEL IS\r
+
+      'Recorded city district name. Preserve the place name.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.COUNTER IS\r
+
+      'Numeric source field named COUNTER. Its business meaning has not been
+      verified; do not treat it as a tree count without checking.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.ID IS\r
+
+      'Source record ID used to identify a tree row. Do not assume it equals
+      BOOMNUMMER.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.WIJK IS\r
+
+      'Recorded district or ward name. Preserve the place name.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.BUURT IS\r
+
+      'Recorded neighbourhood label. For geometric containment, use GEOM with a
+      neighbourhood polygon rather than assuming this text is a spatial join
+      key.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.WGS84LONG IS\r
+
+      'Tree longitude in WGS84 geographic coordinates.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.WGS84LAT IS\r
+
+      'Tree latitude in WGS84 geographic coordinates.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.X IS\r
+
+      'Source projected X coordinate. Check the coordinate reference system
+      before using it for distance calculations.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.Y IS\r
+
+      'Source projected Y coordinate. Check the coordinate reference system
+      before using it for distance calculations.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.IEPVAK_OMS IS\r
+
+      'Source text field IEPVAK_OMS. Its precise business definition has not
+      been verified; preserve its values.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.PKBZ IS\r
+
+      'Source code PKBZ. Its business definition has not been verified; preserve
+      its values.';\r
+
+      \r
+
+      COMMENT ON COLUMN BOMEN.GEOM IS\r
+
+      'SDO_GEOMETRY point location of the individual tree. For GeoJSON maps,
+      transform to SRID 4326 before calling SDO_UTIL.TO_GEOJSON.';\r
+
+      \r
+
+      \r
+
+      \r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "---check comments \r
+
+      SELECT column_name, comments\r
+
+      FROM user_col_comments\r
+
+      WHERE table_name = 'BOMEN'\r
+
+      ORDER BY column_name;\r
+
+      \r
+
+      -- COLUMN_NAME
+      COMMENTS                                                                                                                                             \
+      \r
+
+      -- -----------
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -- \r
+
+      -- BEHEERDER   Recorded manager or organisation responsible for managing
+      the
+      tree.                                                                                  \
+      \r
+
+      -- BOOMNUMMER  Tree number recorded by the source system; do not assume it
+      is the database row
+      ID.                                                                  \r
+
+      -- BUURT       Recorded neighbourhood label. For geometric containment,
+      use GEOM with a neighbourhood polygon rather than assuming this text is a
+      spatial join key. "
+    languageId: oracle-sql
+  - kind: 2
+    value: "--- translate procedure nl2en\r
+
+      --- new table avaialbe \r
+
+      \r
+
+      CREATE OR REPLACE PROCEDURE translate_table_to_en (\r
+
+      \    p_source_name  IN VARCHAR2,\r
+
+      \    p_target_name  IN VARCHAR2,\r
+
+      \    p_profile_name IN VARCHAR2\r
+
+      ) AS\r
+
+      \    v_source      VARCHAR2(128) := UPPER(TRIM(p_source_name));\r
+
+      \    v_target      VARCHAR2(128) := UPPER(TRIM(p_target_name));\r
+
+      \    v_reply       CLOB;\r
+
+      \    v_english     VARCHAR2(128);\r
+
+      \    v_select_list CLOB;\r
+
+      \    v_count       NUMBER;\r
+
+      \    v_used_names  VARCHAR2(32767) := '|';\r
+
+      BEGIN\r
+
+      \    -- Accept simple table names in the current schema only.\r
+
+      \    IF NOT REGEXP_LIKE(v_source, '^[A-Z][A-Z0-9_]*$')\r
+
+      \       OR NOT REGEXP_LIKE(v_target, '^[A-Z][A-Z0-9_]*$') THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20001, 'Use simple table names in the
+      current schema.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    SELECT COUNT(*) INTO v_count\r
+
+      \    FROM user_tables\r
+
+      \    WHERE table_name = v_source;\r
+
+      \r
+
+      \    IF v_count = 0 THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20002, 'Source table does not
+      exist.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    SELECT COUNT(*) INTO v_count\r
+
+      \    FROM user_objects\r
+
+      \    WHERE object_name = v_target;\r
+
+      \r
+
+      \    IF v_count > 0 THEN\r
+
+      \        RAISE_APPLICATION_ERROR(-20003, 'Target name already exists;
+      nothing was replaced.');\r
+
+      \    END IF;\r
+
+      \r
+
+      \    FOR c IN (\r
+
+      \        SELECT tc.column_name, tc.data_type, cc.comments\r
+
+      \        FROM user_tab_columns tc\r
+
+      \        LEFT JOIN user_col_comments cc\r
+
+      \          ON cc.table_name = tc.table_name\r
+
+      \         AND cc.column_name = tc.column_name\r
+
+      \        WHERE tc.table_name = v_source\r
+
+      \        ORDER BY tc.column_id\r
+
+      \    ) LOOP\r
+
+      \        v_reply := DBMS_CLOUD_AI.GENERATE(\r
+
+      \            prompt =>\r
+
+      \                'Translate this database column name into clear English.
+      ' ||\r
+
+      \                'Return ONLY one uppercase SQL identifier using letters,
+      digits, ' ||\r
+
+      \                'and underscores; no explanation or punctuation. ' ||\r
+
+      \                'Preserve its meaning and do not invent a meaning for an
+      unknown code. ' ||\r
+
+      \                'Table: ' || v_source ||\r
+
+      \                '. Column: ' || c.column_name ||\r
+
+      \                '. Data type: ' || c.data_type ||\r
+
+      \                '. Description: ' || NVL(c.comments, 'Not available.'),\r
+
+      \            profile_name => p_profile_name,\r
+
+      \            action       => 'chat'\r
+
+      \        );\r
+
+      \r
+
+      \        v_english := UPPER(TRIM(DBMS_LOB.SUBSTR(v_reply, 128, 1)));\r
+
+      \r
+
+      \        IF NOT REGEXP_LIKE(v_english, '^[A-Z][A-Z0-9_]*$') THEN\r
+
+      \            RAISE_APPLICATION_ERROR(\r
+
+      \                -20004, 'Invalid English name for ' || c.column_name\r
+
+      \            );\r
+
+      \        END IF;\r
+
+      \r
+
+      \        IF INSTR(v_used_names, '|' || v_english || '|') > 0 THEN\r
+
+      \            RAISE_APPLICATION_ERROR(\r
+
+      \                -20005, 'Duplicate English name: ' || v_english\r
+
+      \            );\r
+
+      \        END IF;\r
+
+      \r
+
+      \        v_used_names := v_used_names || v_english || '|';\r
+
+      \r
+
+      \        IF v_select_list IS NOT NULL THEN\r
+
+      \            v_select_list := v_select_list || ', ';\r
+
+      \        END IF;\r
+
+      \r
+
+      \        v_select_list := v_select_list ||\r
+
+      \            '\"' || REPLACE(c.column_name, '\"', '\"\"') ||\r
+
+      \            '\" AS \"' || v_english || '\"';\r
+
+      \    END LOOP;\r
+
+      \r
+
+      \    EXECUTE IMMEDIATE\r
+
+      \        'CREATE TABLE \"' || v_target || '\" AS SELECT ' ||\r
+
+      \        v_select_list || ' FROM \"' || v_source || '\"';\r
+
+      END;\r
+
+      /\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      -- run to translate your columns\r
+
+      \r
+
+      BEGIN\r
+
+      \    translate_table_to_en(\r
+
+      \        p_source_name  => 'BOMEN',\r
+
+      \        p_target_name  => 'BOMEN_TREES',\r
+
+      \        p_profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE'\r
+
+      \    );\r
+
+      END;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT column_id, column_name, data_type\r
+
+      FROM user_tab_columns\r
+
+      WHERE table_name = 'BOMEN_TREES'\r
+
+      ORDER BY column_id;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "desc BOMEN_TREES\r
+
+      ------\r
+
+      -- Name                          Null? Type               \r
+
+      -- ----------------------------- ----- ------------------ \r
+
+      -- SOURCE_TREE_NUMBER                  NUMBER(38)         \r
+
+      -- SPECIES_COMMON_NAME                 VARCHAR2(75 CHAR)  \r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "BEGIN\r
+
+      \    translate_table_to_en(\r
+
+      \        p_source_name  => 'GEZONDZH_GROEN_BUURT',\r
+
+      \        p_target_name  => 'GEZOND_GREEN_NEIGHBOURHOOD',\r
+
+      \        p_profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE'\r
+
+      \    );\r
+
+      END;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "DESC GEZOND_GREEN_NEIGHBOURHOOD; \r
+
+      \r
+
+      -- Name               Null? Type               \r
+
+      -- ------------------ ----- ------------------ \r
+
+      -- NEIGHBOURHOOD_CODE       VARCHAR2(254 CHAR) \r
+
+      -- NEIGHBORHOOD_NAME        VARCHAR2(254 CHAR) \r
+
+      -- MUNICIPALITY_CODE        VARCHAR2(254 CHAR) \r
+
+      -- MUNICIPALITY_NAME        VARCHAR2(254 CHAR) \r
+
+      -- YEAR                     VARCHAR2(254 CHAR) \r
+
+      -- PERCENTAGE               NUMBER             \r
+
+      -- GEOMETRY                 MDSYS.SDO_GEOMETRY \r
+
+      -- ID                       NUMBER   \r
+
+      \r\n"
+    languageId: oracle-sql

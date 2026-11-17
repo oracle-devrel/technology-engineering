@@ -27,6 +27,13 @@ clusters, pipelines, or releases exist.
 
 ## Route The Task
 
+For automatic credentials, read the stack's Automatic Credential References
+output for usernames and Vault secret OCIDs; never display token values.
+Credential-user policies are always managed in the DevOps project compartment,
+independently of the optional DevOps execution IAM. The two identity-domain
+selectors may point to different domains. Initial repository seeding still
+requires the applying user's supplied auth token.
+
 - Read [references/solution-map.md](references/solution-map.md) to understand
   generated resources, ownership modes, and naming.
 - Read [references/application-delivery.md](references/application-delivery.md)
@@ -35,7 +42,8 @@ clusters, pipelines, or releases exist.
 - Read
   [references/cluster-administration.md](references/cluster-administration.md)
   for cluster-tool catalog changes, dependency ordering, configuration
-  validation, deployment, and decommissioning.
+  validation, optional container image mirroring for air-gapped clusters,
+  deployment, and decommissioning.
 - Read [references/safety.md](references/safety.md) before mutations, production
   approval, rollback, cleanup, or troubleshooting.
 

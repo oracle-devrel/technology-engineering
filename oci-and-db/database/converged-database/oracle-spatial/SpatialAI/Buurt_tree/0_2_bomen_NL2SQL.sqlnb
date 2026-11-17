@@ -1,0 +1,279 @@
+cells:
+  - kind: 2
+    value: "\r
+
+      BEGIN\r
+
+      \    DBMS_CLOUD_AI.DROP_PROFILE(\r
+
+      \        profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',\r
+
+      \        force        => TRUE\r
+
+      \    );\r
+
+      END;\r
+
+      /\r
+
+      BEGIN\r
+
+      \  DBMS_CLOUD_AI.CREATE_PROFILE(\r
+
+      \    profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',\r
+
+      \    attributes => JSON_OBJECT(\r
+
+      \      'provider' VALUE 'oci',\r
+
+      \      'credential_name' VALUE 'GENAI_CRED',\r
+
+      \      'model' VALUE 'xai.grok-4.3',\r
+
+      \      'object_list' VALUE JSON_ARRAY(\r
+
+      \        JSON_OBJECT('owner' VALUE '<your user/schema>', 'name' VALUE
+      'BOMEN'),\r
+
+      \        JSON_OBJECT('owner' VALUE '<your user/schema>', 'name' VALUE
+      'GEZONDZH_GROEN_BUURT')\r
+
+      \      ),\r
+
+      \      'enforce_object_list' VALUE 'true' FORMAT JSON,\r
+
+      \      'additional_instructions' VALUE (\r
+
+      \        'Use only BOMEN and GEZONDZH_GROEN_BUURT. ' ||\r
+
+      \        'For tree map results, return ID, SOORT_NL, requested attributes,
+      and tree GEOJSON transformed to SRID 4326. ' ||\r
+
+      \        'For neighbourhood map results, return BUURTCODE, BUURTNAAM,
+      requested attributes, and polygon GEOJSON transformed to SRID 4326. ' ||\r
+
+      \        'Use SDO_CS.TRANSFORM before SDO_UTIL.TO_GEOJSON, and name the
+      output column GEOJSON. ' ||\r
+
+      \        'For overall counts or totals, omit GEOJSON. Preserve filters. Do
+      not invent tables or views.'\r
+
+      \      )\r
+
+      \    ),\r
+
+      \    description => 'BOMEN contains The Hague tree points and species.
+      GEZONDZH_GROEN_BUURT contains 2022 neighbourhood polygons and green
+      percentages.'\r
+
+      \  );\r
+
+      END;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      ----- for trans NL to EN we need comments\r
+
+      BEGIN\r
+
+      \    DBMS_CLOUD_AI.SET_ATTRIBUTE(\r
+
+      \        profile_name    => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',\r
+
+      \        attribute_name  => 'comments',\r
+
+      \        attribute_value => 'true'\r
+
+      \    );\r
+
+      END;\r
+
+      \r
+
+      -- PL/SQL procedure successfully completed.\r
+
+      \r
+
+      -- Elapsed: 00:00:00.090"
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT attribute_value\r
+
+      FROM user_cloud_ai_profile_attributes\r
+
+      WHERE profile_name = 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE'\r
+
+      \  AND attribute_name = 'comments';\r
+
+      \r
+
+      \r
+
+      \  ---true"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      SELECT DBMS_CLOUD_AI.GENERATE(\r
+
+      \  prompt       => 'Show 10 tree IDs and species',\r
+
+      \  profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',\r
+
+      \  action       => 'showsql',\r
+
+      \  attributes   => '{\"additional_instructions\":\"Select only ID and
+      SOORT_NL from BOMEN. Do not use geometry or functions.\"}'\r
+
+      ) FROM dual;\r
+
+      \r
+
+      --
+      DBMS_CLOUD_AI.GENERATE(PROMPT=>'SHOW10TREES',PROFILE_NAME=>'OCI_GROK_4_3_\
+      BOMEN_BURRT_PROFILE',ACTION=>'CHAT')       \r
+
+      --
+      -------------------------------------------------------------------------\
+      ------------------------------------------ \r
+
+      -- ```sql\r
+
+      -- SELECT ID, SOORT_NL, SDO_UTIL.TO_GEOJSON(GEOM) AS GEOJSON\r
+
+      -- FROM <your user/schema>.BOMEN\r
+
+      -- WHERE ROWNUM <= 10;\r
+
+      -- ``` \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:03.357\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT DBMS_CLOUD_AI.GENERATE(\r
+
+      \  prompt       => 'Show 10 trees inside Ockenburgh',\r
+
+      \  profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',\r
+
+      \  action       => 'showsql',\r
+
+      \  attributes   => '{\"enforce_object_list\":false}'\r
+
+      ) FROM dual;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "BEGIN\r
+
+      \  DBMS_CLOUD_AI.SET_ATTRIBUTES(\r
+
+      \    profile_name => 'OCI_GROK_4_3_BOMEN_BURRT_PROFILE',\r
+
+      \    attributes   => '{\"enforce_object_list\":false}'\r
+
+      \  );\r
+
+      END;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      -- enforce_object_list = false \r
+
+      SELECT profile_name, attribute_name,\r
+
+      \       DBMS_LOB.SUBSTR(attribute_value, 4000, 1) AS value\r
+
+      FROM user_cloud_ai_profile_attributes\r
+
+      WHERE profile_name IN ('OCI_GROK_4_3_BOMEN',\r
+
+      \                       'OCI_GROK_4_3_BOMEN_BURRT_PROFILE')\r
+
+      \  AND attribute_name IN ('enforce_object_list',
+      'additional_instructions')\r
+
+      ORDER BY profile_name, attribute_name;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      \r
+
+      -- Show 10 trees, their species, and the neighbourhood containing each
+      tree. Include each tree’s GEOJSON so the results appear on the map\r
+
+      SELECT b.id, b.soort_nl, n.buurtcode, n.buurtnaam,\r
+
+      \       SDO_UTIL.TO_GEOJSON(b.geom) AS geojson\r
+
+      FROM <your user/schema>.bomen b\r
+
+      JOIN <your user/schema>.gezondzh_groen_buurt n\r
+
+      \  ON SDO_RELATE(n.geom, b.geom, 'mask=CONTAINS') = 'TRUE'\r
+
+      FETCH FIRST 10 ROWS ONLY;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "WITH sample AS (\r
+
+      \    SELECT b.id, b.soort_nl, n.buurtcode, n.buurtnaam,\r
+
+      \           b.geom AS tree_geom, n.geom AS buurt_geom\r
+
+      \    FROM <your user/schema>.bomen b\r
+
+      \    JOIN <your user/schema>.gezondzh_groen_buurt n\r
+
+      \      ON SDO_RELATE(n.geom, b.geom, 'mask=CONTAINS') = 'TRUE'\r
+
+      \    FETCH FIRST 10 ROWS ONLY\r
+
+      ),\r
+
+      numbered AS (\r
+
+      \    SELECT s.*,\r
+
+      \           ROW_NUMBER() OVER (PARTITION BY buurtcode ORDER BY id) AS
+      buurt_row\r
+
+      \    FROM sample s\r
+
+      )\r
+
+      SELECT CASE WHEN k.kind = 1 THEN 'TREE' ELSE 'NEIGHBOURHOOD' END AS
+      feature_type,\r
+
+      \       CASE WHEN k.kind = 1 THEN s.id END AS tree_id,\r
+
+      \       CASE WHEN k.kind = 1 THEN s.soort_nl END AS soort_nl,\r
+
+      \       s.buurtcode, s.buurtnaam,\r
+
+      \       CASE WHEN k.kind = 1\r
+
+      \            THEN SDO_UTIL.TO_GEOJSON(SDO_CS.TRANSFORM(s.tree_geom,
+      4326))\r
+
+      \            ELSE SDO_UTIL.TO_GEOJSON(SDO_CS.TRANSFORM(s.buurt_geom,
+      4326))\r
+
+      \       END AS geojson\r
+
+      FROM numbered s\r
+
+      CROSS JOIN (SELECT 1 AS kind FROM dual UNION ALL SELECT 2 FROM dual) k\r
+
+      WHERE k.kind = 1 OR s.buurt_row = 1;"
+    languageId: oracle-sql

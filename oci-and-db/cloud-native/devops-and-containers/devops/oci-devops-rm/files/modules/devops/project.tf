@@ -16,6 +16,13 @@ resource "oci_devops_project" "devops_project" {
   name           = var.devops_project_name
   description    = var.devops_project_description
 
+  lifecycle {
+    precondition {
+      condition     = !local.oke_environments_required || var.compartment_id != var.tenancy_id
+      error_message = "Application delivery and cluster administration require a DevOps project in a child compartment: Shell stages cannot create Container Instances in the tenancy root."
+    }
+  }
+
   notification_config {
     topic_id = var.create_notification_topic ? oci_ons_notification_topic.devops_notification_topic[0].id : var.notification_topic_id
   }

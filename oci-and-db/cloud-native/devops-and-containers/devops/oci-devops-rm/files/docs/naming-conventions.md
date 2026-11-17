@@ -1,5 +1,9 @@
 # Naming Conventions
 
+Examples below use the default environment names. Names are configurable
+independently of workflow roles; production keeps approval, final image
+promotion and unsuffixed release names. See [Environment Names](environment-names.md).
+
 The stack keeps the Resource Manager UI small by deriving names from the DevOps project, application, and component.
 
 ```mermaid

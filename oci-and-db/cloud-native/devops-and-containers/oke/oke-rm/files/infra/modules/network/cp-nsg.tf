@@ -212,11 +212,12 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_worker_apis
 
 # External sources to control plane - API server (port 6443)
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_external_apiserver_ingress" {
+  count                     = length(distinct(var.cp_allowed_source_cidr))
   direction                 = "INGRESS"
   network_security_group_id = oci_core_network_security_group.cp_nsg.id
   protocol                  = local.tcp_protocol
   source_type               = "CIDR_BLOCK"
-  source                    = var.cp_allowed_source_cidr
+  source                    = distinct(var.cp_allowed_source_cidr)[count.index]
   stateless                 = true
   description               = "Allow TCP ingress traffic from specified sources to kube-apiserver on port 6443"
   tcp_options {
@@ -228,11 +229,12 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_external_ap
 }
 
 resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_external_apiserver_egress" {
+  count                     = length(distinct(var.cp_allowed_source_cidr))
   direction                 = "EGRESS"
   network_security_group_id = oci_core_network_security_group.cp_nsg.id
   protocol                  = local.tcp_protocol
   destination_type          = "CIDR_BLOCK"
-  destination               = var.cp_allowed_source_cidr
+  destination               = distinct(var.cp_allowed_source_cidr)[count.index]
   stateless                 = true
   description               = "Allow TCP egress to specified sources from control plane on port 6443"
   tcp_options {
@@ -326,8 +328,19 @@ resource "oci_core_network_security_group_security_rule" "oke_cp_nsg_external_eg
   network_security_group_id = oci_core_network_security_group.cp_nsg.id
   protocol                  = local.tcp_protocol
   destination_type          = "CIDR_BLOCK"
-  destination               = var.cp_egress_cidr
+  destination               = distinct(var.cp_egress_cidr)[count.index]
   stateless                 = false
   description               = "Allow external traffic communication"
-  count                     = local.create_cp_external_traffic_rule ? 1 : 0
+  count                     = local.create_cp_external_traffic_rule ? length(distinct(var.cp_egress_cidr)) : 0
+}
+
+# Preserve the singleton rules from earlier stack versions as the first list entry.
+moved {
+  from = oci_core_network_security_group_security_rule.oke_cp_nsg_external_apiserver_ingress
+  to   = oci_core_network_security_group_security_rule.oke_cp_nsg_external_apiserver_ingress[0]
+}
+
+moved {
+  from = oci_core_network_security_group_security_rule.oke_cp_nsg_external_apiserver_egress
+  to   = oci_core_network_security_group_security_rule.oke_cp_nsg_external_apiserver_egress[0]
 }

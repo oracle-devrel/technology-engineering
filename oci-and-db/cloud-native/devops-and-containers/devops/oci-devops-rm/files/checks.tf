@@ -12,6 +12,18 @@ check "recommended_application_scale" {
 
 check "conditional_inputs" {
   assert {
+    condition     = try(trimspace(var.auth_token), "") != ""
+    error_message = "auth_token is required for repository seeding, including when create_automatic_credentials is enabled."
+  }
+  assert {
+    condition     = !var.create_automatic_credentials || can(regex("^ocid1\\.domain\\.", coalesce(var.devops_iam_domain_id, "")))
+    error_message = "Select the automation identity domain when creating credentials."
+  }
+  assert {
+    condition     = !var.create_iam || can(regex("^ocid1\\.domain\\.", coalesce(var.pipeline_iam_domain_id, var.devops_iam_domain_id, "")))
+    error_message = "Select the pipeline identity domain when creating pipeline IAM."
+  }
+  assert {
     condition = var.create_devops_project || can(regex(
       "^ocid1\\.devopsproject\\.",
       trimspace(coalesce(var.existing_devops_project_id, ""))
@@ -40,14 +52,14 @@ check "conditional_inputs" {
 
 check "repository_names_are_unique" {
   assert {
-    condition = can(jsondecode(var.applications)) ? length(distinct(concat(
+    condition = can(local.application_config) ? length(distinct(concat(
       [lower(var.devops_pipeline_repository_name), "cluster-admin"],
-      [for application in jsondecode(var.applications) : try(application.chart_repository_name, "${application.name}-chart")],
-      flatten([for application in jsondecode(var.applications) : [for component in application.components : component.name]])
+      [for application in local.application_config : coalesce(try(application.chart_repository_name, null), "${application.name}-chart")],
+      flatten([for application in local.application_config : [for component in application.components : component.name]])
       ))) == length(concat(
       [lower(var.devops_pipeline_repository_name), "cluster-admin"],
-      [for application in jsondecode(var.applications) : try(application.chart_repository_name, "${application.name}-chart")],
-      flatten([for application in jsondecode(var.applications) : [for component in application.components : component.name]])
+      [for application in local.application_config : coalesce(try(application.chart_repository_name, null), "${application.name}-chart")],
+      flatten([for application in local.application_config : [for component in application.components : component.name]])
     )) : true
     error_message = "Derived repository names must be unique and cannot collide with the configured DevOps pipelines or cluster-admin repositories."
   }

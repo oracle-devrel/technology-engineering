@@ -1,0 +1,193 @@
+cells:
+  - kind: 2
+    value: "DELETE FROM USER_SDO_GEOM_METADATA \r
+
+      WHERE TABLE_NAME = 'GEZONDZH_GROEN_BUURT' \r
+
+      \  AND COLUMN_NAME = 'GEOM';\r
+
+      \r
+
+      \r
+
+      \r
+
+      INSERT INTO USER_SDO_GEOM_METADATA (TABLE_NAME, COLUMN_NAME, DIMINFO,
+      SRID)\r
+
+      VALUES (\r
+
+      \  'GEZONDZH_GROEN_BUURT',\r
+
+      \  'GEOM',\r
+
+      \  MDSYS.SDO_DIM_ARRAY(\r
+
+      \    MDSYS.SDO_DIM_ELEMENT('X', 0, 300000, 0.005),\r
+
+      \    MDSYS.SDO_DIM_ELEMENT('Y', 300000, 620000, 0.005)\r
+
+      \  ),\r
+
+      \  28992\r
+
+      );\r
+
+      \r
+
+      COMMIT;\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT INDEX_NAME, INDEX_TYPE, STATUS \r
+
+      FROM USER_INDEXES \r
+
+      WHERE TABLE_NAME = 'GEZONDZH_GROEN_BUURT';"
+    languageId: oracle-sql
+  - kind: 2
+    value: "-- 1. Verwijder de bestaande index (vervang 'GEZONDZH_GROEN_BUURT_IDX'
+      indien de naam anders is)\r
+
+      DROP INDEX GEZONDZH_GROEN_BUURT_IDX;\r
+
+      \r
+
+      -- 2. Maak de index opnieuw aan\r
+
+      CREATE INDEX GEZONDZH_GROEN_BUURT_IDX \r
+
+      ON <your user/schema>.GEZONDZH_GROEN_BUURT(GEOM) \r
+
+      INDEXTYPE IS MDSYS.SPATIAL_INDEX_V2;"
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT INDEX_NAME, INDEX_TYPE, STATUS \r
+
+      FROM USER_INDEXES \r
+
+      WHERE TABLE_NAME = 'GEZONDZH_GROEN_BUURT';"
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT SOORT_NL, COUNT(*) AS aantal\r
+
+      FROM bomen\r
+
+      GROUP BY SOORT_NL\r
+
+      ORDER BY aantal DESC;\r
+
+      -- SOORT_NL                       AANTAL \r
+
+      -- ------------------------------ ------ \r
+
+      -- zomereik                         8558 \r
+
+      -- es                               8085 \r
+
+      -- esdoorn                          7129 \r
+
+      -- zwarte els                       5968 \r
+
+      -- iep                              5843 \r
+
+      -- Hollandse iep                    5625 \r
+
+      -- schietwilg                       5448 \r
+
+      -- gewone linde                     4851 \r
+
+      -- plataan                          4117 \r
+
+      -- kers                             3784 \r
+
+      -- valse acacia                     3325 \r
+
+      -- koningslinde                     3323 \r
+
+      -- beuk                             3073 \r
+
+      -- paardenkastanje                  2664 \r
+
+      -- Spaanse aak                      2599 \r
+
+      -- Japanse kers                     2456 \r
+
+      -- Chinese peer                     2322 \r
+
+      -- valse Christusdoorn              1782 \r
+
+      -- kleinbladige linde               1767 \r
+
+      -- Spaeth's els                     1724 \r
+
+      -- Canadese populier                1719 \r
+
+      -- amberboom                        1710 "
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT SOORT_NL, COUNT(*) AS aantal\r
+
+      FROM bomen\r
+
+      GROUP BY SOORT_NL\r
+
+      ORDER BY aantal DESC\r
+
+      FETCH FIRST 1 ROWS ONLY;\r
+
+      -- SOORT_NL AANTAL \r
+
+      -- -------- ------ \r
+
+      -- zomereik   8558 \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.027\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "--- we do not have any with others but in spatial studio , it shows them
+      \r
+
+      \r
+
+      SELECT DISTINCT SOORT_NL\r
+
+      FROM bomen\r
+
+      WHERE LOWER(SOORT_NL) LIKE '%overig%'\r
+
+      \   OR LOWER(SOORT_NL) LIKE '%other%';"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      -- It checks whether both tables loaded completely,\r
+
+      --  whether their IDs are unique, and whether the key values—tree species
+      \r
+
+      --  and green percentage—are missing.\r
+
+      SELECT 'BOMEN' dataset, COUNT(*) rows_total,\r
+
+      \       COUNT(DISTINCT id) distinct_keys,\r
+
+      \       COUNT(*) - COUNT(soort_nl) missing_main_value\r
+
+      FROM bomen\r
+
+      UNION ALL\r
+
+      SELECT 'GEZONDZH_GROEN_BUURT', COUNT(*),\r
+
+      \       COUNT(DISTINCT buurtcode),\r
+
+      \       COUNT(*) - COUNT(percentage)\r
+
+      FROM gezondzh_groen_buurt;"
+    languageId: oracle-sql
