@@ -12,7 +12,7 @@ Use it to know more about ExaDB-D change Day 2 operations.
 
 ## How to use this asset?
 
-Read in the files folder the workshop in PDF [ExaDB-D - Change Operations Deep Dive Worksho.p](./files/Public_2_ExaDB-D_Change_v2.0.pdf).
+Read in the files folder the workshop in PDF [ExaDB-D - Change Operations Deep Dive Workshop](./files/Public_2_ExaDB-D_Change_v2.0.pdf).
   
 # License
 Copyright (c) 2026 Oracle and/or its affiliates.

@@ -64,7 +64,7 @@ Reviewed: 2026-09-14
 - [ExaDB-XS - Management Interfaces Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-management-interfaces-ws/README.md)
 - [ExaDB-XS - Provisioning Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-provisioning-ops-ws/README.md)
 - [ExaDB-XS - Change Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-change-ops-ws/README.md)
-- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-maintenace-ops-ws/README.md)
+- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-maintenance-ops-ws/README.md)
 - [ExaDB-XS - Backup and Recovery Operations Deep Dive Workshop](./customer-operations/oracle-database/exadb-xs/exadb-xs-backuprecovery-ops-ws/README.md)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling.](./customer-operations/oracle-database/scaling/README.md)
 - [Oracle Database@AWS Automation Workshop](./customer-operations/oracle-database/od-at-aws-cloud-operations/od-at-aws-automation-ws/README.md)

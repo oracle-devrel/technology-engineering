@@ -12,7 +12,7 @@ Use it to know more about ExaDB-D backup and recovery Day 2 operations.
 
 ## How to use this asset?
 
-Read in the files folder the workshop in PDF [ExaDB-D - Backup and Recovery Operations Deep Dive Worksho.p](./files/Public_4_ExaDB-D_BackupRecovery_v1.0.pdf).
+Read in the files folder the workshop in PDF [ExaDB-D - Backup and Recovery Operations Deep Dive Workshop](./files/Public_4_ExaDB-D_BackupRecovery_v1.0.pdf).
   
 # License
 Copyright (c) 2026 Oracle and/or its affiliates.
