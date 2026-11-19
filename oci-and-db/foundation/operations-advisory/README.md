@@ -42,7 +42,7 @@ Reviewed: 2026-09-14
 - [Git Security.](./multi-cloud-operating-models/operational-security/git-security/README.md)
 - [CI/CD Security.](./multi-cloud-operating-models/operational-security/cicd-security/README.md)
 - [CIS Compliance Dashboard.](./multi-cloud-operating-models/operational-security/CISDashboard/README.md)
-- [OCI Terraform GitHub Actions Worload Identity Federation Example.](./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md)
+- [OCI Workload Identity Federation for GitHub Actions.](./multi-cloud-operating-models/operational-security/github-actions-oci-wif/README.md)
 - [Programmatic Access to OCI for CI/CD Pipelines.](./multi-cloud-operating-models/operational-security/programatic-access-cicd/README.md)
 - [Cloud Guard Activity Reporter.](./multi-cloud-operating-models/operational-security/cloud-guard-activity-reporter/README.md)
 - [Automate Security List Updates.](./multi-cloud-operating-models/operational-security/automate-security-list-updates/README.md)  

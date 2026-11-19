@@ -114,6 +114,8 @@ No keys. No rotation process. No secrets in your pipeline configuration.
 
 If your platform supports OIDC (GitHub Actions, GitLab CI, and most modern CI tools do), use **Workload Identity Federation**. The only thing stored in your CI/CD system is an OAuth `client_id` and `client_secret` that can only be used to exchange tokens, it gives no access to OCI resources on its own.
 
+See [OCI Workload Identity Federation for GitHub Actions](../github-actions-oci-wif/README.md) for reference examples using Terraform and Ansible.
+
 ## When nothing else works
 
 If your tooling does not support OIDC and does not run inside OCI, use **API Signing Keys**. Follow the hardening steps in the implementation guide, they are not optional.

@@ -1,0 +1,35 @@
+---
+- name: Manage a private bucket with an ephemeral RPST
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    bucket_name: "{{ lookup('env', 'RPST_BUCKET_NAME') }}"
+    compartment_id: "{{ lookup('env', 'RPST_COMPARTMENT_ID') }}"
+    bucket_state: "{{ lookup('env', 'RPST_BUCKET_STATE') }}"
+  tasks:
+    - name: Check bucket inputs
+      ansible.builtin.assert:
+        that:
+          - bucket_name | length > 0
+          - compartment_id | length > 0
+          - bucket_state in ['present', 'absent']
+      no_log: true
+
+    - name: Read the Object Storage namespace
+      oracle.oci.oci_object_storage_namespace_facts:
+      register: namespace_result
+      no_log: true
+
+    - name: Set the requested bucket state
+      oracle.oci.oci_object_storage_bucket:
+        compartment_id: "{{ compartment_id }}"
+        namespace_name: "{{ namespace_result.namespace }}"
+        name: "{{ bucket_name }}"
+        public_access_type: NoPublicAccess
+        state: "{{ bucket_state }}"
+      no_log: true
+
+    - name: Report bucket operation
+      ansible.builtin.debug:
+        msg: "Bucket {{ bucket_name }} is {{ bucket_state }}."

@@ -52,6 +52,8 @@ A more detailed description of these best practices:
    
 7) **3rd party integration for IT systems reconciliation:** Many platforms support REST APIs webhook integrations (as ServiceNow), where it unlocks the power to interact with these platforms with another IT systems and workflows. Typical examples are CMDBs, ITSM, Monitoring platforms, etc.
 
+For examples of pipeline authentication without OCI user API keys, see [OCI Workload Identity Federation for GitHub Actions](../github-actions-oci-wif/README.md).
+
 # License
 
 Copyright (c) 2026 Oracle and/or its affiliates.
