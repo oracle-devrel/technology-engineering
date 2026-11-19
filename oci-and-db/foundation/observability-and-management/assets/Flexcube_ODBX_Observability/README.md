@@ -60,7 +60,19 @@ The architecture positions the observability services around the application and
 
 The animated excerpts below illustrate these capabilities using the supplied FLEXCUBE demo recording.
 
-### 2.3 Experience and request visibility
+### 2.3 Apdex and Real User Monitoring (RUM)
+
+**Real User Monitoring (RUM)** provides visibility into actual browser activity: sessions, page views, page and AJAX response times, and JavaScript errors. For an existing OBDX or FLEXCUBE web application, these measurements help operations assess the experience users receive during normal use. They are available when the APM Browser Agent is configured and uploading data. See Oracle’s [APM Metrics documentation](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/application-performance-monitoring-metrics.html).
+
+**Apdex** summarizes response-time satisfaction as a score from 0 to 1, with higher values indicating a better experience. APM domain rules define the response times considered satisfied, tolerating, or frustrated. Agree thresholds for the monitored operations so that the score reflects the bank’s service expectations. See Oracle’s [Apdex Thresholds documentation](https://docs.oracle.com/en-us/iaas/application-performance-monitoring/doc/configure-apdex-thresholds.html).
+
+![Animated demo of the OCI RUM overview, Apdex trend, response times, and page and session performance](files/apdex-rum.gif)
+
+*The RUM overview brings experience indicators together, then exposes page and session performance to help narrow the investigation.*
+
+Start with the relevant application and time window. Review Apdex alongside traffic volume, response times, and script errors, then inspect the affected pages or sessions and open their browser traces. An aggregate score can hide a poorly performing operation or an isolated failure; use the detailed evidence to understand the complaint. Sustained deterioration can then inform the alert conditions described later in this guide.
+
+### 2.4 Experience and request visibility
 
 APM browser instrumentation captures supported web interactions and experience data. Java instrumentation captures supported server operations and dependencies. Together, these help operations find the affected action and examine where latency or errors appear.
 
@@ -78,7 +90,7 @@ Trace context must be propagated across instrumented boundaries. Putting several
 
 *Server spans and topology help identify where to investigate next. The browser and server excerpts are separate examples; request identifiers and context are needed to establish their relationship.*
 
-### 2.4 Logs as supporting evidence
+### 2.5 Logs as supporting evidence
 
 Log Analytics makes configured records searchable across the monitored estate. Sources should preserve timestamps, resource identity, and useful application identifiers. When trace or request identifiers are present in logs, they provide a stronger association with a request than timestamp proximity alone.
 
@@ -96,7 +108,7 @@ Collection coverage must include the sources needed to answer operational questi
 
 *The operator requests an explanation of selected log evidence. Treat the answer as an investigation aid and validate its suggestions against the records and other diagnostics.*
 
-### 2.5 Database evidence and longer-term analysis
+### 2.6 Database evidence and longer-term analysis
 
 Database Management and Performance Hub support investigation of the relevant database workload. An APM drilldown can open the correct database, SQL ID, and time window when the required span attributes are available.
 
@@ -114,7 +126,7 @@ Operations Insights serves a different timescale: historical SQL behavior and re
 
 *SQL history and database analysis provide a longer-term view for investigating recurring degradation.*
 
-### 2.6 Proactive detection with alert
+### 2.7 Proactive detection with alert
 
 APM metric groups make selected metrics available to Monitoring. Alarms evaluate agreed conditions and Notifications sends messages to confirmed destinations. Availability Monitoring adds scheduled checks, including when there is little real-user traffic.
 
