@@ -19,7 +19,7 @@ This section includes assets that explain how different Day 1 & Day 2 operations
 - [ExaDB-XS - Management Interfaces Deep Dive Workshop](./oracle-database/exadb-xs/exadb-xs-management-interfaces-ws/README.md)
 - [ExaDB-XS - Provisioning Operations Deep Dive Workshop](./oracle-database/exadb-xs/exadb-xs-provisioning-ops-ws/README.md)
 - [ExaDB-XS - Change Operations Deep Dive Workshop](./oracle-database/exadb-xs/exadb-xs-change-ops-ws/README.md)
-- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./oracle-database/exadb-xs/exadb-xs-maintenace-ops-ws/README.md)
+- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./oracle-database/exadb-xs/exadb-xs-maintenance-ops-ws/README.md)
 - [ExaDB-XS - Backup and Recovery Operations Deep Dive Workshop](./oracle-database/exadb-xs/exadb-xs-backuprecovery-ops-ws/README.md)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling](./oracle-database/scaling/README.md)
 - [Oracle Database@AWS Automation Workshop](./oracle-database/od-at-aws-cloud-operations/od-at-aws-automation-ws/README.md)

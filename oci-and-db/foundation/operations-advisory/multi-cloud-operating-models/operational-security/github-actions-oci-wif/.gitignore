@@ -1,0 +1,48 @@
+# Terraform
+**/.terraform/*
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfvars
+*.tfplan
+*.tfstate
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .tfvars files, which may contain sensitive data
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Ignore override files as they are usually used to override resources locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OCI credentials (should never be committed)
+.oci/
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+
+# Local verification
+tests/

@@ -12,7 +12,7 @@ Use it to know more about ExaDB-D Management Interfaces.
 
 ## How to use this asset?
 
-Read in the files folder the workshop in PDF [ExaDB-D - Management Interfaces Deep Dive Worksho.p](./files/Public_0_OCI_ExaDB_Management_Interfaces_v1.0.pdf).
+Read in the files folder the workshop in PDF [ExaDB-D - Management Interfaces Deep Dive Workshop](./files/Public_0_OCI_ExaDB_Management_Interfaces_v1.0.pdf).
   
 # License
 Copyright (c) 2026 Oracle and/or its affiliates.

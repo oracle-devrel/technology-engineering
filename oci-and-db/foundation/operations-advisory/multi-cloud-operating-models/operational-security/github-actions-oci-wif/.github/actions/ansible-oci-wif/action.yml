@@ -1,0 +1,18 @@
+name: OCI Ansible RPST credentials
+description: Exchange a GitHub OIDC token for ephemeral OCI resource principal credentials.
+
+outputs:
+  rpst_path:
+    description: Protected RPST file path.
+    value: ${{ steps.credentials.outputs.rpst_path }}
+  private_key_path:
+    description: Protected ephemeral private key path.
+    value: ${{ steps.credentials.outputs.private_key_path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create OCI Ansible RPST credentials
+      id: credentials
+      shell: bash
+      run: python3 "$GITHUB_ACTION_PATH/main.py"
