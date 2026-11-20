@@ -3,7 +3,9 @@
 A set of Python command-line and Streamlit apps that combine Oracle Document Understanding (OCR) with Gen AI to classify documents, in particular those that have been bundled together (and scanned) into one long document. The samples demoed here are HR documents but they could be of any type.
 ![](images/ui.png)
 
-Reviewed: 04.08.2026
+Author: Brona Nilsson
+
+Reviewed: 24.09.2026
 
 ## Features
 
@@ -70,9 +72,9 @@ python classify_multi_document.py samples/multidoc.pdf -o results/
 ```
 
 **How it works:**
-- Detects document boundaries using visual analysis (blank pages, layout changes)
-- OCRs only the first page of each detected sub-document (~80% cost savings)
-- Classifies all documents in batch
+- OCRs every non-blank page with Document Understanding (blank separator pages are skipped)
+- One LLM call reads the page texts, groups consecutive pages into documents, and classifies each one
+- Text-based grouping is what lets page 2 of a letter stay with page 1; visual similarity cannot tell them apart
 - Flags sensitive documents automatically
 
 ## Streamlit Applications
@@ -93,7 +95,7 @@ streamlit run pages/multi_document_viewer.py
 
 Upload a multi-page PDF bundle to:
 - Visually browse pages with Previous/Next navigation
-- See detected document boundaries
+- See where each document starts and which pages it spans
 - View classification for each document
 - Export results to JSON
 

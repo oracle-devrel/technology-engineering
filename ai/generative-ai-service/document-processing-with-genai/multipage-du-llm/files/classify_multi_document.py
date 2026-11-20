@@ -6,14 +6,13 @@ MIT License — see LICENSE for details.
 Multi-Document Bundle Classifier
 ================================
 Processes large PDF files (e.g., 70 pages) containing multiple scanned documents.
-Uses smart boundary detection to minimize OCR/LLM costs.
+OCR runs per page; a single LLM call then groups pages into documents and classifies them.
 
 Strategy:
-1. Convert PDF to low-res images for boundary detection
-2. Detect document boundaries (blank pages, visual breaks)
-3. OCR only first page of each detected sub-document
-4. Batch classify all documents with LLM
-5. Generate report with page ranges and categories
+1. Convert PDF to images
+2. OCR every non-blank page with Document Understanding
+3. One LLM call groups consecutive pages into documents and classifies each
+4. Generate report with page ranges and categories
 """
 
 import os
@@ -40,9 +39,9 @@ from oci_utils import (
 from document_utils import (
     DocumentSegment,
     SENSITIVE_CATEGORIES,
-    detect_document_boundaries,
+    is_blank_page,
     ocr_page,
-    batch_classify_documents,
+    segment_and_classify_pages,
 )
 
 
@@ -58,11 +57,8 @@ class BundleAnalysis:
     model_used: str
 
 
-def pdf_to_images(pdf_path: str, dpi: int = 72) -> List[Image.Image]:
-    """
-    Convert PDF to images at specified DPI.
-    Lower DPI (72) for boundary detection, higher (200) for OCR.
-    """
+def pdf_to_images(pdf_path: str, dpi: int = 200) -> List[Image.Image]:
+    """Convert PDF to images at the given DPI (200 is plenty for OCR)."""
     print(f"📄 Converting PDF to images (DPI={dpi})...")
     images = convert_from_path(pdf_path, dpi=dpi)
     print(f"✓ Converted {len(images)} pages")
@@ -88,42 +84,31 @@ def analyze_document_bundle(pdf_path: str, output_dir: str = OUTPUT_DIR) -> Bund
     print(f"File: {filename}")
     print("=" * 70)
     
-    # Step 1: Convert PDF to low-res images for boundary detection
-    low_res_images = pdf_to_images(pdf_path, dpi=72)
-    total_pages = len(low_res_images)
-    
-    # Step 2: Detect document boundaries (using shared function)
-    boundaries, blank_pages = detect_document_boundaries(low_res_images, verbose=True)
-    
-    # Create DocumentSegment objects
-    segments = [DocumentSegment(start_page=s, end_page=e) for s, e in boundaries]
-    
-    # Step 3: Convert to high-res for OCR (only first page of each segment)
-    print("\n📷 Converting key pages to high-res for OCR...")
-    high_res_images = pdf_to_images(pdf_path, dpi=200)
-    
-    # Step 4: OCR first page of each segment (using shared function)
-    print("\n🔤 Running OCR on first page of each document...")
+    # Step 1: Convert PDF to images
+    images = pdf_to_images(pdf_path)
+    total_pages = len(images)
+
+    # Step 2: OCR every non-blank page
+    print("\n🔤 Running OCR on each page...")
     doc_client = init_document_client()
-    pages_ocrd = 0
-    
-    for seg in segments:
-        page_idx = seg.start_page - 1  # Convert to 0-indexed
-        print(f"  OCR page {seg.start_page}...", end=" ")
-        seg.first_page_text = ocr_page(doc_client, high_res_images[page_idx], seg.start_page)
-        pages_ocrd += 1
-        
-        if seg.first_page_text:
-            preview = seg.first_page_text[:50].replace('\n', ' ')
-            print(f"✓ ({len(seg.first_page_text)} chars) \"{preview}...\"")
-        else:
-            print("✓ (no text)")
-    
-    # Step 5: Batch classify all documents (using shared function)
+    page_texts: List[str] = []
+    for i, img in enumerate(images, start=1):
+        if is_blank_page(img):
+            print(f"  Page {i}: blank, skipped")
+            page_texts.append("")
+            continue
+        print(f"  OCR page {i}...", end=" ")
+        text = ocr_page(doc_client, img, i)
+        page_texts.append(text)
+        preview = text[:50].replace("\n", " ")
+        print(f"✓ ({len(text)} chars) \"{preview}...\"" if text else "✓ (no text)")
+    pages_ocrd = sum(1 for t in page_texts if t)
+
+    # Step 3: One LLM call groups pages into documents and classifies them
     categories = load_categories()
     gen_client, compartment_id = init_generative_ai_client()
-    segments = batch_classify_documents(gen_client, compartment_id, segments, categories, verbose=True)
-    
+    segments = segment_and_classify_pages(gen_client, compartment_id, page_texts, categories, verbose=True)
+
     # Calculate processing time
     processing_time = (datetime.now() - start_time).total_seconds()
     
@@ -144,7 +129,7 @@ def analyze_document_bundle(pdf_path: str, output_dir: str = OUTPUT_DIR) -> Bund
     print("=" * 70)
     print(f"Total pages: {total_pages}")
     print(f"Documents found: {len(segments)}")
-    print(f"Pages OCR'd: {pages_ocrd} (saved {total_pages - pages_ocrd} OCR calls)")
+    print(f"Pages OCR'd: {pages_ocrd} ({total_pages - pages_ocrd} blank pages skipped)")
     print(f"Processing time: {processing_time:.1f} seconds")
     
     print("\n📋 Documents in bundle:")

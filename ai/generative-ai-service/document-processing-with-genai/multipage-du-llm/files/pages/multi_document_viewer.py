@@ -20,7 +20,7 @@ import io
 import json
 import os
 import sys
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from dataclasses import dataclass
 
 from PIL import Image
@@ -44,10 +44,8 @@ from document_utils import (
     SENSITIVE_CATEGORIES,
     image_to_jpeg_bytes,
     is_blank_page,
-    compute_image_hash,
-    detect_document_boundaries,
     ocr_page,
-    batch_classify_documents,
+    segment_and_classify_pages,
 )
 
 st.set_page_config(page_title="Multi-Document Viewer", layout="wide")
@@ -96,89 +94,34 @@ def convert_pdf_to_images(pdf_bytes: bytes, dpi: int = 100) -> List[bytes]:
     return [image_to_jpeg_bytes(img) for img in images]
 
 
-def detect_boundaries_for_ui(images: List[Image.Image]) -> List[PageInfo]:
-    """
-    Detect document boundaries and return page info for UI.
-    Uses the shared detect_document_boundaries function.
-    """
-    # Use shared boundary detection - returns (segments, blank_pages)
-    segments, blank_indices = detect_document_boundaries(images, verbose=False)
-    blank_set = set(blank_indices)
-    
-    # Build boundary set from segments
-    boundaries = set()
-    for start, end in segments:
-        boundaries.add(start - 1)  # Convert back to 0-indexed
-    
-    # Map pages to document indices
-    page_to_doc = {}
-    for doc_idx, (start, end) in enumerate(segments):
-        for page_num in range(start, end + 1):
-            page_to_doc[page_num - 1] = doc_idx  # 0-indexed
-    
-    # Create PageInfo objects
-    pages = []
-    for i, img in enumerate(images):
-        pages.append(PageInfo(
-            page_num=i + 1,
-            image=img,
-            is_blank=i in blank_set,
-            is_boundary=i in boundaries,
-            document_idx=page_to_doc.get(i) if i not in blank_set else None, 
-        ))
-    
-    return pages
+def analyze_bundle(images: List[Image.Image]) -> Tuple[List[PageInfo], List[UIDocumentSegment]]:
+    """OCR every non-blank page, then let the LLM group pages into documents and classify them."""
+    doc_client = init_document_client()
+    page_texts = ["" if is_blank_page(img) else ocr_page(doc_client, img, i) for i, img in enumerate(images, 1)]
 
+    gen_client, compartment_id = init_generative_ai_client()
+    found = segment_and_classify_pages(gen_client, compartment_id, page_texts, load_categories())
 
-def create_ui_document_segments(pages: List[PageInfo]) -> List[UIDocumentSegment]:
-    """Create document segments from page info"""
-    segments = {}
-    
-    for page in pages:
-        if page.document_idx is not None:
-            if page.document_idx not in segments:
-                segments[page.document_idx] = UIDocumentSegment(
-                    doc_idx=page.document_idx,
-                    start_page=page.page_num,
-                    end_page=page.page_num
-                )
-            else:
-                segments[page.document_idx].end_page = page.page_num
-    
-    return list(segments.values())
-
-
-def classify_documents_for_ui(
-    gen_client, 
-    compartment_id: str, 
-    segments: List[UIDocumentSegment],
-    categories: List[str]
-) -> List[UIDocumentSegment]:
-    """Classify documents using the shared batch_classify_documents function"""
-    
-    # Convert UI segments to DocumentSegment for shared function
-    shared_segments = [
-        DocumentSegment(
-            start_page=seg.start_page,
-            end_page=seg.end_page,
-            first_page_text=seg.ocr_text
-        )
-        for seg in segments
+    segments = [
+        UIDocumentSegment(doc_idx=i, start_page=s.start_page, end_page=s.end_page, category=s.category,
+                          confidence=s.confidence, confidence_score=s.confidence_score,
+                          reasoning=s.reasoning, ocr_text=s.first_page_text)
+        for i, s in enumerate(found)
     ]
-    
-    # Use shared classification function
-    classified_segments = batch_classify_documents(
-        gen_client, compartment_id, shared_segments, categories, verbose=False
-    )
-    
-    # Apply results back to UI segments
-    for ui_seg, classified in zip(segments, classified_segments):
-        ui_seg.category = classified.category
-        ui_seg.confidence = classified.confidence
-        ui_seg.confidence_score = classified.confidence_score
-        ui_seg.reasoning = classified.reasoning
-    
-    return segments
+    page_to_seg = {p: seg for seg in segments for p in range(seg.start_page, seg.end_page + 1)}
+
+    pages = []
+    for i, img in enumerate(images, 1):
+        seg = page_to_seg.get(i)
+        pages.append(PageInfo(
+            page_num=i, image=img, is_blank=not page_texts[i - 1],
+            is_boundary=seg is not None and seg.start_page == i,
+            document_idx=seg.doc_idx if seg else None,
+            category=seg.category if seg else None,
+            confidence=seg.confidence if seg else None,
+            confidence_score=seg.confidence_score if seg else None,
+        ))
+    return pages, segments
 
 
 # ============================================================================
@@ -192,8 +135,6 @@ if "segments" not in st.session_state:
     st.session_state.segments = []
 if "current_page" not in st.session_state:
     st.session_state.current_page = 0
-if "classified" not in st.session_state:
-    st.session_state.classified = False
 
 
 # Sidebar
@@ -202,50 +143,14 @@ with st.sidebar:
     uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
     
     if uploaded_file:
-        if st.button("🔍 Analyze Document", type="primary"):
+        if st.button("🔍 Analyze & Classify", type="primary"):
             with st.spinner("Converting PDF to images..."):
-                pdf_bytes = uploaded_file.read()
-                images = convert_from_bytes(pdf_bytes, dpi=100)
-                
-            with st.spinner("Detecting document boundaries..."):
-                st.session_state.pages = detect_boundaries_for_ui(images)
-                st.session_state.segments = create_ui_document_segments(st.session_state.pages)
+                images = convert_from_bytes(uploaded_file.read(), dpi=200)
+            with st.spinner(f"OCR on {len(images)} pages, then grouping and classifying with Llama 3.3..."):
+                st.session_state.pages, st.session_state.segments = analyze_bundle(images)
                 st.session_state.current_page = 0
-                st.session_state.classified = False
-            
             st.success(f"Found {len(st.session_state.segments)} documents in {len(images)} pages")
-        
-        if st.session_state.pages and not st.session_state.classified:
-            if st.button("🤖 Classify All Documents"):
-                with st.spinner("Running OCR on first pages..."):
-                    doc_client = init_document_client()
-                    for seg in st.session_state.segments:
-                        first_page_idx = seg.start_page - 1
-                        if first_page_idx < len(st.session_state.pages):
-                            img = st.session_state.pages[first_page_idx].image
-                            # Use shared OCR function
-                            seg.ocr_text = ocr_page(doc_client, img, seg.start_page)
-                
-                with st.spinner("Classifying with Llama 3.3..."):
-                    gen_client, compartment_id = init_generative_ai_client()
-                    categories = load_categories()
-                    st.session_state.segments = classify_documents_for_ui(
-                        gen_client, compartment_id, 
-                        st.session_state.segments, categories
-                    )
-                    
-                    # Apply classifications to pages
-                    for seg in st.session_state.segments:
-                        for page in st.session_state.pages:
-                            if page.document_idx == seg.doc_idx:
-                                page.category = seg.category
-                                page.confidence = seg.confidence
-                                page.confidence_score = seg.confidence_score
-                    
-                    st.session_state.classified = True
-                
-                st.success("Classification complete!")
-                st.rerun()
+            st.rerun()
     
     # Document summary
     if st.session_state.segments:
@@ -356,7 +261,7 @@ if st.session_state.pages:
                 st.info("Not classified yet")
         
         # Export button
-        if st.session_state.classified:
+        if st.session_state.segments:
             st.markdown("---")
             if st.button("💾 Export Results"):
                 result = {
@@ -391,15 +296,15 @@ else:
         This tool analyzes multi-page PDF bundles containing multiple scanned documents:
         
         1. **Upload** a PDF containing multiple documents (e.g., employee files)
-        2. **Analyze** to detect document boundaries (blank pages, layout changes)
-        3. **Classify** each detected document using AI
-        4. **Browse** through pages visually with classification info
-        5. **Export** results to JSON
+        2. **Analyze & Classify**: every non-blank page is OCR'd, then one LLM call
+           groups consecutive pages into documents and classifies each one
+        3. **Browse** through pages visually with classification info
+        4. **Export** results to JSON
         
-        **Smart Detection:**
-        - Detects blank separator pages
-        - Uses visual similarity to find document boundaries
-        - Only OCRs the first page of each document (cost efficient)
+        **Why the LLM does the grouping:**
+        - Page 2 of a letter looks nothing like page 1, so visual similarity cannot merge them
+        - Reading the text, the model sees a continued paragraph or closing signature
+        - Blank pages are skipped and never sent to OCR
         
         **Sensitive Document Flagging:**
         - Automatically flags potentially sensitive documents
