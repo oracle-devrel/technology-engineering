@@ -2,9 +2,14 @@
 
 The Observability and Manageability (O&M) platform is a suite of OCI services that provide visibility and insights across cloud-native and traditional technologies, whether in multicloud or on-premises environments. It offers broad, standards-based ecosystem support, helping enterprises manage diverse IT portfolios, reduce troubleshooting time, prevent outages, and align IT operations with business objectives.
 
+Catch up on the latest news in OCI Observability. Watch the video:
 &nbsp; 
 
-Reviewed: Reviewed: 17.06.2026
+[What's new in OCI Observability](https://www.youtube.com/watch?app=desktop&v=GX5oDtgRDqA&ra=m)
+
+&nbsp; 
+
+Reviewed: Reviewed: 23.11.2026
 
 &nbsp;
 
