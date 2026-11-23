@@ -1,0 +1,72 @@
+cells:
+- kind: 1
+  value: '# Transactions & Concurrency — configuration and readiness
+
+
+    Run as an **administrative user in the target PDB**, not SYS unless that is the supported connection. The configuration
+    is intentionally separate from the application-schema setup in Session 1.
+
+
+    **Scope:** Inspect priority settings; capture the original values; optionally configure short priority wait
+    targets. The `ALTER SYSTEM` statements affect other workloads in this PDB and may be rejected on Autonomous
+    Database Free. If unavailable, skip the Priority Transactions execution and use the remaining demonstrations.
+
+
+    **Important:** Capture the original parameter values before changing anything. Run `transactions_concurrency_admin_cleanup.sql`
+    afterward to restore the original values. Do not assume Oracle defaults match the prior environment.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT name, value, isdefault, issys_modifiable\nFROM v$parameter\nWHERE name IN ('priority_txns_mode',\
+    \ 'priority_txns_high_wait_target',\n               'priority_txns_medium_wait_target', 'txn_priority')\nORDER\
+    \ BY name;\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '## Administrative change — execute only on an isolated demo database
+
+
+    **Why this matters:** A high-priority transaction can request a lock held by lower-priority work. In `TRACK`
+    mode Oracle records qualifying conflicts; in `ROLLBACK` mode it can roll back the lower-priority blocker. A
+    short wait target makes the effect visible, but changing system settings on a shared customer database is not
+    appropriate without authorization.
+
+
+    If the target PDB supports these commands, execute the three statements below. If you receive an insufficient
+    privilege or unsupported-operation error on ADB Free, **do not retry as SYS**. Continue with Lock-Free Reservations
+    and Sessionless Transactions and discuss Priority Transactions conceptually.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'ALTER SYSTEM SET priority_txns_high_wait_target = 5;
+
+    ALTER SYSTEM SET priority_txns_medium_wait_target = 5;
+
+    ALTER SYSTEM SET priority_txns_mode = ROLLBACK;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## Confirm the effective configuration
+
+
+    For the live priority test, `PRIORITY_TXNS_MODE` must be `ROLLBACK`, with a short `PRIORITY_TXNS_HIGH_WAIT_TARGET`.
+    A session can set `TXN_PRIORITY` with `ALTER SESSION` **before** starting a transaction. If the system parameters
+    cannot be modified, the priority section is an awareness discussion only.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT name, value FROM v$parameter\nWHERE name IN ('priority_txns_mode', 'priority_txns_high_wait_target',\n\
+    \               'priority_txns_medium_wait_target')\nORDER BY name;\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '## References
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/admin/managing-transactions.html
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/PRIORITY_TXNS_MODE.html
+
+    '
+  languageId: markdown

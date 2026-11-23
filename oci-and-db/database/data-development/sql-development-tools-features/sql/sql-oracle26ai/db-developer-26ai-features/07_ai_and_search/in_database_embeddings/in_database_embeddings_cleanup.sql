@@ -1,0 +1,10 @@
+DROP TABLE ai_embedding_docs PURGE;
+BEGIN
+  DBMS_VECTOR.DROP_ONNX_MODEL(model_name => 'DEMO_MINILM', force => TRUE);
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -40101 THEN
+      RAISE;
+    END IF;
+END;
+/

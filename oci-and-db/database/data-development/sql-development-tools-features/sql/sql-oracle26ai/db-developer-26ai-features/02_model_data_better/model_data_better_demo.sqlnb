@@ -1,0 +1,239 @@
+cells:
+  - kind: 1
+    value: |-
+      # Model Data Better
+
+      Application semantics, metadata, and business rules are often spread across database definitions, application code, and documentation. That makes the data model harder to understand, reuse, and keep consistent as the application evolves.
+
+      Oracle AI Database 26ai adds capabilities that let developers put more of that intent into the data model itself.
+
+      We will:
+      1. Define reusable meaning and validation with a Data Use Case Domain.
+      2. Add application-facing metadata with Schema Annotations.
+      3. Enforce a business rule across tables with an Assertion.
+
+      The developer outcome is a data model that carries more of the application's meaning, reducing duplicated logic and making that intent discoverable and enforceable at the database layer.
+    languageId: markdown
+
+  - kind: 1
+    value: |-
+      ## 1. Define reusable meaning with a Data Use Case Domain
+
+      **Before**
+
+      A rule such as “this column contains an email address” is commonly repeated in table constraints, validation code, and application logic. The datatype tells the database that the value is text, but the intended use and validation rule are not necessarily reusable.
+
+      **Now**
+
+      A Data Use Case Domain packages the datatype together with reusable properties and constraints. Columns that use the domain inherit the same definition.
+    languageId: markdown
+
+  - kind: 2
+    value: |-
+      CREATE DOMAIN mdb_email AS VARCHAR2(255)
+        CONSTRAINT mdb_email_ck
+          CHECK (REGEXP_LIKE(VALUE, '^[^@[:space:]]+@[^@[:space:]]+[.][^@[:space:]]+$'))
+        ANNOTATIONS (
+          display 'Email Address',
+          data_use 'Contact'
+        );
+
+      CREATE TABLE mdb_customers (
+        customer_id   NUMBER PRIMARY KEY,
+        customer_name VARCHAR2(100) NOT NULL,
+        email         mdb_email,
+        credit_limit  NUMBER(12,2) NOT NULL
+      );
+
+      INSERT INTO mdb_customers VALUES (1, 'Acme Corp', 'sales@acme.example', 1000);
+      INSERT INTO mdb_customers VALUES (2, 'Beta Ltd', 'orders@beta.example', 5000);
+      COMMIT;
+    languageId: oracle-sql
+
+  - kind: 2
+    value: |-
+      SELECT table_name,
+             column_name,
+             domain_name
+      FROM   user_tab_columns
+      WHERE  table_name = 'MDB_CUSTOMERS'
+      AND    column_name = 'EMAIL';
+    languageId: oracle-sql
+
+  - kind: 1
+    value: |-
+      The same rule is enforced wherever the domain is used. An invalid email should be rejected by the database rather than depending on every application to implement the check correctly.
+    languageId: markdown
+
+  - kind: 2
+    value: |-
+      BEGIN
+        INSERT INTO mdb_customers VALUES (3, 'Invalid Email Co', 'not-an-email', 2000);
+      EXCEPTION
+        WHEN OTHERS THEN
+          NULL;
+      END;
+      /
+
+      SELECT CASE
+               WHEN COUNT(*) = 0 THEN 'Rejected by the Domain constraint'
+               ELSE 'Unexpected: invalid email row exists'
+             END AS result
+      FROM   mdb_customers
+      WHERE  customer_id = 3;
+    languageId: oracle-sql
+
+  - kind: 1
+    value: |-
+      **Developer change:** the validation rule travels with the data definition. Developers can reuse the same domain in other tables instead of copying the datatype, constraint, and associated meaning into each application path.
+    languageId: markdown
+
+  - kind: 1
+    value: |-
+      ## 2. Add application metadata with Schema Annotations
+
+      **Before**
+
+      Applications and development tools often keep display labels, business classifications, and other metadata outside the database. The metadata can then be duplicated across applications or drift from the schema.
+
+      **Now**
+
+      Schema Annotations attach application-facing metadata directly to database objects and columns. The metadata is stored with the schema and can be discovered from the data dictionary.
+    languageId: markdown
+
+  - kind: 2
+    value: |-
+      ALTER TABLE mdb_customers MODIFY (
+        customer_name ANNOTATIONS (
+          display 'Customer Name',
+          group_name 'Customer'
+        ),
+        email ANNOTATIONS (
+          display 'Email Address',
+          data_use 'Contact'
+        ),
+        credit_limit ANNOTATIONS (
+          display 'Credit Limit',
+          sensitivity 'Financial'
+        )
+      );
+    languageId: oracle-sql
+
+  - kind: 2
+    value: |-
+      SELECT object_name,
+             column_name,
+             annotation_name,
+             annotation_value
+      FROM   user_annotations_usage
+      WHERE  object_name = 'MDB_CUSTOMERS'
+      ORDER BY column_name, annotation_name;
+    languageId: oracle-sql
+
+  - kind: 1
+    value: |-
+      **Developer change:** application metadata becomes part of the database definition and can be discovered by applications and development tooling instead of being maintained as separate configuration.
+    languageId: markdown
+
+  - kind: 1
+    value: |-
+      ## 3. Enforce a business rule with an Assertion
+
+      **Before**
+
+      A rule such as “an order must not exceed the customer's credit limit” spans two tables. Earlier designs commonly put that logic in application code or triggers, which means the rule can be duplicated across code paths and must be maintained carefully under concurrency.
+
+      **Now**
+
+      An Assertion is a database-enforced Boolean rule that can reference more than one table. The rule becomes part of the schema and is checked as the underlying data changes.
+    languageId: markdown
+
+  - kind: 2
+    value: |-
+      CREATE TABLE mdb_orders (
+        order_id    NUMBER PRIMARY KEY,
+        customer_id NUMBER NOT NULL REFERENCES mdb_customers(customer_id),
+        order_total NUMBER(12,2) NOT NULL
+      );
+
+      CREATE ASSERTION mdb_order_within_credit
+      CHECK (
+        NOT EXISTS (
+          SELECT 'order exceeds customer credit limit'
+          FROM   mdb_orders o,
+                 mdb_customers c
+          WHERE  o.customer_id = c.customer_id
+          AND    o.order_total > c.credit_limit
+        )
+      );
+    languageId: oracle-sql
+
+  - kind: 2
+    value: |-
+      INSERT INTO mdb_orders VALUES (1, 1, 750);
+      COMMIT;
+
+      BEGIN
+        INSERT INTO mdb_orders VALUES (2, 1, 1250);
+      EXCEPTION
+        WHEN OTHERS THEN
+          NULL;
+      END;
+      /
+
+      SELECT order_id,
+             customer_id,
+             order_total
+      FROM   mdb_orders
+      ORDER BY order_id;
+    languageId: oracle-sql
+
+  - kind: 1
+    value: |-
+      The valid order remains and the violating order does not. The same assertion also protects the rule when the related customer changes.
+    languageId: markdown
+
+  - kind: 2
+    value: |-
+      BEGIN
+        UPDATE mdb_customers
+        SET    credit_limit = 500
+        WHERE  customer_id = 1;
+      EXCEPTION
+        WHEN OTHERS THEN
+          NULL;
+      END;
+      /
+
+      SELECT customer_id,
+             credit_limit
+      FROM   mdb_customers
+      WHERE  customer_id = 1;
+    languageId: oracle-sql
+
+  - kind: 1
+    value: |-
+      **Developer change:** the business rule is enforced centrally rather than being tied to one application code path. Inserts, updates, and changes to the related data are governed by the same definition.
+    languageId: markdown
+
+  - kind: 1
+    value: |-
+      ## Developer outcome
+
+      **Domains** make reusable data meaning and validation part of the model.
+
+      **Annotations** make application metadata part of the schema and discoverable to tools.
+
+      **Assertions** make cross-row and cross-table business rules declarative and database-enforced.
+
+      Together, these capabilities let the database carry more application intent. That can mean less duplicated application logic, more consistent behavior across access paths, and a data model that is easier for developers and tools to understand.
+    languageId: markdown
+
+  - kind: 1
+    value: |-
+      ## References
+
+      - https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/create-domain.html
+      - https://docs.oracle.com/en/database/oracle/oracle-database/26/adfns/registering-application-data-usage-database.html
+      - https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/create-assertion.html
+    languageId: markdown

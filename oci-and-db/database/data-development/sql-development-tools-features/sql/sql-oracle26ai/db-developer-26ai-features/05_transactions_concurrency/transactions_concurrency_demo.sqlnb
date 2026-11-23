@@ -1,0 +1,137 @@
+cells:
+- kind: 1
+  value: |
+    # Transactions & Concurrency
+
+    Modern applications can put pressure on two traditional assumptions: that updating a hot row should lock that row for the duration of the transaction, and that a database transaction must stay attached to one database session until it completes.
+
+    Those assumptions can become expensive with high concurrency, connection pools, stateless services, and user-driven workflows that pause between steps.
+
+    Oracle AI Database adds developer-facing transaction models for specific application patterns.
+
+    **We will:**
+    1. Use Lock-Free Reservation for a hot numeric resource.
+    2. Use a Sessionless Transaction to separate transaction lifetime from connection lifetime.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 1. Reserve hot numeric resources with Lock-Free Reservation
+
+    **Why this matters:**
+
+    Inventory, balances, capacity, and similar numeric resources can become hotspots when many sessions update the same row. With a traditional update, sessions can serialize behind a row lock even when the business operation is simply reserving or releasing part of a numeric resource.
+
+    Lock-Free Reservation introduces a reservation-aware numeric column for suitable use cases.
+
+    **What changes for development:**
+    - model the hot numeric resource explicitly as reservable;
+    - express reservations with normal DML;
+    - let the database manage reservation semantics designed to reduce unnecessary blocking for this pattern.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE TABLE dev_inventory (item_id NUMBER PRIMARY KEY, available_qty NUMBER RESERVABLE CHECK (available_qty >= 0));
+    INSERT INTO dev_inventory VALUES (1, 10);
+    COMMIT;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    Reserve three units. The application still expresses the business action as an `UPDATE`; the important change is the semantics of the reservable column.
+  languageId: markdown
+- kind: 2
+  value: |
+    UPDATE dev_inventory
+    SET available_qty = available_qty - 3
+    WHERE item_id = 1;
+
+    SELECT item_id, available_qty
+    FROM dev_inventory
+    WHERE item_id = 1;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    Commit finalizes the reservation. This is not a replacement for every locking pattern; it is a targeted model for suitable hot numeric resources.
+  languageId: markdown
+- kind: 2
+  value: |
+    COMMIT;
+    SELECT item_id, available_qty
+    FROM dev_inventory
+    WHERE item_id = 1;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 2. Separate transaction lifetime from connection lifetime
+
+    **Why this matters:**
+
+    Connection-pooled and stateless applications work best when database connections can be returned quickly to the pool. A long-lived business transaction can conflict with that model if the transaction must remain attached to one session while the application waits for another request or user action.
+
+    Sessionless Transactions allow a transaction to be started, suspended, and later resumed without holding the original session for the whole business interval.
+
+    **What changes for development:**
+    - treat the transaction as an application resource with its own identity;
+    - suspend it when the application no longer needs the connection;
+    - resume it later on a database session and continue the same transaction;
+    - improve connection-pool utilization for workflows that genuinely need a longer transaction lifetime.
+  languageId: markdown
+- kind: 2
+  value: |
+    DECLARE
+      l_gtrid VARCHAR2(128);
+    BEGIN
+      l_gtrid := DBMS_TRANSACTION.START_TRANSACTION(
+        UTL_RAW.CAST_TO_RAW('dev_sessionless_txn'),
+        DBMS_TRANSACTION.TRANSACTION_TYPE_SESSIONLESS,
+        60,
+        DBMS_TRANSACTION.TRANSACTION_NEW
+      );
+      INSERT INTO dev_inventory(item_id, available_qty) VALUES (2, 20);
+    END;
+    /
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    Suspend the transaction. The transaction remains active, but it is no longer required to stay attached to the current database session.
+  languageId: markdown
+- kind: 2
+  value: |
+    EXEC DBMS_TRANSACTION.SUSPEND_TRANSACTION;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    Resume the transaction using its identifier and complete the work.
+  languageId: markdown
+- kind: 2
+  value: |
+    DECLARE
+      l_gtrid VARCHAR2(128);
+    BEGIN
+      l_gtrid := DBMS_TRANSACTION.START_TRANSACTION(
+        UTL_RAW.CAST_TO_RAW('dev_sessionless_txn'),
+        DBMS_TRANSACTION.TRANSACTION_TYPE_SESSIONLESS,
+        60,
+        DBMS_TRANSACTION.TRANSACTION_RESUME
+      );
+    END;
+    /
+    COMMIT;
+    SELECT * FROM dev_inventory ORDER BY item_id;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## What changes for the database developer?
+
+    **Lock-Free Reservation** changes how suitable hot numeric resources can be modeled under concurrency.
+
+    **Sessionless Transactions** change the relationship between a transaction and a pooled database connection.
+
+    Both features are application-design tools, not blanket replacements for conventional transactions. Their value comes from recognizing the specific contention or connection-lifetime problem and choosing a database capability designed for that pattern.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## References
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/adfns/using-lock-free-reservation.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/adfns/developing-applications-sessionless-transactions.html
+  languageId: markdown

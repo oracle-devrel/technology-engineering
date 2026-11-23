@@ -1,0 +1,199 @@
+cells:
+- kind: 1
+  value: '# Transactions & Concurrency — Session 1
+
+
+    Open this notebook and Session 2 **side by side with two independent connections to the same application schema**. Do not use a pooled connection that may switch sessions between cells. Session 1 creates the demo objects. Run only the cells for the current checkpoint. Leave transactions open where instructed.
+
+
+    Sequence: **Lock-Free Reservations → Sessionless Transactions → Transaction Priorities**. The final priority section requires the optional administrative configuration. The original `transactions_concurrency_demo.sqlnb` remains available as the single-session fallback.
+
+
+    The session ID checks below confirm independent connections before any transactional work.
+
+    '
+  languageId: markdown
+- kind: 1
+  value: '## Confirm independent database session
+
+
+    Run this in Session 1 and compare with Session 2 before starting the transactions.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT SYS_CONTEXT('USERENV','SESSION_USER') AS connected_user,\n       SYS_CONTEXT('USERENV','SID') AS session_id,\n       SYS_CONTEXT('USERENV','CON_NAME') AS container_name\nFROM dual;\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '## Setup — Session 1 only
+
+
+    Run once after the previous cleanup. This creates separate tables for the three use cases; no admin connection is needed for the table objects.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "CREATE TABLE dev_inventory (\n  item_id NUMBER PRIMARY KEY,\n  available_qty NUMBER RESERVABLE CONSTRAINT dev_inv_nonnegative CHECK (available_qty >= 0)\n);\nINSERT INTO dev_inventory VALUES (1, 10);\nCREATE TABLE dev_sessionless_orders (order_id NUMBER PRIMARY KEY, stage VARCHAR2(30));\nCREATE TABLE dev_priority_orders (order_id NUMBER PRIMARY KEY, status VARCHAR2(30));\nINSERT INTO dev_priority_orders VALUES (1, 'READY');\nCOMMIT;\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '## A. Lock-Free Reservations — S1-A1
+
+
+    **Why this matters:** Two transactions can reserve against the same numeric resource without taking the traditional long-held row lock. Oracle tracks pending reservations and checks the constraint against the projected available amount.
+
+
+    Session 1 reserves **8 of 10**. **Do not commit yet.** Then run S2-A1 in Session 2.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'UPDATE dev_inventory
+
+    SET available_qty = available_qty - 8
+
+    WHERE item_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### S1-A2 — finalize the accepted reservation
+
+
+    After Session 2 attempts to reserve 3, commit Session 1. The competing request that would oversubscribe the available amount is expected to fail at the reservation update, rather than waiting for commit. On the tested ADB Free instance, Session 2 receives ORA-02290 at the UPDATE; Session 1 can then commit its accepted reservation.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'COMMIT;
+
+    SELECT item_id, available_qty FROM dev_inventory WHERE item_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## B. Sessionless Transactions — S1-B1
+
+
+    **Why this matters:** A long application interaction need not occupy one database session for the whole transaction. Start a sessionless transaction, insert a row, then suspend it. Session 2 will resume and commit it.
+
+
+    Use the same fixed transaction identifier in both notebooks. Run the next cell and **do not commit**.
+
+    '
+  languageId: markdown
+- kind: 1
+  value: '### Reconfirm the database session before the handoff
+
+
+    Run this in both notebooks. The different session IDs demonstrate that the sessionless transaction moves between distinct database sessions; suspending is not committing.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT SYS_CONTEXT('USERENV','SESSION_USER') AS connected_user,\n       SYS_CONTEXT('USERENV','SID') AS session_id,\n       SYS_CONTEXT('USERENV','CON_NAME') AS container_name\nFROM dual;\n"
+  languageId: oracle-sql
+- kind: 2
+  value: "DECLARE\n  l_gtrid VARCHAR2(128);\nBEGIN\n  l_gtrid := DBMS_TRANSACTION.START_TRANSACTION(\n    UTL_RAW.CAST_TO_RAW('dev26ai_sessionless_v6'),\n    DBMS_TRANSACTION.TRANSACTION_TYPE_SESSIONLESS,\n    300,\n    DBMS_TRANSACTION.TRANSACTION_NEW\n  );\n  INSERT INTO dev_sessionless_orders VALUES (501, 'STARTED_S1');\nEND;\n/\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '### S1-B2 — suspend and hand off
+
+
+    Run this cell, then run S2-B1 and S2-B2 in Session 2. The transaction is suspended, not committed; do not close Session 1 until the handoff is complete.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "BEGIN\n  DBMS_TRANSACTION.SUSPEND_TRANSACTION;\nEND;\n/\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '### S1-B3 — verify the completed transaction
+
+
+    After Session 2 resumes and commits, query the row from Session 1.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'SELECT order_id, stage FROM dev_sessionless_orders WHERE order_id = 501;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## C. Transaction Priorities — S1-C1 (optional)
+
+
+    **Why this matters:** A low-priority transaction can hold a conventional row lock that blocks more important work. With the administrator-configured `ROLLBACK` mode and short wait target, Oracle can roll back the low-priority blocker.
+
+
+    Set `LOW` before DML, then update the row and **leave the transaction open**. Next execute S2-C1 in Session 2. Do not use the reservable inventory row for this test: Priority Transactions do not operate on a transaction consisting only of lock-free reservations.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'ALTER SESSION SET txn_priority = LOW;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### Confirm configured session priority
+
+
+    Check that Session 1 is LOW and Session 2 is HIGH **before** starting the conflicting transaction. This query shows the session setting; it is not a transaction result.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT SYS_CONTEXT('USERENV','SID') AS session_id,\n       name, value AS session_priority\nFROM v$parameter\nWHERE name = 'txn_priority';\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '### Execute the conflicting UPDATE
+
+
+    Session 1 holds the row lock without committing. Then execute Session 2, which waits until the configured priority mechanism resolves the conflict.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'UPDATE dev_priority_orders SET status = ''BATCH_WORK'' WHERE order_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### S1-C2 — observe the low-priority outcome
+
+
+    After Session 2 has completed its blocked update, attempt the query below. A rolled-back transaction may raise `ORA-63300`; subsequent statements can raise `ORA-63302` until acknowledged. An error here is the intended teaching point. Run S1-C3 next.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'SELECT order_id, status FROM dev_priority_orders WHERE order_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### S1-C3 — acknowledge the automatic rollback
+
+
+    Oracle has already rolled back the lower-priority transaction and released its locks. However, the session remains connected and requires an explicit `ROLLBACK` to acknowledge the automatic rollback before normal SQL can continue. This does **not** roll back the changes a second time. Applications must handle this condition and decide whether to retry the interrupted work.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'ROLLBACK;
+
+    ALTER SESSION SET txn_priority = HIGH;
+
+    SELECT order_id, status FROM dev_priority_orders WHERE order_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## Developer outcome
+
+
+    Lock-Free Reservations reduce conventional row-lock contention for constrained numeric resources. Sessionless Transactions allow a transaction to move between sessions. Transaction Priorities can resolve qualifying lock conflicts by rolling back lower-priority blockers, with application error handling required.
+
+    '
+  languageId: markdown

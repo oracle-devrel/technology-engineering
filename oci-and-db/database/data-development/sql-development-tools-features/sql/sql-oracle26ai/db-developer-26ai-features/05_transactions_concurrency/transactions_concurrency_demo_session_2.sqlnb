@@ -1,0 +1,152 @@
+cells:
+- kind: 1
+  value: '# Transactions & Concurrency — Session 2
+
+
+    Use a **different physical database session** connected to the same application schema. Follow the checkpoints in Session 1. Session 1 owns table setup. Do not create or drop objects from this notebook.
+
+
+    Sequence: **S2-A1 → S2-B1/B2 → S2-C1/C2**. The priority section is optional if ADB Free does not permit administrative configuration.
+
+    '
+  languageId: markdown
+- kind: 1
+  value: '## Confirm independent database session
+
+
+    Compare the session ID with Session 1. Both notebooks may use the same schema, but they must use different database sessions.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT SYS_CONTEXT('USERENV','SESSION_USER') AS connected_user,\n       SYS_CONTEXT('USERENV','SID') AS session_id,\n       SYS_CONTEXT('USERENV','CON_NAME') AS container_name\nFROM dual;\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '## A. Lock-Free Reservations — S2-A1
+
+
+    After S1-A1 reserves 8 of 10 and remains uncommitted, try reserving 3. Oracle considers outstanding reservations when checking the available quantity. **The expected outcome is rejection of this UPDATE**, because the projected quantity would be negative. On the tested ADB Free instance, ORA-02290 is raised immediately at this UPDATE; this is the intended result; do not commit an unsuccessful reservation.
+
+
+    Return to S1-A2 and commit the accepted 8-unit reservation.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'UPDATE dev_inventory
+
+    SET available_qty = available_qty - 3
+
+    WHERE item_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### S2-A2 — inspect after Session 1 commits
+
+
+    If S2-A1 failed, issue `ROLLBACK` to clear any uncommitted work in this session. The committed quantity should now reflect Session 1''s eight-unit reservation.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'ROLLBACK;
+
+    SELECT item_id, available_qty FROM dev_inventory WHERE item_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## B. Sessionless Transactions — S2-B1
+
+
+    After S1-B2 suspends the transaction, resume the **same** GTRID here. A successful resume shows that the transaction identity, not the original session, carries the work forward. Complete this before the sessionless timeout expires.
+
+    '
+  languageId: markdown
+- kind: 1
+  value: '### Reconfirm the database session before the handoff
+
+
+    Run this in both notebooks. The different session IDs demonstrate that the sessionless transaction moves between distinct database sessions; suspending is not committing.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT SYS_CONTEXT('USERENV','SESSION_USER') AS connected_user,\n       SYS_CONTEXT('USERENV','SID') AS session_id,\n       SYS_CONTEXT('USERENV','CON_NAME') AS container_name\nFROM dual;\n"
+  languageId: oracle-sql
+- kind: 2
+  value: "DECLARE\n  l_gtrid VARCHAR2(128);\nBEGIN\n  l_gtrid := DBMS_TRANSACTION.START_TRANSACTION(\n    UTL_RAW.CAST_TO_RAW('dev26ai_sessionless_v6'),\n    DBMS_TRANSACTION.TRANSACTION_TYPE_SESSIONLESS,\n    300,\n    DBMS_TRANSACTION.TRANSACTION_RESUME\n  );\nEND;\n/\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '### S2-B2 — continue and commit from Session 2
+
+
+    Update the row inserted in Session 1 and commit the same transaction. Then run S1-B3 to verify the committed result.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'UPDATE dev_sessionless_orders SET stage = ''COMMITTED_S2'' WHERE order_id = 501;
+
+    COMMIT;
+
+    SELECT order_id, stage FROM dev_sessionless_orders WHERE order_id = 501;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## C. Transaction Priorities — S2-C1 (optional)
+
+
+    Only run this section if the configuration notebook confirms `ROLLBACK` mode and a short HIGH wait target. After S1-C1 locks the row as `LOW`, set this session to `HIGH` and attempt a conflicting update.
+
+
+    **Expected behavior:** this statement blocks until Oracle resolves the qualifying priority conflict or the blocker commits/rolls back. With a 5-second target, allow more than five seconds; the wait target is not a strict completion deadline. After completion, return to Session 1 for S1-C2/C3.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'ALTER SESSION SET txn_priority = HIGH;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### Confirm configured session priority
+
+
+    Check that Session 1 is LOW and Session 2 is HIGH **before** starting the conflicting transaction. This query shows the session setting; it is not a transaction result.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "SELECT SYS_CONTEXT('USERENV','SID') AS session_id,\n       name, value AS session_priority\nFROM v$parameter\nWHERE name = 'txn_priority';\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '### Execute the conflicting UPDATE
+
+
+    Session 1 holds the row lock without committing. Then execute Session 2, which waits until the configured priority mechanism resolves the conflict.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'UPDATE dev_priority_orders SET status = ''CUSTOMER_WORK'' WHERE order_id = 1;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '### S2-C2 — commit and inspect
+
+
+    Complete the higher-priority transaction. In Session 1, acknowledge the automatic rollback and inspect the final row.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'COMMIT;
+
+    SELECT order_id, status FROM dev_priority_orders WHERE order_id = 1;
+
+    '
+  languageId: oracle-sql

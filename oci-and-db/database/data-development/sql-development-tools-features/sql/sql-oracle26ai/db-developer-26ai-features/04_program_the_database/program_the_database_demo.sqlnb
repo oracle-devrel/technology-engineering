@@ -1,0 +1,117 @@
+cells:
+- kind: 1
+  value: |
+    # Program the Database
+
+    **MLE in one sentence:** Oracle AI Database can store and run JavaScript in the database, then expose selected functions through SQL/PLSQL.
+
+    PL/SQL remains the primary language for database programming. MLE is an additional option when JavaScript is a better fit or when useful JavaScript logic already exists.
+
+    **For this short demo we will:**
+    1. confirm the database is ready for MLE;
+    2. create one persistent JavaScript module for email validation;
+    3. publish it as a SQL function;
+    4. validate a few domain values from SQL.
+
+    We will not spend time teaching JavaScript syntax. The point is the database integration.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 1. Check the MLE prerequisites
+
+    In 26ai, the important preparation is database configuration and privileges. MLE execution must not be disabled for the effective container/session. A developer creating a module in their own schema needs `CREATE MLE`; exposing that module through a SQL/PLSQL call specification requires `CREATE PROCEDURE`.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT name, value
+    FROM   v$parameter
+    WHERE  name = 'mle_prog_languages';
+
+    SELECT privilege
+    FROM   session_privs
+    WHERE  privilege IN ('CREATE MLE', 'CREATE PROCEDURE')
+    ORDER BY privilege;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    The expected result is an MLE setting other than `OFF`, together with `CREATE MLE` and `CREATE PROCEDURE` available to the demo schema.
+
+    The standard archive setup grants `DB_DEVELOPER_ROLE`, which provides the MLE creation and execution privileges used here. The setup script checks the environment but does not silently change the database-wide MLE setting.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 2. Put the validation logic under database control
+
+    A real application might use an existing JavaScript validation library. To keep this notebook self-contained and focused on Oracle, the example uses a tiny library-style helper module rather than introducing package installation and dependency management.
+
+    The presenter does not need to explain the JavaScript syntax; focus on the fact that this code is now a persistent database object.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE OR REPLACE MLE MODULE dev_email_validation_module
+    LANGUAGE JAVASCRIPT AS
+    export function normalizeAndValidateEmail(value) {
+      const email = String(value ?? '').trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return null;
+      }
+      return email;
+    }
+    /
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 3. Expose the JavaScript function through SQL
+
+    The call specification gives SQL/PLSQL a familiar database function. The caller does not need to know that the implementation is JavaScript.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE OR REPLACE FUNCTION dev_normalize_validate_email(value IN VARCHAR2)
+    RETURN VARCHAR2
+    AS MLE MODULE dev_email_validation_module
+    SIGNATURE 'normalizeAndValidateEmail(string)';
+    /
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 4. Use the validation from SQL
+
+    The database-facing behavior is simple: valid email values are normalized and returned; invalid values return `NULL`. This is the part that matters to the SQL/PLSQL developer.
+  languageId: markdown
+- kind: 2
+  value: |
+    WITH sample_emails(email) AS (
+      SELECT ' Developer@Example.COM ' FROM dual UNION ALL
+      SELECT 'sales@example.org'       FROM dual UNION ALL
+      SELECT 'not-an-email'            FROM dual
+    )
+    SELECT email,
+           dev_normalize_validate_email(email) AS normalized_email
+    FROM   sample_emails;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Result:** the valid values are normalized; the invalid value becomes `NULL`.
+
+    The developer takeaway is not the JavaScript implementation itself. It is that selected JavaScript logic can now be a database-managed program unit and can participate in ordinary SQL/PLSQL code.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## What changes for the database developer?
+
+    - **PL/SQL is still the default** for traditional database program units and transactional logic.
+    - **MLE adds an option** when JavaScript is the better implementation fit.
+    - **Preparation is small but explicit:** MLE must be enabled for execution, and the schema needs the appropriate creation privileges.
+    - **The database owns the interface:** SQL/PLSQL callers can remain independent of the JavaScript implementation.
+
+    That is the MLE story needed for this session.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## References
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/mlejs/introduction-to-mle.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/mlejs/system-and-object-privileges-required-working-javascript-mle.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/mlejs/invoking-javascript-database.html
+  languageId: markdown

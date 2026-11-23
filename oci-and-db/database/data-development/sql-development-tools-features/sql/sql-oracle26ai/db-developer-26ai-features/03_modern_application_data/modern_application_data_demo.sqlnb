@@ -1,0 +1,147 @@
+cells:
+- kind: 1
+  value: "# Modern Application Data\n\nApplication developers increasingly want data in the shape that fits the application: relational structures for transactions and SQL, JSON documents for APIs and object-style access, and explicit contracts for flexible payloads.\n\nHistorically, supporting both relational and document-oriented access often meant adding mapping code, maintaining a second document store, or accepting that application payloads had only loosely defined structure.\n\nOracle AI Database adds capabilities that let database developers expose modern application data shapes while keeping the database model authoritative.\n\n**We will:**\n1. Expose relational data as application-friendly JSON with a JSON-Relational Duality View.\n2. Define an equivalent Duality View with GraphQL-style DDL, compare document results and object metadata.\n    3. Show that relational and document access share one source of truth.\n4. Use JSON Schema-style validation to make flexible JSON data safer\
+    \ for applications.\n"
+  languageId: markdown
+- kind: 1
+  value: '## 1. Establish the relational source of truth
+
+
+    **Why this matters:**
+
+
+    Relational tables remain a strong model for transactional integrity, joins, constraints, and SQL. The challenge is that application developers may want a customer or order as a nested JSON document rather than assembling it from several SQL result sets.
+
+
+    **What changes for development:**
+
+    - keep normalized relational storage and database integrity;
+
+    - add application-facing document access without copying the data into a second store;
+
+    - let SQL developers and document-oriented application developers work with the same underlying data.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'CREATE TABLE IF NOT EXISTS dev_app_customers (customer_id NUMBER PRIMARY KEY, name VARCHAR2(100) NOT NULL);
+
+    CREATE TABLE IF NOT EXISTS dev_app_orders (order_id NUMBER PRIMARY KEY, customer_id NUMBER NOT NULL REFERENCES dev_app_customers, order_date DATE NOT NULL, amount NUMBER NOT NULL);
+
+
+    INSERT INTO dev_app_customers VALUES (101, ''Acme'');
+
+    INSERT INTO dev_app_customers VALUES (102, ''Globex'');
+
+    INSERT INTO dev_app_orders VALUES (9001, 101, DATE ''2026-03-01'', 125);
+
+    INSERT INTO dev_app_orders VALUES (9002, 101, DATE ''2026-03-02'', 75);
+
+    INSERT INTO dev_app_orders VALUES (9003, 102, DATE ''2026-03-03'', 210);
+
+    COMMIT;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## 2. Expose relational data as JSON with a Duality View
+
+
+    **Why this matters:**
+
+
+    Without a database-native document projection, application code often owns the mapping between tables and nested JSON. That mapping becomes another layer to build, test, and keep synchronized with the schema.
+
+
+    A JSON-Relational Duality View defines the document shape in the database while the data remains in the underlying relational tables.
+
+
+    **What changes for development:**
+
+    - define the application document shape close to the data;
+
+    - avoid a separate document copy solely for API consumption;
+
+    - let the database coordinate relational integrity and document access.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "CREATE JSON RELATIONAL DUALITY VIEW dev_customer_orders_dv AS\nSELECT JSON {'_id' : c.customer_id,\n             'name' : c.name,\n             'orders' : [\n                 SELECT JSON {'_id' : o.order_id,\n                              'orderDate' : o.order_date,\n                              'amount' : o.amount}\n                 FROM dev_app_orders o WITH INSERT UPDATE\n                 WHERE o.customer_id = c.customer_id\n             ]}\nFROM dev_app_customers c WITH UPDATE INSERT DELETE;\n"
+  languageId: oracle-sql
+- kind: 1
+  value: 'Read the document directly from the Duality View. The application sees a JSON representation assembled from the relational source.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'SELECT json_serialize(data PRETTY) AS customer_document
+
+    FROM dev_customer_orders_dv
+
+    ORDER BY json_value(data, ''$._id'' RETURNING NUMBER);
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## 3. Define the same document using GraphQL-style DDL
+
+
+    **Why this matters:** The SQL and GraphQL-style definitions are alternative ways of authoring a database Duality View. The developer does not need another persistence layer or a GraphQL server just to create the view.
+
+
+    **What changes for development:** A team can describe the same JSON shape in a declarative GraphQL-style mapping and compare it with the SQL definition. Both resulting database objects are JSON-Relational Duality Views. This is not a SQL/PGQ property-graph example.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: "CREATE JSON RELATIONAL DUALITY VIEW dev_customer_orders_gql_dv AS\n  dev_app_customers @insert @update @delete\n  {\n    _id : customer_id,\n    name : name,\n    orders : dev_app_orders @insert @update\n    [\n      {\n        _id : order_id,\n        orderDate : order_date,\n        amount : amount\n      }\n    ]\n  };\n"
+  languageId: oracle-sql
+- kind: 1
+  value: '### Compare the SQL-defined and GraphQL-defined views
+
+
+    Both views are built over the same relational tables. Run the same document query against each view and compare the returned customer document. The definition language changes; the application-facing result does not.
+
+    '
+  languageId: markdown
+- kind: 2
+  value: 'SELECT ''SQL'' AS definition_style, JSON_SERIALIZE(data PRETTY) AS document
+
+    FROM dev_customer_orders_dv
+
+    WHERE JSON_VALUE(data, ''$._id'' RETURNING NUMBER) = 101
+
+    UNION ALL
+
+    SELECT ''GRAPHQL'' AS definition_style, JSON_SERIALIZE(data PRETTY) AS document
+
+    FROM dev_customer_orders_gql_dv
+
+    WHERE JSON_VALUE(data, ''$._id'' RETURNING NUMBER) = 101;
+
+    '
+  languageId: oracle-sql
+- kind: 1
+  value: '## What changes for the database developer?
+
+
+    SQL and GraphQL-style definitions can expose the same JSON document shape over the same relational tables. The two definitions are different ways to author a Duality View, not separate copies of the business data.
+
+
+    The application can consume document-shaped data while relational constraints, transactions and SQL remain available.
+
+    '
+  languageId: markdown
+- kind: 1
+  value: '## References
+
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/jsnvu/json-relational-duality-views.html
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/adjsn/json-schema.html
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/nfcoa/appdev_json.html
+
+    '
+  languageId: markdown

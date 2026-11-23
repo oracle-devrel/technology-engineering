@@ -1,0 +1,476 @@
+cells:
+- kind: 1
+  value: |
+    # Write Better SQL
+
+    Database developers spend a large part of their time expressing business questions in SQL. The SQL may be correct, but older syntax can force the same expression to be repeated, add wrapper query blocks, or make a simple reporting rule look more complicated than the business requirement.
+
+    That repetition matters because SQL evolves. A change to a ranking rule, grouping expression, or conditional measure can require several parts of a statement to remain synchronized.
+
+    The newer SQL capabilities in this section keep the statement closer to the business intent while returning the same result.
+
+    **We will:**
+    1. Filter analytic results without an outer query using `QUALIFY`.
+    2. Express conditional aggregates directly with `FILTER`.
+    3. Let `GROUP BY ALL` derive the grouping list.
+    4. Reuse SELECT-list aliases in `GROUP BY`, `HAVING`, `ROLLUP`, `GROUPING SETS`, and `CUBE`.
+    5. Use SELECT-list positions for compact grouping when explicitly enabled.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 0. Reporting data
+
+    The same order data is used throughout so each feature can be compared independently. The important point in every section is that the **business result stays the same while the SQL becomes simpler or less repetitive**.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE TABLE dev_sql_orders (
+        order_id    NUMBER,
+        customer_id NUMBER,
+        region      VARCHAR2(20),
+        order_date  DATE,
+        amount      NUMBER,
+        status      VARCHAR2(20)
+    );
+
+    INSERT INTO dev_sql_orders VALUES (1, 10, 'AMER', DATE '2025-01-02', 120, 'PAID');
+    INSERT INTO dev_sql_orders VALUES (2, 10, 'AMER', DATE '2025-01-03',  80, 'PAID');
+    INSERT INTO dev_sql_orders VALUES (3, 10, 'AMER', DATE '2025-01-04', 180, 'OPEN');
+    INSERT INTO dev_sql_orders VALUES (4, 20, 'EMEA', DATE '2025-01-02',  90, 'PAID');
+    INSERT INTO dev_sql_orders VALUES (5, 20, 'EMEA', DATE '2025-01-05', 220, 'PAID');
+    INSERT INTO dev_sql_orders VALUES (6, 20, 'EMEA', DATE '2025-01-06',  40, 'OPEN');
+    INSERT INTO dev_sql_orders VALUES (7, 30, 'APAC', DATE '2026-02-01', 150, 'PAID');
+    INSERT INTO dev_sql_orders VALUES (8, 30, 'APAC', DATE '2026-02-03',  60, 'OPEN');
+    INSERT INTO dev_sql_orders VALUES (9, 40, 'AMER', DATE '2026-02-04', 300, 'PAID');
+    INSERT INTO dev_sql_orders VALUES (10,40, 'AMER', DATE '2026-02-05',  50, 'OPEN');
+
+    COMMIT;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 1. Filter analytic results with `QUALIFY`
+
+    **Why this matters:**
+
+    Analytic functions are commonly used for top-N, ranking, deduplication, and latest-row logic. Before `QUALIFY`, filtering an analytic result normally required an extra query block: calculate the analytic value inside, then filter it outside.
+
+    The extra query is not business logic; it is structure required only to make the filter possible.
+
+    **What changes for development:**
+    - keep the analytic expression and its filter in the same query block;
+    - remove wrapper queries that exist only for analytic filtering;
+    - make ranking and top-N SQL easier to read and modify.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** calculate `ROW_NUMBER` in an inner query and filter it in an outer query.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT customer_id, order_id, amount, rn
+    FROM (
+        SELECT customer_id,
+               order_id,
+               amount,
+               ROW_NUMBER() OVER (
+                   PARTITION BY customer_id
+                   ORDER BY amount DESC
+               ) AS rn
+        FROM dev_sql_orders
+    )
+    WHERE rn <= 2
+    ORDER BY customer_id, rn;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** `QUALIFY` filters the analytic result directly. Run both statements: the rows are the same, but the query has one less layer to maintain.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT customer_id,
+           order_id,
+           amount,
+           ROW_NUMBER() OVER (
+               PARTITION BY customer_id
+               ORDER BY amount DESC
+           ) AS rn
+    FROM dev_sql_orders
+    QUALIFY rn <= 2
+    ORDER BY customer_id, rn;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 2. Express conditional aggregation with `FILTER`
+
+    **Why this matters:**
+
+    Conditional measures are everywhere in reporting SQL: paid revenue, failed transactions, active customers, high-priority cases. Traditionally the condition is embedded in a `CASE` expression inside the aggregate.
+
+    That works, but as the number of measures grows the business condition becomes mixed with the aggregation mechanics.
+
+    **What changes for development:**
+    - put the condition directly on the aggregate it belongs to;
+    - make each measure read more like the business requirement;
+    - make reports with several conditional measures easier to extend and review.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** encode the condition inside `CASE`.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT customer_id,
+           SUM(CASE WHEN status = 'PAID' THEN amount ELSE 0 END) AS paid_amount
+    FROM dev_sql_orders
+    GROUP BY customer_id
+    ORDER BY customer_id;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** attach the condition to the aggregate with `FILTER`. The paid totals are unchanged.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT customer_id,
+           SUM(amount) FILTER (WHERE status = 'PAID') AS paid_amount
+    FROM dev_sql_orders
+    GROUP BY customer_id
+    ORDER BY customer_id;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 3. Let `GROUP BY ALL` follow the SELECT list
+
+    **Why this matters:**
+
+    In many reporting queries, every non-aggregate expression in the SELECT list is also a grouping expression. Traditionally that means maintaining the same list twice.
+
+    The duplication becomes especially noticeable when derived expressions are added or removed during report development.
+
+    **What changes for development:**
+    - define the grouping dimensions in the SELECT list;
+    - avoid maintaining a second copy of the same grouping expressions;
+    - reduce the chance that the SELECT list and `GROUP BY` drift apart during changes.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** repeat the non-aggregate SELECT expressions in `GROUP BY`.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           status,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY region,
+             EXTRACT(YEAR FROM order_date),
+             status
+    ORDER BY region, order_year, status;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** `GROUP BY ALL` derives the grouping list from the non-aggregate SELECT expressions. Run both statements: the grouped result is the same.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           status,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY ALL
+    ORDER BY region, order_year, status;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 4. Reuse a SELECT-list alias in `GROUP BY`
+
+    **Why this matters:**
+
+    Derived business concepts are often expressions: year, month bucket, normalized value, calculated category, or a longer `CASE` expression. Giving the expression an alias makes the SELECT list readable, but older SQL still required the expression to be repeated in `GROUP BY`.
+
+    **What changes for development:**
+    - name a derived business concept once;
+    - reuse that name in the grouping clause;
+    - avoid maintaining duplicate copies of complex expressions.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** define `order_year`, then repeat its expression in `GROUP BY`.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY EXTRACT(YEAR FROM order_date)
+    ORDER BY order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** group by the SELECT-list alias. The yearly totals are unchanged.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY order_year
+    ORDER BY order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 5. Reuse a SELECT-list alias in `HAVING`
+
+    **Why this matters:**
+
+    A grouped result is often filtered by a business measure such as `total_amount`. Traditionally the aggregate expression is defined in the SELECT list and repeated again in `HAVING`.
+
+    **What changes for development:**
+    - give the measure a meaningful name once;
+    - express the threshold against that name;
+    - make review and later changes less dependent on duplicated aggregate expressions.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** repeat `SUM(amount)` in `HAVING`.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT customer_id,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY customer_id
+    HAVING SUM(amount) >= 300
+    ORDER BY customer_id;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** filter on the `total_amount` alias. The customers returned are the same.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT customer_id,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY customer_id
+    HAVING total_amount >= 300
+    ORDER BY customer_id;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 6. Group by SELECT-list position
+
+    **Why this matters:**
+
+    For ad-hoc or generated SQL, developers sometimes prefer compact grouping syntax. Oracle AI Database 26ai can interpret positive integers in `GROUP BY` as SELECT-list positions when `GROUP_BY_POSITION_ENABLED` is enabled.
+
+    This is deliberately opt-in. The parameter defaults to `FALSE`, and `ALTER SESSION` changes only the current database session.
+
+    **What changes for development:**
+    - optionally use compact positional grouping for ad-hoc or generated SQL;
+    - keep the setting local to the current session when using `ALTER SESSION`;
+    - prefer aliases for maintained SQL when readability is more important than compactness.
+  languageId: markdown
+- kind: 1
+  value: |
+    Check the current session value before changing it.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT name, value
+    FROM v$parameter
+    WHERE name = 'group_by_position_enabled';
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Before:** write the grouping expressions explicitly.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY region,
+             EXTRACT(YEAR FROM order_date)
+    ORDER BY region, order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** enable positional grouping for this session, then refer to the first and second SELECT-list expressions as `1, 2`.
+  languageId: markdown
+- kind: 2
+  value: |
+    ALTER SESSION SET GROUP_BY_POSITION_ENABLED = TRUE;
+  languageId: oracle-sql
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY 1, 2
+    ORDER BY 1, 2;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    The result is unchanged. If the parameter was `FALSE` before this section, return the session to its original/default state after the comparison.
+  languageId: markdown
+- kind: 2
+  value: |
+    ALTER SESSION SET GROUP_BY_POSITION_ENABLED = FALSE;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 7. Reuse aliases in `ROLLUP`
+
+    **Why this matters:**
+
+    Reporting SQL often grows from a simple aggregate into hierarchical subtotals. If a grouping dimension is a derived expression, older syntax repeats that expression inside `ROLLUP` as well.
+
+    **What changes for development:**
+    - keep a derived reporting dimension under one meaningful name;
+    - reuse the alias as the report grows into subtotal logic;
+    - reduce expression duplication in more advanced aggregation SQL.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** repeat the derived year expression inside `ROLLUP`.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY ROLLUP (
+        region,
+        EXTRACT(YEAR FROM order_date)
+    )
+    ORDER BY region, order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** reuse `order_year`. The detail rows, subtotals, and grand total are the same.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY ROLLUP (region, order_year)
+    ORDER BY region, order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 8. Reuse aliases in `GROUPING SETS`
+
+    **Why this matters:**
+
+    `GROUPING SETS` is useful when a report needs specific summary levels rather than every possible combination. Repeating derived expressions in each grouping set makes that definition harder to scan and maintain.
+
+    **What changes for development:**
+    - describe requested summary levels using the same names shown in the SELECT list;
+    - keep complex grouping definitions closer to the report vocabulary;
+    - reduce repetition as reporting requirements evolve.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** repeat the derived expression in the grouping combinations.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY GROUPING SETS (
+        (region, EXTRACT(YEAR FROM order_date)),
+        (region),
+        ()
+    )
+    ORDER BY region, order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** reuse the alias in the requested grouping levels. The summary rows are unchanged.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           EXTRACT(YEAR FROM order_date) AS order_year,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY GROUPING SETS (
+        (region, order_year),
+        (region),
+        ()
+    )
+    ORDER BY region, order_year;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 9. Reuse aliases in `CUBE`
+
+    **Why this matters:**
+
+    Multi-dimensional summaries become harder to read when dimensions are expressions rather than simple columns. Aliases let the SELECT list give those dimensions application-oriented names and let the grouping clause use the same vocabulary.
+
+    **What changes for development:**
+    - name reporting dimensions once;
+    - keep `CUBE` readable when dimensions are derived or renamed;
+    - make advanced aggregation SQL easier to review with the application team.
+  languageId: markdown
+- kind: 1
+  value: |
+    **Before:** group using the underlying dimensions directly.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region,
+           status,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY CUBE (region, status)
+    ORDER BY region, status;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    **Now:** name the dimensions in the SELECT list and reuse those aliases in `CUBE`. The combinations returned are the same.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT region AS sales_region,
+           status AS order_status,
+           SUM(amount) AS total_amount
+    FROM dev_sql_orders
+    GROUP BY CUBE (sales_region, order_status)
+    ORDER BY sales_region, order_status;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## What changes for the database developer?
+
+    `QUALIFY` removes query blocks that exist only to filter analytics.
+
+    `FILTER` makes conditional measures read like the business requirement.
+
+    `GROUP BY ALL` removes a duplicated grouping list.
+
+    Alias support lets derived concepts and measures be named once and reused across grouping and filtering clauses.
+
+    Positional grouping provides an optional compact form for suitable SQL.
+
+    Together, these capabilities reduce incidental SQL structure and repetition. The practical outcome is SQL that is easier to read, change, review, and embed in application code without changing the business result.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## References
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/nfcoa/appdev_sql.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/SELECT.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/refrn/GROUP_BY_POSITION_ENABLED.html
+  languageId: markdown

@@ -1,0 +1,237 @@
+cells:
+- kind: 1
+  value: '# Developer Productivity
+
+
+    Database development includes a lot of work that surrounds the application logic itself: making deployment scripts safe
+    to rerun, discovering database metadata from tools, and keeping client-side caches aware of schema changes.
+
+
+    For a database developer, that work can become a collection of dictionary queries, exception handlers, polling loops,
+    and client-specific plumbing. The useful question is whether the database can carry more of that responsibility directly.
+
+
+    The capabilities in this story reduce that incidental work in three different places.
+
+
+    **We will:**
+
+    1. make repeatable DDL express its intent directly with `IF NOT EXISTS`;
+
+    2. retrieve structured object metadata through `DBMS_DEVELOPER.GET_METADATA`;
+
+    3. see the database-side change that would trigger Table DDL Change Notification for an OCI application.
+
+    **Session boundary:** the notification subscriber and callback are application/OCI work. This notebook intentionally does not implement them.'
+  languageId: markdown
+- kind: 1
+  value: '## 1. Make DDL deployment scripts naturally repeatable
+
+
+    **Why this matters:**
+
+
+    Database developers write setup and migration scripts that may be executed more than once. A developer rebuilds an environment,
+    a CI/CD job retries a deployment, or a migration is applied to a database that already contains part of the target state.
+
+
+    Before `IF NOT EXISTS`, the script had to work around the normal "object already exists" error. A common pattern was to
+    query the data dictionary first and then create the object only when it was absent, or to use PL/SQL exception handling
+    around dynamic DDL.
+
+
+    That is deployment plumbing rather than the schema change itself.
+
+
+    **What changes for development:**
+
+    - the DDL states directly that an existing object is acceptable;
+
+    - deployment scripts become easier to read and rerun;
+
+    - less procedural existence-checking code is needed;
+
+    - the intent is visible in the DDL instead of being hidden in control flow.'
+  languageId: markdown
+- kind: 1
+  value: '**Before:** check the data dictionary and only execute the DDL when the object is not already present. The example
+    uses PL/SQL because that was a common way to make repeatable scripts behave predictably.'
+  languageId: markdown
+- kind: 2
+  value: "DECLARE\n  l_exists NUMBER;\nBEGIN\n  SELECT COUNT(*)\n  INTO   l_exists\n  FROM   user_tables\n  WHERE  table_name\
+    \ = 'DEV_PRODUCTIVITY_BEFORE';\n\n  IF l_exists = 0 THEN\n    EXECUTE IMMEDIATE 'CREATE TABLE dev_productivity_before\
+    \ (\n      id NUMBER PRIMARY KEY,\n      value VARCHAR2(100)\n    )';\n  END IF;\nEND;\n/"
+  languageId: oracle-sql
+- kind: 1
+  value: The developer has had to maintain both the existence test and the DDL. The database already knows whether the object
+    exists, but the application script has to reproduce that decision logic.
+  languageId: markdown
+- kind: 1
+  value: '**Now:** state the same intent in the DDL. The statement creates the table when it is absent and is a no-op when
+    it is already present. Run this cell again to see that the same deployment statement can be rerun without adding procedural
+    logic.'
+  languageId: markdown
+- kind: 2
+  value: "CREATE TABLE IF NOT EXISTS dev_productivity_now (\n  id NUMBER PRIMARY KEY,\n  value VARCHAR2(100)\n);"
+  languageId: oracle-sql
+- kind: 1
+  value: 'The business result is the same: the table exists. The development change is the amount of code that surrounds the
+    schema change.
+
+
+    Oracle documents `IF NOT EXISTS` as a no-op when the object already exists. The feature is available for supported DDL
+    statements; this example uses `CREATE TABLE`.'
+  languageId: markdown
+- kind: 1
+  value: '## 2. Retrieve database object metadata through a developer-oriented API
+
+
+    **Why this matters:**
+
+
+    Schema-aware development tools and applications regularly ask questions such as: What kind of object is this? What columns
+    does it expose? What data types and structural properties does it have? A tool can answer those questions by querying
+    dictionary views, but then each tool has to know which views and columns to use and how to combine them.
+
+
+    That approach is especially repetitive when several tools need roughly the same metadata or when an application wants
+    to cache the metadata in a predictable JSON form.
+
+
+    **What changes for development:**
+
+    - use a supported database API for common metadata retrieval;
+
+    - receive structured metadata as JSON rather than assembling it from several dictionary queries;
+
+    - make schema-aware tooling less dependent on internal dictionary-query details;
+
+    - use the returned `ETAG` to determine whether a cached metadata document is still current.
+
+
+    **Target developer:** this is most relevant to developers of IDE/database-browser tooling, schema introspection services,
+    code generators, migration utilities, and applications that need to understand database objects dynamically. It is less
+    important for an application developer who only queries known tables directly.'
+  languageId: markdown
+- kind: 1
+  value: '**Before:** a tool composes the metadata it needs from dictionary views. Even a simple table description requires
+    the tool to know which dictionary information to retrieve and how to shape the result.'
+  languageId: markdown
+- kind: 2
+  value: "SELECT table_name,\n       column_name,\n       data_type,\n       data_length,\n       nullable\nFROM   user_tab_columns\n\
+    WHERE  table_name = 'DEV_PRODUCTIVITY_NOW'\nORDER BY column_id;"
+  languageId: oracle-sql
+- kind: 1
+  value: '**Now:** `DBMS_DEVELOPER.GET_METADATA` returns a JSON-formatted metadata document for the object. The API supports
+    `BASIC`, `TYPICAL`, and `ALL` levels so a tool can request only the amount of information it needs.'
+  languageId: markdown
+- kind: 2
+  value: "SELECT JSON_SERIALIZE(\n         DBMS_DEVELOPER.GET_METADATA(\n           name        => 'DEV_PRODUCTIVITY_NOW',\n\
+    \           schema      => USER,\n           object_type => 'TABLE',\n           level       => 'BASIC'\n         ) RETURNING\
+    \ CLOB PRETTY\n       ) AS object_metadata\nFROM dual;"
+  languageId: oracle-sql
+- kind: 1
+  value: 'The developer outcome is a simpler integration boundary: the database provides a structured metadata contract and
+    the consuming tool does not have to reproduce the same dictionary-query logic everywhere.
+
+
+    **ETAG and change detection:** the metadata document includes an `ETAG`. A metadata-aware client can retain that value
+    and provide it on a later request; when the current ETAG matches, the API can return an empty document, allowing the client
+    to avoid processing unchanged metadata.
+
+
+    **Team collaboration:** the database developer or DBA may need to grant access when describing objects outside the caller''s
+    own schema. The tool/application team owns the client-side consumption of the returned JSON.
+
+
+    **Programming languages:** `DBMS_DEVELOPER` is a PL/SQL package exposed by the database. Applications in Java, Python,
+    C#, JavaScript/Node.js, C/C++, or other Oracle-supported client languages consume it through their Oracle database driver/API;
+    there is no separate language-specific `DBMS_DEVELOPER` client library.'
+  languageId: markdown
+- kind: 1
+  value: '## 3. Be aware of event-driven schema-change notification
+
+
+    **Why this matters:**
+
+
+    Some applications and middleware cache table metadata because repeatedly querying the database for the same metadata is
+    wasteful. When a table changes, the cache has to be invalidated or refreshed.
+
+
+    A polling design asks the database repeatedly whether anything changed. Most polls find that nothing changed, yet each
+    one still consumes a request and a response.
+
+
+    Oracle AI Database 26ai adds **Table DDL Change Notification** for OCI clients. An OCI application can register for table-
+    or schema-level DDL notifications and receive an asynchronous event when supported table DDL commits.
+
+
+    **What changes for development:**
+
+    - replace a metadata polling loop with an event-driven subscription;
+
+    - invalidate or refresh a metadata cache when the database reports a change;
+
+    - reduce network round trips used only to discover that nothing changed;
+
+    - keep the event-handling logic in the client while the database supplies the change signal.
+
+
+    **Target developer:** this is most relevant to developers of middleware, database-aware services, schema registries, replication/integration
+    components, and other applications that cache or interpret schema metadata. It is not a SQL/PLSQL feature; the notification
+    client is implemented with OCI.
+
+
+    **Team collaboration:** the application/platform team owns the OCI subscriber and callback; the database/DBA team must
+    provide the required privileges and listener configuration. OCI DDL notification requires a non-SYS user with `SELECT
+    ANY TABLE` and `CHANGE NOTIFICATION`, plus the documented TCP or IPC listener setup.'
+  languageId: markdown
+- kind: 1
+  value: '**Database-side change:** make one committed DDL change to the watched table. The OCI client subscription is what
+    receives the event.'
+  languageId: markdown
+- kind: 2
+  value: 'ALTER TABLE dev_productivity_now
+
+    ADD description VARCHAR2(200);'
+  languageId: oracle-sql
+- kind: 1
+  value: '**OCI client side:** register the table with `OCIDdlEventRegister` and a DDL notification subscription using `OCI_SUBSCR_CQ_QOS_DDL_NTFN`.
+    The client callback receives information about the DDL event, including the operation type, table/object name and commit
+    SCN.
+
+
+    This is intentionally the end of the database demo. The OCI subscription/callback is application-side work and is not implemented here. The important DB developer takeaway is to know that Oracle Database 26ai can provide the signal and that the database/platform team owns the required preparation.'
+  languageId: markdown
+- kind: 1
+  value: '## What changes for the database developer?
+
+
+    **`IF NOT EXISTS`** removes routine object-existence handling from repeatable DDL.
+
+
+    **`DBMS_DEVELOPER.GET_METADATA`** provides a supported metadata interface for tools and applications instead of requiring
+    every client to reconstruct dictionary queries.
+
+
+    **Table DDL Change Notification** lets OCI applications react to schema changes rather than repeatedly polling for them.
+
+
+    The common outcome is reduced incidental development work: less deployment control flow, less metadata-query duplication,
+    and fewer polling loops in applications that need to remain schema-aware.'
+  languageId: markdown
+- kind: 1
+  value: '## References
+
+
+    - `IF [NOT] EXISTS`: https://docs.oracle.com/en/database/oracle/oracle-database/26/adfns/development-guide.pdf
+
+    - `CREATE TABLE IF NOT EXISTS`: https://docs.oracle.com/en/database/oracle/oracle-database/26/sqlrf/CREATE-TABLE.html
+
+    - `DBMS_DEVELOPER.GET_METADATA`: https://docs.oracle.com/en/database/oracle/oracle-database/26/arpls/database-pl-sql-packages-and-types-reference.pdf
+
+    - Table DDL Change Notification: https://docs.oracle.com/en/database/oracle/oracle-database/26/adfns/using-table-ddl-change-notification.html
+
+    - Changes in This Release for Oracle AI Database Development Guide: https://docs.oracle.com/en/database/oracle/oracle-database/26/adfns/changes-this-release-oracle-database-development-guide.html'
+  languageId: markdown

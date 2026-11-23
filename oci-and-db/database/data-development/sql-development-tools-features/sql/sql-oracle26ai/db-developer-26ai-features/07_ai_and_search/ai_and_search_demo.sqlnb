@@ -1,0 +1,134 @@
+cells:
+- kind: 1
+  value: |
+    # AI & Search
+
+    The developer problem is not simply how to store a vector. It is how to let an application retrieve data by **meaning**, combine that semantic relevance with the structured data already in Oracle Database, and do so without automatically creating another search data store.
+
+    Traditional keyword search is valuable when the query and content share terms. Semantic search addresses a different requirement: find content that is conceptually similar even when the wording differs.
+
+    Oracle AI Vector Search makes that retrieval model composable with SQL and application data.
+
+    **We will:**
+    1. Store application content with vector representations.
+    2. Rank content by semantic similarity.
+    3. Add a vector index for scalable approximate search.
+    4. Place semantic search in the broader hybrid-search application story.
+
+    The vectors in this core notebook are pre-generated so the search mechanics remain independent of a particular embedding provider. The optional in-database embedding notebook covers importing an ONNX model and generating embeddings inside Oracle AI Database.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 1. Store semantic representations with application data
+
+    **Why this matters:**
+
+    Keyword search depends on words being present in the content or query. Users, however, often describe intent rather than exact wording. Supporting semantic retrieval traditionally means adding an embedding/search system beside the transactional database and synchronizing application data into it.
+
+    Oracle's `VECTOR` type lets the semantic representation live with the application data it describes.
+
+    **What changes for development:**
+    - store vectors alongside relational and document data;
+    - use SQL to combine semantic and structured application predicates;
+    - avoid assuming that semantic retrieval requires a separate source of truth.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE TABLE dev_search_docs (
+      doc_id NUMBER PRIMARY KEY,
+      title VARCHAR2(200),
+      content VARCHAR2(1000),
+      embedding VECTOR(3)
+    );
+
+    INSERT INTO dev_search_docs VALUES (1, 'Teamwork', 'Leaders who build trust help teams collaborate and solve problems together.', '[0.90,0.10,0.10]');
+    INSERT INTO dev_search_docs VALUES (2, 'Technical depth', 'Strong engineers bring database, Python, Java and systems expertise.', '[0.10,0.90,0.20]');
+    INSERT INTO dev_search_docs VALUES (3, 'Leadership', 'Effective managers coach people, create alignment and encourage collaboration.', '[0.82,0.15,0.10]');
+    COMMIT;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 2. Search by meaning rather than exact wording
+
+    **Why this matters:**
+
+    A lexical query asks whether terms match. A semantic query asks which stored representations are closest to the meaning of the query representation.
+
+    The embedding model determines that semantic space; `VECTOR_DISTANCE` performs the database-side similarity calculation once vectors exist.
+
+    **What changes for development:**
+    - express similarity ranking in SQL;
+    - return ordinary application rows ordered by semantic relevance;
+    - combine semantic ranking with joins, filters, security, and other database logic.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT doc_id,
+           title,
+           VECTOR_DISTANCE(embedding, '[0.86,0.18,0.12]') AS distance
+    FROM dev_search_docs
+    ORDER BY distance
+    FETCH FIRST 2 ROWS ONLY;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    The result should rank the content whose vector is closest to the query vector. The point is the retrieval model: the application asks for semantic proximity rather than exact term equality.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 3. Add a vector index as the workload grows
+
+    **Why this matters:**
+
+    Exact distance calculation is useful for small sets and correctness-oriented comparisons, but production semantic search may need to search many vectors within an application latency target.
+
+    Oracle provides vector indexes for approximate nearest-neighbor search.
+
+    **What changes for development:**
+    - keep the SQL retrieval model while adding an index for scale;
+    - choose an index strategy appropriate to the application's accuracy, build, memory, and latency requirements;
+    - treat semantic search performance as part of database physical design rather than moving the workload elsewhere by default.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE VECTOR INDEX dev_search_vec_idx ON dev_search_docs(embedding) ORGANIZATION INMEMORY NEIGHBOR GRAPH;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 4. Combine semantic relevance with exact application constraints
+
+    **Why this matters:**
+
+    Real application search rarely uses semantics alone. A user may want conceptually relevant content but only for a tenant, product, date range, permission scope, document type, or exact keyword.
+
+    This is where keeping semantic search close to application data becomes important: SQL can combine vector similarity with ordinary predicates, and Oracle Hybrid Vector Search can combine semantic and lexical retrieval patterns.
+
+    **What changes for development:**
+    - use semantic relevance as another query dimension rather than a disconnected search subsystem;
+    - combine exact business filters with semantic ranking;
+    - evolve toward hybrid search when both meaning and lexical precision matter.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## What changes for the database developer?
+
+    **VECTOR** gives semantic representations a native database type.
+
+    **Vector distance** makes similarity ranking part of SQL.
+
+    **Vector indexes** provide a path to scalable nearest-neighbor retrieval.
+
+    **Hybrid search** connects semantic retrieval with lexical and structured application requirements.
+
+    The application outcome is richer search without separating the search experience from the data, transactions, metadata, and security already managed in Oracle Database.
+
+    Embedding generation remains an explicit dependency. It can use an imported in-database model or an external model/service; the optional notebook covers the in-database model path.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## References
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/ai-vector-search-users-guide.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/create-vector-indexes-and-hybrid-vector-indexes.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/vecse/understand-hybrid-search.html
+  languageId: markdown

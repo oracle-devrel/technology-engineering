@@ -1,0 +1,177 @@
+cells:
+- kind: 1
+  value: |
+    # Deep Data Security
+
+    Application authorization is often implemented above the database: API code adds row predicates, services decide which columns can be changed, and each access path is responsible for applying the same security rules correctly.
+
+    That approach becomes harder to maintain when the same data is reached through several applications, reporting tools, integrations, or AI-generated queries. The database may know who connected, but the application often owns the end-user authorization decision.
+
+    Deep Data Security moves selected authorization rules closer to the data through database-managed data roles, data grants, and trusted end-user context.
+
+    **We will:**
+    1. Establish application data with sensitive and user-maintained attributes.
+    2. Contrast application-added row filtering with a database data grant.
+    3. Restrict updates to selected columns as well as selected rows.
+    4. Connect the policy model to application and AI access paths.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 1. Establish the application data
+
+    **Why this matters:**
+
+    A single table can contain attributes with different authorization requirements. An employee might be allowed to see their own row and update their phone number, while salary remains protected.
+
+    If those distinctions exist only in application code, every access path must reproduce them correctly.
+
+    **What changes for development:**
+    - identify row and column authorization as part of the data-access design;
+    - define which rules belong in a database policy rather than only in service code;
+    - make the protected data model explicit before adding application-specific access paths.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE TABLE dds_employees (
+      employee_id NUMBER PRIMARY KEY,
+      email       VARCHAR2(200) NOT NULL,
+      department  VARCHAR2(100) NOT NULL,
+      salary      NUMBER(12,2) NOT NULL,
+      phone       VARCHAR2(50)
+    );
+
+    INSERT INTO dds_employees VALUES
+      (100, 'alice@example.com', 'Sales', 9000, '555-0100');
+    INSERT INTO dds_employees VALUES
+      (200, 'bob@example.com', 'Sales', 9500, '555-0200');
+    INSERT INTO dds_employees VALUES
+      (300, 'carol@example.com', 'HR',   11000, '555-0300');
+    COMMIT;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 2. Move a row-authorization rule out of every query
+
+    **Why this matters:**
+
+    A common application pattern is to connect with a service identity and append the current user's predicate to each SQL statement. The SQL may be correct, but the authorization rule is repeated across queries and services.
+
+    As access paths multiply, consistency depends on every path remembering the same rule.
+
+    **Before:** the application adds a predicate such as `WHERE email = :current_user` to each query.
+
+    **What changes for development:**
+    - move the row rule into a database-managed data grant;
+    - let normal application SQL rely on the active trusted end-user context;
+    - reduce duplicated authorization predicates across application code.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## 3. Define the row policy with a data role and data grant
+
+    **Why this matters:**
+
+    Deep Data Security separates the reusable authorization policy from the individual SQL statement. `ORA_END_USER_CONTEXT.username` can reference the trusted end-user identity supplied to the database.
+
+    **What changes for development:**
+    - define the policy once against the protected object;
+    - assign policy through a data role;
+    - let the database evaluate the row predicate consistently for authorized application access.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE DATA ROLE dds_employee_role;
+
+    CREATE DATA GRANT dds_employee_self
+    AS SELECT
+    ON dds_employees
+    WHERE email = ORA_END_USER_CONTEXT.username
+    TO dds_employee_role;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    Inspect the policy metadata. The important change is that the row rule is now a database object rather than an application convention.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT grant_name,
+           object_name,
+           privilege
+    FROM   user_data_grants
+    WHERE  grant_name = 'DDS_EMPLOYEE_SELF';
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 4. Restrict which columns can be changed
+
+    **Why this matters:**
+
+    Row-level access is only part of authorization. An employee may be allowed to update their own phone number but must not be able to update salary. Relying only on UI controls or service validation leaves the rule dependent on the access path.
+
+    A data grant can combine row scope with column-level update privileges.
+
+    **What changes for development:**
+    - declare both *which rows* and *which operations/columns* are allowed;
+    - protect the rule at the data layer rather than only in a form or API;
+    - make authorization reusable across multiple application paths.
+  languageId: markdown
+- kind: 2
+  value: |
+    CREATE DATA GRANT dds_employee_phone
+    AS UPDATE (phone)
+    ON dds_employees
+    WHERE email = ORA_END_USER_CONTEXT.username
+    TO dds_employee_role;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    The database policy now distinguishes read access from the narrower update capability.
+  languageId: markdown
+- kind: 2
+  value: |
+    SELECT grant_name,
+           object_name,
+           privilege
+    FROM   user_data_grants
+    WHERE  grant_name LIKE 'DDS_EMPLOYEE_%'
+    ORDER BY grant_name;
+  languageId: oracle-sql
+- kind: 1
+  value: |
+    ## 5. Apply the same authorization boundary to dynamic and AI-driven access
+
+    **Why this matters:**
+
+    Static application SQL can be reviewed for missing predicates. Dynamic query builders and AI agents make the access path less predictable, which increases the value of a policy that is enforced independently of how the SQL was produced.
+
+    Deep Data Security is therefore interesting to developers not only as a security feature, but as an application architecture feature: authorization can remain attached to the data as new access mechanisms are introduced.
+
+    **What changes for development:**
+    - application and AI-generated SQL can operate within the same database-enforced authorization boundary;
+    - adding a new access path does not require inventing a completely separate row/column policy model;
+    - security becomes a shared database/application contract rather than only application code.
+
+    Runtime testing requires a configured Deep Sec end-user context (local development users or the appropriate IAM/application integration). This notebook focuses on defining and inspecting the developer-owned policy objects rather than simulating a trusted identity context incorrectly.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## What changes for the database developer?
+
+    **Data roles** group application data authorization.
+
+    **Data grants** define row predicates, operations, and permitted columns close to the protected data.
+
+    **End-user context** lets the policy evaluate the trusted application user rather than only the database service account.
+
+    The practical outcome is less repeated authorization logic in application SQL and a more consistent protection boundary across services, tools, and AI-driven access paths.
+  languageId: markdown
+- kind: 1
+  value: |
+    ## References
+
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/ddscg/what-is-oracle-deep-data-security.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/ddscg/fine-grained-data-authorization.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/ddscg/create-data-grants.html
+    - https://docs.oracle.com/en/database/oracle/oracle-database/26/ddscg/application-registrations-users-and-roles.html
+    - https://blogs.oracle.com/database/introducing-oracle-deep-data-security-identity-aware-data-access-control-for-agentic-ai-in-oracle-ai-database-26ai
+  languageId: markdown
