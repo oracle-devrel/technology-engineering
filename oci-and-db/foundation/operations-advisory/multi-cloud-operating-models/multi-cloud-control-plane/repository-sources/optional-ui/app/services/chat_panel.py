@@ -176,7 +176,7 @@ async def pr_panel(client, project, environment, region, number):
                         break
                     # An Ansible wrapper can succeed when lifecycle-clear skips execution.
                     # Without the actual execution step, keep the resource outcome unknown.
-                    execution_step = "Execute Terraform" if run["path"].endswith("terraform.yaml") else "Ansible execute"
+                    execution_step = "Execute Terraform" if run["path"].endswith("terraform.yaml") else "Execute Ansible"
                     if any(not any(step.get("name") == execution_step and step.get("conclusion") == "success"
                                    for step in job.get("steps", [])) for job in executed):
                         state, detail = "unknown", "Workflow succeeded; actual execution is not verified. Check its logs in GitHub."
