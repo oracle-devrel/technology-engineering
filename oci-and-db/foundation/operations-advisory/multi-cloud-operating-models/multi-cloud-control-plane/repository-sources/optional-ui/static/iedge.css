@@ -1,4 +1,4 @@
-/* Shared BMW iEdge presentation. Functional contracts remain in the UI services. */
+/* Shared AI Operations presentation. Functional contracts remain in the UI services. */
 @font-face { font-family: Inter; src: url('/static/fonts/inter-latin-variable.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('/static/fonts/ibm-plex-mono-latin-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('/static/fonts/ibm-plex-mono-latin-500.woff2') format('woff2'); font-weight: 500 900; font-style: normal; font-display: swap; }
@@ -37,7 +37,6 @@ button, a { touch-action: manipulation; }
 .mccp-header { height: var(--shell-header-height); display: flex; align-items: center; gap: 24px; padding: 12px 24px; background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
 .mccp-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .mccp-brand-link { display: flex; gap: 14px; align-items: center; text-decoration: none; color: var(--ink); min-width: 0; }
-.mccp-brand-link > img { width: 48px; height: 48px; flex-shrink: 0; object-fit: contain; }
 .mccp-brand-title { display: block; font-size: 20px; font-weight: 700; letter-spacing: -0.6px; line-height: 1.25; }
 .mccp-brand-subtitle { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
 .mccp-project { display: flex; align-items: center; gap: 12px; width: min(340px, 28vw); margin-left: auto; min-width: 200px; }
@@ -155,7 +154,6 @@ pre { max-width: 100%; overflow-x: auto; background: #f7f8fa; border: 1px solid 
 @media (max-width: 1023px) {
     :root { --shell-header-height: 132px; }
     .mccp-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; padding: 12px 20px; }
-    .mccp-brand-link > img { width: 40px; height: 40px; }
     .mccp-mobile-toggle { display: inline-flex; }
     .mccp-project { grid-row: 2; grid-column: 1 / -1; width: 100%; margin: 0; }
     .mccp-header-actions { grid-column: 2; grid-row: 1; gap: 8px; }
@@ -167,7 +165,6 @@ pre { max-width: 100%; overflow-x: auto; background: #f7f8fa; border: 1px solid 
     .mccp-header { padding-inline: 12px; gap: 8px; }
     .mccp-brand { gap: 2px; }
     .mccp-brand-link { gap: 8px; }
-    .mccp-brand-link > img { width: 32px; height: 32px; }
     .mccp-brand-title { font-size: 14px; max-width: 155px; letter-spacing: -0.3px; }
     .mccp-brand-subtitle { display: none; }
     .mccp-oracle { width: 70px; padding-left: 8px; }
