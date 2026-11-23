@@ -1,4 +1,5 @@
 # Oracle Database Developer Story Content
+Reviewed: 23.11.2026
 
 ## Audience
 
