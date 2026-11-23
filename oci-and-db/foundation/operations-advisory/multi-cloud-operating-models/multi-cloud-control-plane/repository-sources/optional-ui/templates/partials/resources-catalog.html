@@ -49,7 +49,6 @@
                     hx-get="/partials/resource-form?project={{ project }}&path={{ r.id }}&environment={{ environment or 'dev' }}"
                     hx-target="#main" hx-indicator="#loading-overlay">
                 <span class="catalog-profile-top"><span class="catalog-profile-icon">{% include 'partials/_catalog-icon.html' %}</span><span class="catalog-profile-heading"><span class="catalog-profile-kind">{{ r.category | replace('_',' ') | replace('-',' ') }}</span><span class="catalog-profile-title">{{ r.name }}</span></span></span>
-                <span class="catalog-profile-facts">{% for fact in r.facts|default([]) %}<span>{{ fact }}</span>{% endfor %}</span>
                 <span class="catalog-profile-description">{% if family == 'database' %}Database configuration from an approved profile.{% elif family == 'compute' %}Compute configuration from an approved profile.{% elif family == 'network' %}Project security groups and approved TCP rules.{% else %}Review the configuration for your resource request.{% endif %}</span>
                 <span class="catalog-profile-action">Configure request <span aria-hidden="true">→</span></span>
             </button>

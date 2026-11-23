@@ -47,10 +47,11 @@ def skill_path() -> Path:
 class ChatSession:
     """One isolated workspace and Codex process per browser session/project."""
 
-    def __init__(self, project, environment, region, token, *, command=None):
+    def __init__(self, project, environment, region, token, *, command=None, scopes=None):
         self.project = project
         self.environment = environment
         self.region = region
+        self.scopes = scopes or [{"cloud": "oci", "region": region}]
         self.token = token
         self.command = command or [settings.chat_codex_binary, "app-server"]
         self.process = None
@@ -71,11 +72,11 @@ class ChatSession:
             data = PanelInput.model_validate(message.get("params", {}).get("arguments"))
             if data.kind == "proposal":
                 panel = proposal_panel(self.workspace.name, self.project, self.environment, self.region,
-                                       data.candidate_path, data.manifest_path, data.resource_keys, data.crq)
+                                       data.candidate_path, data.manifest_path, data.resource_keys, data.crq, scopes=self.scopes)
             elif data.kind == "pr":
                 if data.pr_number is None:
                     raise ValueError("A PR number is required.")
-                panel = await pr_panel(GitHubClient(self.token), self.project, self.environment, self.region, data.pr_number)
+                panel = await pr_panel(GitHubClient(self.token), self.project, self.environment, self.region, data.pr_number, scopes=self.scopes)
             else:
                 panel = None
             self.panel = panel
@@ -143,7 +144,9 @@ class ChatSession:
         instructions = (
             "You are AI Operations, a governed cloud operations assistant using the shared project-gitops skill. "
             f"The only permitted target is multicloud-control-plane/{self.project}, "
-            f"OCI {self.environment}, region {self.region}. Refuse changes outside this scope. "
+            f"environment {self.environment}. Permitted cloud/region pairs from the host: {json.dumps(self.scopes)}. "
+            "Refuse changes outside these pairs. Each candidate and PR must target exactly one pair. "
+            "Read the OCI/Google handoff for their foundation references. For Azure, use request or relevant resource JSON inputs; Markdown is optional context and runner credentials stay outside manifests. "
             "Use the project-gitops skill and its references for every request. "
             "Its Consult, Request change, Operate and Investigate contracts are shared with Codex; follow them here. "
             "The browser messages are the user's instructions; require a standalone confirm after "

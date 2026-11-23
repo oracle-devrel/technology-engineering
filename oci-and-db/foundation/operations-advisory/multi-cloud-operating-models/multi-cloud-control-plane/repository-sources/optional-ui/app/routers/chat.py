@@ -105,7 +105,9 @@ async def chat_partial(request: Request, project: str | None = None):
             raise HTTPException(401, "Sign in again")
         return render_partial("partials/ai-operations-home.html", request)
     context = await check_project(request, project)
-    return render_partial("partials/chat.html", request, project=project, environment=context.environment, region=settings.default_region)
+    scopes = settings.chat_scopes
+    return render_partial("partials/chat.html", request, project=project, environment=context.environment,
+                          scopes=scopes, scope_label=" · ".join(f"{scope['cloud'].upper()} {scope['region']}" for scope in scopes))
 
 
 class ChatMessage(BaseModel):
@@ -137,7 +139,6 @@ async def chat_state(request: Request, project: str):
                      messages=[{**item, **({"html": render_chat_markdown(item["text"])}
                                           if item["role"] == "Project GitOps" else {})}
                                for item in session.messages])
-        session.last_used = time.monotonic()
     return JSONResponse(state, headers={"Cache-Control": "no-store"})
 
 
@@ -145,6 +146,7 @@ async def chat_state(request: Request, project: str):
 async def send_message(request: Request, body: ChatMessage):
     check_origin(request)
     context = await check_project(request, body.project)
+    scopes = settings.chat_scopes
     user = require_user(request)
     key = (user["session_id"], body.project)
     token = get_oauth_token(user["session_id"])
@@ -160,10 +162,12 @@ async def send_message(request: Request, body: ChatMessage):
         raise HTTPException(409, "The previous response was interrupted. Select New chat before continuing.")
     if session and session.busy:
         raise HTTPException(409, "Wait for the current response")
+    if session and session.scopes != scopes:
+        raise HTTPException(409, "The configured cloud regions changed. Select New chat before continuing.")
     if session is None:
         if len(sessions) >= 20:
             raise HTTPException(429, "Too many demo sessions; close an existing chat")
-        session = ChatSession(body.project, context.environment, settings.default_region, token)
+        session = ChatSession(body.project, context.environment, settings.default_region, token, scopes=scopes)
         sessions[key] = session
     session.busy = True
     answer_record = {"role": "Project GitOps", "text": ""}
@@ -240,11 +244,10 @@ async def refresh_panel(request: Request, body: PanelRefresh):
     conversation_id = session.conversation_id
     message_count = len(session.messages)
     result = await pr_panel(request.state.github_client, session.project, session.environment,
-                            session.region, selected_panel["pr_number"])
+                            session.region, selected_panel["pr_number"], scopes=session.scopes)
     if (sessions.get(key) is not session or session.project != body.project
             or session.conversation_id != conversation_id or session.panel is not selected_panel
             or len(session.messages) != message_count or session.busy or session.needs_reset):
         raise HTTPException(409, "The chat or selected PR changed. Discard this evidence.")
     session.panel = result
-    session.last_used = time.monotonic()
     return {"panel": result}

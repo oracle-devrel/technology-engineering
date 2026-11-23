@@ -151,10 +151,13 @@ class GitService:
         )
         await self.ensure_branch_available(branch)
 
+        connectivity_notice = CatalogService.public_adb_notice(data) if cloud == "azure" else ""
+        notice_suffix = f"\n\n{connectivity_notice}" if connectivity_notice else ""
+
         issue = await self.github.create_issue_async(
             self.project_name,
             title=commit_message,
-            body=f"Change request for `{file_path}`",
+            body=f"Change request for `{file_path}`{notice_suffix}",
             labels=["gitops"],
         )
         issue_num = issue["number"]
@@ -179,7 +182,7 @@ class GitService:
                 title=commit_message,
                 head=branch,
                 base="main",
-                body=f"Closes #{issue_num}",
+                body=f"Closes #{issue_num}{notice_suffix}",
             )
             pr_num = pr["number"]
             pr_url = pr["html_url"]

@@ -7,13 +7,14 @@ import re
 from fastapi import HTTPException
 from githubkit.exception import RequestFailed
 
+from app.helpers import find_raw_placeholders
 from app.services.catalog_service import CatalogService
-from app.services.manifest_service import validate_oci_adb_secret_references
+from app.services.manifest_service import validate_oci_adb_secret_references, validate_azure_adb_secret_references
 
 
 def _panel(project, environment, region):
     return {
-        "project": project, "environment": environment, "region": region,
+        "project": project, "environment": environment, "region": region, "cloud": "oci",
         "kind": "empty", "resources": [], "secret_keys": [], "secret_references": [],
         "stages": [
             {"label": label, "state": "waiting", "detail": ""}
@@ -22,22 +23,34 @@ def _panel(project, environment, region):
     }
 
 
-def _in_scope(path, environment, region):
-    parts = PurePosixPath(path).parts
-    return len(parts) >= 5 and parts[:3] == ("oci", environment, region) and ".." not in parts
+def _manifest_scope(path, environment, scopes):
+    if not isinstance(path, str):
+        raise ValueError("A manifest path is required.")
+    parts = path.split("/")
+    if (len(parts) < 5 or any(part in {"", ".", ".."} for part in parts)
+            or parts[1] != environment):
+        raise ValueError("The manifest is outside the selected project scope.")
+    scope = {"cloud": parts[0], "region": parts[2]}
+    if scope not in scopes or (parts[3] == "lifecycle_operations" and parts[0] != "oci"):
+        raise ValueError("The manifest is outside the selected project scope.")
+    return scope
 
 
-def proposal_panel(workspace, project, environment, region, candidate_path, manifest_path, resource_keys, crq):
+def proposal_panel(workspace, project, environment, region, candidate_path, manifest_path, resource_keys, crq, *, scopes=None):
     """Read only selected resource records, never expose the raw candidate."""
     try:
         path = Path(candidate_path).resolve(strict=True)
         if not path.is_relative_to(Path(workspace).resolve()) or path.suffix != ".json" or path.stat().st_size > 1024 * 1024:
             raise ValueError
-        if not _in_scope(manifest_path, environment, region) or not manifest_path.endswith(".json"):
+        scope = _manifest_scope(manifest_path, environment, scopes or [{"cloud": "oci", "region": region}])
+        region = scope["region"]
+        if not manifest_path.endswith(".json"):
             raise ValueError
         if not re.fullmatch(r"CRQ[0-9]{1,20}", crq or ""):
             raise ValueError
         data = json.loads(path.read_text())
+        if find_raw_placeholders(data):
+            raise ValueError("Render all placeholders before proposing a change.")
         is_operation = PurePosixPath(manifest_path).parts[3] == "lifecycle_operations"
         is_clear = is_operation and data == {}
         if ((not resource_keys and not is_clear) or (resource_keys and is_clear)
@@ -49,7 +62,12 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
 
     records = []
     secrets = set()
-    native_references = validate_oci_adb_secret_references(data)
+    if scope["cloud"] == "azure":
+        native_references = validate_azure_adb_secret_references(data)
+        secret_records = data.get("oracle_autonomous_databases", {})
+    else:
+        native_references = validate_oci_adb_secret_references(data)
+        secret_records = data.get("autonomous_databases_configuration", {}).get("databases", {})
     if is_clear:
         panel = _panel(project, environment, region)
         panel.update(kind="proposal", request_type="operation_clear", crq=crq, manifest_path=manifest_path,
@@ -63,12 +81,10 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
         if isinstance(value, dict):
             for field, content in value.items():
                 if (field == "admin_password_secret_id" and key in native_references
-                        and value is data["autonomous_databases_configuration"]["databases"][key]):
+                        and value is secret_records[key]):
                     continue
                 if re.search(r"password|private_key|secret_value|access_token", field, re.I) and content:
-                    if not isinstance(content, str) or not re.fullmatch(r"__[A-Z0-9_]+__", content):
-                        raise ValueError("The candidate contains a literal credential. Use runtime placeholders.")
-                    secrets.add(content[2:-2])
+                    raise ValueError("The candidate contains a credential. Use native secret references.")
             names = [key] + [value.get(field) for field in ("display_name", "name", "db_name")]
             if any(selected in names for selected in resource_keys):
                 records.append((key, value))
@@ -77,6 +93,8 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
         elif isinstance(value, list):
             for child in value:
                 walk(child)
+        elif isinstance(value, str) and re.search(r"-----BEGIN [A-Z ]*PRIVATE KEY-----", value):
+            raise ValueError("The candidate contains a private key. Only public SSH keys belong in manifests.")
 
     walk(data)
     if is_operation and (not isinstance(data, dict) or not isinstance(data.get("operation_type"), str)):
@@ -87,7 +105,7 @@ def proposal_panel(workspace, project, environment, region, candidate_path, mani
         if len(matches) != 1:
             raise ValueError("Each resource key must identify exactly one candidate record.")
     panel = _panel(project, environment, region)
-    panel.update(kind="proposal", crq=crq, manifest_path=manifest_path,
+    panel.update(kind="proposal", cloud=scope["cloud"], crq=crq, manifest_path=manifest_path,
                  request_type="operation" if is_operation else "resource",
                  secret_keys=sorted(secrets), source="Local candidate · review the full proposal in chat")
     if is_operation:
@@ -124,7 +142,7 @@ def _run_state(run):
     return "unknown", "Workflow did not record a successful execution."
 
 
-async def pr_panel(client, project, environment, region, number):
+async def pr_panel(client, project, environment, region, number, *, scopes=None):
     """Independently verify PR scope and exact workflow/commit evidence."""
     panel = _panel(project, environment, region)
     panel.update(kind="pr", pr_number=number,
@@ -135,8 +153,12 @@ async def pr_panel(client, project, environment, region, number):
         pr, files, runs = evidence["pr"], evidence["files"], evidence["runs"]
         if pr.get("base", {}).get("repo", {}).get("full_name") != f"multicloud-control-plane/{project}" or pr["base"].get("ref") != "main":
             raise ValueError
-        if not files or len(files) >= 100 or not all(_in_scope(item["filename"], environment, region) for item in files):
+        if not files or len(files) >= 100:
             raise ValueError
+        selected_scopes = [_manifest_scope(item["filename"], environment, scopes or [{"cloud": "oci", "region": region}]) for item in files]
+        if any(scope != selected_scopes[0] for scope in selected_scopes):
+            raise ValueError
+        panel.update(selected_scopes[0])
         workflows = set()
         for item in files:
             path = item["filename"]
@@ -146,6 +168,20 @@ async def pr_panel(client, project, environment, region, number):
                 workflows.add(".github/workflows/terraform.yaml")
             else:
                 raise ValueError
+        is_clear = False
+        removed_clear = False
+        if workflows == {".github/workflows/ansible.yaml"} and len(files) == 1:
+            removed_clear = files[0].get("status") == "removed"
+            if removed_clear:
+                is_clear = True
+            else:
+                ref = pr.get("merge_commit_sha") if pr.get("merged") else pr["head"]["sha"]
+                if not ref:
+                    raise ValueError("Missing commit for lifecycle evidence")
+                content = await client.get_file_content_strict(project, files[0]["filename"], ref=ref)
+                is_clear = json.loads(content) == {}
+        if is_clear:
+            panel["request_type"] = "operation_clear"
         panel.update(title=pr.get("title", "Pull request"), files=[item["filename"] for item in files])
         panel["stages"][0].update(state="done", detail="Request recorded in this PR.")
         panel["stages"][1].update(state="external", detail="Existing PR; confirmation is not recorded by this panel.")
@@ -170,19 +206,29 @@ async def pr_panel(client, project, environment, region, number):
                 for run in selected:
                     expected = "Terraform apply" if run["path"].endswith("terraform.yaml") else "Ansible execute"
                     jobs = evidence["jobs"].get(str(run["id"]), [])
+                    if removed_clear:
+                        validators = [job for job in jobs if job.get("name") == "validate-path"]
+                        skipped = [job for job in jobs if job.get("name", "").split(" / ")[-1] in {"execute", "Ansible execute"}]
+                        if (len(validators) != 1 or validators[0].get("status") != "completed"
+                                or validators[0].get("conclusion") != "success" or not skipped
+                                or any(job.get("status") != "completed" or job.get("conclusion") != "skipped" for job in skipped)):
+                            state, detail = "unknown", "Lifecycle removal is not verified. Open the workflow in GitHub."
+                            break
+                        continue
                     executed = [job for job in jobs if job.get("name", "").split(" / ")[-1] == expected]
                     if not executed or any(job.get("status") != "completed" or job.get("conclusion") != "success" for job in executed):
                         state, detail = "unknown", "Successful apply job not verified. Open the workflow in GitHub."
                         break
-                    # An Ansible wrapper can succeed when lifecycle-clear skips execution.
-                    # Without the actual execution step, keep the resource outcome unknown.
-                    execution_step = "Execute Terraform" if run["path"].endswith("terraform.yaml") else "Execute Ansible"
+                    # A clear must be independently verified at its commit, not inferred from a skipped step.
+                    execution_step = ("Recognize empty lifecycle clear" if is_clear else
+                                      "Execute Terraform" if run["path"].endswith("terraform.yaml") else "Execute Ansible")
                     if any(not any(step.get("name") == execution_step and step.get("conclusion") == "success"
                                    for step in job.get("steps", [])) for job in executed):
                         state, detail = "unknown", "Workflow succeeded; actual execution is not verified. Check its logs in GitHub."
                         break
                 else:
-                    detail = "Apply succeeded for this PR's merge commit."
+                    detail = ("Request cleared; no cloud execution required." if is_clear else
+                              "Apply succeeded for this PR's merge commit.")
             panel["stages"][4].update(state=state, detail=detail)
         elif pr.get("state") == "closed":
             panel["stages"][3].update(state="closed", detail="PR closed without merge. No deployment from this PR.")

@@ -5,7 +5,7 @@
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h2 class="card-title">Project assistant</h2>
-                        <p class="text-sm text-muted">{{ project }} · OCI {{ environment }} · {{ region }}</p>
+                        <p class="text-sm text-muted">{{ project }} · {{ environment }} · {{ scope_label }}</p>
                     </div>
                     <button type="button" class="btn btn-sm btn-ghost" data-chat-reset>New chat</button>
                 </div>
@@ -13,8 +13,8 @@
                 <div class="chat-starters" data-chat-starters>
                     <p>Start with a prompt. You can edit it before sending.</p>
                     <div>
-                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Show the declared OCI resources in the selected project, including names and catalog sizes. Read only; do not create or change anything.">Consult</button>
-                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me prepare a resource request from the approved OCI catalog. Ask for resource type, size, name and CRQ. Show the proposal and request summary. Do not publish until I confirm.">Request change</button>
+                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Show the declared resources in each permitted cloud scope in the selected project, including names and catalog sizes. Read only; do not create or change anything.">Consult</button>
+                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me prepare a resource request from the approved catalog for a permitted cloud and region. Ask for resource type, size, name and CRQ. Show the proposal and request summary. Do not publish until I confirm.">Request change</button>
                         <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me prepare a published OCI Autonomous Database start or stop operation. Ask for the exact targets, action and CRQ. Show the proposed operation and impact. Do not publish until I confirm.">Operate</button>
                         <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me investigate a failed pull request or workflow in the selected project. Ask for its PR number or workflow URL. Read the relevant evidence, distinguish confirmed facts from possible causes, and suggest the next step. Read only; do not rerun workflows or make changes.">Investigate</button>
                     </div>
@@ -38,7 +38,7 @@
             <div class="card-body gap-4">
                 <div class="chat-summary-heading">
                     <h2 class="card-title">Request summary</h2>
-                    <span class="chat-scope">OCI · {{ environment }}</span>
+                    <span class="chat-scope">{{ environment }} · {{ scope_label }}</span>
                 </div>
                 <p class="text-sm text-muted" data-chat-panel-intro>No active request. A proposal will appear here when its candidate is ready.</p>
                 <div data-chat-panel-content></div>

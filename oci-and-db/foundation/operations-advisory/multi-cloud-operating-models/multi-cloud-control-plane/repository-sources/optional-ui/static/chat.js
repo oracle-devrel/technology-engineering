@@ -50,7 +50,7 @@
         if (panel?.kind === 'pr') {
             if (stages[3]?.state === 'closed') text = 'PR closed without merge.';
             else if (stages[3]?.state === 'done') {
-                if (stages[4]?.state === 'done') { text = 'Execution completed'; tone = 'text-success'; }
+                if (stages[4]?.state === 'done') { text = panel.request_type === 'operation_clear' ? 'Request cleared; no cloud execution required.' : 'Execution completed'; tone = 'text-success'; }
                 else if (stages[4]?.state === 'failed') { text = 'Execution failed'; tone = 'text-error'; }
                 else if (stages[4]?.state === 'unknown') text = 'Execution not verified. Open GitHub for details.';
                 else text = 'Execution in progress. Waiting for verified execution evidence.';
@@ -164,7 +164,7 @@
         }
         if (panel) {
             field('Project', panel.project);
-            field('Scope', 'OCI · ' + panel.environment + ' · ' + panel.region);
+            field('Scope', (panel.cloud || 'oci').toUpperCase() + ' · ' + panel.environment + ' · ' + panel.region);
             if (panel.crq) field('Change request', panel.crq, true);
             if (panel.operation_type) field('Operation', panel.operation_type);
             if (panel.summary) field('Action', panel.summary);

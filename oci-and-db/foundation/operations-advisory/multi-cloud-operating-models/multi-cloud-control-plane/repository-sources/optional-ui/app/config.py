@@ -54,9 +54,16 @@ class Settings(BaseSettings):
     default_cloud_regions: str = "oci:eu-frankfurt-1;azure:westeurope;gcp:europe-west2"
     cloud_region_options: str = (
         "oci:eu-frankfurt-1,us-phoenix-1,us-ashburn-1,uk-london-1;"
-        "azure:westeurope;"
+        "azure:westeurope,uksouth;"
         "gcp:europe-west2,europe-west4,us-east4"
     )
+
+    @property
+    def chat_scopes(self) -> list[dict[str, str]]:
+        """Use the existing region configuration for the OCI/Azure demo."""
+        return [{"cloud": "oci", "region": self.default_region},
+                *[{"cloud": "azure", "region": region}
+                  for region in self.region_options_for_cloud("azure")]]
 
     # Audit behavior
     audit_infra_paths: str = "oci/,azure/,gcp/"

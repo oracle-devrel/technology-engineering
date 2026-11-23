@@ -72,7 +72,7 @@ class HandoffService:
 
     @staticmethod
     def _selected_cloud_content(content: str, template_path: str) -> str:
-        """Keep Azure and GCP suggestions inside their reviewed handoff section."""
+        """Keep Azure and GCP suggestions inside their own documentation section."""
         path_parts = (template_path or "").split("/")
         cloud = path_parts[1].lower() if len(path_parts) > 1 else "oci"
         if cloud not in {"azure", "gcp"}:

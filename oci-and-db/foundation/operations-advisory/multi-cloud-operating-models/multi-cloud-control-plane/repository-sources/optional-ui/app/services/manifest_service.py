@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 VAULT_SECRET_OCID_RE = re.compile(r"^ocid1\.vaultsecret\.[A-Za-z0-9._-]+$")
+REGIONAL_VAULT_SECRET_OCID_RE = re.compile(r"^ocid1\.vaultsecret\.[a-z0-9]+\.[a-z0-9]+(?:-[a-z0-9]+)+\.[A-Za-z0-9._-]+$")
 
 
 class ManifestError(ValueError):
@@ -26,6 +27,26 @@ def validate_oci_adb_secret_references(manifest: dict[str, Any]) -> dict[str, st
             raise ManifestError("OCI ADB requires a Vault secret OCID, never a password or runtime token.")
         if reference in references.values():
             raise ManifestError("Each OCI ADB must use a distinct Vault secret OCID.")
+        references[key] = reference
+    return references
+
+
+def validate_azure_adb_secret_references(manifest: dict[str, Any]) -> dict[str, str]:
+    """Azure exposes the same single secret-OCID field as OCI to project users."""
+    if "oracle_autonomous_databases" not in manifest:
+        return {}
+    databases = manifest["oracle_autonomous_databases"]
+    if not isinstance(databases, dict):
+        raise ManifestError("Azure ADB configuration must contain a databases map.")
+    references: dict[str, str] = {}
+    for key, database in databases.items():
+        if not isinstance(database, dict) or "admin_password" in database:
+            raise ManifestError("Azure ADB requires a Vault secret OCID, never a password or runtime token.")
+        reference = database.get("admin_password_secret_id")
+        if not isinstance(reference, str) or not REGIONAL_VAULT_SECRET_OCID_RE.fullmatch(reference):
+            raise ManifestError("Azure ADB requires a regional Vault secret OCID in admin_password_secret_id.")
+        if reference in references.values():
+            raise ManifestError("Each Azure ADB must use a distinct Vault secret OCID.")
         references[key] = reference
     return references
 

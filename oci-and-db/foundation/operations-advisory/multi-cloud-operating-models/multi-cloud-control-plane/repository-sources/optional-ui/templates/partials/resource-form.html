@@ -16,6 +16,16 @@
 
 <div class="card bg-base-100">
     <div class="card-body">
+        {% if profile_facts %}
+        <div class="catalog-profile-facts mb-4" aria-label="Selected profile">
+            {% for fact in profile_facts %}<span>{{ fact }}</span>{% endfor %}
+        </div>
+        {% endif %}
+        {% if connectivity_notice %}
+        <div class="alert alert-info mb-4" role="note">
+            <span>{{ connectivity_notice }}</span>
+        </div>
+        {% endif %}
         <form hx-sync="closest form:drop" hx-disabled-elt="#resource-submit" hx-post="/partials/deploy-resource" hx-target="#result">
             <input type="hidden" name="project" value="{{ project }}">
             <input type="hidden" name="template_path" value="{{ template_path }}">
