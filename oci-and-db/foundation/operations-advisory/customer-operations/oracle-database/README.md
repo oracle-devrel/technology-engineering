@@ -13,7 +13,7 @@ Reviewed: 2026-09-04
 - [ExaDB-XS - Management Interfaces Deep Dive Workshop](./exadb-xs/exadb-xs-management-interfaces-ws/README.md)
 - [ExaDB-XS - Provisioning Operations Deep Dive Workshop](./exadb-xs/exadb-xs-provisioning-ops-ws/README.md)
 - [ExaDB-XS - Change Operations Deep Dive Workshop](./exadb-xs/exadb-xs-change-ops-ws/README.md)
-- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./exadb-xs/exadb-xs-maintenace-ops-ws/README.md)
+- [ExaDB-XS - Maintenance Operations Deep Dive Workshop](./exadb-xs/exadb-xs-maintenance-ops-ws/README.md)
 - [ExaDB-XS - Backup and Recovery Operations Deep Dive Workshop](./exadb-xs/exadb-xs-backuprecovery-ops-ws/README.md)
 - [ExaDB-D/ExaDB-C@C Dynamic Scaling](./scaling/README.md)
 - [Oracle Database@AWS Automation Workshop](./od-at-aws-cloud-operations/od-at-aws-automation-ws/README.md)
@@ -21,6 +21,9 @@ Reviewed: 2026-09-04
 - [Oracle Database@Azure Operational Best Practices](./od-at-azure-cloud-operations/od-at-azure-ops-best-practices/README.md)
 - [Oracle Database@Google Cloud Automation Workshop](./od-at-gcp-cloud-operations/od-at-gcp-automation-ws/README.md)
 - [Oracle Database@Google Cloud Operational Best Practices](./od-at-gcp-cloud-operations/od-at-gcp-ops-best-practices/README.md)
+- [Oracle Database@Google Cloud Change Operations Workshop](./od-at-gcp-cloud-operations/od-at-gcp-change-ops-ws/README.md)
+- [Oracle Database@Google Cloud Maintenance Operations Workshop](./od-at-gcp-cloud-operations/od-at-gcp-maintenance-ops-ws/README.md)
+- [Oracle Database@Google Cloud Backup and Recovery Operations Workshop](./od-at-gcp-cloud-operations/od-at-gcp-backuprecovery-ops-ws/README.md)
 
 # License
 

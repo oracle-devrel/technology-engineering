@@ -12,7 +12,7 @@ Use it to know more about ExaDB-D Maintenance Day 2 operations.
 
 ## How to use this asset?
 
-Read in the files folder the workshop in PDF [ExaDB-D - Maintenance Operations Deep Dive Worksho.p](./files/Public_3_ExaDB-D_Maintenance_v2.0.pdf).
+Read in the files folder the workshop in PDF [ExaDB-D - Maintenance Operations Deep Dive Workshop](./files/Public_3_ExaDB-D_Maintenance_v2.0.pdf).
   
 # License
 Copyright (c) 2026 Oracle and/or its affiliates.

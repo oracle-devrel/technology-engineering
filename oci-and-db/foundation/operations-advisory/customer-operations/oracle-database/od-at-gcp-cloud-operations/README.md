@@ -6,9 +6,9 @@ Reviewed: 2026-09-04
 
 - [Oracle Database@Google Cloud Automation Workshop](./od-at-gcp-automation-ws/README.md)
 - [Oracle Database@Google Cloud Operations Best Practices](./od-at-gcp-ops-best-practices/README.md)
-- [Oracle Database@Google Cloud Change Operations](../exadb-d/exadb-d-change-ops-ws/README.md)
-- [Oracle Database@Google Cloud Maintenance Operations](../exadb-d/exadb-d-maintenance-ops-ws/README.md)
-- [Oracle Database@Google Cloud Backup & Recovery Operations](../exadb-d/exadb-d-backuprecovery-ops-ws/README.md)
+- [Oracle Database@Google Cloud Change Operations](./od-at-gcp-change-ops-ws/README.md)
+- [Oracle Database@Google Cloud Maintenance Operations](./od-at-gcp-maintenance-ops-ws/README.md)
+- [Oracle Database@Google Cloud Backup & Recovery Operations](./od-at-gcp-backuprecovery-ops-ws/README.md)
 - [Oracle Database@Google Cloud - Ansible Operations Deep Dive Workshop](../exadb-d/exadb-d-ansible-ops-ws/README.md)
 
   

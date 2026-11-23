@@ -1,0 +1,110 @@
+name: GitHub OIDC token file
+description: Write a GitHub Actions OIDC JWT to a protected file for OCI WIF.
+
+inputs:
+  audience:
+    description: Audience requested in the GitHub OIDC JWT.
+    required: false
+    default: https://cloud.oracle.com
+  token_path:
+    description: Optional absolute output path. Defaults to RUNNER_TEMP/oci-wif/github-oidc.jwt.
+    required: false
+    default: ""
+outputs:
+  token_path:
+    description: Absolute path containing the GitHub OIDC JWT.
+    value: ${{ steps.token.outputs.token_path }}
+
+runs:
+  using: composite
+  steps:
+    - id: token
+      name: Write GitHub OIDC token file
+      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      env:
+        OIDC_AUDIENCE: ${{ inputs.audience }}
+        OIDC_TOKEN_PATH: ${{ inputs.token_path }}
+      with:
+        script: |
+          const crypto = require('node:crypto')
+          const fs = require('node:fs')
+          const path = require('node:path')
+
+          const audience = process.env.OIDC_AUDIENCE
+          const runnerTemp = process.env.RUNNER_TEMP
+          const configuredPath = process.env.OIDC_TOKEN_PATH
+          if (!audience) {
+            throw new Error('OIDC audience cannot be empty')
+          }
+          if (!runnerTemp) {
+            throw new Error('RUNNER_TEMP is required')
+          }
+          if (configuredPath && !path.isAbsolute(configuredPath)) {
+            throw new Error('token_path must be absolute')
+          }
+
+          const resolveWithExistingAncestors = (candidatePath) => {
+            let existingPath = path.resolve(candidatePath)
+            const missingParts = []
+            while (!fs.existsSync(existingPath)) {
+              const parentPath = path.dirname(existingPath)
+              if (parentPath === existingPath) {
+                throw new Error('Could not resolve token path')
+              }
+              missingParts.unshift(path.basename(existingPath))
+              existingPath = parentPath
+            }
+            return path.join(fs.realpathSync(existingPath), ...missingParts)
+          }
+
+          const resolvedRunnerTemp = resolveWithExistingAncestors(runnerTemp)
+          const candidateTokenPath = configuredPath ||
+            path.join(resolvedRunnerTemp, 'oci-wif', 'github-oidc.jwt')
+          const tokenPath = resolveWithExistingAncestors(candidateTokenPath)
+          const relativeTokenPath = path.relative(resolvedRunnerTemp, tokenPath)
+          if (
+            !relativeTokenPath ||
+            relativeTokenPath === '..' ||
+            relativeTokenPath.startsWith(`..${path.sep}`) ||
+            path.isAbsolute(relativeTokenPath)
+          ) {
+            throw new Error('token_path must be inside RUNNER_TEMP and not equal to RUNNER_TEMP')
+          }
+
+          const tokenDirectory = path.dirname(tokenPath)
+          fs.mkdirSync(tokenDirectory, { recursive: true, mode: 0o700 })
+          fs.chmodSync(tokenDirectory, 0o700)
+
+          const token = await core.getIDToken(audience)
+          if (!token) {
+            throw new Error('GitHub returned an empty OIDC token')
+          }
+
+          const temporaryPath = path.join(
+            tokenDirectory,
+            `.${path.basename(tokenPath)}.${process.pid}.${crypto.randomBytes(8).toString('hex')}`,
+          )
+          try {
+            const descriptor = fs.openSync(temporaryPath, 'wx', 0o600)
+            try {
+              fs.writeFileSync(descriptor, token, { encoding: 'utf8' })
+              fs.fsyncSync(descriptor)
+            } finally {
+              fs.closeSync(descriptor)
+            }
+            fs.renameSync(temporaryPath, tokenPath)
+            fs.chmodSync(tokenPath, 0o600)
+          } catch (error) {
+            try {
+              fs.unlinkSync(temporaryPath)
+            } catch (cleanupError) {
+              if (cleanupError.code !== 'ENOENT') {
+                core.warning('Could not remove temporary OIDC token file')
+              }
+            }
+            throw error
+          }
+
+          core.setOutput('token_path', tokenPath)
+          core.exportVariable('OCI_WORKLOAD_IDENTITY_TOKEN_PATH', tokenPath)
+          console.log('GitHub OIDC token file created')

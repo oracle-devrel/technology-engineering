@@ -1,0 +1,236 @@
+name: Demo Terraform RPST Bucket
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Terraform action to perform
+        required: true
+        default: plan
+        type: choice
+        options:
+          - plan
+          - apply-and-destroy
+
+jobs:
+  rpst_bucket:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      TF_IN_AUTOMATION: "true"
+      DEMO_ACTION: ${{ inputs.action }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: "1.16.5"
+
+      - name: Validate inputs
+        shell: bash
+        env:
+          RPST_DOMAIN_BASE_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          RPST_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          RPST_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+          RPST_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+          OCI_REGION: ${{ secrets.OCI_REGION }}
+        run: |
+          set -euo pipefail
+          [[ -z "$RPST_CLIENT_ID" ]] || echo "::add-mask::$RPST_CLIENT_ID"
+          [[ -z "$RPST_CLIENT_SECRET" ]] || echo "::add-mask::$RPST_CLIENT_SECRET"
+          for name in RPST_DOMAIN_BASE_URL RPST_CLIENT_ID RPST_CLIENT_SECRET RPST_RESOURCE_TYPE RPST_COMPARTMENT_ID OCI_REGION; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing required secret: $name" >&2
+              exit 1
+            fi
+          done
+          if [[ -z "${RUNNER_TEMP:-}" || "$RUNNER_TEMP" == / ]]; then
+            echo 'RUNNER_TEMP is not a safe runtime root' >&2
+            exit 1
+          fi
+
+      - name: Phase 2 - create GitHub OIDC token
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Phase 2 - raw RPST exchange
+        id: phase2
+        continue-on-error: true
+        shell: bash
+        env:
+          RPST_DOMAIN_BASE_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          RPST_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          RPST_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+          RPST_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+        run: |
+          set -euo pipefail
+          umask 077
+          runtime_directory="$RUNNER_TEMP/rpst-terraform"
+          install -d -m 700 "$runtime_directory"
+          key_file="$runtime_directory/key.pem"
+          response_file="$runtime_directory/response.json"
+          trap 'rm -f -- "$key_file" "$response_file"' EXIT
+
+          openssl genrsa -out "$key_file" 2048
+          chmod 600 "$key_file"
+          public_key="$(openssl rsa -in "$key_file" -pubout -outform DER 2>/dev/null | base64 -w0)"
+          http_status="$(curl -sS -o "$response_file" -w '%{http_code}' -X POST \
+            "$RPST_DOMAIN_BASE_URL/oauth2/v1/token" \
+            -u "$RPST_CLIENT_ID:$RPST_CLIENT_SECRET" \
+            --data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:token-exchange' \
+            --data-urlencode 'requested_token_type=urn:oci:token-type:oci-rpst' \
+            --data-urlencode "subject_token@$OCI_WORKLOAD_IDENTITY_TOKEN_PATH" \
+            --data-urlencode 'subject_token_type=jwt' \
+            --data-urlencode "public_key=$public_key" \
+            --data-urlencode "res_type=$RPST_RESOURCE_TYPE")"
+          chmod 600 "$response_file"
+          echo "HTTP status: $http_status"
+          if [[ ! "$http_status" =~ ^2[0-9][0-9]$ ]]; then
+            jq -c '{error, error_description}' "$response_file"
+            exit 1
+          fi
+
+          jq -r '.token | split(".")[1] | gsub("-"; "+") | gsub("_"; "/") | @base64d' "$response_file" |
+            jq -c '{claim_names: (keys | sort), selected_claims: (with_entries(select(.key == "ttype" or .key == "iss" or .key == "res_type" or .key == "tenant" or .key == "res_tenant" or .key == "sub" or (.key | startswith("ext_") or startswith("var_ext_"))))), lifetime_seconds: (.exp - .iat)}'
+
+      - name: Phase 3 - refresh GitHub OIDC token
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Phase 3 - configure provider for RPST
+        id: configure
+        shell: bash
+        env:
+          RPST_DOMAIN_BASE_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          RPST_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          RPST_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+          RPST_REGION: ${{ secrets.OCI_REGION }}
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 700 "$RUNNER_TEMP/rpst-terraform/terraform-data"
+          {
+            echo 'OCI_AUTH=WorkloadIdentityFederation'
+            echo "OCI_REGION=$RPST_REGION"
+            echo "OCI_TOKEN_EXCHANGE_DOMAIN_URL=$RPST_DOMAIN_BASE_URL"
+            echo 'OCI_TOKEN_EXCHANGE_AUTH=OAuthClientCredentials'
+            echo "OCI_TOKEN_EXCHANGE_CLIENT_ID=$RPST_CLIENT_ID"
+            echo 'OCI_TOKEN_EXCHANGE_REQUESTED_TOKEN_TYPE=urn:oci:token-type:oci-rpst'
+            echo "OCI_TOKEN_EXCHANGE_RESOURCE_TYPE=$RPST_RESOURCE_TYPE"
+            echo 'OCI_TOKEN_EXCHANGE_SUBJECT_TOKEN_TYPE=jwt'
+            echo "TF_VAR_region=$RPST_REGION"
+            echo "TF_VAR_compartment_id=$RPST_COMPARTMENT_ID"
+            echo "TF_VAR_bucket_name=rpst-terraform-${{ github.run_id }}"
+            echo "TF_DATA_DIR=$RUNNER_TEMP/rpst-terraform/terraform-data"
+          } >> "$GITHUB_ENV"
+
+      - name: Terraform Init
+        id: init
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir=examples/terraform/simple init -input=false -lockfile=readonly \
+            -backend-config="path=$RUNNER_TEMP/rpst-terraform/terraform.tfstate"
+
+      - name: Terraform Validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir=examples/terraform/simple validate
+
+      - name: Refresh GitHub OIDC token for plan
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Terraform Plan
+        id: plan
+        shell: bash
+        env:
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir=examples/terraform/simple plan -input=false \
+            -out="$RUNNER_TEMP/rpst-terraform/bucket.tfplan"
+
+      - name: Refresh GitHub OIDC token for apply
+        if: env.DEMO_ACTION == 'apply-and-destroy'
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Terraform Apply
+        id: apply
+        if: env.DEMO_ACTION == 'apply-and-destroy'
+        shell: bash
+        env:
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir=examples/terraform/simple apply -input=false -auto-approve \
+            "$RUNNER_TEMP/rpst-terraform/bucket.tfplan"
+
+      - name: Refresh GitHub OIDC token for destroy
+        id: oidc_for_destroy
+        if: >-
+          always() && env.DEMO_ACTION == 'apply-and-destroy' &&
+          steps.configure.outcome == 'success' && steps.init.outcome == 'success'
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Terraform Destroy
+        id: destroy
+        if: >-
+          always() && env.DEMO_ACTION == 'apply-and-destroy' &&
+          steps.oidc_for_destroy.outcome == 'success'
+        shell: bash
+        env:
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir=examples/terraform/simple destroy -auto-approve -input=false
+
+      - name: Remove runtime files
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${RUNNER_TEMP:-}" || "$RUNNER_TEMP" == / ]]; then
+            echo 'RUNNER_TEMP is not a safe cleanup root' >&2
+            exit 1
+          fi
+          rm -rf -- "$RUNNER_TEMP/rpst-terraform" "$RUNNER_TEMP/oci-wif"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        env:
+          PHASE2_OUTCOME: ${{ steps.phase2.outcome }}
+          PLAN_OUTCOME: ${{ steps.plan.outcome }}
+          APPLY_OUTCOME: ${{ steps.apply.outcome }}
+          DESTROY_OUTCOME: ${{ steps.destroy.outcome }}
+        run: |
+          {
+            echo '## Terraform RPST bucket demo'
+            echo '| Phase | Outcome |'
+            echo '| --- | --- |'
+            echo "| Phase 2 exchange | ${PHASE2_OUTCOME:-skipped} |"
+            echo "| Plan | ${PLAN_OUTCOME:-skipped} |"
+            echo "| Apply | ${APPLY_OUTCOME:-skipped} |"
+            echo "| Destroy | ${DESTROY_OUTCOME:-skipped} |"
+          } >> "$GITHUB_STEP_SUMMARY"
