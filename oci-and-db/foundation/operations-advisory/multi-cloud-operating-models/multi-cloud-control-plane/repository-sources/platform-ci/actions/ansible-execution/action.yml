@@ -17,21 +17,10 @@ inputs:
   environment_name:
     description: Selected logical environment
     required: true
-  security_profile:
-    description: Selected repository security profile
-    required: true
 
 runs:
   using: composite
   steps:
-    - name: Verify repository security profile
-      shell: bash
-      env:
-        SECURITY_PROFILE: ${{ inputs.security_profile }}
-      run: |
-        set -euo pipefail
-        test "$SECURITY_PROFILE" = repository-secrets
-
     # =====================================================================
     # Setup
     # =====================================================================
@@ -51,7 +40,7 @@ runs:
       run: |
         OPERATION_FILE="${{ inputs.operation_file }}"
         FULL_PATH="${{ github.workspace }}/$OPERATION_FILE"
-        IS_CLEAR=$(python3 - "$FULL_PATH" <<'PY'
+        IS_CLEAR=$(python3.11 - "$FULL_PATH" <<'PY'
         import json
         import sys
 
@@ -71,7 +60,7 @@ runs:
         OPERATION_FILE: ${{ github.workspace }}/${{ inputs.operation_file }}
       run: |
         set -euo pipefail
-        python3 "${{ github.action_path }}/../../scripts_python/validate_operation_manifest.py" \
+        python3.11 "${{ github.action_path }}/../../scripts_python/validate_operation_manifest.py" \
           "$OPERATION_FILE"
 
     - name: Install Ansible and OCI CLI
@@ -106,7 +95,7 @@ runs:
         # path is never interpolated into Python source.
         # Assign first: a failing command substitution aborts the step under -e,
         # whereas `read` from an empty here-string would succeed with empty values.
-        MANIFEST_FACTS=$(python3 - "$FULL_PATH" <<'PY'
+        MANIFEST_FACTS=$(python3.11 - "$FULL_PATH" <<'PY'
         import json
         import sys
 
@@ -169,7 +158,7 @@ runs:
       if: steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       run: |
-        python3 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
+        python3.11 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
           "${{ inputs.cloud }}" \
           "${{ inputs.bucket_name }}" \
           "${{ steps.discover.outputs.config_subpath }}" \
