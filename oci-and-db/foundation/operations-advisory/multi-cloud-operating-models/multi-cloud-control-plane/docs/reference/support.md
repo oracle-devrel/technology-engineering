@@ -11,12 +11,14 @@ The GitHub interface, optional UI, and optional Codex plugin support every resou
 | Cloud | Resources |
 | --- | --- |
 | OCI | Project network security groups (NSGs) and approved ingress/egress rules, Compute, Autonomous Database |
-| Azure | Private Linux VM, Oracle Autonomous Database |
+| Azure | Private Linux VM, Oracle Autonomous Database with private or public mTLS connectivity |
 | Google Cloud | Private Linux VM, Oracle Autonomous Database Serverless |
 
 The supplied OCI Compute example uses `eu-frankfurt-1`. A reference deployment in another region needs a region-specific Compute template and image reference.
 
 The Azure and Google Cloud reference patterns consume existing foundation references. They do not create projects, resource groups, IAM, networks, subnets, NSGs, service accounts, ODB Networks, or ODB Subnets.
+
+Azure ADB has fixed Small (2 ECPUs / 1 TB), Medium (4 ECPUs / 2 TB), and Large (8 ECPUs / 4 TB) BYOL profiles, each with private and public mTLS variants. CPU auto-scaling remains enabled and storage auto-scaling is disabled. Private profiles require an existing VNet and Oracle-delegated subnet. The public mTLS profile requires no VNet or subnet and permits connections from any IP address with a client wallet and database authentication. Publish and pin the connectivity-aware Azure adapter before enabling this profile; the original private-only adapter cannot consume it. See the [resource catalog](../../repository-sources/gitops-templates/resources-catalog/README.md#azure--databases) for profile selection and compatibility.
 
 ## Lifecycle operations (Day 2)
 
@@ -29,4 +31,4 @@ ADB start/stop operates the database. `deploy-agent` is the worked example of th
 
 Azure and Google Cloud lifecycle operations are not supplied in this reference.
 
-Before submitting requests, complete the installation, the cloud handoff, and the [first-project acceptance check](verify-secret-isolation.md), then run one request through the [GitHub interface](../usage/github-interface.md) on the customer runners and identities.
+Complete installation and prepare the selected cloud's runner access and resource inputs before submitting requests. OCI and Google require their foundation handoff references; Azure uses the request/JSON plus its configured runner, with optional Markdown context. Use the first intended request for the [first-project acceptance check](verify-secret-isolation.md) on the customer runners and identities, before deployment.
