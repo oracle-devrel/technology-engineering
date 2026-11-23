@@ -9,7 +9,8 @@ Report the observed failure with its GitHub link, distinguish confirmed facts fr
 | Failure | Tell the user |
 | --- | --- |
 | Template/catalog unavailable | Stop and ask the platform team to restore the approved source. |
-| Branch or open PR already exists | Stop and provide its URL; reuse or close it through the Project Team's normal GitHub process, never create a suffixed duplicate. |
+| Branch or open PR already exists for a new request | Stop and provide its URL. An existing PR follows the Project Team's normal GitHub process. |
+| Branch push or PR creation failed or has an uncertain outcome | Read the exact branch and PR state. To complete the confirmed request, follow [publication recovery](workflow.md#publication-recovery). |
 | Pull-request workflow is not found | Inspect recent branch runs without a `pull_request` event filter; protected project workflows use `pull_request_target`. |
 | Pull-request workflow fails | Report the matching workflow evidence and identify whether the next step belongs to the project manifest or its owning platform contract. If the user requests a candidate-manifest correction, retain the exact branch and existing PR, regenerate the semantic preview, require fresh confirmation, then publish the correction to that branch. Never create a duplicate PR. |
 | Missing or invalid OCI/Google handoff | Ask Cloud Operations to correct the environment handoff. |
@@ -21,8 +22,8 @@ Report the observed failure with its GitHub link, distinguish confirmed facts fr
 | Unresolved placeholder | Render the selected catalog's inputs before publishing. Public SSH keys are literal public inputs; password tokens and runtime bindings are unsupported. |
 | Terraform diagnostic category | Report the fixed category as a possible cause, with the matching workflow link and failed stage. Do not infer a definitive root cause or retrieve raw logs; Cloud Operations owns cloud and state investigation. |
 | All-ADB lifecycle request | When the request explicitly names `start` or `stop all OCI ADBs`, repository, environment, and region, enumerate the selected regional manifest and show every resulting display name in the preview. For any other group selector, ask for exact display names. |
-| Inventory details unavailable | Report only the repository, environment, region, type, display name, and size available from committed regional manifests. Do not add paths, lifecycle commentary, or a disclaimer. |
-| Preview drift | Regenerate the preview and request a new confirmation. |
+| Inventory details unavailable | Follow the [inventory format and size rules](inventory.md) and report only what the committed manifests and catalog establish. |
+| Preview drift | Regenerate the preview and request a new confirmation before the first write. If the branch was already pushed, follow [publication recovery](workflow.md#publication-recovery). |
 | Merge requested before review or evidence is ready | Report the exact missing current-head approval, check or matching safe plan/check. Do not approve, merge, enable auto-merge or wait to merge later automatically. |
 | Reviewed PR head, base or validation attempt changed | Refresh the decision summary and obtain a new explicit merge instruction. Do not merge the newly observed version under the earlier instruction. |
 | Merge rejected, denied or outcome uncertain | Read the exact PR state. Report a verified existing merge and monitor its actual merge commit, or stop with the unresolved/blocking result. Do not retry blindly, bypass restrictions, change merge method, enqueue, reopen or update the branch. |

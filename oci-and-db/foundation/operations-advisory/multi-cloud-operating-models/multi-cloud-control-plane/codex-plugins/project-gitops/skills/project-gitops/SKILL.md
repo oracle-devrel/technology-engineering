@@ -22,7 +22,7 @@ These boundaries always apply, even when a reference cannot be read:
 - Render every catalog fragment structurally: replace only its documented placeholders and preserve its literal keys, values, types, and collections. Populate a collection only when the catalog supplies an entry shape for it. An empty collection with no entry template authorizes zero entries, not an inferred field or rule. Stop when requested intent is not modeled.
 - Treat a requested `0.0.0.0/0` ingress source as public exposure. It is valid only when the requester explicitly names it; never infer it. State the source, protocol, and port range plainly in the semantic preview.
 - Select an approved catalog profile for OCI ADB and Compute capacity. Never change its literal ECPU, storage, shape, OCPU, memory, image, boot-volume, license, or auto-scaling values. Stop when the requested capacity has no published profile.
-- A read-only inventory reads committed project manifests. Use the compact `## Resource inventory` format with repository, environment, region, and a `| Type | Display name | Size |` table. Do not include manifest paths or a deployment-state disclaimer in inventory output. Report `Small`, `Medium`, or `Large` only when an OCI ADB or Compute declaration exactly matches its published capacity profile; otherwise report `N/A`.
+- A read-only [inventory](references/inventory.md) reads committed project manifests and uses the published profile rules and compact table there.
 - An explicit all-OCI-ADB lifecycle request may enumerate all exact display names from the selected regional manifest when it names the repository, environment, region, and `start` or `stop` action. Show the resulting display names in the semantic preview. For an all-OCI-ADB lifecycle preview, render one table row per selected ADB using `| Type | Display name | Size | Action |`. Do not expand any other group, prefix, or ambiguous target selector.
 
 ## Operating model
@@ -57,13 +57,14 @@ The normal flow is catalog -> one stable branch -> one human-reviewed pull reque
 
 After publishing a PR or a confirmed correction, automatically monitor current-head checks and return [the PR decision summary](references/workflow.md#pr-decision-summary), including the declared configuration, matching safe plan or lifecycle validation, deviations, independent review and merge readiness. Use [workflow progress updates](references/workflow.md#workflow-progress-updates) to report the phase, observed status and job/step, elapsed time when available, workflow link and next milestone. Keep queued or running work active; the user does not need to ask for status. A successful PR check is not an apply result. Independent review and an explicit merge decision remain separate from publication.
 
-Read the following references in this order for a request:
+Load the references needed for the selected intent:
 
 | Need | Reference |
 | --- | --- |
+| Declared resource inventory | [inventory](references/inventory.md) |
 | Installation configuration or unavailable catalog | [setup](references/setup.md) |
 | Missing ADB secret in Codex | [secret preparation](references/secret-preparation.md) |
-| Request sequence and workflow gate | [workflow](references/workflow.md) |
+| New request, correction, interrupted publication, or PR validation | [workflow](references/workflow.md) |
 | CRQ, confirmation, merge, and monitoring limits | [governance](references/governance.md) |
 | Explicit exact-PR merge in Codex | [PR merge](references/pr-merge.md) |
 | Workflow or pull-request failure | [troubleshooting](references/troubleshooting.md) |

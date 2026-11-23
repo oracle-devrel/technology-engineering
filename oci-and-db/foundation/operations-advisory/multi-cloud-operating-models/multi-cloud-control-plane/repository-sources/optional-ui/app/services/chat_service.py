@@ -83,7 +83,13 @@ class ChatSession:
             result = {"success": True, "contentItems": [{"type": "inputText", "text": json.dumps({"panel": panel})}]}
         except (ValueError, ValidationError, TypeError):
             # Never echo model inputs or candidate contents in a validation error.
-            result = {"success": False, "contentItems": [{"type": "inputText", "text": "Panel update rejected. Supply a scoped candidate JSON with runtime credential placeholders and unambiguous resource keys, or a valid PR number."}]}
+            result = {"success": False, "contentItems": [{
+                "type": "inputText",
+                "text": (
+                    "Panel update rejected. Supply rendered candidate JSON in the selected scope with "
+                    "a CRQ, unambiguous resource keys and any required native secret references, or a valid PR number."
+                ),
+            }]}
             panel = self.panel = None
         await self._send({"id": message["id"], "result": result})
         return {"type": "panel", "panel": panel}
@@ -151,7 +157,7 @@ class ChatSession:
             "Its Consult, Request change, Operate and Investigate contracts are shared with Codex; follow them here. "
             "The browser messages are the user's instructions; require a standalone confirm after "
             "the semantic preview before any GitHub write, including issues, branches, commits or PRs. "
-            "Confirmations apply only to the exact preview and current main. "
+            "Confirmations apply only to the exact preview and its verified project and catalog inputs. "
             "Never approve or merge PRs, dispatch workflows, run Terraform/Ansible or call cloud APIs. "
             "Use the temporary working directory for disposable clones and artifacts. "
             "Never read host credentials, environment secrets, .env files or Codex configuration. "
