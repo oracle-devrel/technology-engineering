@@ -20,7 +20,7 @@ The supplied playbook is a safe demonstration placeholder: it creates `/opt/agen
 
 ## Terraform state as Ansible inventory
 
-For the shared pattern used by ADB and Compute operations, see [Terraform state as dynamic inventory](../../../../platform-ci/README.md#terraform-state-as-dynamic-inventory).
+For the shared pattern used by ADB and Compute operations, see [Terraform state as dynamic inventory](https://github.com/__CUSTOMER_ORG__/platform-ci/blob/main/README.md#terraform-state-as-dynamic-inventory).
 
 Platform CI derives the state key from the project repository and the manifest path: `<bucket>/<owner>/<project>/oci/<environment>/<region>/terraform.tfstate`. It downloads that object read-only, indexes `oci_core_instance` entries by their exact `display_name`, and keeps only the instances named in `targets`.
 

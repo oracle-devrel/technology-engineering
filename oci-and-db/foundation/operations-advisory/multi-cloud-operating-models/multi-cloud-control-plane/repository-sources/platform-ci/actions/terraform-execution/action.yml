@@ -14,9 +14,6 @@ inputs:
   environment_name:
     description: Selected logical environment
     required: true
-  security_profile:
-    description: Selected repository security profile
-    required: true
   repository_layout:
     description: Protected repository layout identifier
     required: true
@@ -29,25 +26,21 @@ inputs:
   bucket_name:
     description: OCI Object Storage state bucket
     required: true
-  repository_secret_values:
-    description: Repository-profile secret JSON
-    required: false
-    default: ""
 
 runs:
   using: composite
   steps:
-    - name: Verify repository security profile
-      shell: bash
-      env:
-        SECURITY_PROFILE: ${{ inputs.security_profile }}
-      run: |
-        set -euo pipefail
-        test "$SECURITY_PROFILE" = repository-secrets
-
     # =====================================================================
     # Setup
     # =====================================================================
+    - name: Prepare private work directory
+      shell: bash
+      run: |
+        set -euo pipefail
+        umask 077
+        WORK_TEMP=$(mktemp -d "$RUNNER_TEMP/mccp-terraform.XXXXXX")
+        echo "MCCP_TERRAFORM_TEMP=$WORK_TEMP" >> "$GITHUB_ENV"
+
     - name: Checkout orchestrator
       uses: actions/checkout@v6
       with:
@@ -101,6 +94,47 @@ runs:
         echo "BUCKET_NAME=${{ inputs.bucket_name }}" >> $GITHUB_ENV
         echo "✅ Config: $CONFIG_SUBPATH"
 
+    - name: Prepare variables
+      id: vars
+      shell: bash
+      env:
+        MCCP_HANDOFF_REF: ${{ inputs.mode == 'pr' && github.event.pull_request.base.sha || github.sha }}
+      run: |
+        set -euo pipefail
+        umask 077
+        CONFIG_DIR="${{ github.workspace }}/${{ steps.config.outputs.config_subpath }}"
+        PREPARED_VAR_DIR="$MCCP_TERRAFORM_TEMP/var-files"
+
+        # Exclude lifecycle_operations/ directories - those JSON files are
+        # for Ansible, not Terraform. Prepare copies under runner.temp so secret-backed
+        # placeholders never modify the checked-out manifest repository.
+        VAR_FILES=$(python3.11 "${{ github.action_path }}/../../scripts_python/prepare_var_files.py" \
+          "$CONFIG_DIR" "$PREPARED_VAR_DIR" "${{ inputs.environment_name }}" \
+          "${{ inputs.cloud }}" "${{ inputs.region }}")
+        echo "var_files=$VAR_FILES" >> $GITHUB_OUTPUT
+
+        EXTRA=""
+        if [ "${{ inputs.cloud }}" = "oci" ]; then
+          if [ -z "${CONFIG_REGION:-}" ]; then
+            echo "❌ CONFIG_REGION missing from the resolved region input"
+            exit 1
+          fi
+
+          # Only override region. Project repositories should not create OCI IAM
+          # foundation resources; Cloud Operations owns the project foundation.
+          EXTRA="-var=region=$CONFIG_REGION"
+        elif [ "${{ inputs.cloud }}" = "gcp" ]; then
+          if [ -z "${CONFIG_REGION:-}" ]; then
+            echo "❌ CONFIG_REGION missing from the resolved region input"
+            exit 1
+          fi
+
+          # GCP config folders are Google provider regions such as europe-west2.
+          EXTRA="-var=location=$CONFIG_REGION"
+        fi
+        echo "extra=$EXTRA" >> $GITHUB_OUTPUT
+
+
     # =====================================================================
     # Auth & Backend
     # =====================================================================
@@ -108,11 +142,30 @@ runs:
       if: inputs.cloud == 'azure'
       shell: bash
       run: |
-        az login --service-principal \
-          --username "$ARM_CLIENT_ID" \
-          --password "$ARM_CLIENT_SECRET" \
-          --tenant "$ARM_TENANT_ID"
-        az account set --subscription "$ARM_SUBSCRIPTION_ID"
+        set -euo pipefail
+        : "${ARM_CLIENT_ID:?ARM_CLIENT_ID is required}"
+        : "${ARM_TENANT_ID:?ARM_TENANT_ID is required}"
+        : "${ARM_SUBSCRIPTION_ID:?ARM_SUBSCRIPTION_ID is required}"
+        if [ -n "${ARM_CLIENT_CERTIFICATE_PATH:-}" ]; then
+          if [ ! -f "$ARM_CLIENT_CERTIFICATE_PATH" ] || [ ! -r "$ARM_CLIENT_CERTIFICATE_PATH" ] || [ ! -s "$ARM_CLIENT_CERTIFICATE_PATH" ]; then
+            echo "Azure client certificate must be a readable, nonempty PFX file." >&2
+            exit 1
+          fi
+          # AzureRM reads the PFX and optional password directly from ARM_*.
+          # A CLI service-principal session is not a provider credential.
+          {
+            echo "ARM_USE_CLI=false"
+            echo "ARM_CLIENT_SECRET="
+          } >> "$GITHUB_ENV"
+          echo "Using direct AzureRM client certificate authentication."
+        else
+          : "${ARM_CLIENT_SECRET:?Set ARM_CLIENT_CERTIFICATE_PATH or ARM_CLIENT_SECRET}"
+          az login --service-principal \
+            --username "$ARM_CLIENT_ID" \
+            --password "$ARM_CLIENT_SECRET" \
+            --tenant "$ARM_TENANT_ID" --output none
+          az account set --subscription "$ARM_SUBSCRIPTION_ID"
+        fi
 
     - name: Authenticate Google
       if: inputs.cloud == 'gcp'
@@ -235,7 +288,20 @@ runs:
     # =====================================================================
     - name: Terraform init
       shell: bash
-      run: terraform -chdir=ORCH init
+      run: |
+        set -euo pipefail
+        for attempt in 1 2 3 4 5; do
+          if terraform -chdir=ORCH init -input=false -no-color; then
+            exit 0
+          fi
+          if [ "$attempt" -eq 5 ]; then
+            echo "Terraform init failed after $attempt attempts." >&2
+            exit 1
+          fi
+          delay_seconds=$((attempt * 10))
+          echo "Terraform init failed; retrying in ${delay_seconds}s..." >&2
+          sleep "$delay_seconds"
+        done
 
     - name: Terraform validate
       id: validate
@@ -243,79 +309,56 @@ runs:
       shell: bash
       run: terraform -chdir=ORCH validate -no-color
 
-    - name: Prepare variables
-      id: vars
-      shell: bash
-      env:
-        GITOPS_SECRET_VALUES: ${{ inputs.repository_secret_values }}
-      run: |
-        CONFIG_DIR="${{ github.workspace }}/${{ steps.config.outputs.config_subpath }}"
-        PREPARED_VAR_DIR="${{ runner.temp }}/terraform-var-files"
-
-        # Exclude lifecycle_operations/ directories - those JSON files are
-        # for Ansible, not Terraform. Prepare copies under runner.temp so secret-backed
-        # placeholders never modify the checked-out manifest repository.
-        VAR_FILES=$(python3 "${{ github.action_path }}/../../scripts_python/prepare_var_files.py" \
-          "$CONFIG_DIR" "$PREPARED_VAR_DIR" "${{ inputs.environment_name }}")
-        echo "var_files=$VAR_FILES" >> $GITHUB_OUTPUT
-
-        EXTRA=""
-        if [ "${{ inputs.cloud }}" = "oci" ]; then
-          if [ -z "${CONFIG_REGION:-}" ]; then
-            echo "❌ CONFIG_REGION missing from the resolved region input"
-            exit 1
-          fi
-
-          # Only override region. Project repositories should not create OCI IAM
-          # foundation resources; OP04 owns compartments, groups, and policies.
-          EXTRA="-var=region=$CONFIG_REGION"
-        elif [ "${{ inputs.cloud }}" = "gcp" ]; then
-          if [ -z "${CONFIG_REGION:-}" ]; then
-            echo "❌ CONFIG_REGION missing from the resolved region input"
-            exit 1
-          fi
-
-          # GCP config folders are Google provider regions such as europe-west2.
-          EXTRA="-var=location=$CONFIG_REGION"
-        fi
-        echo "extra=$EXTRA" >> $GITHUB_OUTPUT
-
     - name: Terraform plan
       id: plan
       shell: bash
       working-directory: ORCH
       run: |
+        set -euo pipefail
+        umask 077
+        # Native Vault data sources can contain Base64 values that the provider
+        # does not mark sensitive. Never stream the raw plan or diagnostics.
+        unset TF_LOG TF_LOG_PATH TF_LOG_CORE TF_LOG_PROVIDER
         set +e
-        set -o pipefail
         terraform plan -detailed-exitcode -no-color \
           ${{ steps.vars.outputs.extra }} ${{ steps.vars.outputs.var_files }} \
-          -out=tfplan.binary 2>&1 | tee plan.txt
-        EXIT=${PIPESTATUS[0]}
+          -out=tfplan.binary > "$MCCP_TERRAFORM_TEMP/plan.log" 2>&1
+        EXIT=$?
         set -e
-
-        DELIMITER="ghout_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
-        echo "plan_output<<$DELIMITER" >> $GITHUB_OUTPUT
-        cat plan.txt >> $GITHUB_OUTPUT
-        echo "$DELIMITER" >> $GITHUB_OUTPUT
-        echo "exit_code=$EXIT" >> $GITHUB_OUTPUT
-
-        # Exit codes: 0=no changes, 1=error, 2=changes detected.
-        # Fail closed for 1 and any unexpected result.
+        echo "exit_code=$EXIT" >> "$GITHUB_OUTPUT"
         if [ "$EXIT" -ne 0 ] && [ "$EXIT" -ne 2 ]; then
+          echo "Terraform plan failed (exit $EXIT)." >&2
+          python3.11 "${{ github.action_path }}/../../scripts_python/summarize_plan.py" --diagnostics plan \
+            < "$MCCP_TERRAFORM_TEMP/plan.log" >&2 2>/dev/null || \
+            echo "Raw diagnostics are withheld because they may contain secrets." >&2
           exit "$EXIT"
         fi
-        # Exit 0 or 2 are both success (0=no changes, 2=changes to apply)
-        exit 0
+        terraform show -json tfplan.binary > "$MCCP_TERRAFORM_TEMP/plan.json" 2> "$MCCP_TERRAFORM_TEMP/show.log"
+        python3.11 "${{ github.action_path }}/../../scripts_python/summarize_plan.py" \
+          --format json < "$MCCP_TERRAFORM_TEMP/plan.json" \
+          > "$MCCP_TERRAFORM_TEMP/review.json"
+        jq -r '.summary, .detail' "$MCCP_TERRAFORM_TEMP/review.json"
+        echo "review_file=$MCCP_TERRAFORM_TEMP/review.json" >> "$GITHUB_OUTPUT"
 
     - name: Terraform apply
       if: inputs.mode == 'apply'
       shell: bash
       run: |
-        # Apply the exact binary plan produced by the preceding plan step.
-        # Passing variables here would make Terraform create a second,
-        # potentially different implicit plan.
-        terraform -chdir=ORCH apply -auto-approve -no-color tfplan.binary
-        echo "✅ Apply completed"
+        set -euo pipefail
+        umask 077
+        unset TF_LOG TF_LOG_PATH TF_LOG_CORE TF_LOG_PROVIDER
+        # Apply the exact binary plan. Keep provider diagnostics private too.
+        if terraform -chdir=ORCH apply -auto-approve -no-color tfplan.binary \
+          > "$MCCP_TERRAFORM_TEMP/apply.log" 2>&1; then
+          echo "Apply completed."
+        else
+          EXIT=$?
+          echo "Terraform apply failed (exit $EXIT)." >&2
+          python3.11 "${{ github.action_path }}/../../scripts_python/summarize_plan.py" --diagnostics apply \
+            < "$MCCP_TERRAFORM_TEMP/apply.log" >&2 2>/dev/null || \
+            echo "Raw diagnostics are withheld because they may contain secrets." >&2
+          exit "$EXIT"
+        fi
 
     # =====================================================================
     # PR Comment
@@ -324,24 +367,76 @@ runs:
       if: always() && inputs.mode == 'pr' && github.event.pull_request
       uses: actions/github-script@v8
       env:
-        PLAN: ${{ steps.plan.outputs.plan_output }}
+        REVIEW_FILE: ${{ steps.plan.outputs.review_file }}
+        PLAN_STATUS: ${{ steps.plan.outcome }}
+        VALIDATE_STATUS: ${{ steps.validate.outcome }}
+        HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        RUN_ATTEMPT: ${{ github.run_attempt }}
       with:
         script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `#### Terraform Plan
+          const fs = require("fs")
+          const ready = process.env.PLAN_STATUS === "success" &&
+            process.env.VALIDATE_STATUS === "success"
+          const unavailable = "Plan unavailable; inspect the failed preparation or execution step."
+          let review = null
+          if (ready) {
+            if (!process.env.REVIEW_FILE) throw new Error("The safe plan review is missing.")
+            review = JSON.parse(fs.readFileSync(process.env.REVIEW_FILE, "utf8"))
+            if (typeof review.summary !== "string" || typeof review.detail !== "string") {
+              throw new Error("The safe plan review has an invalid format.")
+            }
+          }
+          const summary = ready ? review.summary : unavailable
+          const detail = ready ? review.detail : unavailable
+          const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+          const bodyFor = (text, part, count) => [
+            "#### Terraform Plan",
+            `Commit: \`${process.env.HEAD_SHA}\``,
+            `Run: [${context.runId}, attempt ${process.env.RUN_ATTEMPT}](${runUrl})`,
+            `**Plan:** \`${process.env.PLAN_STATUS}\` · **Validate:** \`${process.env.VALIDATE_STATUS}\``,
+            "### Planned impact",
+            summary,
+            `<details><summary>Detailed sanitized plan${count > 1 ? ` (part ${part} of ${count})` : ""}</summary>`,
+            "```terraform", text, "```", "</details>",
+            "This is a plan, not a deployment result. Independent human review and merge are required.",
+          ].join("\n\n")
+          // Only the formatter's public strings are written here. Raw plans,
+          // data sources, variables and outputs remain in the private work dir.
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, bodyFor(detail, 1, 1) + "\n")
+          if (summary.length > 10000) throw new Error("Sanitized impact summary exceeds the PR comment limit; review the job summary.")
+          const chunks = []
+          let chunk = ""
+          for (const line of detail.split("\n")) {
+            if (line.length > 40000) throw new Error("Sanitized plan line exceeds the PR comment limit; review the job summary.")
+            if (chunk.length + line.length + 1 > 40000) {
+              chunks.push(chunk)
+              chunk = ""
+            }
+            chunk += line + "\n"
+          }
+          if (chunk || chunks.length === 0) chunks.push(chunk)
+          const bodies = chunks.map((text, index) => bodyFor(text.trimEnd(), index + 1, chunks.length))
+          if (bodies.some(body => body.length > 60000)) throw new Error("Sanitized PR comment exceeds its size limit.")
+          for (const body of bodies) {
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            })
+          }
 
-          **Validate:** \`${{ steps.validate.outcome }}\`
-
-          <details><summary>Show Plan</summary>
-
-          \`\`\`terraform
-          ${process.env.PLAN}
-          \`\`\`
-
-          </details>
-
-          *By @${{ github.actor }}*`
-          });
+    - name: Remove private Terraform files
+      if: always()
+      shell: bash
+      run: |
+        set -euo pipefail
+        if [ -n "${MCCP_TERRAFORM_TEMP:-}" ]; then
+          case "$MCCP_TERRAFORM_TEMP" in
+            "$RUNNER_TEMP"/mccp-terraform.*) rm -rf -- "$MCCP_TERRAFORM_TEMP" ;;
+            *) echo "Unexpected private work directory; refusing cleanup" >&2; exit 1 ;;
+          esac
+        fi
+        # ORCH is the disposable checkout created by this action, not the
+        # project configuration. Plans and provider caches must not survive it.
+        rm -rf -- "$GITHUB_WORKSPACE/ORCH"

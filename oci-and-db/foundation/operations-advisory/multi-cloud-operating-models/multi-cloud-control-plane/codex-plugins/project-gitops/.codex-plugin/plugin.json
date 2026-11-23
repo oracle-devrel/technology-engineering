@@ -1,18 +1,23 @@
 {
   "name": "project-gitops",
-  "version": "3.2.0",
-  "description": "Governed project infrastructure and lifecycle changes through the Codex app and pull requests",
+  "version": "4.0.0",
+  "description": "AI Operations for governed project inventory, changes, OCI lifecycle operations and workflow investigation in Codex and the web UI",
   "author": {
     "name": "Oracle Operations Advisory"
   },
   "skills": "./skills/",
   "interface": {
-    "displayName": "Project GitOps",
-    "shortDescription": "Govern project infrastructure through GitOps.",
-    "longDescription": "Plans and validates confirmation-gated project infrastructure and OCI lifecycle changes through human-reviewed pull requests.",
+    "displayName": "AI Operations",
+    "shortDescription": "Consult, request, operate and investigate project changes.",
+    "longDescription": "Shared AI Operations skill for declared inventory, catalog-based resource changes, published OCI operations and read-only workflow investigation. Changes require confirmation and human-reviewed pull requests.",
     "developerName": "Oracle Operations Advisory",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"],
-    "defaultPrompt": ["Prepare a governed project infrastructure change."]
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me consult, change, operate or investigate resources in my project."
+    ]
   }
 }

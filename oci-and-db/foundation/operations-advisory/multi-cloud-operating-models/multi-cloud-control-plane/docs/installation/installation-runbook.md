@@ -29,7 +29,7 @@ Before starting, confirm these inputs and retain the indicated evidence:
 | Clean MCCP source clone with Git, GitHub CLI (`gh`), `jq`, `rg`, and Perl | Installation operator | `git status --short` is empty and all required tools are available. |
 | Dedicated, private, versioned OCI Object Storage state bucket, including namespace and region | Cloud Operations | Approved bucket details; it is not a foundation-state bucket. |
 | Separate trusted Linux runner hosts for non-production and production | Cloud Operations | Approved cloud identities and network access. |
-| Completed project-foundation handoff for the first project | Cloud Operations | Approved cloud, environment, region, network, and execution references. |
+| Completed OCI project-foundation handoff for the first project | Cloud Operations | Approved OCI environment, region, compartments, network and Vault references. Azure uses existing foundation inputs in the resource JSON and a configured runner. |
 
 Authenticate `gh` to the intended customer organization, then check the source clone:
 
@@ -46,17 +46,22 @@ Terraform state always uses this OCI Object Storage bucket, including for Azure-
 
 ### 2.1 Render and validate the sources
 
-Stage the four shared sources and set the customer values, the OCI release line, and the immutable Azure and Google Cloud orchestrator pins:
+Stage the four shared sources and set the customer values and reviewed orchestrator commits:
 
 ```bash
 export STAGE="$(mktemp -d)"
 export CUSTOMER_ORG=example-enterprise
 export STATE_BUCKET=example-project-state
-export OCI_ORCHESTRATOR_REF=release-2.1.4
-export AZURE_ORCHESTRATOR_REF=8f3718211f98b8cc22ff0538dbd7080f12294c50
+export OCI_ORCHESTRATOR_REF=d162f24e81b0720803a9c26db2bc96e271cefa09
+export AZURE_ORCHESTRATOR_REF=791d46865e096cb58613b3b5319f0c5eee301e95
 export GCP_ORCHESTRATOR_REF=ff64cb3534f11de7ae2693d5ab5dabbab479003c
 
 : "${CUSTOMER_ORG:?set CUSTOMER_ORG}"
+if ! [[ "$CUSTOMER_ORG" =~ ^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$ ]] || \
+  [ "${#CUSTOMER_ORG}" -gt 39 ]; then
+  echo 'Set CUSTOMER_ORG to a valid GitHub organization name.' >&2
+  exit 1
+fi
 : "${STATE_BUCKET:?set STATE_BUCKET}"
 : "${OCI_ORCHESTRATOR_REF:?set OCI_ORCHESTRATOR_REF}"
 : "${AZURE_ORCHESTRATOR_REF:?set AZURE_ORCHESTRATOR_REF}"
@@ -72,12 +77,12 @@ cp LICENSE "$STAGE/prod-project-template/LICENSE"
 cp LICENSE "$STAGE/gitops-templates/LICENSE"
 
 find "$STAGE" -type f -exec perl -pi -e \
-  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__STATE_BUCKET__/$ENV{STATE_BUCKET}/g' {} +
+  's/__CUSTOMER_ORG__/$ENV{CUSTOMER_ORG}/g; s/__STATE_BUCKET__/$ENV{STATE_BUCKET}/g; s/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
 ```
 
 `STAGE` is a local build directory, not a Git repository or secret store. Keep it accessible only to the installation operator. `STATE_BUCKET` is rendered into the project workflow templates where the token is `__STATE_BUCKET__`.
 
-The OCI workflow resolves the latest commit on the official [Orchestrator release-2.1.4](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/tree/release-2.1.4) branch. The Azure and Google Cloud pins are the reviewed `mccp-v2.1.0` [Azure](https://github.com/oci-clickops/clickops-orchestrator-azure/commit/8f3718211f98b8cc22ff0538dbd7080f12294c50) and [Google Cloud](https://github.com/oci-clickops/clickops-orchestrator-gcp/commit/ff64cb3534f11de7ae2693d5ab5dabbab479003c) orchestrator commits. Do not replace the Azure or Google Cloud commits with a mutable tag.
+The OCI pin selects the official [Orchestrator v2.3.0 release commit](https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator/commit/d162f24e81b0720803a9c26db2bc96e271cefa09), which supports native ADB Vault references. The Azure pin selects the [connectivity-aware adapter](https://github.com/oci-clickops/clickops-orchestrator-azure/commit/791d46865e096cb58613b3b5319f0c5eee301e95), which supports private and public mTLS profiles. The Google Cloud pin selects the reviewed [Google Cloud adapter](https://github.com/oci-clickops/clickops-orchestrator-gcp/commit/ff64cb3534f11de7ae2693d5ab5dabbab479003c). Keep these reviewed commits for a repeatable installation; upgrades follow their own review and validation.
 
 Verify the rendered sources before creating their local repository commits:
 
@@ -102,9 +107,6 @@ git -C "$STAGE/platform-ci" -c user.name='Platform Administrator' \
   -c user.email='platform@invalid' commit -m 'Prepare Platform CI'
 export PLATFORM_CI_COMMIT=$(git -C "$STAGE/platform-ci" rev-parse HEAD)
 
-find "$STAGE/nonprod-project-template" "$STAGE/prod-project-template" -type f -exec perl -pi -e \
-  's/__OCI_ORCHESTRATOR_REF__/$ENV{OCI_ORCHESTRATOR_REF}/g; s/__AZURE_ORCHESTRATOR_REF__/$ENV{AZURE_ORCHESTRATOR_REF}/g; s/__GCP_ORCHESTRATOR_REF__/$ENV{GCP_ORCHESTRATOR_REF}/g' {} +
-
 for repository in nonprod-project-template prod-project-template gitops-templates; do
   git -C "$STAGE/$repository" init -b main
   git -C "$STAGE/$repository" add -A
@@ -119,7 +121,7 @@ export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
 
 ### 2.3 Publish, configure, and record evidence
 
-Keep Platform CI private, restrict its write access to Cloud Operations, and apply the repository controls available on the customer GitHub plan. `PLATFORM_CI_COMMIT` is installation evidence. Project repositories intentionally call the Cloud Operations-controlled `platform-ci` `main` branch at runtime; its changes remain a Cloud Operations review responsibility. Official GitHub Actions use reviewed major release tags. Major tags can move, so Cloud Operations reviews their release changes during every Platform CI upgrade. The fixed `repository-secrets` profile gives an enabled environment a secret bundle only when a workload needs matching runtime placeholders. Project Teams manage their workload-secret values in those per-environment bundles through the approved secret process; the pull request remains the human deployment gate. See the [security guidance](../reference/security.md) for the controls recommended for each GitHub plan.
+Keep Platform CI private, restrict its write access to Cloud Operations, and apply the repository controls available on the customer GitHub plan. `PLATFORM_CI_COMMIT` is installation evidence. Project repositories intentionally call the Cloud Operations-controlled `platform-ci` `main` branch at runtime; its changes remain a Cloud Operations review responsibility. Official GitHub Actions use reviewed major release tags. Major tags can move, so Cloud Operations reviews their release changes during every Platform CI upgrade. The fixed secret-delivery contract keeps workload-secret values in the project's approved Vault scope. Project Teams create and rotate those values; Cloud Operations prepares the runner access. GitHub stores references and review evidence, not workload-secret values. See the [security guidance](../reference/security.md) for the controls recommended for each GitHub plan.
 
 Publish the staged sources and enable the project templates:
 
@@ -168,7 +170,7 @@ Register each existing host as an organization runner using GitHub's [self-hoste
 | Boundary | Required labels | Required software and configuration |
 | --- | --- | --- |
 | Resolver | `self-hosted`, `control-plane-resolver` | Linux, Bash, Git, `jq`, and `rg`; outbound access to GitHub Actions. |
-| Non-production execution | `self-hosted`, selected cloud (`oci`, `azure`, or `gcp`), selected environment (`dev`, `test`, or `uat`) | Linux, Bash, Git, Python 3.11 available as `python3.11`, with `pip`, `curl`, and `sha256sum`; outbound HTTPS to GitHub Actions, HashiCorp, PyPI, and Ansible Galaxy. |
+| Non-production execution | `self-hosted`, selected cloud (`oci`, `azure`, or `gcp`), selected environment (`dev`, `test`, or `uat`) | Linux, Bash, Git, `jq`, `rg`, OCI CLI, Python 3.11 available as `python3.11`, with `pip`, `curl`, and `sha256sum`; outbound HTTPS to GitHub Actions, HashiCorp, PyPI, and Ansible Galaxy. |
 | Production execution | `self-hosted`, selected cloud (`oci`, `azure`, or `gcp`), `prod` | The same execution requirements, on a separate runner instance and identity. |
 
 ### Execution runner preflight
@@ -178,11 +180,11 @@ Set the following values in the runner service environment, such as the runner s
 | Scope | Required configuration |
 | --- | --- |
 | Every execution runner | `STATE_NAMESPACE`, `STATE_REGION`, and `OCI_CLI_AUTH=instance_principal`; the runner identity may access only the state bucket and required workload services. This is required even for Azure-only and Google Cloud-only deployments because Terraform state uses OCI Object Storage. |
-| Azure execution runner | Azure CLI and the approved `ARM_*` service-principal values. |
+| Azure execution runner | `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`, and a protected PFX at `ARM_CLIENT_CERTIFICATE_PATH`; set `ARM_CLIENT_CERTIFICATE_PASSWORD` for an encrypted PFX. Platform CI authenticates AzureRM directly with the certificate. Existing Azure CLI and `ARM_CLIENT_SECRET` installations remain supported. Keep certificate files and credential values outside Git. |
 | Google Cloud execution runner | `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS`, or Application Default Credentials. |
 | Workflow runtime | The workflow installs Terraform `1.12.1`. |
 
-Use separate organization runner groups restricted to the approved repositories. The supplied baseline can run every selected cloud from OCI hosts, whose dynamic-group policies must cover only the state bucket and the required workload compartments and services. Use separate non-production and production SSH key pairs. OCI Compute manifests use `/home/github-runner/.ssh/oci_vm_key.pub`; supported Ansible operations use the matching private key at `/home/github-runner/.ssh/oci_vm_key`, readable only by the `github-runner` account.
+Use separate organization runner groups restricted to the approved repositories. The supplied baseline can run every selected cloud from OCI hosts, whose dynamic-group policies must cover only the approved state, workload and Vault scope. A shared dev runner may serve several approved project repositories. Its identity is shared too: labels select jobs but do not isolate permissions between projects. Use separate identities and runner groups when the customer needs that stronger boundary. Use separate non-production and production SSH key pairs. OCI Compute manifests use `/home/github-runner/.ssh/oci_vm_key.pub`; supported Ansible operations use the matching private key at `/home/github-runner/.ssh/oci_vm_key`, readable only by the `github-runner` account.
 
 On each resolver runner, verify the required programs:
 
@@ -195,7 +197,7 @@ done
 On each execution runner, verify the required programs and non-secret settings:
 
 ```bash
-for program in bash git python3.11 curl sha256sum; do
+for program in bash git jq rg oci python3.11 curl sha256sum; do
   command -v "$program" >/dev/null || { echo "Missing $program"; exit 1; }
 done
 python3.11 -m pip --version >/dev/null || { echo 'Missing pip for python3.11'; exit 1; }
@@ -213,13 +215,31 @@ gh api "orgs/$CUSTOMER_ORG/actions/runners" --paginate \
 
 **Continue only when:** all checks succeed, every required runner is online, and every identity has the intended state and workload access.
 
+### Prepare workload-secret delivery
+
+Handoff 5 identifies the environment shared workload Vault, project HSM key and Database compartment where Project Team manages its secrets. Onboarding creates the project key and compartments; CloudOps separately prepares and administers the shared Vault. It creates no passwords. Cloud Operations gives the runner the required read access. Workload requests use secret references; values stay in Vault.
+
+| Request | What to prepare |
+| --- | --- |
+| OCI ADB | One Vault secret per database, in the project/environment and deployment region. Put its OCID in `admin_password_secret_id`. The native module reads its current version. |
+| Azure ADB | One Vault secret per database. Put its OCID in `admin_password_secret_id`, as for OCI. The runner uses the existing foundation IAM permissions; no additional project mapping or binding is registered. |
+| Google Cloud ADB | The provider-native secret reference required by the catalog. |
+
+Azure ADB uses `admin_password_secret_id`, just like OCI. Before Terraform initialization or backend access, the common validator reads handoff 5 from the PR base commit for plan or the merged commit for apply. It validates metadata for every ADB secret against the project Database compartment, shared Vault, project key, OCI region and ACTIVE state. It rejects incomplete or foreign references and query errors before any content read. Azure then retrieves `CURRENT` through the existing Instance Principal into private temporary variables. Its OCI Vault region comes from the trusted handoff even when the Azure ADB location is `uksouth`. Foundation onboarding supplies the Vault/key references and baseline runner policies; verify effective access through the reviewed workload plan. No additional project registration, scope file, secret-region input or per-secret binding is needed. The Azure module receives the password only in private temporary variables; Terraform plan/state remain sensitive. A shared runner identity is a shared permission boundary and does not prove per-project isolation.
+
+Azure and Google VM manifests contain the approved SSH public key directly. Public keys are not passwords; private keys stay protected on the runner. Render every catalog placeholder before opening a request. No runtime binding file or environment-token registration is required. Existing runner binding files are no longer read; their removal is a separate administrator task.
+
 ## 4. Hand off the first project repository
 
-After the successful **[OP04 project-onboarding workflow](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)**—the OCI Landing Zone phase that creates the project compartments, groups, and policies—Cloud Operations uses its governed project-onboarding process to validate the `project-foundation-handoff.json` and `environment_information.md` artifacts, create the project repository when it is absent, and publish the repository handoff in a reviewed pull request. It uses `nonprod-project-template` for the shared `dev`, `test`, and `uat` model, or `prod-project-template` for the isolated `prod` model. Do not create the project repository outside that process.
+The **[OP04 project-onboarding workflow](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)** creates the project foundation: four compartments and their admin groups, plus an AES-256 HSM key in Database linked to the environment shared DEFAULT workload Vault in security. The environment foundation already supplies the runner policies. Onboarding creates no workload or password.
+
+After the reviewed dev onboarding is merged and applied, the supplied automation generates and validates both handoff files, creates an absent private `nonprod-<project>` repository from template `main`, and publishes its development handoff. The Project Team receives its approved scope without copying cloud identifiers by hand. Cloud Operations checks the apply and repository-publication results before handing it over.
+
+For recovery or another environment, use the governed Cloud Operations handoff process: validate `project-foundation-handoff.json` together with `environment_information.md`, create or reuse the approved project repository, and publish the environment handoff through its reviewed change. Shared non-production uses `nonprod-project-template`; production uses the separate `prod-project-template`.
 
 Before the Project Team starts its first request:
 
-1. The OCI section of `environments/<environment>/environment_information.md` is published by the Landing Zone project-foundation handoff. The OP04 phase creates the project compartments, groups, and policies, so do not hand-write its references. Complete the Azure and Google Cloud sections in a separate reviewed pull request; blank values are not valid. Use the [OCI Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities) if the foundation does not exist yet.
+1. The OCI section of `environments/<environment>/environment_information.md` is published by the Landing Zone project-foundation handoff. The OP04 phase supplies the project compartments, groups and key linked to the authorized shared workload Vault, so do not hand-write its OCI references. Google Cloud still requires its reviewed foundation references in the handoff. Azure uses an existing foundation: resource group, location, network references when private, and the dedicated secret OCID go in the resource JSON; subscription and authentication stay in the runner's existing `ARM_*` configuration. Azure Markdown is optional documentation and needs no prerequisite handoff PR. OP04 remains OCI-only. Use the [OCI Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities) if the foundation does not exist yet.
 2. Configure Project Team access. The Project Team owns review ownership and may render `.github/CODEOWNERS.template` into an active `.github/CODEOWNERS` file as described in the project template README. A template-only file is valid until the Project Team configures its owners.
 3. Apply the `main` control recommended for the customer GitHub plan:
    - **GitHub Team or GitHub Enterprise Cloud:** create an active repository
@@ -230,14 +250,14 @@ Before the Project Team starts its first request:
    - **GitHub Free:** GitHub cannot enforce these controls for a private
      repository. Follow the procedural approval control in
      [Security and GitHub controls](../reference/security.md#github-plan-controls).
-4. Confirm the project's runners, identities, state boundary, and any required `GITOPS_SECRET_VALUES_<ENVIRONMENT>` secret bundle. Enable a bundle only when supported workload placeholders require it. Project Teams add and rotate the workload-secret values in their enabled bundles through the approved secret process.
+4. Confirm the project's runner, identity, state and Vault scope. Prepare the native secret references required by the first request. Azure and Google VM SSH public keys are rendered directly in their manifests. Project Teams create and rotate values in Vault through the approved process.
 5. Confirm the request surface is within [Reference capabilities](../reference/support.md).
 
-**Continue only when:** the handoff is complete. The Project Team then starts with the [Project Team guide](../usage/README.md), not with platform setup.
+**Continue only when:** the OCI handoff is complete and the selected cloud has its required runner access and resource inputs. The Project Team then starts with the [Project Team guide](../usage/README.md), not with platform setup.
 
 ## 5. Accept the first project
 
-Cloud Operations coordinates first-project acceptance after handoff. The Project Team runs the [environment secret-isolation check](../reference/verify-secret-isolation.md) before its first workload request. Cloud Operations confirms that the runners, state boundary, and selected environment secret-delivery boundary support the check. It reaches Terraform plan but does not deploy infrastructure.
+Cloud Operations coordinates the [first-project check](../reference/verify-secret-isolation.md) using the project's first intended request in an enabled cloud. Verify the runner, state and required secret references through its plan or lifecycle check before deployment. Do not create an extra database or enable another cloud just for acceptance.
 
 For GitHub Team and GitHub Enterprise Cloud, also inspect the active `main` ruleset after configuring it:
 

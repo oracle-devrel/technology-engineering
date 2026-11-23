@@ -1,3 +1,5 @@
+{% set active_catalog = 'operations' %}
+{% include 'partials/_catalog-tabs.html' %}
 <!-- Operations catalog partial -->
 {% from "partials/_alerts.html" import loading_error %}
 {% if load_error %}
@@ -6,17 +8,17 @@
 
 <div class="card bg-base-100 mb-6">
     <div class="card-body">
-        <div class="flex justify-between items-center gap-4">
+        <div class="mccp-toolbar">
             <div class="flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                 </svg>
                 <div>
-                    <h2 class="card-title text-2xl font-extrabold tracking-tight">Operations Catalog</h2>
-                    <p class="text-base-content/40 text-sm font-medium">Select a Day-2 operation to run against existing resources</p>
+                    <h2 class="card-title text-2xl font-extrabold tracking-tight">Operations</h2>
+                    <p class="text-muted text-sm font-medium">Prepare an approved operation for an existing resource</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="mccp-toolbar-actions">
                 <select class="select select-bordered select-sm" name="environment"
                     hx-get="/partials/operations?project={{ project }}" hx-target="#main" hx-trigger="change" hx-include="this">
                     {% for item in environment_options %}
@@ -30,38 +32,25 @@
 </div>
 
 {% if operations_by_cloud %}
-<div class="space-y-6">
+{% set provider_groups = operations_by_cloud %}
+{% include 'partials/_catalog-provider-filters.html' %}
+<div class="catalog-provider-list">
     {% for cloud, operations in operations_by_cloud.items() %}
-    <section class="bg-base-100 border border-base-300/40 rounded-box p-5">
-        <div class="flex items-center gap-3 mb-4">
-            <span class="badge badge-cloud-{{ cloud }} badge-lg font-mono uppercase">{{ cloud | upper }}</span>
-            <div>
-                <h3 class="text-lg font-bold uppercase tracking-wide">{{ cloud | upper }}</h3>
-                <p class="text-xs text-base-content/35">{{ operations | length }} operation{{ 's' if operations | length != 1 else '' }}</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <section class="catalog-provider-section" data-catalog-cloud="{{ cloud }}" aria-label="{{ cloud | upper }} operations">
+        <header class="catalog-provider-heading">
+            <span class="badge badge-cloud-{{ cloud }} font-mono uppercase">{{ cloud | upper }}</span>
+            <div><h3>{{ {'oci':'Oracle Cloud Infrastructure','azure':'Microsoft Azure','gcp':'Google Cloud'}.get(cloud, cloud | upper) }}</h3><p>{{ operations | length }} approved operation{{ 's' if operations | length != 1 else '' }}</p></div>
+        </header>
+        <div class="catalog-profile-grid">
             {% for op in operations %}
-            <button type="button"
-                class="card bg-base-200/40 hover:bg-base-200 hover:border-primary/40 transition-all duration-200 text-left group"
-                hx-get="/partials/operation-form?op={{ op.id }}&project={{ project }}&cloud={{ op.cloud }}&environment={{ environment }}"
-                hx-target="#main"
-                hx-indicator="#loading-overlay">
-                <div class="card-body gap-3">
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <h4 class="card-title text-base group-hover:text-primary transition-colors">
-                                {{ op.name or op.operation_type | replace('-', ' ') | title }}
-                            </h4>
-                            <p class="text-sm text-base-content/40 mt-1">{{ op.description or 'No description available' }}</p>
-                        </div>
-                        <span class="badge badge-outline text-xs">{{ op.cloud }}</span>
-                    </div>
-                    <div class="card-actions justify-end">
-                        <span class="btn btn-secondary btn-xs pointer-events-none">Select</span>
-                    </div>
-                </div>
+            {% set family = 'operation' %}
+            <button type="button" class="catalog-profile-card"
+                    hx-get="/partials/operation-form?op={{ op.id }}&project={{ project }}&cloud={{ op.cloud }}&environment={{ environment }}"
+                    hx-target="#main" hx-indicator="#loading-overlay">
+                <span class="catalog-profile-top"><span class="catalog-profile-icon">{% include 'partials/_catalog-icon.html' %}</span><span class="catalog-profile-heading"><span class="catalog-profile-kind">Existing resource</span><span class="catalog-profile-title">{{ op.name or op.operation_type | replace('-', ' ') | title }}</span></span></span>
+                <span class="catalog-profile-description">{{ op.description or 'Review the targets and action before preparing this operation.' }}</span>
+                {% if op.operation_type == 'deploy-agent' %}<span class="catalog-profile-note">Marker-only reference example</span>{% endif %}
+                <span class="catalog-profile-action">Prepare operation <span aria-hidden="true">→</span></span>
             </button>
             {% endfor %}
         </div>

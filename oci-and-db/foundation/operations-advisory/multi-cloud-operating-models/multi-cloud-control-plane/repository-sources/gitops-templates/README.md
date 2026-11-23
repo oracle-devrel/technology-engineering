@@ -7,7 +7,7 @@ Use these JSON templates to prepare supported infrastructure and lifecycle reque
 
 For a resource request, choose the approved template, replace its non-secret `__UPPER_SNAKE_CASE__` values, and merge the resulting entry into the project's existing regional manifest. Do not create a second file with the same Terraform root key: Terraform does not deep-merge variable files.
 
-For secrets, commit only an environment-qualified, resource-scoped runtime token. For OCI ADB mapping key `ordersadb` in `dev`, use `__DEV_ORDERSADB_ADMIN_PASSWORD__`. The trusted workflow resolves its value from the matching environment secret bundle at runtime.
+For OCI and Azure ADB, commit each database's OCI Vault secret OCID in `admin_password_secret_id`, never its password. Azure resolves this reference through Platform CI before Terraform; OCI uses its native module. Google ADB retains its provider-native secret reference. Azure and Google VM SSH public keys are rendered directly into manifests. Render all placeholders before publication; there is no runtime binding map or GitHub Secrets fallback.
 
 For a lifecycle request, copy an available operation manifest into `oci/{environment}/{region}/lifecycle_operations/`. Use an exact resource display name from Terraform state. The operations catalog lists the available operations and fields.
 

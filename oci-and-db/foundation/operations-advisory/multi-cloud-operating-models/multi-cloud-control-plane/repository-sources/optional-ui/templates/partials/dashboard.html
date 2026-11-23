@@ -8,7 +8,7 @@
 <div class="card bg-base-100 mb-8">
     <div class="card-body">
         <h2 class="card-title text-3xl font-extrabold tracking-tight">{{ project }}</h2>
-        <p class="text-base-content/40 text-sm font-medium">Project Overview</p>
+        <p class="text-muted text-sm font-medium">Project Overview</p>
     </div>
 </div>
 
@@ -22,9 +22,9 @@
                 </path>
             </svg>
         </div>
-        <div class="stat-title text-base-content/40">Resources</div>
+        <div class="stat-title text-muted">Resources</div>
         <div class="stat-value text-primary">{{ stats.total_resources or 0 }}</div>
-        <div class="stat-desc text-base-content/30">Total Managed</div>
+        <div class="stat-desc text-muted">Declared Resources</div>
     </button>
 
     <button type="button" class="stat text-left hover:bg-base-200/50 transition-colors cursor-pointer"
@@ -36,9 +36,9 @@
                     d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
             </svg>
         </div>
-        <div class="stat-title text-base-content/40">Clouds</div>
+        <div class="stat-title text-muted">Clouds</div>
         <div class="stat-value">{{ stats.total_clouds or 0 }}</div>
-        <div class="stat-desc text-base-content/30">Active Providers</div>
+        <div class="stat-desc text-muted">Active Providers</div>
     </button>
 
     <button type="button" class="stat text-left hover:bg-base-200/50 transition-colors cursor-pointer"
@@ -51,9 +51,9 @@
                 </path>
             </svg>
         </div>
-        <div class="stat-title text-base-content/40">Regions</div>
+        <div class="stat-title text-muted">Regions</div>
         <div class="stat-value">{{ stats.total_regions or 0 }}</div>
-        <div class="stat-desc text-base-content/30">Global Deployments</div>
+        <div class="stat-desc text-muted">With Declared Resources</div>
     </button>
 </div>
 
@@ -70,14 +70,14 @@
                 <span class="badge badge-warning badge-sm font-mono">{{ pending_prs | length }}</span>
                 {% endif %}
             </h2>
-            <span class="text-xs text-base-content/30 font-medium">PRs waiting for review</span>
+            <span class="text-xs text-muted font-medium">PRs waiting for review</span>
         </div>
 
         {% if pending_prs %}
         <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
                 <thead>
-                    <tr class="text-base-content/40">
+                    <tr class="text-muted">
                         <th>PR</th>
                         <th>Title</th>
                         <th>Author</th>
@@ -91,9 +91,9 @@
                     <tr>
                         <td class="font-mono font-bold text-warning">#{{ pr.number }}</td>
                         <td class="max-w-xs truncate">{{ pr.title }}</td>
-                        <td class="text-sm text-base-content/50">{{ pr.author }}</td>
-                        <td class="text-xs text-base-content/40">{{ pr.created_at }}</td>
-                        <td class="font-mono text-xs text-base-content/40">{{ pr.branch }}</td>
+                        <td class="text-sm text-muted">{{ pr.author }}</td>
+                        <td class="text-xs text-muted">{{ pr.created_at }}</td>
+                        <td class="font-mono text-xs text-muted">{{ pr.branch }}</td>
                         <td>
                             <div class="flex gap-2">
                                 <button class="btn btn-xs btn-outline btn-info"
@@ -115,7 +115,7 @@
             </table>
         </div>
         {% else %}
-        <div class="flex items-center gap-3 text-base-content/30 py-4">
+        <div class="flex items-center gap-3 text-muted py-4">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -135,14 +135,14 @@
                 </svg>
                 Recent Deployments
             </h2>
-            <span class="text-xs text-base-content/30 font-medium">GitHub Actions runs</span>
+            <span class="text-xs text-muted font-medium">GitHub Actions runs</span>
         </div>
 
         {% if deployments %}
         <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
                 <thead>
-                    <tr class="text-base-content/40">
+                    <tr class="text-muted">
                         <th>Status</th>
                         <th>Workflow</th>
                         <th>Commit</th>
@@ -159,12 +159,12 @@
                             {{ status_macros.deployment_badge(run.status, run.conclusion) }}
                         </td>
                         <td class="font-medium text-sm">{{ run.name }}</td>
-                        <td class="text-xs text-base-content/50 max-w-xs truncate">{{ run.commit_msg }}</td>
-                        <td class="font-mono text-xs text-base-content/40">{{ run.branch }}</td>
-                        <td class="text-sm text-base-content/50">{{ run.actor }}</td>
-                        <td class="text-xs text-base-content/40">{{ run.created_at }}</td>
+                        <td class="text-xs text-muted max-w-xs truncate">{{ run.commit_msg }}</td>
+                        <td class="font-mono text-xs text-muted">{{ run.branch }}</td>
+                        <td class="text-sm text-muted">{{ run.actor }}</td>
+                        <td class="text-xs text-muted">{{ run.created_at }}</td>
                         <td>
-                            <a href="{{ run.url }}" target="_blank" class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary">
+                            <a href="{{ run.url }}" target="_blank" class="btn btn-xs btn-ghost text-muted hover:text-primary">
                                 Logs
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -177,8 +177,8 @@
             </table>
         </div>
         {% else %}
-        <div class="flex items-center gap-3 text-base-content/30 py-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-base-content/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <div class="flex items-center gap-3 text-muted py-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="text-sm font-medium">No workflow runs yet for this project.</span>
@@ -194,7 +194,7 @@
             stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        Deploy Resource
+        Request resource
     </button>
     <button class="btn btn-secondary gap-2" hx-get="/partials/operations?project={{ project }}" hx-target="#main">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"

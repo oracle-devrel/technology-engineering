@@ -1,6 +1,6 @@
 # Walkthrough: Request a private OCI Autonomous Database
 
-This example follows one Project Team request from a prepared non-production repository to a reviewed deployment. It uses sample names and placeholders; replace only the bracketed values with the approved values from your handoff. Never copy a password, credential, or customer identifier into Git.
+This example follows one Project Team request from a prepared non-production repository to a reviewed deployment. It uses sample names and placeholders; replace only the bracketed values with the approved values from your handoff. Never copy a password or deployment credential into Git.
 
 ## Outcome
 
@@ -14,9 +14,9 @@ Before editing anything, confirm all of the following:
 - `dev` and `eu-frankfurt-1` are approved in `environments/dev/environment_information.md`.
 - The handoff supplies the Database compartment and private database-subnet OCIDs.
 - The existing `oci/dev/eu-frankfurt-1/network/project-nsgs.json` file defines the database NSG key you will use.
-- The Project Team has added `DEV_ORDERSADB_ADMIN_PASSWORD` to its `GITOPS_SECRET_VALUES_DEV` repository secret through the approved secret process.
+- The Project Team has a distinct administrator-password secret for `ordersadb`, or will prepare one through the Codex skill using its authorized Project Team OCI profile. The secret belongs to the handed-off Vault scope and deployment region. Cloud Operations has prepared the runner's read access.
 
-If the handoff is incomplete, ask Cloud Operations to correct it. If the workload-secret value is missing, add or rotate it through the approved Project Team secret process. Do not invent a foundation reference or commit a secret.
+If the handoff is incomplete, ask Cloud Operations to correct it. If the secret is missing, the [Codex plugin](codex-plugin.md) can propose its preparation, ask for a separate confirmation, create it using native Vault password generation and insert the returned OCID into the request. Manual preparation remains available; the optional UI requires an existing OCID. Do not invent a foundation reference or commit a secret value.
 
 ## 2. Prepare one manifest change
 
@@ -43,7 +43,7 @@ For the first database in that file, replace its `{}` contents with this single 
         "license_model": "BRING_YOUR_OWN_LICENSE",
         "enable_cpu_auto_scaling": false,
         "enable_storage_auto_scaling": false,
-        "admin_password": "__DEV_ORDERSADB_ADMIN_PASSWORD__",
+        "admin_password_secret_id": "<ordersadb-vault-secret-ocid>",
         "networking": {
           "enable_private_endpoint": true,
           "subnet_id": "<private-database-subnet-ocid-from-handoff>",
@@ -55,7 +55,7 @@ For the first database in that file, replace its `{}` contents with this single 
 }
 ```
 
-The password field is an environment-qualified placeholder, not a password. The runner resolves it from the selected secret bundle only during execution. Keep one database configuration file for this cloud, environment, and region; Terraform does not deep-merge repeated root values across separate files.
+The manifest contains the secret's OCID, not its value. The native module reads its current version from Vault during the reviewed plan and apply. Use a different secret for each database. The password must meet the catalog prerequisites: 12 to 30 characters with uppercase, lowercase and a digit, without double quotes or `admin` in any casing. Keep one database configuration file for this cloud, environment, and region; Terraform does not deep-merge repeated root values across separate files.
 
 ## 3. Open and review the pull request
 

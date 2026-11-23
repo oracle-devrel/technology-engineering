@@ -1,0 +1,6 @@
+<div class="catalog-provider-filters" role="group" aria-label="Filter by cloud provider">
+    <button type="button" data-catalog-filter="all" aria-pressed="true" onclick="filterCatalog('all')">All providers</button>
+    {% for cloud, entries in provider_groups.items() %}
+    <button type="button" data-catalog-filter="{{ cloud }}" aria-pressed="false" onclick="filterCatalog('{{ cloud }}')">{{ cloud | upper }} <span>{{ entries | length }}</span></button>
+    {% endfor %}
+</div>

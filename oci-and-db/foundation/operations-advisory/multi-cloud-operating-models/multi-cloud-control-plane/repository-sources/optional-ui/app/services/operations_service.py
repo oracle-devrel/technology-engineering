@@ -62,6 +62,25 @@ class OperationsService:
         if not cloud_ops:
             return []
 
+        # Published OCI operations target specific resource families. Their names
+        # (for example "ADB") need not resemble the inventory label ("Databases").
+        known_targets = {
+            "adb-lifecycle": {"autonomous databases", "databases", "oracle autonomous databases"},
+            "deploy-agent": {"compute instances", "instances", "virtual machines"},
+        }
+        exact = []
+        remaining = []
+        normalized = query.lower().replace("_", " ")
+        for operation in cloud_ops:
+            targets = known_targets.get(operation.operation_type) if cloud.lower() == "oci" else None
+            if targets is None:
+                remaining.append(operation)
+            elif normalized in targets:
+                exact.append(operation)
+        if not remaining:
+            return exact
+        cloud_ops = remaining
+
         choices = {
             idx: " ".join(
                 [
@@ -81,7 +100,7 @@ class OperationsService:
             score_cutoff=45.0,
             limit=4,
         )
-        return [cloud_ops[idx] for _, _, idx in matches]
+        return exact + [cloud_ops[idx] for _, _, idx in matches]
 
     @classmethod
     def attach_matches(

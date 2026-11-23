@@ -25,9 +25,15 @@ Configure OAuth, session secrets, GitHub App permissions, TLS, and the runtime u
 
 ## Optional Codex plugin
 
-Stage a local MCCP marketplace containing the plugin. Set `CODEX_MARKETPLACE_ROOT` to a persistent directory readable by the approved Project Team users:
+Stage a local MCCP marketplace containing the plugin. Reuse `CUSTOMER_ORG` from the core installation; the commands bind the installed skill to that organization. Users cannot change this boundary in a request. Set `CODEX_MARKETPLACE_ROOT` to a persistent directory readable by the approved Project Team users:
 
 ```bash
+: "${CUSTOMER_ORG:?set CUSTOMER_ORG to the installation organization}"
+if ! [[ "$CUSTOMER_ORG" =~ ^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$ ]] || \
+  [ "${#CUSTOMER_ORG}" -gt 39 ]; then
+  echo 'Set CUSTOMER_ORG to a valid GitHub organization name.' >&2
+  exit 1
+fi
 export CODEX_MARKETPLACE_ROOT=/path/to/persistent/mccp-marketplace
 export CODEX_PLUGIN_STAGE="$CODEX_MARKETPLACE_ROOT/plugins/project-gitops"
 test ! -e "$CODEX_PLUGIN_STAGE"
@@ -35,6 +41,13 @@ mkdir -p "$CODEX_MARKETPLACE_ROOT/.agents/plugins" \
   "$CODEX_MARKETPLACE_ROOT/plugins"
 cp -R codex-plugins/project-gitops "$CODEX_PLUGIN_STAGE"
 test -f "$CODEX_PLUGIN_STAGE/LICENSE"
+find "$CODEX_PLUGIN_STAGE/skills" -type f -name '*.md' -exec perl -pi -e \
+  's/multicloud-control-plane/$ENV{CUSTOMER_ORG}/g' {} +
+if [ "$CUSTOMER_ORG" != multicloud-control-plane ] && \
+  rg 'multicloud-control-plane' "$CODEX_PLUGIN_STAGE/skills"; then
+  echo 'The plugin still references the example organization.' >&2
+  exit 1
+fi
 
 jq -n '
   {

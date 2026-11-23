@@ -147,13 +147,17 @@ class GitService:
             environment,
             region,
             resource_path,
+            manifest=data,
         )
         await self.ensure_branch_available(branch)
+
+        connectivity_notice = CatalogService.public_adb_notice(data) if cloud == "azure" else ""
+        notice_suffix = f"\n\n{connectivity_notice}" if connectivity_notice else ""
 
         issue = await self.github.create_issue_async(
             self.project_name,
             title=commit_message,
-            body=f"Change request for `{file_path}`",
+            body=f"Change request for `{file_path}`{notice_suffix}",
             labels=["gitops"],
         )
         issue_num = issue["number"]
@@ -178,7 +182,7 @@ class GitService:
                 title=commit_message,
                 head=branch,
                 base="main",
-                body=f"Closes #{issue_num}",
+                body=f"Closes #{issue_num}{notice_suffix}",
             )
             pr_num = pr["number"]
             pr_url = pr["html_url"]
@@ -203,8 +207,10 @@ class GitService:
         environment: str,
         region: str,
         resource_path: str,
+        *,
+        manifest: dict | None = None,
     ) -> str:
-        """Return the deterministic branch for one CRQ and manifest destination."""
+        """Return the deterministic branch for a CRQ, destination and ADB action."""
         reference = (change_reference or "").strip()
         if not _CRQ_PATTERN.fullmatch(reference):
             raise ValueError("Change reference must match CRQ followed by 1 to 20 digits")
@@ -212,6 +218,12 @@ class GitService:
         resource_key = re.sub(r"[^a-z0-9]+", "-", resource_key).strip("-")
         if not resource_key:
             raise ValueError("Resource path must include a file name")
+        if cloud == "oci" and resource_path == "lifecycle_operations/adb-lifecycle.json":
+            actions = {target.get("action") for target in (manifest or {}).get("targets", [])}
+            if not actions or not actions <= {"start", "stop"}:
+                raise ValueError("ADB lifecycle branch requires start or stop actions")
+            action = "mixed" if len(actions) == 2 else next(iter(actions))
+            resource_key = f"{action}-{resource_key}"
         return f"agent/{reference.lower()}-{cloud}-{environment}-{region}-{resource_key}"
 
     async def ensure_branch_available(self, branch: str) -> None:

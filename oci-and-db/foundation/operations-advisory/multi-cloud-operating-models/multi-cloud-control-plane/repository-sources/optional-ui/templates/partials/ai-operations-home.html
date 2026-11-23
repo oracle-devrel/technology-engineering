@@ -1,0 +1,20 @@
+<section id="ai-operations-home">
+    <div class="card bg-base-100 ai-operations-intro">
+        <div class="card-body">
+            <span class="mccp-eyebrow">Your project. Your intent. Governed execution.</span>
+            <h2>What would you like to do?</h2>
+            <p>Consult project resources, prepare infrastructure changes, request supported operations and investigate failed requests with AI.</p>
+            <div class="ai-operations-project">
+                <div><strong>Select your project to start</strong><span>Use the Project selector above. Each project has its own conversation.</span></div>
+                {% if chat_settings.chat_demo_project %}<button type="button" class="btn btn-primary" onclick="openProject('{{ chat_settings.chat_demo_project }}')">Open {{ chat_settings.chat_demo_project }} <span aria-hidden="true">→</span></button>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="ai-operations-tasks">
+        <article><span>01</span><h3>Consult</h3><p>Explore declared resources and approved catalog profiles.</p></article>
+        <article><span>02</span><h3>Request change</h3><p>Turn a resource need into a proposal you can review.</p></article>
+        <article><span>03</span><h3>Operate</h3><p>Prepare a supported action against an existing resource.</p></article>
+        <article><span>04</span><h3>Investigate</h3><p>Review workflow evidence and understand a failed request.</p></article>
+    </div>
+    <p class="ai-operations-boundary">Changes follow proposal, confirmation, human review, governed execution and recorded evidence.</p>
+</section>

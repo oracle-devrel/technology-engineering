@@ -69,9 +69,9 @@ The model does not depend on any one tool or cloud. The technology behind it can
 | --- | --- |
 | Cloud foundation, identities, networks, and runner hosts | Cloud Operations |
 | Approved resource and operation catalog | Cloud Operations |
-| Project boundary and the environment handoff that defines it | Cloud Operations |
+| Project foundation, trusted runner access and OCI handoff; optional Azure context | Cloud Operations |
 | Workload requests inside the handed-off boundary | Project Team |
-| Workload secret values and their rotation | Project Team, in its environment-qualified project-repository secret bundle |
+| Workload secret values and their rotation | Project Team, in the approved Vault scope for its project and environment |
 | Review and approval of each request | A reviewer who is not the author |
 | Cloud deployment credentials | Trusted runner identities, never a Project Team |
 | Execution of an approved change | Trusted automation, only after merge |
@@ -98,7 +98,7 @@ This repository is a reference implementation of the operating model above. It c
 
 ![Conceptual target control plane: optional Control Plane UI and AI Ops Agent prepare governed requests; Git repositories are the source of truth, an operations catalog defines approved requests, and automation pipelines deliver them to cloud environments.](docs/images/mccp.png)
 
-Request interfaces prepare a change; Git preserves the approved intent and the evidence; the catalog defines what is supported; and trusted automation delivers the approved change to the chosen cloud. Every interface creates the same pull request and none of them can approve, merge, or deploy it.
+Request interfaces prepare a change; Git preserves the approved intent and the evidence; the catalog defines what is supported; and trusted automation delivers the approved change to the chosen cloud. Every interface creates the same pull request; none can approve it or execute its workload deployment. After independent human review, Project Team can explicitly ask the Codex skill to merge one exact reviewed PR. The skill rechecks its version, validation and repository restrictions, then monitors the post-merge workflow. The optional UI cannot merge.
 
 This is the target control-plane architecture, so its labels are generic: the diagram's **Control Plane UI** is the optional Multi-Cloud Control Plane UI, and its **AI Ops Agent** is the optional Codex plugin. The cloud icons show where the model can extend, not only the patterns supplied by this reference — see [Reference capabilities](docs/reference/support.md). Every request still reaches the cloud through the pull request and review shown above.
 
@@ -128,7 +128,7 @@ This reference supplies a focused catalog of OCI, Azure, and Google Cloud resour
 | [Architecture](docs/reference/architecture.md) | Explains roles, repositories, execution, and extensions. |
 | [Reference capabilities](docs/reference/support.md) | Lists the supplied Day 1 resources and Day 2 operations. |
 | [Operational Security Controls](docs/reference/security.md) | Describes the built-in security controls. |
-| [Verify environment secret isolation](docs/reference/verify-secret-isolation.md) | One-time acceptance check before the first workload request. |
+| [Verify first-project delivery](docs/reference/verify-secret-isolation.md) | Check the first intended request before deployment. |
 
 # Getting Started
 

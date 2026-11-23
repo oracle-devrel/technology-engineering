@@ -1,0 +1,6 @@
+<nav class="mccp-catalog-tabs" aria-label="Catalog sections">
+    <button type="button" data-catalog-tab="resources" aria-current="{{ 'page' if active_catalog == 'resources' else 'false' }}"
+            hx-get="/partials/resources-catalog?project={{ project }}&environment={{ environment }}" hx-target="#main" hx-indicator="#loading-overlay">Resources</button>
+    <button type="button" data-catalog-tab="operations" aria-current="{{ 'page' if active_catalog == 'operations' else 'false' }}"
+            hx-get="/partials/operations?project={{ project }}&environment={{ environment }}" hx-target="#main" hx-indicator="#loading-overlay">Operations</button>
+</nav>

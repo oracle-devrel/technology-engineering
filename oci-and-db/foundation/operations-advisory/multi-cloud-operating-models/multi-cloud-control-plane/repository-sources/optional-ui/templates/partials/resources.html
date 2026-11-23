@@ -6,17 +6,17 @@
 
 <div class="card bg-base-100 mb-6">
     <div class="card-body">
-        <div class="flex justify-between items-center">
+        <div class="mccp-toolbar">
             <div class="flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
                 </svg>
                 <div>
                     <h2 class="card-title text-2xl font-extrabold tracking-tight">Resources</h2>
-                    <p class="text-base-content/40 text-sm font-medium">All deployed resources in <span class="font-bold text-base-content/70">{{ project }}</span></p>
+                    <p class="text-muted text-sm font-medium">Declared resources in <span class="font-bold text-base-content/70">{{ project }}</span></p>
                 </div>
             </div>
-            <div class="flex gap-2">
+            <div class="mccp-toolbar-actions">
                 <button class="btn btn-primary btn-sm"
                     hx-get="/partials/resources-catalog?project={{ project }}"
                     hx-target="#main">
@@ -45,7 +45,7 @@
         <div class="overflow-x-auto">
             <table class="table table-zebra">
                 <thead>
-                    <tr class="text-base-content/40">
+                    <tr class="text-muted">
                         <th>Name</th>
                         <th>Type</th>
                         <th>Cloud</th>
@@ -78,7 +78,7 @@
 
                                 {% if res.ops | length == 1 %}
                                 <button class="btn btn-sm btn-warning"
-                                    hx-get="/partials/operation-form?op={{ res.ops[0].id }}&project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}"
+                                    hx-get="/partials/operation-form?op={{ res.ops[0].id }}&project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}&target={{ res.name | urlencode }}"
                                     hx-target="#main">
                                     {{ res.ops[0].name or res.ops[0].id }}
                                 </button>
@@ -90,7 +90,7 @@
                                         class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
                                         {% for op in res.ops %}
                                         <li>
-                                            <a hx-get="/partials/operation-form?op={{ op.id }}&project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}"
+                                            <a hx-get="/partials/operation-form?op={{ op.id }}&project={{ project }}&cloud={{ res.cloud }}&environment={{ res.environment }}&region={{ res.region }}&target={{ res.name | urlencode }}"
                                                 hx-target="#main">
                                                 {{ op.name or op.id }}
                                             </a>
@@ -111,7 +111,7 @@
             <div class="hero-content text-center">
                 <div class="max-w-md">
                     <h1 class="text-3xl font-bold">No Resources Found</h1>
-                    <p class="py-6 text-base-content/60">This project doesn't have any deployed resources yet.</p>
+                    <p class="py-6 text-muted">This project doesn't have any declared resources yet.</p>
                     <button class="btn btn-primary" hx-get="/partials/resources-catalog?project={{ project }}"
                         hx-target="#main">
                         Deploy First Resource
