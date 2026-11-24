@@ -3,7 +3,7 @@
 -- This script performs the schema preflight and can optionally prepare the
 -- in-database embedding model used by the optional AI notebook.
 
-DEFINE ONNX_DIR_NAME = 'ONNX_DIR'
+DEFINE ONNX_DIR_NAME = 'ONNX_MODEL_DIR'
 DEFINE ONNX_MODEL_NAME = 'DEMO_MINILM'
 DEFINE LOAD_ONNX_MODEL = 'N'
 -- Examples for the defined inputs:
