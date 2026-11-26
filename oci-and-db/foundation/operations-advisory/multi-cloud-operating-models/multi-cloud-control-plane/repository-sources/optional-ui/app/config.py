@@ -40,15 +40,30 @@ class Settings(BaseSettings):
     app_port: int = Field(default=8011, validation_alias=AliasChoices("APP_PORT", "PORT"))
     app_url: str = "http://localhost:8011"  # Browser origin allowed by CORS
 
+    # Optional local, single-presenter chat demo.
+    chat_enabled: bool = False
+    chat_demo_login: str = ""
+    chat_demo_project: str = ""
+    chat_codex_binary: str = "codex"
+    chat_skill_path: str = ""
+    chat_model: str = ""
+
     # Default values for operations
     default_cloud: str = "oci"
     default_region: str = "eu-frankfurt-1"
     default_cloud_regions: str = "oci:eu-frankfurt-1;azure:westeurope;gcp:europe-west2"
     cloud_region_options: str = (
         "oci:eu-frankfurt-1,us-phoenix-1,us-ashburn-1,uk-london-1;"
-        "azure:westeurope;"
+        "azure:westeurope,uksouth;"
         "gcp:europe-west2,europe-west4,us-east4"
     )
+
+    @property
+    def chat_scopes(self) -> list[dict[str, str]]:
+        """Use the existing region configuration for the OCI/Azure demo."""
+        return [{"cloud": "oci", "region": self.default_region},
+                *[{"cloud": "azure", "region": region}
+                  for region in self.region_options_for_cloud("azure")]]
 
     # Audit behavior
     audit_infra_paths: str = "oci/,azure/,gcp/"

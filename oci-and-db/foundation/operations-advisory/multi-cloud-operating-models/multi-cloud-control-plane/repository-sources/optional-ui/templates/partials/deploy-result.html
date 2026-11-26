@@ -8,9 +8,9 @@
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
     <div>
-        <h3 class="font-bold">Resource {{ action | default('deployed') | title }}!</h3>
+        <h3 class="font-bold">Resource request submitted</h3>
         <div class="text-xs">PR #{{ pr_number }} created for <strong>{{ filename }}</strong></div>
-        <div class="text-xs text-base-content/60 mt-1">Plan available after CI.</div>
+        <div class="text-xs text-muted mt-1">Plan available after CI.</div>
     </div>
     {{ result_macros.pr_plan_actions(pr_number, project, pr_url, dashboard_project=project, preview_kind="terraform") }}
 </div>

@@ -1,8 +1,8 @@
 # Lifecycle operations catalog
 
-Lifecycle operations are post-provisioning actions executed by Ansible through the shared `ansible-shared.yaml` workflow. Each JSON file is an approved manifest template for one operation.
+Choose an operation for an existing OCI resource. Start or stop a database with `adb-lifecycle`, or use `deploy-agent` to demonstrate the approved SSH execution path.
 
-The protected project caller validates exactly one changed operation file and passes its path explicitly to the shared workflow. Platform CI parses `operation_type` and selects one explicitly allow-listed operation playbook; project input never selects a playbook path or Ansible tag.
+Submit one operation file per pull request. The project workflow validates its path and sends it to `ansible-shared.yaml`. Platform CI selects the approved playbook from `operation_type`.
 
 ## Manifest shape
 
@@ -13,7 +13,7 @@ The protected project caller validates exactly one changed operation file and pa
   "targets": [
     {
       "display_name": "resource-display-name-in-tfstate",
-      "action": "optional-per-target-action"
+      "action": "stop"
     }
   ]
 }
@@ -22,22 +22,20 @@ The protected project caller validates exactly one changed operation file and pa
 - `operation_type` — must be an operation explicitly supported by Platform CI: `adb-lifecycle` or `deploy-agent`.
 - `database_compartment_id` — required for `adb-lifecycle`; it must be the Database child-compartment OCID from the approved project handoff.
 - `targets[].display_name` — must match the resource in Terraform state.
-- `targets[].action` — is operation-specific. `adb-lifecycle` accepts only lowercase `start` or `stop`; `restart` and every other value are unsupported.
+- `targets[].action` is required for `adb-lifecycle`. Use lowercase `start` or `stop`.
 
 The JSON example is an ADB lifecycle request. Additional top-level fields are operation-specific: `deploy-agent` instead requires `agent_type` and `agent_version`, and does not use `database_compartment_id`.
 
 ## Field reference
 
-The following guides explain supported operations in plain language, including required fields, allowed values, runtime defaults, and observed behavior:
+See the fields, defaults and execution behavior for each operation.
 
 - [OCI ADB lifecycle](specs/oci/adb-lifecycle.md)
 - [OCI Compute deploy-agent](specs/oci/deploy-agent.md)
 
-They are reference-only. They do not change JSON manifests, shared workflows, or Ansible playbooks.
-
 ## Multiple ADB targets
 
-`adb-lifecycle` supports one or more entries in `targets`. All targets in a manifest are processed by the same workflow run and must resolve to exact ADB display names in Terraform state for that OCI region. Add another object to the `targets` array for each additional database.
+Add one entry to `targets` for each database. Each distinct display name must match Terraform state for the selected OCI environment and region. One workflow run processes the targets.
 
 ## Current operations
 
@@ -48,7 +46,7 @@ They are reference-only. They do not change JSON manifests, shared workflows, or
 
 ## Extension boundary
 
-Adding a JSON template here does not enable an operation. A supported extension also requires its allowed manifest fields in Platform CI `scripts_python/validate_operation_manifest.py`, inventory extraction, an explicitly allow-listed Platform CI playbook, permissions, documentation, and delivery controls. Follow the canonical [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model) before publishing it to Project Teams.
+To enable a new operation, Cloud Operations must update the catalog, its allowed manifest fields in Platform CI `scripts_python/validate_operation_manifest.py`, target inventory, approved playbook, permissions and documentation. Follow the canonical [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model) before publishing it to Project Teams.
 
 ## Directory layout
 

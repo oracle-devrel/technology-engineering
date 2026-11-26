@@ -2,28 +2,30 @@
 <div class="card bg-base-100 mb-6">
     <div class="card-body">
         <h2 class="card-title text-2xl font-extrabold tracking-tight">Configure Project NSG</h2>
-        <p class="text-base-content/40 text-sm font-medium">Create a project NSG or add approved TCP rules to an existing one.</p>
+        <p class="text-muted text-sm font-medium">Create a project NSG or add approved TCP rules to an existing one.</p>
     </div>
 </div>
 
 <div class="card bg-base-100">
     <div class="card-body">
-        <form id="nsg-resource-form" hx-post="/partials/deploy-resource" hx-target="#result">
+        <form hx-sync="closest form:drop" hx-disabled-elt="#nsg-submit" id="nsg-resource-form" hx-post="/partials/deploy-resource" hx-target="#result">
             <input type="hidden" name="project" value="{{ project }}">
             <input type="hidden" name="template_path" value="{{ template_path }}">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="form-control">
-                    <label class="label"><span class="label-text">Environment</span></label>
-                    <select name="environment" class="select select-bordered w-full" required>
+                    <label class="label" for="resource-environment"><span class="label-text">Environment</span></label>
+                    <select id="resource-environment" name="environment" class="select select-bordered w-full" required
+                    hx-get="/partials/resource-form?project={{ project }}&path={{ template_path | urlencode }}"
+                    hx-target="#main" hx-trigger="change" hx-include="this">
                         {% for item in environment_options %}
                         <option value="{{ item }}" {% if item == environment %}selected{% endif %}>{{ item }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-control">
-                    <label class="label"><span class="label-text">Region</span></label>
-                    <select name="region" class="select select-bordered w-full" required>
+                    <label class="label" for="resource-region"><span class="label-text">Region</span></label>
+                    <select id="resource-region" name="region" class="select select-bordered w-full" required>
                         {% for region in region_options %}
                         <option value="{{ region }}" {% if region == (selected_region or default_region) %}selected{% endif %}>{{ region }}</option>
                         {% endfor %}
@@ -48,7 +50,7 @@
                         <option value="{{ option.value }}" label="{{ option.label }}"></option>
                         {% endfor %}
                     </datalist>
-                    <label class="label"><span class="label-text-alt text-base-content/50">The NSG list is for the initially selected region. If you choose another region, enter a key that exists in that region.</span></label>
+                    <label class="label"><span class="label-text-alt text-muted">The NSG list is for the initially selected region. If you choose another region, enter a key that exists in that region.</span></label>
                 </div>
             </div>
 
@@ -63,7 +65,7 @@
             </div>
 
             <div class="divider mt-6">Optional TCP ingress rules</div>
-            <p class="text-sm text-base-content/50 mb-3">Add only explicitly requested sources and port ranges. `0.0.0.0/0` is public exposure.</p>
+            <p class="text-sm text-muted mb-3">Add only explicitly requested sources and port ranges. `0.0.0.0/0` is public exposure.</p>
             <div id="nsg-ingress-rules" class="space-y-4"></div>
             <button type="button" class="btn btn-outline btn-sm mt-3" onclick="addNsgRule('ingress')">+ Add ingress rule</button>
 
@@ -74,7 +76,7 @@
             {{ form_macros.change_reference_field() }}
 
             <div class="flex gap-4 mt-6">
-                <button type="submit" class="btn btn-primary">Create governed request</button>
+                <button id="nsg-submit" type="submit" class="btn btn-primary">Create governed request</button>
                 <a class="btn btn-ghost" hx-get="/partials/resources-catalog?project={{ project }}" hx-target="#main">Cancel</a>
             </div>
         </form>

@@ -24,10 +24,6 @@ on:
         description: "Selected deployment environment"
         required: true
         type: string
-      security_profile:
-        description: "Fixed repository-secrets profile"
-        required: true
-        type: string
       manifest_ref:
         description: "Validated manifest repository commit"
         required: true
@@ -44,6 +40,7 @@ jobs:
     concurrency:
       group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-ansible-${{ github.repository }}
       cancel-in-progress: false
+      queue: max
     steps:
       - name: Checkout validated manifest
         uses: actions/checkout@v6
@@ -58,4 +55,3 @@ jobs:
           operation_file: ${{ inputs.operation_file }}
           bucket_name: ${{ inputs.bucket_name }}
           environment_name: ${{ inputs.environment_name }}
-          security_profile: ${{ inputs.security_profile }}

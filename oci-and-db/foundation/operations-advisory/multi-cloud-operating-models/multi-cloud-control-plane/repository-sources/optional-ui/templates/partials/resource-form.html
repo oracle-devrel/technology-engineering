@@ -8,7 +8,7 @@
             </svg>
             <div>
                 <h2 class="card-title text-2xl font-extrabold tracking-tight">Configure Resource</h2>
-                <p class="text-base-content/40 text-sm font-medium">Configure parameters for deployment</p>
+                <p class="text-muted text-sm font-medium">Configure parameters for deployment</p>
             </div>
         </div>
     </div>
@@ -16,31 +16,43 @@
 
 <div class="card bg-base-100">
     <div class="card-body">
-        <form hx-post="/partials/deploy-resource" hx-target="#result">
+        {% if profile_facts %}
+        <div class="catalog-profile-facts mb-4" aria-label="Selected profile">
+            {% for fact in profile_facts %}<span>{{ fact }}</span>{% endfor %}
+        </div>
+        {% endif %}
+        {% if connectivity_notice %}
+        <div class="alert alert-info mb-4" role="note">
+            <span>{{ connectivity_notice }}</span>
+        </div>
+        {% endif %}
+        <form hx-sync="closest form:drop" hx-disabled-elt="#resource-submit" hx-post="/partials/deploy-resource" hx-target="#result">
             <input type="hidden" name="project" value="{{ project }}">
             <input type="hidden" name="template_path" value="{{ template_path }}">
 
             <div class="form-control mb-4">
-                <label class="label"><span class="label-text">Environment</span></label>
-                <select name="environment" class="select select-bordered w-full" required>
+                <label class="label" for="resource-environment"><span class="label-text">Environment</span></label>
+                <select id="resource-environment" name="environment" class="select select-bordered w-full" required
+                    hx-get="/partials/resource-form?project={{ project }}&path={{ template_path | urlencode }}"
+                    hx-target="#main" hx-trigger="change" hx-include="this">
                     {% for item in environment_options %}
                     <option value="{{ item }}" {% if item == environment %}selected{% endif %}>{{ item }}</option>
                     {% endfor %}
                 </select>
                 <label class="label">
-                    <span class="label-text-alt text-base-content/50">The request is limited to this project environment.</span>
+                    <span class="label-text-alt text-muted">The request is limited to this project environment.</span>
                 </label>
             </div>
 
             <div class="form-control mb-4">
-                <label class="label"><span class="label-text">Region</span></label>
-                <select name="region" class="select select-bordered w-full" required>
+                <label class="label" for="resource-region"><span class="label-text">Region</span></label>
+                <select id="resource-region" name="region" class="select select-bordered w-full" required>
                     {% for region in region_options %}
                     <option value="{{ region }}" {% if region == (selected_region or default_region) %}selected{% endif %}>{{ region }}</option>
                     {% endfor %}
                 </select>
                 <label class="label">
-                    <span class="label-text-alt text-base-content/50">Target region for the generated manifest.</span>
+                    <span class="label-text-alt text-muted">Target region for the generated manifest.</span>
                 </label>
             </div>
 
@@ -48,9 +60,9 @@
             {% set field_name = f.name or f.placeholder %}
             {% set field_value = f.suggested_value if f.suggested_value is defined and f.suggested_value is not none else '' %}
             <div class="form-control mb-4">
-                <label class="label"><span class="label-text">{{ f.label }}</span></label>
+                <label class="label" for="resource-field-{{ loop.index }}"><span class="label-text">{{ f.label }}</span></label>
                 {% if f.options %}
-                <select name="{{ field_name }}" class="select select-bordered w-full"
+                <select id="resource-field-{{ loop.index }}" name="{{ field_name }}" class="select select-bordered w-full"
                     {% if f.required %}required{% endif %}>
                     {% if not f.required %}
                     <option value="" {% if not field_value %}selected{% endif %}>No NSG selected</option>
@@ -62,12 +74,12 @@
                     {% endfor %}
                 </select>
                 {% elif f.value_type == "bool" %}
-                <select name="{{ field_name }}" class="select select-bordered w-full" required>
+                <select id="resource-field-{{ loop.index }}" name="{{ field_name }}" class="select select-bordered w-full" required>
                     <option value="true" {% if field_value in [true, "true", "True"] %}selected{% endif %}>True</option>
                     <option value="false" {% if field_value in [false, "false", "False"] %}selected{% endif %}>False</option>
                 </select>
                 {% else %}
-                <input type="{{ f.input_type or 'text' }}" name="{{ field_name }}" class="input input-bordered w-full"
+                <input id="resource-field-{{ loop.index }}" type="{{ f.input_type or 'text' }}" name="{{ field_name }}" class="input input-bordered w-full"
                     value="{{ field_value }}"
                     {% if f.value_type == "float" %}step="any"{% endif %}
                     placeholder="{{ f.input_placeholder if f.input_placeholder is defined else ('Enter ' ~ f.label if f.required else 'Optional ' ~ f.label) }}"
@@ -75,7 +87,7 @@
                 {% endif %}
                 {% if f.help_text is defined and f.help_text %}
                 <label class="label">
-                    <span class="label-text-alt text-base-content/50">{{ f.help_text }}</span>
+                    <span class="label-text-alt text-muted">{{ f.help_text }}</span>
                 </label>
                 {% endif %}
             </div>
@@ -84,7 +96,7 @@
             {{ form_macros.change_reference_field() }}
 
             <div class="flex gap-4 mt-2">
-                <button type="submit" class="btn btn-primary gap-2">
+                <button id="resource-submit" type="submit" class="btn btn-primary gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>

@@ -1,9 +1,13 @@
 # Production project repository
 
-This handed-off MCCP repository is the Project Team workspace for approved `prod` resource requests. Non-production requests belong in the separate `nonprod-<project>` repository.
+Use this repository to request approved changes in `prod`. Use the separate `nonprod-<project>` repository for non-production.
 
-Project manifests use `<cloud>/prod/<region>/...`. The approved production foundation references are recorded in `environments/prod/environment_information.md`.
+1. For OCI and Google Cloud, use the approved foundation references in `environments/prod/environment_information.md`. For Azure, use the approved foundation inputs from the request or existing resource JSON. The handoff can include Azure notes, and the runner supplies Azure authentication.
+2. Choose an item from the [organization's catalog](https://github.com/__CUSTOMER_ORG__/gitops-templates) and edit its manifest under `<cloud>/prod/<region>/`.
+3. Open a pull request for review and follow the matching workflow. [Project Team guide](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md)
 
-Project Teams change only supported manifests through reviewed pull requests. The Project Team owns review ownership. When it is ready to configure it, copy `.github/CODEOWNERS.template` to `.github/CODEOWNERS` and replace `__PLATFORM_OWNERS__` and `__PROD_OWNERS__` with GitHub teams. A template-only file is valid until then. On a GitHub Free private repository, CODEOWNERS records intended ownership but does not enforce review without branch protection. Cloud Operations owns the handoff, protected workflows, runner configuration, and deployment credentials. Terraform state and secret values never belong in this repository.
+## Review ownership
 
-Use the organization's [approved catalog](https://github.com/__CUSTOMER_ORG__/gitops-templates) and follow the canonical [Project Team guide](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md).
+The Project Team configures its reviewers through a reviewed change. When ready, rename `.github/CODEOWNERS.template` to `.github/CODEOWNERS` and replace `__PLATFORM_OWNERS__` and `__PROD_OWNERS__` with the approved GitHub teams. Keep the template in place until ownership is configured. On a GitHub Free private repository, record independent review through the team's approved process.
+
+Cloud Operations owns the handoff, workflows, runner access and deployment credentials. Keep Terraform state and secret values in their approved stores.

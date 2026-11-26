@@ -1,15 +1,15 @@
 # Platform CI
 
-This Cloud Operations-owned repository contains the reusable GitHub Actions workflows that validate and execute reviewed project changes. Project repositories call its Cloud Operations-controlled `main` branch with GitHub's scoped temporary token; they do not need a deploy key or personal access token for Platform CI.
+Platform CI checks project requests before merge and executes approved changes afterward. Cloud Operations maintains the reusable workflows. Project repositories call its controlled `main` branch with GitHub's scoped temporary token.
 
 ## Published workflows
 
 | Workflow | Purpose |
 | --- | --- |
-| `.github/workflows/terraform-shared.yaml` | Validate and plan resource requests on pull requests; after merge, plan again against current state and apply that plan |
-| `.github/workflows/ansible-shared.yaml` | Check supported lifecycle requests on pull requests; execute them after merge |
+| `.github/workflows/terraform-shared.yaml` | Validate and plan before merge. After merge, plan against current state and apply that plan. |
+| `.github/workflows/ansible-shared.yaml` | Check supported operations before merge and execute them after merge. |
 
-The workflows receive an explicit cloud, environment, region, runner boundary, state location, manifest reference, and pinned orchestrator revision from the project caller.
+Both workflows receive the cloud, environment, runner labels, state bucket and validated manifest revision from the project caller. Terraform also receives the region and pinned orchestrator revision. Ansible receives the operation file path and reads the region from it.
 
 ## Runner contract
 
@@ -17,21 +17,41 @@ Use a trusted Linux self-hosted runner with:
 
 - Git, `jq`, `rg`, and Python 3.11, available as `python3.11`, with `pip`.
 - Outbound HTTPS access to install the pinned Terraform 1.12.1 runtime.
-- OCI Instance Principal access to the Object Storage state bucket.
+- OCI CLI on `PATH`, with OCI Instance Principal access to the state bucket and, when required, the approved project/environment Vault secrets.
 - `STATE_NAMESPACE`, `STATE_REGION`, and `OCI_CLI_AUTH=instance_principal` in the runner environment.
 - The target-cloud authentication required by each enabled profile.
 
-Azure additionally needs Azure CLI and `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_TENANT_ID`, and `ARM_SUBSCRIPTION_ID`. Google needs `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS`, or Application Default Credentials. Keep all credential values outside Git.
+| Cloud | Runner settings |
+| --- | --- |
+| OCI | Instance Principal permissions for the approved workloads and Vault scope. |
+| Azure | `ARM_CLIENT_ID`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID` and `ARM_CLIENT_CERTIFICATE_PATH` to a protected PFX. Set `ARM_CLIENT_CERTIFICATE_PASSWORD` when encrypted. |
+| Google Cloud | `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS` or Application Default Credentials. |
 
-Use separate runner instances, labels, identities, and SSH keys for non-production and production. Runner identities must have access only to the required state bucket, compartments, networks, and target-cloud services.
+Azure certificate mode uses AzureRM directly. It disables CLI fallback, clears a legacy client secret for the job and fails if the PFX is missing or unreadable. Existing Azure CLI and `ARM_CLIENT_SECRET` deployments remain supported. For a separate operator CLI preflight, use `az login --service-principal --username "$ARM_CLIENT_ID" --certificate /protected/path/certificate.pem --tenant "$ARM_TENANT_ID"`. Keep PEM and PFX files private, with restricted access.
+
+Restrict trusted runners to their approved repositories. Resolver and execution jobs can share a dev host, and workloads on that host share its cloud identity. Runner labels route jobs. Separate identities establish separate IAM boundaries. Use separate production hosts, identities and SSH keys.
 
 ## Terraform contract
 
-State is isolated by GitHub repository, cloud, environment, and region in OCI Object Storage. The selected region comes from the changed `{cloud}/{environment}/{region}/` path.
+State in OCI Object Storage is separate by repository, cloud, environment and region. The changed `{cloud}/{environment}/{region}/` path selects the deployment scope. Keep each Terraform root configuration in one regional file, including OCI project NSGs in `oci/{environment}/{region}/network/project-nsgs.json` and Google ADB-S in `gcp/{environment}/{region}/workloads/adb.json`.
 
-Before Terraform runs, JSON files are copied to the runner's temporary directory. Environment-qualified, resource-scoped tokens such as `__DEV_ORDERSADB_ADMIN_PASSWORD__` resolve only from the explicitly passed JSON repository secret bundle. The workflow rejects unqualified, cross-environment, or unresolved tokens and never modifies the checked-out manifest. It masks each decoded value before Terraform can emit it.
+### Prepare variables and secrets
 
-Terraform does not deep-merge repeated root variables. Keep each root configuration in one regional file, including OCI project NSGs in `oci/{environment}/{region}/network/project-nsgs.json` and Google ADB-S resources in `gcp/{environment}/{region}/workloads/adb.json`.
+`prepare_var_files.py <config-dir> <output-dir> <environment> <cloud> <region>` prepares private copies and rejects unresolved placeholders. Azure and Google Cloud VM manifests contain approved SSH public keys. Workload passwords use native references.
+
+| Request | Secret handling |
+| --- | --- |
+| OCI ADB | Use a dedicated Vault secret OCID in `admin_password_secret_id`. The module reads `CURRENT` using Instance Principal. |
+| Azure ADB | Use the same field. Platform CI reads `CURRENT` with OCI CLI Instance Principal in the handoff's OCI region. The private variable file gets `admin_password` and omits the reference field. |
+| Google Cloud ADB | Use the native `properties.secret_id` reference. |
+
+For OCI and Azure ADB, Platform CI checks every secret against handoff 5 at `environments/<environment>/environment_information.md` from the immutable PR base for plan or the merged commit for apply. Compartment, Vault, project HSM key, OCI region and ACTIVE state must match before content access, Terraform init or backend access. Query errors stop the run. Azure reads secret content only when the request includes Azure ADB entries and all metadata checks pass. Keep passwords, legacy tokens and per-secret bindings out of manifests.
+
+### Review output and cleanup
+
+Prepared JSON is written to a unique job directory with file mode `0600`. The original manifests stay intact. Missing, empty or invalid Azure secret content stops the job. Azure passwords and their Base64 values are masked in GitHub Actions. Treat raw diagnostics, binary plans, plan JSON, state and variable files as sensitive.
+
+The PR report shows resource addresses, actions and changed top-level attribute names. Values and nested tag keys stay private. Use the manifest diff for declared settings. Failures report an exit code and fixed diagnostic categories, with provider output kept private. The job removes its private workspace and temporary files at the end, including on failure. Check for leftover files after abrupt runner loss before reuse.
 
 ## Ansible contract
 
@@ -41,6 +61,8 @@ The workflow accepts only explicitly supported operation types and maps each one
 - OCI Compute `deploy-agent` over SSH, a worked example that writes an installation marker rather than installing third-party software.
 
 Lifecycle operation manifests belong under `oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Operations must resolve an exact display name in Terraform state. Azure and Google Cloud lifecycle operations are not available.
+
+The shared Ansible workflow queues jobs for each project, cloud, and environment. Before running an approved ADB start or stop, it checks the current project `main`. Execution stops if the request was edited or cleared after approval, or if a later request targeted any of the same ADBs in that region. This check also applies when the job is rerun. Changes outside that scope do not make the request stale.
 
 Each operation playbook uses explicit `precheck`, `apply`, and `verify` phases. Common tasks live under `ansible/playbooks/common/oci/<operation>/`.
 
@@ -66,9 +88,9 @@ The default SSH user is `opc` and the default private key is `/home/github-runne
 
 ## Change boundary
 
-When you add a step, pass values in through `env:` and reference them as shell variables, as `Verify repository security profile` does. Interpolating `${{ }}` into a `run:` body works only while every input stays constrained by the caller, and a new step is exactly where that stops being true. Read files through `sys.argv`, never by interpolating a path into Python source. Assign a command substitution to a variable before parsing it: `read` from an empty here-string succeeds with empty values and swallows the failure.
+When you add a step, pass values in through `env:` and reference them as shell variables, using the same constrained-input boundary as the existing actions. Interpolating `${{ }}` into a `run:` body works only while every input stays constrained by the caller, and a new step is exactly where that stops being true. Read files through `sys.argv`, never by interpolating a path into Python source. Assign a command substitution to a variable before parsing it: `read` from an empty here-string succeeds with empty values and swallows the failure.
 
-Do not add a generic task runner, accept executable paths from project input, or enable a resource or operation by changing only this repository. An extension must update the catalog, validation, execution mapping, permissions, and documentation together. See the canonical [extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model).
+Add new resources and operations through the full reviewed chain of catalog, validation, execution mapping, permissions and documentation. Use explicit platform-owned mappings for executable code. [Extension model](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/architecture.md#extension-model)
 
 ## License
 

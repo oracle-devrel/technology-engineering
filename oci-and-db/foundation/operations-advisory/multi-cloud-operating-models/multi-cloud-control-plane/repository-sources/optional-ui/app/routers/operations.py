@@ -120,6 +120,7 @@ async def operation_form_partial(
     cloud: str = Query(None),
     environment: str = Query("dev"),
     region: str = Query(None),
+    target: str | None = None,
 ) -> HTMLResponse:
     """Show form for a specific operation."""
     try:
@@ -172,6 +173,13 @@ async def operation_form_partial(
                 environment=environment,
                 region=selected_region,
             )
+            if target:
+                for key, parameter in parameters.items():
+                    if parameter.type != "resource":
+                        continue
+                    if not any(resource["name"] == target for resource in parameter.resources):
+                        raise ValueError("Selected resource is not available in this environment and region")
+                    parameters[key] = parameter.model_copy(update={"default": target})
             required_resources = [
                 param
                 for param in parameters.values()

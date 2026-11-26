@@ -1,4 +1,5 @@
 """GitHub client using githubkit with async-first operations."""
+import asyncio
 import base64
 import hashlib
 import logging
@@ -7,7 +8,7 @@ from typing import Any
 
 from cashews import cache
 from githubkit import GitHub
-from githubkit.exception import RequestFailed
+from githubkit.exception import RequestError, RequestFailed
 
 from app.config import _load_gh_fallback_token, settings
 
@@ -30,6 +31,7 @@ class GitHubClient:
         self.cache_key = self._build_cache_key(self.token)
         self.timeout = settings.github_api_timeout_seconds
         self.api_headers = {"X-GitHub-Api-Version": "2022-11-28"}
+        self._read_slots = asyncio.Semaphore(6)
         self._github = GitHub(
             auth=self.token or None,
             timeout=self.timeout,
@@ -119,18 +121,35 @@ class GitHubClient:
         fn: Callable[..., Any],
         *args,
         allow_statuses: set[int] | None = None,
+        raw_json: bool = False,
+        retry_read: bool = False,
         **kwargs,
     ):
         allow_statuses = allow_statuses or set()
         kwargs.setdefault("headers", self.api_headers)
 
-        try:
-            response = await fn(*args, **kwargs)
-            return self._to_plain(response.parsed_data)
-        except RequestFailed as exc:
-            if self._status_code(exc) in allow_statuses:
-                return _MISSING
-            raise
+        attempts = 3 if retry_read else 1
+        for attempt in range(attempts):
+            try:
+                if retry_read:
+                    async with self._read_slots:
+                        response = await fn(*args, **kwargs)
+                else:
+                    response = await fn(*args, **kwargs)
+                if raw_json:
+                    return response.json()
+                return self._to_plain(response.parsed_data)
+            except RequestFailed as exc:
+                if self._status_code(exc) in allow_statuses:
+                    return _MISSING
+                raise
+            except RequestError:
+                # Only explicitly marked GET reads may recover from an unknown
+                # transport outcome. A write must never be submitted twice.
+                if attempt + 1 == attempts:
+                    raise
+                logger.warning("Temporary GitHub read transport failure; retrying (%s/3)", attempt + 2)
+                await asyncio.sleep(0.25 * (2 ** attempt))
 
     async def _paginate(
         self,
@@ -216,6 +235,7 @@ class GitHubClient:
                 ref,
                 recursive="1",
                 allow_statuses={404},
+                retry_read=True,
             )
             return {"tree": []} if tree is _MISSING else tree
         except Exception as e:
@@ -230,6 +250,7 @@ class GitHubClient:
             repo_name,
             ref,
             recursive="1",
+            retry_read=True,
         )
 
     @cache(ttl="30s", prefix="content", key="{self.org}:{self.cache_key}:{repo_name}:{path}:{ref}")
@@ -243,6 +264,7 @@ class GitHubClient:
                 path,
                 ref=ref,
                 allow_statuses={404},
+                retry_read=True,
             )
             if data is _MISSING:
                 return None
@@ -261,6 +283,7 @@ class GitHubClient:
             repo_name,
             path,
             ref=ref,
+            retry_read=True,
         )
         if (
             isinstance(data, dict)
@@ -412,11 +435,45 @@ class GitHubClient:
                 repo_name,
                 pr_number,
                 allow_statuses={403, 404},
+                raw_json=True,
             )
             return {} if pr is _MISSING else pr
         except Exception as e:
             logger.error("Failed to get PR details for %s#%s: %s", repo_name, pr_number, e)
             return {}
+
+    async def get_chat_pr_evidence(self, repo_name: str, pr_number: int):
+        """Uncached reads; incomplete or unavailable evidence must fail closed."""
+        import asyncio
+
+        pr, files = await asyncio.gather(
+            # The installed SDK schema omits merge_commit_sha from the pinned
+            # 2022 API response. Preserve the raw contract for commit matching.
+            self._request(self._github.rest.pulls.async_get, self.org, repo_name, pr_number, raw_json=True),
+            self._request(self._github.rest.pulls.async_list_files, self.org, repo_name, pr_number, per_page=100),
+        )
+        shas = {pr["head"]["sha"]}
+        if pr.get("merged") and pr.get("merge_commit_sha"):
+            shas.add(pr["merge_commit_sha"])
+        responses = await asyncio.gather(*(
+            self._request(self._github.rest.actions.async_list_workflow_runs_for_repo,
+                          self.org, repo_name, head_sha=sha, per_page=100)
+            for sha in shas
+        ))
+        if any(data.get("total_count", 0) > 100 for data in responses):
+            raise RuntimeError("Workflow evidence exceeds the demo read limit")
+        runs = [run for data in responses for run in data.get("workflow_runs", [])]
+        jobs = {}
+        for run in runs:
+            if (pr.get("merged") and run.get("head_sha") == pr.get("merge_commit_sha")
+                    and run.get("event") == "push" and run.get("conclusion") == "success"
+                    and run.get("path") in {".github/workflows/terraform.yaml", ".github/workflows/ansible.yaml"}):
+                result = await self._request(self._github.rest.actions.async_list_jobs_for_workflow_run,
+                                             self.org, repo_name, run["id"], per_page=100, filter_="latest")
+                if result.get("total_count", 0) > 100:
+                    raise RuntimeError("Job evidence exceeds the demo read limit")
+                jobs[str(run["id"])] = result.get("jobs", [])
+        return {"pr": pr, "files": files, "runs": runs, "jobs": jobs}
 
     async def create_issue_async(self, repo_name: str, **kwargs):
         """Create an issue in a repository."""

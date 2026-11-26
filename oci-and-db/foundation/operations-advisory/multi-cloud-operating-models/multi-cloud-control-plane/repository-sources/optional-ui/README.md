@@ -1,38 +1,68 @@
-# Multi-Cloud Control Plane UI
+# AI Operations UI
 
-Multi-Cloud Control Plane UI is the optional MCCP guided interface. It lets Project Teams select an approved catalog entry and open a pull request in an already handed-off project repository. The canonical MCCP documentation defines the [Reference capabilities](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md) and [Project Team workflow](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/README.md).
+Use the optional UI to prepare MCCP requests through catalog forms. The optional AI Operations chat lets a demo presenter consult declared resources, prepare supported requests and investigate workflows. Both routes use the [MCCP request process](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/usage/request-lifecycle.md).
 
 ## Installation
 
-Cloud Operations copies this component to its UI runtime location. The UI uses its configured GitHub organization and the current `gitops-templates` catalog on `main`. Repository layouts and environments are fixed by the installed release.
+**Before you start**, have the accepted project repositories, the installed catalog and an approved UI runtime location. The UI reads the configured organization's `gitops-templates` repository on `main`.
 
-Create a local `.env` from `.env.example` and set the GitHub App and session values outside Git. `GITHUB_ORG` must match the rendered installation configuration. Use TLS in any shared deployment.
+1. Create and install a dedicated GitHub App. Enable user-to-server authorization and register the exact callback URL. Give the App access only to the catalog and the project repositories it serves.
+2. Configure the repository permissions below and the local `.env`. Use `GITHUB_ORG` for the installed organization and a strong session secret. Keep the configuration and all credentials out of Git.
+3. Start the UI from its runtime directory and sign in. Check that the user sees only their authorized projects and can open a catalog form.
 
-Create and install a dedicated **GitHub App** for the customer organization. Enable user-to-server authorization and register the exact callback URL. Select the `gitops-templates` repository, which the UI reads but never writes, plus only the handed-off project repositories it must serve. Each user authorizes the App and must already have the project repository access required for the requested action.
+| GitHub App permission | Level | Purpose |
+| --- | --- | --- |
+| Actions and Checks | Read | Show validation and execution evidence |
+| Contents, Issues and Pull requests | Read and write | Prepare issues, branches, commits and pull requests |
+| Metadata | Read | Identify accessible repositories |
 
-Use these GitHub App repository permissions:
-
-- **Actions: read** and **Checks: read** to display plan/check and execution status.
-- **Contents: read and write**, **Issues: read and write**, and **Pull requests: read and write** for the UI's issue, branch, commit, and PR flow.
-- **Metadata: read** is always present and must remain read-only.
-
-The UI does not need a GitHub App private key, an installation-token flow, or write permission to Actions, Checks, Administration, or Workflows.
-
-## Catalog boundary
-
-The catalog is the UI's complete Day 1 contract. The UI renders only documented placeholders; it does not expose catalog literals as editable inputs or provide an arbitrary JSON editor. OCI Compute and Autonomous Database capacity profiles therefore remain fixed. The single OCI project-NSG catalog template supports a new NSG with zero or more TCP ingress and egress rules, or additive rules on an existing NSG. The UI renders destination ports as integers and rejects a rule key that already exists.
-
-Copy the sample configuration before starting. For a local installation, the sample uses `http://localhost:8011/callback`. For a shared deployment, register the exact externally visible `https://<host>/callback` URL and configure the reverse proxy to preserve the original host and HTTPS protocol.
+Use the signed-in user's GitHub authorization for project writes. The App uses user authorization with the permissions above. An optional server token can read the catalog. The runtime needs no GitHub App private key, installation-token flow or write access to Actions, Checks, Administration or Workflows.
 
 ```bash
 python3.11 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 cp .env.example .env
+```
+
+Edit `.env` with the approved settings, then start the UI.
+
+```bash
 .venv/bin/python -m app.main
 ```
 
-The application reads `.env` itself, including its configured host and port. `APP_URL` must match the exact browser origin, including its protocol and port. The signed-in user remains the authorizing identity for project writes; an optional server token may read the catalog but cannot bypass user-scoped project authorization.
+The application reads its host and port from `.env`. The local example uses `http://localhost:8011/callback`. Use TLS for a shared installation, register its exact external `https://<host>/callback` URL and preserve the original host and protocol at the proxy. Set `APP_URL` to the browser origin, including protocol and any port.
+
+## Catalog boundary
+
+Forms expose approved placeholders and fixed catalog profiles. An OCI network security group request can create a group or add approved TCP rules to an existing group. The form uses integer port ranges and rejects duplicate rule keys. For Azure Autonomous Database, the public mTLS options allow connections from any IP with wallet and database authentication. [Reference capabilities](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/support.md)
 
 ## Security boundary
 
-The UI creates GitHub issues, branches, commits, and pull requests. It does not hold cloud credentials, approve or merge requests, or execute Terraform or Ansible. See the canonical MCCP [security guidance](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md).
+GitHub handles independent review and merge. Trusted runners hold cloud deployment permissions and execute approved changes. The UI operates with GitHub authorization. See the [component security policy](SECURITY.md) and [MCCP security controls](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md).
+
+## Workload secret references
+
+Use an existing OCI Vault secret OCID in `admin_password_secret_id` for each OCI or Azure Autonomous Database. The form and chat use a separate reference per database. OCI uses the deployment region. For Azure, the trusted handoff supplies the OCI region used for validation and lookup. Project Team owns secret preparation and rotation, and Cloud Operations prepares runner access.
+
+The form checks the merged ADB manifest before publication. The chat panel checks the selected proposal for native references, including missing, legacy or reused references. For Azure and Google VMs, provide the approved SSH public key. Keep passwords and private keys in their approved stores.
+
+## Local chat demo
+
+The chat is disabled by default. It runs the `project-gitops` skill through a local Codex app-server process for one configured presenter. Catalog forms remain available. The demo uses an experimental Codex tool interface and depends on the skill for semantic previews and explicit confirmation. It is a single-presenter MVP.
+
+| Setting | What to use |
+| --- | --- |
+| Host tools | Git, authenticated Codex CLI and GitHub CLI. The integration was checked locally with Codex CLI 0.165.0. |
+| Enablement | `CHAT_ENABLED=true` and `CHAT_DEMO_LOGIN=<presenter-github-login>` |
+| Organization | `GITHUB_ORG=multicloud-control-plane` for the bundled demo skill |
+| Skill | For a standalone UI installation, make the approved Project GitOps skill available on the UI host and set `CHAT_SKILL_PATH` to its `SKILL.md` file. The source checkout resolves the repository copy automatically. |
+| Optional settings | `CHAT_DEMO_PROJECT` for a project shortcut and `CHAT_MODEL` for model selection |
+
+Use a trusted host and presenter. The Codex process uses the host's Codex login, a temporary workspace and the signed-in user's GitHub token for Git and `gh`. The skill has shell and network access on the host. Keep cloud credentials off the demo host. Codex configuration and retention still apply.
+
+1. Start the UI with `.venv/bin/python -m app.main` and sign in as the configured presenter. Select a project you can write to and open **AI Operations**.
+2. Use an OCI or Azure scope shown in the chat header. Non-production uses `dev` and production uses `prod`. OCI reads `DEFAULT_REGION`. Azure reads `DEFAULT_CLOUD_REGIONS` and `CLOUD_REGION_OPTIONS`. After changing regions, restart the app and start a new chat.
+3. Ask for an inventory or an approved change. For a change, supply the CRQ and missing inputs. Review the full proposal in chat and send `confirm` as the entire message to publish.
+4. Open the PR in GitHub for independent review and merge. **Refresh status** reads the matching GitHub evidence. Use the GitHub workflow as the source for execution, particularly when the panel reports an unverified result.
+
+The request panel shows the scope, CRQ, proposed manifest and relevant catalog settings or operation targets. Use the full preview in chat for confirmation. The app preserves in-session conversations separately per project. **New chat** resets the selected conversation. Logout, server restart or 30 minutes of inactivity ends the session. Polling status does not extend that time. If a response is interrupted, check GitHub for an existing PR before repeating a confirmed request, then select **New chat** to continue.

@@ -34,7 +34,7 @@ def download_terraform_state(namespace, bucket, config_path):
 
 
 def parse_adb_resources(state_data):
-    """Extract ADBs from Terraform state. Returns dict display_name → info."""
+    """Extract ADBs from Terraform state. Returns dict display_name → list of info."""
     adb_map = {}
 
     if not state_data:
@@ -48,12 +48,12 @@ def parse_adb_resources(state_data):
             attrs = instance.get('attributes', {})
             display_name = attrs.get('display_name', resource.get('name'))
 
-            adb_map[display_name] = {
+            adb_map.setdefault(display_name, []).append({
                 'ocid': attrs.get('id'),
                 'db_name': attrs.get('db_name'),
                 'state': attrs.get('lifecycle_state'),
                 'freeform_tags': attrs.get('freeform_tags', {})
-            }
+            })
 
     return adb_map
 
@@ -110,7 +110,13 @@ def build_inventory(manifest, adb_map):
             print(f"Available: {list(adb_map.keys()) or '(none)'}")
             sys.exit(1)
 
-        adb_info = adb_map[name]
+        matches = adb_map[name]
+        if len(matches) != 1:
+            print(f"\n❌ ERROR: ADB target '{name}' is ambiguous in Terraform state "
+                  f"({len(matches)} matches). Correct the display_name before retrying.")
+            sys.exit(1)
+
+        adb_info = matches[0]
         # Put hostvars directly in the host entry
         inventory['adb_instances']['hosts'][name] = {
             'ansible_connection': 'local',
@@ -203,7 +209,7 @@ def main():
         host_count = len(inventory['compute_instances']['hosts'])
     elif operation_type == 'adb-lifecycle':
         adb_map = parse_adb_resources(state_data)
-        print(f"✅ Found {len(adb_map)} ADBs in Terraform state")
+        print(f"✅ Found {sum(len(matches) for matches in adb_map.values())} ADBs in Terraform state")
         inventory = build_inventory(manifest, adb_map)
         host_count = len(inventory['adb_instances']['hosts'])
     else:

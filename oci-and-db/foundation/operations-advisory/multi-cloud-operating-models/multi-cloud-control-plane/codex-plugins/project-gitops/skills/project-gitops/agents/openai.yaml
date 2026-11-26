@@ -1,4 +1,4 @@
 interface:
-  display_name: "Project GitOps"
-  short_description: "Govern project infrastructure through GitOps."
-  default_prompt: "Prepare a governed project infrastructure change."
+  display_name: "AI Operations"
+  short_description: "Consult, request, operate and investigate project changes."
+  default_prompt: "Help me consult, change, operate or investigate resources in my project."

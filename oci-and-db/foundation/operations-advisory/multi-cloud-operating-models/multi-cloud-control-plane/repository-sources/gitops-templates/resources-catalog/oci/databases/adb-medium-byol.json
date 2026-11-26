@@ -12,7 +12,7 @@
         "license_model": "BRING_YOUR_OWN_LICENSE",
         "enable_cpu_auto_scaling": false,
         "enable_storage_auto_scaling": false,
-        "admin_password": "__ADB_ADMIN_PASSWORD__",
+        "admin_password_secret_id": "__ADB_ADMIN_PASSWORD_SECRET_OCID__",
         "networking": {
           "enable_private_endpoint": true,
           "subnet_id": "__PROJ_DB_SUBNET_OCID__",
