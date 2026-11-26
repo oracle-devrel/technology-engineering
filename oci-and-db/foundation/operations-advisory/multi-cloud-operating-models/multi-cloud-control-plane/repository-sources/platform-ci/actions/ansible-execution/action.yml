@@ -185,6 +185,8 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}/../../ansible
       run: |
+        DELIMITER="ghout_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+        echo "::stop-commands::$DELIMITER"
         set +e
         ansible-playbook \
           -i $WORK_TEMP/inventory.json \
@@ -194,8 +196,8 @@ runs:
           "$OPERATION_PLAYBOOK" \
           2>&1 | tee $WORK_TEMP/ansible.log
         ANSIBLE_STATUS=${PIPESTATUS[0]}
+        echo "::$DELIMITER::"
 
-        DELIMITER="ghout_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
         echo "check_output<<$DELIMITER" >> $GITHUB_OUTPUT
         head -100 $WORK_TEMP/ansible.log >> $GITHUB_OUTPUT
         echo "$DELIMITER" >> $GITHUB_OUTPUT
@@ -258,6 +260,22 @@ runs:
 
           *By @${{ github.actor }}*`
           });
+
+    - name: Record PR validation
+      if: success() && inputs.mode == 'check' && github.event.pull_request && steps.check.outcome == 'success'
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          core.notice(JSON.stringify({
+            repository: `${context.repo.owner}/${context.repo.repo}`,
+            pull_request: pr.number,
+            head_sha: pr.head.sha,
+            base_sha: pr.base.sha,
+            run_id: context.runId,
+            run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT),
+            kind: "ansible-check",
+          }), {title: "MCCP PR validation v1", file: ".github/workflows/ansible.yaml", startLine: 1});
 
     - name: Upload logs
       if: always() && steps.lifecycle_clear.outputs.is_clear != 'true'

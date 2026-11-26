@@ -426,6 +426,22 @@ runs:
             })
           }
 
+    - name: Record PR validation
+      if: success() && inputs.mode == 'pr' && github.event.pull_request && steps.plan.outcome == 'success' && steps.validate.outcome == 'success'
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          core.notice(JSON.stringify({
+            repository: `${context.repo.owner}/${context.repo.repo}`,
+            pull_request: pr.number,
+            head_sha: pr.head.sha,
+            base_sha: pr.base.sha,
+            run_id: context.runId,
+            run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT),
+            kind: "terraform-plan",
+          }), {title: "MCCP PR validation v1", file: ".github/workflows/terraform.yaml", startLine: 1});
+
     - name: Remove private Terraform files
       if: always()
       shell: bash
