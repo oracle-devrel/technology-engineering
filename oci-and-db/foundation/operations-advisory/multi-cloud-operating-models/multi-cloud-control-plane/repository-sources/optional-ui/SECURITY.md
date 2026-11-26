@@ -2,23 +2,12 @@
 
 ## Reporting Security Vulnerabilities
 
-Do not open a public GitHub issue for a suspected vulnerability. Use the customer organization's approved private security-reporting channel and include:
-
-- A description of the vulnerability
-- Steps to reproduce the issue
-- Potential impact
-- Affected version or revision
+Use the customer organization's approved private security-reporting channel. Include the affected version, what you observed, steps to reproduce it and the potential impact. Keep credentials and secret values out of the report.
 
 ## Component Boundary
 
-The UI uses GitHub OAuth and GitHub App authorization to create issues, branches, commits, and pull requests on behalf of the signed-in user. It does not store cloud-provider credentials or execute infrastructure changes.
+The UI uses GitHub authorization to prepare project changes on behalf of the signed-in user. Review and merge take place in GitHub. Trusted runners use their own cloud identities for execution.
 
-Deploy it with:
+Deploy with TLS, the exact registered callback URL and a strong, externally managed `SESSION_SECRET`. Limit the GitHub App to the catalog and served project repositories with the permissions listed in the [UI setup guide](README.md#installation). Rotate credentials and review component updates.
 
-- TLS and an exact registered callback URL.
-- A strong, externally managed `SESSION_SECRET`.
-- GitHub App access limited to the catalog and served project repositories.
-- Only the GitHub permissions listed in the component README.
-- Regular credential rotation and reviewed component updates.
-
-The canonical MCCP [security guidance](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md) defines the review, runner, secret, and GitHub control boundaries.
+The optional chat runs on a trusted demo host with the presenter's Codex session. Use the host and account controls in the [local chat setup](README.md#local-chat-demo). See the canonical [security and GitHub controls](https://github.com/oracle-devrel/technology-engineering/blob/main/oci-and-db/foundation/operations-advisory/multi-cloud-operating-models/multi-cloud-control-plane/docs/reference/security.md).

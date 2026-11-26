@@ -1,48 +1,35 @@
 # Security and GitHub controls
 
-Project Teams submit reviewed Git changes, manage the values and rotation of their workload secrets, and do not receive deployment credentials. Cloud Operations manages repository controls, the secret-delivery boundary, state, and runner identities. Before merge, trusted runners read cloud resources, state and required secrets for plan or check. Workload apply and lifecycle execution require independent human review and a human-authorized merge. In Codex only, Project Team can explicitly instruct the skill to merge one exact PR after its decision summary; the skill verifies current-head independent approval, matching validation and repository restrictions before executing that merge. The optional UI cannot merge.
+Project Teams propose and review changes in GitHub. A person independent of the author reviews the current request before an authorized merge. Trusted runners use their own cloud identities to plan or check the request before merge and execute it afterward. Cloud Operations controls those identities, the state and the repository settings.
 
 ## Secret delivery
 
-Workload secrets stay in the approved Vault scope for the project and environment. The Project Team owns their preparation and rotation. In Codex, its skill can create a dedicated ADB secret after a separate semantic preview and confirmation, using the team's authorized OCI profile and native Vault generation. It handles metadata only, then requests a separate confirmation for GitHub publication. The optional UI cannot use host credentials or create secrets. Cloud Operations prepares foundation access and the runner's read access. Git, chat and the handoff contain references, not passwords.
+The Project Team creates and rotates workload secrets in the approved Vault scope. For OCI and Azure Autonomous Database (ADB), each database has its own native OCI Vault secret. The request contains its identifier in `admin_password_secret_id`. Google Cloud ADB uses the provider-native secret reference in its catalog. Password values stay out of Git and chat. Azure and Google VM manifests contain the approved SSH public key. Private keys stay with their owner.
 
-OCI ADB uses one native Vault secret OCID per database through `admin_password_secret_id`. Google Cloud ADB uses its provider-native secret reference. Azure ADB also accepts `admin_password_secret_id`. The runner validates all ADB secret metadata against the trusted handoff, uses its OCI region and then reads `CURRENT` through Instance Principal under its existing OCI IAM permissions. There is no per-project scope file or per-secret Azure ADB binding. Azure and Google VM manifests contain approved SSH public keys directly. All catalog placeholders must be rendered before publication; runtime tokens are unsupported. There is no GitHub Secrets fallback. The [installation runbook](../installation/installation-runbook.md#prepare-workload-secret-delivery) shows the configuration.
+The shared workload Vault belongs to environment security. The version 5 handoff identifies the Vault, the project's AES-256 HSM key and its Database compartment. During onboarding, Cloud Operations supplies the key reference and configures runner read access. The key material stays in the HSM. During retirement, Cloud Operations retains the shared Vault after the project's secrets and key have been removed through the approved process.
 
-The workflows reject forks, unsupported file changes, invalid JSON, mixed deployment scopes and unresolved placeholders. A shared dev runner has one shared identity: these checks select the approved request, but do not create a separate IAM boundary for every project. Choose separate runner identities when the customer needs stronger separation.
+Platform CI reads `environments/<environment>/environment_information.md` from the pull request's base commit for plan and the merged commit for apply. It checks every OCI and Azure ADB secret's compartment, Vault, key, OCI region and ACTIVE state before reading any value, initializing Terraform or accessing its backend. A missing or mismatched reference or a failed OCI query stops the run.
+
+OCI passes the native reference to the module. Azure reads the secret's `CURRENT` version through the runner's OCI Instance Principal into private temporary variables after all metadata checks pass. The trusted handoff supplies the OCI region, independently of the Azure deployment location. The manifest uses the secret OCID directly, without a runtime token, per-secret binding or GitHub Secrets fallback. See the [configuration steps](../installation/installation-runbook.md#prepare-workload-secret-delivery).
+
+Project Team can prepare secrets manually or, in Codex, separately confirm native Vault generation using its authorized OCI profile. The Codex skill handles secret metadata and asks for a separate confirmation before publishing a pull request. The optional UI accepts an existing identifier and uses GitHub authorization for project changes. [Codex request guide](../usage/codex-plugin.md)
 
 ## GitHub plan controls
 
-GitHub Free private repositories do not provide enforceable [private branch protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) or deployment-environment approval. CODEOWNERS cannot enforce review without branch protection. On this profile, approval is procedural: restrict direct pushes and administrators, record independent review, verify the current plan or check, and then merge. Do not describe this as GitHub-enforced approval.
+| Private repository control | GitHub Free | GitHub Team | GitHub Enterprise Cloud |
+| --- | --- | --- | --- |
+| Pull request and independent review for `main` | Review is procedural for private repositories. Restrict write and admin access and record independent approval. | Configure an active ruleset requiring a pull request and at least one approval, with no direct-push bypass. | Use the same `main` ruleset. |
+| Deployment environment | Follow the organization's reviewed merge process. | Environment secrets and variables are available. Required deployment reviewers are available only for public repositories. | Required deployment reviewers and prevention of self-review can be configured for a separate deployment approval. |
 
-The explicit Codex merge path checks for an effective GitHub approval from a human other than the PR author on the current head, with no outstanding changes request, even when branch protection does not enforce review. It uses a merge commit with an expected-head guard and repeats base, checks and review reads before mutation. These reads do not atomically lock the base or review/check settings; the skill does not claim stronger isolation than GitHub provides. It does not use administrative bypass, auto-merge, merge queues or automatic branch deletion. Missing evidence, restricted metadata or unsupported merge settings block the action.
+A `CODEOWNERS` file identifies reviewers. Enforcing their approval requires a branch protection rule or ruleset. Deployment environment approvals, where configured, apply to the workflow job and are distinct from pull request approval. Check the current plan and repository visibility before configuring these controls. [GitHub rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets) · [GitHub deployment environments](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments#required-reviewers)
 
-GitHub Team and GitHub Enterprise Cloud add controls for private repositories that Cloud Operations should configure during installation. Use an active `main` ruleset that requires a pull request and at least one approving review, with no direct-push bypass. The installation runbook includes the plan-specific configuration and verification. These controls strengthen the same governed request path; they do not change the project workflow.
+The optional UI prepares the pull request and sends the user to GitHub for merge. In Codex, a user can explicitly authorize the plugin to merge one exact PR after independent review. The skill checks current-head human approval, matching validation and repository restrictions, including on GitHub Free. It uses a merge commit with an expected-head guard and rechecks the base and approval before merging. GitHub can still change base, review or check settings between those reads and the merge. See the [Codex merge steps](../usage/codex-plugin.md#merge-and-verify).
 
 ## Required controls
 
-- Keep shared and project repositories private.
-- Restrict Platform CI writes to Cloud Operations and review every change to its `main` branch.
-- Use the reviewed orchestrator commits from the installation runbook and reviewed GitHub Action release tags.
-- Isolate state by organization, project, cloud, environment, and region.
-- Give each runner only the cloud permissions and labels required for its scope.
-- Keep non-production and production on separate runners.
-- Project Teams create and rotate workload-secret values only in their approved Vault scope.
-- Keep Azure `ARM_*` values and Google credentials on the trusted runner, outside project manifests.
-- Keep passwords in Vault. Publish safe resource-action reports and fixed diagnostic categories; raw plans and provider messages can contain secret material.
-- Complete the [first-project check](verify-secret-isolation.md) before the first workload deployment.
-
-## Additional GitHub plan capabilities
-
-GitHub Team and GitHub Enterprise Cloud can protect private `main` branches and use environment secrets or variables. They do not provide required deployment reviewers for private repositories.
-
-GitHub Enterprise Cloud can additionally use required deployment reviewers, prevent self-review, and keep environment secrets behind an approval gate in private repositories. It can support paired GitHub Environments such as `dev` and `dev-apply` when that approach is selected for the customer.
-
-Availability depends on the GitHub plan and repository visibility. Verify the current GitHub documentation for [protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), [deployment environments](https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments), and [runner groups](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/manage-access) before configuring customer controls.
-
-Official GitHub Actions referenced by major tag can receive breaking changes. Cloud Operations reviews those release changes during Platform CI upgrades. The workflows retain their reviewed major tags unless an upgrade requires a separately reviewed change.
-
-The shared workload Vault belongs to environment security. Each project owns its AES-256 HSM key and secrets in Database; the key OCID is a reference and key material remains in HSM. Project Team prepares each database's independent secret through confirmed Codex preparation or its approved manual process, using the handoff references. Manifests keep the same `admin_password_secret_id` field. Secret preparation does not authorize ADB deployment, changes to the shared Vault or project key, or automatic secret removal if the request is abandoned.
-
-Platform CI checks all ADB secret metadata before reading any value, initializing Terraform or accessing its backend. The authorization handoff is `environments/<environment>/environment_information.md` from the immutable PR base for plan and merged commit for apply. The request branch cannot replace that authorization. Compartment, Vault, key, OCI region and ACTIVE state must all match; query failures stop the run. OCI retains the native secret OCID; Azure resolves `CURRENT` into private temporary variables only after all references pass. Azure location does not select the OCI Vault region. There are no additional project scope files or bindings.
-
-These checks protect the governed workflow. They do not create IAM isolation between executions using the shared runner identity. Keep secret values, raw Terraform diagnostics and private temporary variables out of Git and PR comments. CloudOps retains the Vault during project retirement and manually completes project-secret and key removal first.
+- Keep shared and project repositories private. Restrict Platform CI writes to Cloud Operations and review every change to its `main` branch.
+- Use the reviewed orchestrator commits and GitHub Action release tags. Review upstream Action changes as part of Platform CI upgrades because major tags can move.
+- Separate state by organization, project, cloud, environment and region. Keep production and non-production runners separate. Give each runner the labels and permissions for its approved work.
+- A shared runner uses the same cloud identity for its approved projects. GitHub routing and secret checks protect the request path. Use separate identities and runner groups when project-level IAM isolation is required. [Runner group access](https://docs.github.com/en/actions/how-tos/manage-runners/self-hosted-runners/manage-access)
+- Keep cloud credentials, raw plans and provider diagnostics private. Use the safe resource-action report or operation check as review evidence. The workflow rejects forks, unsupported paths, invalid JSON, mixed deployment scopes and unresolved placeholders.
+- Verify the first intended request before its deployment. [First-project check](verify-secret-isolation.md)

@@ -1,16 +1,12 @@
 # OCI Autonomous Database lifecycle
 
-Copy [`adb-lifecycle.json`](../../oci/adb-lifecycle.json) to the project repository path:
+Use this operation to start or stop one or more existing OCI Autonomous Databases. Copy [`adb-lifecycle.json`](../../oci/adb-lifecycle.json) to the project repository path below.
 
 ```text
 oci/<environment>/<region>/lifecycle_operations/adb-lifecycle.json
 ```
 
-This operation starts or stops one or more OCI Autonomous Databases already declared in Terraform state for the same environment and region.
-
-Platform CI turns that state into a temporary inventory before running the operation. See [Terraform state as dynamic inventory](https://github.com/__CUSTOMER_ORG__/platform-ci/blob/main/README.md#terraform-state-as-dynamic-inventory) for the shared ADB and Compute pattern.
-
-After the workflow has completed and the result is verified, delete the request file in a focused pull request. Deleting it records cleanup of the completed request; it does not reverse the lifecycle operation.
+Each target must already appear in Terraform state for the same environment and region. Platform CI uses it to build [temporary inventory](https://github.com/__CUSTOMER_ORG__/platform-ci/blob/main/README.md#terraform-state-as-dynamic-inventory).
 
 | Field | What to provide | Allowed values or behavior |
 | --- | --- | --- |
@@ -18,9 +14,13 @@ After the workflow has completed and the result is verified, delete the request 
 | `database_compartment_id` | Database child-compartment OCID from the approved project handoff. | Required; it must exactly match the handed-off Database compartment. |
 | `targets` | Databases to operate. | One or more target objects. All targets run in the same workflow execution. |
 | `targets[].display_name` | ADB display name. | Exact, case-sensitive display name from Terraform state. |
-| `targets[].action` | Desired state. | Lowercase `start` or `stop` only; restart is not supported. |
+| `targets[].action` | Desired state. | Use lowercase `start` or `stop`. A restart is not supported. |
+| `targets[].wait_for_state` | Whether to wait for the requested state. | Defaults to `true`. Set `false` to submit the action without waiting. |
+| `targets[].timeout_minutes` | How long to wait. | Defaults to 30 minutes. |
 
-The pull request checks the request against state. After merge, Platform CI checks that the approved request is still current on `main`, including when a job waits in the queue or is rerun. It rejects requests that were replaced or cleared. The playbook reads the current lifecycle state and changes only databases not already in the requested state. The workflow waits up to 30 minutes for the requested state. A target may override that with `timeout_minutes`, or disable waiting with `wait_for_state: false`; no other field is accepted.
+The pull request checks the targets against state. After merge, Platform CI verifies that the request is still current on `main`, including for queued jobs and reruns. It stops if a later change replaced or cleared the request or superseded it for a target in the same region. The playbook changes only targets that need the requested action.
+
+Verify the matching execution and database state. Then remove the operation file in a focused pull request. The database stays in its current state when the request is cleared.
 
 ```json
 {

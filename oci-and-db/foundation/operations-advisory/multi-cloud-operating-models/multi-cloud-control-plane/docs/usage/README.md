@@ -1,45 +1,26 @@
 # Project Team guide
 
-Use this guide after Cloud Operations gives you a prepared project repository. You can declare or remove approved resources, add published NSG rules, and run supported lifecycle operations without deployment credentials or a different process for each cloud. Every request follows the same reviewed pull-request workflow.
+Use MCCP to request approved cloud resources and operations from your project repository. You can see what the change will do, get it reviewed and find the result in GitHub.
 
-## 1. Check that you are ready
+## What you need
 
-Before choosing an interface, confirm that you:
+- Your project repository and access from Cloud Operations. Use `nonprod-<project>` for `dev`, `test` or `uat`, and `prod-<project>` for `prod`.
+- One [supported resource or operation](../reference/support.md) in one cloud, environment and region. Your project handoff describes the approved OCI or Google Cloud foundation. For Azure, use the existing foundation details supplied for the request.
+- A change reference such as `CRQ1234` for the optional UI or Codex, or the reference required by your organization when using GitHub. For a first request, coordinate the [first-project check](../reference/verify-secret-isolation.md) with Cloud Operations.
 
-- have write access to a handed-off project repository;
-- are requesting something in [Reference capabilities](../reference/support.md);
-- have selected one cloud, environment and region, using the OCI/Google handoff or the Azure request inputs and prepared runner;
-- have agreed the [first-project check](../reference/verify-secret-isolation.md) with Cloud Operations; and
-- have a change reference such as `CRQ1234` when using the optional UI or Codex plugin, or follow your organization's requirements when working directly in GitHub.
+## Choose how to request a change
 
-## 2. Choose an interface
-
-Each interface follows the same governed pull-request lifecycle. A human reviewer approves the request in GitHub, and the trusted runner executes it after merge. The optional UI directs users to GitHub to merge. The Codex plugin can merge an exact pull request on explicit instruction after verifying its current independent approval and checks. The optional UI and Codex plugin render only published catalog capabilities. See the [trust boundary](../reference/architecture.md#execution-and-trust-boundary).
-
-| Interface | Use it when | Guide |
-| --- | --- | --- |
-| GitHub interface | You want to edit JSON through the GitHub website or GitHub CLI. | [GitHub interface](github-interface.md) |
-| Optional UI | You prefer a guided form. | [Optional UI](optional-ui.md) |
-| Optional Codex plugin | You prefer a conversational request. | [Codex plugin](codex-plugin.md) |
-
-## 3. Identify your repository
-
-| Repository | Environments |
+| If you prefer | Use |
 | --- | --- |
-| `nonprod-<project>` | `dev`, `test`, `uat` |
-| `prod-<project>` | `prod` only |
+| Editing the request file directly | [GitHub website or CLI](github-interface.md) |
+| Filling in a form | [Optional UI](optional-ui.md) |
+| Describing what you need in a conversation | [Optional Codex plugin](codex-plugin.md) |
 
-Production has its own repository, handoff, and approval path. Cloud Operations owns the state, secret, and runner boundaries behind both; you work with manifests, approved foundation inputs and your review ownership. The [architecture](../reference/architecture.md#repository-model) describes those boundaries if you need them.
+## From request to result
 
-## 4. Follow the request flow
+1. Pick an approved template and supply the project details it needs. For a database that requires a password, put the approved secret reference in the request.
+2. Open a pull request in GitHub. Check that the plan or operation check shows the intended change.
+3. Get approval from an independent reviewer, then merge through the approved process.
+4. Open the post-merge workflow from GitHub and verify the outcome.
 
-1. Choose the approved catalog template. Use the OCI/Google handoff for foundation references; Azure inputs come from the request or relevant existing JSON, with optional Markdown suggestions. Never invent references or reuse another database's secret.
-2. Open a pull request through your chosen interface and record the change reference before review.
-3. Review the planned result and obtain human approval.
-4. Merge through the governed process and verify the result.
-
-The [request lifecycle](request-lifecycle.md) contains the detailed rules, manifest paths, removal steps, and troubleshooting guidance.
-
-## 5. Follow a first worked example
-
-To see one complete request without using customer values, follow the [private OCI Autonomous Database walkthrough](oci-adb-walkthrough.md). It shows the manifest, pull-request, review, and verification flow using only placeholders and sample names.
+Follow the [request lifecycle](request-lifecycle.md) for review, verification, removal and troubleshooting, or walk through a [private OCI database request](oci-adb-walkthrough.md) with sample values.

@@ -1,13 +1,13 @@
 # Repository sources
 
-Each directory contains a repository or runtime artifact prepared during MCCP installation. General installation, usage, architecture, support, and security guidance stays in the [MCCP documentation](../README.md); source READMEs describe only the local technical contract that remains useful after publication.
+Cloud Operations uses these sources to set up MCCP. The [installation runbook](../docs/installation/installation-runbook.md) explains how to prepare and publish them.
 
 | Source | Purpose |
 | --- | --- |
-| `platform-ci/` | Shared approved Terraform and Ansible execution workflows |
-| `gitops-templates/` | Approved resource and lifecycle operation catalog |
-| `nonprod-project-template/` | Shared `dev`, `test`, and `uat` project repository template |
-| `prod-project-template/` | Isolated production project repository template |
-| `optional-ui/` | Optional UI runtime artifact; not one of the four shared repositories |
+| [Platform CI](platform-ci/README.md) | Shared workflows to check and execute reviewed requests |
+| [GitOps catalog](gitops-templates/README.md) | Approved resource and operation templates |
+| [Non-production project template](nonprod-project-template/README.md) | Starting point for `dev`, `test` and `uat` |
+| [Production project template](prod-project-template/README.md) | Starting point for a separate `prod` repository |
+| [Optional UI](optional-ui/README.md) | Optional service for preparing requests |
 
-Cloud Operations prepares these sources through the [shared-repositories guide](../docs/installation/installation-runbook.md).
+Each shared repository has its own technical reference. For the common operating model, see [How the Control Plane works](../docs/reference/architecture.md).

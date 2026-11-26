@@ -1,16 +1,13 @@
 # Optional Multi-Cloud Control Plane UI
 
-Use the UI when you prefer a guided form to editing JSON.
+Use a catalog form to prepare a pull request from your project repository.
 
-1. Sign in and select your handed-off project repository.
-2. Choose one supported resource or OCI lifecycle operation.
-3. Select the environment and region, then complete the catalog fields. OCI/Google use approved handoff references. For Azure, enter the resource inputs directly; optional handoff values can prefill suggestions, but an empty Azure section does not block a request.
-4. Enter a change reference in the format `CRQ` followed by 1 to 20 digits, such as `CRQ1234`. The reference appears in the pull-request title and the audit log.
-5. Review and submit the request.
-6. Follow the standard [request lifecycle](request-lifecycle.md) after the UI opens the pull request.
+1. Sign in with GitHub and choose the project, environment and region.
+2. Select an approved resource or OCI operation. Choose a published size or connectivity option where the catalog offers one.
+3. Fill in the request. Use the reviewed OCI or Google Cloud handoff, or supply the existing Azure foundation inputs. For OCI and Azure Autonomous Database, enter the existing Vault secret OCID dedicated to that database.
+4. Enter a change reference, such as `CRQ1234`. Use `CRQ` followed by 1 to 20 digits.
+5. Review and submit. Open the resulting pull request in GitHub for validation, independent review and merge. Verify the post-merge workflow there.
 
-The UI creates an issue, branch, commit, and pull request, and holds no more authority than that. Check [Reference capabilities](../reference/support.md) for the resources and lifecycle operations available through this interface.
+The form uses the catalog's fixed settings. For an OCI project network security group, it supports new groups and addition of approved TCP rules to existing groups. See the [reference capabilities](../reference/support.md) and the [request lifecycle](request-lifecycle.md).
 
-The UI renders catalog values exactly. For OCI Compute and Autonomous Database, select the published Small, Medium, or Large profile; its capacity, image, license, storage, and auto-scaling values are not editable in the form. For an OCI project NSG, choose either a new NSG or an existing one, then add zero or more approved TCP ingress and egress rules. The UI writes integer destination port ranges and adds rules to an existing NSG without replacing its creation fields. It never offers an arbitrary resource-JSON editor or an unmodelled catalog field.
-
-If the UI is not available, use the GitHub interface. Cloud Operations installs it using the [optional UI setup](../installation/optional-interfaces.md#optional-multi-cloud-control-plane-ui).
+The optional AI Operations chat is a single-presenter MVP, disabled by default. It can prepare requests conversationally in its configured OCI and Azure scope. Use GitHub to verify reviews and execution. [Setup and demo scope](../../repository-sources/optional-ui/README.md#local-chat-demo)
