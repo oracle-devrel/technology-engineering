@@ -48,6 +48,8 @@ The workflow accepts only explicitly supported operation types and maps each one
 
 Lifecycle operation manifests belong under `oci/{environment}/{region}/lifecycle_operations/{operation}.json`. Operations must resolve an exact display name in Terraform state. Azure and Google Cloud lifecycle operations are not available.
 
+The shared Ansible workflow queues jobs for each project, cloud, and environment. Before running an approved ADB start or stop, it checks the current project `main`. Execution stops if the request was edited or cleared after approval, or if a later request targeted any of the same ADBs in that region. This check also applies when the job is rerun. Changes outside that scope do not make the request stale.
+
 Each operation playbook uses explicit `precheck`, `apply`, and `verify` phases. Common tasks live under `ansible/playbooks/common/oci/<operation>/`.
 
 ### Terraform state as dynamic inventory

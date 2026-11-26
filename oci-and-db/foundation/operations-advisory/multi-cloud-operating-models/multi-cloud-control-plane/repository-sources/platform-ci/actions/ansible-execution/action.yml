@@ -201,6 +201,14 @@ runs:
         echo "$DELIMITER" >> $GITHUB_OUTPUT
         exit "$ANSIBLE_STATUS"
 
+    - name: Verify ADB request is still current
+      if: inputs.mode == 'execute' && steps.discover.outputs.operation_type == 'adb-lifecycle'
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      env:
+        OPERATION_FILE: ${{ inputs.operation_file }}
+      run: python3.11 "$GITHUB_ACTION_PATH/../../scripts_python/check_lifecycle_request.py" "$OPERATION_FILE"
+
     - name: Ansible execute
       id: execute
       if: inputs.mode == 'execute' && steps.lifecycle_clear.outputs.is_clear != 'true'

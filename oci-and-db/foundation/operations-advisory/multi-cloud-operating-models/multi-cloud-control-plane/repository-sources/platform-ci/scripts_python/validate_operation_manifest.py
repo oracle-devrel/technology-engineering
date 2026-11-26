@@ -65,7 +65,12 @@ def validate(document: object) -> str:
             fail(f"targets[{index}].display_name must be a non-empty string")
 
     if operation_type == "adb-lifecycle":
+        seen_names = set()
         for index, target in enumerate(targets):
+            name = target["display_name"]
+            if name in seen_names:
+                fail(f"targets[{index}].display_name repeats ADB target {name!r}")
+            seen_names.add(name)
             if target.get("action") not in {"start", "stop"}:
                 fail(f"targets[{index}].action must be start or stop")
 

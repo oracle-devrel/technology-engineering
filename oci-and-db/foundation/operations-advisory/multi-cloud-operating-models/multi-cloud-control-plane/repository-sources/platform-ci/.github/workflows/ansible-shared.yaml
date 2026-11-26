@@ -40,6 +40,7 @@ jobs:
     concurrency:
       group: ${{ inputs.cloud }}-${{ inputs.environment_name }}-ansible-${{ github.repository }}
       cancel-in-progress: false
+      queue: max
     steps:
       - name: Checkout validated manifest
         uses: actions/checkout@v6
