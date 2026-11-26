@@ -23,6 +23,29 @@ Resource Manager regenerates only `catalog/tools.yaml` and adds missing cluster/
 
 The repository field accepts either an HTTPS Helm repository or an OCI repository base path. OCI charts are resolved as `<repository>/<chart>`. Public OCI sources work without additional authentication; private sources require Helm credentials for the source registry.
 
+## Optional Image Mirroring
+
+Set `mirror_images=true` on a tool through Resource Manager to mirror container
+images during `cluster-admin-build`; it defaults to false. `additional_images`
+lists extra references for operator-created or otherwise undiscoverable workloads.
+Terraform updates these settings in `catalog/tools.yaml`, triggering a build.
+
+Each selected cluster's values are rendered independently from the exact source
+commit, including install/upgrade hooks and init containers. Images are copied
+with all platforms into `<project>/images/cluster-tools/<source-registry>/<source-repository>`
+with digest-derived tags, and destination digests are verified. Values-only
+changes rerun discovery even when the chart version is unchanged. Existing images
+in the target OCIR namespace are not recursively mirrored.
+
+The immutable mapping report is `cluster-admin/<cluster>/tools/<tool>/images.json`
+in the values artifact repository, versioned by the configuration commit. It
+contains source and destination references and digests. Administrators must
+configure chart values and private pull credentials themselves; mirroring does
+not rewrite values or manifests. Rendering cannot infer all operator-created
+images or live-cluster lookup results. Use `additional_images` for those cases.
+The connected build runner performs copying; deployment stages do not. Removing
+an image declaration does not delete images from OCIR.
+
 Removing a manifest does not delete the live object, and out-of-band drift is not continuously reconciled. Plain Kubernetes `Secret` resources are rejected; use External Secrets Operator resources instead.
 
 The orchestrators retain Helm releases unless the explicit decommission pipeline is run. Removing a file from `resources/` still does not prune the live object.

@@ -14,7 +14,7 @@ Use it to know more about ExaDB-D characteristics and typical Day 1 and Day 2 op
 
 ## How to use this asset?
 
-Read in the files folder the workshop in PDF [ExaDB-D - Ansible Operations Deep Dive Worksho.p](./files/Public_5_ExaDB-D_Ansible_Operations_v0.3.pdf).
+Read in the files folder the workshop in PDF [ExaDB-D - Ansible Operations Deep Dive Workshop](./files/Public_5_ExaDB-D_Ansible_Operations_v0.3.pdf).
 
 Use the supporting Ansible playbooks included in the file [oci-ansible-collection_v0.3.tar.gz](./files/oci-ansible-collection_v0.3.tar.gz) on your own when commented in the examples.
   

@@ -29,10 +29,27 @@ Here a high-level description of how an Oracle True Cache workflow activity:
 - Data queried from True Cache are always consistent, hence returning committed data only;
 - As in general Caching solutions, True Cache data might not be the most current data as it exists in the primary database;
 - When multiple True Cache exist and serve same database service, automatic session distribution load balancing , by the listener, is performed to each cache ([Uniform Configuration](https://docs.oracle.com/en/database/oracle/oracle-database/26/tciad/tc_genarch.html)).  
-  
+
 <i><b>Note</i></b>: If an object is pinned as KEEP in the proper buffer pool each time new data is inserted into the object on the primary database, that new data is automatically propagated to the KEEP buffer pool on True Cache via redo apply mechanism.  
 
-Reviewed: 01.09.2026
+<b>Why Choose Oracle True Cache?</b>
+
+Caching data in the app tier is an essential aspect for developers as it aims to ligthen the load in databases speeding up query responses. 
+However existing conventional cache solutions in the market with more complex management to handle data caching, caching eviction policies, failures and data formatting. 
+
+Oracle True Cache is designed to address the pressing needs of global enterprises for unparalleled performance and scalability. This solution simplifies caching against Oracle Database as it deploys a diskless True Cache instance and leave the rest to Oracle.
+Oracle True Cache is ideal for a wide range of application scenarios across various industries:
+- e-commerce platforms;
+- Real-Time Analytics;
+- Online Gaming Environments;
+- Trading and more..
+
+Oracle True Cache can be deployed in various scenarios like Mid-Tier Cache, Edge-Cache, Cross-Region to Cross-Cloud (Multicloud) Cache. 
+This means that <b>Oracle True Cache is specifically designed to decouple read proximity from the physical location of the primary database</b>. 
+It can be safely deployed wherever your application tiers live: whether it is an edge computing node, a remote geographic region, or across distinct cloud providers (multicloud: this proximity allows applications to service read requests locally, bypassing high-latency WAN or cross-cloud network hops while significantly offloading the primary database. 
+
+
+Reviewed: 02.11.2026
 
 # Useful Links
 

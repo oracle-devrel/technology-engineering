@@ -48,6 +48,49 @@ variables {
   }
 }
 
+run "catalog_tracks_image_mirroring_settings" {
+  command = plan
+  module { source = "./modules/devops" }
+  override_resource {
+    target          = oci_artifacts_repository.cluster_admin_values["enabled"]
+    override_during = plan
+    values          = { id = "test-artifact-repository" }
+  }
+  override_resource {
+    target          = oci_devops_repository.cluster_admin["enabled"]
+    override_during = plan
+    values          = { id = "test-repository", http_url = "https://example.test/cluster-admin" }
+  }
+  override_resource {
+    target          = oci_devops_build_pipeline.cluster_admin_mirror["enabled"]
+    override_during = plan
+    values          = { id = "test-mirror-pipeline" }
+  }
+  override_resource {
+    target          = oci_devops_project.devops_project[0]
+    override_during = plan
+    values          = { id = "test-project", name = "test-project", compartment_id = "test-compartment" }
+  }
+  variables {
+    cluster_administration = { tools = [{ name = "metrics", repository = "https://charts.example.test", chart = "metrics", version = "1.0.0", mirror_images = true, additional_images = ["ghcr.io/team/operator:v1"] }] }
+  }
+  assert {
+    condition = (
+      yamldecode(local_file.cluster_admin_catalog["enabled"].content).tools.metrics.mirror_images &&
+      yamldecode(local_file.cluster_admin_catalog["enabled"].content).tools.metrics.additional_images[0] == "ghcr.io/team/operator:v1" &&
+      null_resource.sync_cluster_admin_catalog["enabled"].triggers.catalog_hash == sha256(local_file.cluster_admin_catalog["enabled"].content)
+    )
+    error_message = "Terraform changes to additional_images must update the stack-managed catalog and its Git synchronization trigger."
+  }
+  assert {
+    condition = (
+      strcontains(local_file.cluster_admin_build_spec["enabled"].content, "--image-prefix") &&
+      strcontains(local_file.cluster_admin_image_mirror_script["enabled"].content, "--preserve-digests")
+    )
+    error_message = "The generated repository must include the image mirroring script and build wiring."
+  }
+}
+
 run "defaults_preserve_contract" {
   command = plan
   module { source = "./modules/devops" }

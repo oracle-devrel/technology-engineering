@@ -90,33 +90,39 @@ variable "cluster_admin_artifact_repository_name" {
 variable "cluster_administration" {
   type = object({
     tools = optional(list(object({
-      name       = string
-      repository = string
-      chart      = string
-      version    = string
-      namespace  = optional(string)
-      depends_on = optional(list(string), [])
+      name              = string
+      repository        = string
+      chart             = string
+      version           = string
+      namespace         = optional(string)
+      depends_on        = optional(list(string), [])
+      mirror_images     = optional(bool, false)
+      additional_images = optional(list(string), [])
     })))
     noprod = optional(object({
       approval_required = optional(bool, false)
       tools = optional(list(object({
-        name       = string
-        repository = string
-        chart      = string
-        version    = string
-        namespace  = optional(string)
-        depends_on = optional(list(string), [])
+        name              = string
+        repository        = string
+        chart             = string
+        version           = string
+        namespace         = optional(string)
+        depends_on        = optional(list(string), [])
+        mirror_images     = optional(bool, false)
+        additional_images = optional(list(string), [])
       })))
     }))
     prod = optional(object({
       approval_required = optional(bool, true)
       tools = optional(list(object({
-        name       = string
-        repository = string
-        chart      = string
-        version    = string
-        namespace  = optional(string)
-        depends_on = optional(list(string), [])
+        name              = string
+        repository        = string
+        chart             = string
+        version           = string
+        namespace         = optional(string)
+        depends_on        = optional(list(string), [])
+        mirror_images     = optional(bool, false)
+        additional_images = optional(list(string), [])
       })))
     }))
   })

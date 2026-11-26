@@ -2,7 +2,7 @@ title: OKE Helm Starter Stack
 description: Bootstrap OCI DevOps component builds, optional Helm delivery, and optional OKE cluster administration.
 stackDescription: Creates configurable OCI DevOps CI and, when selected, application delivery and OKE administration workflows.
 schemaVersion: 1.1.0
-version: "20261023"
+version: "20261029"
 locale: en
 informationalText: "Start with the Pipelines Repository button and the Next Steps output. Full delivery mode continues from component builds into Helm promotion; build-only mode publishes SHA7 images for an external delivery system."
 
@@ -290,6 +290,8 @@ variables:
       - tool_chart
       - tool_version
       - tool_namespace
+      - tool_mirror_images
+      - tool_additional_images
       - tool_dependencies
 
   tool_name:
@@ -325,6 +327,27 @@ variables:
     actualName: namespace
     title: Namespace
     description: Leave blank to use the tool name as its Kubernetes namespace.
+    visible: false
+
+  tool_mirror_images:
+    type: boolean
+    actualName: mirror_images
+    title: Mirror container images
+    description: Mirror images rendered with each target's values into OCIR. Helm values are not changed.
+    default: false
+    visible: false
+
+  tool_additional_images:
+    type: list
+    actualName: additional_images
+    title: Additional images
+    description: Extra image references not discoverable from rendered workloads. Used only when image mirroring is enabled.
+    valueType: tool_additional_image
+    visible: false
+
+  tool_additional_image:
+    type: string
+    title: Image reference
     visible: false
 
   tool_dependencies:

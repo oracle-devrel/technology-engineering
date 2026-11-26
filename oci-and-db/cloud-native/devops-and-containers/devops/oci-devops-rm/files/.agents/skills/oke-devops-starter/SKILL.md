@@ -42,7 +42,8 @@ requires the applying user's supplied auth token.
 - Read
   [references/cluster-administration.md](references/cluster-administration.md)
   for cluster-tool catalog changes, dependency ordering, configuration
-  validation, deployment, and decommissioning.
+  validation, optional container image mirroring for air-gapped clusters,
+  deployment, and decommissioning.
 - Read [references/safety.md](references/safety.md) before mutations, production
   approval, rollback, cleanup, or troubleshooting.
 

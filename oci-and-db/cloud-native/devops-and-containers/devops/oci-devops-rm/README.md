@@ -1,6 +1,6 @@
 # OKE DevOps Starter
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.3.0/stack.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-devrel/technology-engineering/releases/download/oci-devops-rm-1.4.0/stack.zip)
 
 This OCI Resource Manager stack bootstraps OCI DevOps workflows for both application developers and OKE cluster administrators.
 
@@ -10,10 +10,10 @@ The stack is intentionally a starting point, not a universal CI/CD policy. Custo
 
 For the shortest path from Resource Manager configuration to a working deployment, start with the **[Quickstart](files/docs/quickstart.md)**.
 
-Reviewed: 23.10.2026
+Reviewed: 29.10.2026
 
-See the [1.3.0 release notes](files/docs/release-1.3.0.md) for configurable
-environment names and the flat graphical application editor.
+See the [1.4.0 release notes](files/docs/release-1.4.0.md) for optional container
+image mirroring for cluster tools and air-gapped OKE deployments.
 
 # When to use this asset?
 
@@ -155,6 +155,9 @@ flowchart LR
 1. Enable cluster administration and define the shared tool dependency graph in Resource Manager.
 2. Apply the stack to create the `cluster-admin` repository and OCI DevOps pipelines.
 3. Configure each public chart repository, chart name, and pinned version in the Resource Manager tool definition; the stack maintains `catalog/tools.yaml`.
+   Optional `mirror_images` mirrors that tool's rendered container images into
+   OCIR during the build; `additional_images` covers operator-created workloads.
+   Administrators retain control of image references in Helm values.
 4. Add cluster-specific values and supplemental resources under `clusters/noprod` and `clusters/prod`.
 5. Open a pull request and merge it after `cluster-admin-pr` succeeds.
 6. Let `cluster-admin-build` select only the affected tool or baseline stages.

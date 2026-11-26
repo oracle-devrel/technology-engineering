@@ -4,7 +4,19 @@ All notable changes to the OKE DevOps Starter are documented in this file.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.4.0] - 2026-10-29
+
+### Added
+
+- Optional per-tool container image mirroring in cluster-admin builds, disabled
+  by default. Discovery uses each selected cluster's committed Helm values and
+  includes conditional workloads, hooks and init containers.
+- Additional image declarations for operator-created workloads, digest-preserving
+  multi-platform copies to private OCIR repositories, and immutable per-target
+  image mapping reports. Terraform catalog changes and values-only changes
+  trigger preparation without rewriting administrator-owned Helm values.
+- Updated portable agent skill covering image mirroring, per-target mapping
+  reports, and explicit Helm values and pull authentication for air-gapped OKE.
 
 ## [1.3.0] - 2026-10-23
 

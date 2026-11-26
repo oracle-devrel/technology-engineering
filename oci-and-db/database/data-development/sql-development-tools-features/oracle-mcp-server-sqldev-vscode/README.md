@@ -44,17 +44,26 @@ Main properties:
   - <i><b>Custom SQL Tools</i></b>: enable execution of a predefined, parametrized SQL or PL/SQL commands for repeteable executions;
   - <i><b>Reporting Tools</i></b>: consistent, customizable and reusable SQL Reports for data analysis.
 
-<i><b>ORDS MCP Server</i></b>: Since version 26.2 it supports a streaming HTTPS /mcp endpoint, enabling it to act as a remote MCP server for Oracle Database (on-premise/cloud) for your enterprise deployments.
+<i><b>ORDS MCP Server</i></b>: Since version 26.2, (current version is <b>26.3</b>), it supports a streaming HTTPS /mcp endpoint, enabling it to act as a remote MCP server for Oracle Database (on-premise/cloud) for your enterprise deployments.
 Main properties:
 - Deployment with your Identity Provider supporting OAuth 2.0 JWT Token is required (OCI IAM, MS Entra ID,..);
 - Requires ORDS Standalone deployments with direct user database connection pools including a "/mcp" as endpoint (different from ordinary ORDS database pools);
 - OAuth2/JWT authentication, automatic client registration for your preferred identity provider, and secure access to authorized schemas;
 - Comes with the following set of tools:
-  - <i><b>database_list</i></b>: Lists the MCP database connections that the caller is authorized to access;
-  - <i><b>schema_informations</i></b>: returns schema metadata for a MCP-authorized database connection;
-  - <i><b>sql_run</i></b>: Executes SQL or PL/SQL for an authorized MCP database connection
+  
+  | ORDS MCP Server Tool | Description                    |
+  |:-------------------- |:------------------------------ |
+  | database_list        | Lists the MCP database connections that the caller is authorized to access.
+  | schema_information   | returns schema metadata for a MCP-authorized database connection
+  | sql_run              | Executes SQL or PL/SQL for an authorized MCP database connection
+  | report_list          | lists predefined reports visible for the selected authorized MCP database 
+  | report_sql           | Returns saved SQL or PL/SQL source for an authorized report without running it
+  | report_execute       | Runs an authorized predefined report
 
-Reviewed: 26.08.2026
+
+
+
+Reviewed: 02.11.2026
 
 # Team Publications
 - [Introducing SQL Developer SQLcl integration in MS VSCode & MCP support for Oracle Database](https://www.youtube.com/watch?v=521GBhrmrmw&t=2s)
@@ -81,7 +90,7 @@ Reviewed: 26.08.2026
 
 ## Latest SQLcl Version
 
-- [SQLcl 26.1](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.1/sqcug/changes-release-26.1-oracle-sqlcl.html)
+- [SQLcl 26.3](https://docs.oracle.com/en/database/oracle/sql-developer-command-line/26.3/sqcug/changes-release-26_3-oracle-sqlcl.html)
 
 # License
 

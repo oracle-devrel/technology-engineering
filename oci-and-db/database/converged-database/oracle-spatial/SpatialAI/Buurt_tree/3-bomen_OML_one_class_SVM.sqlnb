@@ -1,0 +1,885 @@
+cells:
+  - kind: 1
+    value: |
+      # One-class SVM: unusual tree records
+
+      Pilot species: Quercus robur. Question: Which trees have unusual recorded
+      age and trunk-diameter classes compared with other Quercus robur trees,
+      and where are they? A flag requests data review; it is not a diagnosis of
+      health. See 3-bomen_OML_one_class_SVM_checkSQL.sqlnb for source checks.
+
+      The Agent tool runs setup, trains/scores only when needed, and saves every
+      scored tree in TREE_ANOMALY_RESULTS. It preserves earlier runs. A repeated
+      request reuses the latest matching run. The source-change check compares
+      the source segment ID, species row count, and MAX(ORA_ROWSCN). ORA_ROWSCN
+      can report a later SCN without a relevant data edit, so an unnecessary
+      rebuild is possible. Use p_force_refresh='Y' when in doubt. The source
+      table has no reliable update timestamp.
+
+      Prerequisites: translated BOMEN_TREES exists, and the density notebook
+      has already created TREE_DENSITY_AGENT, TREE_DENSITY_TASK, and
+      TREE_DENSITY_TOOL. Run the definition cells in order when no team request
+      is active. The final cells rebuild the existing TREE_DENSITY_MAP_TEAM with
+      two workers. Do not rerun the density notebook's density-only team cell
+      afterward, or it will remove the anomaly worker from the team. APEX
+      GET_RESPONSE reads saved map rows by RUN_ID from AGENT_MAP_RESULTS.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Automatic storage setup
+
+      Called by the Agent function. Creates missing tables and map/model views;
+      it does not drop saved result rows or the BOMEN_TREES source table.
+    languageId: markdown
+  - kind: 1
+    value: "## Q/A\r
+
+      \r
+
+      1- Which Den Haag neighbourhood has the highest tree density (trees per
+      km2)?\r
+
+      \r
+
+      2- Which Quercus robur tree records have unusual age and trunk-diameter
+      classes?\r
+
+      \r
+
+      3- Which five Den Haag neighbourhoods have the highest tree density
+      despite having less than 30% green area?\r
+
+      \r
+
+      4- Do you see anything unusual in my datasets?\r
+
+      \r
+
+      5- Show me the flagged trees on the map"
+    languageId: markdown
+  - kind: 2
+    value: "\r
+
+      BEGIN\r
+
+      \    EXECUTE IMMEDIATE 'DROP VIEW TREE_ANOMALY_RESULTS_V';\r
+
+      \    EXECUTE IMMEDIATE 'DROP TABLE TREE_ANOMALY_RESULTS';\r
+
+      \    EXECUTE IMMEDIATE 'DROP TABLE TREE_ANOMALY_RUNS';\r
+
+      \    EXECUTE IMMEDIATE 'DROP TABLE TREE_ANOMALY_SETTINGS';\r
+
+      END;"
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      CREATE OR REPLACE PROCEDURE prepare_tree_anomaly_storage AS
+          v_count NUMBER;
+      BEGIN
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables WHERE table_name = 'BOMEN_TREES';
+          IF v_count = 0 THEN
+              RAISE_APPLICATION_ERROR(-20100,
+                  'BOMEN_TREES is missing. Run the translation workflow first.');
+          END IF;
+
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables WHERE table_name = 'TREE_ANOMALY_RESULTS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_ANOMALY_RESULTS (
+                      RUN_ID               VARCHAR2(32) NOT NULL,
+                      SOURCE_RECORD_ID     NUMBER NOT NULL,
+                      SPECIES_NAME         VARCHAR2(254 CHAR),
+                      TREE_AGE             NUMBER,
+                      TRUNK_DIAMETER       VARCHAR2(50 CHAR),
+                      ANOMALY_FLAG         NUMBER(1) NOT NULL,
+                      ANOMALY_PROBABILITY  NUMBER,
+                      WGS84_LONGITUDE      NUMBER,
+                      WGS84_LATITUDE       NUMBER,
+                      GEOMETRY             MDSYS.SDO_GEOMETRY,
+                      CREATED_AT           TIMESTAMP DEFAULT SYSTIMESTAMP,
+                      CONSTRAINT TREE_ANOMALY_RESULTS_PK
+                          PRIMARY KEY (RUN_ID, SOURCE_RECORD_ID)
+                  )~';
+          END IF;
+
+          -- Shared map contract: each spatial tool can save GeoJSON rows by RUN_ID.
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables WHERE table_name = 'AGENT_MAP_RESULTS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE AGENT_MAP_RESULTS (
+                      RUN_ID         VARCHAR2(32) NOT NULL,
+                      FEATURE_ORDER  NUMBER NOT NULL,
+                      FEATURE_JSON   CLOB CHECK (FEATURE_JSON IS JSON),
+                      CONSTRAINT AGENT_MAP_RESULTS_PK
+                          PRIMARY KEY (RUN_ID, FEATURE_ORDER)
+                  )~';
+
+              -- Recover map points for runs created before this table existed.
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO AGENT_MAP_RESULTS
+                      (RUN_ID, FEATURE_ORDER, FEATURE_JSON)
+                  SELECT r.RUN_ID,
+                         ROW_NUMBER() OVER (
+                             PARTITION BY r.RUN_ID
+                             ORDER BY r.ANOMALY_PROBABILITY DESC NULLS LAST,
+                                      r.SOURCE_RECORD_ID
+                         ),
+                         JSON_OBJECT(
+                             'RUN_ID' VALUE r.RUN_ID,
+                             'SOURCE_RECORD_ID' VALUE r.SOURCE_RECORD_ID,
+                             'SPECIES_NAME' VALUE r.SPECIES_NAME,
+                             'TREE_AGE' VALUE r.TREE_AGE,
+                             'TRUNK_DIAMETER' VALUE r.TRUNK_DIAMETER,
+                             'ANOMALY_PROBABILITY' VALUE r.ANOMALY_PROBABILITY,
+                             'GEOJSON' VALUE SDO_UTIL.TO_GEOJSON(
+                                 MDSYS.SDO_GEOMETRY(
+                                     2001, 4326,
+                                     MDSYS.SDO_POINT_TYPE(
+                                         r.WGS84_LONGITUDE,
+                                         r.WGS84_LATITUDE,
+                                         NULL
+                                     ), NULL, NULL
+                                 )
+                             )
+                             RETURNING CLOB
+                         )
+                  FROM TREE_ANOMALY_RESULTS r
+                  WHERE r.ANOMALY_FLAG = 1
+                    AND r.WGS84_LONGITUDE IS NOT NULL
+                    AND r.WGS84_LATITUDE IS NOT NULL~';
+              COMMIT;
+          END IF;
+
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables WHERE table_name = 'TREE_ANOMALY_RUNS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_ANOMALY_RUNS (
+                      RUN_ID                 VARCHAR2(32) PRIMARY KEY,
+                      SPECIES_NAME           VARCHAR2(254 CHAR) NOT NULL,
+                      OUTLIER_RATE           NUMBER NOT NULL,
+                      SOURCE_DATA_OBJECT_ID  NUMBER NOT NULL,
+                      SOURCE_ROW_COUNT       NUMBER NOT NULL,
+                      SOURCE_MAX_SCN         NUMBER NOT NULL,
+                      SCORED_COUNT           NUMBER NOT NULL,
+                      FLAGGED_COUNT          NUMBER NOT NULL,
+                      CREATED_AT             TIMESTAMP DEFAULT SYSTIMESTAMP
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count
+          FROM user_tables WHERE table_name = 'TREE_ANOMALY_SETTINGS';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE TABLE TREE_ANOMALY_SETTINGS (
+                      SETTING_NAME  VARCHAR2(30),
+                      SETTING_VALUE VARCHAR2(4000)
+                  )~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count
+          FROM user_objects
+          WHERE object_name = 'TREE_ANOMALY_INPUT_V'
+            AND object_type = 'VIEW' AND status = 'VALID';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE OR REPLACE VIEW TREE_ANOMALY_INPUT_V AS
+                  SELECT SOURCE_RECORD_ID, TREE_AGE, TRUNK_DIAMETER
+                  FROM BOMEN_TREES
+                  WHERE SRT_WETENS = 'Quercus robur'
+                    AND SOURCE_RECORD_ID IS NOT NULL
+                    AND TREE_AGE IS NOT NULL
+                    AND TRUNK_DIAMETER IS NOT NULL~';
+          END IF;
+
+          SELECT COUNT(*) INTO v_count
+          FROM user_objects
+          WHERE object_name = 'TREE_ANOMALY_RESULTS_V'
+            AND object_type = 'VIEW' AND status = 'VALID';
+          IF v_count = 0 THEN
+              EXECUTE IMMEDIATE q'~
+                  CREATE OR REPLACE VIEW TREE_ANOMALY_RESULTS_V AS
+                  SELECT RUN_ID, SOURCE_RECORD_ID, SPECIES_NAME, TREE_AGE,
+                         TRUNK_DIAMETER, ANOMALY_FLAG, ANOMALY_PROBABILITY,
+                         WGS84_LONGITUDE, WGS84_LATITUDE, CREATED_AT
+                  FROM TREE_ANOMALY_RESULTS~';
+          END IF;
+      END prepare_tree_anomaly_storage;
+
+      /
+
+      ----
+
+      -- Procedure PREPARE_TREE_ANOMALY_STORAGE compiled
+
+
+      -- Elapsed: 00:00:00.046
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. Agent-callable model and scoring function
+
+      One-class SVM uses TREE_AGE as numeric and TRUNK_DIAMETER as categorical.
+      It has no target column. Oracle predicts 0 for an anomaly and 1 for a
+      typical case. The outlier rate defaults to 0.01 (about 1% expected, not
+      a guarantee); it is an explicit input so a different rate creates a new
+      run. The same source signature and rate reuse saved results.
+    languageId: markdown
+  - kind: 2
+    value: >
+      CREATE OR REPLACE FUNCTION tree_anomaly_agent_fn (
+          p_species       IN VARCHAR2 DEFAULT NULL,
+          p_outlier_rate  IN NUMBER   DEFAULT NULL,
+          p_force_refresh IN VARCHAR2 DEFAULT 'N'
+      ) RETURN CLOB AS
+          PRAGMA AUTONOMOUS_TRANSACTION;
+
+          v_species        VARCHAR2(254) := NVL(TRIM(p_species), 'Quercus robur');
+          v_rate           NUMBER := NVL(p_outlier_rate, 0.01);
+          v_force          VARCHAR2(1) := UPPER(NVL(TRIM(p_force_refresh), 'N'));
+          v_data_object_id NUMBER;
+          v_source_count   NUMBER;
+          v_source_scn     NUMBER;
+          v_usable_count   NUMBER;
+          v_final_count    NUMBER;
+          v_final_scn      NUMBER;
+          v_model_count    NUMBER;
+          v_saved_count    NUMBER;
+          v_scored_count   NUMBER;
+          v_flagged_count  NUMBER;
+          v_mappable_count NUMBER;
+          v_map_count      NUMBER;
+          v_run_id         VARCHAR2(32);
+          v_reused         VARCHAR2(1) := 'N';
+          v_top_flags      CLOB;
+          v_response       CLOB;
+      BEGIN
+          IF UPPER(v_species) <> 'QUERCUS ROBUR' THEN
+              RAISE_APPLICATION_ERROR(-20101,
+                  'This pilot supports Quercus robur only.');
+          END IF;
+          v_species := 'Quercus robur';
+
+          IF v_rate <= 0 OR v_rate >= 1 THEN
+              RAISE_APPLICATION_ERROR(-20102,
+                  'Outlier rate must be greater than 0 and less than 1.');
+          END IF;
+          IF v_force NOT IN ('Y', 'N') THEN
+              RAISE_APPLICATION_ERROR(-20103,
+                  'p_force_refresh must be Y or N.');
+          END IF;
+
+          -- This function prepares its own tables/views; the user does not.
+          prepare_tree_anomaly_storage;
+
+          SELECT data_object_id INTO v_data_object_id
+          FROM user_objects
+          WHERE object_name = 'BOMEN_TREES' AND object_type = 'TABLE';
+
+          SELECT COUNT(*), NVL(MAX(ORA_ROWSCN), 0),
+                 COUNT(CASE WHEN SOURCE_RECORD_ID IS NOT NULL
+                              AND TREE_AGE IS NOT NULL
+                              AND TRUNK_DIAMETER IS NOT NULL THEN 1 END)
+            INTO v_source_count, v_source_scn, v_usable_count
+            FROM BOMEN_TREES
+           WHERE SRT_WETENS = v_species;
+
+          IF v_usable_count < 100 THEN
+              RAISE_APPLICATION_ERROR(-20104,
+                  'Fewer than 100 complete records for this species.');
+          END IF;
+
+          -- A READY run is reusable only if its saved rows still exist.
+          IF v_force = 'N' THEN
+              BEGIN
+                  EXECUTE IMMEDIATE q'~
+                      SELECT RUN_ID, SCORED_COUNT, FLAGGED_COUNT
+                      FROM TREE_ANOMALY_RUNS
+                      WHERE SPECIES_NAME = :species
+                        AND OUTLIER_RATE = :rate
+                        AND SOURCE_DATA_OBJECT_ID = :object_id
+                        AND SOURCE_ROW_COUNT = :row_count
+                        AND SOURCE_MAX_SCN = :source_scn
+                      ORDER BY CREATED_AT DESC
+                      FETCH FIRST 1 ROW ONLY~'
+                  INTO v_run_id, v_scored_count, v_flagged_count
+                  USING v_species, v_rate, v_data_object_id,
+                        v_source_count, v_source_scn;
+
+                  EXECUTE IMMEDIATE q'~
+                      SELECT COUNT(*) FROM TREE_ANOMALY_RESULTS
+                      WHERE RUN_ID = :run_id~'
+                  INTO v_saved_count USING v_run_id;
+
+                  IF v_saved_count = v_scored_count
+                     AND v_scored_count = v_usable_count THEN
+                      v_reused := 'Y';
+                  END IF;
+              EXCEPTION
+                  WHEN NO_DATA_FOUND THEN NULL;
+              END;
+          END IF;
+
+          IF v_reused = 'N' THEN
+              -- Only this pilot model and its settings are replaced. Previous
+              -- RUN_IDs and scored rows remain available for audit/map use.
+              SELECT COUNT(*) INTO v_model_count
+              FROM user_mining_models
+              WHERE model_name = 'TREE_QUERCUS_OCSVM_MODEL';
+              IF v_model_count > 0 THEN
+                  DBMS_DATA_MINING.DROP_MODEL('TREE_QUERCUS_OCSVM_MODEL');
+              END IF;
+
+              EXECUTE IMMEDIATE 'DELETE FROM TREE_ANOMALY_SETTINGS';
+              EXECUTE IMMEDIATE
+                  'INSERT INTO TREE_ANOMALY_SETTINGS VALUES (:1, :2)'
+                  USING DBMS_DATA_MINING.ALGO_NAME,
+                        DBMS_DATA_MINING.ALGO_SUPPORT_VECTOR_MACHINES;
+              EXECUTE IMMEDIATE
+                  'INSERT INTO TREE_ANOMALY_SETTINGS VALUES (:1, :2)'
+                  USING DBMS_DATA_MINING.SVMS_OUTLIER_RATE,
+                        TO_CHAR(v_rate, 'FM0D999999',
+                                'NLS_NUMERIC_CHARACTERS=.,');
+              COMMIT;
+
+              DBMS_DATA_MINING.CREATE_MODEL(
+                  model_name          => 'TREE_QUERCUS_OCSVM_MODEL',
+                  mining_function     => DBMS_DATA_MINING.CLASSIFICATION,
+                  data_table_name     => 'TREE_ANOMALY_INPUT_V',
+                  case_id_column_name => 'SOURCE_RECORD_ID',
+                  settings_table_name => 'TREE_ANOMALY_SETTINGS'
+              );
+
+              v_run_id := RAWTOHEX(SYS_GUID());
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO TREE_ANOMALY_RESULTS (
+                      RUN_ID, SOURCE_RECORD_ID, SPECIES_NAME, TREE_AGE,
+                      TRUNK_DIAMETER, ANOMALY_FLAG, ANOMALY_PROBABILITY,
+                      WGS84_LONGITUDE, WGS84_LATITUDE, GEOMETRY
+                  )
+                  SELECT :run_id, s.SOURCE_RECORD_ID, s.SRT_WETENS,
+                         s.TREE_AGE, s.TRUNK_DIAMETER,
+                         CASE WHEN s.PREDICTED_CLASS = 0 THEN 1 ELSE 0 END,
+                         s.ANOMALY_PROBABILITY,
+                         s.WGS84_LONGITUDE, s.WGS84_LATITUDE, s.GEOMETRY
+                  FROM (
+                      SELECT b.SOURCE_RECORD_ID, b.SRT_WETENS,
+                             b.TREE_AGE, b.TRUNK_DIAMETER,
+                             b.WGS84_LONGITUDE, b.WGS84_LATITUDE, b.GEOMETRY,
+                             PREDICTION(TREE_QUERCUS_OCSVM_MODEL USING
+                                 b.TREE_AGE AS TREE_AGE,
+                                 b.TRUNK_DIAMETER AS TRUNK_DIAMETER
+                             ) AS PREDICTED_CLASS,
+                             PREDICTION_PROBABILITY(
+                                 TREE_QUERCUS_OCSVM_MODEL, 0 USING
+                                 b.TREE_AGE AS TREE_AGE,
+                                 b.TRUNK_DIAMETER AS TRUNK_DIAMETER
+                             ) AS ANOMALY_PROBABILITY
+                      FROM BOMEN_TREES b
+                      WHERE b.SRT_WETENS = 'Quercus robur'
+                        AND b.SOURCE_RECORD_ID IS NOT NULL
+                        AND b.TREE_AGE IS NOT NULL
+                        AND b.TRUNK_DIAMETER IS NOT NULL
+                  ) s~'
+              USING v_run_id;
+
+              EXECUTE IMMEDIATE q'~
+                  SELECT COUNT(*),
+                         SUM(CASE WHEN ANOMALY_FLAG = 1 THEN 1 ELSE 0 END)
+                  FROM TREE_ANOMALY_RESULTS WHERE RUN_ID = :run_id~'
+              INTO v_scored_count, v_flagged_count USING v_run_id;
+
+              -- Never publish a READY run if the source changed while scoring.
+              SELECT COUNT(*), NVL(MAX(ORA_ROWSCN), 0)
+                INTO v_final_count, v_final_scn
+                FROM BOMEN_TREES WHERE SRT_WETENS = v_species;
+              IF v_final_count <> v_source_count
+                 OR v_final_scn <> v_source_scn THEN
+                  RAISE_APPLICATION_ERROR(-20105,
+                      'BOMEN_TREES changed during scoring. Retry the request.');
+              END IF;
+
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO TREE_ANOMALY_RUNS (
+                      RUN_ID, SPECIES_NAME, OUTLIER_RATE,
+                      SOURCE_DATA_OBJECT_ID, SOURCE_ROW_COUNT, SOURCE_MAX_SCN,
+                      SCORED_COUNT, FLAGGED_COUNT
+                  ) VALUES (:1, :2, :3, :4, :5, :6, :7, :8)~'
+              USING v_run_id, v_species, v_rate, v_data_object_id,
+                    v_source_count, v_source_scn,
+                    v_scored_count, v_flagged_count;
+              COMMIT;
+          END IF;
+
+          -- Backfill cached runs too. Retraining is unnecessary for map recovery.
+          EXECUTE IMMEDIATE q'~
+              SELECT COUNT(*) FROM TREE_ANOMALY_RESULTS
+              WHERE RUN_ID = :run_id AND ANOMALY_FLAG = 1
+                AND WGS84_LONGITUDE IS NOT NULL
+                AND WGS84_LATITUDE IS NOT NULL~'
+          INTO v_mappable_count USING v_run_id;
+
+          EXECUTE IMMEDIATE
+              'SELECT COUNT(*) FROM AGENT_MAP_RESULTS WHERE RUN_ID = :run_id'
+          INTO v_map_count USING v_run_id;
+
+          IF v_map_count <> v_mappable_count THEN
+              EXECUTE IMMEDIATE
+                  'DELETE FROM AGENT_MAP_RESULTS WHERE RUN_ID = :run_id'
+              USING v_run_id;
+
+              EXECUTE IMMEDIATE q'~
+                  INSERT INTO AGENT_MAP_RESULTS
+                      (RUN_ID, FEATURE_ORDER, FEATURE_JSON)
+                  SELECT r.RUN_ID,
+                         ROW_NUMBER() OVER (
+                             ORDER BY r.ANOMALY_PROBABILITY DESC NULLS LAST,
+                                      r.SOURCE_RECORD_ID
+                         ),
+                         JSON_OBJECT(
+                             'RUN_ID' VALUE r.RUN_ID,
+                             'SOURCE_RECORD_ID' VALUE r.SOURCE_RECORD_ID,
+                             'SPECIES_NAME' VALUE r.SPECIES_NAME,
+                             'TREE_AGE' VALUE r.TREE_AGE,
+                             'TRUNK_DIAMETER' VALUE r.TRUNK_DIAMETER,
+                             'ANOMALY_PROBABILITY' VALUE r.ANOMALY_PROBABILITY,
+                             'GEOJSON' VALUE SDO_UTIL.TO_GEOJSON(
+                                 MDSYS.SDO_GEOMETRY(
+                                     2001, 4326,
+                                     MDSYS.SDO_POINT_TYPE(
+                                         r.WGS84_LONGITUDE,
+                                         r.WGS84_LATITUDE,
+                                         NULL
+                                     ), NULL, NULL
+                                 )
+                             )
+                             RETURNING CLOB
+                         )
+                  FROM TREE_ANOMALY_RESULTS r
+                  WHERE r.RUN_ID = :run_id
+                    AND r.ANOMALY_FLAG = 1
+                    AND r.WGS84_LONGITUDE IS NOT NULL
+                    AND r.WGS84_LATITUDE IS NOT NULL~'
+              USING v_run_id;
+              COMMIT;
+          END IF;
+
+          EXECUTE IMMEDIATE q'~
+              SELECT JSON_ARRAYAGG(
+                         JSON_OBJECT(
+                             'source_record_id' VALUE SOURCE_RECORD_ID,
+                             'tree_age' VALUE TREE_AGE,
+                             'trunk_diameter' VALUE TRUNK_DIAMETER,
+                             'anomaly_probability' VALUE ANOMALY_PROBABILITY,
+                             'longitude' VALUE WGS84_LONGITUDE,
+                             'latitude' VALUE WGS84_LATITUDE
+                             RETURNING CLOB
+                         )
+                         ORDER BY ANOMALY_PROBABILITY DESC
+                         RETURNING CLOB
+                     )
+              FROM (
+                  SELECT SOURCE_RECORD_ID, TREE_AGE, TRUNK_DIAMETER,
+                         ANOMALY_PROBABILITY,
+                         WGS84_LONGITUDE, WGS84_LATITUDE
+                  FROM TREE_ANOMALY_RESULTS
+                  WHERE RUN_ID = :run_id AND ANOMALY_FLAG = 1
+                  ORDER BY ANOMALY_PROBABILITY DESC, SOURCE_RECORD_ID
+                  FETCH FIRST 10 ROWS ONLY
+              )~'
+          INTO v_top_flags USING v_run_id;
+
+          IF v_top_flags IS NULL THEN
+              v_top_flags := TO_CLOB('[]');
+          END IF;
+
+          SELECT JSON_OBJECT(
+                     'status' VALUE 'success',
+                     'run_id' VALUE v_run_id,
+                     'species' VALUE v_species,
+                     'outlier_rate' VALUE v_rate,
+                     'source_trees' VALUE v_source_count,
+                     'scored_trees' VALUE v_scored_count,
+                     'flagged_trees' VALUE v_flagged_count,
+                     'cache_reused' VALUE v_reused,
+                     'top_flags' VALUE v_top_flags FORMAT JSON
+                     RETURNING CLOB
+                 )
+            INTO v_response FROM dual;
+          RETURN v_response;
+      EXCEPTION
+          WHEN OTHERS THEN
+              ROLLBACK;
+              RAISE;
+      END tree_anomaly_agent_fn;
+
+      /
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 3. Add the anomaly worker to the existing supervised team
+
+      Keep TREE_DENSITY_MAP_TEAM as the only active tree team. This section
+      removes the old separate anomaly team if present, replaces anomaly-only
+      metadata, and recreates the shared density supervisor with two worker
+      choices. Saved density and anomaly result rows are not dropped. The team
+      is briefly unavailable between DROP_TEAM and CREATE_TEAM; run these
+      definition cells together when no request is in progress.
+    languageId: markdown
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TEAM('TREE_DENSITY_MAP_TEAM', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_ANOMALY_SUPERVISOR', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_ANOMALY_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_TASK('TREE_ANOMALY_TASK', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_ANOMALY_TOOL', force => TRUE);
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_ANOMALY_TOOL',
+              attributes => q'~{
+                  "function": "TREE_ANOMALY_AGENT_FN",
+                  "instruction": "For Quercus robur only, reuse or rebuild the saved one-class SVM anomaly run. Return measured values from the function. A flag requests record review, not a health diagnosis.",
+                  "tool_inputs": [
+                      {"name":"p_species","description":"Optional species. This pilot accepts Quercus robur only; null uses Quercus robur."},
+                      {"name":"p_outlier_rate","description":"Optional expected anomaly fraction between 0 and 1. Null uses 0.01."},
+                      {"name":"p_force_refresh","description":"Y rebuilds even when the source signature matches; otherwise N."}
+                  ]
+              }~',
+              description => 'Saves species-specific SVM anomaly flags and reuses unchanged runs.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.046
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      -- DBMS_CLOUD_AI_AGENT.CREATE_TASK: TREE_ANOMALY_TASK
+
+      DECLARE
+          v_instruction VARCHAR2(4000) := q'|
+      Answer the user's unusual-tree-record question: {query}
+
+
+      1. This pilot supports only Quercus robur in BOMEN_TREES.
+
+      2. Call TREE_ANOMALY_TOOL exactly once for a supported request.
+
+      3. Use the user's outlier rate if stated; otherwise pass null (default
+      0.01).
+
+      4. Force refresh only when the user requests a rebuild; otherwise pass N.
+
+      5. Report only measured counts, IDs, attributes, and locations in the tool
+      JSON.
+
+      6. Say that a flag means review the record, not that the tree is
+      unhealthy.
+
+      7. The tool saves flagged tree points for the map. Do not claim the
+      browser map rendered unless the application confirms it.
+
+      |';
+          v_attributes CLOB;
+      BEGIN
+          SELECT JSON_OBJECT(
+                     'instruction' VALUE v_instruction,
+                     'tools' VALUE JSON_ARRAY('TREE_ANOMALY_TOOL') FORMAT JSON
+                     RETURNING CLOB
+                 ) INTO v_attributes FROM dual;
+          DBMS_CLOUD_AI_AGENT.CREATE_TASK(
+              task_name   => 'TREE_ANOMALY_TASK',
+              attributes  => v_attributes,
+              description => 'Reviews unusual age and diameter combinations for Quercus robur.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.037
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_ANOMALY_AGENT',
+              attributes => q'~{
+                  "profile_name": "OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role": "You are a tree-record anomaly worker. Follow TREE_ANOMALY_TASK and report only measured data; do not infer tree health."
+              }~',
+              description => 'One-class SVM anomaly worker.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.051
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT(
+              'TREE_DENSITY_SUPERVISOR', force => TRUE
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_DENSITY_SUPERVISOR',
+              attributes => q'~{
+                  "profile_name": "OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role": "You supervise one Den Haag tree team. For neighbourhood tree-density or green-area questions, delegate to TREE_DENSITY_AGENT with TREE_DENSITY_TASK. For unusual recorded age and trunk-diameter combinations in Quercus robur, delegate to TREE_ANOMALY_AGENT with TREE_ANOMALY_TASK. For greetings, briefly describe both supported question types. Delegate only the relevant worker for a single-topic request; for a combined request, call each relevant worker once and distinguish their results. Report only measured tool results. An anomaly flag means record review, not poor tree health. Never claim the browser map rendered unless the application confirms it. Explain that the anomaly pilot supports Quercus robur only.",
+                  "supervisor": true
+              }~',
+              description => 'Routes density and anomaly questions to specialist workers.'
+          );
+
+          DBMS_CLOUD_AI_AGENT.CREATE_TEAM(
+              team_name => 'TREE_DENSITY_MAP_TEAM',
+              attributes => q'~{
+                  "process": "sequential",
+                  "supervisor_agent": "TREE_DENSITY_SUPERVISOR",
+                  "agents": [
+                      {"name": "TREE_DENSITY_AGENT", "task": "TREE_DENSITY_TASK"},
+                      {"name": "TREE_ANOMALY_AGENT", "task": "TREE_ANOMALY_TASK"}
+                  ]
+              }~',
+              description => 'One supervised team for tree density and anomaly review.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.981
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 4. Tests (run one at a time)
+
+      Expected results are described, not prefilled: this notebook has not run
+      against your database. The first call should build a model, save a RUN_ID,
+      and report counts. The repeated call should return the same RUN_ID with
+      CACHE_REUSED=Y. No user-created results table is required.
+    languageId: markdown
+  - kind: 2
+    value: |+
+      -- Build and score the pilot from the tool.
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_ANOMALY_TOOL',
+                 input => '{"P_SPECIES":"Quercus robur","P_OUTLIER_RATE":0.01,"P_FORCE_REFRESH":"N"}'
+             ) AS TOOL_RESULT
+      FROM dual;
+
+      -- TOOL_RESULT                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+      -- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+      -- {"status":"success","result":"{\"status\":\"success\",\"run_id\":\"5EE776151BC475CBE063AB11000AB2E2\",\"species\":\"Quercus robur\",\"outlier_rate\":0.01,\"source_trees\":8068,\"scored_trees\":8066,\"flagged_trees\":81,\"cache_reused\":\"N\",\"top_flags\":[{\"source_record_id\":1426990,\"tree_age\":76,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.66189126942961196,\"longitude\":4.294,\"latitude\":52.089},{\"source_record_id\":1319644,\"tree_age\":86,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.63955155995514179,\"longitude\":4.287,\"latitude\":52.092},{\"source_record_id\":1343916,\"tree_age\":46,\"trunk_diameter\":\"75-100 cm\",\"anomaly_probability\":0.62743321304258393,\"longitude\":4.304,\"latitude\":52.094},{\"source_record_id\":1453552,\"tree_age\":96,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.61720384261019168,\"longitude\":4.289,\"latitude\":52.093},{\"source_record_id\":1319668,\"tree_age\":99,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.61051998248919825,\"longitude\":4.304,\"latitude\":52.081},{\"source_record_id\":1373712,\"tree_age\":99,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.61051998248919825,\"longitude\":4.291,\"latitude\":52.086},{\"source_record_id\":1390019,\"tree_age\":99,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.61051998248919825,\"longitude\":4.293,\"latitude\":52.09},{\"source_record_id\":1414141,\"tree_age\":104,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.59941812779514425,\"longitude\":4.322,\"latitude\":52.098},{\"source_record_id\":1326404,\"tree_age\":106,\"trunk_diameter\":\">100 cm\",\"anomaly_probability\":0.59499382042085336,\"longitude\":4.313,\"latitude\":52.098},{\"source_record_id\":4686389,\"tree_age\":61,\"trunk_diameter\":\"75-100 cm\",\"anomaly_probability\":0.59105756390661257,\"longitude\":4.233,\"latitude\":52.064}]}"} 
+
+    languageId: oracle-sql
+  - kind: 2
+    value: "DECLARE\r
+
+      \    v_count NUMBER;\r
+
+      BEGIN\r
+
+      \    SELECT COUNT(*) INTO v_count FROM TREE_ANOMALY_RESULTS;\r
+
+      \    DBMS_OUTPUT.PUT_LINE('TREE_ANOMALY_RESULTS: ' || v_count);\r
+
+      \r
+
+      \    SELECT COUNT(*) INTO v_count FROM TREE_ANOMALY_RUNS;\r
+
+      \    DBMS_OUTPUT.PUT_LINE('TREE_ANOMALY_RUNS: ' || v_count);\r
+
+      \r
+
+      \    SELECT COUNT(*) INTO v_count FROM TREE_ANOMALY_SETTINGS;\r
+
+      \    DBMS_OUTPUT.PUT_LINE('TREE_ANOMALY_SETTINGS: ' || v_count);\r
+
+      \r
+
+      END;\r
+
+      /\r\n"
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Check that the Agent-created storage, views, and model exist.
+      SELECT object_name, object_type, status
+      FROM user_objects
+      WHERE object_name IN (
+          'TREE_ANOMALY_RESULTS', 'TREE_ANOMALY_RESULTS_V',
+          'TREE_ANOMALY_RUNS', 'TREE_ANOMALY_SETTINGS',
+          'TREE_ANOMALY_INPUT_V', 'TREE_QUERCUS_OCSVM_MODEL',
+          'AGENT_MAP_RESULTS'
+      )
+      ORDER BY object_name;
+
+      -- OBJECT_NAME              OBJECT_TYPE            STATUS 
+      -- ------------------------ ---------------------- ------ 
+      -- TREE_ANOMALY_INPUT_V     VIEW                   VALID  
+      -- TREE_ANOMALY_RESULTS     TABLE                  VALID  
+      -- TREE_ANOMALY_RESULTS_V   VIEW                   VALID  
+      -- TREE_ANOMALY_RUNS        TABLE                  VALID  
+      -- TREE_ANOMALY_SETTINGS    TABLE                  VALID  
+      -- TREE_QUERCUS_OCSVM_MODEL MINING MODEL           VALID  
+      -- TREE_QUERCUS_OCSVM_MODEL MINING MODEL PARTITION VALID 
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      -- Latest saved run: flagged count should match the result rows.
+
+      SELECT r.RUN_ID, r.SPECIES_NAME, r.OUTLIER_RATE,
+             r.SCORED_COUNT, r.FLAGGED_COUNT,
+             COUNT(CASE WHEN s.ANOMALY_FLAG = 1 THEN 1 END) AS SAVED_FLAGS
+      FROM TREE_ANOMALY_RUNS r
+
+      JOIN TREE_ANOMALY_RESULTS s ON s.RUN_ID = r.RUN_ID
+
+      WHERE r.RUN_ID = (
+          SELECT RUN_ID FROM TREE_ANOMALY_RUNS
+          ORDER BY CREATED_AT DESC FETCH FIRST 1 ROW ONLY
+      )
+
+      GROUP BY r.RUN_ID, r.SPECIES_NAME, r.OUTLIER_RATE,
+               r.SCORED_COUNT, r.FLAGGED_COUNT;
+      -- RUN_ID                           SPECIES_NAME  OUTLIER_RATE
+      SCORED_COUNT FLAGGED_COUNT SAVED_FLAGS 
+
+      -- -------------------------------- ------------- ------------
+      ------------ ------------- ----------- 
+
+      -- 5EE776151BC475CBE063AB11000AB2E2 Quercus
+      robur         0.01         8066            81          81 
+
+
+
+      -- Elapsed: 00:00:00.054
+
+      -- 1 rows selected.
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Map-ready flagged tree points for the latest run (preview 20).
+      SELECT SOURCE_RECORD_ID, SPECIES_NAME, TREE_AGE, TRUNK_DIAMETER,
+             ANOMALY_PROBABILITY,
+             SDO_UTIL.TO_GEOJSON(SDO_CS.TRANSFORM(GEOMETRY, 4326)) AS GEOJSON
+      FROM TREE_ANOMALY_RESULTS
+      WHERE RUN_ID = (
+          SELECT RUN_ID FROM TREE_ANOMALY_RUNS
+          ORDER BY CREATED_AT DESC FETCH FIRST 1 ROW ONLY
+      )
+        AND ANOMALY_FLAG = 1
+        AND GEOMETRY IS NOT NULL
+      ORDER BY ANOMALY_PROBABILITY DESC, SOURCE_RECORD_ID
+      FETCH FIRST 20 ROWS ONLY;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- A second call should reuse the same RUN_ID without retraining.
+
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_ANOMALY_TOOL',
+                 input => '{"P_SPECIES":"Quercus robur","P_OUTLIER_RATE":0.01,"P_FORCE_REFRESH":"N"}'
+             ) AS TOOL_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- End-to-end anomaly routing test in the shared team.
+
+      DECLARE
+          v_conversation_id VARCHAR2(4000);
+          v_response CLOB;
+      BEGIN
+          v_conversation_id := DBMS_CLOUD_AI.CREATE_CONVERSATION();
+          v_response := DBMS_CLOUD_AI_AGENT.RUN_TEAM(
+              team_name   => 'TREE_DENSITY_MAP_TEAM',
+              user_prompt => 'Which Quercus robur tree records have unusual age and trunk-diameter classes? Give their IDs and run ID.',
+              params      => '{"conversation_id":"' || v_conversation_id || '"}'
+          );
+          DBMS_OUTPUT.PUT_LINE(DBMS_LOB.SUBSTR(v_response, 4000, 1));
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- Density regression test: the same supervisor should choose the
+
+      -- density worker, not the anomaly worker.
+
+      DECLARE
+          v_conversation_id VARCHAR2(4000);
+          v_response CLOB;
+      BEGIN
+          v_conversation_id := DBMS_CLOUD_AI.CREATE_CONVERSATION();
+          v_response := DBMS_CLOUD_AI_AGENT.RUN_TEAM(
+              team_name   => 'TREE_DENSITY_MAP_TEAM',
+              user_prompt => 'Which Den Haag neighbourhood has the highest tree density?',
+              params      => '{"conversation_id":"' || v_conversation_id || '"}'
+          );
+          DBMS_OUTPUT.PUT_LINE(DBMS_LOB.SUBSTR(v_response, 4000, 1));
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Verify the supervisor's worker choices for the last two team runs.
+      -- Expect TREE_ANOMALY_TASK for the anomaly question and
+      -- TREE_DENSITY_TASK for the density question.
+      WITH last_two AS (
+          SELECT team_exec_id, start_date
+          FROM user_ai_agent_team_history
+          WHERE team_name = 'TREE_DENSITY_MAP_TEAM'
+          ORDER BY start_date DESC
+          FETCH FIRST 2 ROWS ONLY
+      )
+      SELECT h.team_exec_id, h.start_date AS team_started,
+             t.agent_name, t.task_name, t.state
+      FROM last_two h
+      JOIN user_ai_agent_task_history t
+        ON t.team_exec_id = h.team_exec_id
+      ORDER BY h.start_date DESC, t.start_date;
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## Next step
+
+      Verify both supervisor routing tests and the saved flags first. Then add a map retrieval
+      path to Ask Oracle that selects ANOMALY_FLAG=1 for this exact RUN_ID and
+      returns GeoJSON points. The current notebook provides a map-ready SQL
+      preview but does not change GET_RESPONSE. Expand beyond Quercus robur only
+      after deciding how to treat species with fewer than 100 complete records.
+
+      References:
+      - https://docs.oracle.com/en/database/oracle/machine-learning/oml4sql/23/mlsql/one-class-svm.html
+      - https://docs.oracle.com/en/database/oracle/oracle-database/26/arpls/DBMS_DATA_MINING.html
+      - https://docs.oracle.com/en/database/oracle/oracle-database/18/sqlrf/ORA_ROWSCN-Pseudocolumn.html
+    languageId: markdown

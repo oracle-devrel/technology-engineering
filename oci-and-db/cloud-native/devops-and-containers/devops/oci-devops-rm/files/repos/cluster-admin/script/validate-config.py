@@ -68,6 +68,14 @@ def validate(repo, commit, mode):
             fail(f"Catalog tool {tool_name} must use an HTTPS Helm repository or OCI chart repository")
         if not isinstance(chart.get("version"), str) or not VERSION.fullmatch(chart["version"]):
             fail(f"Catalog tool {tool_name} has an invalid chart version")
+        if not isinstance(chart.get("mirror_images", False), bool):
+            fail(f"Catalog tool {tool_name} mirror_images must be a boolean")
+        images = chart.get("additional_images", [])
+        if not isinstance(images, list) or not all(
+            isinstance(image, str) and image and not re.search(r"\s|://", image) and not image.startswith("-")
+            for image in images
+        ):
+            fail(f"Catalog tool {tool_name} additional_images must be a list of image references")
 
     configured = {}
     for cluster_name in sorted(clusters):

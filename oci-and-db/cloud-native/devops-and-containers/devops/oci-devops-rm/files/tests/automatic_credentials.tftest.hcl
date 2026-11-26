@@ -53,6 +53,44 @@ variables {
   prod_oke_worker_subnet_id   = "ocid1.subnet.oc1.eu-milan-1.test"
 }
 
+run "tool_image_mirroring_defaults" {
+  command = plan
+  variables {
+    cluster_administration = [{ name = "metrics", repository = "https://charts.example.test", chart = "metrics", version = "1.0.0" }]
+  }
+  assert {
+    condition     = !local.cluster_admin_config.tools[0].mirror_images && length(local.cluster_admin_config.tools[0].additional_images) == 0
+    error_message = "Image mirroring must default to disabled with no additional images."
+  }
+}
+
+run "tool_image_mirroring_enabled" {
+  command = plan
+  variables {
+    cluster_administration = [{ name = "metrics", repository = "https://charts.example.test", chart = "metrics", version = "1.0.0", mirror_images = true, additional_images = ["ghcr.io/team/operator:v1", ""] }]
+  }
+  assert {
+    condition     = local.cluster_admin_config.tools[0].mirror_images && local.cluster_admin_config.tools[0].additional_images == tolist(["ghcr.io/team/operator:v1"])
+    error_message = "Image mirroring settings must reach the module; blank native list entries are ignored."
+  }
+}
+
+run "reject_string_image_mirroring_flag" {
+  command = plan
+  variables {
+    cluster_administration = [{ name = "metrics", repository = "https://charts.example.test", chart = "metrics", version = "1.0.0", mirror_images = "false" }]
+  }
+  expect_failures = [var.cluster_administration]
+}
+
+run "reject_image_urls" {
+  command = plan
+  variables {
+    cluster_administration = [{ name = "metrics", repository = "https://charts.example.test", chart = "metrics", version = "1.0.0", additional_images = ["https://ghcr.io/team/image:v1"] }]
+  }
+  expect_failures = [var.cluster_administration]
+}
+
 run "flat_application_lists" {
   command = plan
   variables {

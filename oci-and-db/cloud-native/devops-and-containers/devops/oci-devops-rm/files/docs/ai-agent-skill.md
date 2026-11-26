@@ -3,7 +3,10 @@
 The repository includes a portable skill that helps users operate the OKE
 DevOps Starter. It covers application PR validation, immutable builds, release
 promotion, application bootstrap, cluster-tool administration, deployment
-verification, rollback, and troubleshooting.
+verification, rollback, and troubleshooting. Cluster-tool guidance includes
+optional per-target container image mirroring, additional images, immutable OCIR
+mapping reports, and the explicit values and pull-authentication setup required
+for air-gapped clusters.
 
 The skill follows the Agent Skills `SKILL.md` convention. Any AI agent that can
 load that format can use it. For agents without automatic skill discovery, add

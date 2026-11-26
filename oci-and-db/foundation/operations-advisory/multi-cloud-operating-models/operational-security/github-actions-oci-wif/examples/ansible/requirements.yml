@@ -1,0 +1,6 @@
+---
+collections:
+  # Pin the OCI collection source for reproducible runs.
+  - name: https://github.com/oracle/oci-ansible-collection.git
+    type: git
+    version: d34841925b7c9953f99480178d4651e462440562

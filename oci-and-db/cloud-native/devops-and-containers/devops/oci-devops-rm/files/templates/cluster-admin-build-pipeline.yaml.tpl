@@ -13,6 +13,8 @@ env:
     region_key: "${region_key}"
     tenancy_namespace: "${tenancy_namespace}"
     chart_repo_prefix: "${chart_repo_prefix}"
+    image_repo_prefix: "${image_repo_prefix}"
+    repository_url: "${repository_url}"
     target_file: "/workspace/cluster-admin-targets.json"
 
 steps:
@@ -38,7 +40,7 @@ steps:
         --output "$${target_file}"
 
   - type: Command
-    name: Publish values and dispatch changed targets
+    name: Mirror selected images, publish values and dispatch changed targets
     failImmediatelyOnError: true
     command: |
       set -euo pipefail
@@ -50,4 +52,9 @@ steps:
         --project-id "$${project_id}" \
         --mirror-pipeline-id "$${mirror_pipeline_id}" \
         --artifact-repository-id "$${artifact_repository_id}" \
-        --compartment-id "$${compartment_id}"
+        --compartment-id "$${compartment_id}" \
+        --repository-url "$${repository_url}" \
+        --registry "$${region_key}.ocir.io" \
+        --tenancy-namespace "$${tenancy_namespace}" \
+        --chart-prefix "$${chart_repo_prefix}" \
+        --image-prefix "$${image_repo_prefix}"

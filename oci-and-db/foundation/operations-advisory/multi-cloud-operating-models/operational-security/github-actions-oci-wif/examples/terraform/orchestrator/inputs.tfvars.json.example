@@ -1,0 +1,13 @@
+{
+  "tenancy_ocid": "<tenancy-ocid>",
+  "region": "<region>",
+  "object_storage_configuration": {
+    "default_compartment_id": "<compartment-ocid>",
+    "buckets": {
+      "RPST-BUCKET": {
+        "compartment_id": null,
+        "name": "<bucket-name>"
+      }
+    }
+  }
+}

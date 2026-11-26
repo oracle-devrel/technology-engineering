@@ -1,0 +1,1919 @@
+cells:
+  - kind: 1
+    value: |
+      # Greeting and NL2SQL workers for the existing tree team
+
+      This notebook adds TREE_GREETING_AGENT and TREE_NL2SQL_AGENT to the
+      existing TREE_DENSITY_MAP_TEAM. It keeps the density, discovery, SVM,
+      and K-means workers. 
+
+      The greeting is a fixed, reviewed introduction to the two original
+      translated datasets. NL2SQL uses its own profile, restricted to the
+      tree-project tables and views that currently exist. TREE_SQL_CONTEXT_TOOL
+      refreshes that profile's object list before each SQL question, so a
+      result created later by an OML worker is available on the next request.
+      Context/profile changes do not modify dataset rows.
+
+      Run definition cells top to bottom after the four existing tree workers
+      are installed. Run the final team cell only when no team request is in
+      progress. Tests are in 4-bomen_OML_greeting_NL2SQL_tests.sqlnb.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Fixed greeting content
+
+      The function returns the exact original table names, 26 tree columns,
+      eight neighbourhood columns, and example questions with table/view and
+      column names. It does not inspect the schema at greeting time or report
+      invented row counts.
+    languageId: markdown
+  - kind: 2
+    value: |-
+      -- CREATE OR REPLACE FUNCTION tree_greeting_fn
+      --     RETURN CLOB
+      -- AS
+      -- BEGIN
+      --     RETURN TO_CLOB(q'~{
+      --       "intro":"Hi! I help explore Den Haag tree and green-neighbourhood data with SQL and Oracle Machine Learning. Here are the original datasets and example questions.",
+      --       "original_datasets":[
+      --         {
+      --           "table":"BOMEN_TREES",
+      --           "column_count":26,
+      --           "columns":["SOURCE_TREE_NUMBER","SPECIES_COMMON_NAME","SRT_WETENS","TREE_AGE","AGE_CLASS_CATEGORY","TRUNK_DIAMETER","OWNER","MANAGER","PRUNING_FORM","MONUMENTAL_FIELD","SOURCE_WORK_PACKAGE_CODE","SOURCE_WORK_PACKAGE","GROWING_SITE","STREET_NAME","CITY_DISTRICT","COUNTER","SOURCE_RECORD_ID","DISTRICT_NAME","NEIGHBOURHOOD","WGS84_LONGITUDE","WGS84_LATITUDE","SOURCE_PROJECTED_X_COORDINATE","SOURCE_PROJECTED_Y_COORDINATE","SOURCE_TEXT_IEPVAK_OMS","SOURCE_CODE_PKBZ","GEOMETRY"]
+      --         },
+      --         {
+      --           "table":"GEZOND_GREEN_NEIGHBOURHOOD",
+      --           "column_count":8,
+      --           "columns":["NEIGHBOURHOOD_CODE","NEIGHBORHOOD_NAME","MUNICIPALITY_CODE","MUNICIPALITY_NAME","YEAR","PERCENTAGE","GEOMETRY","ID"]
+      --         }
+      --       ],
+      --       "sql_capabilities":"Ask ordinary SQL and spatial questions about available data, including distance and topological relationships.",
+      --       "examples":[
+      --         {"question":"Show me 11 trees close to tree ID 5811455, including 5811455.","tables_or_views":["BOMEN_TREES"],"columns":["SOURCE_RECORD_ID","SOURCE_TREE_NUMBER","GEOMETRY"]},
+      --         {"question":"Which neighbourhood contains tree ID 5811455?","tables_or_views":["BOMEN_TREES","GEZOND_GREEN_NEIGHBOURHOOD"],"columns":["SOURCE_RECORD_ID","SOURCE_TREE_NUMBER","GEOMETRY","NEIGHBORHOOD_NAME"]},
+      --         {"question":"Which tree species are most common?No spatial only discovery question","tables_or_views":["BOMEN_TREES_V"],"columns":["SRT_WETENS","SPECIES_COMMON_NAME","SOURCE_RECORD_ID"]},
+      --         {"question":"How many trees are recorded in each neighbourhood?No spatial only discovery question","tables_or_views":["BOMEN_TREES_V"],"columns":["NEIGHBOURHOOD","SOURCE_RECORD_ID"]},
+      --         {"question":"Which neighbourhoods have less than 30 percent green area?No spatial only discovery question","tables_or_views":["GEZOND_GREEN_NEIGHBOURHOOD_V"],"columns":["NEIGHBORHOOD_NAME","PERCENTAGE"]},
+      --         {"question":"Which neighbourhoods have the highest tree density?","tables_or_views":["TREE_DENSITY_RESULTS_V"],"columns":["RUN_ID","NEIGHBORHOOD_NAME","TREE_COUNT","AREA_SQ_KM","TREES_PER_SQ_KM"]},
+      --         {"question":"How are Quercus robur trees grouped by age and diameter class?","tables_or_views":["TREE_KMEANS_RESULTS_V"],"columns":["RUN_ID","SOURCE_RECORD_ID","TREE_AGE","TRUNK_DIAMETER","CLUSTER_ID"]},
+      --         {"question":"Which SVM-flagged trees are in each K-means group?","tables_or_views":["TREE_ANOMALY_RESULTS_V","TREE_KMEANS_RESULTS_V"],"columns":["RUN_ID","SOURCE_RECORD_ID","ANOMALY_FLAG","CLUSTER_ID"]}
+      --       ],
+      --       "note":"These are examples, not a complete question list. SQL can answer broader questions over approved objects that exist. Ask the supervisor to run density, SVM, or K-means for a new analysis. Saved result views omit geometry; spatial tables or saved GeoJSON support maps. A model flag is a record for review, not a health diagnosis."
+      --     }~');
+      -- END tree_greeting_fn;
+      -- /
+      -- -- PL/SQL procedure successfully completed.
+
+      -- -- Elapsed: 00:00:00.141
+    languageId: oracle-sql
+  - kind: 2
+    value: "CREATE OR REPLACE FUNCTION tree_greeting_fn\r
+
+      \    RETURN CLOB\r
+
+      AS\r
+
+      BEGIN\r
+
+      \    RETURN TO_CLOB(q'~{\r
+
+      \      \"intro\":\"Hi! I help explore Den Haag tree and
+      green-neighbourhood data with SQL and Oracle Machine Learning. Here are
+      the original datasets and example questions.\",\r
+
+      \      \"original_datasets\":[\r
+
+      \        {\r
+
+      \          \"table\":\"BOMEN_TREES\",\r
+
+      \          \"column_count\":26,\r
+
+      \          \"columns\":[\"SOURCE_TREE_NUMBER\",\"SPECIES_COMMON_NAME\",\"\
+      SRT_WETENS\",\"TREE_AGE\",\"AGE_CLASS_CATEGORY\",\"TRUNK_DIAMETER\",\"OWN\
+      ER\",\"MANAGER\",\"PRUNING_FORM\",\"MONUMENTAL_FIELD\",\"SOURCE_WORK_PACK\
+      AGE_CODE\",\"SOURCE_WORK_PACKAGE\",\"GROWING_SITE\",\"STREET_NAME\",\"CIT\
+      Y_DISTRICT\",\"COUNTER\",\"SOURCE_RECORD_ID\",\"DISTRICT_NAME\",\"NEIGHBO\
+      URHOOD\",\"WGS84_LONGITUDE\",\"WGS84_LATITUDE\",\"SOURCE_PROJECTED_X_COOR\
+      DINATE\",\"SOURCE_PROJECTED_Y_COORDINATE\",\"SOURCE_TEXT_IEPVAK_OMS\",\"S\
+      OURCE_CODE_PKBZ\",\"GEOMETRY\"]\r
+
+      \        },\r
+
+      \        {\r
+
+      \          \"table\":\"GEZOND_GREEN_NEIGHBOURHOOD\",\r
+
+      \          \"column_count\":8,\r
+
+      \          \"columns\":[\"NEIGHBOURHOOD_CODE\",\"NEIGHBORHOOD_NAME\",\"MU\
+      NICIPALITY_CODE\",\"MUNICIPALITY_NAME\",\"YEAR\",\"PERCENTAGE\",\"GEOMETRY\
+      \",\"ID\"]\r
+
+      \        }\r
+
+      \      ],\r
+
+      \      \"sql_capabilities\":\"Ask ordinary SQL and spatial questions about
+      available data, including distance and topological relationships.\",\r
+
+      \      \"examples\":[\r
+
+      \        {\"question\":\"Hi, which questions can I ask?\"},\r
+
+      \        {\"question\":\"How many records are in BOMEN_TREES?\"},\r
+
+      \        {\"question\":\"How many neighbourhoods are in the available
+      data?\"},\r
+
+      \        {\"question\":\"Show me 11 trees close to tree ID 5811455,
+      including 5811455.\"},\r
+
+      \        {\"question\":\"Which Quercus robur tree records have unusual age
+      and trunk-diameter classes?\"},\r
+
+      \        {\"question\":\"Which neighbourhoods have the highest tree
+      density?\"},\r
+
+      \        {\"question\":\"Which five Den Haag neighbourhoods have the
+      highest tree density despite having less than 30% green area?\"},\r
+
+      \        {\"question\":\"Group Quercus robur trees into three clusters by
+      age and trunk-diameter class.\"},\r
+
+      \        {\"question\":\"Which questions did I ask you?\"},\r
+
+      \        {\"question\":\"Which three neighbourhoods contain the most
+      recorded trees? Return their counts and show those three neighbourhood
+      polygons on the map.\"},\r
+
+      \        {\"question\":\"Which neighbourhood contains the most recorded
+      trees? Show only that neighbourhood’s polygon on the map.\"}\r
+
+      \      ],\r
+
+      \      \"note\":\"These are examples, not a complete question list. SQL
+      can answer broader questions over approved objects that exist. Ask the
+      supervisor to run density, SVM, or K-means for a new analysis. Saved
+      result views omit geometry; spatial tables or saved GeoJSON support maps.
+      A model flag is a record for review, not a health diagnosis.\"\r
+
+      \    }~');\r
+
+      END tree_greeting_fn;\r
+
+      /\r
+
+      -- PL/SQL procedure successfully completed.\r
+
+      \r
+
+      -- Elapsed: 00:00:00.141"
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_GREETING_TOOL', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_GREETING_TOOL',
+              attributes => q'~{
+                  "function":"TREE_GREETING_FN",
+                  "instruction":"Return the fixed, reviewed Den Haag tree greeting with the original dataset column names and example questions. Do not calculate or invent values."
+              }~',
+              description => 'Fixed original-dataset and example-question guide.'
+          );
+      END;
+
+      /
+
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.094
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      -- DBMS_CLOUD_AI_AGENT.CREATE_TASK: TREE_GREETING_TASK
+
+      DECLARE
+          v_instruction CLOB := q'|
+      The user greeted the tree team: {query}
+
+      1. Call TREE_GREETING_TOOL exactly once.
+
+      2. Introduce both original datasets and list every returned column name.
+
+      3. Give the returned example questions with their table/view and columns.
+
+      4. Say that the examples are not a limit on NL2SQL questions.
+
+      5. Do not claim that any analysis or map ran during this greeting.
+
+      |';
+          v_attributes CLOB;
+      BEGIN
+          SELECT JSON_OBJECT(
+              'instruction' VALUE v_instruction,
+              'tools' VALUE JSON_ARRAY('TREE_GREETING_TOOL') FORMAT JSON
+              RETURNING CLOB
+          ) INTO v_attributes FROM dual;
+          DBMS_CLOUD_AI_AGENT.DROP_TASK('TREE_GREETING_TASK', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TASK(
+              task_name => 'TREE_GREETING_TASK',
+              attributes => v_attributes,
+              description => 'Introduces original datasets, columns, and examples.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.094
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_GREETING_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_GREETING_AGENT',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You are the greeting worker for the Den Haag tree team. Follow TREE_GREETING_TASK and use the fixed greeting tool output. Do not inspect the schema or run a model for a greeting."
+              }~',
+              description => 'Fixed introduction to the tree demo.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.094
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. Dedicated NL2SQL profile
+
+      This profile is separate from OCI_GROK_4_3_BOMEN_BURRT_PROFILE and the
+      district profile. Its enforced object list contains only tree-project
+      tables and views that currently exist. The context tool below updates
+      the object list when a worker creates another result object.
+    languageId: markdown
+  - kind: 2
+    value: >
+      DECLARE
+          v_objects CLOB;
+          v_attributes CLOB;
+      BEGIN
+          SELECT JSON_ARRAYAGG(
+                     JSON_OBJECT(
+                         'owner' VALUE SYS_CONTEXT('USERENV','CURRENT_SCHEMA'),
+                         'name' VALUE object_name
+                     ) ORDER BY object_name RETURNING CLOB
+                 ) INTO v_objects
+          FROM user_objects
+          WHERE object_type IN ('TABLE','VIEW')
+            AND object_name IN (
+                'BOMEN_TREES', 'BOMEN_TREES_V',
+                'GEZOND_GREEN_NEIGHBOURHOOD',
+                'GEZOND_GREEN_NEIGHBOURHOOD_V',
+                'TREE_DENSITY_RESULTS', 'TREE_DENSITY_RESULTS_V',
+                'TREE_ANOMALY_RESULTS', 'TREE_ANOMALY_RESULTS_V',
+                'TREE_ANOMALY_RUNS',
+                'TREE_KMEANS_RESULTS', 'TREE_KMEANS_RESULTS_V',
+                'TREE_KMEANS_RUNS', 'AGENT_MAP_RESULTS'
+            );
+          IF v_objects IS NULL THEN
+              RAISE_APPLICATION_ERROR(-20401,
+                  'No approved tree-project table or view exists.');
+          END IF;
+          SELECT JSON_OBJECT(
+              'provider' VALUE 'oci',
+              'credential_name' VALUE 'GENAI_CRED',
+              'model' VALUE 'xai.grok-4.3',
+              'object_list' VALUE v_objects FORMAT JSON,
+              'enforce_object_list' VALUE 'false' FORMAT JSON,
+              'additional_instructions' VALUE
+                  'Use read-only SELECT statements over the listed existing tree-project objects. For saved analysis results, choose an explicit RUN_ID; never mix runs. Join tree results on SOURCE_RECORD_ID only after filtering each result to one RUN_ID. Preserve table grain: a tree row is not a neighbourhood row. Do not claim that a K-means cluster or SVM flag diagnoses tree health. Do not invent missing objects or rows. For map requests, use a spatial table with GEOMETRY and return GEOJSON only for matching rows; nonspatial _V views omit GEOMETRY. Transform to SRID 4326 before GeoJSON when needed.'
+              RETURNING CLOB
+          ) INTO v_attributes FROM dual;
+          DBMS_CLOUD_AI.DROP_PROFILE(
+              profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',
+              force => TRUE
+          );
+          DBMS_CLOUD_AI.CREATE_PROFILE(
+              profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',
+              attributes => v_attributes,
+              description => 'Read-only SQL over existing tree-project objects.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.476
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      -- make sure that attribute_value  is false\r
+
+      \r
+
+      BEGIN\r
+
+      \    DBMS_CLOUD_AI.SET_ATTRIBUTE(\r
+
+      \        profile_name    => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',\r
+
+      \        attribute_name  => 'enforce_object_list',\r
+
+      \        attribute_value => 'false'\r
+
+      \    );\r
+
+      END;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 3. Live object context for NL2SQL
+
+      This tool checks object availability before SQL. It refreshes only the
+      new NL2SQL profile's approved object list, so result tables/views created
+      later by density, SVM, or K-means are available on the next question.
+      It does not create data tables, model results, or another team.
+    languageId: markdown
+  - kind: 2
+    value: >+
+      CREATE OR REPLACE FUNCTION tree_sql_context_fn (
+          p_object_name IN VARCHAR2 DEFAULT NULL
+      ) RETURN CLOB AS
+          PRAGMA AUTONOMOUS_TRANSACTION;
+          v_name VARCHAR2(128) := UPPER(TRIM(p_object_name));
+          v_objects CLOB;
+          v_count NUMBER;
+          v_type VARCHAR2(30);
+          v_hint VARCHAR2(300);
+          v_response CLOB;
+      BEGIN
+          IF v_name IS NOT NULL AND
+             NOT REGEXP_LIKE(v_name, '^[A-Z][A-Z0-9_$#]{0,127}$') THEN
+              RAISE_APPLICATION_ERROR(-20402, 'Invalid object name.');
+          END IF;
+
+          SELECT JSON_ARRAYAGG(
+                     JSON_OBJECT(
+                         'owner' VALUE SYS_CONTEXT('USERENV','CURRENT_SCHEMA'),
+                         'name' VALUE object_name
+                     ) ORDER BY object_name RETURNING CLOB
+                 ) INTO v_objects
+          FROM user_objects
+          WHERE object_type IN ('TABLE','VIEW')
+            AND object_name IN (
+                'BOMEN_TREES', 'BOMEN_TREES_V',
+                'GEZOND_GREEN_NEIGHBOURHOOD',
+                'GEZOND_GREEN_NEIGHBOURHOOD_V',
+                'TREE_DENSITY_RESULTS', 'TREE_DENSITY_RESULTS_V',
+                'TREE_ANOMALY_RESULTS', 'TREE_ANOMALY_RESULTS_V',
+                'TREE_ANOMALY_RUNS',
+                'TREE_KMEANS_RESULTS', 'TREE_KMEANS_RESULTS_V',
+                'TREE_KMEANS_RUNS', 'AGENT_MAP_RESULTS'
+            );
+          IF v_objects IS NULL THEN
+              RAISE_APPLICATION_ERROR(-20403,
+                  'No approved tree-project object is available.');
+          END IF;
+          DBMS_CLOUD_AI.SET_ATTRIBUTE(
+              profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',
+              attribute_name => 'object_list',
+              attribute_value => v_objects
+          );
+          COMMIT;
+
+          IF v_name IS NULL THEN
+              SELECT JSON_OBJECT(
+                  'status' VALUE 'success',
+                  'available_objects' VALUE v_objects FORMAT JSON,
+                  'note' VALUE 'Use only available approved objects. Run an existing analysis worker to create a missing result.'
+                  RETURNING CLOB
+              ) INTO v_response FROM dual;
+              RETURN v_response;
+          END IF;
+
+          SELECT COUNT(*), MAX(object_type)
+          INTO v_count, v_type
+          FROM user_objects
+          WHERE object_name = v_name
+            AND object_type IN ('TABLE','VIEW')
+            AND v_name IN (
+                'BOMEN_TREES', 'BOMEN_TREES_V',
+                'GEZOND_GREEN_NEIGHBOURHOOD',
+                'GEZOND_GREEN_NEIGHBOURHOOD_V',
+                'TREE_DENSITY_RESULTS', 'TREE_DENSITY_RESULTS_V',
+                'TREE_ANOMALY_RESULTS', 'TREE_ANOMALY_RESULTS_V',
+                'TREE_ANOMALY_RUNS',
+                'TREE_KMEANS_RESULTS', 'TREE_KMEANS_RESULTS_V',
+                'TREE_KMEANS_RUNS', 'AGENT_MAP_RESULTS'
+            );
+          IF v_count = 0 THEN
+              IF v_name IN ('TREE_DENSITY_RESULTS',
+                            'TREE_DENSITY_RESULTS_V') THEN
+                  v_hint := 'Ask TREE_DENSITY_AGENT to calculate density; its tool prepares the result table and view.';
+              ELSIF v_name IN ('TREE_ANOMALY_RESULTS',
+                               'TREE_ANOMALY_RESULTS_V',
+                               'TREE_ANOMALY_RUNS') THEN
+                  v_hint := 'Ask TREE_ANOMALY_AGENT to run the SVM pilot; its tool prepares saved anomaly results.';
+              ELSIF v_name IN ('TREE_KMEANS_RESULTS',
+                               'TREE_KMEANS_RESULTS_V',
+                               'TREE_KMEANS_RUNS') THEN
+                  v_hint := 'Ask TREE_KMEANS_AGENT to run the K-means pilot; its tool prepares saved clusters.';
+              ELSIF v_name IN ('BOMEN_TREES','GEZOND_GREEN_NEIGHBOURHOOD') THEN
+                  v_hint := 'Run the existing source translation workflow first.';
+              ELSIF v_name IN ('BOMEN_TREES_V',
+                               'GEZOND_GREEN_NEIGHBOURHOOD_V') THEN
+                  v_hint := 'Ask TREE_DENSITY_AGENT; its setup prepares the nonspatial source views.';
+              ELSE
+                  v_hint := 'This object is absent or outside the approved tree-project SQL scope.';
+              END IF;
+          ELSE
+              v_hint := 'The approved object exists and can be queried.';
+          END IF;
+          SELECT JSON_OBJECT(
+              'status' VALUE 'success',
+              'object_name' VALUE v_name,
+              'exists' VALUE CASE WHEN v_count > 0 THEN 'true'
+                                  ELSE 'false' END FORMAT JSON,
+              'object_type' VALUE v_type,
+              'next_step' VALUE v_hint
+              RETURNING CLOB
+          ) INTO v_response FROM dual;
+          RETURN v_response;
+      END tree_sql_context_fn;
+
+      /
+
+
+      -- Function TREE_SQL_CONTEXT_FN compiled
+
+
+      -- Elapsed: 00:00:00.099
+
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_SQL_CONTEXT_TOOL', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_SQL_CONTEXT_TOOL',
+              attributes => q'~{
+                  "function":"TREE_SQL_CONTEXT_FN",
+                  "instruction":"Check whether a requested tree-project table or view currently exists and refresh the dedicated NL2SQL profile to the approved objects that currently exist. For a missing object, return the relevant existing analysis worker or translation workflow; do not invent data.",
+                  "tool_inputs":[
+                      {"name":"p_object_name","description":"Optional exact table or view name. Null lists the available approved tree-project objects."}
+                  ]
+              }~',
+              description => 'Live tree-object availability and NL2SQL profile refresh.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.034
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 4. NL2SQL tool, task, and worker
+
+      The SQL tool follows the district-agent pattern but uses its own profile.
+      It answers factual questions over existing objects; it never trains an
+      OML model or creates analysis results.
+    languageId: markdown
+  - kind: 2
+    value: "-- TREE_NL2SQL_TOOL\r
+
+      DECLARE\r
+
+      \    v_instruction CLOB := q'|\r
+
+      Answer factual, read-only questions using the available tree and
+      neighbourhood tables and views.\r
+
+      \r
+
+      \r
+
+      1. Call TREE_SQL_CONTEXT_TOOL first. Pass an object name only if the user
+      supplied an exact table or view name; otherwise pass null and inspect the
+      available objects.\r
+
+      2. If a user-named exact object is confirmed missing, explain that. For
+      ordinary questions, choose from the available objects and continue to
+      TREE_NL2SQL_TOOL. Do not invent data.\r
+
+      3. Get GEOMETRY from the spatial source table. Convert it using
+      SDO_UTIL.TO_GEOJSON(SDO_CS.TRANSFORM(GEOMETRY, 4326)).\r
+
+      4. For nearest-tree questions, include the reference tree when requested
+      and return the requested total number of trees.\r
+
+      5. Counts and other aggregate answers do not need GEOJSON.\r
+
+      6. This tool only queries existing data. Do not start density, SVM, or
+      K-means calculations; their agents handle those requests. Never make up
+      rows. For selected map features, return database rows with GEOJSON so the
+      application can plot them; coordinates written in the chat answer are not
+      map data.\r
+
+      |';\r
+
+      \    v_attributes CLOB;\r
+
+      BEGIN\r
+
+      \    SELECT JSON_OBJECT(\r
+
+      \               'tool_type' VALUE 'SQL',\r
+
+      \               'instruction' VALUE v_instruction,\r
+
+      \               'tool_params' VALUE JSON_OBJECT(\r
+
+      \                   'profile_name' VALUE
+      'OCI_GROK_4_3_TREE_NL2SQL_PROFILE'\r
+
+      \               )\r
+
+      \               RETURNING CLOB\r
+
+      \           )\r
+
+      \      INTO v_attributes\r
+
+      \      FROM dual;\r
+
+      \r
+
+      \    DBMS_CLOUD_AI_AGENT.DROP_TOOL(\r
+
+      \        'TREE_NL2SQL_TOOL', force => TRUE\r
+
+      \    );\r
+
+      \r
+
+      \    DBMS_CLOUD_AI_AGENT.CREATE_TOOL(\r
+
+      \        tool_name   => 'TREE_NL2SQL_TOOL',\r
+
+      \        attributes  => v_attributes,\r
+
+      \        description => 'Read-only SQL with GeoJSON for selected spatial
+      rows.'\r
+
+      \    );\r
+
+      END;\r
+
+      /\r
+
+      \r
+
+      -- PL/SQL procedure successfully completed.\r
+
+      \r
+
+      -- Elapsed: 00:00:00.098"
+    languageId: oracle-sql
+  - kind: 2
+    value: |-
+      -- BEGIN
+      --     DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_NL2SQL_TOOL', force => TRUE);
+      --     DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+      --         tool_name => 'TREE_NL2SQL_TOOL',
+      --         attributes => q'~{
+      --             "tool_type":"SQL",
+      --             "tool_params":{"profile_name":"OCI_GROK_4_3_TREE_NL2SQL_PROFILE"},
+      --             "instruction":"Answer factual read-only questions over currently available approved tree-project tables and views. Preserve filters and RUN_IDs. Do not run a model or create a table. Return actual rows only. For map requests use a spatial table and include matching GEOJSON; nonspatial views omit geometry."
+      --         }~',
+      --         description => 'Factual SQL over existing tree-project objects.'
+      --     );
+      -- END;
+      -- /
+      -- -- PL/SQL procedure successfully completed.
+
+      -- -- Elapsed: 00:00:00.034
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- -- DBMS_CLOUD_AI_AGENT.CREATE_TASK: TREE_NL2SQL_TASK
+
+      -- DECLARE
+
+      --     v_instruction CLOB := q'|
+
+      -- Answer this factual data question: {query}
+
+      -- 1. Call TREE_SQL_CONTEXT_TOOL first. Pass the named table/view if the
+
+      --    user names one; otherwise pass null. This refreshes the SQL profile.
+
+      -- 2. If the requested object is missing or outside scope, do not call
+      SQL.
+
+      --    Explain the returned next step. Never invent a table or value.
+
+      -- 3. For a supported factual question, call TREE_NL2SQL_TOOL to run a
+
+      --    read-only SQL query over available approved objects.
+
+      -- 4. When reading saved density, SVM, or K-means results, use an explicit
+
+      --    RUN_ID. Do not combine different runs accidentally.
+
+      -- 5. Join tree results by SOURCE_RECORD_ID only after selecting one run
+
+      --    from each result. A neighbourhood is a different row level; use a
+
+      --    valid spatial relationship for tree-to-neighbourhood questions.
+
+      -- 6. Report only actual query rows. Do not interpret a model flag as poor
+
+      --    health or a K-means cluster as an anomaly.
+
+      -- 7. A request to calculate new density, run SVM, or run K-means belongs
+
+      --    to its specialist worker, not this SQL task.
+
+      -- 8. Do not claim that the browser map rendered unless confirmed.
+
+      -- |';
+
+      --     v_attributes CLOB;
+
+      -- BEGIN
+
+      --     SELECT JSON_OBJECT(
+
+      --         'instruction' VALUE v_instruction,
+
+      --         'tools' VALUE JSON_ARRAY(
+
+      --             'TREE_SQL_CONTEXT_TOOL', 'TREE_NL2SQL_TOOL'
+
+      --         ) FORMAT JSON
+
+      --         RETURNING CLOB
+
+      --     ) INTO v_attributes FROM dual;
+
+      --     DBMS_CLOUD_AI_AGENT.DROP_TASK('TREE_NL2SQL_TASK', force => TRUE);
+
+      --     DBMS_CLOUD_AI_AGENT.CREATE_TASK(
+
+      --         task_name => 'TREE_NL2SQL_TASK',
+
+      --         attributes => v_attributes,
+
+      --         description => 'Answers factual questions from available tree
+      tables and views.'
+
+      --     );
+
+      -- END;
+
+      -- /
+
+
+      -- PL/SQL procedure successfully completed.
+
+      -- Elapsed: 00:00:00.030
+    languageId: oracle-sql
+  - kind: 2
+    value: "-- TREE_NL2SQL_TASK\r
+
+      DECLARE\r
+
+      \    v_instruction CLOB := q'|\r
+
+      Answer the user's factual tree or neighbourhood question: {query}\r
+
+      \r
+
+      1. Call TREE_SQL_CONTEXT_TOOL first to check the requested object.\r
+
+      2. If the object is unavailable, explain that clearly. Do not invent
+      data.\r
+
+      3. Otherwise call TREE_NL2SQL_TOOL exactly once.\r
+
+      4. For questions selecting individual trees or neighbourhoods, request
+      structured result rows with GEOJSON for every selected feature. This
+      includes lists and nearest-tree questions even when the user does not say
+      \"map\".\r
+
+      5. Preserve the requested filters, number of rows, ordering, and reference
+      tree or neighbourhood .\r
+
+      6. For saved analysis results, use one explicit RUN_ID; never mix runs.\r
+
+      7. Report only values returned by the tool. Do not claim the browser map
+      rendered unless the application confirms it.\r
+
+      |';\r
+
+      \    v_attributes CLOB;\r
+
+      BEGIN\r
+
+      \    SELECT JSON_OBJECT(\r
+
+      \               'instruction' VALUE v_instruction,\r
+
+      \               'tools' VALUE JSON_ARRAY(\r
+
+      \                   'TREE_SQL_CONTEXT_TOOL',\r
+
+      \                   'TREE_NL2SQL_TOOL'\r
+
+      \               ) FORMAT JSON\r
+
+      \               RETURNING CLOB\r
+
+      \           )\r
+
+      \      INTO v_attributes\r
+
+      \      FROM dual;\r
+
+      \r
+
+      \    DBMS_CLOUD_AI_AGENT.DROP_TASK(\r
+
+      \        'TREE_NL2SQL_TASK', force => TRUE\r
+
+      \    );\r
+
+      \r
+
+      \    DBMS_CLOUD_AI_AGENT.CREATE_TASK(\r
+
+      \        task_name   => 'TREE_NL2SQL_TASK',\r
+
+      \        attributes  => v_attributes,\r
+
+      \        description => 'Answers factual SQL and spatial questions.'\r
+
+      \    );\r
+
+      END;\r
+
+      /\r
+
+      -- PL/SQL procedure successfully completed.\r
+
+      \r
+
+      -- Elapsed: 00:00:00.053"
+    languageId: oracle-sql
+  - kind: 2
+    value: >-
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_NL2SQL_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_NL2SQL_AGENT',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You answer factual Den Haag tree and neighbourhood questions using TREE_NL2SQL_TASK. Query only existing approved objects. Use explicit RUN_IDs for saved analysis results. Never train a model or claim a tree is unhealthy."
+              }~',
+              description => 'Factual SQL worker for existing tree-project objects.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.030
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 5. Extend the one existing supervisor team
+
+      Run only after both new agents and all four existing workers are present.
+      This replaces TREE_DENSITY_MAP_TEAM in place. It does not create another
+      team and does not drop any saved result rows.
+    languageId: markdown
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TEAM('TREE_DENSITY_MAP_TEAM', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT(
+              'TREE_DENSITY_SUPERVISOR', force => TRUE
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_DENSITY_SUPERVISOR',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You supervise one Den Haag trees and green-neighbourhood team. Route a greeting or request for examples to TREE_GREETING_AGENT. Route open-ended data-quality candidate discovery to TREE_DISCOVERY_AGENT. Route a new neighbourhood density calculation or green-percentage threshold to TREE_DENSITY_AGENT. Route a new one-class SVM flagging request to TREE_ANOMALY_AGENT. Route a new K-means tree-grouping request to TREE_KMEANS_AGENT. Route factual questions over existing source tables, views, or saved analysis results to TREE_NL2SQL_AGENT, including questions joining saved SVM and K-means results. Do not send a new model calculation to NL2SQL. Do not send a factual saved-result query to an OML worker merely because it mentions its model. Ask a focused clarification when intent or run selection is unclear. Use measured outputs only. Do not claim a flag or cluster diagnoses tree health, and do not claim the browser map rendered unless the application confirms it.",
+                  "supervisor":true
+              }~',
+              description => 'Routes greeting, SQL, discovery, density, SVM, and K-means.'
+          );
+          DBMS_CLOUD_AI_AGENT.CREATE_TEAM(
+              team_name => 'TREE_DENSITY_MAP_TEAM',
+              attributes => q'~{
+                  "process":"sequential",
+                  "supervisor_agent":"TREE_DENSITY_SUPERVISOR",
+                  "agents":[
+                      {"name":"TREE_GREETING_AGENT","task":"TREE_GREETING_TASK"},
+                      {"name":"TREE_NL2SQL_AGENT","task":"TREE_NL2SQL_TASK"},
+                      {"name":"TREE_DISCOVERY_AGENT","task":"TREE_DISCOVERY_TASK"},
+                      {"name":"TREE_DENSITY_AGENT","task":"TREE_DENSITY_TASK"},
+                      {"name":"TREE_ANOMALY_AGENT","task":"TREE_ANOMALY_TASK"},
+                      {"name":"TREE_KMEANS_AGENT","task":"TREE_KMEANS_TASK"}
+                  ]
+              }~',
+              description => 'Routes tree and neighbourhood questions to greeting, SQL, discovery, density, SVM, and K-means workers.'
+          );
+      END;
+
+      /
+
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:01.557
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT DBMS_CLOUD_AI.GENERATE(\r
+
+      \           prompt       => 'How many records are in BOMEN_TREES?',\r
+
+      \           profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',\r
+
+      \           action       => 'chat'\r
+
+      \       ) AS GENERATED_SQL\r
+
+      FROM dual;\r
+
+      -- GENERATED_SQL                    \r
+
+      -- -------------------------------- \r
+
+      -- SELECT COUNT(*) FROM BOMEN_TREES \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:08.214\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT DBMS_CLOUD_AI.GENERATE(\r
+
+      \           prompt       => 'How many records are in BOMEN_TREES?',\r
+
+      \           profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',\r
+
+      \           action       => 'runsql',\r
+
+      \           attributes   => q'|{\r
+
+      \             \"object_list\":[\r
+
+      \               {\"owner\":\"<your user/schema>\",\"name\":\"BOMEN_TREES\"}\r
+
+      \             ],\r
+
+      \             \"enforce_object_list\":\"true\"\r
+
+      \           }|'\r
+
+      \       ) AS RESULT\r
+
+      FROM dual;\r
+
+      \r
+
+      -----\r
+
+      -- Elapsed: 00:00:04.167\r
+
+      \r
+
+      -- or \r
+
+      -- ORA-20004: SQL statement references one or more objects not specified
+      in the object_list of AI profile.\r
+
+      -- ORA-06512: at \"C##CLOUD$SERVICE.DBMS_CLOUD$PDBCS_261002_0\", line
+      2638\r
+
+      -- ORA-06512: at \"C##CLOUD$SERVICE.DBMS_CLOUD_AI\", line 28314\r
+
+      -- ORA-06512: at line 1\r
+
+      \r
+
+      -- https://docs.oracle.com/error-help/db/ora-20004/\r
+
+      \r
+
+      -- Error at Line: 1 Column: 6"
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      -- make sure that attribute_value  is false\r
+
+      \r
+
+      BEGIN\r
+
+      \    DBMS_CLOUD_AI.SET_ATTRIBUTE(\r
+
+      \        profile_name    => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',\r
+
+      \        attribute_name  => 'enforce_object_list',\r
+
+      \        attribute_value => 'false'\r
+
+      \    );\r
+
+      END;\r
+
+      /"
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT DBMS_CLOUD_AI.GENERATE(\r
+
+      \           prompt       => 'How many records are in BOMEN_TREES?',\r
+
+      \           profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',\r
+
+      \           action       => 'runsql',\r
+
+      \           attributes   => '{\"enforce_object_list\":\"false\"}'\r
+
+      \       ) AS RESULT\r
+
+      FROM dual;\r
+
+      /\r
+
+      RESULT                                  \r
+
+      --------------------------------------- \r
+
+      -- [\r
+
+      --   {\r
+
+      --     \"RECORD_COUNT\" : 149074\r
+
+      --   }\r
+
+      -- ] \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:03.871\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      ---only make sure that attribute_value  is false in your profile\r
+
+      \r
+
+      SELECT DBMS_CLOUD_AI.GENERATE(\r
+
+      \           prompt       => 'How many records are in BOMEN_TREES?',\r
+
+      \           profile_name => 'OCI_GROK_4_3_TREE_NL2SQL_PROFILE',\r
+
+      \           action       => 'runsql'\r
+
+      \       ) AS RESULT\r
+
+      FROM dual;\r
+
+      \r
+
+      -- RESULT                                  \r
+
+      -- --------------------------------------- \r
+
+      -- [\r
+
+      --   {\r
+
+      --     \"RECORD_COUNT\" : 149074\r
+
+      --   }\r
+
+      -- ] \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:05.395\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 1
+    value: Debugging
+    languageId: markdown
+  - kind: 2
+    value: "---check your user first\r
+
+      SELECT SYS_CONTEXT('USERENV','CURRENT_USER') AS DB_USER,\r
+
+      \       (SELECT COUNT(*) FROM USER_AI_AGENT_TEAM_HISTORY) AS
+      VISIBLE_RUNS,\r
+
+      \       (SELECT COUNT(*) FROM USER_AI_AGENT_TEAM_HISTORY\r
+
+      \         WHERE TEAM_NAME = 'TREE_DENSITY_MAP_TEAM') AS THIS_TEAM_RUNS\r
+
+      FROM dual;\r
+
+      \r
+
+      -- _USER         VISIBLE_RUNS THIS_TEAM_RUNS \r
+
+      -- --------------- ------------ -------------- \r
+
+      -- <your user/schema>          164              0 \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.029\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "----check if 6 teams are availble \r
+
+      \r
+
+      \r
+
+      SELECT DBMS_CLOUD_AI_AGENT.GET_DEFINITION(\r
+
+      \           object_type => 'TEAM',\r
+
+      \           object_name => 'TREE_DENSITY_MAP_TEAM'\r
+
+      \       ) AS TEAM_DEFINITION\r
+
+      FROM dual;\r
+
+      \r
+
+      \r
+
+      --
+      TEAM_DEFINITION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \
+      \r
+
+      --
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      --------------------------------- \r
+
+      -- BEGIN\r
+
+      --   DBMS_CLOUD_AI_AGENT.CREATE_TEAM(\r
+
+      --     team_name => 'TREE_DENSITY_MAP_TEAM',\r
+
+      --     attributes =>
+      '{\"agents\":[{\"name\":\"TREE_GREETING_AGENT\",\"task\":\"TREE_GREETING_\
+      TASK\"},{\"name\":\"TREE_NL2SQL_AGENT\",\"task\":\"TREE_NL2SQL_TASK\"},{\
+      \"name\":\"TREE_DISCOVERY_AGENT\",\"task\":\"TREE_DISCOVERY_TASK\"},{\"na\
+      me\":\"TREE_DENSITY_AGENT\",\"task\":\"TREE_DENSITY_TASK\"},{\"name\":\"T\
+      REE_ANOMALY_AGENT\",\"task\":\"TREE_ANOMALY_TASK\"},{\"name\":\"TREE_KMEA\
+      NS_AGENT\",\"task\":\"TREE_KMEANS_TASK\"}],\"process\":\"sequential\",\"s\
+      upervisor_agent\":\"TREE_DENSITY_SUPERVISOR\"}',\r
+
+      --     status => 'enabled',\r
+
+      --     description => 'Routes tree and neighbourhood questions to
+      greeting, SQL, discovery, density, SVM, and K-means workers.'\r
+
+      --   );\r
+
+      -- END;\r
+
+      -- / \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.020\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "---check the saved supervisor instructions\r
+
+      \r
+
+      SELECT DBMS_CLOUD_AI_AGENT.GET_DEFINITION(\r
+
+      \           object_type => 'AGENT',\r
+
+      \           object_name => 'TREE_DENSITY_SUPERVISOR'\r
+
+      \       ) AS SUPERVISOR_DEFINITION\r
+
+      FROM dual;\r
+
+      \r
+
+      --
+      SUPERVISOR_DEFINITION                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \
+      \r
+
+      --
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      --------------------------------- \r
+
+      -- BEGIN\r
+
+      --   DBMS_CLOUD_AI_AGENT.CREATE_AGENT(\r
+
+      --     agent_name => 'TREE_DENSITY_SUPERVISOR',\r
+
+      --     attributes =>
+      '{\"profile_name\":\"OCI_GROK_4_3_BOMEN_BURRT_PROFILE\",\"role\":\"You
+      supervise one Den Haag trees and green-neighbourhood team. Route a
+      greeting or request for examples to TREE_GREETING_AGENT. Route open-ended
+      data-quality candidate discovery to TREE_DISCOVERY_AGENT. Route a new
+      neighbourhood density calculation or green-percentage threshold to
+      TREE_DENSITY_AGENT. Route a new one-class SVM flagging request to
+      TREE_ANOMALY_AGENT. Route a new K-means tree-grouping request to
+      TREE_KMEANS_AGENT. Route factual questions over existing source tables,
+      views, or saved analysis results to TREE_NL2SQL_AGENT, including questions
+      joining saved SVM and K-means results. Do not send a new model calculation
+      to NL2SQL. Do not send a factual saved-result query to an OML worker
+      merely because it mentions its model. Ask a focused clarification when
+      intent or run selection is unclear. Use measured outputs only. Do not
+      claim a flag or cluster diagnoses tree health, and do not claim the
+      browser map rendered unless the application confirms
+      it.\",\"supervisor\":true}',\r
+
+      --     status => 'enabled',\r
+
+      --     description => 'Routes greeting, SQL, discovery, density, SVM, and
+      K-means.'\r
+
+      --   );\r
+
+      -- END;\r
+
+      -- / \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.019\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "-- If the nearby-tree request was rejected before the spatial SQL ran;
+      you need to see which worker the supervisor selected.\r
+
+      SELECT t.task_name, t.state, t.start_date, t.end_date\r
+
+      FROM user_ai_agent_task_history t\r
+
+      WHERE t.team_exec_id = (\r
+
+      \    SELECT h.team_exec_id\r
+
+      \    FROM user_ai_agent_team_history h\r
+
+      \    WHERE h.team_name = 'TREE_DENSITY_MAP_TEAM'\r
+
+      \    ORDER BY h.start_date DESC\r
+
+      \    FETCH FIRST 1 ROW ONLY\r
+
+      )\r
+
+      ORDER BY t.start_date;\r
+
+      \r
+
+      --
+      TASK_NAME                    STATE     START_DATE              END_DATE                \
+      \r
+
+      -- ---------------------------- --------- -----------------------
+      ----------------------- \r
+
+      -- TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED 10/29/2026, 11:59:53 AM
+      10/29/2026, 12:00:09 PM \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.091\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT h.team_exec_id,\r
+
+      \       h.start_date AS team_started,\r
+
+      \       t.agent_name,\r
+
+      \       t.task_name,\r
+
+      \       t.state\r
+
+      FROM (\r
+
+      \    SELECT team_exec_id, start_date\r
+
+      \    FROM user_ai_agent_team_history\r
+
+      \    WHERE team_name = 'TREE_DENSITY_MAP_TEAM'\r
+
+      \    ORDER BY start_date DESC\r
+
+      \    FETCH FIRST 10 ROWS ONLY\r
+
+      ) h\r
+
+      LEFT JOIN user_ai_agent_task_history t\r
+
+      \    ON t.team_exec_id = h.team_exec_id\r
+
+      ORDER BY h.start_date DESC, t.start_date;\r
+
+      \r
+
+      --
+      TEAM_EXEC_ID                         TEAM_STARTED            AGENT_NAME              \
+      TASK_NAME                    STATE     \r
+
+      -- ------------------------------------ -----------------------
+      ----------------------- ---------------------------- --------- \r
+
+      -- 5EFA6ADC-D8DB-0279-E063-AB11000AEA08 10/29/2026, 11:59:52 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EFA52EC-D58E-B167-E063-AB11000A9C9E 10/29/2026, 11:53:11 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EFA52EC-D58E-B167-E063-AB11000A9C9E 10/29/2026, 11:53:11 AM
+      TREE_DISCOVERY_AGENT    TREE_DISCOVERY_TASK          SUCCEEDED \r
+
+      -- 5EFA06F5-A7C6-9C4C-E063-AB11000AD514 10/29/2026, 11:34:44 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EFA06F5-A7BF-9C4C-E063-AB11000AD514 10/29/2026, 11:34:06 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EFA06FB-37B7-9D0D-E063-AB11000A81FA 10/29/2026, 11:33:48 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EFA0646-4FDD-9C62-E063-AB11000A54B0 10/29/2026, 11:33:16 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EFA06FB-37AD-9D0D-E063-AB11000A81FA 10/29/2026, 11:31:57 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EF98666-A2BF-B4B9-E063-AB11000AC0FD 10/29/2026, 10:56:00 AM
+      TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EF98666-A2BF-B4B9-E063-AB11000AC0FD 10/29/2026, 10:56:00 AM
+      TREE_ANOMALY_AGENT      TREE_ANOMALY_TASK            SUCCEEDED \r
+
+      -- 5EF802F6-DAA0-E6DF-E063-AB11000A0476 10/29/2026, 9:07:39
+      AM  TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EF802F6-DAA0-E6DF-E063-AB11000A0476 10/29/2026, 9:07:39
+      AM  TREE_DISCOVERY_AGENT    TREE_DISCOVERY_TASK          SUCCEEDED \r
+
+      -- 5EEA734B-E4AE-409B-E063-AB11000A8AD5 10/28/2026, 4:56:55
+      PM  TREE_DENSITY_SUPERVISOR TREE_DENSITY_SUPERVISOR$TASK SUCCEEDED \r
+
+      -- 5EEA734B-E4AE-409B-E063-AB11000A8AD5 10/28/2026, 4:56:55
+      PM  TREE_ANOMALY_AGENT      TREE_ANOMALY_TASK            SUCCEEDED \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.067\r
+
+      -- 14 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT h.start_date AS team_started,\r
+
+      \       h.state AS run_state,\r
+
+      \       DBMS_LOB.SUBSTR(p.prompt, 300, 1) AS question,\r
+
+      \       DBMS_LOB.SUBSTR(p.prompt_response, 500, 1) AS answer,\r
+
+      \       (SELECT LISTAGG(t.agent_name || ' (' || t.state || ')', ', ')\r
+
+      \               WITHIN GROUP (ORDER BY t.start_date)\r
+
+      \          FROM user_ai_agent_task_history t\r
+
+      \         WHERE t.team_exec_id = h.team_exec_id\r
+
+      \           AND t.agent_name <> 'TREE_DENSITY_SUPERVISOR'\r
+
+      \       ) AS workers\r
+
+      FROM user_ai_agent_team_history h\r
+
+      OUTER APPLY (\r
+
+      \    SELECT p.prompt, p.prompt_response\r
+
+      \    FROM user_cloud_ai_conversation_prompts p\r
+
+      \    WHERE p.conversation_id = h.conversation_id\r
+
+      \      AND p.prompt_action = 'AGENT'\r
+
+      \      AND p.created >= h.start_date\r
+
+      \      AND p.created <= h.end_date\r
+
+      \    ORDER BY p.created DESC\r
+
+      \    FETCH FIRST 1 ROW ONLY\r
+
+      ) p\r
+
+      WHERE h.team_name = 'TREE_DENSITY_MAP_TEAM'\r
+
+      ORDER BY h.start_date DESC\r
+
+      FETCH FIRST 20 ROWS ONLY;\r
+
+      \r
+
+      \r
+
+      -- TEAM_STARTED            RUN_STATE QUESTION ANSWER
+      WORKERS                          \r
+
+      -- ----------------------- --------- -------- ------
+      -------------------------------- \r
+
+      -- 10/29/2026, 11:59:52 AM SUCCEEDED
+      null     null   null                             \r
+
+      -- 10/29/2026, 11:53:11 AM SUCCEEDED null     null   TREE_DISCOVERY_AGENT
+      (SUCCEEDED) \r
+
+      -- 10/29/2026, 11:34:44 AM SUCCEEDED
+      null     null   null                             \r
+
+      -- 10/29/2026, 11:34:06 AM SUCCEEDED
+      null     null   null                             \r
+
+      -- 10/29/2026, 11:33:48 AM SUCCEEDED
+      null     null   null                             \r
+
+      -- 10/29/2026, 11:33:16 AM SUCCEEDED
+      null     null   null                             \r
+
+      -- 10/29/2026, 11:31:57 AM SUCCEEDED
+      null     null   null                             \r
+
+      -- 10/29/2026, 10:56:00 AM SUCCEEDED null     null   TREE_ANOMALY_AGENT
+      (SUCCEEDED)   \r
+
+      -- 10/29/2026, 9:07:39 AM  SUCCEEDED null     null   TREE_DISCOVERY_AGENT
+      (SUCCEEDED) \r
+
+      -- 10/28/2026, 4:56:55 PM  SUCCEEDED null     null   TREE_ANOMALY_AGENT
+      (SUCCEEDED)   \r
+
+      -- 10/28/2026, 4:29:49 PM  SUCCEEDED null     null   TREE_KMEANS_AGENT
+      (SUCCEEDED)    \r
+
+      -- 10/28/2026, 4:26:09 PM  SUCCEEDED null     null   TREE_ANOMALY_AGENT
+      (SUCCEEDED)   \r
+
+      -- 10/28/2026, 4:24:18 PM  SUCCEEDED null     null   TREE_DISCOVERY_AGENT
+      (SUCCEEDED) \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.112\r
+
+      -- 13 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      --  we can add this conversation history we need tools\r
+
+      SELECT created,\r
+
+      \       profile_name,\r
+
+      \       DBMS_LOB.SUBSTR(prompt, 500, 1) AS YOUR_UI_QUESTION,\r
+
+      \       DBMS_LOB.SUBSTR(prompt_response, 500, 1) AS ANSWER\r
+
+      FROM user_cloud_ai_conversation_prompts\r
+
+      WHERE prompt_action = 'AGENT'\r
+
+      ORDER BY created DESC\r
+
+      FETCH FIRST 20 ROWS ONLY;\r
+
+      \r
+
+      -- CREATED                 PROFILE_NAME
+      YOUR_UI_QUESTION                                                                                                                    \
+      ANSWER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+      \r
+
+      -- ----------------------- ------------
+      -------------------------------------------------------------------------\
+      ----------------------------------------------------------
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------- \r
+
+      -- 10/29/2026, 12:00:09 PM null         Show me 11 trees close to tree ID
+      5811455. include
+      5811455                                                                          \
+      This request does not match any supported analysis (density, anomaly
+      detection on Quercus robur, k-means grouping on Quercus robur, or dataset
+      inspection). Which supported task would you like to run
+      instead?                                                                                                                                                                                                                                                                                                      \
+      \r
+
+      -- 10/29/2026, 11:53:33 AM null         How many records are in
+      BOMEN_TREES?                                                                                                \
+      149074                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+      \r
+
+      -- 10/29/2026, 11:34:53 AM null         which questions you answer
+      ?                                                                                                        \
+      I answer four types of supported requests: inspect approved tree datasets;
+      neighbourhood tree density or green-area stats for Den Haag; Quercus robur
+      one-class SVM anomaly review; Quercus robur k-means grouping by recorded
+      age and trunk
+      diameter.                                                                                                                                                                                                                                                               \
+      \r
+
+      -- 10/29/2026, 11:34:15 AM
+      null         hi                                                                                                                                  \
+      Hello! Supported requests include:\r
+
+      -- - Inspect approved tree datasets\r
+
+      -- - Neighbourhood tree density or green-area stats for Den Haag\r
+
+      -- - Quercus robur one-class SVM anomaly review\r
+
+      -- - Quercus robur k-means grouping by age and trunk
+      diameter                                                                                                                                                                                                                                                                            \
+      \r
+
+      -- 10/29/2026, 11:34:01 AM null         Show me 11 trees close to tree ID
+      5811455. include 5811455 use NL2SQL\r
+
+      \r
+
+      \r
+
+      --                                                          This request
+      does not match any supported analysis (density, anomaly detection on
+      Quercus robur, k-means grouping on Quercus robur, or dataset inspection).
+      Which supported task would you like to run
+      instead?                                                                                                                                                                                                                                                                                                      \
+      \r
+
+      -- 10/29/2026, 11:33:30 AM null         use
+      nl2sql                                                                                                                          \
+      This request does not match any supported analysis (density, anomaly
+      detection on Quercus robur, k-means grouping on Quercus robur, or dataset
+      inspection). Which supported task would you like to run
+      instead?                                                                                                                                                                                                                                                                                                      \
+      \r
+
+      -- 10/29/2026, 11:32:12 AM null         Show me 11 trees close to tree ID
+      5811455. include
+      5811455                                                                          \
+      This request does not match any supported analysis (density, anomaly
+      detection on Quercus robur, k-means grouping on Quercus robur, or dataset
+      inspection). Which supported task would you like to run
+      instead?                                                                                                                                                                                                                                                                                                      \
+      \r
+
+      -- 10/29/2026, 10:56:36 AM null         tree abnormaly result
+      plz                                                                                                           \
+      Quercus robur anomaly run 5EE7A191F6D11997E063AB11000AC062: 8068 source
+      trees, 8066 scored, 81 flagged. Flags request record review. Top flagged
+      source_record_ids: 1426990 (age 76, >100 cm, prob 0.6619, lon 4.294 lat
+      52.089), 1319644 (86, >100 cm, 0.6396, 4.287 52.092), 1343916 (46, 75-100
+      cm, 0.6274, 4.304 52.094), 1453552 (96, >100 cm, 0.6172, 4.289 52.093),
+      1319668 (99, >100 cm, 0.6105, 4.304 52.081), 1373712 (99, >100 cm, 0.6105,
+      4.291 52.086), 1390019 (99, >100 cm, 0.6105, 4.293 52.09), 141 \r
+
+      -- 10/29/2026, 9:08:02 AM  null         1- “Do you see any candidate
+      issues in my tree
+      datasets?”                                                                           \
+      BOMEN_TREES (149074 rows, 1148 species): measured extremes include
+      tree_age_max=1016 and 23 missing trunk_diameters; candidate review of high
+      ages and missing values. TREE_ANOMALY_RESULTS (latest run
+      5EE7A191F6D11997E063AB11000AC062): 81 model-flagged trees out of 8066
+      scored; candidate review of saved SVM flags. TREE_DENSITY_RESULTS (latest
+      run 5EE8DA4ED6C2AC8DE063AB11000A8751): measured density range
+      88.59–3084.74 trees/km² across 33 neighbourhoods; candidate review of
+      range and green-area thr \r
+
+      -- 10/28/2026, 4:57:19 PM  null         Which neighbourhoods contain
+      SVM-flagged
+      trees?                                                                                     \
+      81 SVM-flagged Quercus robur trees measured (flag means review the
+      record). Top examples (ID, age, trunk class, lon, lat): 1426990 (76y,
+      >100cm, 4.294, 52.089); 1319644 (86y, >100cm, 4.287, 52.092); 1343916
+      (46y, 75-100cm, 4.304, 52.094); 1453552 (96y, >100cm, 4.289, 52.093);
+      1319668 (99y, >100cm, 4.304, 52.081); 1373712 (99y, >100cm, 4.291,
+      52.086); 1390019 (99y, >100cm, 4.293, 52.09); 1414141 (104y, >100cm,
+      4.322, 52.098); 1326404 (106y, >100cm, 4.313, 52.098); 4686389 (61y,
+      75-100cm, 4.233, 5 \r
+
+      -- 10/28/2026, 4:30:11 PM  null         Group Quercus robur trees into
+      three clusters by age and trunk-diameter
+      class.                                                      RUN_ID=5EEA00\
+      112C539B72E063AB11000A2A72; measured cluster sizes 214/6618/1234 (total
+      scored/mapped=8066).                                                                                                                                                                                                                                                                                                                                                                                                            \
+      \r
+
+      -- 10/28/2026, 3:23:07
+      PM  null         null                                                                                                                                \
+      I support two question types for Den Haag: 1) neighbourhood tree-density
+      or green-area questions (delegated to TREE_DENSITY_AGENT), and 2) unusual
+      recorded age and trunk-diameter combinations in Quercus robur (delegated
+      to
+      TREE_ANOMALY_AGENT).                                                                                                                                                                                                                                                                  \
+      \r
+
+      -- 10/28/2026, 3:08:37 PM  null         2- Which Quercus robur tree
+      records have unusual age and trunk-diameter
+      classes?                                                    Quercus robur:
+      8068 source trees, 8066 scored, 81 flagged. Flags (review records): IDs
+      1426990 (age 76, >100 cm, lon 4.294 lat 52.089), 1319644 (86, >100 cm,
+      4.287 52.092), 1343916 (46, 75-100 cm, 4.304 52.094), 1453552 (96, >100
+      cm, 4.289 52.093), 1319668 (99, >100 cm, 4.304 52.081), 1373712 (99, >100
+      cm, 4.291 52.086), 1390019 (99, >100 cm, 4.293 52.09), 1414141 (104, >100
+      cm, 4.322 52.098), 1326404 (106, >100 cm, 4.313 52.098), 4686389 (61,
+      75-100 cm, 4.233 52.064). A flag means review the re \r
+
+      -- 10/28/2026, 3:08:04 PM  null         3- Which five Den Haag
+      neighbourhoods have the highest tree density despite having less than 30%
+      green area?                        Transvaalkwartier-Midden (3084.74
+      trees/km²), Kerketuinen en Zichtenburg (2558.09), Transvaalkwartier-Noord
+      (2306.46), Laakkwartier-Oost (2254.1), Schildersbuurt-Noord
+      (2184.5)                                                                                                                                                                                                                                                                                                                                     \
+      \r
+
+      -- 10/28/2026, 3:07:27
+      PM  null         C:\\Project\\Github_guid\\myassets\\Bankseries_archived\
+      \\5-Oracle_apex_others\\v3\\working\\spatial_toolkit\\app\\upload\\execut\
+      e_page_load.js This query is a file path and does not match supported
+      tree-density or Quercus robur anomaly questions for Den
+      Haag.                                                                                                                                                                                                                                                                                                                                                                                                 \
+      \r
+
+      -- 10/28/2026, 3:03:56 PM  null         2- Which Quercus robur tree
+      records have unusual age and trunk-diameter classes?\r
+
+      --                                                   81 Quercus robur
+      records flagged (review requested). Top flags (source_record_id, age,
+      trunk_diameter, probability, lon, lat): 1426990/76/>100
+      cm/0.6619/4.294/52.089; 1319644/86/>100 cm/0.6396/4.287/52.092;
+      1343916/46/75-100 cm/0.6274/4.304/52.094; 1453552/96/>100
+      cm/0.6172/4.289/52.093; 1319668/99/>100 cm/0.6105/4.304/52.081;
+      1373712/99/>100 cm/0.6105/4.291/52.086; 1390019/99/>100
+      cm/0.6105/4.293/52.09; 1414141/104/>100 cm/0.5994/4.322/52.098;
+      1326404/106/>100 cm/0.5950/4.313/52.098; 4686389/61 \r
+
+      -- 10/28/2026, 3:03:19 PM  null         1- Which Den Haag neighbourhood
+      has the highest tree density (trees per
+      km2)?                                                       Zuiderpark
+      (4620.56
+      trees/km²)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       \
+      \r
+
+      -- 10/28/2026, 2:51:53 PM  null         1- Which Den Haag neighbourhood
+      has the highest tree density (trees per
+      km2)?                                                       Zuiderpark
+      (4620.56
+      trees/km²)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       \
+      \r
+
+      -- 10/28/2026, 2:19:34 PM  null         Which neighbourhoods have the
+      highest tree density despite having less than 30% green area in
+      municipality code GM0518 ?            Transvaalkwartier-Midden (3084.74),
+      Kerketuinen en Zichtenburg (2558.09), Transvaalkwartier-Noord (2306.46),
+      Laakkwartier-Oost (2254.1), Schildersbuurt-Noord
+      (2184.5)                                                                                                                                                                                                                                                                                                                                               \
+      \r
+
+      -- 10/28/2026, 2:18:33 PM  null         Which five Den Haag neighbourhoods
+      have the highest tree density despite having less than 30% green
+      area?                           Transvaalkwartier-Midden (3084.74),
+      Kerketuinen en Zichtenburg (2558.09), Transvaalkwartier-Noord (2306.46),
+      Laakkwartier-Oost (2254.1), Schildersbuurt-Noord
+      (2184.5)                                                                                                                                                                                                                                                                                                                                               \
+      \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.054\r
+
+      -- 20 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "---answers \r
+
+      SELECT team_name, agent_name, task_name,\r
+
+      \       DBMS_LOB.SUBSTR(result, 500, 1) AS answer\r
+
+      FROM user_ai_agent_task_history\r
+
+      WHERE result IS NOT NULL\r
+
+      ORDER BY start_date DESC\r
+
+      FETCH FIRST 10 ROWS ONLY;\r
+
+      \r
+
+      --
+      TEAM_NAME             AGENT_NAME              TASK_NAME                    \
+      ANSWER                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+      \r
+
+      -- --------------------- -----------------------
+      ----------------------------
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------------------\
+      -------------------------------------------------------------- \r
+
+      -- TREE_DENSITY_MAP_TEAM
+      TREE_KMEANS_AGENT       TREE_KMEANS_TASK             RUN_ID
+      5EEA00112C539B72E063AB11000A2A72; measured cluster sizes 214/6618/1234
+      (scored and mapped
+      8066).                                                                                                                                                                                                                                                                                                                                                                                                              \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM TREE_DENSITY_SUPERVISOR
+      TREE_DENSITY_SUPERVISOR$TASK RUN_ID 5EEA00112C539B72E063AB11000A2A72;
+      measured cluster sizes 214/6618/1234 (scored and mapped
+      8066).                                                                                                                                                                                                                                                                                                                                                                                                              \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM
+      TREE_GREETING_AGENT     TREE_GREETING_TASK           Hi! I help explore
+      Den Haag tree and green-neighbourhood data with SQL and Oracle Machine
+      Learning. Here are the original datasets and example questions.\r
+
+      \r
+
+      -- Original datasets:\r
+
+      -- - BOMEN_TREES (26 columns): SOURCE_TREE_NUMBER, SPECIES_COMMON_NAME,
+      SRT_WETENS, TREE_AGE, AGE_CLASS_CATEGORY, TRUNK_DIAMETER, OWNER, MANAGER,
+      PRUNING_FORM, MONUMENTAL_FIELD, SOURCE_WORK_PACKAGE_CODE,
+      SOURCE_WORK_PACKAGE, GROWING_SITE, STREET_NAME, CITY_DISTRICT, COUNTER,
+      SOURCE_RECORD_ID, DISTRICT_NAME, NEIGHBOURHOOD, WGS84 \r
+
+      -- TREE_DENSITY_MAP_TEAM TREE_DENSITY_SUPERVISOR
+      TREE_DENSITY_SUPERVISOR$TASK Hi! I help explore Den Haag tree and
+      green-neighbourhood data with SQL and Oracle Machine Learning. Here are
+      the original datasets and example questions.\r
+
+      \r
+
+      -- Original datasets:\r
+
+      -- - BOMEN_TREES (26 columns): SOURCE_TREE_NUMBER, SPECIES_COMMON_NAME,
+      SRT_WETENS, TREE_AGE, AGE_CLASS_CATEGORY, TRUNK_DIAMETER, OWNER, MANAGER,
+      PRUNING_FORM, MONUMENTAL_FIELD, SOURCE_WORK_PACKAGE_CODE,
+      SOURCE_WORK_PACKAGE, GROWING_SITE, STREET_NAME, CITY_DISTRICT, COUNTER,
+      SOURCE_RECORD_ID, DISTRICT_NAME, NEIGHBOURHOOD, WGS84 \r
+
+      -- TREE_DENSITY_MAP_TEAM TREE_DENSITY_SUPERVISOR
+      TREE_DENSITY_SUPERVISOR$TASK RUN_ID 5EEA00112C539B72E063AB11000A2A72 saved
+      with GeoJSON points; no map
+      rendered.                                                                                                                                                                                                                                                                                                                                                                                                                                  \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM
+      TREE_KMEANS_AGENT       TREE_KMEANS_TASK             RUN_ID
+      5EEA00112C539B72E063AB11000A2A72 (cache reused) produced three Quercus
+      robur clusters of measured sizes 214 / 6618 / 1234 (8066 scored, 8066
+      mapped). GeoJSON points were saved by the tool for map
+      display.                                                                                                                                                                                                                                                                                                  \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM TREE_DENSITY_SUPERVISOR
+      TREE_DENSITY_SUPERVISOR$TASK RUN_ID 5EEA00112C539B72E063AB11000A2A72
+      produced three Quercus robur clusters (sizes 214 / 6618 / 1234; 8066
+      scored and mapped). GeoJSON points were saved by the tool for map display.
+      No browser-map rendering confirmation was
+      returned.                                                                                                                                                                                                                                                                          \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM
+      TREE_KMEANS_AGENT       TREE_KMEANS_TASK             Cluster 3 (RUN_ID
+      5EEA00112C539B72E063AB11000A2A72): 214 trees (scored 8066, mapped 8066);
+      min age 114, mean 153.71, max 326; most common diameter 75-100
+      cm.                                                                                                                                                                                                                                                                                                                                                        \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM TREE_DENSITY_SUPERVISOR
+      TREE_DENSITY_SUPERVISOR$TASK Cluster 3 (RUN_ID
+      5EEA00112C539B72E063AB11000A2A72): 214 trees (scored 8066, mapped 8066);
+      min age 114, mean 153.71, max 326; most common diameter 75-100
+      cm.                                                                                                                                                                                                                                                                                                                                                        \
+      \r
+
+      -- TREE_DENSITY_MAP_TEAM
+      TREE_KMEANS_AGENT       TREE_KMEANS_TASK             RUN_ID
+      5EEA00112C539B72E063AB11000A2A72; measured cluster sizes 214 / 6618 / 1234
+      (total
+      8066).                                                                                                                                                                                                                                                                                                                                                                                                                      \
+      \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.105\r
+
+      -- 10 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "\r
+
+      \r
+
+      \r
+
+      SELECT created,\r
+
+      \       client_identifier,\r
+
+      \       DBMS_LOB.SUBSTR(prompt, 100, 1) AS question\r
+
+      FROM user_cloud_ai_conversation_prompts\r
+
+      ORDER BY created DESC\r
+
+      FETCH FIRST 5 ROWS ONLY;\r
+
+      \r
+
+      -- CREATED                 CLIENT_IDENTIFIER
+      QUESTION                                                   \r
+
+      -- ----------------------- -----------------
+      ---------------------------------------------------------- \r
+
+      -- 10/29/2026, 12:26:09 PM null              give me conversation
+      history                               \r
+
+      -- 10/29/2026, 12:26:09 PM
+      null              null                                                       \
+      \r
+
+      -- 10/29/2026, 12:26:04 PM null              give me conversation
+      history                               \r
+
+      -- 10/29/2026, 12:00:09 PM null              Show me 11 trees close to
+      tree ID 5811455. include 5811455 \r
+
+      -- 10/29/2026, 12:00:09 PM
+      null              null                                                       \
+      \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.031\r
+
+      -- 5 rows selected."
+    languageId: oracle-sql
+  - kind: 2
+    value: "SELECT t.source_tree_number,\r
+
+      \       t.source_record_id,\r
+
+      \       t.geometry.sdo_srid AS srid\r
+
+      FROM bomen_trees t\r
+
+      WHERE t.source_tree_number = 5811455\r
+
+      \   OR t.source_record_id = 5811455;\r
+
+      \r
+
+      -- SOURCE_TREE_NUMBER SOURCE_RECORD_ID  SRID \r
+
+      -- ------------------ ---------------- ----- \r
+
+      --                 52          5811455 28992 \r
+
+      \r
+
+      \r
+
+      -- Elapsed: 00:00:00.057\r
+
+      -- 1 rows selected."
+    languageId: oracle-sql

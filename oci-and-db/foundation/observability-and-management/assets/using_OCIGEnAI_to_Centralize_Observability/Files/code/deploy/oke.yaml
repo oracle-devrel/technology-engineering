@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: db-assistant
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: db-assistant
+  namespace: db-assistant
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-assistant-data
+  namespace: db-assistant
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: oci-bv
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-assistant
+  namespace: db-assistant
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {app: db-assistant}
+  template:
+    metadata:
+      labels: {app: db-assistant}
+    spec:
+      serviceAccountName: db-assistant
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      # For a private OCIR repository, create this pull secret before deploying.
+      imagePullSecrets:
+        - name: ocir-pull
+      containers:
+        - name: assistant
+          image: REPLACE_WITH_OCIR_IMAGE_DIGEST
+          ports:
+            - {name: http, containerPort: 8000}
+          envFrom:
+            - secretRef: {name: db-assistant-settings}
+            - secretRef: {name: db-assistant-apm, optional: true}
+            - secretRef: {name: db-assistant-connections, optional: true}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: "500m", memory: "1Gi"}
+            limits: {cpu: "2", memory: "4Gi"}
+          readinessProbe:
+            httpGet: {path: /healthz, port: http}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /healthz, port: http}
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          volumeMounts:
+            - {name: config, mountPath: /config, readOnly: true}
+            - {name: credentials, mountPath: /secrets/oci, readOnly: true}
+            - {name: data, mountPath: /data}
+            - {name: temp, mountPath: /tmp}
+      volumes:
+        - name: config
+          configMap: {name: db-assistant-config}
+        - name: credentials
+          secret:
+            secretName: db-assistant-oci
+            defaultMode: 0440
+        - name: data
+          persistentVolumeClaim: {claimName: db-assistant-data}
+        - name: temp
+          emptyDir: {sizeLimit: 512Mi}

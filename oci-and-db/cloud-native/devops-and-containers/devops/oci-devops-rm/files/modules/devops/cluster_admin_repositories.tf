@@ -68,6 +68,8 @@ resource "local_file" "cluster_admin_build_spec" {
     region_key             = local.region_key
     tenancy_namespace      = local.namespace
     chart_repo_prefix      = "${local.project_repo_prefix}/charts/cluster-tools"
+    image_repo_prefix      = "${local.project_repo_prefix}/images/cluster-tools"
+    repository_url         = oci_devops_repository.cluster_admin[each.key].http_url
   })
 }
 
@@ -144,6 +146,13 @@ resource "local_file" "cluster_admin_publish_script" {
   content  = file("${path.module}/../../repos/cluster-admin/script/publish-and-dispatch.py")
 }
 
+resource "local_file" "cluster_admin_image_mirror_script" {
+  for_each = local.cluster_admin_singleton
+
+  filename = "${path.root}/${local.cluster_admin_repo_path}/script/mirror-images.py"
+  content  = file("${path.module}/../../repos/cluster-admin/script/mirror-images.py")
+}
+
 resource "local_file" "cluster_admin_deploy_script" {
   for_each = local.cluster_admin_singleton
 
@@ -171,7 +180,7 @@ resource "null_resource" "seed_cluster_admin" {
 
   triggers = {
     repo_id       = oci_devops_repository.cluster_admin[each.key].id
-    seed_contract = "cluster-admin-shared-v1"
+    seed_contract = "cluster-admin-shared-v2-image-mirroring"
   }
 
   depends_on = [
@@ -182,6 +191,7 @@ resource "null_resource" "seed_cluster_admin" {
     local_file.cluster_admin_pr_spec,
     local_file.cluster_admin_validate_script,
     local_file.cluster_admin_mirror_script,
+    local_file.cluster_admin_image_mirror_script,
     local_file.cluster_admin_publish_script,
     local_file.cluster_admin_deploy_script
   ]
@@ -280,6 +290,7 @@ resource "null_resource" "refresh_cluster_admin_development" {
       local_file.cluster_admin_pr_spec[each.key].content,
       local_file.cluster_admin_validate_script[each.key].content,
       local_file.cluster_admin_mirror_script[each.key].content,
+      local_file.cluster_admin_image_mirror_script[each.key].content,
       local_file.cluster_admin_publish_script[each.key].content,
       local_file.cluster_admin_deploy_script[each.key].content,
     ]))

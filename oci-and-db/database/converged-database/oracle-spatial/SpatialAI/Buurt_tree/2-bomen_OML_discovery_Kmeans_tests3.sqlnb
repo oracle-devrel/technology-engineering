@@ -1,0 +1,149 @@
+cells:
+  - kind: 1
+    value: |
+      # Discovery and K-means tests — run one cell at a time
+
+      This notebook is separate from the implementation notebooks. First run
+      the definition cells in 2-bomen_OML_discovery.sqlnb, then the definition
+      cells in 2-bomen_OML_final_Kmeans.sqlnb. The existing density and SVM
+      worker definitions must already be installed. These tests have not been
+      executed against your database; expected results are stated beside each
+      query, not fabricated as query output.
+
+      Use a fresh conversation for each team test. The first K-means call may
+      train the model and save all tree points; the repeated call should reuse
+      its RUN_ID. Do not run overlapping model rebuild requests.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Discovery function and tool
+
+      The direct function result should list only existing approved datasets.
+      Look for measured age range and missing-value counts, plus the latest
+      saved SVM and density run summaries when those tables contain rows.
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT tree_discovery_agent_fn(NULL) AS DISCOVERY_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_DISCOVERY_TOOL',
+                 input => '{"P_DATASET":"BOMEN_TREES"}'
+             ) AS TOOL_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. K-means tool and saved rows
+
+      The first call should return status success, a RUN_ID, scored count,
+      mapped count, and per-cluster profiles. The model uses TREE_AGE and
+      TRUNK_DIAMETER, not SVM flags or tree location. The second call should
+      return the same RUN_ID with CACHE_REUSED=Y when the source is unchanged.
+    languageId: markdown
+  - kind: 2
+    value: |
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_KMEANS_TOOL',
+                 input => '{"P_SPECIES":"Quercus robur","P_CLUSTERS":3,"P_FORCE_REFRESH":"N"}'
+             ) AS TOOL_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Repeat only after the first call completes; expect the same RUN_ID
+      -- and CACHE_REUSED=Y when BOMEN_TREES has not changed.
+      SELECT DBMS_CLOUD_AI_AGENT.RUN_TOOL(
+                 tool_name => 'TREE_KMEANS_TOOL',
+                 input => '{"P_SPECIES":"Quercus robur","P_CLUSTERS":3,"P_FORCE_REFRESH":"N"}'
+             ) AS TOOL_RESULT
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Each saved run should have one row per scored tree, no duplicate IDs,
+      -- and the reported number of distinct CLUSTER_IDs. Replace the RUN_ID.
+      SELECT RUN_ID,
+             COUNT(*) AS SCORED_TREES,
+             COUNT(DISTINCT SOURCE_RECORD_ID) AS UNIQUE_TREES,
+             COUNT(DISTINCT CLUSTER_ID) AS ACTUAL_CLUSTERS,
+             MIN(TREE_AGE) AS MIN_TREE_AGE,
+             MAX(TREE_AGE) AS MAX_TREE_AGE
+      FROM TREE_KMEANS_RESULTS
+      WHERE RUN_ID = 'PASTE_RUN_ID_HERE'
+      GROUP BY RUN_ID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Compare this with the cluster_profiles array returned by the tool.
+      SELECT CLUSTER_ID, COUNT(*) AS TREE_COUNT,
+             ROUND(AVG(TREE_AGE), 2) AS AVG_TREE_AGE,
+             COUNT(DISTINCT TRUNK_DIAMETER) AS DIAMETER_CLASSES
+      FROM TREE_KMEANS_RESULTS
+      WHERE RUN_ID = 'PASTE_RUN_ID_HERE'
+      GROUP BY CLUSTER_ID
+      ORDER BY CLUSTER_ID;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Saved GeoJSON point rows should equal the number of scored trees with
+      -- WGS84 coordinates. APEX GET_RESPONSE reads these by exact RUN_ID.
+      SELECT (SELECT COUNT(*) FROM TREE_KMEANS_RESULTS
+              WHERE RUN_ID = 'PASTE_RUN_ID_HERE'
+                AND WGS84_LONGITUDE IS NOT NULL
+                AND WGS84_LATITUDE IS NOT NULL) AS EXPECTED_MAP_POINTS,
+             (SELECT COUNT(*) FROM AGENT_MAP_RESULTS
+              WHERE RUN_ID = 'PASTE_RUN_ID_HERE') AS SAVED_MAP_POINTS
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Inspect a small map sample without returning thousands of GeoJSON rows.
+      SELECT FEATURE_ORDER,
+             JSON_VALUE(FEATURE_JSON, '$.SOURCE_RECORD_ID') AS SOURCE_RECORD_ID,
+             JSON_VALUE(FEATURE_JSON, '$.CLUSTER_ID') AS CLUSTER_ID,
+             JSON_VALUE(FEATURE_JSON, '$.GEOJSON') AS GEOJSON_SAMPLE
+      FROM AGENT_MAP_RESULTS
+      WHERE RUN_ID = 'PASTE_RUN_ID_HERE'
+      ORDER BY FEATURE_ORDER
+      FETCH FIRST 5 ROWS ONLY;
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 3. Team checks
+
+      In Ask Oracle, first ask: "Do you see any candidate issues in my tree
+      datasets?" The supervisor should delegate to discovery and ask what
+      analysis to run. Then ask: "Group Quercus robur trees into three groups
+      by age and trunk-diameter class and show them on the map." The reply
+      should report measured cluster counts; the map should show point features
+      from the returned RUN_ID. Density and SVM questions should still route
+      to their existing workers.
+    languageId: markdown
+  - kind: 2
+    value: |
+      -- Verify the existing team and all four named worker agents are present.
+      SELECT DBMS_CLOUD_AI_AGENT.DESCRIBE_TEAM(
+                 team_name => 'TREE_DENSITY_MAP_TEAM'
+             ) AS TEAM_DESCRIPTION
+      FROM dual;
+    languageId: oracle-sql
+  - kind: 2
+    value: |
+      -- Optional direct team test, separate from the Ask Oracle browser test.
+      -- Use a conversation ID from your working conversation workflow.
+      DECLARE
+          v_response CLOB;
+      BEGIN
+          v_response := DBMS_CLOUD_AI_AGENT.RUN_TEAM(
+              team_name => 'TREE_DENSITY_MAP_TEAM',
+              user_prompt => 'Group Quercus robur trees into three clusters by age and trunk-diameter class.',
+              params => '{"conversation_id":"PASTE_CONVERSATION_ID_HERE"}'
+          );
+          DBMS_OUTPUT.PUT_LINE(DBMS_LOB.SUBSTR(v_response, 4000, 1));
+      END;
+      /
+    languageId: oracle-sql

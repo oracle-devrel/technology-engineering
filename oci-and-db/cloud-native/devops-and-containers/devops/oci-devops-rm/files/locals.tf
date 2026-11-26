@@ -18,7 +18,11 @@ locals {
   cluster_admin_config = {
     tools = [for tool in try(local.raw_cluster_admin_config.tools, local.raw_cluster_admin_config.noprod.tools, local.raw_cluster_admin_config) : merge(
       { for key, value in tool : key => value if contains(["name", "repository", "chart", "version"], key) || (value != null && value != "") },
-      { depends_on = compact(coalesce(try(tool.depends_on, null), [])) }
+      {
+        depends_on        = compact(coalesce(try(tool.depends_on, null), []))
+        mirror_images     = coalesce(try(tool.mirror_images, null), false)
+        additional_images = compact(coalesce(try(tool.additional_images, null), []))
+      }
     )]
   }
   application_count = length(local.application_config)

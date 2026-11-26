@@ -271,6 +271,18 @@ variable "cluster_administration" {
     error_message = "Tool dependencies must be unique, reference another configured tool, and cannot reference the tool itself."
   }
 
+  validation {
+    condition = try(alltrue([
+      for tool in try(try(jsondecode(var.cluster_administration), var.cluster_administration).tools, try(jsondecode(var.cluster_administration), var.cluster_administration).noprod.tools, try(jsondecode(var.cluster_administration), var.cluster_administration)) :
+      (try(tool.mirror_images, null) == null || try(tool.mirror_images, null) == true || try(tool.mirror_images, null) == false) &&
+      can(concat(coalesce(try(tool.additional_images, null), []), [])) && alltrue([
+        for image in coalesce(try(tool.additional_images, null), []) :
+        image == tostring(image) && can(regex("^[A-Za-z0-9][A-Za-z0-9._/@:+-]*$", image)) && !strcontains(image, "://")
+        if image != ""
+      ])
+    ]), false)
+    error_message = "Tool mirror_images must be a boolean; additional_images must be a list of container image references without URLs, credentials or whitespace."
+  }
 }
 
 variable "namespace_init_secret_name" {
