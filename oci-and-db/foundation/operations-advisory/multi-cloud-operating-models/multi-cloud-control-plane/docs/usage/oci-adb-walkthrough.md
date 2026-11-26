@@ -1,22 +1,21 @@
 # Walkthrough: Request a private OCI Autonomous Database
 
-This example follows one Project Team request from a prepared non-production repository to a reviewed deployment. It uses sample names and placeholders; replace only the bracketed values with the approved values from your handoff. Never copy a password or deployment credential into Git.
+Follow one database request using sample names and placeholders. Use approved values from your own project if you follow the procedure.
 
 ## Outcome
 
-The Project Team requests one private Autonomous Database named `ordersadb` in `dev` and `eu-frankfurt-1`. Cloud Operations has already handed off the repository, network, Database compartment, and runner boundary. The team proposes the change in a pull request; a reviewer approves it; trusted automation executes the merged request.
+Request a private Autonomous Database named `ordersadb` in `dev` and `eu-frankfurt-1`. The Small BYOL profile uses 2 ECPUs and 32 GB with compute and storage auto-scaling disabled.
 
 ## 1. Confirm that the request is ready
 
-Before editing anything, confirm all of the following:
+| You need | Where to find it |
+| --- | --- |
+| Write access to `nonprod-orders` and approval to use `dev` in `eu-frankfurt-1` | Cloud Operations and `environments/dev/environment_information.md` |
+| Database compartment and private database-subnet OCIDs | The environment handoff |
+| Database network security group key | `oci/dev/eu-frankfurt-1/network/project-nsgs.json` |
+| Dedicated password secret OCID for `ordersadb` | The approved Vault scope in the deployment region. Cloud Operations prepares the runner's read access. |
 
-- You have write access to the handed-off `nonprod-orders` repository.
-- `dev` and `eu-frankfurt-1` are approved in `environments/dev/environment_information.md`.
-- The handoff supplies the Database compartment and private database-subnet OCIDs.
-- The existing `oci/dev/eu-frankfurt-1/network/project-nsgs.json` file defines the database NSG key you will use.
-- The Project Team has a distinct administrator-password secret for `ordersadb`, or will prepare one through the Codex skill using its authorized Project Team OCI profile. The secret belongs to the handed-off Vault scope and deployment region. Cloud Operations has prepared the runner's read access.
-
-If the handoff is incomplete, ask Cloud Operations to correct it. If the secret is missing, the [Codex plugin](codex-plugin.md) can propose its preparation, ask for a separate confirmation, create it using native Vault password generation and insert the returned OCID into the request. Manual preparation remains available; the optional UI requires an existing OCID. Do not invent a foundation reference or commit a secret value.
+Ask Cloud Operations to correct an incomplete handoff. Prepare a missing secret through your approved manual process or the [Codex plugin](codex-plugin.md#prepare-and-publish). The optional UI requires an existing OCID.
 
 ## 2. Prepare one manifest change
 
@@ -26,7 +25,7 @@ Use the OCI Small BYOL ADB template from the approved [resource catalog](../../r
 oci/dev/eu-frankfurt-1/database/database.json
 ```
 
-For the first database in that file, replace its `{}` contents with this single entry. Replace the bracketed values with handoff values, and replace `orders-db-nsg` with the key already present in the project NSG manifest.
+For the first database, replace the file's `{}` with the example below. If the file already has databases, add only the `ordersadb` entry to `databases` and check the existing compartment. Replace the bracketed placeholders with the approved compartment, subnet and secret OCIDs. Use the existing database NSG key in place of `orders-db-nsg`.
 
 ```json
 {
@@ -55,16 +54,29 @@ For the first database in that file, replace its `{}` contents with this single 
 }
 ```
 
-The manifest contains the secret's OCID, not its value. The native module reads its current version from Vault during the reviewed plan and apply. Use a different secret for each database. The password must meet the catalog prerequisites: 12 to 30 characters with uppercase, lowercase and a digit, without double quotes or `admin` in any casing. Keep one database configuration file for this cloud, environment, and region; Terraform does not deep-merge repeated root values across separate files.
+Commit the secret OCID and keep the password in Vault. For manual preparation, use 12 to 30 characters with uppercase, lowercase and a digit. Exclude double quotes and `admin` in any casing. Keep one database configuration file for the selected cloud, environment and region.
 
 ## 3. Open and review the pull request
 
-Check the JSON, then create a focused branch and pull request through the [GitHub interface](github-interface.md), optional UI, or optional Codex plugin. Record the change reference required by your organization, for example `CRQ1234`.
+Validate the JSON and open a focused pull request. You can also prepare the request from the [optional UI](optional-ui.md) or [Codex plugin](codex-plugin.md). Record the change reference, for example `CRQ1234`.
 
-Before approval, verify that the pull request changes only this OCI `dev` request, the compartment, subnet, and NSG key match the handoff, and the plan shows one intended private Autonomous Database. The reviewer must not be the pull-request author.
+Ask an independent reviewer to compare the compartment and subnet with the handoff and the NSG key with the regional network manifest. The current plan should show one new private database for the intended OCI scope.
 
 ## 4. Merge and verify the result
 
-After the required approval and successful plan, merge through the governed process. The trusted runner, not the Project Team, applies the change. Verify the post-merge workflow and the database outcome, then retain the pull request and workflow result as the request evidence.
+After approval, merge through the approved process. Verify the execution step for the merge commit and confirm that the database is available in the intended OCI environment. Keep the pull request and workflow link. See the [request lifecycle](request-lifecycle.md) for removal and troubleshooting.
 
-For the complete safety rules, including removal and troubleshooting, follow the [request lifecycle](request-lifecycle.md). The supplied request surface and reference scope are listed in [Reference capabilities](../reference/support.md).
+## Request an Autonomous Database on Azure
+
+Use the same review process in a separate Azure pull request. Choose the [Small private BYOL profile](../../repository-sources/gitops-templates/resources-catalog/azure/databases/adb-small-byol.json) or [Small public mTLS BYOL profile](../../repository-sources/gitops-templates/resources-catalog/azure/databases/adb-small-public-mtls-byol.json). Both use 2 base ECPUs, 1 TB, OLTP and Oracle Database 19c, with CPU auto-scaling enabled and storage auto-scaling disabled.
+
+Merge the selected entry under `oracle_autonomous_databases` in `azure/<environment>/<region>/database/database.json`, for example `azure/dev/uksouth/database/database.json`. Replace `{}` for the first entry or add to the existing collection. Supply the intended existing `resource_group_name`, such as `rg-emea-oa`, and Azure `location`, such as `uksouth`, matching the manifest region. The runner supplies subscription and authentication.
+
+| Profile | Network inputs and access |
+| --- | --- |
+| Private | Supply an existing `virtual_network_id` and Oracle-delegated `subnet_id`. Clients need connectivity to the private endpoint. |
+| Public mTLS | No VNet or subnet input is required. Connections from any IP are permitted, with mandatory mTLS, a client wallet and database authentication. State this public exposure in the request. |
+
+Each Azure database needs its own OCI Vault secret OCID in `admin_password_secret_id`, distinct from the OCI database secret and any other database secret. The version 5 environment handoff identifies the approved Vault, project key, Database secrets compartment and OCI region used to validate and resolve that secret. The Azure deployment location does not select the OCI Vault region. Keep secret values outside the manifest and do not add password or secret-region fields. Prepare a missing secret through the approved manual process or the [Codex plugin](codex-plugin.md#prepare-and-publish); the optional UI requires an existing OCID.
+
+Replace every catalog placeholder and retain the chosen profile's fixed values. Confirm that Cloud Operations has enabled the required [Azure adapter and foundation inputs](../../repository-sources/gitops-templates/resources-catalog/README.md#azure--databases). Follow the common [review, merge and execution verification](request-lifecycle.md#review-and-execute), checking the resource group, location, network profile and dedicated secret reference. Keep the matching pull request and post-merge workflow as evidence.

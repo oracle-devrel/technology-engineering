@@ -1,72 +1,50 @@
 # How the Control Plane works
 
-The [README](../../README.md) explains the operating model. This page focuses on how the supplied MCCP reference implementation enforces it through repositories, request flow, trust boundaries, and extensions.
+When each cloud has its own tools and steps, teams have to relearn how to ask for a change. Reviewers have to look in different places to see what will happen and whether it worked. The Multi-Cloud Control Plane (MCCP) gives teams one way to request a change, get it reviewed and find the result.
+
+MCCP is a reference implementation that customers can install on their existing cloud foundation. Cloud Operations connects the foundation references, cloud access, state storage and trusted runners. Project Teams can then start with the included catalog and request changes within their approved scope.
+
+## One process across clouds
+
+Imagine two teams need a database. One chooses a private Autonomous Database in Oracle Cloud Infrastructure (OCI). The other chooses an Autonomous Database on Azure. Each team picks an approved option from the catalog and opens its own request. Both teams can see what is planned, who approved it and what happened in GitHub.
+
+The [capability matrix](support.md) shows the current coverage: resources in OCI, Azure and Google Cloud, plus selected OCI operations. Customers can extend the reference for their needs. AWS is one possible future integration; Cloud Operations would first need to implement and review its delivery path.
 
 ## Governed request flow
 
 ```mermaid
-flowchart LR
-    CO[Cloud Operations<br/>foundation and handoff] --> R[Handed-off<br/>project repository]
-    R --> G[GitHub<br/>edit manifest]
-    R --> U[Optional UI<br/>prepare request]
-    R --> C[Optional Codex plugin<br/>prepare request]
-    G --> PR[Pull request]
-    U --> PR
-    C --> PR
-    PR --> V[Plan or check<br/>and human review]
-    V --> M[Approved merge]
-    M --> T[Trusted runner]
-    T --> O[Cloud result<br/>and execution evidence]
+---
+config:
+  flowchart:
+    useMaxWidth: false
+    rankSpacing: 18
+    padding: 8
+---
+flowchart TD
+    accTitle: How an MCCP request moves
+    accDescr: Cloud Operations hands over the project. The Project Team requests a change. Automation checks it and an independent reviewer approves it. After merge, automation runs the change and records the outcome.
+    H["Cloud Operations hands over a project"] --> R["Project Team requests a change"]
+    R --> C["Automation shows what it will do"]
+    C --> V["An independent reviewer approves"]
+    V --> M["The approved request is merged"]
+    M --> E["Automation runs and records the change"]
 ```
 
-All three routes prepare the same proposed manifests and pull requests. Workload deployment and lifecycle execution require the organization's independent human review and authorized merge. The optional UI cannot merge. In Codex only, Project Team may explicitly request a merge of one exact PR after its decision summary; the plugin rechecks the reviewed head/base, current approval, matching validation and repository restrictions before merging and monitoring the post-merge workflow. Neither client bypasses review or holds cloud deployment authority. Project Team can also separately confirm preparation of a dedicated ADB secret in Codex using its own authorized OCI profile and native Vault generation. The plugin inserts the returned OCID into the manifest before the separate GitHub preview and confirmation. The UI requires an existing secret OCID.
+- **Cloud Operations** prepares the project, the approved options and the automation with cloud access.
+- **Project Team** chooses an approved option and submits it as a pull request, a proposed change in GitHub.
+- **The reviewer** checks the proposal and what the automation plans to do. Merging adds the approved change to the project repository so the automation can run it.
 
-The [Reference capabilities](support.md) page lists the resource and operation patterns supplied with this reference. The operating pattern can extend beyond that scope when its complete delivery chain is implemented.
+## Where to go next
 
-## Repository model
+- **See what you can request.** [Reference capabilities](support.md)
+- **Make your first request.** [Project Team guide](../usage/README.md)
+- **Set up MCCP.** [Installation runbook](../installation/installation-runbook.md)
+- **Add a resource, operation or cloud integration.** [Extending MCCP](architecture-details.md#extension-model)
 
-The shared control plane contains four private repositories:
+## Technical reference
 
-- `platform-ci` supplies the reusable workflows and validation actions;
-- `gitops-templates` supplies the approved resource and operation catalogs;
-- `nonprod-project-template` seeds shared non-production repositories; and
-- `prod-project-template` seeds isolated production repositories.
-
-Each project receives one `nonprod-<project>` repository for `dev`, `test`, and `uat`. A project enabled for production also receives a separate `prod-<project>` repository for `prod`. Terraform state is isolated by repository, cloud, environment, and region.
-
-Project repositories contain configuration and handoff metadata, not cloud credentials. Cloud Operations publishes the OCI project foundation references in the environment handoff and prepares trusted runners. Azure uses an existing foundation: resource inputs come from the request or existing resource JSON, while subscription and authentication stay in the runner's `ARM_*` configuration. Its Markdown section is optional context, not an enablement gate. Google Cloud retains its reviewed handoff references. Workflows validate request paths, deployment tuples and supported manifest shapes. Human review checks the intended foundation references, using the OCI/Google handoff or the supplied Azure resource inputs, and the runner's effective IAM permissions control cloud access. The runtime does not compare every manifest reference with the handoff document.
-
-For Azure and Google Cloud, the reference patterns consume direct references to existing foundation resources. See [Reference capabilities](support.md) for its exact boundaries.
-
-## Execution and trust boundary
-
-Project Teams propose changes and reviewers approve them. Runner identities hold cloud permissions. Project repository workflows call the private shared workflow, select the correct state and runner boundary, and record the plan, check, and execution result in GitHub.
-
-The supplied baseline may route OCI, Azure, and Google Cloud jobs to trusted OCI-hosted runners carrying the required labels and workload identities. Non-production and production retain separate runner boundaries.
-
-## Target operating model
-
-The completed MCCP model separates foundation governance from project delivery. Cloud Operations owns the shared foundation, policy boundary, state, runner identities, and project handoff. Project Teams request catalog-defined workload and project-scoped resources within the approved foundation and runner access; they do not hold cloud deployment credentials.
-
-Each cloud integration can add further project-scoped resource families within the approved boundary. The catalog, semantic validation, runner permissions, and documentation define what is available for a specific cloud, environment, and region. Foundation governance remains with Cloud Operations.
-
-## Extension model
-
-The supplied baseline is a governed starting point, rather than the completed service catalog. Cloud Operations sets the customer organization, approved module revisions, runners and deployment scope during installation. The Project Team uses that prepared scope without having to configure the platform. A new resource is available only after Cloud Operations implements the complete delivery chain:
-
-- foundation references, permissions, and the handoff contract;
-- an approved catalog template and semantic validation;
-- a cloud orchestrator or execution implementation and explicit workflow routing;
-- isolated state, a scoped runner identity, and required secrets; and
-- customer documentation, security review, and validation.
-
-A new operation also requires its allowed manifest fields, inventory extraction for its targets, and a provider-specific playbook or execution action. Adding only a template or Terraform module does not authorize a new request path.
-
-Extensions preserve the operating contract: private-by-default workloads, one cloud/environment/region tuple per pull request, human approval, least privilege, and separation of duties.
-
-## Next steps
-
-- Follow a request end to end in the [request lifecycle](../usage/request-lifecycle.md).
-- Review the [security and trust controls](security.md).
-- Prepare organization repositories and runners with the [installation runbook](../installation/installation-runbook.md).
-- Check the [Reference capabilities](support.md) before preparing a request.
+- <a name="repository-model"></a>[Repositories and environments](architecture-details.md#repository-model)
+- <a name="execution-and-trust-boundary"></a>[Execution and trust](architecture-details.md#execution-and-trust-boundary)
+- <a name="target-operating-model"></a>[Cloud Operations and Project Team boundaries](architecture-details.md#target-operating-model)
+- <a name="extension-model"></a>[Extending MCCP](architecture-details.md#extension-model)
+- [Security and GitHub controls](security.md)

@@ -1,23 +1,18 @@
 # Installation runbook
 
-> **Audience:** Cloud Operations<br>
-> **Outcome:** Shared repositories, trusted runners, and one accepted project repository ready for Project Team requests.<br>
-> **Scope:** This runbook does not provision the state bucket, runner hosts, cloud foundation, or customer identities.
-
-It establishes the shared control plane, prepares one project for use, and then optionally adds request interfaces.
+Cloud Operations uses this runbook to publish the shared repositories, connect trusted runners and verify the first project. Start with an existing cloud foundation, state bucket, runner hosts and customer identities.
 
 ## Installation path
 
-1. [Prepare the installation inputs](#1-prepare-the-installation-inputs): a clean source clone, GitHub organization access, state backend, runner hosts, and a completed project foundation.
-2. [Publish the shared repositories](#2-publish-the-shared-repositories).
-3. [Register and verify trusted runners](#3-register-and-verify-trusted-runners).
-4. [Hand off the first project repository](#4-hand-off-the-first-project-repository).
-5. [Accept the first project](#5-accept-the-first-project).
-6. Complete the [optional interface setup](optional-interfaces.md) only if the customer selected the Multi-Cloud Control Plane UI or Codex plugin.
+| Stage | Checkpoint |
+| --- | --- |
+| [1. Prepare the inputs](#1-prepare-the-installation-inputs) | The source clone, GitHub access and cloud prerequisites are ready. |
+| [2. Publish the repositories](#2-publish-the-shared-repositories) | Four private repositories are published at the verified commits. |
+| [3. Verify trusted runners](#3-register-and-verify-trusted-runners) | Runners are online with the required labels, access and secret configuration. |
+| [4. Hand off the first project](#4-hand-off-the-first-project-repository) | The project repository has its reviewed scope, access and merge controls. |
+| [5. Accept the first project](#5-accept-the-first-project) | The first intended plan or check passes on the customer runners. |
 
-Stop at any stage whose success condition is not met; do not move a Project Team into a repository that has not been handed off and accepted. The GitHub interface is available as soon as the project acceptance check succeeds and needs no additional MCCP component.
-
-Run the source commands from the `multi-cloud-control-plane` directory of a clean clone. No custom installation program is required. The [repository source index](../../repository-sources/README.md) describes the technical contract of each repository the runbook publishes.
+Run the commands from the `multi-cloud-control-plane` directory of a clean clone. Continue when the current stage's checkpoint passes. After acceptance, Project Teams can use GitHub directly. If selected, complete the [optional interface setup](optional-interfaces.md).
 
 ## 1. Prepare the installation inputs
 
@@ -29,7 +24,7 @@ Before starting, confirm these inputs and retain the indicated evidence:
 | Clean MCCP source clone with Git, GitHub CLI (`gh`), `jq`, `rg`, and Perl | Installation operator | `git status --short` is empty and all required tools are available. |
 | Dedicated, private, versioned OCI Object Storage state bucket, including namespace and region | Cloud Operations | Approved bucket details; it is not a foundation-state bucket. |
 | Separate trusted Linux runner hosts for non-production and production | Cloud Operations | Approved cloud identities and network access. |
-| Completed OCI project-foundation handoff for the first project | Cloud Operations | Approved OCI environment, region, compartments, network and Vault references. Azure uses existing foundation inputs in the resource JSON and a configured runner. |
+| Existing environment foundation for the first project | Cloud Operations | Approved environment and OCI region, foundation compartments and network, shared workload Vault and runner policies. OP04 supplies the project compartments, key and handoff in step 4. Azure uses existing foundation inputs in the resource JSON and a configured runner. |
 
 Authenticate `gh` to the intended customer organization, then check the source clone:
 
@@ -121,7 +116,7 @@ export CATALOGS_REF=$(git -C "$STAGE/gitops-templates" rev-parse HEAD)
 
 ### 2.3 Publish, configure, and record evidence
 
-Keep Platform CI private, restrict its write access to Cloud Operations, and apply the repository controls available on the customer GitHub plan. `PLATFORM_CI_COMMIT` is installation evidence. Project repositories intentionally call the Cloud Operations-controlled `platform-ci` `main` branch at runtime; its changes remain a Cloud Operations review responsibility. Official GitHub Actions use reviewed major release tags. Major tags can move, so Cloud Operations reviews their release changes during every Platform CI upgrade. The fixed secret-delivery contract keeps workload-secret values in the project's approved Vault scope. Project Teams create and rotate those values; Cloud Operations prepares the runner access. GitHub stores references and review evidence, not workload-secret values. See the [security guidance](../reference/security.md) for the controls recommended for each GitHub plan.
+Keep Platform CI private, grant write access to Cloud Operations and review changes to its `main`. Project workflows call that branch at runtime. Record `PLATFORM_CI_COMMIT` as installation evidence. Follow the [security controls](../reference/security.md#required-controls) when reviewing Action releases and configuring repositories.
 
 Publish the staged sources and enable the project templates:
 
@@ -161,7 +156,7 @@ test "$(git ls-remote "https://github.com/$CUSTOMER_ORG/gitops-templates.git" \
 
 **Continue only when:** all commands that use `test` return exit code zero and the four commit values are recorded as installation evidence.
 
-To resume an interrupted publication, it is safe to recreate the staging directory and repeat the rendering and staged-source verification. Do not rerun `gh repo create` for a repository that already exists. Inspect its `main` commit first: repair its push if it is the intended staged commit, or remove the partial repository only after confirming that it contains no customer work. Then create or publish only the repository that did not complete, and repeat the published-commit checks for all four repositories.
+To resume an interrupted publication, recreate and verify the staging output if needed. Check which repositories exist and inspect their published `main` commits before retrying. Repair the push only for the intended partial repository, or follow the approved recovery process if it differs. Publish the missing repositories and repeat the commit checks for all four.
 
 ## 3. Register and verify trusted runners
 
@@ -217,47 +212,36 @@ gh api "orgs/$CUSTOMER_ORG/actions/runners" --paginate \
 
 ### Prepare workload-secret delivery
 
-Handoff 5 identifies the environment shared workload Vault, project HSM key and Database compartment where Project Team manages its secrets. Onboarding creates the project key and compartments; CloudOps separately prepares and administers the shared Vault. It creates no passwords. Cloud Operations gives the runner the required read access. Workload requests use secret references; values stay in Vault.
+Before onboarding, Cloud Operations prepares and administers the shared workload Vault and configures the runner policies for the intended project scope. After step 4 delivers the version 5 handoff, use it to identify the shared Vault, project HSM key and Database compartment and verify the runner's required read access. The Project Team then creates and rotates the database secrets; a new installation does not need project secrets or a project handoff before OP04.
 
-| Request | What to prepare |
+| Request | Secret input |
 | --- | --- |
-| OCI ADB | One Vault secret per database, in the project/environment and deployment region. Put its OCID in `admin_password_secret_id`. The native module reads its current version. |
-| Azure ADB | One Vault secret per database. Put its OCID in `admin_password_secret_id`, as for OCI. The runner uses the existing foundation IAM permissions; no additional project mapping or binding is registered. |
-| Google Cloud ADB | The provider-native secret reference required by the catalog. |
+| OCI ADB | One Vault secret per database in the approved project scope and deployment region. Use its OCID in `admin_password_secret_id`. |
+| Azure ADB | One Vault secret per database in the approved project scope. Use its OCID in `admin_password_secret_id` and the OCI region in the trusted handoff for the secret. |
+| Google Cloud ADB | The provider-native reference from the catalog. |
 
-Azure ADB uses `admin_password_secret_id`, just like OCI. Before Terraform initialization or backend access, the common validator reads handoff 5 from the PR base commit for plan or the merged commit for apply. It validates metadata for every ADB secret against the project Database compartment, shared Vault, project key, OCI region and ACTIVE state. It rejects incomplete or foreign references and query errors before any content read. Azure then retrieves `CURRENT` through the existing Instance Principal into private temporary variables. Its OCI Vault region comes from the trusted handoff even when the Azure ADB location is `uksouth`. Foundation onboarding supplies the Vault/key references and baseline runner policies; verify effective access through the reviewed workload plan. No additional project registration, scope file, secret-region input or per-secret binding is needed. The Azure module receives the password only in private temporary variables; Terraform plan/state remain sensitive. A shared runner identity is a shared permission boundary and does not prove per-project isolation.
-
-Azure and Google VM manifests contain the approved SSH public key directly. Public keys are not passwords; private keys stay protected on the runner. Render every catalog placeholder before opening a request. No runtime binding file or environment-token registration is required. Existing runner binding files are no longer read; their removal is a separate administrator task.
+After handoff, verify access through the first intended request that uses a secret. Use the approved SSH public key directly in Azure and Google VM manifests. Keep credentials outside Git and replace all catalog placeholders before submitting a request. The [secret-delivery reference](../reference/security.md#secret-delivery) explains the trusted revision, metadata checks and native secret resolution.
 
 ## 4. Hand off the first project repository
 
-The **[OP04 project-onboarding workflow](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities)** creates the project foundation: four compartments and their admin groups, plus an AES-256 HSM key in Database linked to the environment shared DEFAULT workload Vault in security. The environment foundation already supplies the runner policies. Onboarding creates no workload or password.
+The [OCI Landing Zone project-onboarding workflow](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities), known as OP04, prepares the OCI project foundation. It creates the project and its Application, Database and Infrastructure compartments, their admin groups, and one AES-256 HSM key in Database linked to the shared DEFAULT workload Vault. Cloud Operations prepares the environment foundation, shared Vault and runner policies in advance.
 
-After the reviewed dev onboarding is merged and applied, the supplied automation generates and validates both handoff files, creates an absent private `nonprod-<project>` repository from template `main`, and publishes its development handoff. The Project Team receives its approved scope without copying cloud identifiers by hand. Cloud Operations checks the apply and repository-publication results before handing it over.
+Complete steps 2 and 3 before starting automatic project delivery: the configured project template must be published and enabled, Platform CI must be accessible to the organization, and the required runners must be ready.
 
-For recovery or another environment, use the governed Cloud Operations handoff process: validate `project-foundation-handoff.json` together with `environment_information.md`, create or reuse the approved project repository, and publish the environment handoff through its reviewed change. Shared non-production uses `nonprod-project-template`; production uses the separate `prod-project-template`.
+1. **Verify or obtain the project handoff.** If a valid handoff already exists for the intended project, environment and region, verify its schema, scope and published references through the governed Cloud Operations process and reuse it. Do not repeat onboarding. Otherwise, submit the reviewed OP04 onboarding and verify its successful apply and delivery. The configured automation can create an absent private `nonprod-<project>` repository from template `main` and deliver the dev handoff. Validate `project-foundation-handoff.json` and `environment_information.md` from that exact successful workflow run, then compare the published environment handoff with those artifacts. Use the non-production or production template for the intended boundary. If delivery is incomplete, follow [handoff recovery](#handoff-recovery) before continuing.
+2. **Check the cloud inputs.** Use the generated OCI references in `environments/<environment>/environment_information.md`. For Google Cloud, verify the approved handoff references. Azure uses the existing resource group, location, network references where required and a dedicated secret for ADB. Supply these in the request or its JSON. The existing runner supplies `ARM_*` settings, and Azure entries in the handoff are optional context.
+3. **Set access and review controls.** Give Project Team access. The Project Team can turn `.github/CODEOWNERS.template` into `.github/CODEOWNERS` as described in the project template. On Team or Enterprise Cloud, configure an active ruleset for `main` requiring a pull request and at least one approval, with no direct-push bypass. On GitHub Free private repositories, restrict direct access and record independent review through the [procedural control](../reference/security.md#github-plan-controls).
+4. **Check readiness for the first request.** Verify the project's runner, state, identity and Vault scope. Check the [reference capabilities](../reference/support.md) and the inputs required for the first request with the Project Team.
 
-Before the Project Team starts its first request:
+**Continue only when:** the handoff is complete, Project Team has the intended access and review path, and all runner permissions and resource inputs for the selected cloud are ready. Use the [Project Team guide](../usage/README.md) to prepare the first request for acceptance.
 
-1. The OCI section of `environments/<environment>/environment_information.md` is published by the Landing Zone project-foundation handoff. The OP04 phase supplies the project compartments, groups and key linked to the authorized shared workload Vault, so do not hand-write its OCI references. Google Cloud still requires its reviewed foundation references in the handoff. Azure uses an existing foundation: resource group, location, network references when private, and the dedicated secret OCID go in the resource JSON; subscription and authentication stay in the runner's existing `ARM_*` configuration. Azure Markdown is optional documentation and needs no prerequisite handoff PR. OP04 remains OCI-only. Use the [OCI Landing Zone](https://github.com/oci-landing-zones/oci-landing-zone-operating-entities) if the foundation does not exist yet.
-2. Configure Project Team access. The Project Team owns review ownership and may render `.github/CODEOWNERS.template` into an active `.github/CODEOWNERS` file as described in the project template README. A template-only file is valid until the Project Team configures its owners.
-3. Apply the `main` control recommended for the customer GitHub plan:
-   - **GitHub Team or GitHub Enterprise Cloud:** create an active repository
-     ruleset targeting `main`. Require a pull request, at least one approving
-     review, and no bypass that permits a direct push. This blocks direct
-     pushes and requires an approval from someone other than the pull request
-     author.
-   - **GitHub Free:** GitHub cannot enforce these controls for a private
-     repository. Follow the procedural approval control in
-     [Security and GitHub controls](../reference/security.md#github-plan-controls).
-4. Confirm the project's runner, identity, state and Vault scope. Prepare the native secret references required by the first request. Azure and Google VM SSH public keys are rendered directly in their manifests. Project Teams create and rotate values in Vault through the approved process.
-5. Confirm the request surface is within [Reference capabilities](../reference/support.md).
+### Handoff recovery
 
-**Continue only when:** the OCI handoff is complete and the selected cloud has its required runner access and resource inputs. The Project Team then starts with the [Project Team guide](../usage/README.md), not with platform setup.
+Keep incomplete delivery unverified and retain its workflow link. Use the governed Cloud Operations recovery procedure with validated artifacts from an eligible successful run. If no such evidence exists, stop before handoff publication; artifacts from a failed run are not eligible. A separate recovery write needs its own preview and confirmation. Inspect any existing target repository before recovery, preserve a valid handoff and ownership layout, and create an absent repository only through the configured GitHub template mechanism. Verify the recovered handoff against the validated artifacts before resuming. Do not repeat project creation or silently rerun the workflow.
 
 ## 5. Accept the first project
 
-Cloud Operations coordinates the [first-project check](../reference/verify-secret-isolation.md) using the project's first intended request in an enabled cloud. Verify the runner, state and required secret references through its plan or lifecycle check before deployment. Do not create an extra database or enable another cloud just for acceptance.
+Use the [first-project check](../reference/verify-secret-isolation.md) on the first intended request in an enabled cloud. Confirm the expected runner, state and any secret references using the plan or lifecycle check before workload deployment.
 
 For GitHub Team and GitHub Enterprise Cloud, also inspect the active `main` ruleset after configuring it:
 
