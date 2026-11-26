@@ -2,9 +2,10 @@
 
 This section covers the new features introduced in the Oracle Database 26ai release (as a rebrand from 23ai and starting with 23.26.00 release), focusing on enhancements and functionalities in SQL for application development.
 This asset contains a brief set of Oracle Database 26ai new features examples which are then included in a specific asset file for consultation.
+Worth mentioning the periodically updated assets by Oracle Database SQL and PL/SQL advocates (Connor McDonald, Chris Saxon).
 The list of New Features will be periodically updated and adjusted.
 
-Reviewed: 26.08.2026
+Reviewed: 20.11.2026
 
 # Team Publications
 
@@ -17,6 +18,7 @@ Reviewed: 26.08.2026
 # Useful Links
 
 - [Oracle Database 26ai New Features](https://apex.oracle.com/database-features/)
+- [Connor McDonald 26ai 100 features in 100 days! - YouTube videos](https://www.youtube.com/watch?v=Nx7FzD4Ti_Y&list=PLd9fTxxBD9mk&index=1)
 
 # Reusable Assets Overview
 

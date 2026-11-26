@@ -6,13 +6,16 @@ This section covers Public Oracle SQL Tools: Use of SQL in extensive way: from S
 Providing links to public useful documentation about SQL use and tips. SQL Tips on Fortnight basis and and articles/blogs written by Oracle SQL and Database Advocates and Product Managers and SQL examples are shown here.
 A SQL Clue Card is also provided.
 
-Reviewed: 26.08.2026
+Reviewed: 26.11.2026
 
 # Team Publications
 
 - [Subqueries, Scalar Subqueries, IN and EXISTS and CTEs WITH clause- Linkedin Post](https://www.linkedin.com/posts/ppaolucci_devgym-chrissaxon-activity-7333117804474216449-uwul?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAAKKqcBMGaLM24oFc1jnB_Fhe5AkpZfpu4)
 
 # Useful Links
+
+- [Blazingly fast DDL? - Connor McDonald](https://connor-mcdonald.com/2026/10/14/blazingly-fast-ddl-joelkallmanday/)
+- [Jeff Smith PM Blog - How to connect to OCI Database via SQLcl](https://www.thatjeffsmith.com/archive/2026/06/how-to-connect-to-your-oci-oracle-database-via-sqlcl/)
 
 ## SQL Tips
 
