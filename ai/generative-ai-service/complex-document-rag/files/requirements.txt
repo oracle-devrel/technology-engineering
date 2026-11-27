@@ -1,5 +1,5 @@
 # Core Dependencies
-gradio==6.15.1
+gradio==6.16.0
 chromadb==0.5.3
 python-dotenv==1.2.2
 
