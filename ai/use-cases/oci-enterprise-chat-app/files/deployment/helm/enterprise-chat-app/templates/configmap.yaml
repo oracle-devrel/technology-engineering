@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "enterprise-chat-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+data:
+  HOST: {{ .Values.backend.config.host | quote }}
+  PORT: {{ .Values.backend.config.port | quote }}
+  RELOAD: {{ .Values.backend.config.reload | quote }}
+  LOG_LEVEL: {{ .Values.backend.config.logLevel | quote }}
+  UPLOAD_DIR: {{ .Values.backend.config.uploadDir | quote }}
+  CORS_ORIGINS: {{ include "enterprise-chat-app.corsOrigins" . | quote }}
+  ORACLE_DB_USERNAME: {{ .Values.backend.config.oracleDbUsername | quote }}
+  ORACLE_DSN: {{ .Values.backend.config.oracleDsn | quote }}
+  ORACLE_WALLET_DIR: {{ .Values.backend.config.oracleWalletDir | quote }}
+  ORACLE_VECTOR_TABLE: {{ .Values.backend.config.oracleVectorTable | quote }}
+  ORACLE_EMBEDDING_DIMENSION: {{ .Values.backend.config.oracleEmbeddingDimension | quote }}
+  EMBEDDING_MODEL: {{ .Values.backend.config.embeddingModel | quote }}
+  RAG_MODEL: {{ .Values.backend.config.ragModel | quote }}
+  MAX_BATCH_PARALLELISM: {{ .Values.backend.config.maxBatchParallelism | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "enterprise-chat-app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+data:
+  VITE_API_URL: {{ .Values.frontend.config.viteApiUrl | quote }}
