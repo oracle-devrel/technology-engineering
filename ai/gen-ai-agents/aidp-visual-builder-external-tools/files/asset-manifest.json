@@ -1,0 +1,29 @@
+{
+  "name": "AIDP Vendor Feedback Review Agent",
+  "version": "2.0.0",
+  "runtime": "Oracle AI Data Platform Workbench Visual Builder",
+  "goal": "Build one agent that combines Select AI database results with passages retrieved from an OCI Generative AI Vector Store.",
+  "tools": [
+    {
+      "name": "Query Supplier Feedback",
+      "type": "AIDP Custom Tool",
+      "database_tool": "SUPPLIER_FEEDBACK_SQL",
+      "authentication": "AIDP Credential Store; no credentials included"
+    },
+    {
+      "name": "Document Search",
+      "type": "HTTP request to OCI Generative AI Vector Store search API",
+      "authentication": "AIDP Credential Store/session variable; no credentials included"
+    }
+  ],
+  "included_business_data": false,
+  "screenshots": [
+    "AIDP visual flow",
+    "Completed vector-store files",
+    "Playground combined response"
+  ],
+  "native_aidp_bundle_included": false,
+  "custom_tool_package": "files/custom-tool/select-ai-custom-tool.zip",
+  "custom_tool_source": "files/custom-tool/source/tool_implementation.py",
+  "database_tool_setup": "files/database/create-select-ai-mcp-tool.sql"
+}

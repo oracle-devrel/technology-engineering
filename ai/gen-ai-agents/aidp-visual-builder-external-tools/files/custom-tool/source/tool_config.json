@@ -1,0 +1,27 @@
+{
+  "displayName": "Supplier Feedback Database Tool",
+  "description": "Queries supplier feedback through the Autonomous AI Database Select AI MCP tool.",
+  "tools": [
+    {
+      "toolClassName": "SupplierFeedbackQuery",
+      "displayName": "Query Supplier Feedback",
+      "description": "Answers natural-language questions about supplier feedback and ratings from the supplier feedback database. Use this for questions about supplier names, ratings, and feedback. Returns database results; do not invent values when the query returns no rows.",
+      "version": "1.0.0",
+      "schema": [
+        {
+          "name": "question",
+          "type": "string",
+          "description": "The user's natural-language question about supplier feedback or ratings."
+        }
+      ],
+      "conf": {
+        "region": "",
+        "database_ocid": "",
+        "credential_name": "",
+        "username_key": "username",
+        "password_key": "password",
+        "timeout_seconds": 45
+      }
+    }
+  ]
+}
