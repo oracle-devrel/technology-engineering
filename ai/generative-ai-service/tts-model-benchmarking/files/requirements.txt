@@ -1,0 +1,15 @@
+# Core: enough to run tts_bench.py
+oci>=2.185
+oci-openai>=1.1
+httpx>=0.27
+numpy>=1.26
+python-dotenv>=1.0
+
+# Charts and the notebook (plots.py, notebook/tts_benchmark.ipynb)
+pandas>=2.0
+matplotlib>=3.8
+
+# Optional, for intelligibility scoring with wer.py. Pick ONE backend:
+#   pip install faster-whisper      # CPU or NVIDIA GPU, works in OCI Data Science notebooks
+#   pip install openai-whisper      # reference implementation, needs ffmpeg
+#   pip install mlx-whisper         # Apple Silicon
