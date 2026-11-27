@@ -1,9 +1,8 @@
 # Codex plugins
 
-These packages extend Codex without becoming part of the deployment runner.
+Project GitOps helps a Project Team prepare a supported request, follow its validation and find the result in GitHub.
 
-| Plugin | Purpose |
-| --- | --- |
-| `project-gitops/` | Helps Project Teams prepare supported, confirmation-gated GitHub pull requests |
+- Project Teams can follow the [Codex request guide](../docs/usage/codex-plugin.md).
+- Cloud Operations can prepare the [approved marketplace](../docs/installation/optional-interfaces.md#optional-codex-plugin).
 
-The plugin is optional. Cloud Operations stages it with the rendered MCCP installation configuration; Project Teams can always use the GitHub interface instead.
+The plugin is optional. The [GitHub interface](../docs/usage/github-interface.md) uses the same review and execution process.

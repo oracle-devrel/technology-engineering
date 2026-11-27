@@ -12,7 +12,7 @@ Use it to know more about ExaDB-D Provisioning Day 1 operations.
 
 ## How to use this asset?
 
-Read in the files folder the workshop in PDF [ExaDB-D - Provisioning Operations Deep Dive Worksho.p](./files/Public_1_ExaDB-D_Provision_v1.0.pdf).
+Read in the files folder the workshop in PDF [ExaDB-D - Provisioning Operations Deep Dive Workshop](./files/Public_1_ExaDB-D_Provision_v1.0.pdf).
   
 # License
 Copyright (c) 2026 Oracle and/or its affiliates.

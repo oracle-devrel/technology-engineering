@@ -10,7 +10,7 @@ The umbrella chart and component charts have separate lifecycles:
 
 Trigger behavior:
 
-- Changes under `${application_path}/charts/${component_name}/**` package only the component chart and redeploy dev.
+- Changes under `${application_path}/charts/${component_name}/**` package only the component chart and redeploy `${dev_environment_name}`.
 - Changes under `${application_path}/**`, excluding `charts/**`, package only the umbrella baseline chart and start `${application_name}-deploy`.
 - Source code changes are handled in the separate `${component_name}` source repository.
 

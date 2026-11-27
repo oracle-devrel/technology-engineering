@@ -11,6 +11,14 @@ resource "oci_devops_project" "devops_project" {
   compartment_id = var.compartment_id
   name           = var.devops_project_name
   description    = var.devops_project_description
+
+  lifecycle {
+    precondition {
+      condition     = var.compartment_id != var.tenancy_id
+      error_message = "The OCI DevOps project must be created in a child compartment. The tenancy root is not supported because the GitOps bootstrap Shell stage creates a Container Instance in the project compartment."
+    }
+  }
+
   notification_config {
     topic_id = var.create_notification_topic ? oci_ons_notification_topic.devops_notification_topic.0.id : var.notification_topic_id
   }

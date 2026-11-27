@@ -13,7 +13,7 @@
                 </svg>
                 <div>
                     <h2 class="card-title text-2xl font-extrabold tracking-tight">Clouds &amp; Regions</h2>
-                    <p class="text-base-content/40 text-sm font-medium">Provider footprint for <span class="font-bold text-base-content/70">{{ project }}</span></p>
+                    <p class="text-muted text-sm font-medium">Provider footprint for <span class="font-bold text-base-content/70">{{ project }}</span></p>
                 </div>
             </div>
             <button class="btn btn-ghost btn-sm" hx-get="/partials/dashboard?project={{ project }}" hx-target="#main">Back</button>
@@ -27,7 +27,7 @@
         <div class="overflow-x-auto">
             <table class="table table-zebra">
                 <thead>
-                    <tr class="text-base-content/40">
+                    <tr class="text-muted">
                         <th>Provider</th>
                         <th>Region</th>
                         <th class="text-right">Resources</th>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div>
                                     <div class="font-bold uppercase tracking-wide">{{ cloud_name | upper }}</div>
-                                    <div class="text-xs text-base-content/35">
+                                    <div class="text-xs text-muted">
                                         {% if cloud_name == "oci" %}
                                         Oracle Cloud Infrastructure
                                         {% elif cloud_name == "azure" %}
@@ -102,7 +102,7 @@
             <div class="hero-content text-center">
                 <div class="max-w-md">
                     <h1 class="text-3xl font-bold">No Clouds Found</h1>
-                    <p class="py-6 text-base-content/60">This project does not have cloud or region data yet.</p>
+                    <p class="py-6 text-muted">This project does not have cloud or region data yet.</p>
                 </div>
             </div>
         </div>

@@ -4,8 +4,8 @@ The Resource Manager stack writes the initial
 `values/00-bootstrap.yml` and `resourceset.yml` when it seeds the repository.
 The local Kustomization renders every value file as a separate key in
 `ConfigMap/flux-operator-values`. The initially seeded
-`gitops/fluxcd/flux-operator.yml` Kustomization loads this self-managed
-application.
+`platform` Kustomization in `gitops/fluxcd/platform.yml` loads this self-managed
+application through `platform/applications/kustomization.yml`, like other tools.
 
 After bootstrap, cluster administrators own the ResourceSet and value files.
 Edit them through the normal branch, review, and merge workflow. Any value

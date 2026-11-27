@@ -1,0 +1,25 @@
+{
+  "_note": "Illustrative hospital policy for the demo. Validity windows and prices are placeholders, not clinical guidance. validity_days null = result never expires.",
+  "tests": [
+    { "code": "CBC", "name": "Complete blood count", "name_ar": "تعداد الدم الكامل", "category": "Haematology", "validity_days": 90, "price_sar": 120, "aliases": ["FBC", "full blood count", "haemogram", "hemogram"] },
+    { "code": "CMP", "name": "Comprehensive metabolic panel", "name_ar": "لوحة الأيض الشاملة", "category": "Chemistry", "validity_days": 90, "price_sar": 180, "aliases": ["metabolic panel", "chem panel", "BMP", "U&E", "electrolytes", "renal profile"] },
+    { "code": "LFT", "name": "Liver function tests", "name_ar": "وظائف الكبد", "category": "Chemistry", "validity_days": 90, "price_sar": 160, "aliases": ["liver profile", "hepatic panel", "ALT AST"] },
+    { "code": "LIPID", "name": "Lipid panel", "name_ar": "دهنيات الدم", "category": "Chemistry", "validity_days": 365, "price_sar": 160, "aliases": ["cholesterol", "lipid profile", "LDL HDL triglycerides"] },
+    { "code": "HBA1C", "name": "HbA1c", "name_ar": "السكر التراكمي", "category": "Diabetes", "validity_days": 90, "price_sar": 140, "aliases": ["glycated haemoglobin", "A1c", "sugar tracker"] },
+    { "code": "GLU", "name": "Fasting glucose", "name_ar": "سكر صائم", "category": "Diabetes", "validity_days": 30, "price_sar": 50, "aliases": ["FBS", "fasting blood sugar", "fasting sugar"] },
+    { "code": "TSH", "name": "Thyroid stimulating hormone", "name_ar": "الهرمون المنبه للغدة الدرقية", "category": "Endocrine", "validity_days": 180, "price_sar": 150, "aliases": ["thyroid", "thyroid function", "TFT"] },
+    { "code": "VITD", "name": "Vitamin D (25-OH)", "name_ar": "فيتامين د", "category": "Vitamins", "validity_days": 180, "price_sar": 220, "aliases": ["25-hydroxy vitamin D", "vit D"] },
+    { "code": "B12", "name": "Vitamin B12", "name_ar": "فيتامين ب12", "category": "Vitamins", "validity_days": 365, "price_sar": 170, "aliases": ["cobalamin", "vit B12"] },
+    { "code": "FERR", "name": "Ferritin and iron studies", "name_ar": "الفيريتين ومخزون الحديد", "category": "Haematology", "validity_days": 180, "price_sar": 190, "aliases": ["iron", "iron profile", "iron studies", "serum ferritin"] },
+    { "code": "CRP", "name": "C-reactive protein", "name_ar": "البروتين التفاعلي سي", "category": "Inflammation", "validity_days": 14, "price_sar": 90, "aliases": ["inflammation marker"] },
+    { "code": "ESR", "name": "Erythrocyte sedimentation rate", "name_ar": "سرعة ترسب الدم", "category": "Inflammation", "validity_days": 30, "price_sar": 60, "aliases": ["sed rate"] },
+    { "code": "UA", "name": "Urinalysis", "name_ar": "تحليل البول", "category": "Urine", "validity_days": 30, "price_sar": 60, "aliases": ["urine test", "urine dipstick"] },
+    { "code": "COAG", "name": "Coagulation profile (PT/INR, aPTT)", "name_ar": "تخثر الدم", "category": "Haematology", "validity_days": 30, "price_sar": 100, "aliases": ["PT INR", "clotting", "coagulation screen"] },
+    { "code": "MG", "name": "Magnesium", "name_ar": "المغنيسيوم", "category": "Chemistry", "validity_days": 90, "price_sar": 70, "aliases": ["serum magnesium"] },
+    { "code": "ABO", "name": "Blood group and Rh type", "name_ar": "فصيلة الدم", "category": "Transfusion", "validity_days": null, "price_sar": 80, "aliases": ["blood type", "blood group", "ABO Rh"] },
+    { "code": "HEPB", "name": "Hepatitis B surface antigen and antibody", "name_ar": "التهاب الكبد ب", "category": "Serology", "validity_days": 365, "price_sar": 150, "aliases": ["HBsAg", "hep B", "hepatitis B"] },
+    { "code": "HIV", "name": "HIV 1/2 antibody and antigen", "name_ar": "فيروس نقص المناعة", "category": "Serology", "validity_days": 365, "price_sar": 180, "aliases": ["HIV screen", "HIV test"] },
+    { "code": "PSA", "name": "Prostate-specific antigen", "name_ar": "مستضد البروستاتا", "category": "Oncology markers", "validity_days": 365, "price_sar": 170, "aliases": ["prostate marker"] },
+    { "code": "UACR", "name": "Urine albumin-to-creatinine ratio", "name_ar": "نسبة الألبومين إلى الكرياتينين في البول", "category": "Urine", "validity_days": 365, "price_sar": 110, "aliases": ["microalbumin", "albumin creatinine ratio", "kidney screen"] }
+  ]
+}

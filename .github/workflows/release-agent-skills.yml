@@ -1,0 +1,50 @@
+name: Release agent skills
+
+on:
+  release:
+    types: [published]
+  pull_request:
+    paths:
+      - .github/workflows/release-agent-skills.yml
+      - .github/scripts/package-agent-skills.py
+      - .github/scripts/tests/test_package_agent_skills.py
+      - oci-and-db/cloud-native/devops-and-containers/devops/oci-devops-rm/files/.agents/skills/oke-devops-starter/**
+      - oci-and-db/cloud-native/devops-and-containers/oke/oke-gitops/files/repos/argocd/cluster-config/skills/**
+      - oci-and-db/cloud-native/devops-and-containers/oke/oke-gitops/files/repos/fluxcd/cluster-config/skills/**
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test skill packaging
+        run: python3 -m unittest discover -s .github/scripts/tests -v
+      - name: Build all skill archives
+        run: python3 .github/scripts/package-agent-skills.py --asset all --output-dir "$RUNNER_TEMP/agent-skills"
+
+  publish:
+    if: >-
+      github.event_name == 'release' &&
+      (startsWith(github.event.release.tag_name, 'oci-devops-rm-') ||
+       startsWith(github.event.release.tag_name, 'oke-gitops-'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+      - name: Build skills from the release tag
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: python3 .github/scripts/package-agent-skills.py --tag "$RELEASE_TAG" --output-dir "$RUNNER_TEMP/agent-skills"
+      - name: Attach skills to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" "$RUNNER_TEMP"/agent-skills/*.zip --clobber

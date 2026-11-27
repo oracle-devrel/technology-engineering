@@ -1,22 +1,23 @@
-# Verify environment secret isolation
+# Verify first-project delivery
 
-The Project Team runs this acceptance test after Cloud Operations hands off the first project repository and before it submits a workload request. Cloud Operations confirms that the runners, state boundary, and selected environment secret-delivery boundary support the test. The test reaches Terraform plan but does not deploy infrastructure.
+Cloud Operations and the Project Team use the first intended request to check the handed-off project. Use an enabled cloud, environment and region and the approved inputs for that request.
 
-## Successful environment
+## Acceptance
 
-1. Create a disposable `dev` manifest containing `__DEV_E2E_TEST_VALUE__`.
-2. The Project Team adds `DEV_E2E_TEST_VALUE` to the JSON repository secret `GITOPS_SECRET_VALUES_DEV`.
-3. Open a pull request limited to one `oci/dev/<region>` path.
-4. Confirm that the workflow selects the dev runner and state, resolves the value, and reaches Terraform plan.
-5. Do not merge the pull request.
+| Check | Evidence |
+| --- | --- |
+| The project is ready | The approved handoff supplies OCI or Google Cloud inputs. For Azure, check the existing foundation inputs in the request or JSON and the configured runner. |
+| The request reaches the intended scope | Open its pull request and confirm the expected runner and state scope. The plan or lifecycle check succeeds for the current revision. |
+| The planned change matches the request | Review the safe resource-action report or validated targets. Check declared settings in the manifest diff and confirm the evidence contains only safe details. |
+| The first use of a secret follows the approved path | Check the native reference and runner access when a request first uses a secret. |
+| The Terraform job cleans up private files | Confirm that the run removed any private variable files it created, including for requests without secrets. |
 
-## Isolated environment
+Treat plan files and state as sensitive. Use the first intended request and its prerequisites for this check. Merge only after independent approval for the actual workload change. Close a disposable validation pull request without merging it.
 
-1. Create a disposable `uat` manifest containing `__UAT_E2E_TEST_VALUE__` without adding that key to `GITOPS_SECRET_VALUES_UAT`.
-2. Open a pull request limited to one `oci/uat/<region>` path.
-3. Confirm that variable preparation fails before Terraform, selects the UAT runner, and does not use dev state.
-4. Confirm that a dev manifest containing `__UAT_E2E_TEST_VALUE__` also fails.
+## What this proves
 
-Caller workflows must not contain `secrets: inherit` or `toJSON(secrets)` and must pass only the selected repository secret to Platform CI. Neither test run may attach to or create a GitHub Environment.
+This check verifies the routing and delivery path exercised by the request. IAM isolation depends on runner identities. A database connection or wallet test verifies a separate outcome. [Security and secret delivery](security.md#secret-delivery)
 
-Close both pull requests and have the Project Team remove the test keys from the repository secrets.
+## Platform regression qualification
+
+When Platform CI secret handling changes, run the existing resolver and workflow regressions for malformed references, denied reads, unavailable versions, removed password fields, unresolved placeholders and cleanup after failure. Do this as part of platform qualification.

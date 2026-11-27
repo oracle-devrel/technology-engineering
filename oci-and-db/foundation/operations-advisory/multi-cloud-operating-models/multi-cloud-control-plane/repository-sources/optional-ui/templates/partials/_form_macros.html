@@ -1,14 +1,14 @@
 {% macro change_reference_field() -%}
-<div class="divider text-xs text-base-content/30">Change Management</div>
+<div class="divider text-xs text-muted">Change Management</div>
 <div class="form-control mb-6">
-    <label class="label">
+    <label class="label" for="change-reference">
         <span class="label-text font-semibold">Change Reference</span>
-        <span class="label-text-alt text-base-content/30">Required</span>
+        <span class="label-text-alt text-muted">Required</span>
     </label>
-    <input type="text" name="change_reference" class="input input-bordered w-full"
+    <input id="change-reference" type="text" name="change_reference" class="input input-bordered w-full"
         placeholder="CRQ12345" pattern="CRQ[0-9]{1,20}" required />
     <label class="label">
-        <span class="label-text-alt text-base-content/30">Controls the deterministic branch, PR title, and audit log</span>
+        <span class="label-text-alt text-muted">Controls the deterministic branch, PR title, and audit log</span>
     </label>
 </div>
 {%- endmacro %}

@@ -40,8 +40,8 @@ steps:
       source "$${context_file}"
 
       case "$${cluster}" in
-        noprod) target_cluster_id="$${noprod_cluster_id}" ;;
-        prod) target_cluster_id="$${prod_cluster_id}" ;;
+        ${noprod_cluster_name}) target_cluster_id="$${noprod_cluster_id}" ;;
+        ${prod_cluster_name}) target_cluster_id="$${prod_cluster_id}" ;;
         *) echo "Unsupported bootstrap cluster: $${cluster}" >&2; exit 1 ;;
       esac
       printf 'target_cluster_id=%q\ntarget_namespace=%q\n' \

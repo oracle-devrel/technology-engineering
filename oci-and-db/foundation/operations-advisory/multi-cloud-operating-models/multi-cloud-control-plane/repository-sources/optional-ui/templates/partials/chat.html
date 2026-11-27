@@ -1,0 +1,60 @@
+<section id="gitops-chat" data-project="{{ project }}">
+    <div class="chat-workspace">
+        <section class="card bg-base-100 chat-conversation" aria-label="AI Operations chat">
+            <div class="card-body gap-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h2 class="card-title">Project assistant</h2>
+                        <p class="text-sm text-muted">{{ project }} · {{ environment }} · {{ scope_label }}</p>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-ghost" data-chat-reset>New chat</button>
+                </div>
+                <p class="text-sm text-muted chat-guidance">Describe your request below. Review proposed changes before replying <code>confirm</code>. Human review and merge stay in GitHub.</p>
+                <div class="chat-starters" data-chat-starters>
+                    <p>Start with a prompt. You can edit it before sending.</p>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Show the declared resources in each permitted cloud scope in the selected project, including names and catalog sizes. Read only; do not create or change anything.">Consult</button>
+                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me prepare a resource request from the approved catalog for a permitted cloud and region. Ask for resource type, size, name and CRQ. Show the proposal and request summary. Do not publish until I confirm.">Request change</button>
+                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me prepare a published OCI Autonomous Database start or stop operation. Ask for the exact targets, action and CRQ. Show the proposed operation and impact. Do not publish until I confirm.">Operate</button>
+                        <button type="button" class="btn btn-sm btn-ghost" data-chat-starter data-prompt="Help me investigate a failed pull request or workflow in the selected project. Ask for its PR number or workflow URL. Read the relevant evidence, distinguish confirmed facts from possible causes, and suggest the next step. Read only; do not rerun workflows or make changes.">Investigate</button>
+                    </div>
+                </div>
+                <div data-chat-messages role="log" aria-label="Conversation" class="overflow-y-auto space-y-4"></div>
+                <div class="chat-activity">
+                    <p data-chat-status role="status" class="text-sm text-muted">Ready. Describe what you need to consult, change, operate or investigate.</p>
+                    <span data-chat-elapsed aria-live="off"></span>
+                </div>
+                <form data-chat-form class="flex items-end gap-3">
+                    <label class="grow">
+                        <span class="sr-only">Your message</span>
+                        <textarea name="message" rows="3" maxlength="12000" required class="textarea w-full" placeholder="What would you like to do in this project?"></textarea>
+                    </label>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="button" class="btn btn-ghost" data-chat-stop disabled>Stop</button>
+                </form>
+            </div>
+        </section>
+        <aside class="card bg-base-100 chat-request" aria-label="Request summary">
+            <div class="card-body gap-4">
+                <div class="chat-summary-heading">
+                    <h2 class="card-title">Request summary</h2>
+                    <span class="chat-scope">{{ environment }} · {{ scope_label }}</span>
+                </div>
+                <p class="text-sm text-muted" data-chat-panel-intro>No active request. A proposal will appear here when its candidate is ready.</p>
+                <div data-chat-panel-content></div>
+                <ol class="chat-journey" data-chat-stages aria-label="Request lifecycle">
+                    {% for step in ['Proposal', 'Confirmation', 'PR & checks', 'Review & merge', 'Execution'] %}
+                    <li data-state="waiting"><span class="chat-step-marker" aria-hidden="true">{{ loop.index }}</span><div><strong>{{ step }}</strong><span class="chat-step-state">Waiting</span></div></li>
+                    {% endfor %}
+                </ol>
+                <p class="text-xs text-muted" data-chat-following hidden>Following automatically</p>
+                <p class="chat-evidence" data-chat-panel-source>Deployment status comes from GitHub evidence.</p>
+                <div class="chat-panel-actions">
+                    <a class="btn btn-sm btn-primary" data-chat-pr-link target="_blank" rel="noopener noreferrer" hidden>Open pull request</a>
+                    <button type="button" class="btn btn-sm btn-ghost" data-chat-panel-refresh hidden>Refresh status</button>
+                </div>
+                <p class="text-sm text-muted" role="status" data-chat-panel-status></p>
+            </div>
+        </aside>
+    </div>
+</section>

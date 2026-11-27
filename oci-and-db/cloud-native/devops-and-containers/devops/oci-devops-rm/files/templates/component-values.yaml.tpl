@@ -1,4 +1,5 @@
 environment: "${environment}"
+environmentRole: "${environment_role}"
 application:
   name: "${application_chart_name}"
 component:

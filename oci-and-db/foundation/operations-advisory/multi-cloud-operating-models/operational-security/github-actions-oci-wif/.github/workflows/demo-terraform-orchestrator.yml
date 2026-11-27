@@ -1,0 +1,223 @@
+name: Demo Terraform OCI LZ Orchestrator RPST Bucket
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Terraform action to perform
+        required: true
+        default: plan
+        type: choice
+        options:
+          - plan
+          - apply-and-destroy
+
+jobs:
+  rpst_bucket:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      TF_IN_AUTOMATION: "true"
+      DEMO_ACTION: ${{ inputs.action }}
+      ORCHESTRATOR_COMMIT: 4faa47489242abe056fb5ceb0288c51e29522902 # main / v2.1.4
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: "1.16.5"
+
+      - name: Validate inputs
+        shell: bash
+        env:
+          RPST_DOMAIN_BASE_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          RPST_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          RPST_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+          RPST_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+          RPST_REGION: ${{ secrets.OCI_REGION }}
+          RPST_TENANCY: ${{ secrets.OCI_TENANCY }}
+        run: |
+          set -euo pipefail
+          [[ -z "$RPST_CLIENT_ID" ]] || echo "::add-mask::$RPST_CLIENT_ID"
+          [[ -z "$RPST_CLIENT_SECRET" ]] || echo "::add-mask::$RPST_CLIENT_SECRET"
+          for name in RPST_DOMAIN_BASE_URL RPST_CLIENT_ID RPST_CLIENT_SECRET RPST_RESOURCE_TYPE RPST_COMPARTMENT_ID RPST_REGION RPST_TENANCY; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing required setting: $name" >&2
+              exit 1
+            fi
+          done
+          if [[ -z "${RUNNER_TEMP:-}" || "$RUNNER_TEMP" == / ]]; then
+            echo 'RUNNER_TEMP is not a safe runtime root' >&2
+            exit 1
+          fi
+
+      - name: Configure provider and OCI LZ Orchestrator inputs
+        id: configure
+        shell: bash
+        env:
+          RPST_DOMAIN_BASE_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          RPST_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          RPST_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+          RPST_REGION: ${{ secrets.OCI_REGION }}
+          RPST_TENANCY: ${{ secrets.OCI_TENANCY }}
+          BUCKET_NAME: rpst-orchestrator-${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          umask 077
+          runtime_directory="$RUNNER_TEMP/rpst-orchestrator"
+          install -d -m 700 "$runtime_directory/terraform-data"
+          jq --arg tenancy "$RPST_TENANCY" --arg region "$RPST_REGION" \
+            --arg compartment "$RPST_COMPARTMENT_ID" --arg bucket "$BUCKET_NAME" \
+            '.tenancy_ocid = $tenancy | .region = $region |
+             .object_storage_configuration.default_compartment_id = $compartment |
+             .object_storage_configuration.buckets["RPST-BUCKET"].name = $bucket' \
+            examples/terraform/orchestrator/inputs.tfvars.json.example \
+            > "$runtime_directory/inputs.tfvars.json"
+          chmod 600 "$runtime_directory/inputs.tfvars.json"
+          {
+            echo 'OCI_AUTH=WorkloadIdentityFederation'
+            echo "OCI_REGION=$RPST_REGION"
+            echo "OCI_TOKEN_EXCHANGE_DOMAIN_URL=$RPST_DOMAIN_BASE_URL"
+            echo 'OCI_TOKEN_EXCHANGE_AUTH=OAuthClientCredentials'
+            echo "OCI_TOKEN_EXCHANGE_CLIENT_ID=$RPST_CLIENT_ID"
+            echo 'OCI_TOKEN_EXCHANGE_REQUESTED_TOKEN_TYPE=urn:oci:token-type:oci-rpst'
+            echo "OCI_TOKEN_EXCHANGE_RESOURCE_TYPE=$RPST_RESOURCE_TYPE"
+            echo 'OCI_TOKEN_EXCHANGE_SUBJECT_TOKEN_TYPE=jwt'
+            echo "ORCHESTRATOR_ROOT=$runtime_directory/source"
+            echo "ORCHESTRATOR_INPUTS=$runtime_directory/inputs.tfvars.json"
+            echo "TF_DATA_DIR=$runtime_directory/terraform-data"
+          } >> "$GITHUB_ENV"
+
+      - name: Fetch official OCI LZ Orchestrator
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 700 "$ORCHESTRATOR_ROOT"
+          git -C "$ORCHESTRATOR_ROOT" init --quiet
+          git -C "$ORCHESTRATOR_ROOT" remote add origin \
+            https://github.com/oci-landing-zones/terraform-oci-modules-orchestrator.git
+          git -C "$ORCHESTRATOR_ROOT" fetch --quiet --depth=1 origin "$ORCHESTRATOR_COMMIT"
+          git -C "$ORCHESTRATOR_ROOT" checkout --quiet --detach FETCH_HEAD
+          [[ "$(git -C "$ORCHESTRATOR_ROOT" rev-parse HEAD)" == "$ORCHESTRATOR_COMMIT" ]]
+          cp examples/terraform/orchestrator/.terraform.lock.hcl "$ORCHESTRATOR_ROOT/.terraform.lock.hcl"
+
+      - name: Terraform Init
+        id: init
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir="$ORCHESTRATOR_ROOT" init -input=false -lockfile=readonly
+
+      - name: Terraform Validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir="$ORCHESTRATOR_ROOT" validate
+
+      - name: Refresh GitHub OIDC token for plan
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Terraform Plan
+        id: plan
+        shell: bash
+        env:
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir="$ORCHESTRATOR_ROOT" plan -input=false \
+            -var-file="$ORCHESTRATOR_INPUTS" \
+            -out="$RUNNER_TEMP/rpst-orchestrator/bucket.tfplan"
+
+      - name: Confirm one private bucket
+        shell: bash
+        run: |
+          set -euo pipefail
+          terraform -chdir="$ORCHESTRATOR_ROOT" show -json "$RUNNER_TEMP/rpst-orchestrator/bucket.tfplan" |
+            jq -e '[.resource_changes[]? | select(.mode == "managed" and .change.actions != ["no-op"])] as $changes |
+                   ($changes | length) == 1 and $changes[0].type == "oci_objectstorage_bucket" and
+                   $changes[0].change.actions == ["create"] and
+                   $changes[0].change.after.access_type == "NoPublicAccess"' > /dev/null
+          echo 'Plan contains exactly one private bucket.'
+
+      - name: Refresh GitHub OIDC token for apply
+        if: env.DEMO_ACTION == 'apply-and-destroy'
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Terraform Apply
+        id: apply
+        if: env.DEMO_ACTION == 'apply-and-destroy'
+        shell: bash
+        env:
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir="$ORCHESTRATOR_ROOT" apply -input=false -auto-approve \
+            "$RUNNER_TEMP/rpst-orchestrator/bucket.tfplan"
+
+      - name: Refresh GitHub OIDC token for destroy
+        id: oidc_for_destroy
+        if: >-
+          always() && env.DEMO_ACTION == 'apply-and-destroy' &&
+          steps.configure.outcome == 'success' && steps.init.outcome == 'success'
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Terraform Destroy
+        id: destroy
+        if: >-
+          always() && env.DEMO_ACTION == 'apply-and-destroy' &&
+          steps.oidc_for_destroy.outcome == 'success'
+        shell: bash
+        env:
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          umask 077
+          terraform -chdir="$ORCHESTRATOR_ROOT" destroy -auto-approve -input=false \
+            -var-file="$ORCHESTRATOR_INPUTS"
+
+      - name: Remove runtime files
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${RUNNER_TEMP:-}" || "$RUNNER_TEMP" == / ]]; then
+            echo 'RUNNER_TEMP is not a safe cleanup root' >&2
+            exit 1
+          fi
+          rm -rf -- "$RUNNER_TEMP/rpst-orchestrator" "$RUNNER_TEMP/oci-wif"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        env:
+          PLAN_OUTCOME: ${{ steps.plan.outcome }}
+          APPLY_OUTCOME: ${{ steps.apply.outcome }}
+          DESTROY_OUTCOME: ${{ steps.destroy.outcome }}
+        run: |
+          {
+            echo '## Terraform OCI LZ Orchestrator RPST bucket demo'
+            echo "OCI LZ Orchestrator commit: $ORCHESTRATOR_COMMIT"
+            echo '| Phase | Outcome |'
+            echo '| --- | --- |'
+            echo "| Plan | ${PLAN_OUTCOME:-skipped} |"
+            echo "| Apply | ${APPLY_OUTCOME:-skipped} |"
+            echo "| Destroy | ${DESTROY_OUTCOME:-skipped} |"
+          } >> "$GITHUB_STEP_SUMMARY"

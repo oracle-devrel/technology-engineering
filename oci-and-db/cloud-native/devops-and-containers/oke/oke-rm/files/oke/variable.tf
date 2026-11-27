@@ -39,10 +39,13 @@ variable "vcn_id" {
   }
 }
 variable "lb_subnet_id" {
-  type = string
+  description = "Optional default load balancer subnet OCID. Leave empty to create the cluster without a default LB subnet."
+  type        = string
+  default     = ""
+  nullable    = false
   validation {
-    condition     = can(regex("^ocid1\\.subnet\\.", var.lb_subnet_id))
-    error_message = "lb_subnet_id must be a subnet OCID."
+    condition     = trimspace(var.lb_subnet_id) == "" || can(regex("^ocid1\\.subnet\\.", trimspace(var.lb_subnet_id)))
+    error_message = "lb_subnet_id must be empty or a subnet OCID."
   }
 }
 variable "cp_subnet_id" {

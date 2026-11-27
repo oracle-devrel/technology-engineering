@@ -10,12 +10,12 @@
                 </svg>
                 <div>
                     <h2 class="card-title text-xl font-bold tracking-tight">{{ preview_title or "PR Check Preview" }}</h2>
-                    <p class="text-sm text-base-content/40 font-mono">PR #{{ pr_number }} &middot; {{ project }}</p>
+                    <p class="text-sm text-muted font-mono">PR #{{ pr_number }} &middot; {{ project }}</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
                 {{ status_macros.pr_state_badge(pr_state, pr_merged) }}
-                <button class="btn btn-sm btn-ghost text-base-content/40 hover:text-primary"
+                <button class="btn btn-sm btn-ghost text-muted hover:text-primary"
                     hx-get="/partials/pr-plan?pr_number={{ pr_number }}&project={{ project }}{{ refresh_kind }}" hx-target="#main">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -31,7 +31,7 @@
 {% if check_runs %}
 <div class="card bg-base-100 mb-4">
     <div class="card-body">
-        <h3 class="text-sm font-bold mb-2 flex items-center gap-2 text-base-content/60">
+        <h3 class="text-sm font-bold mb-2 flex items-center gap-2 text-muted">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -53,9 +53,9 @@
     <div class="card-body">
         {% if preview_kind == "terraform" %}
         <div class="flex gap-4 mb-4 flex-wrap">
-            <span class="text-sm"><strong class="text-base-content/60">Format:</strong> <code
+            <span class="text-sm"><strong class="text-muted">Format:</strong> <code
                     class="bg-base-300 px-2 py-1 rounded font-mono text-xs">{{ format_status }}</code></span>
-            <span class="text-sm"><strong class="text-base-content/60">Validate:</strong> <code
+            <span class="text-sm"><strong class="text-muted">Validate:</strong> <code
                     class="bg-base-300 px-2 py-1 rounded font-mono text-xs">{{ validate_status }}</code></span>
         </div>
         {% endif %}
@@ -71,7 +71,7 @@
             <pre class="bg-base-300 p-4 rounded-lg text-xs font-mono overflow-x-auto max-h-96 overflow-y-auto leading-relaxed">{{ status_macros.highlighted_plan(plan_output) | safe }}</pre>
         </details>
         {% else %}
-        <p class="text-base-content/40">Preview comment found but could not extract output.</p>
+        <p class="text-muted">Preview comment found but could not extract output.</p>
         {% endif %}
     </div>
 </div>
@@ -101,16 +101,16 @@
             </h3>
             {{ status_macros.deployment_badge(execution_status, execution_conclusion) }}
         </div>
-        <p class="text-sm text-base-content/50 mb-3">{{ execution_message }}</p>
+        <p class="text-sm text-muted mb-3">{{ execution_message }}</p>
         {% if merge_commit_sha %}
-        <p class="text-xs text-base-content/40 font-mono mb-3">Merge commit {{ merge_commit_sha[:8] }}</p>
+        <p class="text-xs text-muted font-mono mb-3">Merge commit {{ merge_commit_sha[:8] }}</p>
         {% endif %}
 
         {% if execution_runs %}
         <div class="overflow-x-auto">
             <table class="table table-zebra w-full">
                 <thead>
-                    <tr class="text-base-content/40">
+                    <tr class="text-muted">
                         <th>Status</th>
                         <th>Workflow</th>
                         <th>Branch</th>
@@ -123,11 +123,11 @@
                     <tr>
                         <td>{{ status_macros.deployment_badge(run.status, run.conclusion) }}</td>
                         <td class="text-sm font-medium">{{ run.name }}</td>
-                        <td class="font-mono text-xs text-base-content/40">{{ run.branch }}</td>
-                        <td class="text-xs text-base-content/40">{{ run.created_at }}</td>
+                        <td class="font-mono text-xs text-muted">{{ run.branch }}</td>
+                        <td class="text-xs text-muted">{{ run.created_at }}</td>
                         <td>
                             {% if run.url %}
-                            <a href="{{ run.url }}" target="_blank" class="btn btn-xs btn-ghost text-base-content/40 hover:text-primary">GitHub Actions</a>
+                            <a href="{{ run.url }}" target="_blank" class="btn btn-xs btn-ghost text-muted hover:text-primary">GitHub Actions</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -151,7 +151,7 @@
             </svg>
             Actions
         </h3>
-        <p class="text-base-content/40 text-sm mb-4">{{ action_hint or "Review the CI checks above, then decide:" }}</p>
+        <p class="text-muted text-sm mb-4">{{ action_hint or "Review the CI checks above, then decide:" }}</p>
         <div class="flex flex-wrap gap-3">
             <a href="{{ github_pr_url }}" target="_blank" class="btn btn-primary gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -173,7 +173,7 @@
                 Refresh
             </button>
         </div>
-        <p class="text-xs text-base-content/30 mt-4 flex items-center gap-1">
+        <p class="text-xs text-muted mt-4 flex items-center gap-1">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

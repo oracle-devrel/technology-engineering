@@ -1,0 +1,38 @@
+{
+  "model_catalog": {
+    "command": "/opt/app/bin/python",
+    "args": [
+      "-m",
+      "assistant.catalog_mcp"
+    ]
+  },
+  "identity": {
+    "command": "/opt/app/bin/python",
+    "args": [
+      "-m",
+      "assistant.identity_mcp"
+    ]
+  },
+  "logan": {
+    "command": "/opt/logan/bin/python",
+    "args": [
+      "/config/logan_stdio.py",
+      "--user",
+      "db-assistant"
+    ],
+    "env": {
+      "OCI_LA_AUTH_TYPE": "config_file",
+      "OCI_CONFIG_PATH": "/secrets/oci/config",
+      "OCI_LOGAN_MCP_READ_ONLY": "true"
+    }
+  },
+  "db": {
+    "command": "/opt/db/bin/oracle.oci-db-observability-mcp-server",
+    "args": [],
+    "env": {
+      "OCI_MCP_AUTH_TYPE": "api_key",
+      "OCI_CONFIG_FILE": "/secrets/oci/config",
+      "OCI_CONFIG_PROFILE": "DEFAULT"
+    }
+  }
+}

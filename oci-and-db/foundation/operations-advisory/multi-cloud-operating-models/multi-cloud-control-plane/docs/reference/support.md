@@ -1,32 +1,19 @@
 # Reference capabilities
 
-This page lists the Day 1 resources and Day 2 operations included in the supplied MCCP reference.
+Use this page to see what the MCCP reference includes. Cloud Operations enables the relevant foundation and runner access for each project. Each request follows the [same review and execution process](../usage/request-lifecycle.md).
 
-The supplied reference implementation includes these patterns. New resource families can be added through the [extension model](architecture.md#extension-model) without changing the [target operating model](architecture.md#target-operating-model). Use the supplied patterns only from a handed-off project repository and follow the [request lifecycle](../usage/request-lifecycle.md) for its review and boundary requirements.
+| Cloud | Resources you can request | Operations you can request |
+| --- | --- | --- |
+| Oracle Cloud Infrastructure (OCI) | Project network security groups and approved rules, Compute virtual machines, Autonomous Database | Start or stop Autonomous Database. Run the Compute `deploy-agent` demonstration. |
+| Azure | Private Linux VM, Oracle Autonomous Database with private access or public access using a client certificate | — |
+| Google Cloud | Private Linux VM, Oracle Autonomous Database Serverless | — |
 
-## Resource requests (Day 1)
+The Compute `deploy-agent` example writes a marker to show that the approved operation reached its target over SSH. See the [operation catalog](../../repository-sources/gitops-templates/operations-catalog/README.md) for the exact behavior.
 
-The GitHub interface, optional UI, and optional Codex plugin support every resource in this table.
+## Choose a profile
 
-| Cloud | Resources |
-| --- | --- |
-| OCI | Project network security groups (NSGs) and approved ingress/egress rules, Compute, Autonomous Database |
-| Azure | Private Linux VM, Oracle Autonomous Database |
-| Google Cloud | Private Linux VM, Oracle Autonomous Database Serverless |
+- **OCI** uses the reviewed environment handoff. The Compute example uses Frankfurt. Other regions need a reviewed regional template and image. [OCI profiles](../../repository-sources/gitops-templates/resources-catalog/README.md#oci--compute)
+- **Azure** uses existing foundation resources. The Autonomous Database catalog lists fixed Small, Medium and Large profiles, the networking inputs and the adapter required for public mTLS. [Azure database profiles](../../repository-sources/gitops-templates/resources-catalog/README.md#azure--databases)
+- **Google Cloud** uses the existing foundation references in its reviewed handoff. [Google Cloud profiles](../../repository-sources/gitops-templates/resources-catalog/README.md#google--compute)
 
-The supplied OCI Compute example uses `eu-frankfurt-1`. A reference deployment in another region needs a region-specific Compute template and image reference.
-
-The Azure and Google Cloud reference patterns consume existing foundation references. They do not create projects, resource groups, IAM, networks, subnets, NSGs, service accounts, ODB Networks, or ODB Subnets.
-
-## Lifecycle operations (Day 2)
-
-| Operation | GitHub interface | Optional UI | Optional Codex plugin |
-| --- | --- | --- | --- |
-| OCI Autonomous Database start/stop | Yes | Yes | Yes |
-| OCI Compute `deploy-agent` | Yes | Yes | Yes |
-
-ADB start/stop operates the database. `deploy-agent` is the worked example of the SSH execution path: it records `/opt/agents/<agent_type>.installed` on the target instance and installs no third-party software. Replace its playbook with a real installer as your first extension — the governed chain around it, from catalog entry to execution, is already complete. See the [extension model](architecture.md#extension-model).
-
-Azure and Google Cloud lifecycle operations are not supplied in this reference.
-
-Before submitting requests, complete the installation, the cloud handoff, and the [first-project acceptance check](verify-secret-isolation.md), then run one request through the [GitHub interface](../usage/github-interface.md) on the customer runners and identities.
+GitHub, the optional UI and the optional Codex plugin prepare the published resource and operation requests within the scope configured for each interface. Cloud Operations can add capabilities through the [extension model](architecture-details.md#extension-model).

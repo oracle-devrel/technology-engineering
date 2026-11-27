@@ -1,0 +1,155 @@
+name: Demo Ansible RPST Bucket
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bucket:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      OCI_REGION: ${{ secrets.OCI_REGION }}
+      PIP_NO_CACHE_DIR: "true"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Validate inputs
+        id: configuration
+        shell: bash
+        env:
+          RPST_DOMAIN_BASE_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          RPST_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          RPST_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+          RPST_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+        run: |
+          set -euo pipefail
+          [[ -z "$RPST_CLIENT_ID" ]] || echo "::add-mask::$RPST_CLIENT_ID"
+          [[ -z "$RPST_CLIENT_SECRET" ]] || echo "::add-mask::$RPST_CLIENT_SECRET"
+          for name in RPST_DOMAIN_BASE_URL RPST_CLIENT_ID RPST_CLIENT_SECRET RPST_RESOURCE_TYPE RPST_COMPARTMENT_ID OCI_REGION; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing required secret: $name" >&2
+              exit 1
+            fi
+          done
+          if [[ -z "${RUNNER_TEMP:-}" || "$RUNNER_TEMP" == / ]]; then
+            echo 'RUNNER_TEMP is not a safe runtime root' >&2
+            exit 1
+          fi
+          {
+            echo "ANSIBLE_COLLECTIONS_PATH=$RUNNER_TEMP/oci-ansible-collections"
+            echo "ANSIBLE_LOCAL_TEMP=$RUNNER_TEMP/oci-ansible-tmp/local"
+            echo "ANSIBLE_REMOTE_TEMP=$RUNNER_TEMP/oci-ansible-tmp/remote"
+            echo "TMPDIR=$RUNNER_TEMP"
+            echo "XDG_CACHE_HOME=$RUNNER_TEMP/oci-ansible-cache"
+            echo "ANSIBLE_HOME=$RUNNER_TEMP/oci-ansible-cache/ansible"
+          } >> "$GITHUB_ENV"
+
+      - name: Install Ansible and OCI dependencies
+        id: dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          install -d -m 700 "$RUNNER_TEMP/oci-ansible-tmp" "$XDG_CACHE_HOME"
+          python -m venv "$RUNNER_TEMP/oci-ansible-wif-venv"
+          "$RUNNER_TEMP/oci-ansible-wif-venv/bin/python" -m pip install "ansible-core==2.15.13" "oci==2.182.1"
+          "$RUNNER_TEMP/oci-ansible-wif-venv/bin/ansible-galaxy" collection install \
+            --collections-path "$ANSIBLE_COLLECTIONS_PATH" \
+            --requirements-file examples/ansible/requirements.yml
+          echo "$RUNNER_TEMP/oci-ansible-wif-venv/bin" >> "$GITHUB_PATH"
+
+      - name: Create GitHub OIDC token
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Exchange GitHub OIDC token for RPST
+        id: exchange
+        uses: ./.github/actions/ansible-oci-wif
+        env:
+          OCI_TOKEN_EXCHANGE_DOMAIN_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          OCI_TOKEN_EXCHANGE_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+          OCI_TOKEN_EXCHANGE_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+
+      - name: Create a private bucket
+        id: create
+        shell: bash
+        env:
+          RPST_BUCKET_NAME: rpst-ansible-${{ github.run_id }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+          RPST_BUCKET_STATE: present
+        run: |
+          set -euo pipefail
+          umask 077
+          ansible-playbook examples/ansible/bucket/playbook.yml
+
+      - name: Refresh GitHub OIDC token for delete
+        id: oidc_for_delete
+        if: always() && steps.dependencies.outcome == 'success' && steps.configuration.outcome == 'success'
+        uses: ./.github/actions/github-oidc-token
+        with:
+          audience: https://cloud.oracle.com
+
+      - name: Exchange RPST for delete
+        id: exchange_for_delete
+        if: always() && steps.oidc_for_delete.outcome == 'success'
+        uses: ./.github/actions/ansible-oci-wif
+        env:
+          OCI_TOKEN_EXCHANGE_DOMAIN_URL: ${{ secrets.RPST_DOMAIN_BASE_URL }}
+          OCI_TOKEN_EXCHANGE_CLIENT_ID: ${{ secrets.RPST_CLIENT_ID }}
+          OCI_TOKEN_EXCHANGE_CLIENT_SECRET: ${{ secrets.RPST_CLIENT_SECRET }}
+          OCI_TOKEN_EXCHANGE_RESOURCE_TYPE: ${{ secrets.RPST_RESOURCE_TYPE }}
+
+      - name: Delete the bucket
+        id: delete
+        if: always() && steps.exchange_for_delete.outcome == 'success'
+        shell: bash
+        env:
+          RPST_BUCKET_NAME: rpst-ansible-${{ github.run_id }}
+          RPST_COMPARTMENT_ID: ${{ secrets.RPST_COMPARTMENT_ID }}
+          RPST_BUCKET_STATE: absent
+        run: |
+          set -euo pipefail
+          umask 077
+          ansible-playbook examples/ansible/bucket/playbook.yml
+
+      - name: Remove runtime files
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${RUNNER_TEMP:-}" || "$RUNNER_TEMP" == / ]]; then
+            echo 'RUNNER_TEMP is not a safe cleanup root' >&2
+            exit 1
+          fi
+          rm -rf -- "$RUNNER_TEMP/oci-ansible-wif" "$RUNNER_TEMP/oci-wif" \
+            "$RUNNER_TEMP/oci-ansible-wif-venv" "$RUNNER_TEMP/oci-ansible-collections" \
+            "$RUNNER_TEMP/oci-ansible-tmp" "$RUNNER_TEMP/oci-ansible-cache"
+
+      - name: Write job summary
+        if: always()
+        shell: bash
+        env:
+          EXCHANGE_OUTCOME: ${{ steps.exchange.outcome }}
+          CREATE_OUTCOME: ${{ steps.create.outcome }}
+          DELETE_OUTCOME: ${{ steps.delete.outcome }}
+        run: |
+          {
+            echo '## Ansible RPST bucket demo'
+            echo '| Operation | Outcome |'
+            echo '| --- | --- |'
+            echo "| RPST exchange | ${EXCHANGE_OUTCOME:-skipped} |"
+            echo "| Create | ${CREATE_OUTCOME:-skipped} |"
+            echo "| Delete | ${DELETE_OUTCOME:-skipped} |"
+          } >> "$GITHUB_STEP_SUMMARY"

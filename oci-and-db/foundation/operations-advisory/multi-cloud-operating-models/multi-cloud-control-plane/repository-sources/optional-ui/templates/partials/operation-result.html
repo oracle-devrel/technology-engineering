@@ -10,7 +10,7 @@
     <div>
         <h3 class="font-bold">Operation Submitted</h3>
         <div class="text-xs">PR #{{ pr_number }} created for {{ operation }}</div>
-        <div class="text-xs text-base-content/60 mt-1">The GitOps workflow will trigger shortly.</div>
+        <div class="text-xs text-muted mt-1">The GitOps workflow will trigger shortly.</div>
     </div>
     {{ result_macros.pr_plan_actions(pr_number, project, pr_url, preview_label="View Checks", preview_kind="operation") }}
 </div>

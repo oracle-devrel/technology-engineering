@@ -1,0 +1,91 @@
+.chat-markdown { white-space: normal; min-width: 0; overflow-x: auto; line-height: 1.65; }
+.chat-markdown > :first-child { margin-top: 0; }
+.chat-markdown > :last-child { margin-bottom: 0; }
+.chat-markdown p, .chat-markdown ul, .chat-markdown ol, .chat-markdown pre,
+.chat-markdown blockquote, .chat-markdown table { margin: 0.75rem 0; }
+.chat-markdown h1, .chat-markdown h2, .chat-markdown h3,
+.chat-markdown h4, .chat-markdown h5, .chat-markdown h6 { font-weight: 700; margin: 1rem 0 0.5rem; }
+.chat-markdown h1 { font-size: 1.25rem; }
+.chat-markdown h2 { font-size: 1.125rem; }
+.chat-markdown ul { list-style: disc; padding-left: 1.5rem; }
+.chat-markdown ol { list-style: decimal; padding-left: 1.5rem; }
+.chat-markdown li + li { margin-top: 0.25rem; }
+.chat-markdown a { color: var(--color-accent); text-decoration: underline; overflow-wrap: anywhere; }
+.chat-markdown code { background: var(--color-base-300); border-radius: 0.25rem; padding: 0.1rem 0.3rem; font-size: 0.875em; }
+.chat-markdown pre { background: var(--color-base-200); border-radius: 0.5rem; padding: 0.75rem; overflow-x: auto; white-space: pre; }
+.chat-markdown pre code { background: transparent; padding: 0; }
+.chat-markdown table { border-collapse: collapse; font-size: 0.875rem; width: 100%; }
+.chat-markdown th, .chat-markdown td { border: 1px solid var(--color-base-300); padding: 0.5rem 0.75rem; text-align: left; vertical-align: top; min-width: 6rem; }
+.chat-markdown th { background: var(--color-base-200); font-weight: 700; }
+.chat-markdown blockquote { border-left: 3px solid var(--color-primary); padding-left: 0.75rem; }
+.chat-markdown hr { border-color: var(--color-base-300); margin: 1rem 0; }
+
+#gitops-chat { min-width: 0; }
+#gitops-chat .card-body { padding: 24px; }
+#gitops-chat [data-chat-messages] { background: #fff; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); border-radius: 0; height: clamp(260px, 48dvh, 680px); }
+#gitops-chat .chat { padding: 8px 0; }
+#gitops-chat .chat-header { color: var(--muted); opacity: 1; font-size: 11px; margin-bottom: 5px; }
+#gitops-chat .chat-bubble { background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; line-height: 1.65; font-size: 14px; box-shadow: none; min-width: 0; max-width: min(90%, 1000px); overflow-wrap: anywhere; }
+#gitops-chat .chat-bubble::before { display: none; }
+#gitops-chat .chat-end .chat-bubble { background: #ecf4fe; border-color: #ecf4fe; }
+#gitops-chat [data-chat-status] { font-size: 12px; }
+#gitops-chat [data-chat-form] { flex-wrap: wrap; border-top: 0; }
+#gitops-chat [data-chat-form] > label { min-width: 240px; }
+#gitops-chat .textarea { min-height: 82px; }
+@media (max-width: 600px) {
+    #gitops-chat .card-body { padding: 16px; }
+    #gitops-chat .chat-bubble { max-width: 100%; padding: 12px; font-size: 13px; }
+    #gitops-chat [data-chat-form] > label { min-width: 0; flex-basis: 100%; }
+}
+
+.chat-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 20px; align-items: start; }
+.chat-conversation, .chat-request { min-width: 0; }
+.chat-request .card-title { font-size: 16px; }
+.chat-summary-heading, .chat-activity { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chat-scope { font-size: 10px; font-weight: 600; color: var(--color-primary); background: var(--blue-soft); border-radius: 5px; padding: 4px 7px; white-space: nowrap; }
+.chat-activity { min-height: 20px; }
+[data-chat-elapsed] { font-size: 11px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chat-journey { list-style: none; padding: 0; margin: 0; }
+.chat-journey li { display: flex; gap: 10px; position: relative; padding: 0 0 18px; font-size: 12px; }
+.chat-journey li:last-child { padding-bottom: 0; }
+.chat-journey li:not(:last-child)::before { content: ''; position: absolute; left: 12px; top: 27px; bottom: 3px; width: 1px; background: var(--line); }
+.chat-step-marker { display: flex; align-items: center; justify-content: center; flex: 0 0 25px; width: 25px; height: 25px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: #fff; font-size: 11px; }
+.chat-journey strong { display: block; color: var(--ink); font-size: 12px; font-weight: 600; line-height: 1.5; }
+.chat-step-state { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+.chat-journey [data-state=done] .chat-step-marker { color: #24753c; border-color: #c4dfcc; background: #eff8f1; }
+.chat-journey [data-state=current] .chat-step-marker { color: #fff; border-color: var(--color-primary); background: var(--color-primary); }
+.chat-journey [data-state=failed] .chat-step-marker { color: #a32b2b; border-color: #edc7c7; background: #fff1f1; }
+.chat-journey [data-state=unknown] .chat-step-marker { color: #85621c; border-color: #e8d8ad; background: #fffbef; }
+.chat-evidence { color: var(--muted); font-size: 11px; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 12px; }
+.chat-panel-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+#gitops-chat [hidden] { display: none; }
+.chat-request dl { font-size: 12px; margin: 0; }
+.chat-request dt { font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin-top: 12px; }
+.chat-request dt:first-child { margin-top: 0; }
+.chat-request dd { margin: 4px 0 0; overflow-wrap: anywhere; line-height: 1.6; }
+.chat-summary-resource + .chat-summary-resource { margin-top: 10px; }
+.chat-summary-resource strong { display: block; font-size: 12px; }
+.chat-summary-resource small { display: block; color: var(--muted); font-size: 11px; }
+.chat-summary-code { font-family: 'IBM Plex Mono', monospace; font-size: 10px; }
+@media (max-width: 1150px) { .chat-workspace { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 600px) { .chat-workspace { gap: 16px; } }
+
+.chat-starters { padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--canvas); }
+.chat-starters p { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+.chat-starters > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.chat-starters .btn { background: #fff; border: 1px solid var(--line); font-size: 12px; }
+
+/* Keep the composer visible; the transcript owns the remaining height. */
+@media (min-width: 600px) and (min-height: 700px) {
+    #gitops-chat .chat-conversation > .card-body { height: calc(100dvh - 210px); min-height: 490px; display: flex; gap: 12px; padding: 20px; }
+    #gitops-chat .chat-conversation > .card-body > * { flex-shrink: 0; }
+    #gitops-chat [data-chat-messages] { height: auto; min-height: 70px; flex: 1 1 0; padding: 10px 0; }
+    #gitops-chat .chat-guidance { font-size: 12px; flex: 0 0 auto; }
+    #gitops-chat .chat-starters { padding: 10px 12px; }
+    #gitops-chat .chat-starters p { margin-bottom: 6px; }
+}
+#gitops-chat [data-chat-messages]:empty::before { content: 'Your conversation will appear here. Write a message below to begin.'; display: block; padding: 16px 8px; color: var(--muted); font-size: 13px; }
+@media (min-width: 1151px) and (min-height: 700px) {
+    #gitops-chat .chat-request { position: sticky; top: calc(var(--shell-header-height) + 20px); }
+    #gitops-chat .chat-request > .card-body { max-height: calc(100dvh - 210px); overflow-y: auto; scrollbar-gutter: stable; }
+}

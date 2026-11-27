@@ -12,6 +12,11 @@ troubleshooting workflow required to manage this OKE GitOps solution.
 
 ## Prerequisites
 
+You can also obtain the complete skill from `manage-oke-with-argocd.zip`,
+included as a separate download in every new OKE GitOps release. Extract the
+archive and install its `manage-oke-with-argocd` directory using the same
+instructions below. Choose the release matching your stack.
+
 The workstation needs:
 
 - Git;

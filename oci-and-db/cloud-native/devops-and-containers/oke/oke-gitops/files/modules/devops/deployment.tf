@@ -5,7 +5,7 @@ resource "oci_devops_deploy_pipeline" "deploy_pipeline_helm" {
 
   deploy_pipeline_parameters {
     items {
-      name          = "chart_version"
+      name          = "resolved_chart_version"
       default_value = "CHANGE_ME"
       description   = "Exact chart version already mirrored to OCIR; bootstrap-gitops-agent supplies this automatically"
     }
@@ -40,24 +40,19 @@ resource "oci_devops_deploy_pipeline" "deploy_pipeline_helm" {
       description   = "OCIR repository prefix containing mirrored GitOps artifacts"
     }
     items {
-      name          = "deployment_nonce"
-      default_value = "manual"
-      description   = "Unique bootstrap run identifier that prevents OCI DevOps from skipping a same-version Helm reconciliation"
+      name          = "ENFORCE_HELM_DEPLOYMENT"
+      default_value = "true"
+      description   = "Run Helm even when the same chart version was previously deployed"
     }
     items {
       name          = "git_read_credentials_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "OCI Vault JSON credential secret for read-only Git access, passed by bootstrap-gitops-agent"
+      default_value = var.git_read_credentials_secret_ocid
+      description   = "Vault Secret OCID containing read-only Git credentials as username/password JSON. Defaults to the generated secret in automatic mode."
     }
     items {
       name          = "registry_pull_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "OCI Vault JSON credential secret for read-only OCIR access, passed by bootstrap-gitops-agent"
-    }
-    items {
-      name          = "auth_token_secret_ocid"
-      default_value = "CHANGE_ME"
-      description   = "Deprecated legacy raw-token Vault secret, passed by bootstrap-gitops-agent"
+      default_value = var.registry_pull_secret_ocid
+      description   = "Vault Secret OCID containing pull-only OCIR credentials as username/password JSON. Defaults to the generated secret in automatic mode."
     }
   }
 }
@@ -112,12 +107,6 @@ resource "oci_devops_deploy_stage" "deploy_helm_stage" {
   purpose                           = "EXECUTE_HELM_UPGRADE"
   release_name                      = "$${chart_name}"
   is_force_enabled                  = true
-  set_string {
-    items {
-      name  = "bootstrapNonce"
-      value = "$${deployment_nonce}"
-    }
-  }
   rollback_policy {
     policy_type = "AUTOMATED_STAGE_ROLLBACK_POLICY"
   }

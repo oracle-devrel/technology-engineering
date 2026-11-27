@@ -12,6 +12,7 @@ Reviewed: 2026-09-04
 - [ExaDB-D - Provisioning Operations Deep Dive Workshop](./exadb-d-provisioning-ops-ws/README.md)
 - [ExaDB-D - Change Operations Deep Dive Workshop](./exadb-d-change-ops-ws/README.md)
 - [ExaDB-D - Maintenance Operations Deep Dive Workshop](./exadb-d-maintenance-ops-ws/README.md)
+- [ExaDB-D - Backup and Recovery Operations Deep Dive Workshop](./exadb-d-backuprecovery-ops-ws/README.md)
 - [ExaDB-D - Ansible Operations Deep Dive Workshop](./exadb-d-ansible-ops-ws/README.md)
   
 # License

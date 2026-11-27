@@ -17,21 +17,10 @@ inputs:
   environment_name:
     description: Selected logical environment
     required: true
-  security_profile:
-    description: Selected repository security profile
-    required: true
 
 runs:
   using: composite
   steps:
-    - name: Verify repository security profile
-      shell: bash
-      env:
-        SECURITY_PROFILE: ${{ inputs.security_profile }}
-      run: |
-        set -euo pipefail
-        test "$SECURITY_PROFILE" = repository-secrets
-
     # =====================================================================
     # Setup
     # =====================================================================
@@ -51,7 +40,7 @@ runs:
       run: |
         OPERATION_FILE="${{ inputs.operation_file }}"
         FULL_PATH="${{ github.workspace }}/$OPERATION_FILE"
-        IS_CLEAR=$(python3 - "$FULL_PATH" <<'PY'
+        IS_CLEAR=$(python3.11 - "$FULL_PATH" <<'PY'
         import json
         import sys
 
@@ -71,7 +60,7 @@ runs:
         OPERATION_FILE: ${{ github.workspace }}/${{ inputs.operation_file }}
       run: |
         set -euo pipefail
-        python3 "${{ github.action_path }}/../../scripts_python/validate_operation_manifest.py" \
+        python3.11 "${{ github.action_path }}/../../scripts_python/validate_operation_manifest.py" \
           "$OPERATION_FILE"
 
     - name: Install Ansible and OCI CLI
@@ -106,7 +95,7 @@ runs:
         # path is never interpolated into Python source.
         # Assign first: a failing command substitution aborts the step under -e,
         # whereas `read` from an empty here-string would succeed with empty values.
-        MANIFEST_FACTS=$(python3 - "$FULL_PATH" <<'PY'
+        MANIFEST_FACTS=$(python3.11 - "$FULL_PATH" <<'PY'
         import json
         import sys
 
@@ -169,7 +158,7 @@ runs:
       if: steps.lifecycle_clear.outputs.is_clear != 'true'
       shell: bash
       run: |
-        python3 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
+        python3.11 "${{ github.action_path }}/../../scripts_python/ansible_inventory.py" \
           "${{ inputs.cloud }}" \
           "${{ inputs.bucket_name }}" \
           "${{ steps.discover.outputs.config_subpath }}" \
@@ -196,6 +185,8 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}/../../ansible
       run: |
+        DELIMITER="ghout_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
+        echo "::stop-commands::$DELIMITER"
         set +e
         ansible-playbook \
           -i $WORK_TEMP/inventory.json \
@@ -205,12 +196,20 @@ runs:
           "$OPERATION_PLAYBOOK" \
           2>&1 | tee $WORK_TEMP/ansible.log
         ANSIBLE_STATUS=${PIPESTATUS[0]}
+        echo "::$DELIMITER::"
 
-        DELIMITER="ghout_$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')"
         echo "check_output<<$DELIMITER" >> $GITHUB_OUTPUT
         head -100 $WORK_TEMP/ansible.log >> $GITHUB_OUTPUT
         echo "$DELIMITER" >> $GITHUB_OUTPUT
         exit "$ANSIBLE_STATUS"
+
+    - name: Verify ADB request is still current
+      if: inputs.mode == 'execute' && steps.discover.outputs.operation_type == 'adb-lifecycle'
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      env:
+        OPERATION_FILE: ${{ inputs.operation_file }}
+      run: python3.11 "$GITHUB_ACTION_PATH/../../scripts_python/check_lifecycle_request.py" "$OPERATION_FILE"
 
     - name: Ansible execute
       id: execute
@@ -261,6 +260,22 @@ runs:
 
           *By @${{ github.actor }}*`
           });
+
+    - name: Record PR validation
+      if: success() && inputs.mode == 'check' && github.event.pull_request && steps.check.outcome == 'success'
+      uses: actions/github-script@v8
+      with:
+        script: |
+          const pr = context.payload.pull_request;
+          core.notice(JSON.stringify({
+            repository: `${context.repo.owner}/${context.repo.repo}`,
+            pull_request: pr.number,
+            head_sha: pr.head.sha,
+            base_sha: pr.base.sha,
+            run_id: context.runId,
+            run_attempt: Number(process.env.GITHUB_RUN_ATTEMPT),
+            kind: "ansible-check",
+          }), {title: "MCCP PR validation v1", file: ".github/workflows/ansible.yaml", startLine: 1});
 
     - name: Upload logs
       if: always() && steps.lifecycle_clear.outputs.is_clear != 'true'

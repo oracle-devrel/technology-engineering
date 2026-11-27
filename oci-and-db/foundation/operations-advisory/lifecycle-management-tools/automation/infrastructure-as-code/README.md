@@ -68,6 +68,8 @@ Procedural automation consists of a set of activities required to achieve the go
 - Identifying the  **Operational Scenarios**  and prioritizing them based on the frequency of use and effort.
 - Decide on the  **scripting**  technology.
 
+For Terraform and Ansible examples using GitHub Actions with OCI Workload Identity Federation, see [OCI Workload Identity Federation for GitHub Actions](../../../multi-cloud-operating-models/operational-security/github-actions-oci-wif/README.md).
+
 # Useful Links
 
 [What is Infrastructure as Code](https://developer.oracle.com/learn/technical-articles/what-is-iac)

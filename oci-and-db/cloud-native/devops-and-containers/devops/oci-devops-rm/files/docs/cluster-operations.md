@@ -60,7 +60,7 @@ Values artifacts and cluster deployment plans are immutable and use the full con
 ## Continue Reading
 
 - [Cluster Operations Runbooks](cluster-operations-runbooks.md) gives step-by-step procedures for adding, configuring, promoting, and removing tools.
-- [Cluster Administration Reference](cluster-administration.md) documents the repository contract, DAG behavior, selective stage execution, tags, and lifecycle rules.
+- [Cluster Administration Reference](cluster-administration.md) documents the repository contract, DAG behavior, selective target execution, tags, and lifecycle rules.
 - [Responsibilities](responsibilities.md) clarifies the boundary between cluster administrators, developers, and stack owners.
 - [Troubleshooting And Recovery](troubleshooting-recovery.md) covers partial DAG failures, approval behavior, rollback, and drift.
 - [Security Guidance](security.md) describes secret handling, IAM, pinned charts, and cluster-level review boundaries.

@@ -9,6 +9,8 @@ Reviewed: 05.11.2026
 
 # When to use this asset?
 
+Use this asset when you need to understand the various Database Actions (SQL Developer Web) connections to databases (Cloud DB, On-prem DB).
+
 # How to use this asset?
 
 ## User Authentication - prerequisites
@@ -32,6 +34,14 @@ To connect to a given database in a multiple database pool scenario, when Databa
     <i><database_pool_name>/<schema_name></i>
 
     then schema name and password in the login-password portion.
+
+## Database Actions - ORDS Updates
+As per recent published [ORDS 26.3 release](https://www.oracle.com/tools/ords/ords-changelog.html), several issues, below described, have been fixed:
+
+- Corrected sorting in the Database Actions table list;
+- Corrected the MongoDB API connection dialog so long connection strings are no longer clipped;
+- Executing Scheduler job from jobs menu fails with "ORA-02248: invalid option for alter session".
+ 
 
 # Useful Links
 

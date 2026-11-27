@@ -35,16 +35,14 @@ class DashboardService:
         try:
             inventory = await self.get_resource_inventory(strict=strict)
             summary = inventory.get("summary", {})
-            clouds = inventory.get("clouds", [])
-
-            total_regions = 0
-            for cloud in clouds:
-                total_regions += len(cloud.get("regions", []))
+            resources = inventory.get("resources", [])
+            active_clouds = {resource["cloud"] for resource in resources}
+            active_regions = {(resource["cloud"], resource["region"]) for resource in resources}
 
             return {
                 "total_resources": summary.get("total_resources", 0),
-                "total_clouds": len(summary.get("by_cloud", {})),
-                "total_regions": total_regions,
+                "total_clouds": len(active_clouds),
+                "total_regions": len(active_regions),
             }
         except Exception as e:
             logger.error(f"Failed to get stats: {e}")
@@ -58,6 +56,8 @@ class DashboardService:
             raw = await self.git.github.get_workflow_runs(self.git.project_name)
             runs = []
             for r in raw:
+                if r.get("event") != "push" or r.get("head_branch") != "main":
+                    continue
                 commit = r.get("head_commit") or {}
                 runs.append({
                     "id": r.get("id"),

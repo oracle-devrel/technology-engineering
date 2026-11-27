@@ -1,6 +1,7 @@
 """Catalog service for gitops-templates path matching and JSON loading."""
 import json
 import logging
+import math
 import re
 from pathlib import PurePosixPath
 from typing import Any
@@ -95,13 +96,67 @@ class CatalogService:
         name = name.replace(".auto.tfvars", "")
         name = name.replace("_template", "")
         name = name.replace("project_", "")
-        name = re.sub(r"[_\.]+", " ", name)
-        return name.strip().title()
+        name = re.sub(r"[-_\.]+", " ", name).strip().title()
+        for acronym in ("ADB", "BYOL", "OCI", "NSG", "VM"):
+            name = re.sub(rf"\b{acronym}\b", acronym, name, flags=re.IGNORECASE)
+        return re.sub(r"\bmtls\b", "mTLS", name, flags=re.IGNORECASE)
+
+    @staticmethod
+    def resource_facts(template: JsonTemplate | dict[str, Any]) -> list[str]:
+        """Display unambiguous catalog or selected-record literals without inferring capacity."""
+        fields = (("ecpu_count", "ECPU"), ("ocpus", "OCPU"), ("cpu_core_count", "OCPU"), ("memory_in_gbs", "GB RAM"),
+                  ("non_dw_storage_size_in_gbs", "GB storage"), ("data_storage_size_in_tbs", "TB storage"),
+                  ("boot_volume_size_in_gbs", "GB boot"))
+        values = {field: set() for field, _ in fields}
+        licenses = set()
+
+        def collect(value, parent=""):
+            if isinstance(value, dict):
+                for key, child in value.items():
+                    field = {"flex_shape_settings": {"memory": "memory_in_gbs"},
+                             "boot_volume": {"size": "boot_volume_size_in_gbs"}}.get(parent, {}).get(key, key)
+                    if key == "compute_count" and value.get("compute_model") == "ECPU":
+                        field = "ecpu_count"
+                    if field in values:
+                        number = child if type(child) in (int, float) else (
+                            float(child) if isinstance(child, str) and re.fullmatch(r"[0-9]+(?:\.[0-9]+)?", child) else None)
+                        values[field].add(number if number is not None and math.isfinite(number) else None)
+                    if key == "license_model" and isinstance(child, str):
+                        licenses.add({"BringYourOwnLicense": "BRING_YOUR_OWN_LICENSE",
+                                      "LicenseIncluded": "LICENSE_INCLUDED"}.get(child, child))
+                    collect(child, key)
+            elif isinstance(value, list):
+                for child in value:
+                    collect(child, parent)
+
+        collect(template.content if isinstance(template, JsonTemplate) else template)
+        facts = [f"{next(iter(values[field])):g} {unit}" for field, unit in fields
+                 if len(values[field]) == 1 and None not in values[field]]
+        if licenses == {"BRING_YOUR_OWN_LICENSE"}:
+            facts.append("BYOL")
+        elif licenses == {"LICENSE_INCLUDED"}:
+            facts.append("License included")
+        return facts
 
     @classmethod
     def humanize_template_name(cls, filename: str) -> str:
         """Humanize template filenames for UI labels."""
         return cls._humanize_template_name(filename)
+
+    @staticmethod
+    def public_adb_notice(data: dict[str, Any]) -> str:
+        """Describe public Azure ADB exposure before submission and review."""
+        databases = data.get("oracle_autonomous_databases", {})
+        if isinstance(databases, dict) and any(
+            isinstance(adb, dict) and adb.get("network_access") == "public"
+            for adb in databases.values()
+        ):
+            return (
+                "This manifest includes a public Azure ADB endpoint that allows "
+                "connections from any IP address. A client wallet (mTLS) and "
+                "database authentication are required."
+            )
+        return ""
 
     @staticmethod
     def _resource_category(path: str) -> str:

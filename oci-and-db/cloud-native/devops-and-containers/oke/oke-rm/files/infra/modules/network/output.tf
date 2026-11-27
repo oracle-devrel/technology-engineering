@@ -153,3 +153,11 @@ output "pod_fss_rule_counts" {
     )
   }
 }
+output "control_plane_external_cidr_rules" {
+  description = "Effective external control-plane CIDRs after deduplication and egress gating."
+  value = {
+    ingress = [for rule in oci_core_network_security_group_security_rule.oke_cp_nsg_external_apiserver_ingress : rule.source]
+    replies = [for rule in oci_core_network_security_group_security_rule.oke_cp_nsg_external_apiserver_egress : rule.destination]
+    egress  = [for rule in oci_core_network_security_group_security_rule.oke_cp_nsg_external_egress : rule.destination]
+  }
+}

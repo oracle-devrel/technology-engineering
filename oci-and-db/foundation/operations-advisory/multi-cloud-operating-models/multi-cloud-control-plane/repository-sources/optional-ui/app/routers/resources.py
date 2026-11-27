@@ -34,7 +34,15 @@ from app.services.project_context import environment_options as project_environm
 from app.services.dashboard_service import DashboardService
 from app.services.git_service import GitService, RepositoryStateError
 from app.services.handoff_service import HandoffService
-from app.services.manifest_service import ManifestError, get_resource, remove_resource
+from app.services.manifest_service import (
+    ManifestError,
+    VAULT_SECRET_OCID_RE as _VAULT_SECRET_OCID_RE,
+    get_resource,
+    remove_resource,
+    validate_oci_adb_secret_references,
+    validate_azure_adb_secret_references,
+    REGIONAL_VAULT_SECRET_OCID_RE,
+)
 from app.services.nsg_service import (
     NsgRequestError,
     add_rules_to_existing_nsg,
@@ -109,20 +117,12 @@ _SKIP_COLLECTION_NORMALIZATION = {
     "network_security_groups",
 }
 _CUSTOM_ERRORS = {}
-_OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER = "__ADB_ADMIN_PASSWORD__"
-_RUNTIME_SECRET_PLACEHOLDERS = {
-    "__ADB_ADMIN_PASSWORD__",
-    "__AZURE_ADB_ADMIN_PASSWORD__",
+_OCI_ADB_SECRET_PLACEHOLDER = "__ADB_ADMIN_PASSWORD_SECRET_OCID__"
+_SSH_PUBLIC_KEY_PLACEHOLDERS = {
     "__AZURE_VM_SSH_PUBLIC_KEY__",
     "__GCP_VM_SSH_PUBLIC_KEY__",
 }
 _OCI_ADB_CONFIGURATION_KEY = "autonomous_databases_configuration"
-_ACTIONS_SECRET_NAME_RE = re.compile(r"^[A-Z_][A-Z0-9_]*$")
-_RUNTIME_SECRET_TOKEN_RE = re.compile(r"^__(DEV|TEST|UAT|PROD)_[A-Z_][A-Z0-9_]*__$")
-_ACTIONS_SECRET_NAME_EXAMPLE = "ADB_PROD_PROJ9_02_ADMIN_PASSWORD"
-_ACTIONS_SECRET_HELP = (
-    "The secret must already exist in the selected project repository."
-)
 _NSG_FORM_FIELDS = (
     ("category", "Project NSG Category", "__PROJECT_NSG_CATEGORY__"),
     ("vcn_key", "Project VCN Key", "__PROJECT_VCN_KEY__"),
@@ -141,11 +141,11 @@ def _is_oci_adb_configuration(data: Any) -> bool:
     )
 
 
-def _is_oci_adb_admin_password_field(template: Any, field: dict) -> bool:
+def _is_oci_adb_secret_reference_field(template: Any, field: dict) -> bool:
     return (
-        _is_oci_adb_configuration(template)
-        and field.get("placeholder") == _OCI_ADB_ADMIN_PASSWORD_PLACEHOLDER
-        and str(field.get("path") or "").endswith(".admin_password")
+        (_is_oci_adb_configuration(template) or isinstance(template, dict) and "oracle_autonomous_databases" in template)
+        and field.get("placeholder") == _OCI_ADB_SECRET_PLACEHOLDER
+        and str(field.get("path") or "").endswith(".admin_password_secret_id")
     )
 
 
@@ -154,41 +154,35 @@ def _apply_oci_adb_secret_field_metadata(
     fields: list[dict],
 ) -> None:
     for field in fields:
-        if not _is_oci_adb_admin_password_field(template, field):
+        if not _is_oci_adb_secret_reference_field(template, field):
             continue
-        field["label"] = "GitHub Actions secret name"
+        field["label"] = "OCI Vault secret OCID"
         field["input_type"] = "text"
-        field["input_placeholder"] = _ACTIONS_SECRET_NAME_EXAMPLE
-        field["help_text"] = _ACTIONS_SECRET_HELP
-
-    for field in fields:
-        if field.get("placeholder") not in _RUNTIME_SECRET_PLACEHOLDERS:
-            continue
-        field["label"] = "Environment secret name"
-        field["input_type"] = "text"
-        field["input_placeholder"] = "WORKLOAD_SECRET_NAME"
+        field["input_placeholder"] = "ocid1.vaultsecret..."
         field["help_text"] = (
-            "Enter the repository-secret key without its environment prefix. "
-            "The UI writes an environment-qualified runtime placeholder."
+            "Use a distinct secret for this database in its approved project/environment Vault scope. "
+            "For OCI, the secret must be in the deployment region. Enter its OCID, never its password. "
+            "The runner reads the CURRENT version during plan and apply."
         )
 
+    for field in fields:
+        if field.get("placeholder") not in _SSH_PUBLIC_KEY_PLACEHOLDERS:
+            continue
+        field["label"] = "SSH public key"
+        field["input_type"] = "text"
+        field["input_placeholder"] = "ssh-ed25519 AAAA..."
+        field["help_text"] = "Paste the approved SSH public key. Public keys are committed in the manifest; never paste a private key."
 
-def _prepare_runtime_secrets(
-    template: Any,
-    payload: dict[str, Any],
-    environment: str,
-) -> tuple[dict[str, Any], set[str], str | None]:
+
+def _prepare_native_secret_reference(template: Any, payload: dict[str, Any]) -> tuple[dict[str, Any], str | None]:
     prepared = dict(payload)
-    allowed: set[str] = set()
-    for placeholder in find_raw_placeholders(template) & _RUNTIME_SECRET_PLACEHOLDERS:
-        secret_name = str(prepared.get(placeholder) or "").strip()
-        wrapped = secret_name.startswith("__") and secret_name.endswith("__")
-        if not _ACTIONS_SECRET_NAME_RE.fullmatch(secret_name) or wrapped:
-            return prepared, set(), "Enter a valid environment secret name."
-        token = f"__{environment.upper()}_{secret_name}__"
-        prepared[placeholder] = token
-        allowed.add(token)
-    return prepared, allowed, None
+    if (_is_oci_adb_configuration(template) or isinstance(template, dict) and "oracle_autonomous_databases" in template) and _OCI_ADB_SECRET_PLACEHOLDER in find_raw_placeholders(template):
+        reference = str(prepared.get(_OCI_ADB_SECRET_PLACEHOLDER) or "").strip()
+        pattern = REGIONAL_VAULT_SECRET_OCID_RE if "oracle_autonomous_databases" in template else _VAULT_SECRET_OCID_RE
+        if not pattern.fullmatch(reference):
+            return prepared, "Enter an OCI Vault secret OCID, never a password or runtime token."
+        prepared[_OCI_ADB_SECRET_PLACEHOLDER] = reference
+    return prepared, None
 
 
 def _nsg_values_from_payload(payload: dict[str, Any]) -> dict[str, Any]:
@@ -200,7 +194,7 @@ def _nsg_values_from_payload(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def _validate_runtime_secret_values(value: Any, path: tuple[str, ...] = ()) -> None:
-    """Reject literal runtime secrets in any future structured resource update."""
+    """Allow public keys while rejecting passwords and private keys."""
     if isinstance(value, dict):
         for key, child in value.items():
             _validate_runtime_secret_values(child, (*path, str(key)))
@@ -213,49 +207,8 @@ def _validate_runtime_secret_values(value: Any, path: tuple[str, ...] = ()) -> N
         return
 
     field = path[-1].lower()
-    if field.endswith(("password", "private_key", "ssh_public_key")) and not _RUNTIME_SECRET_TOKEN_RE.fullmatch(value):
-        raise ValueError(
-            "Resource JSON must use an environment-qualified runtime placeholder "
-            "for password and key fields."
-        )
-
-
-def _find_disallowed_placeholders(
-    value: Any,
-    allowed_runtime_secret_tokens: set[str],
-    path: tuple[str, ...] = (),
-) -> set[str]:
-    unresolved: set[str] = set()
-    if isinstance(value, dict):
-        for key, item in value.items():
-            if isinstance(key, str):
-                unresolved.update(find_raw_placeholders(key))
-            unresolved.update(
-                _find_disallowed_placeholders(
-                    item,
-                    allowed_runtime_secret_tokens,
-                    (*path, str(key)),
-                )
-            )
-        return unresolved
-    if isinstance(value, list):
-        for index, item in enumerate(value):
-            unresolved.update(
-                _find_disallowed_placeholders(
-                    item,
-                    allowed_runtime_secret_tokens,
-                    (*path, str(index)),
-                )
-            )
-        return unresolved
-    if not isinstance(value, str):
-        return unresolved
-
-    tokens = find_raw_placeholders(value)
-    if value in allowed_runtime_secret_tokens:
-        tokens.discard(value)
-    unresolved.update(tokens)
-    return unresolved
+    if field.endswith(("password", "private_key")) or re.search(r"-----BEGIN [A-Z ]*PRIVATE KEY-----", value):
+        raise ValueError("Use native secret references; passwords and private keys cannot be committed.")
 
 
 def _collection_paths(data: dict, path: tuple[str, ...] = ()) -> list[tuple[str, tuple[str, ...], dict]]:
@@ -812,8 +765,12 @@ async def resources_catalog_partial(
         resources_by_cloud = {}
         for entry in entries:
             resources_by_cloud.setdefault(entry.cloud, []).append(entry.model_dump())
+        def profile_order(item):
+            words = item["name"].lower().split()
+            rank = next((index for index, size in enumerate(("small", "medium", "large")) if size in words), 3)
+            return item["category"], rank, item["name"]
         resources_by_cloud = {
-            cloud: sorted(resources, key=lambda item: (item["category"], item["name"]))
+            cloud: sorted(resources, key=profile_order)
             for cloud, resources in sorted(
                 resources_by_cloud.items(),
                 key=lambda item: _cloud_sort_key(item[0]),
@@ -935,6 +892,8 @@ async def resource_form_partial(
         selected_region=selected_region,
         region_options=region_options,
         fields=fields,
+        connectivity_notice=CatalogService.public_adb_notice(template.content),
+        profile_facts=CatalogService.resource_facts(template),
     )
 
 
@@ -1043,11 +1002,7 @@ async def deploy_resource_submit(
                 project=project,
             )
 
-        payload, allowed_runtime_secret_tokens, secret_error = _prepare_runtime_secrets(
-            template.content,
-            payload,
-            form.environment,
-        )
+        payload, secret_error = _prepare_native_secret_reference(template.content, payload)
         if secret_error:
             return render_partial(
                 "partials/deploy-result.html",
@@ -1089,9 +1044,8 @@ async def deploy_resource_submit(
 
         if not isinstance(data, dict):
             raise ValueError(f"Template did not render to a JSON object: {form.template_path}")
-        unresolved_placeholders = sorted(
-            _find_disallowed_placeholders(data, allowed_runtime_secret_tokens)
-        )
+        _validate_runtime_secret_values(data)
+        unresolved_placeholders = sorted(find_raw_placeholders(data))
         if unresolved_placeholders:
             unresolved = ", ".join(unresolved_placeholders)
             return render_partial(
@@ -1121,6 +1075,8 @@ async def deploy_resource_submit(
             data=data,
             search_existing_collections=search_existing_collections,
         )
+        validate_oci_adb_secret_references(data)
+        validate_azure_adb_secret_references(data)
         result = await git.write_manifest(
             cloud=cloud,
             environment=environment,

@@ -55,7 +55,7 @@ Use the map as a decision guide:
 
 - Google Cloud-owned creation stays in [`terraform-oci-multicloud-google`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google), specifically [`modules/odb-networking`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/odb-networking) and [`modules/exadb`](https://github.com/oci-landing-zones/terraform-oci-multicloud-google/tree/release-0.2.0/modules/exadb).
 - OCI-side database desired state stays in [`terraform-oci-modules-exadata/exadata-database`](https://github.com/oci-landing-zones/terraform-oci-modules-exadata/tree/v1.1.0/exadata-database).
-- Procedural work and intentionally ignored fields stay in Day 2 tooling: [ODyS](../../scaling/exacc-exacs-dynamic-scaling/README.md) for Dynamic Scaling, OCI-native tooling, Ansible, Fleet Update, `dbaascli`, REST/API automation, or support-guided procedures.
+- Procedural work and intentionally ignored fields stay in Day 2 tooling: [ODyS](../../scaling/README.md) for Dynamic Scaling, OCI-native tooling, Ansible, Fleet Update, `dbaascli`, REST/API automation, or support-guided procedures.
 
 The practical rule is `lifecycle.ignore_changes`. If the OCI Exadata module models a field and does not ignore it, that field can be managed from a dedicated OCI desired-state stack. If the module ignores it, or the workflow has ordered operational steps, keep it outside Terraform. If the Google Cloud module ignores a field, expected OCI-side drift is absorbed by the Google Cloud owner; that still does not make the Google Cloud stack the OCI operations engine.
 
@@ -63,7 +63,7 @@ Common operating cases:
 
 - **Patching:** DB Home `db_version` and `database_software_image_id` are creation-time inputs and ignored after creation; database `db_home_id` and `db_version` are ignored too. Treat database patching as out-of-place: create a patched DB Home, then move the database to it.
 - **Scaling:** The Google Cloud Exadata module ignores Infrastructure sizing fields and VM Cluster sizing or operational fields such as OCPU, memory, local storage, shared storage, DB server OCIDs, Grid Infrastructure version, and local backup flags.
-- **ODyS for FinOps:** When the operating model uses [ODyS](../../scaling/exacc-exacs-dynamic-scaling/README.md), treat it as the Dynamic Scaling app: it scales OCPU up or down to match workload demand and captures operational evidence. The Google Cloud-side module can absorb expected drift for ignored sizing fields; any other Terraform state that owns OCPU or sizing fields will try to restore the configured capacity unless those fields are not managed by that state or are covered by narrow `ignore_changes`.
+- **ODyS for FinOps:** When the operating model uses [ODyS](../../scaling/README.md), treat it as the Dynamic Scaling app: it scales OCPU up or down to match workload demand and captures operational evidence. The Google Cloud-side module can absorb expected drift for ignored sizing fields; any other Terraform state that owns OCPU or sizing fields will try to restore the configured capacity unless those fields are not managed by that state or are covered by narrow `ignore_changes`.
 - **Recovery:** Backup configuration can be modeled by Terraform, but operational restore or recovery remains a Day 2 workflow.
 
 | Area | Recommended approach |

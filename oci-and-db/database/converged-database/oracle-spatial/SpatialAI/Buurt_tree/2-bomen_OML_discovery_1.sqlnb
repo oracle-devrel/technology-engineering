@@ -1,0 +1,255 @@
+cells:
+  - kind: 1
+    value: |
+      # Tree data discovery worker
+
+      This read-only worker inspects the three approved datasets: BOMEN_TREES,
+      TREE_ANOMALY_RESULTS, and TREE_DENSITY_RESULTS. It reports measured
+      candidate issues and asks which analysis the user wants. An extreme
+      recorded value is a review candidate, not a diagnosis or an OML flag.
+
+      Run these definition cells in order. The existing team is extended in
+      2-bomen_OML_final_Kmeans.sqlnb after the K-means worker is defined.
+      No source or result table is created or changed by discovery.
+    languageId: markdown
+  - kind: 1
+    value: |
+      ## 1. Read-only discovery function
+
+      A null dataset inspects all available approved datasets. A named dataset
+      limits the response. No arbitrary table name or SQL is accepted.
+    languageId: markdown
+  - kind: 2
+    value: >-
+      
+      ---read 3 tables as input 
+
+      CREATE OR REPLACE FUNCTION tree_discovery_agent_fn (
+          p_dataset IN VARCHAR2 DEFAULT NULL
+      ) RETURN CLOB AS
+          v_dataset VARCHAR2(128) := UPPER(TRIM(p_dataset));
+          v_exists NUMBER;
+          v_total NUMBER;
+          v_missing_age NUMBER;
+          v_missing_diameter NUMBER;
+          v_min_age NUMBER;
+          v_max_age NUMBER;
+          v_p99_age NUMBER;
+          v_species NUMBER;
+          v_run_id VARCHAR2(32);
+          v_count NUMBER;
+          v_flagged NUMBER;
+          v_min_density NUMBER;
+          v_max_density NUMBER;
+          v_items CLOB := TO_CLOB('');
+          v_item CLOB;
+
+          PROCEDURE add_item(p_item IN CLOB) IS
+          BEGIN
+              IF DBMS_LOB.GETLENGTH(v_items) > 0 THEN
+                  v_items := v_items || ',';
+              END IF;
+              v_items := v_items || p_item;
+          END;
+      BEGIN
+          IF v_dataset IS NOT NULL AND v_dataset NOT IN (
+              'BOMEN_TREES', 'TREE_ANOMALY_RESULTS', 'TREE_DENSITY_RESULTS'
+          ) THEN
+              RAISE_APPLICATION_ERROR(-20201, 'Unsupported discovery dataset.');
+          END IF;
+
+          IF v_dataset IS NULL OR v_dataset = 'BOMEN_TREES' THEN
+              SELECT COUNT(*) INTO v_exists FROM user_tables
+              WHERE table_name = 'BOMEN_TREES';
+              IF v_exists = 1 THEN
+                  EXECUTE IMMEDIATE q'~
+                      SELECT COUNT(*),
+                             COUNT(*) - COUNT(TREE_AGE),
+                             COUNT(*) - COUNT(TRUNK_DIAMETER),
+                             MIN(TREE_AGE), MAX(TREE_AGE),
+                             PERCENTILE_CONT(0.99) WITHIN GROUP
+                                 (ORDER BY TREE_AGE),
+                             COUNT(DISTINCT SRT_WETENS)
+                      FROM BOMEN_TREES~'
+                  INTO v_total, v_missing_age, v_missing_diameter,
+                       v_min_age, v_max_age, v_p99_age, v_species;
+                  SELECT JSON_OBJECT(
+                      'dataset' VALUE 'BOMEN_TREES',
+                      'row_count' VALUE v_total,
+                      'species_count' VALUE v_species,
+                      'tree_age_min' VALUE v_min_age,
+                      'tree_age_p99' VALUE v_p99_age,
+                      'tree_age_max' VALUE v_max_age,
+                      'missing_tree_age' VALUE v_missing_age,
+                      'missing_trunk_diameter' VALUE v_missing_diameter,
+                      'candidate' VALUE
+                          'Review high recorded TREE_AGE values and missing measurements; choose a species before modelling.',
+                      'available_analysis' VALUE
+                          'Quercus robur one-class SVM or K-means pilot'
+                      RETURNING CLOB
+                  ) INTO v_item FROM dual;
+                  add_item(v_item);
+              END IF;
+          END IF;
+
+          IF v_dataset IS NULL OR v_dataset = 'TREE_ANOMALY_RESULTS' THEN
+              SELECT COUNT(*) INTO v_exists FROM user_tables
+              WHERE table_name = 'TREE_ANOMALY_RESULTS';
+              IF v_exists = 1 THEN
+                  BEGIN
+                      EXECUTE IMMEDIATE q'~
+                          SELECT RUN_ID FROM TREE_ANOMALY_RUNS
+                          ORDER BY CREATED_AT DESC
+                          FETCH FIRST 1 ROW ONLY~' INTO v_run_id;
+                      EXECUTE IMMEDIATE q'~
+                          SELECT COUNT(*),
+                                 NVL(SUM(CASE WHEN ANOMALY_FLAG = 1
+                                              THEN 1 ELSE 0 END), 0)
+                          FROM TREE_ANOMALY_RESULTS
+                          WHERE RUN_ID = :run_id~'
+                      INTO v_count, v_flagged USING v_run_id;
+                      SELECT JSON_OBJECT(
+                          'dataset' VALUE 'TREE_ANOMALY_RESULTS',
+                          'latest_run_id' VALUE v_run_id,
+                          'scored_trees' VALUE v_count,
+                          'flagged_trees' VALUE v_flagged,
+                          'candidate' VALUE
+                              'Review saved SVM flags and their recorded attributes; a flag does not establish poor health.',
+                          'available_analysis' VALUE 'Review saved SVM results'
+                          RETURNING CLOB
+                      ) INTO v_item FROM dual;
+                      add_item(v_item);
+                  EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+                  END;
+              END IF;
+          END IF;
+
+          IF v_dataset IS NULL OR v_dataset = 'TREE_DENSITY_RESULTS' THEN
+              SELECT COUNT(*) INTO v_exists FROM user_tables
+              WHERE table_name = 'TREE_DENSITY_RESULTS';
+              IF v_exists = 1 THEN
+                  BEGIN
+                      EXECUTE IMMEDIATE q'~
+                          SELECT RUN_ID FROM TREE_DENSITY_RESULTS
+                          GROUP BY RUN_ID
+                          ORDER BY MAX(CREATED_AT) DESC
+                          FETCH FIRST 1 ROW ONLY~' INTO v_run_id;
+                      EXECUTE IMMEDIATE q'~
+                          SELECT COUNT(*), MIN(TREES_PER_SQ_KM),
+                                 MAX(TREES_PER_SQ_KM)
+                          FROM TREE_DENSITY_RESULTS
+                          WHERE RUN_ID = :run_id~'
+                      INTO v_count, v_min_density, v_max_density USING v_run_id;
+                      SELECT JSON_OBJECT(
+                          'dataset' VALUE 'TREE_DENSITY_RESULTS',
+                          'latest_run_id' VALUE v_run_id,
+                          'neighbourhood_count' VALUE v_count,
+                          'min_trees_per_sq_km' VALUE v_min_density,
+                          'max_trees_per_sq_km' VALUE v_max_density,
+                          'candidate' VALUE
+                              'Review the density range and green-area threshold before interpreting neighbourhood differences.',
+                          'available_analysis' VALUE 'Review saved density result'
+                          RETURNING CLOB
+                      ) INTO v_item FROM dual;
+                      add_item(v_item);
+                  EXCEPTION WHEN NO_DATA_FOUND THEN NULL;
+                  END;
+              END IF;
+          END IF;
+
+          RETURN TO_CLOB('{"status":"success","datasets":[') ||
+                 v_items || '],"note":"These are candidates, not proven anomalies."}';
+      END tree_discovery_agent_fn;
+
+      /
+
+      -- unction TREE_DISCOVERY_AGENT_FN compiled
+
+
+      -- Elapsed: 00:00:00.154
+    languageId: oracle-sql
+  - kind: 1
+    value: |
+      ## 2. Tool, task, and worker
+
+      Run these after the function compiles. The test notebook contains all
+      RUN_TOOL and RUN_TEAM calls.
+    languageId: markdown
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_TOOL('TREE_DISCOVERY_TOOL', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TOOL(
+              tool_name => 'TREE_DISCOVERY_TOOL',
+              attributes => q'~{
+                  "function":"TREE_DISCOVERY_AGENT_FN",
+                  "instruction":"Read-only inventory of the approved tree and saved-result tables. Report measured candidate issues; do not claim a statistical anomaly or tree illness.",
+                  "tool_inputs":[
+                      {"name":"p_dataset","description":"Optional: BOMEN_TREES, TREE_ANOMALY_RESULTS, or TREE_DENSITY_RESULTS. Null inspects all available approved datasets."}
+                  ]
+              }~',
+              description => 'Read-only discovery of tree data and saved analysis results.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      -- DBMS_CLOUD_AI_AGENT.CREATE_TASK: TREE_DISCOVERY_TASK
+
+      DECLARE
+          v_instruction VARCHAR2(4000) := q'|
+      Answer the user's data-discovery request: {query}
+
+      1. Call TREE_DISCOVERY_TOOL exactly once. Pass a named approved dataset,
+         or null to inspect all three approved datasets.
+      2. Distinguish measured extremes/missingness from model-detected
+      anomalies.
+
+      3. Describe only tables present in the tool result.
+
+      4. Ask which dataset, species, or saved result the user wants analysed
+      next.
+
+      5. Do not call a model or claim a map rendered in this discovery step.
+
+      |';
+          v_attributes CLOB;
+      BEGIN
+          SELECT JSON_OBJECT(
+              'instruction' VALUE v_instruction,
+              'tools' VALUE JSON_ARRAY('TREE_DISCOVERY_TOOL') FORMAT JSON
+              RETURNING CLOB
+          ) INTO v_attributes FROM dual;
+          DBMS_CLOUD_AI_AGENT.DROP_TASK('TREE_DISCOVERY_TASK', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_TASK(
+              task_name => 'TREE_DISCOVERY_TASK',
+              attributes => v_attributes,
+              description => 'Finds measured candidates and asks what to analyse.'
+          );
+      END;
+
+      /
+    languageId: oracle-sql
+  - kind: 2
+    value: >
+      BEGIN
+          DBMS_CLOUD_AI_AGENT.DROP_AGENT('TREE_DISCOVERY_AGENT', force => TRUE);
+          DBMS_CLOUD_AI_AGENT.CREATE_AGENT(
+              agent_name => 'TREE_DISCOVERY_AGENT',
+              attributes => q'~{
+                  "profile_name":"OCI_GROK_4_3_BOMEN_BURRT_PROFILE",
+                  "role":"You inspect approved tree datasets using TREE_DISCOVERY_TASK. Give measured evidence, distinguish candidates from model flags, and ask the user which supported analysis to run next."
+              }~',
+              description => 'Read-only tree data discovery worker.'
+          );
+      END;
+
+      /
+
+      -- PL/SQL procedure successfully completed.
+
+
+      -- Elapsed: 00:00:00.032
+    languageId: oracle-sql

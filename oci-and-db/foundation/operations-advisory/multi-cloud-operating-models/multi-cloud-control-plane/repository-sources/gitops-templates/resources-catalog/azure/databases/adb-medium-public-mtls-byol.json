@@ -1,0 +1,19 @@
+{
+  "oracle_autonomous_databases": {
+    "__ADB_KEY__": {
+      "resource_group_name": "__AZURE_RESOURCE_GROUP_NAME__",
+      "network_access": "public",
+      "mtls_connection_required": true,
+      "name": "__ADB_NAME__",
+      "display_name": "__ADB_DISPLAY_NAME__",
+      "db_workload": "OLTP",
+      "compute_model": "ECPU",
+      "compute_count": 4,
+      "data_storage_size_in_tbs": 2,
+      "db_version": "19c",
+      "license_model": "BringYourOwnLicense",
+      "admin_password_secret_id": "__ADB_ADMIN_PASSWORD_SECRET_OCID__",
+      "location": "__AZURE_LOCATION__"
+    }
+  }
+}

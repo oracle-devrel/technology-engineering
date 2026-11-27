@@ -11,6 +11,18 @@ variable "git_username" {}
 variable "git_password" {
   sensitive = true
 }
+variable "credential_policy_ready" {
+  type    = string
+  default = ""
+}
+variable "bootstrap_registry_username" {
+  type    = string
+  default = null
+}
+variable "bootstrap_password_secret_id" {
+  type    = string
+  default = null
+}
 
 variable "create_notification_topic" {
   type = bool
@@ -78,33 +90,39 @@ variable "cluster_admin_artifact_repository_name" {
 variable "cluster_administration" {
   type = object({
     tools = optional(list(object({
-      name       = string
-      repository = string
-      chart      = string
-      version    = string
-      namespace  = optional(string)
-      depends_on = optional(list(string), [])
+      name              = string
+      repository        = string
+      chart             = string
+      version           = string
+      namespace         = optional(string)
+      depends_on        = optional(list(string), [])
+      mirror_images     = optional(bool, false)
+      additional_images = optional(list(string), [])
     })))
     noprod = optional(object({
       approval_required = optional(bool, false)
       tools = optional(list(object({
-        name       = string
-        repository = string
-        chart      = string
-        version    = string
-        namespace  = optional(string)
-        depends_on = optional(list(string), [])
+        name              = string
+        repository        = string
+        chart             = string
+        version           = string
+        namespace         = optional(string)
+        depends_on        = optional(list(string), [])
+        mirror_images     = optional(bool, false)
+        additional_images = optional(list(string), [])
       })))
     }))
     prod = optional(object({
       approval_required = optional(bool, true)
       tools = optional(list(object({
-        name       = string
-        repository = string
-        chart      = string
-        version    = string
-        namespace  = optional(string)
-        depends_on = optional(list(string), [])
+        name              = string
+        repository        = string
+        chart             = string
+        version           = string
+        namespace         = optional(string)
+        depends_on        = optional(list(string), [])
+        mirror_images     = optional(bool, false)
+        additional_images = optional(list(string), [])
       })))
     }))
   })
@@ -113,4 +131,14 @@ variable "cluster_administration" {
 variable "development_mode" {
   type    = bool
   default = false
+}
+variable "environment_names" {
+  type = object({
+    dev            = optional(string, "dev")
+    staging        = optional(string, "staging")
+    prod           = optional(string, "prod")
+    noprod_cluster = optional(string, "noprod")
+    prod_cluster   = optional(string, "prod")
+  })
+  default = {}
 }

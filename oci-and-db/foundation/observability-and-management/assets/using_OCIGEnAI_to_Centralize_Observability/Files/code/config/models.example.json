@@ -1,0 +1,19 @@
+{
+  "allowed_model_ids": null,
+  "blocked_model_ids": [],
+  "default": "gpt-oss-120b",
+  "models": [
+    {
+      "id": "gpt-oss-120b",
+      "label": "GPT-OSS 120B",
+      "model_id_env": "GENAI_MODEL_ID",
+      "region": "eu-frankfurt-1"
+    },
+    {
+      "id": "gpt-oss-20b",
+      "label": "GPT-OSS 20B",
+      "model_id_env": "GENAI_SMALL_MODEL_ID",
+      "region": "eu-frankfurt-1"
+    }
+  ]
+}

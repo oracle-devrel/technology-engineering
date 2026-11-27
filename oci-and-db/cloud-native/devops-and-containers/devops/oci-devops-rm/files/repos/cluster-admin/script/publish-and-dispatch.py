@@ -3,6 +3,7 @@ import argparse
 import json
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -22,11 +23,13 @@ def oci(arguments):
     return json.loads(subprocess.check_output(command, text=True))
 
 
-def ensure_mirrors(pipeline_id):
+def ensure_mirrors(pipeline_id, commit, repository_url):
     result = oci([
         "devops", "build-run", "create",
         "--build-pipeline-id", pipeline_id,
         "--display-name", "Mirror cluster tool charts",
+        "--commit-info", json.dumps({"commitHash": commit, "repositoryBranch": "main", "repositoryUrl": repository_url}),
+        "--build-run-arguments", json.dumps({"items": [{"name": "config_commit", "value": commit}]}),
         "--freeform-tags", json.dumps(operation_tags(role="chart-mirror")),
         "--wait-for-state", "SUCCEEDED",
         "--wait-for-state", "FAILED",
@@ -35,6 +38,34 @@ def ensure_mirrors(pipeline_id):
     state = result["data"]["lifecycle-state"]
     if state != "SUCCEEDED":
         raise RuntimeError(f"Chart mirror build finished in state {state}")
+
+
+def mirror_selected_images(args, repo, selection):
+    with tempfile.TemporaryDirectory() as directory:
+        subprocess.run([
+            sys.executable, str(repo / "script/mirror-images.py"), "--repo", str(repo),
+            "--targets", args.targets, "--registry", args.registry,
+            "--tenancy-namespace", args.tenancy_namespace, "--image-prefix", args.image_prefix,
+            "--chart-prefix", args.chart_prefix, "--compartment-id", args.compartment_id,
+            "--output-dir", directory,
+        ], check=True)
+        for report in json.loads((Path(directory) / "index.json").read_text()):
+            upload_artifact(
+                args.artifact_repository_id, args.compartment_id,
+                f"cluster-admin/{report['cluster']}/tools/{report['tool']}/images.json",
+                selection["commit"], Path(report["path"]), "image mapping",
+            )
+
+
+def publish_values(args, repo, target, commit):
+    cluster, tool = target["cluster"], target["tool"]
+    relative = f"clusters/{cluster}/tools/{tool}/values.yaml"
+    content = subprocess.check_output(["git", "-C", str(repo), "show", f"{commit}:{relative}"])
+    with tempfile.TemporaryDirectory() as directory:
+        values = Path(directory) / "values.yaml"
+        values.write_bytes(content)
+        upload_artifact(args.artifact_repository_id, args.compartment_id,
+                        f"cluster-admin/{cluster}/tools/{tool}/values.yaml", commit, values, "values")
 
 
 def upload_artifact(repository_id, compartment_id, artifact_path, version, source, label):
@@ -197,6 +228,11 @@ def main():
     parser.add_argument("--mirror-pipeline-id", required=True)
     parser.add_argument("--artifact-repository-id", required=True)
     parser.add_argument("--compartment-id", required=True)
+    parser.add_argument("--repository-url", required=True)
+    parser.add_argument("--registry", required=True)
+    parser.add_argument("--tenancy-namespace", required=True)
+    parser.add_argument("--chart-prefix", required=True)
+    parser.add_argument("--image-prefix", required=True)
     args = parser.parse_args()
 
     repo = Path(args.repo).resolve()
@@ -212,19 +248,12 @@ def main():
         if target["kind"] == "tool" and "helm" in target["actions"]
     ]
     if selection["catalog_changed"] or helm_targets:
-        ensure_mirrors(args.mirror_pipeline_id)
+        ensure_mirrors(args.mirror_pipeline_id, commit, args.repository_url)
+    if helm_targets:
+        mirror_selected_images(args, repo, selection)
 
     for target in helm_targets:
-        cluster = target["cluster"]
-        tool = target["tool"]
-        upload_artifact(
-            args.artifact_repository_id,
-            args.compartment_id,
-            f"cluster-admin/{cluster}/tools/{tool}/values.yaml",
-            commit,
-            repo / "clusters" / cluster / "tools" / tool / "values.yaml",
-            "values",
-        )
+        publish_values(args, repo, target, commit)
 
     if targets_by_cluster:
         upload_artifact(

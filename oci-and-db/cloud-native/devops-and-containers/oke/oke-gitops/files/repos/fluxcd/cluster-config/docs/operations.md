@@ -131,3 +131,25 @@ Common causes:
 Do not suspend reconciliation, remove finalizers, force-delete objects, or
 change managed workloads directly as a routine fix. Diagnose the failing
 ownership layer and correct Git.
+# Consolidate Flux Operator under platform
+
+New seeds include flux-operator in platform/applications/kustomization.yml.
+The single gitops/fluxcd/platform.yml Kustomization manages it like other tools.
+For an existing installation with a separate Kustomization/flux-operator:
+
+1. In Git, set the old Kustomization's spec.prune to false and
+   spec.deletionPolicy to Orphan. Reconcile and verify these values on the
+   live object before proceeding.
+2. Add flux-operator to platform/applications/kustomization.yml. Reconcile
+   platform and verify Ready status, the ResourceSet and HelmRelease, and
+   the platform inventory containing the operator ResourceSet and values
+   ConfigMap. Keep their names and namespaces unchanged.
+3. Remove the old Kustomization document (whether in flux-operator.yml or
+   platform.yml) from Git. Keep only Kustomization/platform in platform.yml.
+4. If the old object remains because the bootstrap root disables pruning,
+   explicitly delete Kustomization/flux-operator after confirming its live
+   deletionPolicy is Orphan. Verify the operator and platform remain Ready.
+
+Do not delete the old Kustomization while it can prune the operator resources.
+Normal Resource Manager applies preserve existing Git and do not perform
+this migration.

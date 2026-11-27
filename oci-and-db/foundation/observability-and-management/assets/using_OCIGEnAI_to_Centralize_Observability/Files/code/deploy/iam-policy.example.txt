@@ -1,0 +1,14 @@
+# Administrator-reviewed starting point. Replace every Example* name privately.
+# ExampleDomain is the OCI identity domain containing the backend service group.
+# These runtime permissions do not grant infrastructure deployment privileges.
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read compartments in tenancy
+Allow group 'ExampleDomain'/'DBAssistantBackend' to use generative-ai-chat in compartment ExampleGenAI
+Allow group 'ExampleDomain'/'DBAssistantBackend' to inspect generative-ai-model in compartment ExampleGenAI
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read dbmgmt-family in compartment ExampleObservability
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read opsi-family in compartment ExampleObservability
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read loganalytics-log-group in compartment ExampleObservability
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read loganalytics-queryjob-work-request in compartment ExampleObservability
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read loganalytics-query in tenancy
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read loganalytics-lifecycle in tenancy
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read loganalytics-source in tenancy
+Allow group 'ExampleDomain'/'DBAssistantBackend' to read loganalytics-field in tenancy

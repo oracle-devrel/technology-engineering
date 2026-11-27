@@ -1,10 +1,10 @@
 # Globally Distributed Database (GDD)
 
-A distributed database is a database scaling technique based on horizontal partitioning of data across multiple independent physical databases. Each physical database in such a configuration is called a shard. From the perspective of an application, a distributed database looks like a single database; the number of shards, and the distribution of data across those shards, are completely transparent to the application.
+A <b>Distributed Database</b> is a database scaling technique based on horizontal partitioning of data across multiple independent physical databases. Each physical database in such a configuration is called a shard. From the perspective of an application, a distributed database looks like a single database; the number of shards, and the distribution of data across those shards, are completely transparent to the application.
 
 A sharded table is partitioned across all shards of the distributed database. Table partitions on each shard are not different from partitions that could be used in an Oracle database that is not sharded.
 
-Key benefits of Oracle Globally Distributed Database:
+## Key benefits of Oracle Globally Distributed Database:
 
 - Linear Scalability : The Oracle Globally Distributed Database shared–nothing architecture eliminates performance bottlenecks and provides unlimited scalability (up to 1000 shards scaling support);
 
@@ -12,24 +12,31 @@ Key benefits of Oracle Globally Distributed Database:
 
 - Geographical Distribution of Data:  Globally Distributed Database enables you to deploy a global database, where a single logical db could be distributed over multiple geographies, making it possible to satisfy data privacy regulatory requirements (Data Sovereignty) as well as allows to store particular data close to its consumers (Data Proximity).
 
+## Deployment models
 Globally Distributed Database has a flexible deployment model, embracing the Shared-Nothing architecture. Because the database shards do not share any resources, the shards can exist anywhere on a variety of on-premises and cloud systems.
 
-You can choose to deploy all of the shards on-premises, have them all in the cloud, or you can split them up between cloud and on-premises systems to suit your needs.
-
+You can choose to deploy all of the shards on-premises, have them all in the cloud, or you can split them up between cloud and on-premises systems to suit your needs.  
 Shards can be deployed on all database deployment models such as single instance, Exadata, and Oracle RAC.
 
+Oracle Globally Distributed Database is based on Database Partitioning concept and supports all of the sub-partitioning methods provided by Oracle Database. Data on the shards are placed in controlled data distribution methods. Oracle Globally Distributed AI Database supports <b>System-Managed</b>, <b>User Defined</b>, <b>Directory-Based</b>, or <b>Composite Distribution methods</b>. 
+
+## Client Request Routing
+Oracle Globally Distributed AI Database supports direct, key-based routing from an application to a shard, routing by proxy with the shard catalog, and routing to middle tiers and Oracle Database client drivers and connection pools are distributed database-aware. <b>Key-based routing</b>, <b>Routing by Proxy</b> and <b>Middle-Tier Routing</b> are provided methods.
+
+
+## Data Replication
 Oracle Globally Distributed Database relies on replication for availability. Oracle Globally Distributed Database provides various means of replication depending on your needs:
 
 - Oracle Data Guard.
 
 - Raft Replication (new in 23ai/26ai).
 
-
 Replication provides high availability, disaster recovery, and additional scalability for reads.
 A unit of replication can be a shard, a part of a shard, or a group of shards. You can choose either Oracle Data Guard or Raft replication to replicate your data.
 Oracle Globally Distributed Database automatically deploys the specified replication topology to the procured systems, and enables data replication. Replication is declaratively specified using GDSCTL command syntax.
 
-Reviewed: 26.08.2026
+
+Reviewed: 27.10.2026
 
 # Useful Links
 
